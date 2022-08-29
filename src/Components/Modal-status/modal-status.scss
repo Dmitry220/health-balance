@@ -1,0 +1,55 @@
+@import "src/assets/style/variables";
+
+.modal-status {
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 12;
+  padding: 42px 10px;
+  width: 100%;
+  background: $backgroundMain;
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__cross {
+    font-size: 22px;
+    display: inline-block;
+    position: absolute;
+    top: 52px;
+    right: 20px;
+  }
+
+  &__icon {
+    margin: 0 0 39px 0;
+
+  }
+
+  &__title {
+    margin: 0 0 9px 0;
+    font-weight: 500;
+    font-size: 20px;
+
+  }
+
+  &__sub-title {
+    font-weight: 400;
+    font-size: 15.0857px;
+    line-height: 120%;
+
+    color: #8B8787;
+    margin: 0 0 36px 0;
+    width: 175px;
+    text-align: center;
+  }
+
+  &__button {
+    width: 173px;
+  }
+}

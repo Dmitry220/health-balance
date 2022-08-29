@@ -1,0 +1,30 @@
+@import "src/assets/style/variables";
+
+.header{
+  height: 47px;
+  //position: fixed;
+  z-index: 2;
+  top: 0;
+  width: 100%;
+  //padding: 0 16px;
+  left: 0;
+  background: $backgroundMain;
+  &__container{
+    display: flex;
+    position: relative;
+    align-items: center;
+    height: 100%;
+  }
+  &__back{
+    position: absolute;
+    left: 0;
+    font-size: 13px;
+    top: 18px;
+    color: $colorMain;
+  }
+  &__title{
+    text-align: center;
+    flex: 1 1 auto;
+    color: $colorMain;
+  }
+}

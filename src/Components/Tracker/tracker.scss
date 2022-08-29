@@ -1,0 +1,54 @@
+@import "src/assets/style/variables";
+
+.water-target {
+  background: $backgroundBlock;
+  border-radius: 10px;
+
+  &__container {
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 31px;
+  }
+
+  &__item{}
+}
+
+.fruit-target {
+  background: $backgroundBlock;
+  border-radius: 10px;
+
+  &__container {
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 31px;
+  }
+
+}
+
+.habits-tracker-item {
+
+  font-size: 10px;
+
+  color: #999999;
+
+  &__data {
+    border: 0.682927px solid #999999;
+    font-weight: 500;
+    border-radius: 50%;
+    display: flex;
+    width: 34px;
+    height: 34px;
+    align-items: center;
+    justify-content: center;
+    margin: 0 0 3px 0;
+  }
+
+  &__value {
+    font-weight: 700;
+    text-align: center;
+  }
+}

@@ -1,0 +1,39 @@
+
+.basket-card{
+  font-size: 15px;
+
+
+  &__image{
+    flex: 0 0 107px;
+    height: 103px;
+
+    img{
+      width: 100%;
+      height: 100%;
+      border-radius: 10px;
+      object-fit: cover;
+    }
+  }
+
+  &__container{
+    display: flex;
+    align-items: center;
+    gap: 26px;
+  }
+
+  &__title{
+    line-height: 120%;
+    margin: 0 0 11px 0;
+  }
+
+  &__rewards{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  &__count{
+    color: #F5F5F5;
+  }
+
+}

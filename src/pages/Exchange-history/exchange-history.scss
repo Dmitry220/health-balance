@@ -1,0 +1,16 @@
+
+
+.exchange-history{
+ // padding: 16px 0 0 0;
+  &__item{
+    padding: 19px 0;
+    border-bottom: 1px solid #202020;
+
+  }
+  &__data{
+    font-weight: 500;
+    font-size: 17px;
+
+    margin: 0 0 20px 0;
+  }
+}

@@ -1,0 +1,58 @@
+@import "src/assets/style/variables";
+
+.health-index-results-page {
+  padding: 0 0 44px 0;
+
+  &__main-title{
+    margin: 0 0 42px 0;
+    &.old{
+      margin: 0 0 20px 0;
+    }
+  }
+  &__retesting{
+    margin: 0 0 42px 0;
+  }
+
+  &__age {
+    margin: 0 0 40px 0;
+  }
+
+  &__title {
+    margin: 0 0 20px 0;
+  }
+
+  &__index {
+    margin: 0 0 20px 0;
+    display: flex;
+    gap: 10px;
+    overflow: scroll;
+
+    &::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+    }
+  }
+
+  &__index-item {
+    flex: 0 0 203px;
+  }
+
+  &__link {
+    margin: 0 0 40px 0;
+  }
+
+  &__disease {
+    margin: 0 0 20px 0;
+    display: flex;
+    gap: 10px;
+    overflow: scroll;
+
+    &::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+    }
+  }
+  &__disease-item {
+    flex: 0 0 157px;
+  }
+}

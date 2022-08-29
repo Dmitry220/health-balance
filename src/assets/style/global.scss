@@ -1,0 +1,405 @@
+@import "src/assets/style/variables";
+
+._container {
+  padding: 16px;
+  max-width: 100%;
+  margin: 0 auto;
+  position: relative;
+}
+
+/******* Styles Select, Input, Buttons ******************/
+._button-white {
+  height: 41.5px;
+  background: $colorMain;
+  color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 25px;
+  border-radius: 50px;
+  backdrop-filter: blur(10px);
+  font-size: 13px;
+  font-weight: 700;
+  font-family: inherit;
+
+  &.disabled{
+    background: linear-gradient(91.14deg, rgba(255, 255, 255, 0.53) -13.28%, rgba(0, 0, 0, 0.2597) 138.38%);
+    color: #252525;
+  }
+}
+
+._button-dark {
+  width: 100%;
+  color: $blueColor;
+  background: $backgroundBlock;
+  height: 41px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+
+}
+
+._button-yellow{
+  width: 100%;
+  color: #000;
+  background: linear-gradient(180deg, #F2994A 0%, #F4C119 100%);
+  height: 41px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+
+}
+
+._button-dark-yellow{
+  width: 100%;
+  color: $yellowColor;
+  background: #232323;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 3px;
+  font-size: 15px;
+
+}
+
+._field {
+  background: #5C5C5C;
+  border-radius: 3px;
+  height: 44.32px;
+  color: $colorMain;
+  font-family: inherit;
+  width: 100%;
+  padding: 0 7px;
+  font-size: 15px;
+  line-height: 100%;
+
+  &::placeholder{
+    color: #BFBFBF;
+  }
+}
+
+/*Этот класс присваивается div элементу (то есть родиетлю select)*/
+._custom-select {
+  position: relative;
+  &:after, &:before{
+    content: '';
+    position: absolute;
+    width: 1px;
+    height: 6.5px;
+    background: $colorMain;
+    display: block;
+    pointer-events: none;
+  }
+  &:before{
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%) rotate(-45deg);
+  }
+  &:after{
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+  }
+  select{
+    border-radius: 3px;
+    width: 100%;
+    background: #5C5C5C;
+    padding: 14px 12px;
+    font-weight: 400;
+    font-size: 15px;
+    outline: none;
+
+    color: #BFBFBF;
+    appearance: none;
+  }
+
+}
+
+.custom-checkbox {
+  display: flex;
+  gap: 16px;
+  flex-direction: column;
+
+  &__radio {
+    height: 10px;
+    margin-right: 5px;
+    position: relative;
+    display: none;
+    top: 1px;
+  }
+  &__checkbox {
+    padding: 0;
+    height: initial;
+    width: initial;
+    margin-bottom: 0;
+    display: none;
+    cursor: pointer;
+  }
+  label {
+    color: var(--colorMain);
+    font-size: 15px;
+    line-height: 100%;
+
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    &:before {
+      content: '';
+      -webkit-appearance: none;
+      background-color: transparent;
+      border: 2px solid $colorMain;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05),
+      inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
+      padding: 7.5px;
+      display: inline-block;
+      position: relative;
+      vertical-align: middle;
+      cursor: pointer;
+      margin-right: 13px;
+    }
+  }
+  input[type='radio'] + label:before {
+    border-radius: 50%;
+  }
+  input[type='radio']:checked + label:after {
+    border-radius: 50%;
+  }
+  input:checked + label:after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 4px;
+    width: 11px;
+    height: 11px;
+    background: #f39f18;
+  }
+}
+/***********************************************/
+
+/*******  Styles Swiper Slide *****************/
+.swiper-pagination-clickable .swiper-pagination-bullet.swiper-pagination-bullet-active {
+  background: $yellowColor;
+}
+.swiper-pagination-clickable .swiper-pagination-bullet {
+  background: $colorMain;
+  opacity: 1;
+}
+.swiper-pagination-fraction, .swiper-pagination-custom, .swiper-horizontal > .swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal {
+  bottom: 123px !important;
+  @media (max-height: 612px) {
+    bottom: 72px !important;
+  }
+}
+
+/***********************************************/
+.circle-gradient {
+  position: absolute;
+  text-align: center;
+  width: 85%;
+  margin: 0px auto;
+  left: 7%;
+  height: 29%;
+  bottom: -164px;
+  background: $blueColor;
+  filter: blur(85px);
+  &_top{
+    top: -22%;
+    width: 74%;
+    left: 17%;
+    bottom: 0;
+  }
+}
+
+.circle-gradient_green {
+  background: $greenColor;
+}
+
+/***********************************************/
+._hint{
+  position: absolute;
+  border-radius: 5px;
+  left: 7.3px;
+  top: 9px;
+  background: $backgroundBlock;
+  color: $yellowColor;
+  font-size: 15px;
+
+  padding: 10px 20px;
+  z-index: 3;
+  &_command{
+    color: $blueColor;
+  }
+  &_personal{
+    color: $greenColor;
+  }
+}
+
+.select-gender {
+  display: flex;
+
+  input{
+    display: none;
+  }
+
+  label {
+    border: 1px solid #999999;
+    font-size: 15px;
+    text-align: center;
+    display: inline-block;
+
+    position: relative;
+    padding: 12px 20px;
+    margin: 0 15px 0 0;
+    border-radius: 50px;
+  }
+  input:checked + label{
+    border: 1px solid;
+  }
+}
+
+/***********Calendar*************/
+.react-datepicker{
+  background: $backgroundBlock;
+  padding: 18px 22px 37px 22px;
+  border-radius: 10px;
+  &__header{
+    //background: $backgroundBlock;
+  }
+
+  &__day-names{
+    background: $backgroundBlock;
+    color: $colorMain;
+    text-align: center;
+  }
+  &__month{
+    text-align: center;
+  }
+}
+
+.react-datepicker__current-month{
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+  text-align: center;
+  letter-spacing: 0.12px;
+  color: #EEECF1;
+}
+.react-datepicker__day-name, .react-datepicker__day, .react-datepicker__time-name {
+  color: $colorMain;
+  display: inline-block;
+  width: 100%;
+  max-width: 34px;
+  padding: 10px;
+  text-align: center;
+}
+//.react-datepicker__day--selected, .react-datepicker__day--in-selecting-range,
+//.react-datepicker__day--in-range, .react-datepicker__month-text--selected, .react-datepicker__month-text--in-selecting-range,
+//.react-datepicker__month-text--in-range, .react-datepicker__quarter-text--selected, .react-datepicker__quarter-text--in-selecting-range,
+//.react-datepicker__quarter-text--in-range, .react-datepicker__year-text--selected, .react-datepicker__year-text--in-selecting-range,
+//.react-datepicker__year-text--in-range {
+//  &:first-child{
+//    border-radius: 50% 0 0 50%;
+//  }
+//  background: #F9B477;
+//  color: $colorMain;
+//  &:last-child{
+//    border-radius: 0 50% 50% 0;
+//  }
+//}
+//
+//.react-datepicker__day--range-end, .react-datepicker__day--selected,.react-datepicker__day--range-start{
+//  //border-radius: 50%;
+//  background-color: $yellowColor;
+//  color: #000;
+//}
+//.react-datepicker__day--in-range{
+//  width: 100%;
+//}
+
+
+/***************************Texts****************************************/
+.text-blue{
+  font-weight: 400;
+  font-size: 13px;
+
+  color: $blueColor;
+}
+.text-yellow{
+  font-weight: 400;
+  font-size: 13px;
+
+  color: $yellowColor;
+}
+.main-title{
+  font-weight: 700;
+  font-size: 25px;
+
+}
+.block-title{
+  font-weight: 700;
+  font-size: 20px;
+
+}
+.title-17{
+  font-weight: 500;
+  font-size: 17px;
+
+}
+.title-35{
+  font-weight: 700;
+  font-size: 35px;
+
+}
+.small-text{
+  font-weight: 500;
+  font-size: 13px;
+
+}
+/****************************************************************/
+.digits{
+  font-weight: 400;
+  font-size: 43.5849px;
+
+  .digits__square{
+    background: $backgroundBlock;
+    border-radius: 10px;
+    height: 77px;
+    width: 104px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+/****************************Scroll tabs***************************************/
+.scroll-tabs{
+  display: flex;
+  overflow: scroll;
+  margin: 0 0 20px 0;
+  &::-webkit-scrollbar{
+    height: 0;
+    width: 0;
+  }
+  &-labels{
+    &:not(:last-child){
+      margin: 0 20px 0 0;
+    }
+    padding: 9px 20px;
+    text-align: center;
+    border-radius: 5px;
+    background: $backgroundBlock;
+    font-size: 15px;
+    letter-spacing: 0.02em;
+    &.active{
+      color: $yellowColor;
+    }
+  }
+}

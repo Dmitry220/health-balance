@@ -1,0 +1,66 @@
+@import "src/assets/style/variables";
+
+.new-challenge-info{
+
+  &__main{
+    margin: 0 0 30px 0;
+  }
+
+  &__title-block{
+    margin: 0 0 20px 0;
+  }
+
+  &__description{
+    margin: 0 0 10px 0;
+    font-size: 13px;
+    line-height: 130%;
+
+    color: #919191;
+  }
+
+  &__row{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 0 40px 0;
+  }
+
+  &__data{
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+    font-size: 13px;
+
+    color: $greenColor;
+    &-clock{
+      height: 19px;
+      width: 19px;
+      margin: 0 5px 0 0;
+    }
+    &-edit{
+      margin: 0 0 0 6px;
+    }
+  }
+
+  &__reward{
+    display: flex;
+    align-items: center;
+
+    &-text{
+      font-weight: 700;
+      font-size: 13px;
+
+      margin: 0 10px 0 0;
+    }
+    img{
+      margin: 0 0 0 5.4px;
+    }
+  }
+
+  &__button{
+    margin: 0 auto 40px auto;
+    max-width: 204px;
+  }
+
+
+}

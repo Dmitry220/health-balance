@@ -1,0 +1,126 @@
+@import "src/assets/style/variables";
+
+.card-biology-age {
+  padding: 14px 16px 14px 11px;
+  background: linear-gradient(180deg, #00A62E 0%, #176B09 100%);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &__title {
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 82.5%;
+
+    max-width: 157px;
+  }
+
+  &__age {
+    font-weight: 700;
+    font-size: 35px;
+    line-height: 82.5%;
+    text-align: center;
+
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 1px solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.card-index {
+  padding: 8px 11px;
+  background: linear-gradient(180deg, #D7CF15 0%, #A69500 100%);
+  border-radius: 10px;
+  min-height: 104px;
+
+  &__head {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 0 23px 0;
+    align-items: baseline;
+  }
+
+  &__title {
+    font-size: 13px;
+
+    color: #171717;
+    flex: 0 1 94px;
+  }
+
+  &__hint {
+    background: $backgroundBlock;
+    border-radius: 3px;
+    padding: 3px 6px;
+
+    font-size: 10px;
+  }
+
+  &__value {
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 82.5%;
+
+    color: #171717;
+  }
+}
+
+.card-disease {
+  padding: 10px;
+  background: $backgroundBlock;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 85px;
+
+  &__title {
+    max-width: 94px;
+    font-size: 17px;
+
+  }
+
+  &__mark {
+    font-size: 13px;
+
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+}
+
+.retesting {
+  padding: 22px 17px;
+  border-radius: 7px;
+  background: $backgroundBlock;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &__text {
+    font-weight: 500;
+    font-size: 15px;
+
+
+    span {
+      font-weight: 400;
+      font-size: 13px;
+      color: #ABABAB;
+      display: inline-block;
+    }
+  }
+  &__link{
+    padding: 10px 12px;
+    background: #232323;
+    border-radius: 50px;
+    font-weight: 500;
+    font-size: 13px;
+    text-align: center;
+
+    color: $blueColor;
+  }
+}

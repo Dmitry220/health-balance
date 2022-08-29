@@ -1,0 +1,26 @@
+@import "src/assets/style/variables";
+
+.interesting-page{
+  padding: 0 0 50px 0;
+
+  &__main-title{
+    margin: 0 0 20px 0;
+  }
+
+  &__actual{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    overflow: scroll;
+    margin: 0 0 40px 0;
+
+    &::-webkit-scrollbar{
+      width: 0;
+      height: 0;
+    }
+  }
+  &__actual-item{
+    flex: 0 0 117px;
+  }
+}
+

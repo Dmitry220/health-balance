@@ -1,0 +1,64 @@
+@import "src/assets/style/variables";
+@import "src/assets/style/mixins";
+
+.header-active{
+  z-index: 10;
+  left: 0;
+  position: fixed;
+  width: 100%;
+  padding: 16px 16px;
+  margin: -16px 0 0 0;
+  background: $backgroundMain;
+
+  @media (max-height: 320px) {
+    top: 0;
+  }
+  &__container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  &__column{
+    display: flex;
+    align-items: center;
+  }
+  &__avatar{
+    flex: 0 0 41px;
+    height: 41px;
+    margin: 0 10px 0 0;
+    img{
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+    }
+  }
+  &__user-name{
+    font-weight: 700;
+    font-size: 20px;
+
+    color: #F5F5F5;
+    position: relative;
+    &::before{
+      font-size: 13px;
+      display: inline-block;
+      right: -20px;
+      top: 39%;
+      transform: rotate(-180deg);
+      position: absolute;
+    }
+  }
+  &__icon-reward{
+    margin: 0 8px 0 0;
+    flex: 0 0 18px;
+    height: 18px;
+    img{
+      width: 100%;
+      height: 100%;
+    }
+  }
+  &__value{
+    font-size: 17px;
+
+    color: #F5F5F5;
+  }
+}

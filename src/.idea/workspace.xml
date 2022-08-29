@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="85f2be03-df47-4be8-a033-eb24269a1ae4" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../.idea/deployment.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.idea/watcherTasks.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.idea/webServers.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/API/Api-quiz.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/API/api.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Access-recovery/Access-recovery-item.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Access-recovery/Further-recovery-button.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Access-recovery/Recovery-email.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Access-recovery/Recovery-password.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Access-recovery/access-recovery.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Active-challenge/Header-challenge.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Active-challenge/header-challenge.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Authorization/Auth.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Authorization/auth.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Banner/Banner.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Banner/banner.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Basket/Basket-card.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Basket/basket.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Card-actual/Card-actual.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Card-actual/card-actual.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Card-lecture/Card-lecture.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Card-lecture/card-lecture.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Challenge/Card-challenge.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Challenge/New-challenge-card.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Challenge/Task-challenge.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Challenge/challenge.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Charts/Chart-options.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Comment/Comment-answer.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Comment/Comment-form.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Comment/List-comments.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Comment/commnet.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Creating-challenge/Creating-challenge-item.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Creating-challenge/Creating-commands-challenge.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Creating-challenge/Creating-date.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Creating-challenge/Creating-description-challenge.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Creating-challenge/Creating-lecture.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Creating-challenge/Creating-targets.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Creating-challenge/Creating-title-challenge.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Creating-challenge/Final-variant.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Creating-challenge/Select-platform.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Creating-challenge/Type-challenge.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Creating-challenge/creating-challenge.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Header-active/Header-active.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Header-active/header-active.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Header-two/Header-two.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Header-two/header-two.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Header/Header.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Header/header.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Health-index-result/Card-Disease.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Health-index-result/Card-biology-age.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Health-index-result/Card-index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Health-index-result/Retesting.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Health-index-result/health-index-result.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Important-block/Important-block.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Important-block/important-block.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Interesting/Card-interesting.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Interesting/interesting.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Lecture/AnswerOptions.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Lecture/AnswerToQuestion.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Lecture/DowloadFile.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Lecture/Lecture-head.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Lecture/Lecture-task.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Lecture/ScanQR.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Lecture/Video.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Lecture/lecture.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/List-leaders-challenge/List-leaders-challenge.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/List-leaders-challenge/list-leaders-challenge.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Modal-status/Modal-status.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Modal-status/modal-status.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Motivation/Motivation-card.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Motivation/Post.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Motivation/motivation.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Navigation/Navigation.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Navigation/navigation.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Progress-bar/Progress-bar.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Progress-bar/progress-bar.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Quiz/Quiz.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Quiz/quiz.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Registration/Birthday.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Registration/Email.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Registration/FurtherButton.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Registration/Gender.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Registration/NameUser.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Registration/Password.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Registration/Platform.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Registration/RegistrationItem.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Registration/Set-photo.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Registration/SurName.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Registration/Telephone.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Registration/registration.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Reward/Reward-card.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Reward/Reward-count.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Reward/reward.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Scroll-picker/Scroll-picker.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Scroll-picker/scroll-picker.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Steps-data/Steps-data.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Steps-data/steps-data.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Steps/Steps.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Steps/steps.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Tabs/Tabs.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Tabs/tabs.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Target/Target.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Target/target.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Team-selection/Team-selection.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Team-selection/team-selection.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Top-rating/Top-rating.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Top-rating/top-rating.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Tracker/Fruit-target.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Tracker/Habits-tracker-item.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Tracker/Water-target.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/Tracker/tracker.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Redux/hooks.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Redux/slice/accessRecoverySlice.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Redux/slice/appSlice.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Redux/slice/creatingChallengeSlice.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Redux/slice/quizSlice.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Redux/slice/registrationSlice.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Redux/store.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/fonts/FontsFree-Net-SFProDisplay-Regular.eot" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/fonts/FontsFree-Net-SFProDisplay-Regular.otf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/fonts/FontsFree-Net-SFProDisplay-Regular.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/fonts/FontsFree-Net-SFProDisplay-Regular.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/fonts/FontsFree-Net-SFProDisplay-Regular.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/fonts/icons-font/fonts/icon-navigation.eot" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/fonts/icons-font/fonts/icon-navigation.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/fonts/icons-font/fonts/icon-navigation.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/fonts/icons-font/fonts/icon-navigation.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/image/Arrow.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/image/Interesting/clock.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/image/Logo-dark.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/image/Logo.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/image/Static-chart.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/image/auth/appleIcon.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/image/auth/background-image.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/image/banner/icon-banner.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/image/demo-challenge.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/image/hand-right.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/image/icon-camera-add.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/image/icon-comments-fill.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/image/icon-danger.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/image/icon-edit.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/image/icon-favourite-fill.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/image/icon-warning.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/image/icon_chat.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/image/icon_purpose__status_full.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/image/icon_reward.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/image/lecture/lecture_img.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/image/tracker/icon-dream.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/image/tracker/icon-dream.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/image/tracker/icon-fruit.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/image/tracker/icon-water.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/style/fonts.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/style/global.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/style/icon-font.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/style/mixins.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/style/variables.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/index.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Access-recovery-page/Access-recovery-page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Active-challenge-page/Active-challenge-page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Active-challenge-page/active-challenge-page.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Activity-page/Activity-page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Activity-page/activity-page.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Authorization/Auth-page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Authorization/auth-page.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Basket-page/Basket-page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Basket-page/basket-page.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Challenge/Challenge-page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Challenge/challenge-page.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Chat-page/Chat-page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Chat-page/chat-page.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Create-challenge/Creating-challenge.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Create-challenge/creating-challenge.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Dynamics-page/Dynamics-page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Dynamics-page/dynamics-page.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Editing/Editing.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Editing/editing.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Exchange-history/Exchange-history.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Exchange-history/exchange-history.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Goal-fruits/Goal-fruits.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Goal-fruits/goal-fruits.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Goal-sleep/Goal-sleep.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Goal-sleep/goal-sleep.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Goal-water/Goal-water.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Goal-water/goal-water.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Health-index-results/Health-index-results.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Health-index-results/health-index-results.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Health-index/Health-index-page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Health-index/health-index.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Individual-report-page/Individual-report-page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Individual-report-page/individual-report-page.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Interesting-page/Interesting-page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Interesting-page/interesting-page.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Lecture-page/Lecture-page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Lecture-page/lecture-pages.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Lectures-pages/Lectures-pages.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Lectures-pages/lecures-page.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Making-order/Making-order.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Making-order/making-order.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Motivation-page/Motivation-page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Motivation-page/motivation.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/New-challenge-info/New-Challenge-Info.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/New-challenge-info/new-challenge-info.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/New-target-page/New-target-page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/New-target-page/new-target-page.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Profile/Profile.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Profile/profile.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Questionnaire/Questionnaire.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Questionnaire/questionnaire.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Quiz/Quiz.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Registration/Registration.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Report-page/Report-page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Report-page/report-page.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Reward-page/Reward-page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Reward-page/reward-page.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Settings/Settings.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Settings/settings.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Start-pages/StartPage.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Start-pages/start-page.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Statistic-tracker/Statistic-tracker.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Statistic-tracker/statistic-tracker.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Team-selection-page/Team-selection-page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Team-selection-page/team-selection-page.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Tracker-habits/Tracker-habits-page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Tracker-habits/tracker-habits_page.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Tracker/Tracker-page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/Tracker/tracker.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/provider/AppRouter.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/provider/constants.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/provider/routes.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/types/enums.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/types/types.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utils/common-functions.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utils/hooks/useLocalUserInputForm.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/index.tsx" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="2DwKC46JC9HEBZ4hWnfEkjPwzjz" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
+    <property name="cidr.known.project.marker" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../android" />
+    <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="85f2be03-df47-4be8-a033-eb24269a1ae4" name="Default Changelist" comment="" />
+      <created>1661604576123</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1661604576123</updated>
+    </task>
+    <servers />
+  </component>
+</project>

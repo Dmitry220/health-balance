@@ -1,0 +1,15 @@
+
+.new-target-page{
+  &__title{
+    margin: 0 0 23px 0;
+  }
+  &__select{
+    margin: 0 0 31px 0;
+    option{
+      height: 50px;
+    }
+  }
+  &__button{
+    margin: 0 auto;
+  }
+}

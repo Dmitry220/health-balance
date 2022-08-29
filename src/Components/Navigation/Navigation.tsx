@@ -1,0 +1,32 @@
+import React from 'react';
+import '../../assets/style/icon-font.scss'
+import './navigation.scss'
+import {Link, NavLink} from "react-router-dom";
+import {ACTIVITY_ROUTE, CHALLENGE_ROUTE, HEALTH_INDEX_ROUTE, INTERESTING_ROUTE, TRACKER_ROUTE} from "../../provider/constants";
+import icon from '../../assets/image/simple-line-icons_energy_active.svg'
+
+export const Navigation = () => {
+    return (
+        <div className={'navigation'}>
+            <div className="navigation__body">
+                <NavLink to={ACTIVITY_ROUTE} className={({isActive}) =>
+                    isActive ? 'navigation__link active icon-icon_fire_active' : 'navigation__link icon-icon_fire'
+                }>Активность
+                </NavLink>
+                <NavLink to={TRACKER_ROUTE} className={({isActive}) =>
+                    isActive ? 'navigation__link active icon-icon_check-box' : 'navigation__link icon-icon_check-box'
+                }>Трекер</NavLink>
+                <NavLink to={HEALTH_INDEX_ROUTE} className={({isActive}) =>
+                    isActive ? 'navigation__link active icon-icon_cardioelectric' : 'navigation__link icon-icon_cardioelectric'
+                }>Индексы</NavLink>
+                <NavLink to={CHALLENGE_ROUTE} className={({isActive}) =>
+                    isActive ? 'navigation__link active icon-icon_energy-active' : 'navigation__link icon-icon-challenge'
+                }>Челленджи</NavLink>
+                <NavLink to={INTERESTING_ROUTE} className={({isActive}) =>
+                    isActive ? 'navigation__link active icon-icon_hb_news' : 'navigation__link icon-icon_hb_news'
+                }>Интересное</NavLink>
+            </div>
+        </div>
+    );
+};
+

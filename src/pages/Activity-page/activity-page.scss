@@ -1,0 +1,79 @@
+@import "src/assets/style/variables";
+
+.title{
+  font-weight: 700;
+  font-size: 25px;
+
+}
+
+.activity-page{
+  padding: 0 0 84px 0;
+
+  &__steps{
+    margin: 0 0 48px 0;
+    padding: 92px 0 0 0;
+  }
+  &__steps-data{
+    margin: 0 0 38px 0;
+  }
+  &__card-actual{
+    display: flex;
+    gap: 9px;
+    align-items: center;
+    overflow: scroll;
+    margin: 0 0 40px 0;
+    &::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+    }
+  }
+  &__title{
+    margin: 0 0 27px 0;
+  }
+  &__target{
+    margin: 0 0 23px 0;
+  }
+  &__dynamics{
+    margin: 0 0 18px 0;
+  }
+  &__important{
+    margin: 0 0 40px 0;
+  }
+  &__top-rating{
+
+  }
+}
+
+
+.dynamics{
+  background: $backgroundBlock;
+  padding: 10px 10px 15px 10px;
+  &__title{
+    font-weight: 500;
+    font-size: 15px;
+    margin: 0 0 20px 0;
+
+  }
+  &__chart{
+    margin: 40px 0 28px 0;
+  }
+  &__info{
+    display: flex;
+    justify-content: space-around;
+  }
+  &__value{
+    font-weight: 500;
+    font-size: 17px;
+
+    span{
+      font-size: 13px;
+      color: #ABABAB;
+    }
+  }
+}
+
+.top-rating{
+  &__title{
+    margin: 0 0 19px 0;
+  }
+}
