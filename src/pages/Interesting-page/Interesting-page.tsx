@@ -7,7 +7,7 @@ import {CardChallenge} from "../../Components/Challenge/Card-challenge";
 import {typesChallenge} from "../../types/enums";
 import './interesting-page.scss'
 import CardLecture from "../../Components/Card-lecture/Card-lecture";
-import {useAppDispatch, useAppSelector} from "../../Redux/hooks";
+import {useAppDispatch, useAppSelector} from "../../utils/hooks/redux-hooks";
 import {CardActual} from "../../Components/Card-actual/Card-actual";
 import {HeaderTwo} from "../../Components/Header-two/Header-two";
 

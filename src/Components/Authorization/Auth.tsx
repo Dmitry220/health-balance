@@ -3,7 +3,7 @@ import './auth.scss'
 import {Link} from "react-router-dom";
 import logo from '../../assets/image/Logo.svg'
 import appleIcon from '../../assets/image/auth/appleIcon.svg'
-import {ACCESS_RECOVERY__ROUTE, REGISTRATION_ROUTE} from "../../provider/constants";
+import {ACCESS_RECOVERY__ROUTE, REGISTRATION_ROUTE} from "../../provider/constants-route";
 
 export const Auth = () => {
 

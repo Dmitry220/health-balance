@@ -1,6 +1,6 @@
 import React from 'react';
 import './health-index-result.scss'
-import {QUESTIONNAIRE_ROUTE} from "../../provider/constants";
+import {QUESTIONNAIRE_ROUTE} from "../../provider/constants-route";
 import {Link} from "react-router-dom";
 
 export const Retesting = () => {

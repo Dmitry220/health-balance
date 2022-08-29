@@ -2,7 +2,7 @@ import React, {FC} from 'react';
 import './header-two.scss'
 import icon_chat from '../../assets/image/icon_chat.svg'
 import {Link} from "react-router-dom";
-import {CHAT__ROUTE} from "../../provider/constants";
+import {CHAT__ROUTE} from "../../provider/constants-route";
 
 interface IHeaderTwo {
     title: string,

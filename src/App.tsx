@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import './assets/style/global.scss'
-import AppRouter from "./provider/AppRouter";
+import AppRouter from "./provider/app-router";
 
 
 function App() {

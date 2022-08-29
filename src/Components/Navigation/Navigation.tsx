@@ -2,7 +2,7 @@ import React from 'react';
 import '../../assets/style/icon-font.scss'
 import './navigation.scss'
 import {Link, NavLink} from "react-router-dom";
-import {ACTIVITY_ROUTE, CHALLENGE_ROUTE, HEALTH_INDEX_ROUTE, INTERESTING_ROUTE, TRACKER_ROUTE} from "../../provider/constants";
+import {ACTIVITY_ROUTE, CHALLENGE_ROUTE, HEALTH_INDEX_ROUTE, INTERESTING_ROUTE, TRACKER_ROUTE} from "../../provider/constants-route";
 import icon from '../../assets/image/simple-line-icons_energy_active.svg'
 
 export const Navigation = () => {

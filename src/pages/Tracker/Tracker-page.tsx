@@ -7,7 +7,7 @@ import {StepsData} from "../../Components/Steps-data/Steps-data";
 import {Target} from "../../Components/Target/Target";
 import iconChat from "../../assets/image/icon_chat.svg";
 import {Link} from "react-router-dom";
-import {ACTIVITY_ROUTE, TRACKER_HABITS_ROUTE} from "../../provider/constants";
+import {ACTIVITY_ROUTE, TRACKER_HABITS_ROUTE} from "../../provider/constants-route";
 import {SlideNextButton} from "../Start-pages/StartPage";
 import icon_dream from '../../assets/image/tracker/icon-dream.svg'
 import icon_fruit from '../../assets/image/tracker/icon-fruit.svg'

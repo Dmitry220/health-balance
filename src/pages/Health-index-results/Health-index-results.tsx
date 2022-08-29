@@ -6,7 +6,7 @@ import {CardIndex} from "../../Components/Health-index-result/Card-index";
 import './health-index-results.scss'
 import {Navigation} from "../../Components/Navigation/Navigation";
 import {Retesting} from "../../Components/Health-index-result/Retesting";
-import {DYNAMICS_ROUTE, INDIVIDUAL_REPORT_ROUTE} from "../../provider/constants";
+import {DYNAMICS_ROUTE, INDIVIDUAL_REPORT_ROUTE} from "../../provider/constants-route";
 import {HeaderTwo} from "../../Components/Header-two/Header-two";
 
 export const HealthIndexResults = () => {

@@ -2,7 +2,7 @@ import React from 'react';
 import {Navigation} from "../../Components/Navigation/Navigation";
 import './health-index.scss'
 import {Link} from "react-router-dom";
-import {QUESTIONNAIRE_ROUTE} from "../../provider/constants";
+import {QUESTIONNAIRE_ROUTE} from "../../provider/constants-route";
 import chart from '../../assets/image/Static-chart.png'
 
 export const HealthIndexPage = () => {

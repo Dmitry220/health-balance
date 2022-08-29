@@ -13,7 +13,7 @@ import {Target} from "../../Components/Target/Target";
 import {StepsData} from "../../Components/Steps-data/Steps-data";
 import iconChat from '../../assets/image/icon_chat.svg'
 import {ScrollPicker} from "../../Components/Scroll-picker/Scroll-picker";
-import {ACTIVITY_ROUTE} from "../../provider/constants";
+import {ACTIVITY_ROUTE} from "../../provider/constants-route";
 import { getItemsStep } from '../../utils/common-functions';
 
 

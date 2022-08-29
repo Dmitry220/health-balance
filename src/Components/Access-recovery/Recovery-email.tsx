@@ -1,6 +1,6 @@
 import React, {FC, useState} from 'react';
 import './access-recovery.scss'
-import {useAppDispatch, useAppSelector} from "../../Redux/hooks";
+import {useAppDispatch, useAppSelector} from "../../utils/hooks/redux-hooks";
 import {emailRecoverySelector,setRecoveryEmail} from "../../Redux/slice/accessRecoverySlice";
 
 

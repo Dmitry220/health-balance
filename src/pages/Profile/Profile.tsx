@@ -3,7 +3,7 @@ import './profile.scss'
 import Header from "../../Components/Header/Header";
 import icon_reward from '../../assets/image/icon_reward.svg'
 import {Link} from "react-router-dom";
-import {EDITING_ROUTE} from "../../provider/constants";
+import {EDITING_ROUTE} from "../../provider/constants-route";
 
 export const Profile = () => {
 

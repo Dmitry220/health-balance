@@ -3,7 +3,7 @@ import HeaderActive from "../Header-active/Header-active";
 import {HeaderChallenge} from "../Active-challenge/Header-challenge";
 import {TaskChallenge} from "../Challenge/Task-challenge";
 import './creating-challenge.scss'
-import {useAppSelector} from "../../Redux/hooks";
+import {useAppSelector} from "../../utils/hooks/redux-hooks";
 import {
     descriptionSelector,
     titleChallengeSelector,

@@ -4,7 +4,7 @@ import icon from '../../assets/image/icon_reward.svg'
 import {RewardCount} from "../Reward/Reward-count";
 import icon_chat from '../../assets/image/icon_chat.svg'
 import {Link} from "react-router-dom";
-import {CHAT__ROUTE} from "../../provider/constants";
+import {CHAT__ROUTE} from "../../provider/constants-route";
 
 interface IHeaderActive{
     transparent: boolean

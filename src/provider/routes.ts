@@ -34,7 +34,7 @@ import {
     STATISTICS_TRACKER__ROUTE,
     CHAT__ROUTE,
     NEW_CHALLENGE_INFO_ROUTE
-} from "./constants";
+} from "./constants-route";
 import {AuthPage} from "../pages/Authorization/Auth-page";
 import {StartPage} from "../pages/Start-pages/StartPage";
 import {ActivityPage} from "../pages/Activity-page/Activity-page";

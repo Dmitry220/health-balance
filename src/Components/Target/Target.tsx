@@ -2,7 +2,7 @@ import React, {FC} from 'react';
 import './target.scss'
 import icon_status_full from '../../assets/image/icon_purpose__status_full.svg'
 import {Link} from "react-router-dom";
-import {NEW_TARGET_ROUTE} from "../../provider/constants";
+import {NEW_TARGET_ROUTE} from "../../provider/constants-route";
 
 
 export const Target = () => {

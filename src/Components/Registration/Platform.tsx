@@ -1,4 +1,4 @@
-import {useAppDispatch} from "../../Redux/hooks";
+import {useAppDispatch} from "../../utils/hooks/redux-hooks";
 import React from "react";
 import {setDisabledButton} from "../../Redux/slice/registrationSlice";
 import {Link} from "react-router-dom";

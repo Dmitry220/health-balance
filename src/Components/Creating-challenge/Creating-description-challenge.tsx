@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAppDispatch, useAppSelector } from '../../Redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks';
 import { descriptionSelector, setDescriptionChallenge } from '../../Redux/slice/creatingChallengeSlice';
 import './creating-challenge.scss'
 

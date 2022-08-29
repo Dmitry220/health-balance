@@ -6,7 +6,7 @@ import './tracker-habits_page.scss'
 import icon_fruit from '../../assets/image/tracker/icon-fruit.svg'
 import icon_water from '../../assets/image/tracker/icon-water.svg'
 import {Link} from "react-router-dom";
-import {GOAL_FRUITS__ROUTE, GOAL_WATER__ROUTE} from "../../provider/constants";
+import {GOAL_FRUITS__ROUTE, GOAL_WATER__ROUTE} from "../../provider/constants-route";
 import {HeaderTwo} from "../../Components/Header-two/Header-two";
 
 export const TrackerHabitsPage = () => {

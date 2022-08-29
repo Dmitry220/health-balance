@@ -8,7 +8,7 @@ import icon_clock from "../../assets/image/Interesting/clock.svg";
 import {TaskChallenge} from "../../Components/Challenge/Task-challenge";
 import {RewardCount} from "../../Components/Reward/Reward-count";
 import {Link} from "react-router-dom";
-import {LECTURES_ROUTE, TEAM_SELECTION_ROUTE} from "../../provider/constants";
+import {LECTURES_ROUTE, TEAM_SELECTION_ROUTE} from "../../provider/constants-route";
 import {ListLeadersChallenge} from "../../Components/List-leaders-challenge/List-leaders-challenge";
 import icon_edit from "../../assets/image/icon-edit.svg";
 

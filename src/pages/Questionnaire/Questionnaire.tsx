@@ -2,12 +2,12 @@ import React, {ChangeEvent, useEffect, useState} from 'react';
 import './questionnaire.scss'
 import {Quiz} from "../../Components/Quiz/Quiz";
 import Header from "../../Components/Header/Header";
-import {useAppDispatch, useAppSelector} from "../../Redux/hooks";
+import {useAppDispatch, useAppSelector} from "../../utils/hooks/redux-hooks";
 import {fetchGetQuestionnaire, IQuestions, questions} from "../../Redux/slice/quizSlice";
 import {ProgressBar} from "../../Components/Progress-bar/Progress-bar";
 import {typesChallenge} from "../../types/enums";
 import { useNavigate } from "react-router-dom";
-import {HEALTH_INDEX_RESULTS_ROUTE} from "../../provider/constants";
+import {HEALTH_INDEX_RESULTS_ROUTE} from "../../provider/constants-route";
 
 
 export const Questionnaire = () => {

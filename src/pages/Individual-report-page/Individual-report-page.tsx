@@ -2,7 +2,7 @@ import React from 'react';
 import './individual-report-page.scss'
 import Header from "../../Components/Header/Header";
 import {Link} from "react-router-dom";
-import {REPORT_ROUTE} from "../../provider/constants";
+import {REPORT_ROUTE} from "../../provider/constants-route";
 
 export const IndividualReportPage = () => {
     return (

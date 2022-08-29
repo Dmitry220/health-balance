@@ -1,4 +1,4 @@
-import {useAppDispatch, useAppSelector} from "../../Redux/hooks";
+import {useAppDispatch, useAppSelector} from "../../utils/hooks/redux-hooks";
 import {emailSelector, setDisabledButton, setEmail} from "../../Redux/slice/registrationSlice";
 import React from "react";
 

@@ -9,7 +9,7 @@ import {ProgressBar} from "../../Components/Progress-bar/Progress-bar";
 import {RewardCard} from "../../Components/Reward/Reward-card";
 import {RewardCount} from "../../Components/Reward/Reward-count";
 import {Link} from "react-router-dom";
-import {LECTURES_ROUTE} from "../../provider/constants";
+import {LECTURES_ROUTE} from "../../provider/constants-route";
 import icon_clock from '../../assets/image/Interesting/clock.svg'
 
 export const ActiveChallengePage = () => {

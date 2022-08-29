@@ -1,7 +1,7 @@
 import React, {Dispatch, FC, SetStateAction} from "react";
 import { Link } from "react-router-dom";
-import { START_ROUTE } from "../../provider/constants";
-import {useAppDispatch, useAppSelector} from "../../Redux/hooks";
+import { START_ROUTE } from "../../provider/constants-route";
+import {useAppDispatch, useAppSelector} from "../../utils/hooks/redux-hooks";
 import {disableButtonSelector, requestRegistration, setDisabledButton} from "../../Redux/slice/registrationSlice";
 
 
