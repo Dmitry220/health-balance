@@ -33,7 +33,7 @@ import {
     GOAL_WATER__ROUTE,
     STATISTICS_TRACKER__ROUTE,
     CHAT__ROUTE,
-    NEW_CHALLENGE_INFO_ROUTE
+    NEW_CHALLENGE_INFO_ROUTE, ADD_INTERESTING_ROUTE
 } from "./constants-route";
 import {AuthPage} from "../pages/Authorization/Auth-page";
 import {StartPage} from "../pages/Start-pages/StartPage";
@@ -70,6 +70,7 @@ import {StatisticTracker} from "../pages/Statistic-tracker/Statistic-tracker";
 import {GoalSleep} from "../pages/Goal-sleep/Goal-sleep";
 import {ChatPage} from "../pages/Chat-page/Chat-page";
 import {NewChallengeInfo} from "../pages/New-challenge-info/New-Challenge-Info";
+import {AddInteresting} from "../pages/Add-interesting/Add-interesting";
 
 
 export const publicRoutes = [
@@ -109,10 +110,6 @@ export const privateRoutes = [
         path: CHALLENGE_ROUTE,
         Component: ChallengePage
     },
-    // {
-    //     path: CHALLENGE_ROUTE + ':1',
-    //     Component: ActiveChallenge
-    // },
     {
         path: INTERESTING_ROUTE,
         Component: InterestingPage
@@ -220,5 +217,9 @@ export const privateRoutes = [
     {
         path: NEW_CHALLENGE_INFO_ROUTE,
         Component: NewChallengeInfo
+    },
+    {
+        path: ADD_INTERESTING_ROUTE,
+        Component: AddInteresting
     },
 ]
