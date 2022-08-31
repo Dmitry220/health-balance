@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from "../../Components/Header/Header";
 import {RewardCard} from "../../Components/Reward/Reward-card";
-import './reward-page.scss'
+import './shop-page.scss'
 import {TabContent, Tabs} from "../../Components/Tabs/Tabs";
 import {RewardCount} from "../../Components/Reward/Reward-count";
 import {Link} from "react-router-dom";
