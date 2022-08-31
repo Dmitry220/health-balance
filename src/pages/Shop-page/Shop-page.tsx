@@ -1,67 +1,56 @@
 import React from 'react';
 import Header from "../../Components/Header/Header";
-import {RewardCard} from "../../Components/Reward/Reward-card";
+import {ShopCard} from "../../Components/Shop/Shop-card";
 import './shop-page.scss'
 import {TabContent, Tabs} from "../../Components/Tabs/Tabs";
-import {RewardCount} from "../../Components/Reward/Reward-count";
 import {Link} from "react-router-dom";
-import {BASKET_ROUTE} from "../../provider/constants-route";
-import basket from '../../assets/image/icon_cart.svg'
+import {PRODUCT_SCREEN_ROUTE} from "../../provider/constants-route";
+import {ShopHead} from "../../Components/Shop/Shop-head";
 
-export const RewardPage = () => {
+export const ShopPage = () => {
 
     const [valueTab, setValueTab] = React.useState<number>(0)
     const labelTabs = ['Скидки', 'Спорт', 'Развлечения', 'Одежда', 'Детям', 'Техника']
 
     return (
-        <div className={'reward-page'}>
+        <div className={'shop-page'}>
             <Header title={'Награда'}/>
-            <div className="reward-page__row">
-                <div className="reward-page__title-balance title-17">
-                    <span>Ваш баланс:</span><RewardCount count={365} />
-                </div>
-                <Link to={BASKET_ROUTE} className="reward-page__img">
-                    <span className='reward-page__purchases text-blue'>Мои покупки</span>
-                    <img src={basket} alt="basket"/>
-                    <span className={'reward-page__img-before active'}/>
-                </Link>
-            </div>
+            <ShopHead marginBottom={42}/>
             <Tabs
                 labels={labelTabs}
                 onClick={setValueTab}
                 value={valueTab}
-                customClassChildren={'reward-page__tabs-labels'}
-                customClassParent={'reward-page__tabs'}
+                customClassChildren={'shop-page__tabs-labels'}
+                customClassParent={'shop-page__tabs'}
             />
             <TabContent index={0} value={valueTab}>
-                <div className="reward-page__cards">
-                    <div className="reward-page__item-card"><RewardCard/></div>
-                    <div className="reward-page__item-card"><RewardCard/></div>
-                    <div className="reward-page__item-card"><RewardCard/></div>
-                    <div className="reward-page__item-card"><RewardCard/></div>
+                <div className="shop-page__cards">
+                    <Link to={PRODUCT_SCREEN_ROUTE+'/0'} className="shop-page__item-card"><ShopCard/></Link>
+                    <Link to={PRODUCT_SCREEN_ROUTE+'/1'} className="shop-page__item-card"><ShopCard/></Link>
+                    <Link to={PRODUCT_SCREEN_ROUTE+'/2'} className="shop-page__item-card"><ShopCard/></Link>
+                    <Link to={PRODUCT_SCREEN_ROUTE+'/3'} className="shop-page__item-card"><ShopCard/></Link>
                 </div>
             </TabContent>
             <TabContent index={1} value={valueTab}>
-                <div className="reward-page__cards">
-                    <div className="reward-page__item-card"><RewardCard/></div>
+                <div className="shop-page__cards">
+                    <Link to={PRODUCT_SCREEN_ROUTE+'/2'} className="shop-page__item-card"><ShopCard/></Link>
                 </div>
             </TabContent>
             <TabContent index={2} value={valueTab}>
-                <div className="reward-page__cards">
-                    <div className="reward-page__item-card"><RewardCard/></div>
-                    <div className="reward-page__item-card"><RewardCard/></div>
+                <div className="shop-page__cards">
+                    <Link to={PRODUCT_SCREEN_ROUTE+'/0'} className="shop-page__item-card"><ShopCard/></Link>
+                    <Link to={PRODUCT_SCREEN_ROUTE+'/1'} className="shop-page__item-card"><ShopCard/></Link>
                 </div>
             </TabContent>
             <TabContent index={3} value={valueTab}>
-                <div className="reward-page__text">В этой категории предложения закончились :(</div>
+                <div className="shop-page__text">В этой категории предложения закончились :(</div>
             </TabContent>
             <TabContent index={4} value={valueTab}>
-                <div className="reward-page__text">В этой категории предложения закончились :(</div>
+                <div className="shop-page__text">В этой категории предложения закончились :(</div>
             </TabContent>
             <TabContent index={5} value={valueTab}>
-                <div className="reward-page__text">В этой категории предложения закончились :(</div>
+                <div className="shop-page__text">В этой категории предложения закончились :(</div>
             </TabContent>
-
         </div>
     );
 };

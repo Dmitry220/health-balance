@@ -22,7 +22,7 @@ import {
     QUESTIONNAIRE_ROUTE,
     REGISTRATION_ROUTE,
     REPORT_ROUTE,
-    REWARD_ROUTE,
+    SHOP_ROUTE,
     SETTINGS_ROUTE,
     START_ROUTE,
     TEAM_SELECTION_ROUTE,
@@ -33,7 +33,7 @@ import {
     GOAL_WATER__ROUTE,
     STATISTICS_TRACKER__ROUTE,
     CHAT__ROUTE,
-    NEW_CHALLENGE_INFO_ROUTE, ADD_INTERESTING_ROUTE, SYNCING_ROUTE
+    NEW_CHALLENGE_INFO_ROUTE, ADD_INTERESTING_ROUTE, SYNCING_ROUTE, PRODUCT_SCREEN_ROUTE
 } from "./constants-route";
 import {AuthPage} from "../pages/Authorization/Auth-page";
 import {StartPage} from "../pages/Start-pages/StartPage";
@@ -48,7 +48,7 @@ import {Profile} from "../pages/Profile/Profile";
 import {Editing} from "../pages/Editing/Editing";
 import {CreatingChallengePage} from "../pages/Create-challenge/Creating-challenge";
 import {Questionnaire} from "../pages/Questionnaire/Questionnaire";
-import {RewardPage} from "../pages/Reward-page/Reward-page";
+import {ShopPage} from "../pages/Shop-page/Shop-page";
 import {BasketPage} from "../pages/Basket-page/Basket-page";
 import {MakingOrder} from "../pages/Making-order/Making-order";
 import {ActiveChallengePage} from "../pages/Active-challenge-page/Active-challenge-page";
@@ -72,6 +72,7 @@ import {ChatPage} from "../pages/Chat-page/Chat-page";
 import {NewChallengeInfo} from "../pages/New-challenge-info/New-Challenge-Info";
 import {AddInteresting} from "../pages/Add-interesting/Add-interesting";
 import {SyncingPage} from "../pages/Syncing-page/Syncing-page";
+import {ProductScreen} from "../pages/Product-screen/Product-screen";
 
 
 export const publicRoutes = [
@@ -136,8 +137,8 @@ export const privateRoutes = [
         Component: Questionnaire
     },
     {
-        path: REWARD_ROUTE,
-        Component: RewardPage
+        path: SHOP_ROUTE,
+        Component: ShopPage
     },
     {
         path: BASKET_ROUTE,
@@ -226,5 +227,9 @@ export const privateRoutes = [
     {
         path: SYNCING_ROUTE,
         Component: SyncingPage
+    },
+    {
+        path: PRODUCT_SCREEN_ROUTE+'/:id',
+        Component: ProductScreen
     },
 ]

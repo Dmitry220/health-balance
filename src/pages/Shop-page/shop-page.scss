@@ -1,43 +1,6 @@
 @import "src/assets/style/variables";
 
-.reward-page{
-
-  &__row{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 0 0 42px 0;
-  }
-
-  &__title-balance{
-    display: flex;
-    align-items: center;
-    span{
-      margin: 0 9px 0 0;
-    }
-  }
-
-  &__img{
-    position: relative;
-    &-before{
-      position: absolute;
-      top: -2px;
-      right: -3px;
-      width: 7px;
-      height: 7px;
-      display: inline-block;
-      background: #CACACA;
-      border-radius: 50%;
-      &.active{
-        background: $yellowColor;
-      }
-    }
-  }
-
-  &__purchases{
-    margin: 0 28px 0 0;
-    text-transform: uppercase;
-  }
+.shop-page{
 
   &__cards{
     display: flex;

@@ -6,7 +6,7 @@ import {roles, typesChallenge} from "../../types/enums";
 import './active-challenge-page.scss'
 import {TaskChallenge} from "../../Components/Challenge/Task-challenge";
 import {ProgressBar} from "../../Components/Progress-bar/Progress-bar";
-import {RewardCard} from "../../Components/Reward/Reward-card";
+import {ShopCard} from "../../Components/Shop/Shop-card";
 import {RewardCount} from "../../Components/Reward/Reward-count";
 import {Link} from "react-router-dom";
 import {LECTURES_ROUTE} from "../../provider/constants-route";
