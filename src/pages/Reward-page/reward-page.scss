@@ -1,4 +1,43 @@
+@import "src/assets/style/variables";
+
 .reward-page{
+
+  &__row{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 0 42px 0;
+  }
+
+  &__title-balance{
+    display: flex;
+    align-items: center;
+    span{
+      margin: 0 9px 0 0;
+    }
+  }
+
+  &__img{
+    position: relative;
+    &-before{
+      position: absolute;
+      top: -2px;
+      right: -3px;
+      width: 7px;
+      height: 7px;
+      display: inline-block;
+      background: #CACACA;
+      border-radius: 50%;
+      &.active{
+        background: $yellowColor;
+      }
+    }
+  }
+
+  &__purchases{
+    margin: 0 28px 0 0;
+    text-transform: uppercase;
+  }
 
   &__cards{
     display: flex;
@@ -10,5 +49,34 @@
     flex: 0 0 50%;
     padding: 0 10px;
     margin: 0 0 20px 0;
+  }
+  &__tabs{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -5px 20px;
+    &-labels{
+      margin: 0 0 10px 0;
+      padding: 0 5px;
+      flex: 0 1 33.333%;
+      span{
+        text-align: center;
+        border-radius: 5px;
+        background: $backgroundBlock;
+        font-size: 15px;
+        padding: 9px 0;
+        display: block;
+      }
+      &.active{
+        color: $yellowColor;
+      }
+    }
+  }
+
+
+  &__text{
+    font-weight: 500;
+    font-size: 15px;
+    text-align: center;
+    color: #6F6969;
   }
 }
