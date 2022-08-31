@@ -3,6 +3,9 @@ import Header from "../../Components/Header/Header";
 import {BasketCard} from "../../Components/Basket/Basket-card";
 import './basket-page.scss'
 import icon_reward from '../../assets/image/icon_reward.svg'
+import {RewardCount} from "../../Components/Reward/Reward-count";
+import {Link} from "react-router-dom";
+import {MAKING_ORDER_ROUTE} from "../../provider/constants-route";
 
 export const BasketPage = () => {
     return (
@@ -17,13 +20,10 @@ export const BasketPage = () => {
             <div className="basket-page__text-danger">На вашем счете недостаточно монет</div>
 
 
-            <button className="basket__page__button button-basket">
+            <Link to={MAKING_ORDER_ROUTE} className="basket__page__button button-basket">
                 <span className="button-basket__text text-blue">Обменять</span>
-                <span className="button-basket__rewards">
-                      <img src={icon_reward} alt="reward"/>
-                      <span className="button-basket__count">260</span>
-                </span>
-            </button>
+               <RewardCount count={260} fontSize={15}/>
+            </Link>
 
         </div>
     );

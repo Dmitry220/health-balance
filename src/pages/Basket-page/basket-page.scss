@@ -9,7 +9,7 @@
   &__card{
     border-bottom: 1px solid #202020;
     margin: 0 -16px;
-    padding: 0 16px;
+    padding: 20px 16px;
   }
   &__text-danger{
     font-size: 15px;
@@ -30,16 +30,4 @@
   border-radius: 8px;
   gap: 10px;
   width: 100%;
-
-  &__rewards{
-    display: flex;
-    gap: 5px;
-    align-items: center;
-  }
-
-  &__count{
-    font-size: 15px;
-
-    color: #F5F5F5;
-  }
 }

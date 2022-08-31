@@ -1,6 +1,7 @@
 import React from 'react';
 import './basket.scss'
 import icon_reward from '../../assets/image/icon_reward.svg'
+import {RewardCount} from "../Reward/Reward-count";
 
 export const BasketCard = () => {
     return (
@@ -13,10 +14,7 @@ export const BasketCard = () => {
                     <div className="basket-card__title">
                         Скидка 50% на месячный абонемент в фитнес клуб X-FIT
                     </div>
-                    <div className="basket-card__rewards">
-                        <img src={icon_reward} alt="reward"/>
-                        <div className="basket-card__count">10</div>
-                    </div>
+                    <RewardCount count={10} fontSize={15} sizeIcon={15}/>
                 </div>
             </div>
         </div>
