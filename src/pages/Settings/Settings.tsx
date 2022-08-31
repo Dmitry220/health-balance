@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import './settings.scss'
 import Header from "../../Components/Header/Header";
 import {Link} from "react-router-dom";
+import {SYNCING_ROUTE} from "../../provider/constants-route";
 
 export const Settings = () => {
 
@@ -18,7 +19,7 @@ export const Settings = () => {
                     <div className="settings__title">Синхронизация</div>
                     <div className="settings__row">
                         <div className="settings__notification-title">Приложения</div>
-                        <Link to={'/'} className="settings__notification-title settings__notification-title_blue">Настроить</Link>
+                        <Link to={SYNCING_ROUTE} className="settings__notification-title settings__notification-title_blue">Настроить</Link>
                     </div>
                 </div>
                 <div className="settings__block">
