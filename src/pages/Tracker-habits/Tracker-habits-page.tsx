@@ -8,12 +8,17 @@ import icon_water from '../../assets/image/tracker/icon-water.svg'
 import {Link} from "react-router-dom";
 import {GOAL_FRUITS__ROUTE, GOAL_WATER__ROUTE} from "../../provider/constants-route";
 import {HeaderTwo} from "../../Components/Header-two/Header-two";
+import {HealthySleep} from "../../Components/Tracker/Healthy-sleep";
 
 export const TrackerHabitsPage = () => {
     return (
         <div className={'tracker-habits-page'}>
             <Navigation/>
             <HeaderTwo title={'Трекер привычек'} marginBottom={20}/>
+            <div className="tracker-habits-page__target">
+                <HealthySleep />
+            </div>
+
             <div className="tracker-habits-page__task-title">
                 <div className="tracker-habits-page__task-column">
                     <img src={icon_water} alt=""/>
