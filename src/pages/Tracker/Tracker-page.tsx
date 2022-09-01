@@ -1,19 +1,15 @@
 import React, {useState} from 'react';
-import {Navigation, Pagination, Scrollbar, A11y} from 'swiper';
-import {Swiper, SwiperSlide, useSwiper, useSwiperSlide} from 'swiper/react';
+import {Pagination, A11y} from 'swiper';
+import {Swiper, SwiperSlide} from 'swiper/react';
 import {ScrollPicker} from "../../Components/Scroll-picker/Scroll-picker";
-import {Steps} from "../../Components/Steps/Steps";
-import {StepsData} from "../../Components/Steps-data/Steps-data";
-import {Target} from "../../Components/Target/Target";
-import iconChat from "../../assets/image/icon_chat.svg";
 import {Link} from "react-router-dom";
-import {ACTIVITY_ROUTE, TRACKER_HABITS_ROUTE} from "../../provider/constants-route";
+import {TRACKER_HABITS_ROUTE} from "../../provider/constants-route";
 import {SlideNextButton} from "../Start-pages/StartPage";
 import icon_dream from '../../assets/image/tracker/icon-dream.svg'
 import icon_fruit from '../../assets/image/tracker/icon-fruit.svg'
 import icon_water from '../../assets/image/tracker/icon-water.svg'
 import './tracker.scss'
-import {getItemsStep, getItemsWeight} from "../../utils/common-functions";
+import {getItemsHour, getItemsMinutes, getItemsWeight} from "../../utils/common-functions";
 
 
 export const TrackerPage = () => {
@@ -32,6 +28,14 @@ export const TrackerPage = () => {
             setCountFruits((prev) => prev - 1)
         }
     }
+
+    const itemsHour = getItemsHour()
+    const itemsMinutes = getItemsMinutes()
+    const [hour, setHour] = useState<string>(12+'')
+    const [minutes, setMinutes] = useState<string>(30+'')
+
+    const changeHour = (value: string) => setHour(value)
+    const changeMinutes= (value: string) => setMinutes(value)
 
     return (
         <div className={'tracker'}>
@@ -59,15 +63,17 @@ export const TrackerPage = () => {
                         </div>
                         <div className="tracker__sub-text-icon small-text">Здоровый сон</div>
                         <div className="tracker__title title-35">Во сколько вы просыпаетесь?</div>
-                        <div className="tracker__clocks digits">
-                            <div className="digits__square">
-                                06
+
+                        <div className="tracker__clocks">
+                            <div className="tracker__clocks-item">
+                                <ScrollPicker onChange={changeHour} items={itemsHour} value={hour} totalHeight={77} size={1} customClassname={'clock'} fontSize={44}/>
                             </div>
-                            <div>:</div>
-                            <div className="digits__square">
-                                30
+                            <div className={''}>:</div>
+                            <div className="tracker__clocks-item">
+                                <ScrollPicker onChange={changeMinutes} items={itemsMinutes} value={minutes} size={1} totalHeight={77} fontSize={44} customClassname={'clock'}/>
                             </div>
                         </div>
+
                         <div className="tracker__recommendation small-text">Оптимальное время засыпания: <span className='text-blue'>22:30</span></div>
                     </div>
                     <SlideNextButton title={'Дальше!'} customClass={'tracker__button _button-dark'}/>
