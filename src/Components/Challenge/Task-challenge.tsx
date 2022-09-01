@@ -3,7 +3,8 @@ import {definitionColor} from "../../utils/common-functions";
 
 interface ITaskValue {
     title: string,
-    value: string
+    value: string,
+    id: number
 }
 
 interface ITask {
@@ -16,7 +17,7 @@ export const TaskChallenge:FC<ITask> = ({type, tasks}) => {
         <div className={'task-challenge'}>
             <div className="task-challenge__body">
                 {tasks.map(item=> (
-                    <article className="task-challenge__card-task card-task">
+                    <article className="task-challenge__card-task card-task" key={item.id}>
                         <div className="card-task__container">
                             <div className="card-task__title">
                                 {item.title}

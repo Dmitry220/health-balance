@@ -3,18 +3,21 @@ import './challenge.scss'
 import {definitionColor} from "../../utils/common-functions";
 import {ProgressBar} from "../Progress-bar/Progress-bar";
 import {typesChallenge} from "../../types/enums";
+import {Link} from "react-router-dom";
+import {ACTIVE_CHALLENGE_ROUTE} from "../../provider/constants-route";
 
 interface ICardChallenge {
     type: string,
-    percent: number
+    percent: number,
+    id: number
 }
 
-export const CardChallenge: FC<ICardChallenge> = ({percent,type}) => {
+export const CardChallenge: FC<ICardChallenge> = ({percent,type, id}) => {
 
 
 
     return (
-        <div className={'card-challenge'}>
+        <Link to={ACTIVE_CHALLENGE_ROUTE+'/'+id} className={'card-challenge'}>
             <div className="card-challenge__container">
                 <div className="card-challenge__dots">
                     <div className="card-challenge__dot" />
@@ -47,7 +50,7 @@ export const CardChallenge: FC<ICardChallenge> = ({percent,type}) => {
                     <div className="card-challenge__days">1/2 <span>Заданий</span></div>
                 </div>
             </div>
-        </div>
+        </Link>
     );
 };
 

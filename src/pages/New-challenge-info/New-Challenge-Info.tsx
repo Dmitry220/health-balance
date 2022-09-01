@@ -17,19 +17,23 @@ export const NewChallengeInfo = () => {
     const itemsTask = [
         {
             title: 'Обучающий материал',
-            value: '50'
+            value: '50',
+            id: 45633
         },
         {
             title: 'Обучающий материал',
-            value: '4100'
+            value: '4100',
+            id: 23
         },
         {
             title: 'Обучающий материал',
-            value: 'va10lue'
+            value: 'va10lue',
+            id: 4562333
         },
         {
             title: 'Обучающий материал',
-            value: 'va10lue'
+            value: 'va10lue',
+            id: 235
         }
     ]
 

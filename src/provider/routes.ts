@@ -149,7 +149,7 @@ export const privateRoutes = [
         Component: MakingOrder
     },
     {
-        path: ACTIVE_CHALLENGE_ROUTE,
+        path: ACTIVE_CHALLENGE_ROUTE+'/:id',
         Component: ActiveChallengePage
     },
     {
@@ -217,7 +217,7 @@ export const privateRoutes = [
         Component: ChatPage
     },
     {
-        path: NEW_CHALLENGE_INFO_ROUTE,
+        path: NEW_CHALLENGE_INFO_ROUTE+'/:id',
         Component: NewChallengeInfo
     },
     {

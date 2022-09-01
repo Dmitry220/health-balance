@@ -1,14 +1,17 @@
 import React, {FC} from 'react';
 import logo from '../../assets/image/Logo-dark.svg'
 import {definitionColor} from "../../utils/common-functions";
+import {Link} from "react-router-dom";
+import {NEW_CHALLENGE_INFO_ROUTE} from "../../provider/constants-route";
 
 interface INewChallengeCard {
-    type: string
+    type: string,
+    id: number
 }
 
-export const NewChallengeCard:FC<INewChallengeCard> = ({type}) => {
+export const NewChallengeCard:FC<INewChallengeCard> = ({type, id}) => {
     return (
-        <div className={'new-board'}>
+        <Link to={NEW_CHALLENGE_INFO_ROUTE+'/'+id} className={'new-board'}>
             <div className="new-board__image">
                 <div className={definitionColor(type, '_hint')}>{type}</div>
                 <img src="https://a.d-cd.net/55199ads-1920.jpg" alt="image-new-board"/>
@@ -26,7 +29,7 @@ export const NewChallengeCard:FC<INewChallengeCard> = ({type}) => {
                     </div>
                 </div>
             </div>
-        </div>
+        </Link>
     );
 };
 

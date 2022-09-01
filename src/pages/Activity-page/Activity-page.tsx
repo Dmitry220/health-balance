@@ -161,31 +161,20 @@ export const ActivityPage: FC = () => {
     useEffect(() => {
         window.addEventListener("scroll", function () {
             let scroll = window.pageYOffset;
-            let fdgaa: any = document.querySelector(".fdgaa");
-            let banner: any = document.querySelector(".addd");
-            // let fdg:any = document.querySelector(".fdg");
-            let fdgdsfaa: any = fdgaa.getBoundingClientRect();
-            banner.style.transform =
+            let step: any = document.querySelector("#step");
+            step.style.transform =
                 "translate3d(0," +
                 scroll / 5 +
                 "%,0) scale(" +
                 (1 - scroll / 250) + ")";
             if (scroll >= 200) {
-                banner.style.transform =
+                step.style.transform =
                     "translate3d(0, 42.2222%,0) scale(0.24)";
                 setTransparentHeader(false)
-                // window.scrollBy(0, fdgdsfaa);
-                // window.scroll({
-                //     top: 383,
-                //     //left: 20,
-                // });
-
-
             }
                 else{
                 setTransparentHeader(true)
             }
-            //console.log(scroll, fdgdsfaa.top)
         });
 
     }, [])
@@ -195,10 +184,10 @@ export const ActivityPage: FC = () => {
 
             <HeaderActive transparent={transparentHeader}/>
             <Navigation/>
-            <div className="activity-page__steps addd" style={{backgroundAttachment: 'fixed'}}>
+            <div className="activity-page__steps" id={'step'} style={{backgroundAttachment: 'fixed'}}>
                 <Steps maxStepsCount={1000} userStepsCount={500}/>
             </div>
-            <div className="activity-page__steps-data fdgaa">
+            <div className="activity-page__steps-data">
                 <StepsData/>
             </div>
             <div className="activity-page__card-actual">
@@ -247,7 +236,7 @@ export const ActivityPage: FC = () => {
                 </TabContent>
             </div>
             <div className="activity-page__important">
-                {/*<ImportantBlock/>*/}
+                <ImportantBlock/>
                 <Banner title={'Стартовый опрос'} text={'Ответьте на 4 вопроса'}/>
             </div>
 

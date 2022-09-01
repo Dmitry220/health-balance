@@ -29,36 +29,36 @@ export const ChallengePage = () => {
             <TabContent index={0} value={valueTab}>
                 <div className="challenge-page__title-block block-title">Активные</div>
                 <div className="challenge-page__active">
-                    <CardChallenge type={typesChallenge.personal} percent={45}/>
-                    <CardChallenge type={typesChallenge.personal} percent={64}/>
+                    <CardChallenge type={typesChallenge.personal} percent={45} id={0}/>
+                    <CardChallenge type={typesChallenge.personal} percent={64} id={1}/>
                 </div>
             </TabContent>
             <TabContent index={1} value={valueTab}>
                 <div className="challenge-page__title-block block-title">Командные</div>
                 <div className="challenge-page__active">
-                    <CardChallenge type={typesChallenge.command} percent={12}/>
-                    <CardChallenge type={typesChallenge.command} percent={84}/>
+                    <CardChallenge type={typesChallenge.command} percent={12}id={3}/>
+                    <CardChallenge type={typesChallenge.command} percent={84}id={8}/>
                 </div>
             </TabContent>
             <TabContent index={2} value={valueTab}>
                 <div className="challenge-page__title-block block-title">Общие</div>
                 <div className="challenge-page__active">
-                    <CardChallenge type={typesChallenge.common} percent={55}/>
-                    <CardChallenge type={typesChallenge.common} percent={70}/>
+                    <CardChallenge type={typesChallenge.common} percent={55}id={9}/>
+                    <CardChallenge type={typesChallenge.common} percent={70}id={2}/>
                 </div>
             </TabContent>
             <TabContent index={3} value={valueTab}>
                 <div className="challenge-page__title-block block-title">Архив</div>
                 <div className="challenge-page__active">
-                    <CardChallenge type={typesChallenge.personal} percent={74}/>
-                    <CardChallenge type={typesChallenge.command} percent={96}/>
+                    <CardChallenge type={typesChallenge.personal} percent={74}id={4}/>
+                    <CardChallenge type={typesChallenge.command} percent={96}id={5}/>
                 </div>
             </TabContent>
 
 
             <div className="challenge-page__title-block block-title">Новые челленджи</div>
-            <NewChallengeCard type={typesChallenge.personal}/>
-            <NewChallengeCard type={typesChallenge.command}/>
+            <NewChallengeCard type={typesChallenge.personal} id={456}/>
+            <NewChallengeCard type={typesChallenge.command} id={789 }/>
         </div>
     );
 };
