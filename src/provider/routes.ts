@@ -38,7 +38,7 @@ import {
     SYNCING_ROUTE,
     PRODUCT_SCREEN_ROUTE,
     SURVEY_ACTUAL_ROUTE,
-    TEAM_MEMBER_ROUTE
+    TEAM_MEMBER_ROUTE, PROFILE_MEMBER_ROUTE
 } from "./constants-route";
 import {AuthPage} from "../pages/Authorization/Auth-page";
 import {StartPage} from "../pages/Start-pages/StartPage";
@@ -80,6 +80,7 @@ import {SyncingPage} from "../pages/Syncing-page/Syncing-page";
 import {ProductScreen} from "../pages/Product-screen/Product-screen";
 import {SurveyActualPage} from "../pages/Survey-actual-page/Survey-actual-page";
 import {TeamMembersPage} from "../pages/Team-members-page/Team-members-page";
+import {ProfileMemberPage} from "../pages/Profile-member-page/Profile-member-page";
 
 
 export const publicRoutes = [
@@ -246,5 +247,9 @@ export const privateRoutes = [
     {
         path: TEAM_MEMBER_ROUTE,
         Component: TeamMembersPage
+    },
+    {
+        path: PROFILE_MEMBER_ROUTE,
+        Component: ProfileMemberPage
     },
 ]

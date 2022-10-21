@@ -4,6 +4,8 @@ import Header from "../../Components/Header/Header";
 import icon_reward from '../../assets/image/icon_reward.svg'
 import {Link} from "react-router-dom";
 import {EDITING_ROUTE} from "../../provider/constants-route";
+import {ProfileSteps} from "../../Components/Profile/Profile-steps";
+import {ProfileChallenge} from "../../Components/Profile/Profile-challenge";
 
 export const Profile = () => {
 
@@ -22,7 +24,7 @@ export const Profile = () => {
                         <div className="profile__user-name">
                             Усейн Болт
                         </div>
-                        <Link to={EDITING_ROUTE} className="profile__link">Редактировать</Link>
+                        <Link to={EDITING_ROUTE} className="profile__link text-blue">Редактировать</Link>
                     </div>
                 </div>
                 <div className="profile__buttons">
@@ -33,30 +35,10 @@ export const Profile = () => {
                 </div>
             </div>
             <div className="profile__block">
-                <div className="profile__title">Шаги</div>
-                <div className="profile__items-steps">
-                    <div className="profile__row">
-                        <div className="profile__item-text">За все время</div>
-                        <div className="profile__item-text profile__item-text_yellow">2 456 254</div>
-                    </div>
-                    <div className="profile__row">
-                        <div className="profile__item-text">Километров пройденно</div>
-                        <div className="profile__item-text profile__item-text_yellow">1965</div>
-                    </div>
-                </div>
+                <ProfileSteps steps={237456} kilometer={456}/>
             </div>
             <div className="profile__block">
-                <div className="profile__title">Челленджи</div>
-                <div className="profile__statistics-challenges">
-                    <div className="profile__card-statistics">
-                        <div className="profile__value">3</div>
-                        <div className="profile__items-text">Активные</div>
-                    </div>
-                    <div className="profile__card-statistics">
-                        <div className="profile__value">16</div>
-                        <div className="profile__items-text">Пройдено</div>
-                    </div>
-                </div>
+                <ProfileChallenge />
             </div>
             <div className="profile__block">
                 <div className="profile__out">Выйти из аккаунта</div>
