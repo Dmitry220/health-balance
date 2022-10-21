@@ -2141,6 +2141,13 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-input-mask@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@types/react-input-mask/-/react-input-mask-3.0.1.tgz#9cba08b3084fe1f9426274dff086e12b4696a3aa"
+  integrity sha512-rGOW8t2Ac558TAAnaq5ZZDGHu1siTblBeY30ggAQ9sX89y2MX0/FFVDLd2DT85QRpYIQOrb7QzkF9RCoV2+nZg==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-redux@^7.1.24":
   version "7.1.24"
   resolved "https://registry.npmjs.org/@types/react-redux/-/react-redux-7.1.24.tgz"
@@ -5272,6 +5279,13 @@ interpret@^2.2.0:
   resolved "https://registry.yarnpkg.com/interpret/-/interpret-2.2.0.tgz#1a78a0b5965c40a5416d007ad6f50ad27c417df9"
   integrity sha512-Ju0Bz/cEia55xDwUWEa8+olFpCiQoypjnQySseKtmjNrnps3P+xfpUmGr90T7yjlVJmOtybRvPXhKMbHr+fWnw==
 
+invariant@^2.2.4:
+  version "2.2.4"
+  resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.4.tgz#610f3c92c9359ce1db616e538008d23ff35158e6"
+  integrity sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==
+  dependencies:
+    loose-envify "^1.0.0"
+
 ipaddr.js@1.9.1:
   version "1.9.1"
   resolved "https://registry.npmjs.org/ipaddr.js/-/ipaddr.js-1.9.1.tgz"
@@ -7730,6 +7744,14 @@ react-hook-form@^7.34.2:
   version "7.34.2"
   resolved "https://registry.npmjs.org/react-hook-form/-/react-hook-form-7.34.2.tgz"
   integrity sha512-1lYWbEqr0GW7HHUjMScXMidGvV0BE2RJV3ap2BL7G0EJirkqpccTaawbsvBO8GZaB3JjCeFBEbnEWI1P8ZoLRQ==
+
+react-input-mask@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/react-input-mask/-/react-input-mask-2.0.4.tgz#9ade5cf8196f4a856dbf010820fe75a795f3eb14"
+  integrity sha512-1hwzMr/aO9tXfiroiVCx5EtKohKwLk/NT8QlJXHQ4N+yJJFyUuMT+zfTpLBwX/lK3PkuMlievIffncpMZ3HGRQ==
+  dependencies:
+    invariant "^2.2.4"
+    warning "^4.0.2"
 
 react-is@^16.12.0, react-is@^16.13.1, react-is@^16.7.0:
   version "16.13.1"

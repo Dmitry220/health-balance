@@ -18,7 +18,8 @@ export enum stageRegistration {
     userName = 'userName',
     surname = 'surname',
     platform = 'platform',
-    photo = 'photo'
+    photo = 'photo',
+    tracker = 'tracker'
 }
 export enum stageCreatingChallenge {
     platform= 'platform',

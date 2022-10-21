@@ -47,12 +47,16 @@ export const RegistrationPage = () => {
                 return <RegistrationItem stage={stageRegistration.photo}
                                          order={order} setOrder={setOrder}
                                          title={'Установите фото профиля'}/>
+            case 9:
+                return <RegistrationItem stage={stageRegistration.tracker}
+                                         order={order} setOrder={setOrder}
+                                         title={'Подключите трекер'}/>
         }
     }
 
     return (
         <div className={'registration=page'}>
-            <Header title={'Регистрация'} />
+            <Header title={'Регистрация'}/>
             {renderRegistrationItems()}
         </div>
     );

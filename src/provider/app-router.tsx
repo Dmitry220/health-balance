@@ -5,6 +5,7 @@ import {AuthPage} from "../pages/Authorization/Auth-page";
 import {ActivityPage} from "../pages/Activity-page/Activity-page";
 
 
+
 const AppRouter = () => {
 
     const user = true

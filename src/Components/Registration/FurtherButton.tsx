@@ -15,15 +15,17 @@ export const FurtherButton: FC<IFurtherButton> = ({order, setOrder}) => {
     const disabledButton = useAppSelector(disableButtonSelector)
     const dispatch = useAppDispatch()
 
+    const indexIdenticalButtons = [0, 1,2,3,4,5,6]
+
     const submitRegistration = () => {
         //dispatch(requestRegistration())
-        setOrder((prev) => prev + 1)
-        console.log("465")
+        setOrder((prev) => prev + 1) 
+        dispatch(setDisabledButton(true))   
     }
 
     return (
         <>
-            {order !== 7 && order !== 8 &&
+            {indexIdenticalButtons.includes(order) &&
                 <button className={'registration__button _button-white' + (disabledButton ? ' disabled' : '')}
                         disabled={disabledButton}
                         onClick={() => {
@@ -47,13 +49,12 @@ export const FurtherButton: FC<IFurtherButton> = ({order, setOrder}) => {
             <>
                 <button className={'registration__button _button-white' + (disabledButton ? ' disabled' : '')}
                         disabled={disabledButton}
-                        onClick={submitRegistration}
+                        onClick={()=>setOrder((prev) => prev + 1)}
                 >Сохранить
                 </button>
-                <Link to={START_ROUTE} className="registration__link text-yellow">Пропустить</Link>
+                <span className="registration__link text-yellow" onClick={()=>setOrder((prev) => prev + 1)}>Пропустить</span>
                 </>
-            }                   
-            
+            }
         </>
     )
 }

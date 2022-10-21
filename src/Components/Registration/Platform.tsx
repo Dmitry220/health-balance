@@ -1,13 +1,17 @@
 import {useAppDispatch} from "../../utils/hooks/redux-hooks";
-import React from "react";
+import React, {useState} from "react";
 import {setDisabledButton} from "../../Redux/slice/registrationSlice";
 import {Link} from "react-router-dom";
 
 export const Platform = () => {
 
     const dispatch = useAppDispatch()
+    const [agree, setAgree] = useState(false)
 
-    const handlerAgree = (e: React.ChangeEvent<HTMLInputElement>) => dispatch(setDisabledButton(false))
+    const handlerAgree = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setAgree(prev=>!prev)
+        dispatch(setDisabledButton(agree))
+    }
 
     return (
         <div className={'registration__platform'}>

@@ -11,6 +11,7 @@ import {Telephone} from "./Telephone";
 import {Password} from "./Password";
 import {Email} from "./Email";
 import {SetPhoto} from "./Set-photo";
+import {TrackerConnection} from "./Tracker-connection";
 
 interface IRegistrationItem {
     title: string,
@@ -41,6 +42,8 @@ export const RegistrationItem: FC<IRegistrationItem> = ({title, stage, order, se
                 return <Platform/>
             case stageRegistration.photo:
                 return <SetPhoto />
+            case stageRegistration.tracker:
+                return <TrackerConnection />
             default:
                 return null
         }
