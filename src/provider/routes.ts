@@ -33,7 +33,12 @@ import {
     GOAL_WATER__ROUTE,
     STATISTICS_TRACKER__ROUTE,
     CHAT__ROUTE,
-    NEW_CHALLENGE_INFO_ROUTE, ADD_INTERESTING_ROUTE, SYNCING_ROUTE, PRODUCT_SCREEN_ROUTE
+    NEW_CHALLENGE_INFO_ROUTE,
+    ADD_INTERESTING_ROUTE,
+    SYNCING_ROUTE,
+    PRODUCT_SCREEN_ROUTE,
+    SURVEY_ACTUAL_ROUTE,
+    TEAM_MEMBER_ROUTE
 } from "./constants-route";
 import {AuthPage} from "../pages/Authorization/Auth-page";
 import {StartPage} from "../pages/Start-pages/StartPage";
@@ -73,6 +78,8 @@ import {NewChallengeInfo} from "../pages/New-challenge-info/New-Challenge-Info";
 import {AddInteresting} from "../pages/Add-interesting/Add-interesting";
 import {SyncingPage} from "../pages/Syncing-page/Syncing-page";
 import {ProductScreen} from "../pages/Product-screen/Product-screen";
+import {SurveyActualPage} from "../pages/Survey-actual-page/Survey-actual-page";
+import {TeamMembersPage} from "../pages/Team-members-page/Team-members-page";
 
 
 export const publicRoutes = [
@@ -231,5 +238,13 @@ export const privateRoutes = [
     {
         path: PRODUCT_SCREEN_ROUTE+'/:id',
         Component: ProductScreen
+    },
+    {
+        path: SURVEY_ACTUAL_ROUTE,
+        Component: SurveyActualPage
+    },
+    {
+        path: TEAM_MEMBER_ROUTE,
+        Component: TeamMembersPage
     },
 ]
