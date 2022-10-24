@@ -3,6 +3,7 @@ import './curator-interesting.scss'
 import {CardActual} from "../../Components/Card-actual/Card-actual";
 import {TabContent, Tabs} from "../../Components/Tabs/Tabs";
 import {CardInteresting} from "../../Components/Interesting/Card-interesting";
+import {NavigationCurator} from "../../Components/Navigation/Navigation-curator";
 
 
 export const CuratorInteresting = () => {
@@ -48,6 +49,7 @@ export const CuratorInteresting = () => {
                     <CardInteresting type={'Инструкция'} />
                 </TabContent>
             </div>
+            <NavigationCurator />
         </div>
     );
 };
