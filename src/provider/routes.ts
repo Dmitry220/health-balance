@@ -38,7 +38,7 @@ import {
     SYNCING_ROUTE,
     PRODUCT_SCREEN_ROUTE,
     SURVEY_ACTUAL_ROUTE,
-    TEAM_MEMBER_ROUTE, PROFILE_MEMBER_ROUTE, RUBRIC_ROUTE
+    TEAM_MEMBER_ROUTE, PROFILE_MEMBER_ROUTE, RUBRIC_ROUTE, CURATOR_INTERESTING
 } from "./constants-route";
 import {AuthPage} from "../pages/Authorization/Auth-page";
 import {StartPage} from "../pages/Start-pages/StartPage";
@@ -82,6 +82,7 @@ import {SurveyActualPage} from "../pages/Survey-actual-page/Survey-actual-page";
 import {TeamMembersPage} from "../pages/Team-members-page/Team-members-page";
 import {ProfileMemberPage} from "../pages/Profile-member-page/Profile-member-page";
 import {RubricPage} from "../pages/Rubric-page/Rubric-page";
+import {CuratorInteresting} from "../pages/Curator-interesting/Curator-interesting";
 
 
 export const publicRoutes = [
@@ -256,5 +257,9 @@ export const privateRoutes = [
     {
         path: RUBRIC_ROUTE,
         Component: RubricPage
+    },
+    {
+        path: CURATOR_INTERESTING,
+        Component: CuratorInteresting
     },
 ]
