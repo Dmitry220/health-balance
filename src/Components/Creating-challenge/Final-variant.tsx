@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Dispatch, FC, SetStateAction} from 'react';
 import HeaderActive from "../Header-active/Header-active";
 import {HeaderChallenge} from "../Active-challenge/Header-challenge";
 import {TaskChallenge} from "../Challenge/Task-challenge";
@@ -15,7 +15,11 @@ import icon_clock from '../../assets/image/Interesting/clock.svg'
 import { definitionColor } from '../../utils/common-functions';
 import {RewardCount} from "../Reward/Reward-count";
 
-export const FinalVariant = () => {
+interface IFinalVariant {
+    setOrder: Dispatch<SetStateAction<number>>,
+}
+
+export const FinalVariant:FC<IFinalVariant> = ({setOrder}) => {
 
     const typeChallenge = useAppSelector(typeChallengeSelector)
     const titleChallenge = useAppSelector(titleChallengeSelector)
@@ -94,7 +98,7 @@ export const FinalVariant = () => {
                 </article>
             </div>
           
-            <button className='final-variant__button _button-yellow'>Добавить лекции и ДЗ</button>
+            <button className='final-variant__button _button-yellow' onClick={()=>setOrder(prev=>prev+1)}>Добавить лекции и ДЗ</button>
 
         </div>
     );

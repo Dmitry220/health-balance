@@ -10,6 +10,7 @@ import {CreatingCommandsChallenge} from "./Creating-commands-challenge";
 import './creating-challenge.scss'
 import {TaskChallenge} from "../Challenge/Task-challenge";
 import {FinalVariant} from "./Final-variant";
+import {CreatingLecture} from "./Creating-lecture";
 
 interface ICreatingChallengeItem {
     stage: stageCreatingChallenge,
@@ -35,7 +36,9 @@ export const CreatingChallengeItem:FC<ICreatingChallengeItem> = ({order,setOrder
             case stageCreatingChallenge.teams:
                 return <CreatingCommandsChallenge/>
             case stageCreatingChallenge.finally:
-                return <FinalVariant/>
+                return <FinalVariant setOrder={setOrder}/>
+            case stageCreatingChallenge.lecture:
+                return <CreatingLecture />
             default:
                 return null
         }

@@ -11,6 +11,10 @@ export const CreatingChallengePage = () => {
 
     console.log("creating challenge page render")
 
+    const saveChallenge = () => {
+        console.log('Save challenge')
+    }
+
     const renderCreatingChallengeItems = () => {
         switch (order) {
             case 0:
@@ -37,6 +41,9 @@ export const CreatingChallengePage = () => {
             case 7:
                 return <CreatingChallengeItem stage={stageCreatingChallenge.finally}
                                               order={order} setOrder={setOrder}/>
+            case 8:
+                return <CreatingChallengeItem stage={stageCreatingChallenge.lecture}
+                                              order={order} setOrder={setOrder}/>
 
         }
     }
@@ -45,7 +52,8 @@ export const CreatingChallengePage = () => {
         <div className={'creating-challenge-page'}>
             <Header title={'Создание челленджа'} />
             {renderCreatingChallengeItems()}
-            <button className='creating-challenge-page__button _button-white' onClick={()=>setOrder(prev=>prev+1)}>Далее</button>
+            {order === 7 && <button className='creating-challenge-page__button _button-white' onClick={saveChallenge}>Сохранить</button>}
+            {order < 7 && <button className='creating-challenge-page__button _button-white' onClick={()=>setOrder(prev=>prev+1)}>Далее</button>}
         </div>
     );
 };

@@ -219,6 +219,9 @@
   background: $backgroundBlock;
   flex: 0 0 138px;
   border-radius: 10px;
+  &:not(:last-child){
+    margin: 0 10px 0 0;
+  }
 
   &__container {
     display: flex;

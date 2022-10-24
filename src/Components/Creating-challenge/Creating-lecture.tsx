@@ -2,6 +2,15 @@ import React from 'react';
 import './creating-challenge.scss'
 
 export const CreatingLecture = () => {
+
+    const save = () => {
+
+    }
+
+    const addLecture = () => {
+
+    }
+
     return (
         <div className={'creating-lecture'}>
             <div className="creating-lecture__title creating-title">Лекции и ДЗ</div>
@@ -17,8 +26,8 @@ export const CreatingLecture = () => {
                 </select>
             </div>
             <div className="creating-lecture__buttons">
-                <button className="creating-lecture__button button-end">Завершить</button>
-                <button className="creating-lecture__button _button-white">Добавить лекцию</button>
+                <button className="creating-lecture__button button-end" onClick={save}>Завершить</button>
+                <button className="creating-lecture__button _button-white" onClick={addLecture}>Добавить лекцию</button>
             </div>
         </div>
     );

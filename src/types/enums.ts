@@ -29,7 +29,8 @@ export enum stageCreatingChallenge {
     title= 'titleChallenge',
     description= 'descriptionChallenge',
     teams= 'teams',
-    finally = "finally"
+    finally = "finally",
+    lecture = "lecture"
 }
 export enum stageAccessRecovery {
     email = 'email',
