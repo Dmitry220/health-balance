@@ -17,7 +17,7 @@ export const CreatingChallengePage = () => {
 
     const renderCreatingChallengeItems = () => {
         switch (order) {
-            case 0:
+            case 3:
                 return <CreatingChallengeItem stage={stageCreatingChallenge.platform}
                                          order={order} setOrder={setOrder}/>
             case 1:
@@ -26,7 +26,7 @@ export const CreatingChallengePage = () => {
             case 2:
                 return <CreatingChallengeItem stage={stageCreatingChallenge.target}
                                          order={order} setOrder={setOrder}/>
-            case 3:
+            case 0:
                 return <CreatingChallengeItem stage={stageCreatingChallenge.data}
                                          order={order} setOrder={setOrder}/>
             case 4:

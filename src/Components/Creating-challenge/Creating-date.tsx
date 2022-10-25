@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './creating-challenge.scss'
 import {ScrollPicker} from "../Scroll-picker/Scroll-picker";
 import {getItemsDays, getItemsMonth, getItemsYear} from "../../utils/common-functions";
@@ -6,6 +6,8 @@ import DatePicker from 'react-datepicker'
 // import 'react-datepicker/dist/react-datepicker.css'
 import {registerLocale} from "react-datepicker";
 import ru from 'date-fns/locale/ru';
+import arrowRight from '../../assets/image/Calendar/arrow-right.svg'
+import arrowLeft from '../../assets/image/Calendar/arrow-left.svg'
 
 registerLocale('ru', ru)
 
@@ -29,6 +31,25 @@ export const CreatingDate = () => {
     const [month, setMonth] = useState<string>('6')
     const [year, setYear] = useState<string>('1998')
 
+    useEffect(()=>{
+        let ad = document.querySelectorAll('.react-datepicker__day')
+        let f = false
+        let res:any
+        ad.forEach(item=>{
+            f = item?.classList.contains('react-datepicker__day--keyboard-selected')
+            if(f){
+                res = item
+            }
+           //
+        })
+if(res){
+        let div = document.createElement(`div`)
+    div.classList.add('plank')
+     res?.append(div)
+}
+        console.log(res)
+    }, [endDate])
+
 
     const onChangeDay = (value: string) => setDay(value)
 
@@ -40,7 +61,7 @@ export const CreatingDate = () => {
         <div className={'creating-date'}>
             <div className="creating-date__title creating-title">Даты</div>
             <div className="creating-date__sub-title creating-sub-title">Начало регистрации
-                <span>{day + '.' + month + '.' + year}</span>
+                <span>{day + '.' + (month.length === 1 ? '0' + month : month )+ '.' + year}</span>
             </div>
             <div className={'creating-date__picker'}>
                 <div className="creating-date__picker-item">
@@ -70,13 +91,13 @@ export const CreatingDate = () => {
                                          }) => (
                         <div
                             style={{
-                                marginBottom: 20,
                                 display: "flex",
                                 justifyContent: "center",
+                                alignItems: "center"
                             }}
                         >
-                            <button onClick={decreaseMonth} disabled={prevMonthButtonDisabled}>
-                                {"<"}
+                            <button onClick={decreaseMonth} disabled={prevMonthButtonDisabled} className={'calendar-arrow-button'}>
+                                <img src={arrowLeft} alt="arrowLeft"/>
                             </button>
                             <span className="react-datepicker__current-month">
                                 {monthDate.toLocaleString("ru", {
@@ -85,8 +106,8 @@ export const CreatingDate = () => {
                                 })}
                             </span>
 
-                            <button onClick={increaseMonth} disabled={nextMonthButtonDisabled}>
-                                {">"}
+                            <button onClick={increaseMonth} disabled={nextMonthButtonDisabled}  className={'calendar-arrow-button'}>
+                                <img src={arrowRight} alt="arrowRight"/>
                             </button>
                         </div>
                     )}
