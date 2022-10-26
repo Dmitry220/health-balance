@@ -8,6 +8,7 @@ import './challenge-page.scss'
 import {HeaderTwo} from "../../Components/Header-two/Header-two";
 import {TabContent, Tabs} from "../../Components/Tabs/Tabs";
 import {ModalInstructions} from "../../Components/Modal-instructions/Modal-instructions";
+import {routesNavigation} from "../../utils/globalConstants";
 
 
 export const ChallengePage = () => {
@@ -34,7 +35,7 @@ export const ChallengePage = () => {
     return (
         <div className={'challenge-page'} style={{pointerEvents: activeInstructions ? 'none' : 'all'}}>
         <div className={'challenge-page__after'} style={{background: activeInstructions ? 'rgba(0, 0, 0, 0.8)' : 'rgba(0, 0, 0, 0)'}} />
-            <Navigation/>
+            <Navigation routes={routesNavigation}/>
             {activeInstructions &&   <ModalInstructions positionTop={45} text={'Примите участие в своём первом челлендже'} fontSize={35} fontWeight={700}/>}
             <HeaderTwo title={'Челленджи'} marginBottom={40}/>
 

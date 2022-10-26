@@ -4,11 +4,12 @@ import './health-index.scss'
 import {Link} from "react-router-dom";
 import {QUESTIONNAIRE_ROUTE} from "../../provider/constants-route";
 import chart from '../../assets/image/Static-chart.png'
+import {routesNavigation} from "../../utils/globalConstants";
 
 export const HealthIndexPage = () => {
     return (
         <div className={'health-index'}>
-            <Navigation />
+            <Navigation routes={routesNavigation}/>
             <div className="health-index__body">
                 <Link to={QUESTIONNAIRE_ROUTE} className="health-index__image">
                     <img src={chart} alt=""/>

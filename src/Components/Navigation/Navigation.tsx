@@ -5,13 +5,14 @@ import {Link, NavLink} from "react-router-dom";
 import {ACTIVITY_ROUTE, CHALLENGE_ROUTE, HEALTH_INDEX_ROUTE, INTERESTING_ROUTE, TRACKER_ROUTE} from "../../provider/constants-route";
 import icon from '../../assets/image/simple-line-icons_energy_active.svg'
 
-interface IRoutesNavigation {
+export interface IRoutesNavigation {
     path: string,
-    active: boolean,
-    title: string
+    title: string,
+    icon: string,
+    iconActive: string
 }
 
-interface INavigation {
+export interface INavigation {
     routes: IRoutesNavigation[]
 }
 
@@ -36,7 +37,13 @@ export const Navigation:FC<INavigation> = ({routes}) => {
                 {/*    isActive ? 'navigation__link active icon-icon_hb_news' : 'navigation__link icon-icon_hb_news'*/}
                 {/*}>Интересное</NavLink>*/}
                 {routes.map(nav=>(
-                    <Link to={nav.path} className={'navigation__link icon-icon_fire_active' + nav.active && ' active'}>{nav.title}</Link>
+                    <NavLink to={nav.path}
+                             className={({isActive}) =>
+                                 isActive ? 'navigation__link active ' + nav.iconActive
+                                     :
+                                     'navigation__link ' + nav.icon
+                             }
+                    >{nav.title}</NavLink>
                 ))}
             </div>
         </div>

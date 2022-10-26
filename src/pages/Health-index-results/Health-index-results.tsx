@@ -8,11 +8,12 @@ import {Navigation} from "../../Components/Navigation/Navigation";
 import {Retesting} from "../../Components/Health-index-result/Retesting";
 import {DYNAMICS_ROUTE, INDIVIDUAL_REPORT_ROUTE} from "../../provider/constants-route";
 import {HeaderTwo} from "../../Components/Header-two/Header-two";
+import {routesNavigation, routesNavigationIndexResult} from "../../utils/globalConstants";
 
 export const HealthIndexResults = () => {
     return (
         <div className={'health-index-results-page'}>
-            <Navigation />
+            <Navigation routes={routesNavigationIndexResult}/>
             <HeaderTwo title={'Индексы здоровья'} marginBottom={42} />
             <div className="health-index-results-page__retesting">
                 <Retesting />

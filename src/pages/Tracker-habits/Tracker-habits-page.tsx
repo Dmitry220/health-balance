@@ -1,19 +1,29 @@
 import React from 'react';
-import {Navigation} from "../../Components/Navigation/Navigation";
+import {IRoutesNavigation, Navigation} from "../../Components/Navigation/Navigation";
 import {WaterTarget} from "../../Components/Tracker/Water-target";
 import {FruitTarget} from "../../Components/Tracker/Fruit-target";
 import './tracker-habits_page.scss'
 import icon_fruit from '../../assets/image/tracker/icon-fruit.svg'
 import icon_water from '../../assets/image/tracker/icon-water.svg'
 import {Link} from "react-router-dom";
-import {GOAL_FRUITS__ROUTE, GOAL_WATER__ROUTE} from "../../provider/constants-route";
+import {
+    ACTIVITY_ROUTE, CHALLENGE_ROUTE,
+    GOAL_FRUITS__ROUTE,
+    GOAL_WATER__ROUTE,
+    HEALTH_INDEX_ROUTE, INTERESTING_ROUTE, TRACKER_HABITS_ROUTE,
+    TRACKER_ROUTE
+} from "../../provider/constants-route";
 import {HeaderTwo} from "../../Components/Header-two/Header-two";
 import {HealthySleep} from "../../Components/Tracker/Healthy-sleep";
+import {routesNavigationTracker} from "../../utils/globalConstants";
 
 export const TrackerHabitsPage = () => {
+
+
+
     return (
         <div className={'tracker-habits-page'}>
-            <Navigation/>
+            <Navigation routes={routesNavigationTracker}/>
             <HeaderTwo title={'Трекер привычек'} marginBottom={20}/>
             <div className="tracker-habits-page__target">
                 <HealthySleep />

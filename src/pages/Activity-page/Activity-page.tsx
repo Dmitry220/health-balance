@@ -4,7 +4,7 @@ import 'swiper/scss/navigation';
 import 'swiper/scss/pagination';
 import 'swiper/scss/scrollbar';
 import {Steps} from "../../Components/Steps/Steps";
-import {Navigation} from "../../Components/Navigation/Navigation";
+import {INavigation, IRoutesNavigation, Navigation} from "../../Components/Navigation/Navigation";
 import './activity-page.scss'
 import {StepsData} from "../../Components/Steps-data/Steps-data";
 import {CardActual} from "../../Components/Card-actual/Card-actual";
@@ -26,6 +26,14 @@ import {
     Legend,
 } from 'chart.js';
 import {Banner} from "../../Components/Banner/Banner";
+import {
+    ACTIVITY_ROUTE,
+    CHALLENGE_ROUTE,
+    HEALTH_INDEX_ROUTE,
+    INTERESTING_ROUTE,
+    TRACKER_ROUTE
+} from "../../provider/constants-route";
+import {routesNavigation} from "../../utils/globalConstants";
 
 
 ChartJS.register(
@@ -183,7 +191,7 @@ export const ActivityPage: FC = () => {
         <div className={'activity-page'}>
 
             <HeaderActive transparent={transparentHeader}/>
-            <Navigation/>
+            <Navigation routes={routesNavigation}/>
             <div className="activity-page__steps" id={'step'} style={{backgroundAttachment: 'fixed'}}>
                 <Steps maxStepsCount={1000} userStepsCount={500}/>
             </div>
