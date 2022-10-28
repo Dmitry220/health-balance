@@ -49,18 +49,6 @@ export const CreatingDate = () => {
 
     const onChangeYear = (value: string) => setYear(value)
 
-    useEffect(()=>{
-        (async () => {
-            const res = await axios.get('http://test.health-balance.ru/api/v2/platforms',{
-                headers: {
-                    "Content-Type": "aplication/json",
-                    //"X-API-KEY": API_KEY,
-                },
-            })
-            console.log(res.data.data)
-        })();
-    }, [])
-
     return (
         <div className={'creating-date'}>
             <div className="creating-date__title creating-title">Даты</div>
