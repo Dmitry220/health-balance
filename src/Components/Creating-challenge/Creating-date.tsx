@@ -8,7 +8,9 @@ import {registerLocale} from "react-datepicker";
 import ru from 'date-fns/locale/ru';
 import arrowRight from '../../assets/image/Calendar/arrow-right.svg'
 import arrowLeft from '../../assets/image/Calendar/arrow-left.svg'
-
+import axios from "axios";
+import "react-modern-calendar-datepicker/lib/DatePicker.css";
+import { Calendar } from "react-modern-calendar-datepicker";
 registerLocale('ru', ru)
 
 export const CreatingDate = () => {
@@ -18,7 +20,7 @@ export const CreatingDate = () => {
     const itemYears = getItemsYear(1970, 2020)
 
     const [startDate, setStartDate] = useState<Date>(new Date());
-    const [endDate, setEndDate] = useState<any>(null);
+    const [endDate, setEndDate] = useState<any>(new Date().setDate(new Date().getDate() + 3));
     const onChange = (dates: any) => {
         const [start, end] = dates;
             setStartDate(start);
@@ -32,30 +34,32 @@ export const CreatingDate = () => {
     const [year, setYear] = useState<string>('1998')
 
     useEffect(()=>{
-        let ad = document.querySelectorAll('.react-datepicker__day')
-        let f = false
-        let res:any
-        ad.forEach(item=>{
-            f = item?.classList.contains('react-datepicker__day--keyboard-selected')
-            if(f){
-                res = item
-            }
-           //
-        })
-if(res){
-        let div = document.createElement(`div`)
-    div.classList.add('plank')
-     res?.append(div)
-}
-        console.log(res)
-    }, [endDate])
+        let day = document.querySelectorAll('.react-datepicker__day')
+        day.forEach(item=>{
+         //   if(item.classList.contains('-selectedStart')){
 
+                item.innerHTML = `<span class="plank">${item.textContent}</span>`
+           // }
+        })
+    }, [endDate])
 
     const onChangeDay = (value: string) => setDay(value)
 
     const onChangeMonth = (value: any) => setMonth(value)
 
     const onChangeYear = (value: string) => setYear(value)
+
+    useEffect(()=>{
+        (async () => {
+            const res = await axios.get('http://test.health-balance.ru/api/v2/platforms',{
+                headers: {
+                    "Content-Type": "aplication/json",
+                    //"X-API-KEY": API_KEY,
+                },
+            })
+            console.log(res.data.data)
+        })();
+    }, [])
 
     return (
         <div className={'creating-date'}>
@@ -80,10 +84,7 @@ if(res){
             <div className="creating-date__calendar">
                 <DatePicker
                     renderCustomHeader={({
-                                             date,
-                                             changeYear,
                                              monthDate,
-                                             changeMonth,
                                              decreaseMonth,
                                              increaseMonth,
                                              prevMonthButtonDisabled,
@@ -105,7 +106,6 @@ if(res){
                                     year: "numeric",
                                 })}
                             </span>
-
                             <button onClick={increaseMonth} disabled={nextMonthButtonDisabled}  className={'calendar-arrow-button'}>
                                 <img src={arrowRight} alt="arrowRight"/>
                             </button>
