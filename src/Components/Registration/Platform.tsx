@@ -1,11 +1,12 @@
-import {useAppDispatch} from "../../utils/hooks/redux-hooks";
-import React, {useState} from "react";
-import {setDisabledButton} from "../../Redux/slice/registrationSlice";
+import {useAppDispatch, useAppSelector} from "../../utils/hooks/redux-hooks";
+import React, {useEffect, useState} from "react";
+import {getPlatforms, listPlatformSelector, setDisabledButton, setPlatform} from "../../Redux/slice/registrationSlice";
 import {Link} from "react-router-dom";
 
 export const Platform = () => {
 
     const dispatch = useAppDispatch()
+    const listPLatforms = useAppSelector(listPlatformSelector)
     const [agree, setAgree] = useState(false)
 
     const handlerAgree = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -13,11 +14,25 @@ export const Platform = () => {
         dispatch(setDisabledButton(agree))
     }
 
+    const handlerPlatforms = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        dispatch(setPlatform(e.target.value))
+    }
+
+    useEffect(()=>{
+       dispatch(getPlatforms())   
+    }, [])
+    
+
     return (
         <div className={'registration__platform'}>
             <div className="registration__select _custom-select">
-                <select name="platform" id="platform">
-                    <option>Ваша платформа</option>
+                <select name="platform" id="platform" onChange={handlerPlatforms}>
+                    <option value="" selected disabled hidden>Ваша платформа</option>
+                    {
+                        listPLatforms && listPLatforms.map(p=>(
+                            <option value={p.id} key={p.id}>{p.title}</option>
+                        ))
+                    }
                 </select>
             </div>
             <hr className={'registration__line'}/>

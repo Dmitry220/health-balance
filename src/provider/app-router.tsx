@@ -8,7 +8,7 @@ import {ActivityPage} from "../pages/Activity-page/Activity-page";
 
 const AppRouter = () => {
 
-    const user = true
+    const user = false
 
     return user ?
         (

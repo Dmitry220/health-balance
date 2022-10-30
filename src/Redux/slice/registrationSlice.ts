@@ -2,7 +2,16 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
 import type {PayloadAction} from '@reduxjs/toolkit'
 import {RootState} from "../store";
 import {quizAPI} from "../../API/Api-quiz";
+import {registrationAPI} from "../../API/Registration-api";
 
+interface IListPlatform {
+    id: number,
+    image: string,
+    status: boolean,
+    title: string,
+    stratDate?: number,
+    endDate?: number
+}
 
 export interface IRegistration {
     email: string,
@@ -16,8 +25,10 @@ export interface IRegistration {
     gender: string,
     platform: string,
     avatar: string,
-    disabledButton?: boolean
+    disabledButton?: boolean,
+    listPlatforms?: IListPlatform[] | [],
 }
+
 
 
 const initialState: IRegistration = {
@@ -31,8 +42,9 @@ const initialState: IRegistration = {
     year: '2000',
     gender: 'Мужской',
     platform: '',
-    avatar:'',
-    disabledButton: true
+    avatar: '',
+    disabledButton: true,
+    listPlatforms: []
 }
 
 
@@ -44,58 +56,71 @@ export const requestRegistration = createAsyncThunk(
     }
 )
 
+export const getPlatforms = createAsyncThunk(
+    'platforms',
+    async () => {
+        const response = await registrationAPI.getPlatforms()
+        return await response.data.data
+    }
+)
+
 
 export const registrationSlice = createSlice({
     name: 'registration',
-    initialState,
+    initialState:initialState,
     reducers: {
-        setEmail: (state, action) => {            
+        setEmail: (state, action) => {
             state.email = action.payload
         },
-        setPassword: (state, action) => {            
+        setPassword: (state, action) => {
             state.password = action.payload
         },
-        setTelephone: (state, action) => {            
+        setTelephone: (state, action) => {
             state.telephone = action.payload
         },
-        setNameUser: (state, action) => {            
+        setNameUser: (state, action) => {
             state.nameUser = action.payload
         },
-        setSurname: (state, action) => {            
+        setSurname: (state, action) => {
             state.surName = action.payload
         },
-        setDay: (state, action) => {            
+        setDay: (state, action) => {
             state.day = action.payload
         },
-        setMonth: (state, action) => {            
+        setMonth: (state, action) => {
             state.month = action.payload
         },
-        setYear: (state, action) => {            
+        setYear: (state, action) => {
             state.year = action.payload
         },
-        setGender: (state, action) => {            
+        setGender: (state, action) => {
             state.gender = action.payload
         },
-        setPlatform: (state, action) => {            
+        setPlatform: (state, action) => {
             state.platform = action.payload
-        },    
-        setDisabledButton: (state, action) => {            
+        },
+        setDisabledButton: (state, action) => {
             state.disabledButton = action.payload
-        },  
-        setAvatarRegistartion: (state, action) => {            
+        },
+        setAvatarRegistartion: (state, action) => {
             state.avatar = action.payload
-        },     
+        },
+        setListPlatforms: (state, action) => {
+            state.avatar = action.payload
+        },
     },
-    // extraReducers: (builder) => {
-    //     builder.addCase(fetchGetQuestionnaire.fulfilled, (state, action:PayloadAction<QuizState>) => {
-    //         state.questions = action.payload.questions
-    //     })
-    // }
+    extraReducers: (builder) => {
+        builder.addCase(getPlatforms.fulfilled, (state, action: any) => {
+            state.listPlatforms = action.payload
+        })
+    }
 })
 
-export const {setEmail, setDisabledButton,setDay,setGender,
-    setMonth,setNameUser,setPassword,setPlatform,
-    setSurname,setTelephone,setYear, setAvatarRegistartion} = registrationSlice.actions
+export const {
+    setEmail, setDisabledButton, setDay, setGender,
+    setMonth, setNameUser, setPassword, setPlatform,
+    setSurname, setTelephone, setYear, setAvatarRegistartion
+} = registrationSlice.actions
 
 
 export const emailSelector = (state: RootState) => state.registration.email
@@ -109,6 +134,7 @@ export const monthSelector = (state: RootState) => state.registration.month
 export const yearSelector = (state: RootState) => state.registration.year
 export const genderSelector = (state: RootState) => state.registration.gender
 export const platformSelector = (state: RootState) => state.registration.platform
+export const listPlatformSelector = (state: RootState) => state.registration.listPlatforms
 
 
 export default registrationSlice.reducer
