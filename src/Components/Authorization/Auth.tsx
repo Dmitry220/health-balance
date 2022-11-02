@@ -4,17 +4,21 @@ import {Link} from "react-router-dom";
 import logo from '../../assets/image/Logo.svg'
 import appleIcon from '../../assets/image/auth/appleIcon.svg'
 import {ACCESS_RECOVERY__ROUTE, REGISTRATION_ROUTE} from "../../provider/constants-route";
+import { useAppDispatch } from '../../utils/hooks/redux-hooks';
+import { sendLogin } from '../../Redux/slice/registrationSlice';
 
 export const Auth = () => {
 
-    const [login, setLogin] = useState<string>('')
-    const [password, setPassword] = useState<string>('')
+    const [email, setEmail] = useState<string>('dk@gmail.com')
+    const [password, setPassword] = useState<string>('qwerrty123')
 
-    const handlerLogin = (e:ChangeEvent<HTMLInputElement>) => setLogin(e.target.value)
+    const dispatch = useAppDispatch()
+
+    const handlerLogin = (e:ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)
     const handlerPassword= (e:ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)
 
-    const submit = () => {
-        console.log(login, password)
+    const submit = () => {        
+        dispatch(sendLogin({email, password}))
     }
 
     return (
@@ -25,7 +29,7 @@ export const Auth = () => {
                 </div>
                 <div className="auth__form form-auth">
                     <div className="form-auth__fields">
-                        <input type="text" className="form-auth__field" placeholder={'Логин'} value={login} onChange={handlerLogin}/>
+                        <input type="text" className="form-auth__field" placeholder={'Email'} value={email} onChange={handlerLogin}/>
                         <input type="text" className="form-auth__field" placeholder={'Пароль'} value={password} onChange={handlerPassword}/>
                     </div>
                     <div className="form-auth__buttons">

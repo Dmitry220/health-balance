@@ -3,6 +3,9 @@ import type {PayloadAction} from '@reduxjs/toolkit'
 import {RootState} from "../store";
 import {quizAPI} from "../../API/Api-quiz";
 import {registrationAPI} from "../../API/Registration-api";
+import { $api } from '../../http';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query'
+import AuthService from '../../services/AuthService';
 
 interface IListPlatform {
     id: number,
@@ -22,8 +25,8 @@ export interface IRegistration {
     day: string,
     month: string,
     year: string,
-    gender: string,
-    platform: string,
+    gender: number,
+    platform: number | null,
     avatar: string,
     disabledButton?: boolean,
     listPlatforms?: IListPlatform[] | [],
@@ -40,26 +43,40 @@ const initialState: IRegistration = {
     day: '15',
     month: '6',
     year: '2000',
-    gender: 'Мужской',
-    platform: '',
+    gender: 1,
+    platform: null,
     avatar: '',
     disabledButton: true,
-    listPlatforms: []
+    listPlatforms: [],
 }
 
 
 export const requestRegistration = createAsyncThunk(
     'requestRegistration',
-    async () => {
-        // const response = await quizAPI.getQuestionnaire()
-        // return await response.data
+    async (data:any) => {       
+        const {name, surname,birhday,gender,avatar,phone,email,password,device_token,platform, formData} = data
+           const response = await AuthService.registration( 
+            name, surname,birhday,gender,avatar,phone,email,password,device_token,platform, formData
+            )            
+         console.log(response);
+    }
+)
+
+export const sendLogin = createAsyncThunk(
+    'login',
+    async (data:any) => {
+        console.log(data);        
+        const {email,password} = data
+        const response = await AuthService.login(email,password)            
+        console.log(response.data.data);
+        localStorage.setItem('token',response.data.data)
     }
 )
 
 export const getPlatforms = createAsyncThunk(
     'platforms',
     async () => {
-        const response = await registrationAPI.getPlatforms()
+        const response = await AuthService.getPlatfotms()
         return await response.data.data
     }
 )
@@ -87,7 +104,7 @@ export const registrationSlice = createSlice({
         setDay: (state, action) => {
             state.day = action.payload
         },
-        setMonth: (state, action) => {
+        setMonth: (state, action) => {            
             state.month = action.payload
         },
         setYear: (state, action) => {
@@ -135,6 +152,6 @@ export const yearSelector = (state: RootState) => state.registration.year
 export const genderSelector = (state: RootState) => state.registration.gender
 export const platformSelector = (state: RootState) => state.registration.platform
 export const listPlatformSelector = (state: RootState) => state.registration.listPlatforms
-
+export const avatarSelector = (state: RootState) => state.registration.avatar
 
 export default registrationSlice.reducer

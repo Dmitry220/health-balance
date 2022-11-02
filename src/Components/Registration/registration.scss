@@ -14,7 +14,6 @@
   }
 
   &__button {
-    margin: 0 auto;
     min-width: 112px;
   }
 
@@ -71,6 +70,12 @@
     text-align: center;
     display: block;
     margin: 20px 0 0 0;
+  }
+  &__nav{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
   }
 }
 

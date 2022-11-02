@@ -2,59 +2,111 @@ import React, {Dispatch, FC, SetStateAction} from "react";
 import { Link } from "react-router-dom";
 import { START_ROUTE } from "../../provider/constants-route";
 import {useAppDispatch, useAppSelector} from "../../utils/hooks/redux-hooks";
-import {disableButtonSelector, requestRegistration, setDisabledButton} from "../../Redux/slice/registrationSlice";
-
+import {avatarSelector, daySelector, disableButtonSelector, emailSelector, genderSelector, monthSelector, nameUserSelector, passwordSelector, platformSelector, requestRegistration, setDisabledButton, surNameSelector, telephoneSelector, yearSelector} from "../../Redux/slice/registrationSlice";
+import { Capacitor, Plugins } from "@capacitor/core";
+import { Device } from '@capacitor/device';
+import './registration.scss'
 
 export interface IFurtherButton {
     order: number,
     setOrder: Dispatch<SetStateAction<number>>,
 }
 
+
 export const FurtherButton: FC<IFurtherButton> = ({order, setOrder}) => {
 
     const disabledButton = useAppSelector(disableButtonSelector)
-    const dispatch = useAppDispatch()
+    const dispatch = useAppDispatch()   
 
     const indexIdenticalButtons = [0, 1,2,3,4,5,6]
 
-    const submitRegistration = () => {
-        //dispatch(requestRegistration())
-        setOrder((prev) => prev + 1) 
-        dispatch(setDisabledButton(true))   
-    }
-
     return (
-        <>
+        <div className="registration__nav">
+         
+            
+            {
+                order > 0 && order <= 7 &&          
+                <button className={'registration__button _button-white'}
+                        onClick={()=>{
+                            setOrder((prev) => prev - 1)
+                            console.log(order);
+                            
+                            if(order === 5 || order === 4) {
+                                dispatch(setDisabledButton(false))
+                            }
+                       
+                        }}
+                >Назад
+                </button>
+            }
             {indexIdenticalButtons.includes(order) &&
                 <button className={'registration__button _button-white' + (disabledButton ? ' disabled' : '')}
                         disabled={disabledButton}
                         onClick={() => {
-                            setOrder((prev) => prev + 1)
-                            order !== 2 && order !== 3 && dispatch(setDisabledButton(true))
+                            setOrder((prev) => prev + 1)                           
+                           order !== 2 && order !== 3 && dispatch(setDisabledButton(true))                                                                              
                         }}
                 >Далее
                 </button>
             }
             {
-                order === 7 &&
-            
+                order === 7 &&            
                 <button className={'registration__button _button-white' + (disabledButton ? ' disabled' : '')}
                         disabled={disabledButton}
-                        onClick={submitRegistration}
+                        onClick={()=>{
+                            setOrder((prev) => prev + 1)                           
+                        }}
                 >Завершить регистрацию
                 </button>
             } 
             {
-                order === 8 &&
-            <>
-                <button className={'registration__button _button-white' + (disabledButton ? ' disabled' : '')}
-                        disabled={disabledButton}
-                        onClick={()=>setOrder((prev) => prev + 1)}
-                >Сохранить
-                </button>
-                <span className="registration__link text-yellow" onClick={()=>setOrder((prev) => prev + 1)}>Пропустить</span>
-                </>
+                order === 8 && <ButtonSubmit order={order} setOrder={setOrder} />      
             }
-        </>
+        
+        </div>
+    )
+}
+
+const ButtonSubmit:FC<IFurtherButton> = ({order, setOrder}) => {
+
+    const dispatch = useAppDispatch()
+    const month= useAppSelector(monthSelector)
+    const day= useAppSelector(daySelector)
+    const year= useAppSelector(yearSelector)
+
+    const disabledButton = useAppSelector(disableButtonSelector)
+    const email = useAppSelector(emailSelector)
+    const password = useAppSelector(passwordSelector)
+    const phone = useAppSelector(telephoneSelector)
+    const avatar = useAppSelector(avatarSelector)
+    const name = useAppSelector(nameUserSelector)
+    const surname = useAppSelector(surNameSelector)
+    const gender = useAppSelector(genderSelector)
+    const birhday = day +'.'+ (month.length === 2 ? month : '0'+month)+'.' + year
+
+    const platform = useAppSelector(platformSelector)
+  
+    
+    const submitRegistration = async () => {
+        setOrder((prev) => prev + 1) 
+        dispatch(setDisabledButton(true))   
+
+        const uuid = await Device.getId();
+        let formData = new FormData()
+       
+        const device_token = uuid.uuid
+        
+        dispatch(requestRegistration({name, surname, birhday,gender,avatar,phone,email,password,device_token,platform,formData}))
+  
+    }
+    return (
+        <div style={{textAlign: 'center'}}>
+        <button className={'registration__button _button-white' + (disabledButton ? ' disabled' : '')}
+                disabled={disabledButton}
+                onClick={submitRegistration}
+        >Сохранить
+        </button>
+        <span className="registration__link text-yellow" onClick={submitRegistration}>Пропустить</span>
+        </div>
     )
 }

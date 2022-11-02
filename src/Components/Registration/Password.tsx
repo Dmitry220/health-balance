@@ -1,11 +1,17 @@
 import {useAppDispatch, useAppSelector} from "../../utils/hooks/redux-hooks";
 import {passwordSelector, setDisabledButton, setPassword} from "../../Redux/slice/registrationSlice";
-import React from "react";
+import React, { useEffect } from "react";
 
 export const Password = () => {
 
     const password = useAppSelector(passwordSelector)
     const dispatch = useAppDispatch()
+
+    useEffect(()=>{
+        if(password){
+            dispatch(setDisabledButton(false))
+        }
+    }, [])
 
     const validatePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value

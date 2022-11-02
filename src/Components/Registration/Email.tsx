@@ -1,11 +1,20 @@
 import {useAppDispatch, useAppSelector} from "../../utils/hooks/redux-hooks";
 import {emailSelector, setDisabledButton, setEmail} from "../../Redux/slice/registrationSlice";
-import React from "react";
+import React, { useEffect } from "react";
+import { $api } from "../../http";
+import AuthService from "../../services/AuthService";
+import axios from "axios";
 
 export const Email = () => {
 
     const email = useAppSelector(emailSelector)
     const dispatch = useAppDispatch()
+
+    useEffect(()=>{      
+        if(email){
+            dispatch(setDisabledButton(false))
+        }
+    }, [])
 
     const validateEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
         const validRegex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;

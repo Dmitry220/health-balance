@@ -8,7 +8,7 @@ import {ActivityPage} from "../pages/Activity-page/Activity-page";
 
 const AppRouter = () => {
 
-    const user = false
+    const user = localStorage.getItem('token')
 
     return user ?
         (

@@ -1,11 +1,17 @@
 import {useAppDispatch, useAppSelector} from "../../utils/hooks/redux-hooks";
 import {setDisabledButton, setSurname, surNameSelector} from "../../Redux/slice/registrationSlice";
-import React from "react";
+import React, { useEffect } from "react";
 
 export const SurName = () => {
 
     const surName = useAppSelector(surNameSelector)
     const dispatch = useAppDispatch()
+
+    useEffect(()=>{
+        if(surName){
+            dispatch(setDisabledButton(false))
+        }
+    }, [])
 
     const validateSurname = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value

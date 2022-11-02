@@ -7,7 +7,6 @@ export const RegistrationPage = () => {
 
     const [order, setOrder] = useState<number>(0)
 
-    console.log("registration page render")
 
     const renderRegistrationItems = () => {
         switch (order) {

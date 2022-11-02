@@ -1,33 +1,39 @@
 import {useAppDispatch, useAppSelector} from "../../utils/hooks/redux-hooks";
 import React, {useEffect, useState} from "react";
-import {getPlatforms, listPlatformSelector, setDisabledButton, setPlatform} from "../../Redux/slice/registrationSlice";
+import {getPlatforms, listPlatformSelector, platformSelector, setDisabledButton, setPlatform} from "../../Redux/slice/registrationSlice";
 import {Link} from "react-router-dom";
 
 export const Platform = () => {
 
     const dispatch = useAppDispatch()
     const listPLatforms = useAppSelector(listPlatformSelector)
+    
+    const platform = useAppSelector(platformSelector)
     const [agree, setAgree] = useState(false)
 
     const handlerAgree = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setAgree(prev=>!prev)
-        dispatch(setDisabledButton(agree))
+        setAgree(prev=>!prev)        
+        dispatch(setDisabledButton(platform === null ? true : agree))
     }
 
     const handlerPlatforms = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        dispatch(setPlatform(e.target.value))
+        dispatch(setPlatform(+e.target.value))
+        dispatch(setDisabledButton(+e.target.value === null ? true : !agree))
     }
 
     useEffect(()=>{
        dispatch(getPlatforms())   
+       dispatch(setDisabledButton(true))
     }, [])
+
+    console.log('render');
     
 
     return (
         <div className={'registration__platform'}>
             <div className="registration__select _custom-select">
                 <select name="platform" id="platform" onChange={handlerPlatforms}>
-                    <option value="" selected disabled hidden>Ваша платформа</option>
+                    <option value="" >Ваша платформа</option>
                     {
                         listPLatforms && listPLatforms.map(p=>(
                             <option value={p.id} key={p.id}>{p.title}</option>

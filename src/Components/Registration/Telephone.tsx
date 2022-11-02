@@ -1,12 +1,18 @@
 import {useAppDispatch, useAppSelector} from "../../utils/hooks/redux-hooks";
 import {setDisabledButton, setTelephone, telephoneSelector} from "../../Redux/slice/registrationSlice";
 import InputMask from "react-input-mask";
-import React from "react";
+import React, { useEffect } from "react";
 
 export const Telephone = () => {
 
     const telephone = useAppSelector(telephoneSelector)
     const dispatch = useAppDispatch()
+
+    useEffect(()=>{
+        if(telephone){
+            dispatch(setDisabledButton(false))
+        }
+    }, [])
 
     const validateTelephone = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value

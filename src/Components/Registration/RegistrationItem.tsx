@@ -48,7 +48,7 @@ export const RegistrationItem: FC<IRegistrationItem> = ({title, stage, order, se
                 return null
         }
     }
-    console.log("registration Item")
+
     return (
         <>
             <div className="registration__title">

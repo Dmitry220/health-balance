@@ -19,7 +19,7 @@ export const SetPhoto = () => {
         console.log("camera open")
         const path = cameraResult?.path || cameraResult?.webPath
 
-        if(path) {
+        if(path) {            
             dispatch(setDisabledButton(false))
             dispatch(setAvatarRegistartion(path))
         }
