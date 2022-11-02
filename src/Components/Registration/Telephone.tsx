@@ -1,5 +1,5 @@
 import {useAppDispatch, useAppSelector} from "../../utils/hooks/redux-hooks";
-import {setDisabledButton, setTelephone, telephoneSelector} from "../../Redux/slice/registrationSlice";
+import {setDisabledButton, setTelephone, telephoneSelector} from "../../Redux/slice/authSlice";
 import InputMask from "react-input-mask";
 import React, { useEffect } from "react";
 
@@ -9,7 +9,7 @@ export const Telephone = () => {
     const dispatch = useAppDispatch()
 
     useEffect(()=>{
-        if(telephone){
+        if(!telephone.includes('_')){
             dispatch(setDisabledButton(false))
         }
     }, [])

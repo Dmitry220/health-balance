@@ -1,5 +1,5 @@
 import {useAppDispatch, useAppSelector} from "../../utils/hooks/redux-hooks";
-import {setDisabledButton, setSurname, surNameSelector} from "../../Redux/slice/registrationSlice";
+import {setDisabledButton, setSurname, surNameSelector} from "../../Redux/slice/authSlice";
 import React, { useEffect } from "react";
 
 export const SurName = () => {
@@ -8,7 +8,7 @@ export const SurName = () => {
     const dispatch = useAppDispatch()
 
     useEffect(()=>{
-        if(surName){
+        if(surName.length >=3){
             dispatch(setDisabledButton(false))
         }
     }, [])

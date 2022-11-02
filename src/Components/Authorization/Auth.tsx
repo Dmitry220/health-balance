@@ -1,24 +1,41 @@
 import React, {ChangeEvent, useState} from 'react';
 import './auth.scss'
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import logo from '../../assets/image/Logo.svg'
 import appleIcon from '../../assets/image/auth/appleIcon.svg'
-import {ACCESS_RECOVERY__ROUTE, REGISTRATION_ROUTE} from "../../provider/constants-route";
-import { useAppDispatch } from '../../utils/hooks/redux-hooks';
-import { sendLogin } from '../../Redux/slice/registrationSlice';
+import {ACCESS_RECOVERY__ROUTE, REGISTRATION_ROUTE, START_ROUTE} from "../../provider/constants-route";
+import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks';
+import { isAuthSelector, sendLogin } from '../../Redux/slice/authSlice';
+import { Toast } from '@capacitor/toast';
 
 export const Auth = () => {
 
     const [email, setEmail] = useState<string>('dk@gmail.com')
     const [password, setPassword] = useState<string>('qwerrty123')
+   
+    const navigate = useNavigate()
 
     const dispatch = useAppDispatch()
 
     const handlerLogin = (e:ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)
     const handlerPassword= (e:ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)
 
-    const submit = () => {        
-        dispatch(sendLogin({email, password}))
+    
+    const showHelloToast = async () => {
+        await Toast.show({
+          text: 'Ошибка! Попробуйте еще раз!',
+          position:'center'
+        });
+      };  
+    const submit = async () => {        
+        await dispatch(sendLogin({email, password}))  
+       
+        if(localStorage.getItem('token')){          
+            navigate(START_ROUTE)
+        }else{ 
+            showHelloToast()
+        }
+       
     }
 
     return (

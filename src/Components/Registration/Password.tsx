@@ -1,5 +1,5 @@
 import {useAppDispatch, useAppSelector} from "../../utils/hooks/redux-hooks";
-import {passwordSelector, setDisabledButton, setPassword} from "../../Redux/slice/registrationSlice";
+import {passwordSelector, setDisabledButton, setPassword} from "../../Redux/slice/authSlice";
 import React, { useEffect } from "react";
 
 export const Password = () => {
@@ -8,7 +8,7 @@ export const Password = () => {
     const dispatch = useAppDispatch()
 
     useEffect(()=>{
-        if(password){
+        if(password.length >= 8){
             dispatch(setDisabledButton(false))
         }
     }, [])

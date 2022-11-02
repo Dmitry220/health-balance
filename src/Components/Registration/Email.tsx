@@ -1,9 +1,6 @@
 import {useAppDispatch, useAppSelector} from "../../utils/hooks/redux-hooks";
-import {emailSelector, setDisabledButton, setEmail} from "../../Redux/slice/registrationSlice";
+import {emailSelector, setDisabledButton, setEmail} from "../../Redux/slice/authSlice";
 import React, { useEffect } from "react";
-import { $api } from "../../http";
-import AuthService from "../../services/AuthService";
-import axios from "axios";
 
 export const Email = () => {
 

@@ -1,6 +1,6 @@
 import {useAppDispatch, useAppSelector} from "../../utils/hooks/redux-hooks";
 import React, {useEffect, useState} from "react";
-import {getPlatforms, listPlatformSelector, platformSelector, setDisabledButton, setPlatform} from "../../Redux/slice/registrationSlice";
+import {getPlatforms, listPlatformSelector, platformSelector, setDisabledButton, setPlatform} from "../../Redux/slice/authSlice";
 import {Link} from "react-router-dom";
 
 export const Platform = () => {
@@ -33,7 +33,7 @@ export const Platform = () => {
         <div className={'registration__platform'}>
             <div className="registration__select _custom-select">
                 <select name="platform" id="platform" onChange={handlerPlatforms}>
-                    <option value="" >Ваша платформа</option>
+                    <option value="">Ваша платформа</option>
                     {
                         listPLatforms && listPLatforms.map(p=>(
                             <option value={p.id} key={p.id}>{p.title}</option>

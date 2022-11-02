@@ -28,6 +28,8 @@ export interface IRegistration {
     avatar: string,
     disabledButton?: boolean,
     listPlatforms?: IListPlatform[] | [],
+    isAuth: boolean,
+    error: boolean
 }
 
 
@@ -46,6 +48,8 @@ const initialState: IRegistration = {
     avatar: '',
     disabledButton: true,
     listPlatforms: [],
+    isAuth: false,
+    error: false
 }
 
 
@@ -62,11 +66,9 @@ export const requestRegistration = createAsyncThunk(
 
 export const sendLogin = createAsyncThunk(
     'login',
-    async (data:any) => {
-        console.log(data);        
+    async (data:any) => {      
         const {email,password} = data
         const response = await AuthService.login(email,password)            
-        console.log(response.data.data);
         localStorage.setItem('token',response.data.data)
     }
 )
@@ -80,7 +82,7 @@ export const getPlatforms = createAsyncThunk(
 )
 
 
-export const registrationSlice = createSlice({
+export const authSlice = createSlice({
     name: 'registration',
     initialState:initialState,
     reducers: {
@@ -127,7 +129,13 @@ export const registrationSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(getPlatforms.fulfilled, (state, action: any) => {
             state.listPlatforms = action.payload
-        })
+        })      
+        builder.addCase(sendLogin.fulfilled, (state, action: any) => {            
+            state.isAuth = true
+        })    
+        builder.addCase(sendLogin.rejected, (state, action: any) => {            
+            state.error = true
+        }) 
     }
 })
 
@@ -135,7 +143,7 @@ export const {
     setEmail, setDisabledButton, setDay, setGender,
     setMonth, setNameUser, setPassword, setPlatform,
     setSurname, setTelephone, setYear, setAvatarRegistartion
-} = registrationSlice.actions
+} = authSlice.actions
 
 
 export const emailSelector = (state: RootState) => state.registration.email
@@ -151,5 +159,7 @@ export const genderSelector = (state: RootState) => state.registration.gender
 export const platformSelector = (state: RootState) => state.registration.platform
 export const listPlatformSelector = (state: RootState) => state.registration.listPlatforms
 export const avatarSelector = (state: RootState) => state.registration.avatar
+export const isAuthSelector = (state: RootState) => state.registration.isAuth
+export const errorSelector = (state: RootState) => state.registration.error
 
-export default registrationSlice.reducer
+export default authSlice.reducer

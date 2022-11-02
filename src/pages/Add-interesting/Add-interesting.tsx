@@ -3,7 +3,7 @@ import './add-interesting.scss'
 import Header from "../../Components/Header/Header";
 import paper_clip from '../../assets/image/icon-paper-clip.svg'
 import {Camera, CameraResultType} from "@capacitor/camera";
-import {setAvatarRegistartion, setDisabledButton} from "../../Redux/slice/registrationSlice";
+import {setAvatarRegistartion, setDisabledButton} from "../../Redux/slice/authSlice";
 
 export const AddInteresting = () => {
 

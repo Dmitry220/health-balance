@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import Header from "../../Components/Header/Header";
 import './editing.scss'
 import {Camera, CameraResultType} from "@capacitor/camera";
-import {setAvatarRegistartion, setDisabledButton} from "../../Redux/slice/registrationSlice";
+import {setAvatarRegistartion, setDisabledButton} from "../../Redux/slice/authSlice";
 
 export const Editing = () => {
 

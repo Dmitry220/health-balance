@@ -1116,6 +1116,11 @@
   resolved "https://registry.yarnpkg.com/@capacitor/device/-/device-4.0.1.tgz#4bf1e79aeba6d1ae07c7db0df44331bf18515887"
   integrity sha512-D0jJFQYifmsgcz4X9MEEKH5E36ARK2CJcUCXJbcuFTChHSxK+ly7Kd6PZC73Y5GkEZIjpebWAWo5F3w9S4hsYQ==
 
+"@capacitor/toast@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@capacitor/toast/-/toast-4.0.1.tgz#4d65e74c39a946bbab5c8a1e129fd136d9e3191f"
+  integrity sha512-caBbhbDPg11R4F/Xb/HKpmIDjXxQbKocVTYLN577AymmyQBUJQgiADTYYnG+Viom41mG9crirZ9WKjARG9lR0w==
+
 "@csstools/normalize.css@*":
   version "12.0.0"
   resolved "https://registry.npmjs.org/@csstools/normalize.css/-/normalize.css-12.0.0.tgz"

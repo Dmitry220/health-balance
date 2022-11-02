@@ -1,9 +1,7 @@
 import React, {Dispatch, FC, SetStateAction} from "react";
-import { Link } from "react-router-dom";
-import { START_ROUTE } from "../../provider/constants-route";
 import {useAppDispatch, useAppSelector} from "../../utils/hooks/redux-hooks";
-import {avatarSelector, daySelector, disableButtonSelector, emailSelector, genderSelector, monthSelector, nameUserSelector, passwordSelector, platformSelector, requestRegistration, setDisabledButton, surNameSelector, telephoneSelector, yearSelector} from "../../Redux/slice/registrationSlice";
-import { Capacitor, Plugins } from "@capacitor/core";
+import {avatarSelector, daySelector, disableButtonSelector, emailSelector, genderSelector, 
+    monthSelector, nameUserSelector, passwordSelector, platformSelector, requestRegistration, setDisabledButton, surNameSelector, telephoneSelector, yearSelector} from "../../Redux/slice/authSlice";
 import { Device } from '@capacitor/device';
 import './registration.scss'
 
@@ -21,20 +19,13 @@ export const FurtherButton: FC<IFurtherButton> = ({order, setOrder}) => {
     const indexIdenticalButtons = [0, 1,2,3,4,5,6]
 
     return (
-        <div className="registration__nav">
-         
-            
+        <div className="registration__nav">               
             {
                 order > 0 && order <= 7 &&          
                 <button className={'registration__button _button-white'}
                         onClick={()=>{
-                            setOrder((prev) => prev - 1)
-                            console.log(order);
-                            
-                            if(order === 5 || order === 4) {
-                                dispatch(setDisabledButton(false))
-                            }
-                       
+                            setOrder((prev) => prev - 1)                           
+                            order !== 5 && order !== 4 && dispatch(setDisabledButton(false))
                         }}
                 >Назад
                 </button>
@@ -46,23 +37,12 @@ export const FurtherButton: FC<IFurtherButton> = ({order, setOrder}) => {
                             setOrder((prev) => prev + 1)                           
                            order !== 2 && order !== 3 && dispatch(setDisabledButton(true))                                                                              
                         }}
-                >Далее
+                >{order !== 7 ? 'Далее' : 'Завершить регистрацию'}
                 </button>
-            }
-            {
-                order === 7 &&            
-                <button className={'registration__button _button-white' + (disabledButton ? ' disabled' : '')}
-                        disabled={disabledButton}
-                        onClick={()=>{
-                            setOrder((prev) => prev + 1)                           
-                        }}
-                >Завершить регистрацию
-                </button>
-            } 
+            }    
             {
                 order === 8 && <ButtonSubmit order={order} setOrder={setOrder} />      
-            }
-        
+            }        
         </div>
     )
 }

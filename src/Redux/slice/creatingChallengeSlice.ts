@@ -1,7 +1,6 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
 import type {PayloadAction} from '@reduxjs/toolkit'
 import {RootState} from "../store";
-import {quizAPI} from "../../API/Api-quiz";
 
 
 export interface ICreatingChallenge {

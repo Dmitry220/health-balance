@@ -1,6 +1,6 @@
 import {getItemsDays, getItemsMonth, getItemsYear} from "../../utils/common-functions";
 import {useAppDispatch, useAppSelector} from "../../utils/hooks/redux-hooks";
-import {daySelector, monthSelector, setDay, setMonth, setYear, yearSelector} from "../../Redux/slice/registrationSlice";
+import {daySelector, monthSelector, setDay, setMonth, setYear, yearSelector} from "../../Redux/slice/authSlice";
 import {ScrollPicker} from "../Scroll-picker/Scroll-picker";
 import React from "react";
 

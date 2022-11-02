@@ -1,7 +1,6 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
 import type {PayloadAction} from '@reduxjs/toolkit'
 import {RootState} from "../store";
-import {quizAPI} from "../../API/Api-quiz";
 
 
 export interface IQuestions {
@@ -30,11 +29,12 @@ const initialState: QuizState = {
     last_step: 0,
 }
 
-export const fetchGetQuestionnaire = createAsyncThunk<QuizState>(
+export const fetchGetQuestionnaire = createAsyncThunk(
     'answers',
     async () => {
-        const response = await quizAPI.getQuestionnaire()
-        return await response.data
+      const response = fetch('https://jsonplaceholder.typicode.com/todos/1')
+      .then(response => response.json())
+      .then(json => console.log(json))
     }
 )
 
@@ -53,9 +53,9 @@ export const quizSlice = createSlice({
         // },
     },
     extraReducers: (builder) => {
-        builder.addCase(fetchGetQuestionnaire.fulfilled, (state, action:PayloadAction<QuizState>) => {
-            state.questions = action.payload.questions
-        })
+        // builder.addCase(fetchGetQuestionnaire.fulfilled, (state, action:PayloadAction<QuizState>) => {
+        //     state.questions = action.payload.questions
+        // })
     }
 })
 
