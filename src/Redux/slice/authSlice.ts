@@ -1,8 +1,6 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
 import type {PayloadAction} from '@reduxjs/toolkit'
 import {RootState} from "../store";
-import {quizAPI} from "../../API/Api-quiz";
-import {registrationAPI} from "../../API/Registration-api";
 import { $api } from '../../http';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query'
 import AuthService from '../../services/AuthService';
