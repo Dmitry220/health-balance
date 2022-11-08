@@ -1,8 +1,10 @@
+import React, {useState} from "react";
 import {getItemsDays, getItemsMonth, getItemsYear} from "../../utils/common-functions";
 import {useAppDispatch, useAppSelector} from "../../utils/hooks/redux-hooks";
-import {daySelector, monthSelector, setDay, setMonth, setYear, yearSelector} from "../../Redux/slice/authSlice";
-import {ScrollPicker} from "../Scroll-picker/Scroll-picker";
-import React from "react";
+import MultiPicker from "rmc-picker/lib/MultiPicker";
+import Picker from "rmc-picker/lib/Picker";
+import { birthdaySelector, setBirthday } from "../../Redux/slice/authSlice";
+
 
 export const Birthday = () => {
 
@@ -10,28 +12,44 @@ export const Birthday = () => {
     const itemMonths = getItemsMonth()
     const itemYears = getItemsYear(1970, 2020)
 
-    const day = useAppSelector(daySelector)
-    const month = useAppSelector(monthSelector)
-    const year = useAppSelector(yearSelector)
-
     const dispatch = useAppDispatch()
+    const birhday = useAppSelector(birthdaySelector)
 
-    const onChangeDay = (value: string) => dispatch(setDay(value))
-    const onChangeMonth = (value: any) => dispatch(setMonth(value))
-    const onChangeYear = (value: string) => dispatch(setYear(value))
+    const [value, setValue] = useState(birhday.split('.'))
 
+    const onChange = (value: any) => {    
+        setValue(value)        
+        dispatch(setBirthday(value.join('.')))
+    };   
 
     return (
         <div className={'registration__picker'}>
-            <div className="registration__picker-item">
-                <ScrollPicker onChange={onChangeDay} items={itemDays} value={day}/>
-            </div>
-            <div className="registration__picker-item">
-                <ScrollPicker onChange={onChangeMonth} items={itemMonths} value={month}/>
-            </div>
-            <div className="registration__picker-item">
-                <ScrollPicker onChange={onChangeYear} items={itemYears} value={year}/>
-            </div>
+            <MultiPicker
+                selectedValue={value}
+                onValueChange={onChange}
+            >
+                <Picker indicatorClassName="my-picker-indicator" className={'registration__picker-item'}>
+                    {itemDays.map(item => (
+                        <Picker.Item className="my-picker-view-item" value={item} key={+item}>
+                            {item}
+                        </Picker.Item>
+                    ))}
+                </Picker>
+                <Picker indicatorClassName="my-picker-indicator" className={'registration__picker-item'}>
+                    {itemMonths.map((item,i) => (
+                        <Picker.Item className="my-picker-view-item" value={(i+1) >=10 ? (i+1+'') :'0'+(i+1)} key={i}>
+                            {item}
+                        </Picker.Item>
+                    ))}
+                </Picker>
+                <Picker indicatorClassName="my-picker-indicator" className={'registration__picker-item'}>
+                    {itemYears.map(item => (
+                        <Picker.Item className="my-picker-view-item" value={item}  key={+item}>
+                            {item}
+                        </Picker.Item>
+                    ))}
+                </Picker>
+            </MultiPicker>
         </div>
     )
 }

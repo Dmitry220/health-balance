@@ -1,14 +1,20 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './registration.scss'
 import photo from '../../assets/image/icon-camera-add.svg'
 import { Camera, CameraResultType } from '@capacitor/camera';
 import {useAppDispatch} from "../../utils/hooks/redux-hooks";
 import {setAvatarRegistartion, setDisabledButton} from "../../Redux/slice/authSlice";
+import { defineCustomElements } from '@ionic/pwa-elements/loader';
+
 
 export const SetPhoto = () => {
 
     const [photoPath, setPhotoPath] = useState<any | null>(null)
     const dispatch = useAppDispatch()
+
+    useEffect(()=>{
+        defineCustomElements(window);
+    },[])
 
     const takePicture = async () => {
         const cameraResult = await Camera.getPhoto({

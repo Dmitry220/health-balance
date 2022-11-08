@@ -10,7 +10,7 @@ export const store = configureStore({
     reducer: {
         app: appSlice.reducer,
         quiz: quizSlice.reducer,
-        registration: authSlice.reducer,
+        auth: authSlice.reducer,
         creatingChallenge: creatingChallengeSlice.reducer,
         recovery: accessRecoverySlice.reducer
     },

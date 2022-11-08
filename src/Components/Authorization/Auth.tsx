@@ -13,8 +13,6 @@ export const Auth = () => {
     const [email, setEmail] = useState<string>('dk@gmail.com')
     const [password, setPassword] = useState<string>('qwerrty123')
    
-    const navigate = useNavigate()
-
     const dispatch = useAppDispatch()
 
     const handlerLogin = (e:ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)
@@ -30,12 +28,9 @@ export const Auth = () => {
     const submit = async () => {        
         await dispatch(sendLogin({email, password}))  
        
-        if(localStorage.getItem('token')){          
-            navigate(START_ROUTE)
-        }else{ 
+        if(!localStorage.getItem('token')){          
             showHelloToast()
-        }
-       
+        }       
     }
 
     return (
@@ -47,7 +42,7 @@ export const Auth = () => {
                 <div className="auth__form form-auth">
                     <div className="form-auth__fields">
                         <input type="text" className="form-auth__field" placeholder={'Email'} value={email} onChange={handlerLogin}/>
-                        <input type="text" className="form-auth__field" placeholder={'Пароль'} value={password} onChange={handlerPassword}/>
+                        <input type="password" className="form-auth__field" placeholder={'Пароль'} value={password} onChange={handlerPassword}/>
                     </div>
                     <div className="form-auth__buttons">
                         <button className="form-auth__button" onClick={submit}>Войти</button>

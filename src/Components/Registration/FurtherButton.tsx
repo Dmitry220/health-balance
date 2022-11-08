@@ -1,7 +1,7 @@
 import React, {Dispatch, FC, SetStateAction} from "react";
 import {useAppDispatch, useAppSelector} from "../../utils/hooks/redux-hooks";
-import {avatarSelector, daySelector, disableButtonSelector, emailSelector, genderSelector, 
-    monthSelector, nameUserSelector, passwordSelector, platformSelector, requestRegistration, setDisabledButton, surNameSelector, telephoneSelector, yearSelector} from "../../Redux/slice/authSlice";
+import {avatarSelector, birthdaySelector, disableButtonSelector, emailSelector, genderSelector, 
+     nameUserSelector, passwordSelector, platformSelector, requestRegistration, setDisabledButton, surNameSelector, telephoneSelector} from "../../Redux/slice/authSlice";
 import { Device } from '@capacitor/device';
 import './registration.scss'
 
@@ -16,7 +16,7 @@ export const FurtherButton: FC<IFurtherButton> = ({order, setOrder}) => {
     const disabledButton = useAppSelector(disableButtonSelector)
     const dispatch = useAppDispatch()   
 
-    const indexIdenticalButtons = [0, 1,2,3,4,5,6]
+    const indexIdenticalButtons = [0, 1,2,3,4,5,6,7]
 
     return (
         <div className="registration__nav">               
@@ -50,9 +50,6 @@ export const FurtherButton: FC<IFurtherButton> = ({order, setOrder}) => {
 const ButtonSubmit:FC<IFurtherButton> = ({order, setOrder}) => {
 
     const dispatch = useAppDispatch()
-    const month= useAppSelector(monthSelector)
-    const day= useAppSelector(daySelector)
-    const year= useAppSelector(yearSelector)
 
     const disabledButton = useAppSelector(disableButtonSelector)
     const email = useAppSelector(emailSelector)
@@ -62,8 +59,7 @@ const ButtonSubmit:FC<IFurtherButton> = ({order, setOrder}) => {
     const name = useAppSelector(nameUserSelector)
     const surname = useAppSelector(surNameSelector)
     const gender = useAppSelector(genderSelector)
-    const birhday = day +'.'+ (month.length === 2 ? month : '0'+month)+'.' + year
-
+    const birthday = useAppSelector(birthdaySelector)
     const platform = useAppSelector(platformSelector)
   
     
@@ -72,11 +68,12 @@ const ButtonSubmit:FC<IFurtherButton> = ({order, setOrder}) => {
         dispatch(setDisabledButton(true))   
 
         const uuid = await Device.getId();
-        let formData = new FormData()
        
         const device_token = uuid.uuid
         
-        dispatch(requestRegistration({name, surname, birhday,gender,avatar,phone,email,password,device_token,platform,formData}))
+        dispatch(requestRegistration({name, surname, birthday,gender,avatar,phone,email,password,device_token,platform}))
+        console.log('Успешно');
+        
   
     }
     return (

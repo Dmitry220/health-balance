@@ -1,11 +1,10 @@
-import { AxiosResponse } from "axios";
 import { $api } from "../http";
 
 export default class AuthService {
 
 	static async registration (name:string,surname:string,birthday:string,gender:number, 
-		avatar:string,phone:string, email:string, password:string, device_token:string,platform:number | null, formData:any){
-		
+		avatar:string,phone:string, email:string, password:string, device_token:string,platform:number | null){
+			const formData:any = new FormData()
 			formData.append('email',email)
 			formData.append('password',password)
 			formData.append('name',name)
@@ -34,13 +33,12 @@ export default class AuthService {
 		return $api.post('/v2/login', formData, {
 			headers:{
 				'accept': 'application/json',
-			'Content-Type': `application/x-www-form-urlencoded`,
-			},
-			
+				'Content-Type': `application/x-www-form-urlencoded`,
+			},			
 		})
 	}
 
-	static getPlatfotms (){
+	static getPlatfotms(){
 		return $api.get('/v2/platforms')
 	}
 }

@@ -1,64 +1,46 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
 import type {PayloadAction} from '@reduxjs/toolkit'
 import {RootState} from "../store";
-import { $api } from '../../http';
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query'
 import AuthService from '../../services/AuthService';
+import { ILogin, IRegistration } from '../../models/IAuth';
+import PlatformService from '../../services/PlatformService';
+import { IListPlatform } from '../../models/IPlatforms';
 
-interface IListPlatform {
-    id: number,
-    image: string,
-    status: boolean,
-    title: string,
-    stratDate?: number,
-    endDate?: number
-}
 
-export interface IRegistration {
-    email: string,
-    telephone: string,
-    password: string,
-    nameUser: string,
-    surName: string,
-    day: string,
-    month: string,
-    year: string,
-    gender: number,
-    platform: number | null,
-    avatar: string,
+export interface IAuth {
     disabledButton?: boolean,
     listPlatforms?: IListPlatform[] | [],
     isAuth: boolean,
-    error: boolean
+    error: boolean,
+    dataRegistration: IRegistration | null
 }
 
-
-
-const initialState: IRegistration = {
-    email: '',
-    telephone: '',
-    password: '',
-    nameUser: '',
-    surName: '',
-    day: '15',
-    month: '6',
-    year: '2000',
-    gender: 1,
-    platform: null,
-    avatar: '',
+const initialState: IAuth = {   
     disabledButton: true,
     listPlatforms: [],
     isAuth: false,
-    error: false
+    error: false,
+    dataRegistration: {
+        email: '',
+        phone: '',
+        password: '',
+        name: '',
+        surname: '',
+        birthday:'15.06.2000',
+        gender: 1,
+        platform: null,
+        avatar: '',
+        device_token: ''
+    }
 }
 
 
 export const requestRegistration = createAsyncThunk(
     'requestRegistration',
-    async (data:any) => {       
-        const {name, surname,birhday,gender,avatar,phone,email,password,device_token,platform, formData} = data
+    async (data:IRegistration) => {       
+        const {name, surname, birthday,gender,avatar,phone,email,password,device_token,platform} = data
            const response = await AuthService.registration( 
-            name, surname,birhday,gender,avatar,phone,email,password,device_token,platform, formData
+            name, surname,birthday,gender,avatar,phone,email,password,device_token,platform
             )            
          console.log(response);
     }
@@ -66,7 +48,7 @@ export const requestRegistration = createAsyncThunk(
 
 export const sendLogin = createAsyncThunk(
     'login',
-    async (data:any) => {      
+    async (data:ILogin) => {      
         const {email,password} = data
         const response = await AuthService.login(email,password)            
         localStorage.setItem('token',response.data.data)
@@ -76,90 +58,86 @@ export const sendLogin = createAsyncThunk(
 export const getPlatforms = createAsyncThunk(
     'platforms',
     async () => {
-        const response = await AuthService.getPlatfotms()
+        const response = await PlatformService.getPlatfotms()
         return await response.data.data
     }
 )
 
 
 export const authSlice = createSlice({
-    name: 'registration',
+    name: 'auth',
     initialState:initialState,
     reducers: {
         setEmail: (state, action) => {
-            state.email = action.payload
+            state.dataRegistration!.email = action.payload
         },
         setPassword: (state, action) => {
-            state.password = action.payload
+            state.dataRegistration!.password =  action.payload
         },
         setTelephone: (state, action) => {
-            state.telephone = action.payload
+            state.dataRegistration!.phone = action.payload
         },
         setNameUser: (state, action) => {
-            state.nameUser = action.payload
+            state.dataRegistration!.name = action.payload
         },
         setSurname: (state, action) => {
-            state.surName = action.payload
+            state.dataRegistration!.surname = action.payload
         },
-        setDay: (state, action) => {
-            state.day = action.payload
-        },
-        setMonth: (state, action) => {            
-            state.month = action.payload
-        },
-        setYear: (state, action) => {
-            state.year = action.payload
+        setBirthday: (state, action) => {
+            state.dataRegistration!.birthday = action.payload
         },
         setGender: (state, action) => {
-            state.gender = action.payload
+            state.dataRegistration!.gender = action.payload
         },
         setPlatform: (state, action) => {
-            state.platform = action.payload
+            state.dataRegistration!.platform = action.payload
+        },
+        setAvatarRegistartion: (state, action) => {
+            state.dataRegistration!.avatar = action.payload
         },
         setDisabledButton: (state, action) => {
             state.disabledButton = action.payload
-        },
-        setAvatarRegistartion: (state, action) => {
-            state.avatar = action.payload
-        },
-        setListPlatforms: (state, action) => {
-            state.avatar = action.payload
-        },
+        },    
+        checkAuth: (state) => {
+            if(localStorage.getItem('token')){
+                state.isAuth = true
+            }
+        }
     },
     extraReducers: (builder) => {
-        builder.addCase(getPlatforms.fulfilled, (state, action: any) => {
+        builder.addCase(getPlatforms.fulfilled, (state, action:PayloadAction<IListPlatform[]>) => {
             state.listPlatforms = action.payload
+            state.error = false
         })      
-        builder.addCase(sendLogin.fulfilled, (state, action: any) => {            
+        builder.addCase(sendLogin.fulfilled, (state, action) => {            
             state.isAuth = true
+            state.error = false
         })    
-        builder.addCase(sendLogin.rejected, (state, action: any) => {            
+        builder.addCase(sendLogin.rejected, (state, action) => {            
             state.error = true
         }) 
     }
 })
 
 export const {
-    setEmail, setDisabledButton, setDay, setGender,
-    setMonth, setNameUser, setPassword, setPlatform,
-    setSurname, setTelephone, setYear, setAvatarRegistartion
+    setEmail, setDisabledButton,setGender,
+    setNameUser, setPassword, setPlatform,
+    setSurname, setTelephone, setAvatarRegistartion, setBirthday,checkAuth
 } = authSlice.actions
 
 
-export const emailSelector = (state: RootState) => state.registration.email
-export const disableButtonSelector = (state: RootState) => state.registration.disabledButton
-export const passwordSelector = (state: RootState) => state.registration.password
-export const telephoneSelector = (state: RootState) => state.registration.telephone
-export const nameUserSelector = (state: RootState) => state.registration.nameUser
-export const surNameSelector = (state: RootState) => state.registration.surName
-export const daySelector = (state: RootState) => state.registration.day
-export const monthSelector = (state: RootState) => state.registration.month
-export const yearSelector = (state: RootState) => state.registration.year
-export const genderSelector = (state: RootState) => state.registration.gender
-export const platformSelector = (state: RootState) => state.registration.platform
-export const listPlatformSelector = (state: RootState) => state.registration.listPlatforms
-export const avatarSelector = (state: RootState) => state.registration.avatar
-export const isAuthSelector = (state: RootState) => state.registration.isAuth
-export const errorSelector = (state: RootState) => state.registration.error
+export const emailSelector = (state: RootState) => state.auth.dataRegistration!.email
+export const disableButtonSelector = (state: RootState) => state.auth.disabledButton
+export const passwordSelector = (state: RootState) => state.auth.dataRegistration!.password
+export const telephoneSelector = (state: RootState) => state.auth.dataRegistration!.phone
+export const nameUserSelector = (state: RootState) => state.auth.dataRegistration!.name
+export const surNameSelector = (state: RootState) => state.auth.dataRegistration!.surname
+export const birthdaySelector = (state: RootState) => state.auth.dataRegistration!.birthday
+export const genderSelector = (state: RootState) => state.auth.dataRegistration!.gender
+export const platformSelector = (state: RootState) => state.auth.dataRegistration!.platform
+export const listPlatformSelector = (state: RootState) => state.auth.listPlatforms
+export const avatarSelector = (state: RootState) => state.auth.dataRegistration!.avatar
+export const isAuthSelector = (state: RootState) => state.auth.isAuth
+export const errorSelector = (state: RootState) => state.auth.error
 
 export default authSlice.reducer
