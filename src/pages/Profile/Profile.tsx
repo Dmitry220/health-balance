@@ -8,6 +8,7 @@ import {ProfileSteps} from "../../Components/Profile/Profile-steps";
 import {ProfileChallenge} from "../../Components/Profile/Profile-challenge";
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks';
 import { dataUserSelector, setUserData, updateProfile } from '../../Redux/slice/userSlice';
+import { logout } from '../../Redux/slice/authSlice';
 
 export const Profile = () => {
 
@@ -20,7 +21,8 @@ export const Profile = () => {
     }, [])  
 
     console.log(dataUser.avatar);
-    
+
+   
     
 //     var reader = new FileReader();
 // reader.readAsDataURL(new Blob([new Uint8Array()]));
@@ -67,7 +69,7 @@ export const Profile = () => {
                 <ProfileChallenge />
             </div>
             <div className="profile__block">
-                <div className="profile__out">Выйти из аккаунта</div>
+                <div className="profile__out" onClick={()=>dispatch(logout())}>Выйти из аккаунта</div>
             </div>
         </div>
     );

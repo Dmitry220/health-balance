@@ -105,6 +105,10 @@ export const authSlice = createSlice({
             if(localStorage.getItem('token')){
                 state.isAuth = true
             }
+        },
+        logout: (state) => {
+            localStorage.removeItem('token')
+            state.isAuth = false
         }
     },
     extraReducers: (builder) => {
@@ -125,7 +129,7 @@ export const authSlice = createSlice({
 export const {
     setEmail, setDisabledButton,setGender,
     setNameUser, setPassword, setPlatform,
-    setSurname, setTelephone, setAvatarRegistartion, setBirthday,checkAuth
+    setSurname, setTelephone, setAvatarRegistartion, setBirthday,checkAuth,logout
 } = authSlice.actions
 
 
