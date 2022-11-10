@@ -59,4 +59,13 @@
     color: #4E4E4E;
     margin: 0 0 8px 0;
   }
+
+  &__submit{
+    position: absolute;
+    z-index: 2;
+    top: 32px;
+    right: 21px;
+    color: $blueColor;
+    background: transparent;
+  }
 }

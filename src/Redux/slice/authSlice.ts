@@ -50,8 +50,11 @@ export const sendLogin = createAsyncThunk(
     'login',
     async (data:ILogin) => {      
         const {email,password} = data
-        const response = await AuthService.login(email,password)            
-        localStorage.setItem('token',response.data.data)
+        const response = await AuthService.login(email,password)      
+        console.log(response);
+                      
+        localStorage.setItem('token',response.data.data.token)
+        localStorage.setItem('id',response.data.data.id)
     }
 )
 
