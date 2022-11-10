@@ -1,12 +1,12 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React from 'react';
 import Header from "../../Components/Header/Header";
 import './editing.scss'
 import {Camera, CameraResultType} from "@capacitor/camera";
-import {setAvatarRegistartion, setDisabledButton} from "../../Redux/slice/authSlice";
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks';
-import { dataUserSelector, setUserData } from '../../Redux/slice/userSlice';
+import { dataUserSelector, isSuccesfullRequestSelector, setUserData, updateProfile } from '../../Redux/slice/userSlice';
 import InputMask from "react-input-mask";
 import { useForm, Controller } from 'react-hook-form';
+import { Toast } from '@capacitor/toast';
 
 interface FormData {
     email: string,
@@ -14,7 +14,8 @@ interface FormData {
     surname: string,
     phone: string,
     gender: number,
-    birthday: string
+    birthday: string,
+    avatar: string
 };
 
 
@@ -23,6 +24,9 @@ export const Editing = () => {
     const { register,handleSubmit,control,formState: { errors }} = useForm<FormData>();
 
     const dataUser = useAppSelector(dataUserSelector)
+    const isSuccesfullRequest = useAppSelector(isSuccesfullRequestSelector)
+    const id = Number(localStorage.getItem("id"))
+    const dispatch = useAppDispatch()
 
     console.log('render');    
 
@@ -35,15 +39,27 @@ export const Editing = () => {
 
         const path = cameraResult?.path || cameraResult?.webPath
 
-        console.log(path);
-        
+        console.log(path);        
 
         //setAvatar(path)
     };
 
-    const onSubmit = handleSubmit(({ email,birthday,gender,name,phone,surname }) => {
-        console.log(email,birthday,gender,name,phone,surname);
-        
+
+    const showToast = async (text:string) => {
+        await Toast.show({
+          text: text,
+          position:'center'
+        });
+      };  
+
+    const onSubmit = handleSubmit(({ email,birthday,gender,name,phone,surname,avatar }) => {
+        const data = {id,name,surname,gender,birthday,phone,email,avatar}
+        dispatch(updateProfile(data)) 
+        if(isSuccesfullRequest){
+            showToast('Данные успешно сохранены!')
+        }else{
+            showToast('Ошибка!')
+        }              
       }); 
 
 
@@ -72,9 +88,9 @@ export const Editing = () => {
                     </div>
                 </div>
                 <div className={'editing__gender select-gender'} >
-                    <input type="radio" id={'man'} defaultValue={1} defaultChecked={true} {...register("gender")}/>
+                    <input type="radio" id={'man'} defaultValue={1} defaultChecked={dataUser.gender === 1} {...register("gender")}/>
                     <label htmlFor={'man'}>Мужской</label>
-                    <input type="radio" id={'woman'} defaultValue={2} {...register("gender")}/>
+                    <input type="radio" id={'woman'} defaultValue={2} defaultChecked={dataUser.gender === 2} {...register("gender")}/>
                     <label htmlFor={'woman'}>Женский</label>
                 </div>
             </div>

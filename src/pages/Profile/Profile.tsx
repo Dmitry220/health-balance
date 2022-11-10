@@ -10,19 +10,20 @@ import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks';
 import { dataUserSelector, setUserData, updateProfile } from '../../Redux/slice/userSlice';
 import { logout } from '../../Redux/slice/authSlice';
 
+
 export const Profile = () => {
 
     const dataUser = useAppSelector(dataUserSelector)
 
     const dispatch = useAppDispatch()
 
+    const idUser = Number(localStorage.getItem("id"))   
+
     useEffect(()=>{
-        dispatch(setUserData(1))
+        dispatch(setUserData(idUser))
     }, [])  
 
-    console.log(dataUser.avatar);
-
-   
+    console.log('render');   
     
 //     var reader = new FileReader();
 // reader.readAsDataURL(new Blob([new Uint8Array()]));
@@ -32,20 +33,14 @@ export const Profile = () => {
 // }
 //myImage.src = URL.createObjectURL(dataUser.avatar);
 
-
-// useEffect(()=>{
-//     dispatch(updateProfile())
-// }, [])
-
     return (
         <div className={'profile'}>
             <Header title={'Мой профиль'}/>
             <div className="profile__block">
                 <div className="profile__header">
                     <div className="profile__avatar">
-                        <img
-                       
-                            src={''}
+                        <img                       
+                            src={dataUser.avatar}
                             alt="avatar"/>
                     </div>
                     <div className="profile__user-info">

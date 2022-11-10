@@ -8,6 +8,7 @@ import UserService from '../../services/UserServices';
 
 export interface IUserProfile {
     dataUser: IUser,
+    isSuccesfullRequest: boolean
 }
 
 const initialState: IUserProfile = {   
@@ -16,12 +17,12 @@ const initialState: IUserProfile = {
 		name: '',
 		surname: '',
 		gender: 1,
-		birthday: 0,
+		birthday: '',
 		phone: '',
 		email: '',
 		avatar: ''
 	 },
-    
+     isSuccesfullRequest: false    
 }
 
 
@@ -35,11 +36,18 @@ export const setUserData = createAsyncThunk(
 
 export const updateProfile = createAsyncThunk(
     'updateProfile',
-    async () => {
-        const response = await UserService.editingProfile()
-        console.log(response);
-        
-       
+    async (data:IUser) => {
+        const params = new URLSearchParams();
+		data.surname && params.append('surname', data.surname);
+		data.gender && params.append('gender', data.gender+'');
+		data.name && params.append('name', data.name);
+		data.birthday && params.append('birthday', data.birthday+'');
+		data.phone && params.append('phone', data.phone);
+		data.email && params.append('email', data.email);
+		data.avatar && params.append('avatar', data.avatar);
+      //  const {avatar,birthday,email,gender,name,phone,surname} = data
+        const response = await UserService.editingProfile(params)
+        console.log(response.data);  
     }
 )
 
@@ -56,6 +64,10 @@ export const userSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(setUserData.fulfilled, (state, action:PayloadAction<IUser>) => {
             state.dataUser = action.payload
+            state.isSuccesfullRequest = true
+        })
+        builder.addCase(setUserData.rejected, (state) => {
+            state.isSuccesfullRequest = false
         })
     }
 })
@@ -66,5 +78,6 @@ export const {
 
 
 export const dataUserSelector = (state: RootState) => state.user.dataUser
+export const isSuccesfullRequestSelector = (state: RootState) => state.user.isSuccesfullRequest
 
 export default userSlice.reducer
