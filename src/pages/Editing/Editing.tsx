@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Header from "../../Components/Header/Header";
 import './editing.scss'
 import {Camera, CameraResultType} from "@capacitor/camera";
@@ -7,6 +7,11 @@ import { dataUserSelector, isSuccesfullRequestSelector, setUserData, updateProfi
 import InputMask from "react-input-mask";
 import { useForm, Controller } from 'react-hook-form';
 import { Toast } from '@capacitor/toast';
+import 'react-datepicker/dist/react-datepicker.css'
+import ReactDatePicker, {registerLocale} from 'react-datepicker';
+import ru from 'date-fns/locale/ru';
+
+registerLocale('ru', ru)
 
 interface FormData {
     email: string,
@@ -14,7 +19,7 @@ interface FormData {
     surname: string,
     phone: string,
     gender: number,
-    birthday: string,
+    birthdayParameter: Date,
     avatar: string
 };
 
@@ -28,7 +33,7 @@ export const Editing = () => {
     const id = Number(localStorage.getItem("id"))
     const dispatch = useAppDispatch()
 
-    console.log('render');    
+   // console.log('render');    
 
     const takePicture = async () => {
         const cameraResult = await Camera.getPhoto({
@@ -44,7 +49,6 @@ export const Editing = () => {
         //setAvatar(path)
     };
 
-
     const showToast = async (text:string) => {
         await Toast.show({
           text: text,
@@ -52,16 +56,18 @@ export const Editing = () => {
         });
       };  
 
-    const onSubmit = handleSubmit(({ email,birthday,gender,name,phone,surname,avatar }) => {
+    const onSubmit = handleSubmit(({ email,birthdayParameter,gender,name,phone,surname,avatar }) => {
+        const birthday = birthdayParameter.getTime()
         const data = {id,name,surname,gender,birthday,phone,email,avatar}
         dispatch(updateProfile(data)) 
         if(isSuccesfullRequest){
             showToast('Данные успешно сохранены!')
         }else{
             showToast('Ошибка!')
-        }              
+        }  
+        console.log(data, typeof birthday);
+                    
       }); 
-
 
     return (
         <form className={'editing'} onSubmit={onSubmit}>
@@ -71,11 +77,11 @@ export const Editing = () => {
                 <div className="editing__wrapper-header">
                     <div className="editing__avatar" onClick={takePicture}>
                         {!dataUser.avatar && <img
-                          src={"https://i2.wp.com/www.easttamakidentist.co.nz/wp-content/uploads/2016/10/male-member-placeholder-1.jpg?fit=800%2C800&ssl=1"}
+                           src={'http://test.health-balance.ru/assets/avatars/1fae49c9ed771ee8acb73e93d552b9b1.jpeg'}
                           alt="avatar"
                         />}
                         {dataUser.avatar &&  <img
-                          src={dataUser.avatar}
+                          src={'http://test.health-balance.ru/assets/avatars/1fae49c9ed771ee8acb73e93d552b9b1.jpeg'}
                           alt="avatar"
                         />}
                         <span>Изменить</span>
@@ -106,7 +112,25 @@ export const Editing = () => {
                     render={({ field }) =>  <InputMask className="editing__input" {...field}  mask="+7 (999) 999-99-99" placeholder="+7 (---) --------"/>}
                 />           
                 <div className="editing__caption">Дата рождения</div>
-                <input className="editing__input" defaultValue={dataUser.birthday+''} {...register("birthday")}/>                
+                <Controller
+                  control={control}
+                  name="birthdayParameter"       
+                 // rules={{ required: true }}    
+                  defaultValue={new Date(dataUser.birthday)}
+                  render={({ field: { value, ...fieldProps } })=> (
+                      <ReactDatePicker
+                        {...fieldProps}
+                        className="editing__input"         
+                        selected={value}
+                        peekNextMonth
+                        showMonthDropdown
+                        showYearDropdown
+                        dateFormat='dd.MM.yyyy'
+                        dropdownMode="select"
+                        locale={ru}
+                      />
+                  )}
+                /> 
             </div>  
         </form>
     );

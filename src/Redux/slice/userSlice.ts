@@ -17,7 +17,7 @@ const initialState: IUserProfile = {
 		name: '',
 		surname: '',
 		gender: 1,
-		birthday: '',
+		birthday: 0,
 		phone: '',
 		email: '',
 		avatar: ''
@@ -41,12 +41,17 @@ export const updateProfile = createAsyncThunk(
 		data.surname && params.append('surname', data.surname);
 		data.gender && params.append('gender', data.gender+'');
 		data.name && params.append('name', data.name);
-		data.birthday && params.append('birthday', data.birthday+'');
+        //@ts-ignore
+		data.birthday && params.append('birthday', new Date(data.birthday));
 		data.phone && params.append('phone', data.phone);
 		data.email && params.append('email', data.email);
 		data.avatar && params.append('avatar', data.avatar);
+
+        console.log(params, data);
+        
+
       //  const {avatar,birthday,email,gender,name,phone,surname} = data
-        const response = await UserService.editingProfile(params)
+       const response = await UserService.editingProfile(params)
         console.log(response.data);  
     }
 )
