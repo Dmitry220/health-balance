@@ -36,8 +36,9 @@ export const Navigation:FC<INavigation> = ({routes}) => {
                 {/*<NavLink to={INTERESTING_ROUTE} className={({isActive}) =>*/}
                 {/*    isActive ? 'navigation__link active icon-icon_hb_news' : 'navigation__link icon-icon_hb_news'*/}
                 {/*}>Интересное</NavLink>*/}
-                {routes.map(nav=>(
+                {routes.map((nav,i)=>(
                     <NavLink to={nav.path}
+                    key={i}
                              className={({isActive}) =>
                                  isActive ? 'navigation__link active ' + nav.iconActive
                                      :
