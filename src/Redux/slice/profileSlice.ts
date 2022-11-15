@@ -1,7 +1,6 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
 import type {PayloadAction} from '@reduxjs/toolkit'
 import {RootState} from "../store";
-import PlatformService from '../../services/PlatformService';
 import { IUser } from '../../models/IUsers';
 import UserService from '../../services/UserServices';
 
@@ -30,7 +29,7 @@ export const setUserData = createAsyncThunk(
     'dataUser',
     async (id:number) => {
         const response = await UserService.getUserDataOnId(id)
-        return await response.data.data
+        return response.data.data
     }
 )
 
@@ -40,31 +39,20 @@ export const updateProfile = createAsyncThunk(
         const params = new URLSearchParams();
 		data.surname && params.append('surname', data.surname);
 		data.gender && params.append('gender', data.gender+'');
-		data.name && params.append('name', data.name);
-        //@ts-ignore
-		data.birthday && params.append('birthday', new Date(data.birthday));
+		data.name && params.append('name', data.name);        
+		data.birthday && params.append('birthday', data.birthday+'');
 		data.phone && params.append('phone', data.phone);
 		data.email && params.append('email', data.email);
 		data.avatar && params.append('avatar', data.avatar);
-
-        console.log(params, data);
-        
-
-      //  const {avatar,birthday,email,gender,name,phone,surname} = data
-       const response = await UserService.editingProfile(params)
+        const response = await UserService.editingProfile(params)
         console.log(response.data);  
     }
 )
-
-
 
 export const userSlice = createSlice({
     name: 'user',
     initialState:initialState,
     reducers: {
-      //   setUser: (state, action) => {
-      //       state.dataRegistration!.email = action.payload
-      //   },
     },
     extraReducers: (builder) => {
         builder.addCase(setUserData.fulfilled, (state, action:PayloadAction<IUser>) => {
@@ -77,9 +65,7 @@ export const userSlice = createSlice({
     }
 })
 
-export const {
-    
-} = userSlice.actions
+export const {} = userSlice.actions
 
 
 export const dataUserSelector = (state: RootState) => state.user.dataUser
