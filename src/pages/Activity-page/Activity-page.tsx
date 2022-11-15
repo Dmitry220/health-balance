@@ -34,6 +34,9 @@ import {
     TRACKER_ROUTE
 } from "../../provider/constants-route";
 import {routesNavigation} from "../../utils/globalConstants";
+import { checkAuth } from '../../Redux/slice/authSlice';
+import { setUserData } from '../../Redux/slice/profileSlice';
+import { useAppDispatch } from '../../utils/hooks/redux-hooks';
 
 
 ChartJS.register(
@@ -47,6 +50,8 @@ ChartJS.register(
 
 
 export const ActivityPage: FC = () => {
+
+    const dispatch = useAppDispatch()
 
     console.log('main')
     const itemCardActuals = [
@@ -166,26 +171,35 @@ export const ActivityPage: FC = () => {
         ],
     };
 
-    useEffect(() => {
-        window.addEventListener("scroll", function () {
-            let scroll = window.pageYOffset;
-            let step: any = document.querySelector("#step");
-            step.style.transform =
-                "translate3d(0," +
-                scroll / 5 +
-                "%,0) scale(" +
-                (1 - scroll / 250) + ")";
-            if (scroll >= 200) {
-                step.style.transform =
-                    "translate3d(0, 42.2222%,0) scale(0.24)";
-                setTransparentHeader(false)
-            }
-                else{
-                setTransparentHeader(true)
-            }
-        });
+    // useEffect(() => {
+    //     window.addEventListener("scroll", function () {
+    //         let scroll = window.pageYOffset;
+    //         let step: any = document.querySelector("#step");
+    //         step.style.transform =
+    //             "translate3d(0," +
+    //             scroll / 5 +
+    //             "%,0) scale(" +
+    //             (1 - scroll / 250) + ")";
+    //         if (scroll >= 200) {
+    //             step.style.transform =
+    //                 "translate3d(0, 42.2222%,0) scale(0.24)";
+    //             setTransparentHeader(false)
+    //         }
+    //             else{
+    //             setTransparentHeader(true)
+    //         }
+    //     });
 
+    // }, [])
+    const idUser = Number(localStorage.getItem("id"))   
+
+    useEffect(()=>{
+        if(idUser){                   
+            dispatch(setUserData(idUser))   
+        }           
     }, [])
+
+
 
     return (
         <div className={'activity-page'}>

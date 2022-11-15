@@ -1,32 +1,33 @@
+import { AxiosResponse } from "axios";
 import { $api } from "../http";
+import { IAuthResponse } from "../models/IAuth";
 
 export default class AuthService {
 
-	static async registration (name:string,surname:string,birthday:string,gender:number, 
+	static async registration (name:string,surname:string,birthday:number,gender:number, 
 		avatar:string,phone:string, email:string, password:string, device_token:string,platform:number | null){
-			const formData:any = new FormData()
+			const formData:FormData = new FormData()
 			formData.append('email',email)
 			formData.append('password',password)
 			formData.append('name',name)
 			formData.append('surname',surname)
-			formData.append('gender',gender)
+			formData.append('gender',gender+'')
 			formData.append('avatar',avatar)
-			formData.append('birthday',birthday)
+			formData.append('birthday',birthday+'')
 			formData.append('device_token',device_token)
-			formData.append('platform',platform)
+			formData.append('platform',platform+'')
 			formData.append('phone',phone)
 			
 		return $api.post('/v2/customers', formData, {
 			headers:{
 				'accept': 'application/json',
-			'Content-Type': `multipart/form-data; boundary=${formData._boundary}`,
-			},
-			
+				'Content-Type': `multipart/form-data`,
+			},			
 		})
 	
 	}
 
-	static async login(email:string, password:string){
+	static async login(email:string, password:string):Promise<AxiosResponse<IAuthResponse>>{
 		const formData = new FormData()
 		formData.append('email',email)
 		formData.append('password',password)

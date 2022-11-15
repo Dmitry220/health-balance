@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import './auth.scss'
 import {Link, useNavigate} from "react-router-dom";
 import logo from '../../assets/image/Logo.svg'
@@ -7,11 +7,13 @@ import {ACCESS_RECOVERY__ROUTE, REGISTRATION_ROUTE, START_ROUTE} from "../../pro
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks';
 import { isAuthSelector, sendLogin } from '../../Redux/slice/authSlice';
 import { Toast } from '@capacitor/toast';
+import axios from 'axios';
+import { $api } from '../../http';
 
 export const Auth = () => {
 
-    const [email, setEmail] = useState<string>('dk@gmail.com')
-    const [password, setPassword] = useState<string>('qwerrty123')
+    const [email, setEmail] = useState<string>('nick@mail.ru')
+    const [password, setPassword] = useState<string>('11111111')
    
     const dispatch = useAppDispatch()
 

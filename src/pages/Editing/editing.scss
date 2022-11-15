@@ -53,6 +53,14 @@
       margin: 0 0 20px 0;
     }
   }
+
+  input[type="file"] {
+    display:none;
+  }
+  input[type="file"] + label {
+    display: inline
+  }
+
   &__caption{
     font-weight: 400;
     font-size: 13px;

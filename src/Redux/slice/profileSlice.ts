@@ -5,12 +5,12 @@ import { IUser } from '../../models/IUsers';
 import UserService from '../../services/UserServices';
 
 
-export interface IUserProfile {
+export interface IProfile {
     dataUser: IUser,
     isSuccesfullRequest: boolean
 }
 
-const initialState: IUserProfile = {   
+const initialState: IProfile = {   
     dataUser: {
 		id: 0,
 		name: '',
@@ -49,8 +49,8 @@ export const updateProfile = createAsyncThunk(
     }
 )
 
-export const userSlice = createSlice({
-    name: 'user',
+export const profileSlice = createSlice({
+    name: 'profile',
     initialState:initialState,
     reducers: {
     },
@@ -65,10 +65,10 @@ export const userSlice = createSlice({
     }
 })
 
-export const {} = userSlice.actions
+export const {} = profileSlice.actions
 
 
-export const dataUserSelector = (state: RootState) => state.user.dataUser
-export const isSuccesfullRequestSelector = (state: RootState) => state.user.isSuccesfullRequest
+export const dataUserSelector = (state: RootState) => state.profile.dataUser
+export const isSuccesfullRequestSelector = (state: RootState) => state.profile.isSuccesfullRequest
 
-export default userSlice.reducer
+export default profileSlice.reducer

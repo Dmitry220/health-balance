@@ -5,6 +5,7 @@ import {AuthPage} from "../pages/Authorization/Auth-page";
 import {ActivityPage} from "../pages/Activity-page/Activity-page";
 import { useAppDispatch, useAppSelector } from '../utils/hooks/redux-hooks';
 import { checkAuth, isAuthSelector } from '../Redux/slice/authSlice';
+import { setUserData } from '../Redux/slice/profileSlice';
 
 
 
@@ -12,11 +13,20 @@ const AppRouter = () => {
 
     const user = localStorage.getItem('token')
     const isAuth = useAppSelector(isAuthSelector)
-    const dispacth = useAppDispatch()
+    const dispatch= useAppDispatch()
+
+    const idUser = Number(localStorage.getItem("id"))   
 
     useEffect(()=>{
-        dispacth(checkAuth())
+       if(idUser){
+            dispatch(checkAuth())                     
+           // dispatch(setUserData(idUser))   
+        }
+           
     }, [])
+
+console.log('app');
+
 
    
 

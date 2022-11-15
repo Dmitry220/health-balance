@@ -1,15 +1,19 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import Header from "../../Components/Header/Header";
 import './editing.scss'
 import {Camera, CameraResultType} from "@capacitor/camera";
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks';
-import { dataUserSelector, isSuccesfullRequestSelector, setUserData, updateProfile } from '../../Redux/slice/userSlice';
+import { dataUserSelector, isSuccesfullRequestSelector, setUserData, updateProfile } from '../../Redux/slice/profileSlice';
 import InputMask from "react-input-mask";
 import { useForm, Controller } from 'react-hook-form';
 import { Toast } from '@capacitor/toast';
 import 'react-datepicker/dist/react-datepicker.css'
 import ReactDatePicker, {registerLocale} from 'react-datepicker';
 import ru from 'date-fns/locale/ru';
+import photo from '../../assets/image/icon-camera-add.svg'
+import FileService from '../../services/FilesServices';
+import { IMAGE_URL } from '../../http';
+
 
 registerLocale('ru', ru)
 
@@ -20,7 +24,6 @@ interface FormData {
     phone: string,
     gender: number,
     birthdayParameter: Date,
-    avatar: string
 };
 
 
@@ -31,23 +34,10 @@ export const Editing = () => {
     const dataUser = useAppSelector(dataUserSelector)
     const isSuccesfullRequest = useAppSelector(isSuccesfullRequestSelector)
     const id = Number(localStorage.getItem("id"))
+    const [avatar, setAvatar] = useState<any>() 
+    const [photoPath, setPhotoPath] = useState<any | null>(null)
     const dispatch = useAppDispatch()
 
-   // console.log('render');    
-
-    const takePicture = async () => {
-        const cameraResult = await Camera.getPhoto({
-            quality: 90,
-            allowEditing: true,
-            resultType: CameraResultType.Uri
-        });
-
-        const path = cameraResult?.path || cameraResult?.webPath
-
-        console.log(path);        
-
-        //setAvatar(path)
-    };
 
     const showToast = async (text:string) => {
         await Toast.show({
@@ -56,8 +46,8 @@ export const Editing = () => {
         });
       };  
 
-    const onSubmit = handleSubmit(({ email,birthdayParameter,gender,name,phone,surname,avatar }) => {
-        const birthday = birthdayParameter.getTime()
+    const onSubmit = handleSubmit(({ email,birthdayParameter,gender,name,phone,surname}) => {
+        const birthday = birthdayParameter.getTime() / 1000
         const data = {id,name,surname,gender,birthday,phone,email,avatar}
         dispatch(updateProfile(data)) 
         if(isSuccesfullRequest){
@@ -69,22 +59,31 @@ export const Editing = () => {
                     
       }); 
 
+      const dowloadPicture = async (e:ChangeEvent<HTMLInputElement>) => {
+        const formData = new FormData()
+        const file:any = e.target.files
+     
+        if (file[0]) {
+            setPhotoPath(URL.createObjectURL(file[0]))
+            formData.append('image', file[0])           
+            const response = await FileService.uploadFile(formData)
+            setAvatar(response.data.data.avatar)
+        }          
+      }      
+
     return (
         <form className={'editing'} onSubmit={onSubmit}>
             <input type="submit" className='editing__submit' value={'Готово'}/>  
             <Header title={'Редактирование'} />          
             <div className="editing__row">
                 <div className="editing__wrapper-header">
-                    <div className="editing__avatar" onClick={takePicture}>
-                        {!dataUser.avatar && <img
-                           src={'http://test.health-balance.ru/assets/avatars/1fae49c9ed771ee8acb73e93d552b9b1.jpeg'}
-                          alt="avatar"
-                        />}
-                        {dataUser.avatar &&  <img
-                          src={'http://test.health-balance.ru/assets/avatars/1fae49c9ed771ee8acb73e93d552b9b1.jpeg'}
-                          alt="avatar"
-                        />}
+                    <div className="editing__avatar">                        
+                        <input type={'file'} onChange={dowloadPicture} id='file' />
+                        <label className="editing__label" htmlFor="file">
+                        {!dataUser.avatar && <img src={photo} alt="avatar"/>}
+                        {dataUser.avatar && <img src={photoPath||IMAGE_URL+'avatars/'+dataUser.avatar} alt="avatar" />}
                         <span>Изменить</span>
+                        </label>
                     </div>
                     <div className="editing__names">
                         <div className="editing__caption" style={{margin:0}}>Имя</div>
@@ -116,7 +115,7 @@ export const Editing = () => {
                   control={control}
                   name="birthdayParameter"       
                  // rules={{ required: true }}    
-                  defaultValue={new Date(dataUser.birthday)}
+                  defaultValue={new Date(dataUser.birthday*1000)}
                   render={({ field: { value, ...fieldProps } })=> (
                       <ReactDatePicker
                         {...fieldProps}

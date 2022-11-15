@@ -26,7 +26,7 @@ const initialState: IAuth = {
         password: '',
         name: '',
         surname: '',
-        birthday:'15.06.2000',
+        birthday:1029528000,
         gender: 1,
         platform: null,
         avatar: '',
@@ -50,11 +50,18 @@ export const sendLogin = createAsyncThunk(
     'login',
     async (data:ILogin) => {      
         const {email,password} = data
-        const response = await AuthService.login(email,password)      
-        console.log(response);
-                      
-        localStorage.setItem('token',response.data.data.token)
-        localStorage.setItem('id',response.data.data.id)
+        console.log(email,password);
+        
+        try{
+            const response = await AuthService.login(email,password)      
+            console.log(response);
+            localStorage.setItem('token',response.data.data.token)
+            localStorage.setItem('id',response.data.data.id+'')                          
+        }catch(e){
+            console.log(e);            
+        }
+       
+       
     }
 )
 

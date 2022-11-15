@@ -4,7 +4,7 @@ export interface IRegistration {
     password: string,
     name: string,
     surname: string,
-    birthday: string,
+    birthday: number,
     gender: number,
     platform: number | null,
     avatar: string,
@@ -14,4 +14,11 @@ export interface IRegistration {
 export interface ILogin {
     email: string,
     password: string,
+}
+
+export interface IAuthResponse {
+    data:{
+        id: number, 
+        token: string
+    }
 }

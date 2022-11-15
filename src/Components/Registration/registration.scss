@@ -150,6 +150,14 @@
 .set-photo{
   margin: 71px auto 45px auto;
   max-width: 208px;
+  input[type="file"] {
+    display:none;
+  }
+  input[type="file"] + label {
+    display:block;
+    height: 100%;
+    display: inline
+  }
   &__photo{
     background: #313131;
     display: flex;

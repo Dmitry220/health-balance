@@ -15,11 +15,14 @@ export const Birthday = () => {
     const dispatch = useAppDispatch()
     const birhday = useAppSelector(birthdaySelector)
 
-    const [value, setValue] = useState(birhday.split('.'))
+    const [value, setValue] = useState(new Date(birhday*1000).toLocaleDateString().split('.'))
 
     const onChange = (value: any) => {    
-        setValue(value)        
-        dispatch(setBirthday(value.join('.')))
+        setValue(value)    
+       // [value[1], value[3]] = [value[3], value[1]];   
+        const formatDate = Date.parse(value[1]+'.'+value[0]+'.'+value[2])/1000
+         
+        dispatch(setBirthday(formatDate))
     };   
 
     return (
