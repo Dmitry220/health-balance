@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, useEffect} from 'react';
 import './header-active.scss'
 import icon from '../../assets/image/icon_reward.svg'
 import {RewardCount} from "../Reward/Reward-count";
@@ -6,9 +6,10 @@ import icon_chat from '../../assets/image/icon_chat.svg'
 import {Link} from "react-router-dom";
 import {CHAT__ROUTE, PROFILE_ROUTE} from "../../provider/constants-route";
 import { useSelector } from 'react-redux';
-import { useAppSelector } from '../../utils/hooks/redux-hooks';
+import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks';
 import { dataUserSelector } from '../../Redux/slice/profileSlice';
 import { IMAGE_URL } from '../../http';
+import { balanceSeelctor, getBalance } from '../../Redux/slice/appSlice';
 
 interface IHeaderActive{
     transparent: boolean
@@ -17,6 +18,16 @@ interface IHeaderActive{
 const HeaderActive:FC<IHeaderActive> = ({transparent}) => {
 
     const dataUser = useAppSelector(dataUserSelector)
+    const balance = useAppSelector(balanceSeelctor)
+
+    const dispatch = useAppDispatch()
+
+    useEffect(()=>{
+        dispatch(getBalance())
+    }, [balance])
+
+    console.log('render header');
+    
 
     return (
         <div className={'header-active'} style={{background: transparent ? "transparent" : "#121212"}}>
@@ -32,7 +43,7 @@ const HeaderActive:FC<IHeaderActive> = ({transparent}) => {
                     {/*    <img src={icon} alt=""/>*/}
                     {/*</div>*/}
                     {/*<div className="header-active__value">365</div>*/}
-                    {transparent ?   <RewardCount count={365} /> :   <Link to={CHAT__ROUTE}><img src={icon_chat} alt=""/></Link>}
+                    {transparent ?   <RewardCount count={balance} /> :   <Link to={CHAT__ROUTE}><img src={icon_chat} alt=""/></Link>}
                 </div>
             </div>
         </div>
