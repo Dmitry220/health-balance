@@ -193,11 +193,11 @@ export const ActivityPage: FC = () => {
     // }, [])
     const idUser = Number(localStorage.getItem("id"))   
 
-    useEffect(()=>{
-        if(idUser){                   
-            dispatch(setUserData(idUser))   
-        }           
-    }, [])
+    // useEffect(()=>{
+    //     if(idUser){                   
+    //         dispatch(setUserData(idUser))   
+    //     }           
+    // }, [])
 
 
 
@@ -207,7 +207,7 @@ export const ActivityPage: FC = () => {
             <HeaderActive transparent={transparentHeader}/>
             <Navigation routes={routesNavigation}/>
             <div className="activity-page__steps" id={'step'} style={{backgroundAttachment: 'fixed'}}>
-                <Steps maxStepsCount={1000} userStepsCount={500}/>
+                <Steps maxStepsCount={1000} userStepsCount={0}/>
             </div>
             <div className="activity-page__steps-data">
                 <StepsData/>

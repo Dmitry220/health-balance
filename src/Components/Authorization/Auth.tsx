@@ -20,6 +20,8 @@ export const Auth = () => {
     const handlerLogin = (e:ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)
     const handlerPassword= (e:ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)
 
+    let navigate = useNavigate()
+
     
     const showHelloToast = async () => {
         await Toast.show({
@@ -29,7 +31,8 @@ export const Auth = () => {
       };  
     const submit = async () => {        
         await dispatch(sendLogin({email, password}))  
-       
+        
+        navigate(START_ROUTE)
         if(!localStorage.getItem('token')){          
             showHelloToast()
         }       

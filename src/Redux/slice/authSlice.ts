@@ -12,6 +12,7 @@ export interface IAuth {
     listPlatforms?: IListPlatform[] | [],
     isAuth: boolean,
     error: boolean,
+    isLoading: boolean,
     dataRegistration: IRegistration | null
 }
 
@@ -20,6 +21,7 @@ const initialState: IAuth = {
     listPlatforms: [],
     isAuth: false,
     error: false,
+    isLoading: false,
     dataRegistration: {
         email: '',
         phone: '',
@@ -127,10 +129,15 @@ export const authSlice = createSlice({
         builder.addCase(sendLogin.fulfilled, (state, action) => {            
             state.isAuth = true
             state.error = false
+            state.isLoading = false
         })    
         builder.addCase(sendLogin.rejected, (state, action) => {            
             state.error = true
+            state.isLoading = false
         }) 
+        builder.addCase(sendLogin.pending, (state, action) => {            
+            state.isLoading = true
+        })
     }
 })
 
@@ -153,6 +160,7 @@ export const platformSelector = (state: RootState) => state.auth.dataRegistratio
 export const listPlatformSelector = (state: RootState) => state.auth.listPlatforms
 export const avatarSelector = (state: RootState) => state.auth.dataRegistration!.avatar
 export const isAuthSelector = (state: RootState) => state.auth.isAuth
+export const isLoadingSelector = (state: RootState) => state.auth.isLoading
 export const errorSelector = (state: RootState) => state.auth.error
 
 export default authSlice.reducer

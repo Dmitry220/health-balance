@@ -12,18 +12,18 @@ export const Target = () => {
             <div className="target__container">
                 <div className="target__header">
                     <div className="target__title">
-                        Цель - <span>10 000</span>
+                        Цель - <span>0</span>
                     </div>
                     <Link to={NEW_TARGET_ROUTE} className="target__change">изменить цель</Link>
                 </div>
                 <div className="target__body">
-                    <CircleDays title={'Пн'} percent={10}/>
-                    <CircleDays title={"Вт"} percent={40}/>
-                    <CircleDays title={"Ср"} percent={100}/>
-                    <CircleDays title={"Чт"} percent={100}/>
-                    <CircleDays title={"Пт"} percent={80}/>
+                    <CircleDays title={'Пн'} percent={0}/>
+                    <CircleDays title={"Вт"} percent={0}/>
+                    <CircleDays title={"Ср"} percent={0}/>
+                    <CircleDays title={"Чт"} percent={0}/>
+                    <CircleDays title={"Пт"} percent={0}/>
                     <CircleDays title={"Сб"} percent={0}/>
-                    <CircleDays title={"Вс"} percent={100}/>
+                    <CircleDays title={"Вс"} percent={0}/>
                 </div>
             </div>
         </div>

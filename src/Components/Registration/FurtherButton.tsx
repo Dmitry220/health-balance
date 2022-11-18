@@ -4,6 +4,8 @@ import {avatarSelector, birthdaySelector, disableButtonSelector, emailSelector, 
      nameUserSelector, passwordSelector, platformSelector, requestRegistration, setDisabledButton, surNameSelector, telephoneSelector} from "../../Redux/slice/authSlice";
 import { Device } from '@capacitor/device';
 import './registration.scss'
+import { useNavigate } from "react-router-dom";
+import { LOGIN_ROUTE, START_ROUTE } from "../../provider/constants-route";
 
 export interface IFurtherButton {
     order: number,
@@ -50,6 +52,7 @@ export const FurtherButton: FC<IFurtherButton> = ({order, setOrder}) => {
 const ButtonSubmit:FC<IFurtherButton> = ({order, setOrder}) => {
 
     const dispatch = useAppDispatch()
+    let navigate = useNavigate()
 
     const disabledButton = useAppSelector(disableButtonSelector)
     const email = useAppSelector(emailSelector)
@@ -64,14 +67,15 @@ const ButtonSubmit:FC<IFurtherButton> = ({order, setOrder}) => {
   
     
     const submitRegistration = async () => {
-        setOrder((prev) => prev + 1) 
+       // setOrder((prev) => prev + 1) 
         dispatch(setDisabledButton(true))   
 
         const uuid = await Device.getId();
        
         const device_token = uuid.uuid
         
-        dispatch(requestRegistration({name, surname, birthday,gender,avatar,phone,email,password,device_token,platform}))
+        await dispatch(requestRegistration({name, surname, birthday,gender,avatar,phone,email,password,device_token,platform}))
+        navigate(LOGIN_ROUTE)
         console.log('Успешно');
         
   

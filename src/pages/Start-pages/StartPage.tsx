@@ -7,7 +7,7 @@ import 'swiper/scss/navigation';
 import 'swiper/scss/pagination';
 import 'swiper/scss/scrollbar';
 import './start-page.scss'
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {Steps} from "../../Components/Steps/Steps";
 import {Target} from "../../Components/Target/Target";
 import {StepsData} from "../../Components/Steps-data/Steps-data";
@@ -15,6 +15,9 @@ import iconChat from '../../assets/image/icon_chat.svg'
 import {ScrollPicker} from "../../Components/Scroll-picker/Scroll-picker";
 import {ACTIVITY_ROUTE} from "../../provider/constants-route";
 import { getItemsStep } from '../../utils/common-functions';
+import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks';
+import { setPurposeSteps } from '../../Redux/slice/appSlice';
+import { dataUserSelector } from '../../Redux/slice/profileSlice';
 
 
 
@@ -24,19 +27,30 @@ interface ISwiperNextButton {
     customClass: string
 }
 
-interface ISlideTitle {
-    title: string
-}
 
 export const StartPage = () => {
 
     const starValueStep = 0
     const endValueStep = 20000
 
+    const dispatch = useAppDispatch()
+    let navigate = useNavigate()
+
     const itemSteps = getItemsStep(starValueStep, endValueStep)
     const [stepValue, setStepValue] = useState<string>((starValueStep+endValueStep)/2+'')
-
+    const dataUser = useAppSelector(dataUserSelector)
     const changeStep = (value: string) => setStepValue(value)
+
+    const jumpToMain = async () => {
+        const quantity = stepValue
+        const type = 1
+        //await dispatch(setPurposeSteps({quantity,type}))
+        console.log(stepValue);  
+        navigate(ACTIVITY_ROUTE)      
+    }
+
+    console.log('stert page', dataUser);
+    
 
     return (
         <div className="preview">
@@ -50,7 +64,7 @@ export const StartPage = () => {
 
                 <SwiperSlide>
                     <div className="preview__body">
-                        <div className="preview__title">Здравствуйте, <br/> Усейн!</div>
+                        <div className="preview__title">Здравствуйте, <br/> {dataUser.name}!</div>
                         <div className="preview__text">Это приложение созданно для тех кто хочет большего! Вы с нами?
                         </div>
                     </div>
@@ -90,7 +104,7 @@ export const StartPage = () => {
                         <div className="preview__title preview__title_above-75">Следите</div>
                         <div className="preview__sub-title">За текущими шагами</div>
                         <div className="preview__steps">
-                            <Steps maxStepsCount={1000} userStepsCount={700}/>
+                            <Steps maxStepsCount={10000} userStepsCount={0}/>
                         </div>
                         <div className="preview__steps-data">
                             <StepsData/>
@@ -108,7 +122,7 @@ export const StartPage = () => {
                         <div className="preview__text" style={{marginBottom: 11}}>По любым вопросам пишите нам в чат
                         </div>
                         <div className="preview__text">Это чат <img src={iconChat} alt=""/></div>
-                        <Link to={ACTIVITY_ROUTE} className={'preview__button _button-dark'}>Дальше</Link>
+                        <div className={'preview__button _button-dark'} onClick={jumpToMain}>Дальше</div>
                         <div className={'circle-gradient'}/>
                     </div>
                 </SwiperSlide>
@@ -119,21 +133,12 @@ export const StartPage = () => {
 };
 
 
-export const SlideNextButton: FC<ISwiperNextButton> = ({title, customClass}) => {
+export const SlideNextButton: FC<ISwiperNextButton> = ({title, customClass}) => {   
 
     const swiper = useSwiper();
 
     return (
-        <button className={customClass} onClick={() => swiper.slideNext()}>{title}</button>
-    );
-}
-
-export const SlideTitle: FC<ISlideTitle> = ({title}) => {
-    const swiperSlide = useSwiperSlide();
-
-    return (
-        <div
-            className={swiperSlide.isNext ? 'vertical-slider-steps__slide active' : 'vertical-slider-steps__slide'}>{title}</div>
+        <button className={customClass} onClick={()=>  swiper.slideNext()}>{title}</button>
     );
 }
 
