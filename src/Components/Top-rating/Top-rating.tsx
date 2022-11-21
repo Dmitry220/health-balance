@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { PROFILE_MEMBER_ROUTE } from '../../provider/constants-route';
 import './top-rating.scss'
 
 export const TopRating = () => {
@@ -7,14 +9,14 @@ export const TopRating = () => {
     return (
         <div className={'top-rating'}>
             <div className="top-rating__header-top">
-                <div className="top-rating__personal personal">
+                <Link to={PROFILE_MEMBER_ROUTE+'/1'} className="top-rating__personal personal">
                     <div className="personal__avatar">
                         <span className={'personal__place personal__place_2'}>2</span>
                         <img src="https://i2.wp.com/www.easttamakidentist.co.nz/wp-content/uploads/2016/10/male-member-placeholder-1.jpg?fit=800%2C800&ssl=1" alt="avatar"/>
                     </div>
-                    <div className="personal__name">Валентина <br/> Ревз</div>
-                    <div className="personal__count-steps">4 456 шагов</div>
-                </div>
+                    <div className="personal__name">Иван <br/> Иванов</div>
+                    <div className="personal__count-steps">0 шагов</div>
+                </Link>
                 <div className="top-rating__personal personal">
                     <div className="personal__avatar leader">
                         <span className={'personal__place'}>1</span>

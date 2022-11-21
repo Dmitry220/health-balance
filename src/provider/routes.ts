@@ -256,7 +256,7 @@ export const privateRoutes = [
         Component: TeamMembersPage
     },
     {
-        path: PROFILE_MEMBER_ROUTE,
+        path: PROFILE_MEMBER_ROUTE+'/:id',
         Component: ProfileMemberPage
     },
     {
