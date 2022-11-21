@@ -1,0 +1,81 @@
+@import "src/assets/style/variables";
+
+.mes{
+	background: rgb(48, 47, 47);
+	padding: 10px;
+	width: max-content;
+	border-radius: 10px;
+}
+
+.mesU{
+	display: flex;
+	justify-content: flex-end;
+	div{
+		width: max-content;
+		background: rgb(73, 152, 255);
+		padding: 10px;
+		border-radius: 10px;
+	}
+}
+
+.personal-chat{
+	position: relative;
+	height: calc(100vh - 80px);
+
+	&__messages{
+		    overflow-y: auto;
+    height: 100%;
+    padding: 0 16px 93px 16px;
+	}
+
+	&__send{
+		position: absolute;
+		bottom: 0;
+	//	margin: 0 -16px;
+		width: 100%;
+		display: flex;
+	}
+
+	&__input{
+		background: #5C5C5C;
+		font-weight: 400;
+		font-size: 15px;
+		color: #B6B6B6;
+		height: 34px;
+		flex: 1 1 auto;
+		padding: 9px 0;
+		outline: none;
+		&::placeholder{
+			color: #B6B6B6;
+		}
+	}
+	&__submit{
+		height: 34px;
+		color: #B6B6B6;
+		background: #5C5C5C;
+		padding: 0 17px;
+    	font-size: 20px;
+	}
+}
+
+.message-item{
+	background: $backgroundBlock;
+	border-radius: 10px;
+	font-size: 15px;
+	line-height: 110%;
+	width: fit-content;
+	max-width: 180px;
+	margin: 0 0 20px 0;
+	padding: 5px 12px;
+
+	&__text{
+		margin: 0 0 6px 0;
+	}
+
+	&__time{
+		text-align: right;
+		font-size: 10px;
+		line-height: 130%;
+		color: #919191;
+	}
+}

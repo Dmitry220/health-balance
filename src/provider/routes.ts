@@ -38,7 +38,7 @@ import {
     SYNCING_ROUTE,
     PRODUCT_SCREEN_ROUTE,
     SURVEY_ACTUAL_ROUTE,
-    TEAM_MEMBER_ROUTE, PROFILE_MEMBER_ROUTE, RUBRIC_ROUTE, CURATOR_INTERESTING
+    TEAM_MEMBER_ROUTE, PROFILE_MEMBER_ROUTE, RUBRIC_ROUTE, CURATOR_INTERESTING, DIALOG__ROUTE
 } from "./constants-route";
 import {AuthPage} from "../pages/Authorization/Auth-page";
 import {StartPage} from "../pages/Start-pages/StartPage";
@@ -83,6 +83,7 @@ import {TeamMembersPage} from "../pages/Team-members-page/Team-members-page";
 import {ProfileMemberPage} from "../pages/Profile-member-page/Profile-member-page";
 import {RubricPage} from "../pages/Rubric-page/Rubric-page";
 import {CuratorInteresting} from "../pages/Curator-interesting/Curator-interesting";
+import { PersonalChat } from "../pages/Chat-page/Personal-chat";
 
 
 export const publicRoutes = [
@@ -225,6 +226,10 @@ export const privateRoutes = [
     {
         path: CHAT__ROUTE,
         Component: ChatPage
+    },
+    {
+        path: DIALOG__ROUTE+'/:id',
+        Component: PersonalChat
     },
     {
         path: NEW_CHALLENGE_INFO_ROUTE+'/:id',
