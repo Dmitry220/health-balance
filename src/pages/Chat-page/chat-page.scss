@@ -1,36 +1,23 @@
 @import "src/assets/style/variables";
 
-.mes{
-	background: rgb(48, 47, 47);
-	padding: 10px;
-	width: max-content;
-	border-radius: 10px;
-}
-
-.mesU{
-	display: flex;
-	justify-content: flex-end;
-	div{
-		width: max-content;
-		background: rgb(73, 152, 255);
-		padding: 10px;
-		border-radius: 10px;
-	}
-}
-
 .personal-chat{
-	position: relative;
-	height: calc(100vh - 80px);
+	
+
+
+	&__container{
+		height: calc(100vh - 45px);
+		margin: 0 -16px;
+	}
 
 	&__messages{
-		    overflow-y: auto;
-    height: 100%;
-    padding: 0 16px 93px 16px;
+		overflow-y: auto;
+    	height: 100%;
+    	padding: 0 16px 93px 16px;
 	}
 
 	&__send{
 		position: absolute;
-		bottom: 0;
+		bottom: 16px;
 	//	margin: 0 -16px;
 		width: 100%;
 		display: flex;
@@ -48,6 +35,12 @@
 		&::placeholder{
 			color: #B6B6B6;
 		}
+	}
+	&__paperclip{
+		height: 34px;
+		color: #B6B6B6;
+		background: #5C5C5C;
+		padding: 0 10px;
 	}
 	&__submit{
 		height: 34px;
