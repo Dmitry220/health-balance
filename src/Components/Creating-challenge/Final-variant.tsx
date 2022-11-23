@@ -55,9 +55,9 @@ export const FinalVariant: FC<IFinalVariant> = ({ setOrder }) => {
         const file: any = e.target.files
         if (file[0]) {
             setPhotoPath(URL.createObjectURL(file[0]))
-            // formData.append('image', file[0])
-            // const response = await FileService.addImageChallenge(formData)
-            // dispatch(setImageChallenge(response.data.data.avatar))
+            formData.append('image', file[0])
+            const response = await FileService.addImageChallenge(formData)
+            dispatch(setImageChallenge(response.data.data.avatar))
         }
     }
 
