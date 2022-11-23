@@ -55,9 +55,9 @@ export const FinalVariant: FC<IFinalVariant> = ({ setOrder }) => {
         const file: any = e.target.files
         if (file[0]) {
             setPhotoPath(URL.createObjectURL(file[0]))
-            formData.append('image', file[0])
-            const response = await FileService.addImageChallenge(formData)
-            dispatch(setImageChallenge(response.data.data.avatar))
+            // formData.append('image', file[0])
+            // const response = await FileService.addImageChallenge(formData)
+            // dispatch(setImageChallenge(response.data.data.avatar))
         }
     }
 
@@ -80,13 +80,14 @@ export const FinalVariant: FC<IFinalVariant> = ({ setOrder }) => {
                 </div>}
             </label>
             <div className="final-variant__header">
-                <div className="final-variant__icon">
-                    {icon && <img src={'https://turistigid.com/wp-content/uploads/2019/06/ozero-ritsa-foto.jpg'} alt="" />}
-                    {!icon && <div className={'final-variant__text'}>
+            <input type={'file'} onChange={addCover} id='iconFile' />           
+                <label htmlFor='iconFile' className="final-variant__icon">
+                    {photoPath && <img src={photoPath} alt="" />}
+                    {!photoPath && <div className={'final-variant__text'}>
                         <img src={icon_camera} alt="" /> <br /><br />
                         <span>icon</span>
                     </div>}
-                </div>
+                </label>
                 <div className="final-variant__header__info">
                     <div>
                         <select name="" id="" className={definitionColor(type, "final-variant__type")} defaultValue={type}
