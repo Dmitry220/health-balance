@@ -2,7 +2,7 @@ import React from "react";
 import Picker from "rmc-picker";
 import {typesChallenge} from "../types/enums";
 
-export const definitionColor = (type: string, className: string) => {
+export const definitionColor = (type: number, className: string) => {
     switch (type) {
         case typesChallenge.common:
             return className

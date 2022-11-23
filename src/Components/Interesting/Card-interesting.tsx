@@ -12,7 +12,7 @@ export const CardInteresting:FC<ICardInteresting> = ({type}) => {
         <div className='card-interesting'>
             <div className="card-interesting__container">
                 <div className="card-interesting__image">
-                    <div className={"card-interesting__hint " + definitionColor(type, '_hint')}>{type}</div>
+                    <div className={"card-interesting__hint " + definitionColor(1, '_hint')}>{type}</div>
                     <img src="https://a.d-cd.net/55199ads-1920.jpg" alt="image-interesting"/>
                 </div>
                 <div className="card-interesting__title">

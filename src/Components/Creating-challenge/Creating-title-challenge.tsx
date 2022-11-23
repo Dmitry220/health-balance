@@ -1,15 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks';
-import { setTitleChallenge, titleChallengeSelector } from '../../Redux/slice/creatingChallengeSlice';
+import { setDisabledButton, setTitleChallenge, titleCreatingChallengeSelector } from '../../Redux/slice/creatingChallengeSlice';
 import './creating-challenge.scss'
 
 
 export const CreatingTitleChallenge = () => {
 
     const dispatch = useAppDispatch()
-    const title = useAppSelector(titleChallengeSelector)
+    const title = useAppSelector(titleCreatingChallengeSelector)
 
-    const handlerTitle = (e: React.ChangeEvent<HTMLInputElement>) => dispatch(setTitleChallenge(e.target.value))
+    const handlerTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+        dispatch(setTitleChallenge(e.target.value))
+        e.target.value.length >= 3 ? dispatch(setDisabledButton(false)) : dispatch(setDisabledButton(true))
+        
+    }
+
+    useEffect(()=>{
+        if(title.length >= 3){
+            dispatch(setDisabledButton(false))
+        }
+    }, [])
     
 
     return (

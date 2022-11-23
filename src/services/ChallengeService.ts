@@ -12,4 +12,13 @@ export default class ChallengeService {
 			},	
 		})	
 	}
+
+	static async creatingChallenge(params:FormData){
+		return $api.post(`/v2/challenges/?token=${localStorage.getItem('token')}`,params ,{
+			headers:{
+				'accept': 'application/json',
+				'Content-Type': `multipart/form-data`,
+			},	
+		})	
+	}
 }

@@ -4,7 +4,7 @@ import './progress-bar.scss'
 
 interface IProgress {
     percent: number,
-    type: string
+    type: number
 }
 
 

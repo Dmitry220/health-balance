@@ -7,7 +7,7 @@ import {Link} from "react-router-dom";
 import {ACTIVE_CHALLENGE_ROUTE} from "../../provider/constants-route";
 
 interface ICardChallenge {
-    type: string,
+    type: number,
     percent: number,
     id: number
 }

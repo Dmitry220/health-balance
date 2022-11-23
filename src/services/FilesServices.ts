@@ -13,4 +13,14 @@ export default class FileService {
 			},	
 		})	
 	}
+
+	static async addImageChallenge(params:FormData){			
+
+		return $api.post(`/v2/images/?type=challenges&token=${localStorage.getItem('token')}`,params ,{
+			headers:{
+				'accept': 'application/json',
+				'Content-Type': 'multipart/form-data'
+			},	
+		})	
+	}
 }

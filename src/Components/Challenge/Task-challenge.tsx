@@ -9,7 +9,7 @@ interface ITaskValue {
 
 interface ITask {
     tasks: ITaskValue[],
-    type: string
+    type: number
 }
 
 export const TaskChallenge:FC<ITask> = ({type, tasks}) => {

@@ -1,14 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks';
-import { descriptionSelector, setDescriptionChallenge } from '../../Redux/slice/creatingChallengeSlice';
+import { descriptionCreatingChallengeSelector, setDescriptionChallenge, setDisabledButton } from '../../Redux/slice/creatingChallengeSlice';
 import './creating-challenge.scss'
 
 export const CreatingDescriptionChallenge = () => {
 
     const dispatch = useAppDispatch()
-    const description = useAppSelector(descriptionSelector)
+    const description = useAppSelector(descriptionCreatingChallengeSelector)
 
-    const handlerDescription= (e: React.ChangeEvent<HTMLInputElement>) => dispatch(setDescriptionChallenge(e.target.value))
+    const handlerDescription= (e: React.ChangeEvent<HTMLInputElement>) => {
+        dispatch(setDescriptionChallenge(e.target.value))
+        e.target.value.length >= 3 ? dispatch(setDisabledButton(false)) : dispatch(setDisabledButton(true))
+    }
+    useEffect(()=>{
+        if(description.length >= 3){
+            dispatch(setDisabledButton(false))
+        }
+    }, [])
 
     return (
         <div className={'creating-description-challenge'}>

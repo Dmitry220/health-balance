@@ -5,7 +5,7 @@ import {Link} from "react-router-dom";
 import {NEW_CHALLENGE_INFO_ROUTE} from "../../provider/constants-route";
 
 interface INewChallengeCard {
-    type: string,
+    type: number,
     id: number
 }
 

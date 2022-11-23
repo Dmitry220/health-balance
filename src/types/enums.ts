@@ -4,9 +4,10 @@ export enum roles {
 }
 
 export enum typesChallenge {
-    common = 'Общий',
-    personal = ' Личный',
-    command = 'Командный'
+    personal = 1,
+    command = 2,
+    common = 3,  
+    
 }
 
 export enum stageRegistration {

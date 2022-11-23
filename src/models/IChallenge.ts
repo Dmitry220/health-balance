@@ -1,3 +1,4 @@
+
 export interface ICreatingPurpose {
 	challenge: number,
 	type: 1|2,
@@ -8,3 +9,4 @@ export interface ICreatingPurpose {
 export interface IPurposeResponse {
 	purpose_id: number
 }
+

@@ -124,6 +124,9 @@
     flex: 0 0 33.333%;
     padding: 0 10px;
   }
+  &__calendar{
+    text-align: center;
+  }
 }
 
 .creating-lecture {
@@ -290,12 +293,19 @@
       border-radius: 5px;
     }
   }
+  input[type="file"] {
+    display:none;
+  }
+  input[type="file"] + label {
+    display: inline-flex;
+  }
 
   &__type{
     font-size: 13px;
-
+    appearance: none;
+    background: transparent;
     color: $greenColor;
-    &.command{
+    &_command{
       color: $blueColor;
     }
     margin: 0 0 10px 0;
@@ -341,6 +351,9 @@
     font-size: 13px;
 
     color: $greenColor;
+    &_command{
+      color: $blueColor;
+    }
     &-clock{
       height: 19px;
       width: 19px;
