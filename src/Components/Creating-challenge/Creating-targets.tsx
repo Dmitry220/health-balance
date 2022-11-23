@@ -2,7 +2,7 @@ import React from 'react';
 import './creating-challenge.scss'
 import icon_reward from '../../assets/image/icon_reward.svg'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks';
-import { quantityPurposeSelector, rewardPurposeSelector, setQuantityPurpose, setRewardPurpose, setTypePurpose } from '../../Redux/slice/creatingChallengeSlice';
+import { quantityPurposeSelector, rewardPurposeSelector, setQuantityPurpose, setRewardPurpose, setTypePurpose } from '../../Redux/slice/challengeSlice';
 
 export const CreatingTargets = () => {
 

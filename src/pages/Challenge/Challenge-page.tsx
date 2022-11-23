@@ -1,14 +1,16 @@
-import React, {useEffect, useState} from 'react';
-import {Navigation} from '../../Components/Navigation/Navigation';
+import React, { useEffect, useState } from 'react';
+import { Navigation } from '../../Components/Navigation/Navigation';
 import Header from "../../Components/Header/Header";
-import {CardChallenge} from "../../Components/Challenge/Card-challenge";
-import {typesChallenge} from "../../types/enums";
-import {NewChallengeCard} from "../../Components/Challenge/New-challenge-card";
+import { CardChallenge } from "../../Components/Challenge/Card-challenge";
+import { typesChallenge } from "../../types/enums";
+import { NewChallengeCard } from "../../Components/Challenge/New-challenge-card";
 import './challenge-page.scss'
-import {HeaderTwo} from "../../Components/Header-two/Header-two";
-import {TabContent, Tabs} from "../../Components/Tabs/Tabs";
-import {ModalInstructions} from "../../Components/Modal-instructions/Modal-instructions";
-import {routesNavigation} from "../../utils/globalConstants";
+import { HeaderTwo } from "../../Components/Header-two/Header-two";
+import { TabContent, Tabs } from "../../Components/Tabs/Tabs";
+import { ModalInstructions } from "../../Components/Modal-instructions/Modal-instructions";
+import { routesNavigation } from "../../utils/globalConstants";
+import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks';
+import { getListChallenges, isLoadingSelector, listChallengesSelector } from '../../Redux/slice/challengeSlice';
 
 
 export const ChallengePage = () => {
@@ -16,28 +18,26 @@ export const ChallengePage = () => {
     const [valueTab, setValueTab] = React.useState<number>(0)
     const labelsTabChallenge = ['Личные', 'Коммандные', 'Общие', 'Архив']
 
-    const [activeInstructions, setActiveInstructions] = useState(false)
+    const challenges = useAppSelector(listChallengesSelector)
+    const isLoading = useAppSelector(isLoadingSelector)
 
-    useEffect(()=>{
-        if(!activeInstructions){
-            const timer = setTimeout(()=>{
-                setActiveInstructions(true)
-            }, 500)
-            return () => {
-                clearTimeout(timer);
-            };
-        }
+    const dispatch = useAppDispatch()
 
+    useEffect(() => {
+        dispatch(getListChallenges())
     }, [])
+
+    if(isLoading){
+        return <h1>Загрузка...</h1>
+    }
+
 
     console.log('render challenge')
 
     return (
-        <div className={'challenge-page'} style={{pointerEvents: activeInstructions ? 'none' : 'all'}}>
-        <div className={'challenge-page__after'} style={{background: activeInstructions ? 'rgba(0, 0, 0, 0.8)' : 'rgba(0, 0, 0, 0)'}} />
-            <Navigation routes={routesNavigation}/>
-            {activeInstructions &&   <ModalInstructions positionTop={45} text={'Примите участие в своём первом челлендже'} fontSize={35} fontWeight={700}/>}
-            <HeaderTwo title={'Челленджи'} marginBottom={40}/>
+        <div className={'challenge-page'}>
+            <Navigation routes={routesNavigation} />
+            <HeaderTwo title={'Челленджи'} marginBottom={40} />
 
             <Tabs
                 labels={labelsTabChallenge}
@@ -57,32 +57,34 @@ export const ChallengePage = () => {
             <TabContent index={1} value={valueTab}>
                 <div className="challenge-page__title-block block-title">Командные</div>
                 <div className="challenge-page__active">
-                    <CardChallenge type={typesChallenge.command} percent={12}id={3}/>
-                    <CardChallenge type={typesChallenge.command} percent={84}id={8}/>
+                    <CardChallenge type={typesChallenge.command} percent={12} id={3} />
+                    <CardChallenge type={typesChallenge.command} percent={84} id={8} />
                 </div>
             </TabContent>
             <TabContent index={2} value={valueTab}>
                 <div className="challenge-page__title-block block-title">Общие</div>
                 <div className="challenge-page__active">
-                    <CardChallenge type={typesChallenge.common} percent={55}id={9}/>
-                    <CardChallenge type={typesChallenge.common} percent={70}id={2}/>
+                    <CardChallenge type={typesChallenge.common} percent={55} id={9} />
+                    <CardChallenge type={typesChallenge.common} percent={70} id={2} />
                 </div>
             </TabContent>
             <TabContent index={3} value={valueTab}>
                 <div className="challenge-page__title-block block-title">Архив</div>
                 <div className="challenge-page__active">
-                    <CardChallenge type={typesChallenge.personal} percent={74}id={4}/>
-                    <CardChallenge type={typesChallenge.command} percent={96}id={5}/>
+                    <CardChallenge type={typesChallenge.personal} percent={74} id={4} />
+                    <CardChallenge type={typesChallenge.command} percent={96} id={5} />
                 </div>
             </TabContent>
 
 
             <div className="challenge-page__title-block block-title">Новые челленджи</div>
-            <div className={'challenge-page__new-challenges'} >
-                <NewChallengeCard type={typesChallenge.personal} id={456}/>
-            </div>
-
-            {/*<NewChallengeCard type={typesChallenge.command} id={789 }/>*/}
+            {
+                challenges.map((item, i) => (
+                    <div className={'challenge-page__new-challenges'} key={i}>
+                        <NewChallengeCard type={item.type} id={item.id} description={item.description} image={item.image} title={item.title} />
+                    </div>
+                ))
+            }
         </div>
     );
 };

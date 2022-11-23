@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import {appSlice} from "./slice/appSlice";
-import { creatingChallengeSlice } from './slice/creatingChallengeSlice';
+import { creatingChallengeSlice } from './slice/challengeSlice';
 import {quizSlice} from "./slice/quizSlice";
 import { authSlice } from './slice/authSlice';
 import {accessRecoverySlice} from "./slice/accessRecoverySlice";

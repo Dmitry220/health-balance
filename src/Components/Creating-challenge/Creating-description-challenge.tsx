@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks';
-import { descriptionCreatingChallengeSelector, setDescriptionChallenge, setDisabledButton } from '../../Redux/slice/creatingChallengeSlice';
+import { descriptionCreatingChallengeSelector, setDescriptionChallenge, setDisabledButton } from '../../Redux/slice/challengeSlice';
 import './creating-challenge.scss'
 
 export const CreatingDescriptionChallenge = () => {

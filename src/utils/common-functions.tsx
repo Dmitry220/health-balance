@@ -1,6 +1,6 @@
 import React from "react";
 import Picker from "rmc-picker";
-import {typesChallenge} from "../types/enums";
+import { typesChallenge } from "../types/enums";
 
 export const definitionColor = (type: number, className: string) => {
     switch (type) {
@@ -18,7 +18,7 @@ export const definitionColor = (type: number, className: string) => {
 export function getItemsDays() {
     const items: any[] = [];
     for (let i = 1; i <= 31; i++) {
-        items.push(i >= 10 ? i+'' : `0${i}`);
+        items.push(i >= 10 ? i + '' : `0${i}`);
     }
     return items;
 }
@@ -42,7 +42,7 @@ export function getItemsMonth() {
 export function getItemsYear(start: number, end: number) {
     const items = [];
     for (let i = start; i <= end; i++) {
-        items.push(i >= 10 ? i+'' : `0${i}`);
+        items.push(i >= 10 ? i + '' : `0${i}`);
     }
     return items;
 }
@@ -61,7 +61,7 @@ export function getItemsStep(start: number, end: number) {
 
 }
 
-export function getItemsWeight(start: number, end: number, prefix:string) {
+export function getItemsWeight(start: number, end: number, prefix: string) {
     const items: any[] = [];
 
     for (let i = start; i < end; i += 1) {
@@ -91,4 +91,15 @@ export function getItemsMinutes() {
         </Picker.Item>);
     }
     return items;
+}
+
+export const typeConversion = (type: number) =>{
+    switch (type) {
+        case 1:
+            return 'Личный'
+        case 2:
+            return 'Командный'
+        default:
+            return 'Общий'
+    }
 }

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { IListPlatform } from '../../models/IPlatforms';
-import { platformCreatingChallengeSelector, setDisabledButton, setPlatformChallenge } from '../../Redux/slice/creatingChallengeSlice';
+import { platformCreatingChallengeSelector, setDisabledButton, setPlatformChallenge } from '../../Redux/slice/challengeSlice';
 import PlatformService from '../../services/PlatformService';
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks';
 import './creating-challenge.scss'

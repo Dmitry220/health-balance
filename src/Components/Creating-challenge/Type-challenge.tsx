@@ -1,7 +1,7 @@
 import React from 'react';
 import './creating-challenge.scss'
 import {useAppDispatch, useAppSelector} from "../../utils/hooks/redux-hooks";
-import { setTypeChallenge, typeCreatingChallengeSelector } from '../../Redux/slice/creatingChallengeSlice';
+import { setTypeChallenge, typeCreatingChallengeSelector } from '../../Redux/slice/challengeSlice';
 
 export const TypeChallenge = () => {
 

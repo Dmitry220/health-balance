@@ -11,7 +11,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 import MultiPicker from "rmc-picker/lib/MultiPicker";
 import Picker from "rmc-picker/lib/Picker";
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks';
-import { endDateCreatingChallengeSelector, setEndDateChallenge, setStartDateChallenge, startDateCreatingChallengeSelector } from '../../Redux/slice/creatingChallengeSlice';
+import { endDateCreatingChallengeSelector, setEndDateChallenge, setStartDateChallenge, startDateCreatingChallengeSelector } from '../../Redux/slice/challengeSlice';
 registerLocale('ru', ru)
 
 export const CreatingDate = () => {

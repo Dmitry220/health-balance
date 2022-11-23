@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useEffect } from 'react';
-import { maxPeoplesCreatingChallengeSelector, setDisabledButton, setMaxPeoplesChallenge, setTeamAmountChallenge, teamAmountCreatingChallengeSelector } from '../../Redux/slice/creatingChallengeSlice';
+import { maxPeoplesCreatingChallengeSelector, setDisabledButton, setMaxPeoplesChallenge, setTeamAmountChallenge, teamAmountCreatingChallengeSelector } from '../../Redux/slice/challengeSlice';
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks';
 import './creating-challenge.scss'
 

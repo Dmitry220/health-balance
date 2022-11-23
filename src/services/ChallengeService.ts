@@ -21,4 +21,8 @@ export default class ChallengeService {
 			},	
 		})	
 	}
+
+	static async getChallenges(){
+		return $api.get(`/v2/challenges/?token=${localStorage.getItem('token')}`)	
+	}
 }

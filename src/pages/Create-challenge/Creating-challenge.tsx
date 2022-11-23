@@ -4,7 +4,7 @@ import { stageCreatingChallenge, stageRegistration } from "../../types/enums";
 import { CreatingChallengeItem } from "../../Components/Creating-challenge/Creating-challenge-item";
 import './creating-challenge.scss'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks';
-import { creatingChallenge, disableButtonChallengeSelector, setDisabledButton } from '../../Redux/slice/creatingChallengeSlice';
+import { creatingChallenge, disableButtonChallengeSelector, setDisabledButton } from '../../Redux/slice/challengeSlice';
 
 
 export const CreatingChallengePage = () => {

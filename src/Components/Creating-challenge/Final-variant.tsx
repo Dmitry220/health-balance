@@ -16,7 +16,7 @@ import {
     startDateCreatingChallengeSelector,
     titleCreatingChallengeSelector,
     typeCreatingChallengeSelector
-} from "../../Redux/slice/creatingChallengeSlice";
+} from "../../Redux/slice/challengeSlice";
 import icon_edit from '../../assets/image/icon-edit.svg'
 import icon_camera from '../../assets/image/icon-camera-add.svg'
 import icon_clock from '../../assets/image/Interesting/clock.svg'
