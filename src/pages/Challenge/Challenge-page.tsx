@@ -11,6 +11,8 @@ import { ModalInstructions } from "../../Components/Modal-instructions/Modal-ins
 import { routesNavigation } from "../../utils/globalConstants";
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks';
 import { getListChallenges, isLoadingSelector, listChallengesSelector } from '../../Redux/slice/challengeSlice';
+import { Link } from 'react-router-dom';
+import { CREATING_CHALLENGE_ROUTE } from '../../provider/constants-route';
 
 
 export const ChallengePage = () => {
@@ -38,6 +40,8 @@ export const ChallengePage = () => {
         <div className={'challenge-page'}>
             <Navigation routes={routesNavigation} />
             <HeaderTwo title={'Челленджи'} marginBottom={40} />
+
+            <Link to={CREATING_CHALLENGE_ROUTE} className="challenge-page__link _button-yellow">Создать челлендж</Link>
 
             <Tabs
                 labels={labelsTabChallenge}

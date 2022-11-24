@@ -61,8 +61,19 @@ export const creatingChallenge = createAsyncThunk<unknown>(
             formData.append("team_amount",state.creatingChallenge.creatingChallenge.team_amount)
             formData.append("max_peoples",state.creatingChallenge.creatingChallenge.max_peoples)            
         try{
-             const response = await ChallengeService.creatingChallenge(formData)      
-             console.log(response);                     
+            const response = await ChallengeService.creatingChallenge(formData)      
+            //console.log(response);                
+             
+            const formDataPurpose = new FormData()
+            formDataPurpose.append('quantity', state.creatingChallenge.purpose.quantity)
+            formDataPurpose.append('type', state.creatingChallenge.purpose.type)
+            formDataPurpose.append('reward', state.creatingChallenge.purpose.reward)
+            formDataPurpose.append('challenge', response.data.challenge_id)               
+                
+            const responsepurpose = await ChallengeService.creatingPurpose(formDataPurpose)
+            console.log(responsepurpose);
+                
+                 
         }catch(e){
             console.log(e);            
         }            
