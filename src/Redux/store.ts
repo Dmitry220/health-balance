@@ -6,6 +6,7 @@ import { authSlice } from './slice/authSlice';
 import {accessRecoverySlice} from "./slice/accessRecoverySlice";
 import {profileSlice} from './slice/profileSlice';
 import { userSlice } from './slice/userSlice';
+import {shopSlice} from './slice/shopSlice';
 
 
 export const store = configureStore({
@@ -16,7 +17,8 @@ export const store = configureStore({
         creatingChallenge: creatingChallengeSlice.reducer,
         recovery: accessRecoverySlice.reducer,
         profile: profileSlice.reducer,
-        user: userSlice.reducer
+        user: userSlice.reducer,
+        shop: shopSlice.reducer
     },
     middleware: getDefaultMiddleware =>
         getDefaultMiddleware({
