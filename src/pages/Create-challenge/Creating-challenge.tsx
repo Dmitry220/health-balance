@@ -5,6 +5,8 @@ import { CreatingChallengeItem } from "../../Components/Creating-challenge/Creat
 import './creating-challenge.scss'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks';
 import { creatingChallenge, disableButtonChallengeSelector, setDisabledButton } from '../../Redux/slice/challengeSlice';
+import { ModalStatus } from '../../Components/Modal-status/Modal-status';
+import { CHALLENGE_ROUTE } from '../../provider/constants-route';
 
 
 export const CreatingChallengePage = () => {
@@ -17,6 +19,7 @@ export const CreatingChallengePage = () => {
 
     const saveChallenge = () => {
         dispatch(creatingChallenge())
+        setOrder(9)
     }
 
     const renderCreatingChallengeItems = () => {
@@ -48,6 +51,12 @@ export const CreatingChallengePage = () => {
             case 8:
                 return <CreatingChallengeItem stage={stageCreatingChallenge.lecture}
                     order={order} setOrder={setOrder} />
+            case 9:
+                return <ModalStatus
+                    subTitle='Челлендж появится после проверки модератором'
+                    textButton='Ок'
+                    route={CHALLENGE_ROUTE}
+                />
 
         }
     }
@@ -60,18 +69,18 @@ export const CreatingChallengePage = () => {
                 {order > 0 && order <= 7 && <button className='creating-challenge-page__button _button-white' onClick={() => {
                     setOrder(prev => prev - 1)
                     console.log(order);
-                    
-                    if(order === 4){                            
+
+                    if (order === 4) {
                         dispatch(setDisabledButton(false))
                     }
-                    }}>Назад</button>}
+                }}>Назад</button>}
                 {order === 7 && <button className='creating-challenge-page__button _button-white' onClick={saveChallenge}>Сохранить</button>}
                 {order < 7 && <button
-                    className={'creating-challenge-page__button _button-white'+ (disabledButton ? ' disabled' : '')}
+                    className={'creating-challenge-page__button _button-white' + (disabledButton ? ' disabled' : '')}
                     disabled={disabledButton}
                     onClick={() => {
                         setOrder(prev => prev + 1)
-                        if(order === 3 || order === 4 || order === 5){                            
+                        if (order === 3 || order === 4 || order === 5) {
                             dispatch(setDisabledButton(true))
                         }
                     }}

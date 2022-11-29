@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
-import './add-interesting.scss'
+import './creating-interesting.scss'
 import Header from "../../Components/Header/Header";
 import paper_clip from '../../assets/image/icon-paper-clip.svg'
 import {Camera, CameraResultType} from "@capacitor/camera";
 import {setAvatarRegistartion, setDisabledButton} from "../../Redux/slice/authSlice";
 
-export const AddInteresting = () => {
+export const CreatingInteresting = () => {
 
     const [coverPath, setCoverPath] = useState<any | null>(null)
 
@@ -25,24 +25,24 @@ export const AddInteresting = () => {
     };
 
     return (
-        <div className={'add-interesting'}>
+        <div className={'creating-interesting'}>
             <Header title={'Добавить интересное'} />
-            <div className="add-interesting__container">
-                <div className="add-interesting__fields">
-                    <input type="text" className="add-interesting__field" placeholder={'Введите заголовок записи...'}/>
-                    <input type="text" className="add-interesting__field" placeholder={'Введите текст записи...'}/>
+            <div className="creating-interesting__container">
+                <div className="creating-interesting__fields">
+                    <input type="text" className="creating-interesting__field" placeholder={'Введите заголовок записи...'}/>
+                    <input type="text" className="creating-interesting__field" placeholder={'Введите текст записи...'}/>
                 </div>
-                <div className="add-interesting__row">
-                    <div className="add-interesting__cover text-blue" onClick={takePicture}><img src={paper_clip} alt=""/>Загрузить обложку</div>
-                    <div className="add-interesting__category text-blue">Рубрика</div>
+                <div className="creating-interesting__row">
+                    <div className="creating-interesting__cover text-blue" onClick={takePicture}><img src={paper_clip} alt=""/>Загрузить обложку</div>
+                    <div className="creating-interesting__category text-blue">Рубрика</div>
                 </div>
-                <div className="add-interesting__push">
+                <div className="creating-interesting__push">
                     <div className="custom-checkbox">
                         <input type="checkbox" className="custom-checkbox__checkbox" id={'push'}/>
                         <label htmlFor="push">Отправить PUSH</label>
                     </div>
                 </div>
-                <button className="add-interesting__button _button-white">Опубликовать</button>
+                <button className="creating-interesting__button _button-white">Опубликовать</button>
             </div>
         </div>
     );

@@ -13,30 +13,31 @@ export interface IRoutesNavigation {
 }
 
 export interface INavigation {
-    routes: IRoutesNavigation[]
+    routes?: IRoutesNavigation[]
 }
 
 export const Navigation:FC<INavigation> = ({routes}) => {
     return (
         <div className={'navigation'}>
             <div className="navigation__body">
-                {/*<NavLink to={ACTIVITY_ROUTE} className={({isActive}) =>*/}
-                {/*    isActive ? 'navigation__link active icon-icon_fire_active' : 'navigation__link icon-icon_fire'*/}
-                {/*}>Активность*/}
-                {/*</NavLink>*/}
-                {/*<NavLink to={TRACKER_ROUTE} className={({isActive}) =>*/}
-                {/*    isActive ? 'navigation__link active icon-icon_check-box' : 'navigation__link icon-icon_check-box'*/}
-                {/*}>Трекер</NavLink>*/}
-                {/*<NavLink to={HEALTH_INDEX_ROUTE} className={({isActive}) =>*/}
-                {/*    isActive ? 'navigation__link active icon-icon_cardioelectric' : 'navigation__link icon-icon_cardioelectric'*/}
-                {/*}>Индексы</NavLink>*/}
-                {/*<NavLink to={CHALLENGE_ROUTE} className={({isActive}) =>*/}
-                {/*    isActive ? 'navigation__link active icon-icon_energy-active' : 'navigation__link icon-icon-challenge'*/}
-                {/*}>Челленджи</NavLink>*/}
-                {/*<NavLink to={INTERESTING_ROUTE} className={({isActive}) =>*/}
-                {/*    isActive ? 'navigation__link active icon-icon_hb_news' : 'navigation__link icon-icon_hb_news'*/}
-                {/*}>Интересное</NavLink>*/}
-                {routes.map((nav,i)=>(
+                <NavLink to={ACTIVITY_ROUTE} className={({isActive}) =>
+                    isActive ? 'navigation__link active icon-icon_fire_active' : 'navigation__link icon-icon_fire'
+                }>Активность
+                </NavLink>
+                <NavLink to={TRACKER_ROUTE} className={({isActive}) =>
+                    isActive ? 'navigation__link active icon-icon_check-box' : 'navigation__link icon-icon_check-box'
+                }>Трекер</NavLink>
+                <NavLink to={HEALTH_INDEX_ROUTE} className={({isActive}) =>
+                    isActive ? 'navigation__link active icon-icon_cardioelectric' : 'navigation__link icon-icon_cardioelectric'
+                }>Индексы</NavLink>
+                <NavLink to={CHALLENGE_ROUTE} className={({isActive}) =>
+                    isActive ? 'navigation__link active icon-icon_energy-active' : 'navigation__link icon-icon-challenge'
+                }>Челленджи</NavLink>
+                <NavLink to={INTERESTING_ROUTE} className={({isActive}) =>
+                    isActive ? 'navigation__link active icon-icon_hb_news' : 'navigation__link icon-icon_hb_news'
+                }>Интересное</NavLink>
+
+                {/* {routes.map((nav,i)=>(
                     <NavLink to={nav.path}
                     key={i}
                              className={({isActive}) =>
@@ -45,7 +46,7 @@ export const Navigation:FC<INavigation> = ({routes}) => {
                                      'navigation__link ' + nav.icon
                              }
                     >{nav.title}</NavLink>
-                ))}
+                ))} */}
             </div>
         </div>
     );

@@ -1,24 +1,28 @@
-import React, {Dispatch, FC, SetStateAction} from 'react';
+import React, { Dispatch, FC, SetStateAction } from 'react';
 import './modal-status.scss'
 import icon from '../../assets/image/icon_purpose__status_full.svg'
+import { useNavigate } from 'react-router-dom';
 
-interface IModalStatus {
-    active: boolean,
-    setActive: Dispatch<SetStateAction<boolean>>,
+interface IModalStatus {   
     subTitle?: string,
-    textButton?: string
+    textButton?: string,
+    route?: any
 }
 
-export const ModalStatus:FC<IModalStatus> = ({active, setActive, subTitle, textButton}) => {
+export const ModalStatus: FC<IModalStatus> = ({ subTitle, textButton,route }) => {
 
-    if(!active) return null
+    const navigation = useNavigate();
+
+    const handler = () => {
+        navigation(route);
+    };
 
     return (
-        <div className={active ? 'modal-status active' : 'modal-status'}>
-            <div className="modal-status__cross" onClick={() => setActive(false)}>&#10006;</div>
+        <div className={'modal-status active'}>
+            <div className="modal-status__cross" onClick={handler}>&#10006;</div>
             <div className="modal-status__body">
                 <div className="modal-status__icon">
-                    <img src={icon} alt="icon"/>
+                    <img src={icon} alt="icon" />
                 </div>
                 <div className="modal-status__title">
                     Успех!
@@ -26,7 +30,7 @@ export const ModalStatus:FC<IModalStatus> = ({active, setActive, subTitle, textB
                 <div className="modal-status__sub-title">
                     {subTitle || 'Новость появится после проверки модератором'}
                 </div>
-                <button className="modal-status__button _button-white" onClick={() => setActive(false)}>
+                <button className="modal-status__button _button-white" onClick={handler}>
                     {textButton || 'Ок'}
                 </button>
             </div>

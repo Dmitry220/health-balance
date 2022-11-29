@@ -34,11 +34,11 @@ import {
     STATISTICS_TRACKER__ROUTE,
     CHAT__ROUTE,
     NEW_CHALLENGE_INFO_ROUTE,
-    ADD_INTERESTING_ROUTE,
+    CREATING_INTERESTING_ROUTE,
     SYNCING_ROUTE,
     PRODUCT_SCREEN_ROUTE,
     SURVEY_ACTUAL_ROUTE,
-    TEAM_MEMBER_ROUTE, PROFILE_MEMBER_ROUTE, RUBRIC_ROUTE, CURATOR_INTERESTING, DIALOG__ROUTE
+    TEAM_MEMBER_ROUTE, PROFILE_MEMBER_ROUTE, RUBRIC_ROUTE, CURATOR_INTERESTING, DIALOG__ROUTE, INTERVIEW_PAGE
 } from "./constants-route";
 import {AuthPage} from "../pages/Authorization/Auth-page";
 import {StartPage} from "../pages/Start-pages/StartPage";
@@ -75,7 +75,7 @@ import {StatisticTracker} from "../pages/Statistic-tracker/Statistic-tracker";
 import {GoalSleep} from "../pages/Goal-sleep/Goal-sleep";
 import {ChatPage} from "../pages/Chat-page/Chat-page";
 import {NewChallengeInfo} from "../pages/New-challenge-info/New-Challenge-Info";
-import {AddInteresting} from "../pages/Add-interesting/Add-interesting";
+import {CreatingInteresting} from "../pages/Creating-interesting/Creating-interesting";
 import {SyncingPage} from "../pages/Syncing-page/Syncing-page";
 import {ProductScreen} from "../pages/Product-screen/Product-screen";
 import {SurveyActualPage} from "../pages/Survey-actual-page/Survey-actual-page";
@@ -84,6 +84,7 @@ import {ProfileMemberPage} from "../pages/Profile-member-page/Profile-member-pag
 import {RubricPage} from "../pages/Rubric-page/Rubric-page";
 import {CuratorInteresting} from "../pages/Curator-interesting/Curator-interesting";
 import { PersonalChat } from "../pages/Chat-page/Personal-chat";
+import { InterviewPage } from "../pages/Interview-page/Interview-page";
 
 
 export const publicRoutes = [
@@ -236,8 +237,8 @@ export const privateRoutes = [
         Component: NewChallengeInfo
     },
     {
-        path: ADD_INTERESTING_ROUTE,
-        Component: AddInteresting
+        path: CREATING_INTERESTING_ROUTE,
+        Component: CreatingInteresting
     },
     {
         path: SYNCING_ROUTE,
@@ -267,4 +268,8 @@ export const privateRoutes = [
         path: CURATOR_INTERESTING,
         Component: CuratorInteresting
     },
+    {
+        path: INTERVIEW_PAGE,
+        Component: InterviewPage,
+      },
 ]

@@ -1,12 +1,15 @@
-import React from 'react';
+import React,{FC} from 'react';
 import './tracker.scss'
 import moon from '../../assets/image/tracker/akar-icons_moon-fill.png'
 import sun from '../../assets/image/tracker/akar-icons_sun-fill.png'
 import status_full from '../../assets/image/purpose__status_full_green.svg'
-import {Link} from "react-router-dom";
-import {GOAL_SLEEP__ROUTE} from "../../provider/constants-route";
+import { Link } from "react-router-dom";
+import { GOAL_SLEEP__ROUTE } from "../../provider/constants-route";
 
-export const HealthySleep = () => {
+interface IHealthySleep {
+    editProhibition?: boolean;
+  }
+export const HealthySleep:FC<IHealthySleep> = ({editProhibition}) => {
 
     const weekDay = [
         {
@@ -50,19 +53,26 @@ export const HealthySleep = () => {
         <div className={'healthy-sleep'}>
             <div className="healthy-sleep__head">
                 <div className="healthy-sleep__title title-17">Здоровый сон</div>
-                <Link to={GOAL_SLEEP__ROUTE} className="healthy-sleep__link text-blue">изменить цель</Link>
+                {!editProhibition && (
+                    <Link
+                        to={GOAL_SLEEP__ROUTE}
+                        className="healthy-sleep__link text-blue"
+                    >
+                        изменить цель
+                    </Link>
+                )}
             </div>
             <div className="healthy-sleep__body">
                 <div className="healthy-sleep__row">
                     <div className="healthy-sleep__icon">
-                        <img src={moon} alt="moon"/>
+                        <img src={moon} alt="moon" />
                         <div className="healthy-sleep__time">22:12</div>
                     </div>
-                    <div className="healthy-sleep__border-dashed"/>
+                    <div className="healthy-sleep__border-dashed" />
                     <div className="healthy-sleep__text">Вы спали <span> 8 часов</span></div>
-                    <div className="healthy-sleep__border-dashed"/>
+                    <div className="healthy-sleep__border-dashed" />
                     <div className="healthy-sleep__icon">
-                        <img src={sun} alt="sun"/>
+                        <img src={sun} alt="sun" />
                         <div className="healthy-sleep__time">06:30</div>
                     </div>
                 </div>
@@ -70,8 +80,8 @@ export const HealthySleep = () => {
                     {
                         weekDay.map(item => (
                             <div className="healthy-sleep__item-day" key={item.id}>
-                                {!item.completed ? <div className="healthy-sleep__circle"/> :
-                                    <img className="healthy-sleep__icon-full" src={status_full} alt=""/>}
+                                {!item.completed ? <div className="healthy-sleep__circle" /> :
+                                    <img className="healthy-sleep__icon-full" src={status_full} alt="" />}
                                 <div className="healthy-sleep__day-text">{item.day}</div>
                             </div>
                         ))

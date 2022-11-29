@@ -18,6 +18,7 @@ import { getItemsStep } from '../../utils/common-functions';
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks';
 import { setPurposeSteps } from '../../Redux/slice/appSlice';
 import { dataUserSelector } from '../../Redux/slice/profileSlice';
+import { setVisitedActivityPage } from '../../Redux/slice/visitedPageSlice';
 
 
 
@@ -34,7 +35,6 @@ export const StartPage = () => {
     const endValueStep = 20000
 
     const dispatch = useAppDispatch()
-    let navigate = useNavigate()
 
     const itemSteps = getItemsStep(starValueStep, endValueStep)
     const [stepValue, setStepValue] = useState<string>((starValueStep+endValueStep)/2+'')
@@ -44,13 +44,9 @@ export const StartPage = () => {
     const jumpToMain = async () => {
         const quantity = stepValue
         const type = 1
-        //await dispatch(setPurposeSteps({quantity,type}))
-        console.log(stepValue);  
-        navigate(ACTIVITY_ROUTE)      
-    }
-
-    console.log('stert page', dataUser);
-    
+        //await dispatch(setPurposeSteps({quantity,type})) 
+        dispatch(setVisitedActivityPage(1))  
+    } 
 
     return (
         <div className="preview">

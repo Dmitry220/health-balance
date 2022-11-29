@@ -10,9 +10,15 @@ import icon_fruit from '../../assets/image/tracker/icon-fruit.svg'
 import icon_water from '../../assets/image/tracker/icon-water.svg'
 import './tracker.scss'
 import {getItemsHour, getItemsMinutes, getItemsWeight} from "../../utils/common-functions";
+import { TrackerHabitsPage } from '../Tracker-habits/Tracker-habits-page';
+import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks';
+import { setVisitedTrackerPage, trackerVisitSelector } from '../../Redux/slice/visitedPageSlice';
 
 
 export const TrackerPage = () => {
+
+    const visitCount = useAppSelector(trackerVisitSelector)
+    const dispatch = useAppDispatch()
 
     const startValueWeight = 0
     const endValueWeight = 100
@@ -37,8 +43,15 @@ export const TrackerPage = () => {
     const changeHour = (value: string) => setHour(value)
     const changeMinutes= (value: string) => setMinutes(value)
 
+    const setVisitedTrackerPageHandler = () => {
+        if (visitCount === 0) {
+          dispatch(setVisitedTrackerPage(visitCount + 1));
+        }
+      };
+
     return (
         <div className={'tracker'}>
+             {visitCount === 0 ? (
             <Swiper
                 modules={[Pagination, A11y]}
                 className={'preview__swiper'}
@@ -110,11 +123,13 @@ export const TrackerPage = () => {
                         </div>
                         <div className="tracker__recommendation small-text">Количество фруктов в день <span className='text-blue'>5 оптимально</span></div>
                     </div>
-                    <Link to={TRACKER_HABITS_ROUTE} className={'preview__button _button-dark'}>Дальше</Link>
+                    <div className={'preview__button _button-dark'}  onClick={setVisitedTrackerPageHandler}>Дальше</div>
                     <div className={'circle-gradient circle-gradient_green'}/>
                 </SwiperSlide>
 
-            </Swiper>
+            </Swiper>) : (
+        <TrackerHabitsPage />
+      )}
         </div>
     );
 };

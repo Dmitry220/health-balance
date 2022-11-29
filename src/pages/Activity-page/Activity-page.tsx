@@ -31,12 +31,15 @@ import {
     CHALLENGE_ROUTE,
     HEALTH_INDEX_ROUTE,
     INTERESTING_ROUTE,
+    MOTIVATION_ROUTE,
     TRACKER_ROUTE
 } from "../../provider/constants-route";
 import {routesNavigation} from "../../utils/globalConstants";
 import { checkAuth } from '../../Redux/slice/authSlice';
 import { setUserData } from '../../Redux/slice/profileSlice';
-import { useAppDispatch } from '../../utils/hooks/redux-hooks';
+import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks';
+import { activityVisitSelector } from '../../Redux/slice/visitedPageSlice';
+import { StartPage } from '../Start-pages/StartPage';
 
 
 ChartJS.register(
@@ -171,6 +174,14 @@ export const ActivityPage: FC = () => {
         ],
     };
 
+
+    const activityVisitCount = useAppSelector(activityVisitSelector)
+
+    console.log(activityVisitCount);
+    
+
+  
+
     useEffect(() => {
         window.addEventListener("scroll", function () {
             let scroll = window.pageYOffset;
@@ -192,6 +203,11 @@ export const ActivityPage: FC = () => {
 
     }, [])
 
+    if(activityVisitCount === 0){
+        return <StartPage />
+    }
+
+
 
     return (
         <div className={'activity-page'}>
@@ -206,7 +222,7 @@ export const ActivityPage: FC = () => {
             </div>
             <div className="activity-page__card-actual">
                 {
-                    itemCardActuals.map(item => <CardActual key={item.id} title={item.title} path={item.title}
+                    itemCardActuals.map(item => <CardActual key={item.id} title={item.title} path={MOTIVATION_ROUTE}
                                                             image={item.image} type={item.type}/>)
                 }
             </div>
