@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@capacitor-community/barcode-scanner": "^3.0.1",
     "@capacitor/android": "^3.6.0",
     "@capacitor/camera": "^4.1.0",
     "@capacitor/cli": "^3.6.0",

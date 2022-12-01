@@ -19,6 +19,7 @@ import {
 import storage from 'redux-persist/lib/storage'
 import persistReducer from "redux-persist/es/persistReducer";
 import { visitedPagesSlice } from './slice/visitedPageSlice';
+import { lessonsSlice } from './slice/lessonsSlice';
 
 const persistConfig = {
   key: "root",
@@ -36,7 +37,8 @@ const reducer = combineReducers(
     profile: profileSlice.reducer,
     user: userSlice.reducer,
     shop: shopSlice.reducer,
-    visitedPages: visitedPagesSlice.reducer
+    visitedPages: visitedPagesSlice.reducer,
+    lessons: lessonsSlice.reducer
   }
 )
 

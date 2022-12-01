@@ -23,4 +23,13 @@ export default class FileService {
 			},	
 		})	
 	}
+	static async addImageLesson(params:FormData){			
+
+		return $api.post(`/v2/images/?type=lessons&token=${localStorage.getItem('token')}`,params ,{
+			headers:{
+				'accept': 'application/json',
+				'Content-Type': 'multipart/form-data'
+			},	
+		})	
+	}
 }

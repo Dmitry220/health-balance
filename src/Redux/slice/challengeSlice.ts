@@ -21,7 +21,8 @@ export interface IChallenge {
     disabledButton?: boolean,
     purpose:ICreatingPurpose,
     challenges: INewChallenge[] | [],
-    isLoading: boolean
+    isLoading: boolean,
+    challenge_id: number
 }
 
 
@@ -45,7 +46,8 @@ const initialState: IChallenge = {
         type: 1
     },
     challenges:[],
-    isLoading: false
+    isLoading: false,
+    challenge_id: 0
 }
 
 
@@ -65,8 +67,18 @@ export const creatingChallenge = createAsyncThunk<unknown>(
             formData.append("team_amount",state.creatingChallenge.creatingChallenge.team_amount)
             formData.append("max_peoples",state.creatingChallenge.creatingChallenge.max_peoples)            
         try{
-             const response = await ChallengeService.creatingChallenge(formData)      
-             console.log(response);                     
+            const response = await ChallengeService.creatingChallenge(formData)      
+            //console.log(response);                
+             
+            const formDataPurpose = new FormData()
+            formDataPurpose.append('quantity', state.creatingChallenge.purpose.quantity)
+            formDataPurpose.append('type', state.creatingChallenge.purpose.type)
+            formDataPurpose.append('reward', state.creatingChallenge.purpose.reward)
+            formDataPurpose.append('challenge', response.data.challenge_id)               
+                
+            const responsepurpose = await ChallengeService.creatingPurpose(formDataPurpose)
+            console.log(responsepurpose);  
+            return await response.data.challenge_id                   
         }catch(e){
             console.log(e);            
         }            
@@ -136,6 +148,13 @@ export const creatingChallengeSlice = createSlice({
         builder.addCase(getListChallenges.pending, (state) => {
             state.isLoading = true
         })
+        builder.addCase(creatingChallenge.pending, (state) => {
+            state.isLoading = true
+        })
+        builder.addCase(creatingChallenge.fulfilled, (state, action:PayloadAction<any>) => {
+            state.challenge_id = action.payload
+            state.isLoading = true
+        })
     }
 })
 
@@ -162,5 +181,6 @@ export const typePurposeSelector = (state: RootState) => state.creatingChallenge
 export const listChallengesSelector = (state: RootState) => state.creatingChallenge.challenges
 
 export const isLoadingSelector = (state: RootState) => state.creatingChallenge.isLoading
+export const challengeIdSelector = (state: RootState) => state.creatingChallenge.challenge_id
 
 export default creatingChallengeSlice.reducer

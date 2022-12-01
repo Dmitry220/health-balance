@@ -129,37 +129,6 @@
   }
 }
 
-.creating-lecture {
-  &__title {
-    margin: 0 0 40px 0;
-  }
-
-  &__sub-title {
-    margin: 0 0 20px 0;
-  }
-
-  &__input {
-    margin: 0 0 20px 0;
-  }
-
-  &__buttons {
-    max-width: 280px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  &__button-download {
-    margin: 0 0 40px 0;
-  }
-
-  &__select {
-    margin: 0 0 45px 0;
-  }
-
-}
-
 .type-challenge {
 
   &__title{
@@ -391,3 +360,103 @@
   }
 }
 
+.creating-lecture {
+  &__title {
+    margin: 0 0 40px 0;
+  }
+
+  &__sub-title {
+    margin: 0 0 20px 0;
+  }
+
+  &__input {
+    margin: 0 0 20px 0;
+  }
+
+  &__buttons {
+    max-width: 280px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__url {
+    margin: 0 0 20px 0;
+  }
+  &__description{
+    margin: 0 0 20px 0;
+  }
+
+  &__select {
+    margin: 0 0 20px 0;
+  }
+  &__date{
+    margin: 0 0 20px 0;
+  }
+  &__score{
+    margin: 0 0 20px 0;
+  }
+
+
+}
+.qr-code{
+ // display: flex;
+ margin-bottom: 20px;
+  &__input{
+    &:not(:last-child){
+      margin: 0 0 20px 0;
+    }
+  }
+}
+.dowload-file{
+  // display: flex;
+  margin-bottom: 20px;
+   &__input{
+     &:not(:last-child){
+       margin: 0 0 20px 0;
+     }
+   }
+ }
+ .string-answer{
+  // display: flex;
+  margin-bottom: 20px;
+   &__input{
+     &:not(:last-child){
+       margin: 0 0 20px 0;
+     }
+   }
+ }
+ .choice-answer{
+  // display: flex;
+  margin-bottom: 20px;
+   &__input{
+     &:not(:last-child){
+       margin: 0 0 20px 0;
+     }
+     &_corrected{
+      box-shadow: 1px 1px 7px 0px #f01111;
+    }
+   }
+   &__buttons{
+    display: flex;
+    align-items: center;    
+   }
+   &__button{
+    outline: none;
+    border: none;
+    font-family: inherit;
+    padding: 5px 10px;
+    background: #9df9c2;
+    font-size: 14px;
+    border-radius: 10px;
+    flex: 1 1 auto;
+    &:not(:last-child){
+      margin-right: 10px;
+    }    
+    &_del{
+      background: #ff7070;
+      color: #fff;
+    }
+   }
+ }

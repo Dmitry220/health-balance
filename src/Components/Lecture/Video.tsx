@@ -1,9 +1,13 @@
-import React, {useRef} from 'react';
-import previewVideo from "../../assets/image/lecture/lecture_img.jpg";
+import React, { FC,useRef } from 'react';
+// import previewVideo from "../../assets/image/lecture/lecture_img.jpg";
 
-export const Video = () => {
+interface IVideo {
+    url: string
+}
 
-    const videoPlayer:React.Ref<any> = useRef()
+export const Video:FC<IVideo> = ({url}) => {
+
+    const videoPlayer: React.Ref<any> = useRef()
 
     const runVideo = () => {
         console.log(videoPlayer.current)
@@ -12,9 +16,9 @@ export const Video = () => {
 
     return (
         <div className="lecture__video">
-            <video poster={previewVideo} ref={videoPlayer} />
-            <source src={'https://youtu.be/p2Lb_DVH6fU'} type="video/mp4"/>
-            <div className="lecture__video-run" onClick={runVideo}/>
+            <iframe src={url}
+                //frameborder="0"
+                ></iframe>
         </div>
     );
 };

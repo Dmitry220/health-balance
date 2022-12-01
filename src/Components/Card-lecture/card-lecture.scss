@@ -1,9 +1,10 @@
 .card-lecture {
+  color: #fff;
   &:not(:last-child) {
     margin: 0 0 26px 0;
   }
   display: flex;
-  justify-content: space-between;
+ // justify-content: space-between;
   gap: 14px;
 
   &__image{
@@ -25,7 +26,7 @@
     font-weight: 400;
     font-size: 15px;
     line-height: 120%;
-
+    flex: 1 1 auto;
     margin: 0 0 15px 0;
   }
   &__date{

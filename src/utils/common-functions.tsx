@@ -1,3 +1,4 @@
+import { Toast } from "@capacitor/toast";
 import React from "react";
 import Picker from "rmc-picker";
 import { typesChallenge } from "../types/enums";
@@ -103,3 +104,10 @@ export const typeConversion = (type: number) =>{
             return 'Общий'
     }
 }
+
+export const showToast = async (text:string) => {
+    await Toast.show({
+      text: text,
+      position:'center'
+    });
+  };  
