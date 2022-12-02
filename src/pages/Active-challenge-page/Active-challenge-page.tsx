@@ -63,7 +63,7 @@ export const ActiveChallengePage = () => {
         <div className={'active-challenge-page'}>
             <Header title={'Челлендж'} />
             <div className='active-challenge-page__main'>
-                <HeaderChallenge/>
+                <HeaderChallenge type={1} image={''} title={''}/>
             </div>
             <div className='active-challenge-page__progress'>
                 <div className="active-challenge-page__title-17 title-17">
@@ -76,7 +76,7 @@ export const ActiveChallengePage = () => {
                     <div className="tasks-active-challenge__title-17 title-17">Челлендж закончится:</div>
                     <div className="tasks-active-challenge__data"><img src={icon_clock} alt=""/>01.03.22</div>
                 </div>
-                <TaskChallenge type={typesChallenge.common} tasks={itemsTask}/>
+                {/* <TaskChallenge type={typesChallenge.common} tasks={itemsTask}/> */}
             </div>
             <div className='active-challenge-page__reward'>
                 Награда:  <RewardCount count={95} />

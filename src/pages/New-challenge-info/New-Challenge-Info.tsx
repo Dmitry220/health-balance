@@ -1,40 +1,42 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './new-challenge-info.scss'
 import Header from "../../Components/Header/Header";
-import {HeaderChallenge} from "../../Components/Active-challenge/Header-challenge";
-import {ProgressBar} from "../../Components/Progress-bar/Progress-bar";
-import {roles, typesChallenge} from "../../types/enums";
+import { HeaderChallenge } from "../../Components/Active-challenge/Header-challenge";
+import { ProgressBar } from "../../Components/Progress-bar/Progress-bar";
+import { roles, typesChallenge } from "../../types/enums";
 import icon_clock from "../../assets/image/Interesting/clock.svg";
-import {TaskChallenge} from "../../Components/Challenge/Task-challenge";
-import {RewardCount} from "../../Components/Reward/Reward-count";
-import {Link} from "react-router-dom";
-import {LECTURES_ROUTE, TEAM_SELECTION_ROUTE} from "../../provider/constants-route";
-import {ListLeadersChallenge} from "../../Components/List-leaders-challenge/List-leaders-challenge";
+import { TaskChallenge } from "../../Components/Challenge/Task-challenge";
+import { RewardCount } from "../../Components/Reward/Reward-count";
+import { Link, useParams } from "react-router-dom";
+import { LECTURES_ROUTE, TEAM_SELECTION_ROUTE } from "../../provider/constants-route";
+import { ListLeadersChallenge } from "../../Components/List-leaders-challenge/List-leaders-challenge";
 import icon_edit from "../../assets/image/icon-edit.svg";
+import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks';
+import { challengeSelector, getChallengeById } from '../../Redux/slice/challengeSlice';
+import { definitionColor } from '../../utils/common-functions';
 
 export const NewChallengeInfo = () => {
 
+    const dispatch = useAppDispatch()
+    const params = useParams()
+    const challenge = useAppSelector(challengeSelector)
+
     const itemsTask = [
         {
-            title: 'Обучающий материал',
-            value: '50',
-            id: 45633
+            title: challenge?.type === 1 ? 'Шагов для завершения' : 'Километров для завершения',
+            value: 50,
+            id: 1
         },
         {
             title: 'Обучающий материал',
-            value: '4100',
-            id: 23
+            value: challenge?.total_lessons,
+            id: 2
         },
         {
-            title: 'Обучающий материал',
-            value: 'va10lue',
-            id: 4562333
-        },
-        {
-            title: 'Обучающий материал',
-            value: 'va10lue',
-            id: 235
-        }
+            title: 'Домашние задания',
+            value: 0,
+            id: 3
+        },       
     ]
 
     const itemsLeaders = [
@@ -56,33 +58,44 @@ export const NewChallengeInfo = () => {
         },
     ]
 
+    useEffect(() => {
+        dispatch(getChallengeById(Number(params.id)))
+    }, [])
+
     return (
         <div className={'new-challenge-info'}>
-            <Header title={'Челлендж'} />
-            <div className='new-challenge-info__main'>
-                <HeaderChallenge/>
-            </div>
-            <div className="new-challenge-info__description">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit consectetur adipiscing elit
-            </div>
-            <div className="new-challenge-info__row">
-                <div className="new-challenge-info__data">
-                    <img className={'new-challenge-info__data-clock'} src={icon_clock} alt=""/>
-                    15.01.22 - 01.03.22
-                </div>
-                <div className="new-challenge-info__reward">
-                    <div className="new-challenge-info__reward-text">Награда:</div>
-                    <RewardCount count={95} />
-                </div>
-            </div>
-            <div className="new-challenge-info__title-block block-title">Задания</div>
-            <div className="new-challenge-info__tasks">
-                <TaskChallenge type={typesChallenge.common} tasks={itemsTask}/>
-            </div>
-            <Link className="new-challenge-info__button _button-white" to={TEAM_SELECTION_ROUTE}>Принять участие</Link>
-
-            <div className="new-challenge-info__title-block block-title">Лидеры челленджа</div>
-            <ListLeadersChallenge items={itemsLeaders} role={roles.members}/>
+            {
+                challenge ? <>
+                    <Header title={'Челлендж'} customClass={'new-challenge-info__header'}/>
+                    <div className='new-challenge-info__main'>
+                        <HeaderChallenge image={challenge.image} title={challenge.title} type={challenge.type}/>
+                    </div>
+                    <div className="new-challenge-info__description">
+                        {challenge?.description}
+                    </div>
+                    <div className="new-challenge-info__row">
+                        <div className={definitionColor(challenge.type, 'new-challenge-info__data')}>
+                            <img className={'new-challenge-info__data-clock'} src={icon_clock} alt="" />
+                            {new Date(challenge.start_date * 1000).toLocaleDateString() + ' - ' + new Date(challenge?.end_date * 1000).toLocaleDateString()}
+                        </div>
+                        <div className="new-challenge-info__reward">
+                            <div className="new-challenge-info__reward-text">Награда:</div>
+                            <RewardCount count={95} />
+                        </div>
+                    </div>
+                    <div className="new-challenge-info__title-block block-title">Задания</div>
+                    <div className="new-challenge-info__tasks">
+                        <TaskChallenge type={challenge.type} tasks={itemsTask} />
+                    </div>
+                    <Link className="new-challenge-info__button _button-white" to={TEAM_SELECTION_ROUTE}>Принять участие</Link>
+                    {
+                    challenge.type === 1 && <> <div className="new-challenge-info__title-block block-title">Лидеры челленджа</div>
+                    <ListLeadersChallenge items={itemsLeaders} role={roles.members} /></>
+                    }
+                  
+                </>                    :
+                    <h1>Загрузка...</h1>
+            }
         </div>
     );
 };

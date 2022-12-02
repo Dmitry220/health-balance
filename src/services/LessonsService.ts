@@ -1,3 +1,4 @@
+import { AxiosResponse } from "axios";
 import { $api } from "../http";
 
 export default class LessonService {
@@ -12,7 +13,7 @@ export default class LessonService {
 	
 	}
 
-	static async login(params:FormData, id:number){
+	static async complete(params:FormData, id:number){
 		return $api.post(`/v2/lessons/${id}/complete/?token=${localStorage.getItem('token')}`, params, {
 			headers:{
 				'accept': 'application/json',
@@ -27,5 +28,9 @@ export default class LessonService {
 
 	static getLessonById(id: number){
 		return $api.get(`/v2/lessons/${id}/?token=${localStorage.getItem('token')}`)
+	}
+
+	static checkTask(id: number){
+		return $api.get(`/v2/lessons/${id}/check/?token=${localStorage.getItem('token')}`)
 	}
 }

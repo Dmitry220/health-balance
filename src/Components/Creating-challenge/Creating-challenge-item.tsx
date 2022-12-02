@@ -38,12 +38,12 @@ export const CreatingChallengeItem:FC<ICreatingChallengeItem> = ({order,setOrder
             case stageCreatingChallenge.finally:
                 return <FinalVariant setOrder={setOrder}/>
             case stageCreatingChallenge.lecture:
-                return <CreatingLecture />
+                return <CreatingLecture setOrder={setOrder}/>
             default:
                 return null
         }
     }
-    console.log("creating challenge Item")
+   // console.log("creating challenge Item")
     return (
         <div className={'creating-challenge-item'}>
             {renderField()}

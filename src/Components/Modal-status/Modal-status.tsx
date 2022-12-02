@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 interface IModalStatus {   
     subTitle?: string,
     textButton?: string,
-    route?: any
+    route?: any,
 }
 
 export const ModalStatus: FC<IModalStatus> = ({ subTitle, textButton,route }) => {
@@ -14,7 +14,9 @@ export const ModalStatus: FC<IModalStatus> = ({ subTitle, textButton,route }) =>
     const navigation = useNavigate();
 
     const handler = () => {
-        navigation(route);
+        if(route){
+           navigation(route); 
+        }         
     };
 
     return (

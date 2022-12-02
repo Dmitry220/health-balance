@@ -21,6 +21,9 @@ export const ChallengePage = () => {
     const labelsTabChallenge = ['Личные', 'Коммандные', 'Общие', 'Архив']
 
     const challenges = useAppSelector(listChallengesSelector)
+
+    const commandsChallenge = challenges?.filter(item => item.type === 2 && item)
+    const personalChallenge = challenges?.filter(item => item.type === 1 && item)
     const isLoading = useAppSelector(isLoadingSelector)
 
     const dispatch = useAppDispatch()
@@ -29,7 +32,7 @@ export const ChallengePage = () => {
         dispatch(getListChallenges())
     }, [])
 
-    if(isLoading){
+    if (isLoading) {
         return <h1>Загрузка...</h1>
     }
 
@@ -57,6 +60,14 @@ export const ChallengePage = () => {
                     {/*<CardChallenge type={typesChallenge.personal} percent={45} id={0}/>*/}
                     {/*<CardChallenge type={typesChallenge.personal} percent={64} id={1}/>*/}
                 </div>
+                <div className="challenge-page__title-block block-title">Новые челленджи</div>
+                {
+                    personalChallenge.map((item, i) => (
+                        <div className={'challenge-page__new-challenges'} key={i}>
+                            <NewChallengeCard type={item.type} id={item.id} description={item.description} image={item.image} title={item.title} />
+                        </div>
+                    ))
+                }
             </TabContent>
             <TabContent index={1} value={valueTab}>
                 <div className="challenge-page__title-block block-title">Командные</div>
@@ -64,6 +75,14 @@ export const ChallengePage = () => {
                     <CardChallenge type={typesChallenge.command} percent={12} id={3} />
                     <CardChallenge type={typesChallenge.command} percent={84} id={8} />
                 </div>
+                <div className="challenge-page__title-block block-title">Новые челленджи</div>
+                {
+                    commandsChallenge.map((item, i) => (
+                        <div className={'challenge-page__new-challenges'} key={i}>
+                            <NewChallengeCard type={item.type} id={item.id} description={item.description} image={item.image} title={item.title} />
+                        </div>
+                    ))
+                }
             </TabContent>
             <TabContent index={2} value={valueTab}>
                 <div className="challenge-page__title-block block-title">Общие</div>
@@ -81,14 +100,7 @@ export const ChallengePage = () => {
             </TabContent>
 
 
-            <div className="challenge-page__title-block block-title">Новые челленджи</div>
-            {
-                challenges.map((item, i) => (
-                    <div className={'challenge-page__new-challenges'} key={i}>
-                        <NewChallengeCard type={item.type} id={item.id} description={item.description} image={item.image} title={item.title} />
-                    </div>
-                ))
-            }
+
         </div>
     );
 };

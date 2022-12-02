@@ -3,7 +3,7 @@ import {definitionColor} from "../../utils/common-functions";
 
 interface ITaskValue {
     title: string,
-    value: string,
+    value: number | undefined,
     id: number
 }
 

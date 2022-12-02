@@ -20,6 +20,8 @@ export interface INewChallenge {
 	image: string, 
 	start_date: number, 
 	end_date: number,
-	team_amount: number, 
-	max_peoples: number, 
+	team_amount?: number, 
+	max_peoples?: number, 
+	register_team?: number,
+	total_lessons?: number
 }

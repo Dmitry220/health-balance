@@ -15,11 +15,11 @@ export const CreatingChallengePage = () => {
     const disabledButton = useAppSelector(disableButtonChallengeSelector)
     const dispatch = useAppDispatch()
 
-    console.log("creating challenge page render")
+    //console.log("creating challenge page render")
 
-    const saveChallenge = () => {
-        dispatch(creatingChallenge())
-        setOrder(9)
+    const saveChallenge = async () => {
+        await dispatch(creatingChallenge())
+        setOrder(prev=>prev+1)
     }
 
     const renderCreatingChallengeItems = () => {
@@ -54,7 +54,7 @@ export const CreatingChallengePage = () => {
             case 9:
                 return <ModalStatus
                     subTitle='Челлендж появится после проверки модератором'
-                    textButton='Ок'
+                    textButton='Ок'                    
                     route={CHALLENGE_ROUTE}
                 />
 

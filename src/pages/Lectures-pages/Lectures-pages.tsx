@@ -14,7 +14,10 @@ export const LecturesPages = () => {
     const isLoading = useAppSelector(isLoadingSelector) 
   
     useEffect(()=>{
-        dispatch(getLessons())
+        async function asd() {
+            await dispatch(getLessons())
+        }
+        asd()
     }, [])
 
     if(isLoading){

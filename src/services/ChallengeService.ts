@@ -25,4 +25,13 @@ export default class ChallengeService {
 	static async getChallenges(){
 		return $api.get(`/v2/challenges/?token=${localStorage.getItem('token')}`)	
 	}
+
+	static async getChallengeById(id:number){
+		return $api.get(`/v2/challenges/${id}?token=${localStorage.getItem('token')}`)	
+	}
+
+	static async getChallengesTeam(){
+		return $api.get(`/v2/challenge-teams/?token=${localStorage.getItem('token')}`)	
+	}
+	
 }

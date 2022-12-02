@@ -1,27 +1,47 @@
-import React, { ChangeEvent, useState } from "react";
-import { isLoadingSelector, lessonSelector } from "../../Redux/slice/lessonsSlice";
+import React, { ChangeEvent, useEffect, useState } from "react";
+import { checkTask, isLoadingSelector, isLoadingSuccessSelector, lessonSelector, successSelector } from "../../Redux/slice/lessonsSlice";
+import LessonService from "../../services/LessonsService";
 import { showToast } from "../../utils/common-functions";
-import { useAppSelector } from "../../utils/hooks/redux-hooks";
+import { useAppDispatch, useAppSelector } from "../../utils/hooks/redux-hooks";
 import './lecture.scss'
 
 export const AnswerOptions = () => {
 
+    const dispacth = useAppDispatch()
+
     const lesson = useAppSelector(lessonSelector)
     const answers = lesson?.answers.split(';')
-
     const [value, setValue] = useState<string>('')
 
+    const success = useAppSelector(successSelector)
+    const isLoading = useAppSelector(isLoadingSuccessSelector)
+
     console.log(value);
-    
+
     const complete = async () => {
-        if(+value === lesson?.correct_answer){             
-            showToast("Задание выполнено")        
-        }else{
-            showToast("Вы не правильно ответили на вопрос")
+        if (+value === lesson?.correct_answer) {
+            const params = new FormData()
+            params.append("answer", value)
+            const response = await LessonService.complete(params, lesson.id)
+            await showToast("Задание выполнено")
+        } else {
+            await showToast("Вы не правильно ответили на вопрос")
         }
     }
 
+    useEffect(() => {
+        lesson?.id && dispacth(checkTask(lesson.id))       
+     }, [])
+ 
 
+    if(isLoading){
+        return <h1>Загрузка...</h1>
+    }
+
+    if(success){
+        return <h1 style={{textAlign: 'center', color: 'red'}}>Выполнено</h1> 
+    }
+    
     return (
         <>
             <div className="task-lecture__title title-17">{lesson?.question}</div>

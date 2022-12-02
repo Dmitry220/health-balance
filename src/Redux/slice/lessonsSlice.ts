@@ -7,12 +7,16 @@ export interface ILessonState {
   lesson: ILesson | null;
   lessons: ILesson[] | [];
   isLoading: boolean;
+  isLoadingSucces: boolean
+  success: boolean
 }
 
 const initialState: ILessonState = {
   lesson: null,
   lessons: [],
   isLoading: false,
+  isLoadingSucces: false,
+  success: false
 };
 
 export const getLessonById = createAsyncThunk(
@@ -28,28 +32,14 @@ export const getLessons = createAsyncThunk("getLessons", async () => {
   return await response.data.data;
 });
 
-export const creatingLecture = createAsyncThunk(
-	'creatingLecture',
-	async (arg,{getState}) => {      
-		  const state:any = getState()			  
-			//   const formData = new FormData()
-			  // formData.append("platform",state.lesson.creatingChallenge.platform)
-			//   formData.append("title",state.lesson.creatingChallenge.title)
-			//   formData.append("description",state.lesson.creatingChallenge.description)
-			//   formData.append("type",state.lesson.creatingChallenge.type)
-			//   formData.append("image",state.lesson.creatingChallenge.image)
-			//   formData.append("start_date",''+(state.lesson.creatingChallenge.startDate).getTime()/1000)
-			//   formData.append("end_date",''+(state.lesson.creatingChallenge.startDate).getTime()/1000)
-			//   formData.append("team_amount",state.lesson.creatingChallenge.team_amount)
-			//   formData.append("max_peoples",state.lesson.creatingChallenge.max_peoples)            
-		 try{
-				// const response = await LessonService.createLesson(formData)      
-				// console.log(response);                     
-		 }catch(e){
-			  console.log(e);            
-		 }            
-	}
-)
+export const checkTask = createAsyncThunk(
+  "checkTask",
+  async (id: number) => {
+    const response = await LessonService.checkTask(id);
+    return await response.data.exist;
+  }
+);
+
 
 export const lessonsSlice = createSlice({
   name: "lessons",
@@ -80,6 +70,15 @@ export const lessonsSlice = createSlice({
     builder.addCase(getLessons.pending, (state) => {
       state.isLoading = true;
     });
+
+    builder.addCase(checkTask.pending, (state) => {
+      state.isLoadingSucces = true;
+    });
+    builder.addCase(checkTask.fulfilled, (state,action:PayloadAction<boolean>) => {
+      state.isLoadingSucces = false;
+      state.success = action.payload
+    });
+ 
   },
 });
 
@@ -89,5 +88,7 @@ export const lessonsSelector = (state: RootState) => state.lessons.lessons;
 export const lessonSelector = (state: RootState) => state.lessons.lesson;
 
 export const isLoadingSelector = (state: RootState) => state.lessons.isLoading;
+export const isLoadingSuccessSelector = (state: RootState) => state.lessons.isLoadingSucces;
+export const successSelector = (state: RootState) => state.lessons.success;
 
 export default lessonsSlice.reducer;

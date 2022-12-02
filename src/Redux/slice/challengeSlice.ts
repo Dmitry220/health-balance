@@ -22,7 +22,8 @@ export interface IChallenge {
     purpose:ICreatingPurpose,
     challenges: INewChallenge[] | [],
     isLoading: boolean,
-    challenge_id: number
+    challenge_id: number,
+    challenge: INewChallenge | null
 }
 
 
@@ -47,7 +48,8 @@ const initialState: IChallenge = {
     },
     challenges:[],
     isLoading: false,
-    challenge_id: 0
+    challenge_id: 0,
+    challenge: null
 }
 
 
@@ -89,6 +91,14 @@ export const getListChallenges = createAsyncThunk(
     'challenges',
     async () => {
         const response = await ChallengeService.getChallenges()
+        return await response.data.data
+    }
+)
+
+export const getChallengeById = createAsyncThunk(
+    'getChallengeById',
+    async (id:number) => {
+        const response = await ChallengeService.getChallengeById(id)
         return await response.data.data
     }
 )
@@ -153,7 +163,14 @@ export const creatingChallengeSlice = createSlice({
         })
         builder.addCase(creatingChallenge.fulfilled, (state, action:PayloadAction<any>) => {
             state.challenge_id = action.payload
+            state.isLoading = false
+        })
+        builder.addCase(getChallengeById.pending, (state) => {
             state.isLoading = true
+        })
+        builder.addCase(getChallengeById.fulfilled, (state, action:PayloadAction<INewChallenge>) => {
+            state.challenge = action.payload
+            state.isLoading = false
         })
     }
 })
@@ -181,6 +198,9 @@ export const typePurposeSelector = (state: RootState) => state.creatingChallenge
 export const listChallengesSelector = (state: RootState) => state.creatingChallenge.challenges
 
 export const isLoadingSelector = (state: RootState) => state.creatingChallenge.isLoading
+
 export const challengeIdSelector = (state: RootState) => state.creatingChallenge.challenge_id
+
+export const challengeSelector = (state: RootState) => state.creatingChallenge.challenge
 
 export default creatingChallengeSlice.reducer

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, forwardRef, useState } from 'react';
+import React, { ChangeEvent, forwardRef, useState,Dispatch, FC, SetStateAction } from 'react';
 import DatePicker,{registerLocale} from 'react-datepicker';
 import ru from 'date-fns/locale/ru';
 import './creating-challenge.scss'
@@ -6,14 +6,19 @@ import LessonService from '../../services/LessonsService';
 import { useAppSelector } from '../../utils/hooks/redux-hooks';
 import { challengeIdSelector } from '../../Redux/slice/challengeSlice';
 import FileService from '../../services/FilesServices';
+import { showToast } from '../../utils/common-functions';
 registerLocale('ru', ru)
 
 
 interface IAnswer {
     answer: string
 }
+interface ICreatingLecture {
+    setOrder: Dispatch<SetStateAction<number>>,
+}
 
-export const CreatingLecture = () => {
+
+export const CreatingLecture:FC<ICreatingLecture> = ({setOrder}) => {
     const END_DATE = new Date()
     END_DATE.setDate(END_DATE.getDate() + 3)
 
@@ -45,7 +50,7 @@ export const CreatingLecture = () => {
     }
 
     const save = () => {
-
+        setOrder(prev=>prev+1) 
     }
 
     const changePeriod = (dates: any) => {     
@@ -54,8 +59,21 @@ export const CreatingLecture = () => {
         setEndDate(end);
     };
 
-    console.log(correctAnswer);
-    
+    const reset = () => {
+        setAnswer('')
+        setTitle('')
+        setAnswers([])
+        setCorrectAnswer(0)
+        setDescription('')
+        setEndDate(END_DATE)
+        setStartDate(new Date())
+        setImage('')
+        setQrCode('')
+        setQuestion('')
+        setVideoUrl('')
+        setScore(0)
+        setTypeLesson(0)
+    }    
 
     const addLecture = async () => {
         const formData = new FormData()
@@ -90,12 +108,13 @@ export const CreatingLecture = () => {
         try {
             console.log(title, description,typeLesson, question, answers,score, startDate.getTime()/1000, endDate.getTime()/1000, image, correctAnswer,videoUrl);      
             const response = await LessonService.createLesson(formData)
-            console.log(response);         
+            console.log(response);
+            showToast("Лекция успешно добавлена!")  
+            reset()
         } catch (error) {
-            console.log(error);
-            
-        }
-        
+            showToast("Произошла ошибка!") 
+            console.log(error);            
+        }        
     }
 
     return (
@@ -215,6 +234,5 @@ export const CreatingLecture = () => {
 
 
 const ExampleCustomInput = forwardRef(({ value, onClick }: any, ref: any) => {
-    return <div className={'text-blue'} onClick={onClick}> {value}</div>      
-    
+    return <div className={'text-blue'} onClick={onClick}> {value}</div>     
 });
