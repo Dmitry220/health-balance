@@ -1,18 +1,28 @@
-import React, {FC} from 'react';
+import React, {FC, useEffect} from 'react';
 import './target.scss'
 import icon_status_full from '../../assets/image/icon_purpose__status_full.svg'
 import {Link} from "react-router-dom";
 import {NEW_TARGET_ROUTE} from "../../provider/constants-route";
+import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks';
+import { getPersonalPurpose, purposeSelector } from '../../Redux/slice/purposeSlice';
 
 
 export const Target = () => {
+
+    const dispatch = useAppDispatch()
+    const purpose = useAppSelector(purposeSelector)
+
+    useEffect(() => {
+        dispatch(getPersonalPurpose())
+    }, [])
+    
 
     return (
         <div className={'target'}>
             <div className="target__container">
                 <div className="target__header">
                     <div className="target__title">
-                        Цель - <span>0</span>
+                        Цель - <span>{purpose?.quantity}</span>
                     </div>
                     <Link to={NEW_TARGET_ROUTE} className="target__change">изменить цель</Link>
                 </div>

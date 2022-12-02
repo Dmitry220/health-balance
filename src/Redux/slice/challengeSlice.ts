@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {RootState} from "../store";
-import { ICreatingPurpose, INewChallenge } from '../../models/IChallenge';
+import { INewChallenge } from '../../models/IChallenge';
 import ChallengeService from '../../services/ChallengeService';
 
 const END_DATE = new Date()
@@ -19,7 +19,6 @@ export interface IChallenge {
         max_peoples: number
     },
     disabledButton?: boolean,
-    purpose:ICreatingPurpose,
     challenges: INewChallenge[] | [],
     isLoading: boolean,
     challenge_id: number,
@@ -40,12 +39,6 @@ const initialState: IChallenge = {
         max_peoples: 0      
     },
     disabledButton: true,
-    purpose:{
-        challenge: 0,
-        quantity: 0,
-        reward: 0,
-        type: 1
-    },
     challenges:[],
     isLoading: false,
     challenge_id: 0,
@@ -73,9 +66,9 @@ export const creatingChallenge = createAsyncThunk<unknown>(
             //console.log(response);                
              
             const formDataPurpose = new FormData()
-            formDataPurpose.append('quantity', state.creatingChallenge.purpose.quantity)
-            formDataPurpose.append('type', state.creatingChallenge.purpose.type)
-            formDataPurpose.append('reward', state.creatingChallenge.purpose.reward)
+            formDataPurpose.append('quantity', state.purposes.creatingPurpose.quantity)
+            formDataPurpose.append('type', state.purposes.creatingPurpose.type)
+            formDataPurpose.append('reward', state.purposes.creatingPurpose.reward)
             formDataPurpose.append('challenge', response.data.challenge_id)               
                 
             const responsepurpose = await ChallengeService.creatingPurpose(formDataPurpose)
@@ -137,18 +130,6 @@ export const creatingChallengeSlice = createSlice({
         setDisabledButton: (state, action) => {
             state.disabledButton = action.payload
         },
-        setIdChallengePurpose: (state, action) => {
-            state.purpose.challenge = action.payload
-        },
-        setQuantityPurpose: (state, action) => {
-            state.purpose.quantity = action.payload
-        },
-        setRewardPurpose: (state, action) => {
-            state.purpose.reward = action.payload
-        },
-        setTypePurpose: (state, action) => {
-            state.purpose.type = action.payload
-        },
     },
     extraReducers: (builder) => {
         builder.addCase(getListChallenges.fulfilled, (state, action:PayloadAction<INewChallenge[]>) => {
@@ -175,8 +156,8 @@ export const creatingChallengeSlice = createSlice({
     }
 })
 
-export const {setDescriptionChallenge,setDisabledButton,setEndDateChallenge,setIdChallengePurpose,setMaxPeoplesChallenge,setPlatformChallenge,setQuantityPurpose,
-setRewardPurpose,setStartDateChallenge,setTeamAmountChallenge,setTitleChallenge,setTypeChallenge,setTypePurpose,setImageChallenge} = creatingChallengeSlice.actions
+export const {setDescriptionChallenge,setDisabledButton,setEndDateChallenge,setMaxPeoplesChallenge,setPlatformChallenge,
+setStartDateChallenge,setTeamAmountChallenge,setTitleChallenge,setTypeChallenge,setImageChallenge} = creatingChallengeSlice.actions
 
 
 export const platformCreatingChallengeSelector = (state: RootState) => state.creatingChallenge.creatingChallenge.platform
@@ -189,11 +170,6 @@ export const startDateCreatingChallengeSelector = (state: RootState) => state.cr
 export const endDateCreatingChallengeSelector = (state: RootState) => state.creatingChallenge.creatingChallenge.endDate
 export const maxPeoplesCreatingChallengeSelector = (state: RootState) => state.creatingChallenge.creatingChallenge.max_peoples
 export const teamAmountCreatingChallengeSelector = (state: RootState) => state.creatingChallenge.creatingChallenge.team_amount
-
-export const rewardPurposeSelector = (state: RootState) => state.creatingChallenge.purpose.reward
-export const idChallengePurposeSelector = (state: RootState) => state.creatingChallenge.purpose.challenge
-export const quantityPurposeSelector = (state: RootState) => state.creatingChallenge.purpose.quantity
-export const typePurposeSelector = (state: RootState) => state.creatingChallenge.purpose.type
 
 export const listChallengesSelector = (state: RootState) => state.creatingChallenge.challenges
 

@@ -4,12 +4,9 @@ import { useAppDispatch, useAppSelector } from "../../utils/hooks/redux-hooks";
 import {
     descriptionCreatingChallengeSelector,
     endDateCreatingChallengeSelector,
-    quantityPurposeSelector,
-    rewardPurposeSelector,
     setDescriptionChallenge,
     setEndDateChallenge,
     setImageChallenge,
-    setRewardPurpose,
     setStartDateChallenge,
     setTitleChallenge,
     setTypeChallenge,
@@ -25,6 +22,7 @@ import { RewardCount } from "../Reward/Reward-count";
 import FileService from '../../services/FilesServices';
 import ReactDatePicker, { registerLocale } from 'react-datepicker';
 import ru from 'date-fns/locale/ru';
+import { creatingPurposeSelector, setQuantityPurpose, setRewardPurpose, setTypePurpose } from '../../Redux/slice/purposeSlice';
 
 registerLocale('ru', ru)
 
@@ -39,8 +37,7 @@ export const FinalVariant: FC<IFinalVariant> = ({ setOrder }) => {
     const type = useAppSelector(typeCreatingChallengeSelector)
     const startDate = useAppSelector(startDateCreatingChallengeSelector)
     const endDate = useAppSelector(endDateCreatingChallengeSelector)
-    const reward = useAppSelector(rewardPurposeSelector)
-    const quantity = useAppSelector(quantityPurposeSelector)
+    const creatingPurpose = useAppSelector(creatingPurposeSelector)
     const icon = false
 
     const [photoPath, setPhotoPath] = useState<any | null>(null)
@@ -126,8 +123,8 @@ export const FinalVariant: FC<IFinalVariant> = ({ setOrder }) => {
                 />
                 <div className="final-variant__reward">
                     <div className="final-variant__reward-text">Награда:</div>
-                    {!isEditReward && <RewardCount count={reward} />}
-                    {isEditReward && <input type={'number'} value={reward}
+                    {!isEditReward && <RewardCount count={creatingPurpose.reward} />}
+                    {isEditReward && <input type={'number'} value={creatingPurpose.reward}
                         onChange={(e: ChangeEvent<HTMLInputElement>) => dispatch(setRewardPurpose(e.target.value))}
                         onBlur={() => setIsEditReward(prev => !prev)}
                     />}
@@ -141,7 +138,7 @@ export const FinalVariant: FC<IFinalVariant> = ({ setOrder }) => {
                             Шагов пройдено
                         </div>
                         <div className={definitionColor(type, 'card-task__count')}>
-                            {0 + '/' + quantity + 'км'}
+                            {0 + '/' + creatingPurpose.quantity + 'км'}
                         </div>
                     </div>
                 </article>

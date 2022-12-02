@@ -2,7 +2,7 @@ import React from 'react';
 import './creating-challenge.scss'
 import icon_reward from '../../assets/image/icon_reward.svg'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks';
-import { quantityPurposeSelector, rewardPurposeSelector, setQuantityPurpose, setRewardPurpose, setTypePurpose } from '../../Redux/slice/challengeSlice';
+import { creatingPurposeSelector, setQuantityPurpose, setRewardPurpose, setTypePurpose } from '../../Redux/slice/purposeSlice';
 
 export const CreatingTargets = () => {
 
@@ -24,8 +24,9 @@ export const CreatingTargets = () => {
     const handlerTypePurpose = (e:React.ChangeEvent<HTMLInputElement>) => {
         dispatch(setTypePurpose(+e.target.value))      
     }
-    const reward = useAppSelector(rewardPurposeSelector)
-    const quantity = useAppSelector(quantityPurposeSelector)
+
+    const creatingPurpose = useAppSelector(creatingPurposeSelector)
+
 
     return (
         <div className={'targets'}>
@@ -43,15 +44,15 @@ export const CreatingTargets = () => {
                 <div className="targets__choice choice-target">
                     <div className="choice-target__head">
                         <div className="choice-target__sub-title creating-sub-title">Цель челленджа</div>
-                        <div className="choice-target__value creating-title">{quantity} км</div>
+                        <div className="choice-target__value creating-title">{creatingPurpose?.quantity} км</div>
                     </div>
                     <input
                         min={minDistance}
                         max={maxDistance}
-                        type="range" className={'choice-target__range '} value={quantity} onChange={handlerTargetRange}
+                        type="range" className={'choice-target__range '} value={creatingPurpose?.quantity} onChange={handlerTargetRange}
                         style={{ backgroundImage: `linear-gradient( to right, #F2994A, 
-                        #F4C319 ${100*+quantity/maxDistance}%, 
-                        #474747 ${100*+quantity/maxDistance}%)`}}
+                        #F4C319 ${100*+creatingPurpose?.quantity/maxDistance}%, 
+                        #474747 ${100*+creatingPurpose?.quantity/maxDistance}%)`}}
                     />
                 </div>
 
@@ -60,17 +61,17 @@ export const CreatingTargets = () => {
                 <div className="targets__choice-target choice-target">
                     <div className="choice-target__head">
                         <div className="choice-target__sub-title creating-sub-title">Количество <img src={icon_reward} alt="icon reward"/></div>
-                        <div className="choice-target__value creating-title">{reward}</div>
+                        <div className="choice-target__value creating-title">{creatingPurpose?.reward}</div>
                     </div>
                     <input
                         min={minReward}
                         max={maxReward}
                         type="range" className={'choice-target__range green'}
-                        value={reward}
+                        value={creatingPurpose.reward}
                         onChange={handlerRewardRange}
                         style={{backgroundImage: `linear-gradient( to right, #00A62E, 
-                        #3CF470 ${100*+reward/maxReward}%, 
-                        #474747 ${100*+reward/maxReward}% )`}}
+                        #3CF470 ${100*+creatingPurpose.reward/maxReward}%, 
+                        #474747 ${100*+creatingPurpose.reward/maxReward}% )`}}
                     />
                 </div>
             </div>

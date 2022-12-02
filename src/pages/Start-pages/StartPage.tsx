@@ -16,9 +16,9 @@ import {ScrollPicker} from "../../Components/Scroll-picker/Scroll-picker";
 import {ACTIVITY_ROUTE} from "../../provider/constants-route";
 import { getItemsStep } from '../../utils/common-functions';
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks';
-import { setPurposeSteps } from '../../Redux/slice/appSlice';
 import { dataUserSelector } from '../../Redux/slice/profileSlice';
 import { setVisitedActivityPage } from '../../Redux/slice/visitedPageSlice';
+import {setPurposeSteps} from '../../Redux/slice/purposeSlice'
 
 
 
@@ -44,7 +44,7 @@ export const StartPage = () => {
     const jumpToMain = async () => {
         const quantity = stepValue
         const type = 1
-        //await dispatch(setPurposeSteps({quantity,type})) 
+        await dispatch(setPurposeSteps({quantity,type})) 
         dispatch(setVisitedActivityPage(1))  
     } 
 

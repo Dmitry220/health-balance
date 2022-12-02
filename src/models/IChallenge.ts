@@ -1,16 +1,5 @@
 import { type } from "os"
 
-export interface ICreatingPurpose {
-	challenge: number,
-	type: 1|2,
-	quantity: number,
-	reward: number,
-}
-
-export interface IPurposeResponse {
-	purpose_id: number
-}
-
 export interface INewChallenge {
 	id: number,
 	platform: number,

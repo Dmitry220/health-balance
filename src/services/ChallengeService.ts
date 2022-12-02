@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 import { $api } from "../http";
-import { IPurposeResponse } from "../models/IChallenge";
+import { IPurposeResponse } from "../models/IPurpose";
 
 export default class ChallengeService {
 
