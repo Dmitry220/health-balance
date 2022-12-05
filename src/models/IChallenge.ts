@@ -1,8 +1,8 @@
 import { type } from "os"
+import { ICreatingPurpose, IPurpose } from "./IPurpose"
 
-export interface INewChallenge {
+export interface IChallengeCard {
 	id: number,
-	platform: number,
 	title: string,
 	description:string,
 	type: number, 
@@ -12,5 +12,18 @@ export interface INewChallenge {
 	team_amount?: number, 
 	max_peoples?: number, 
 	register_team?: number,
-	total_lessons?: number
+	total_lessons?: number,
+	active: boolean,
+	purpose? : ICreatingPurpose,
+	teams?: any,
+	platform:{
+		id: number,
+		title: string,
+		register_start: number,
+		register_end: number,
+		start_date: number,
+		end_date: number,
+		status: boolean
+	},
+	homeworks: number
 }

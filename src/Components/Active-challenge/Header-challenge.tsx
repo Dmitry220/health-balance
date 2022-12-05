@@ -9,11 +9,12 @@ import { IMAGE_URL } from '../../http';
 interface IHeaderChallenge {
     image: string,
     title: string,
-    type: number
+    type: number,
+    newChallengeCategory?: boolean
 }
 
 
-export const HeaderChallenge: FC<IHeaderChallenge> = ({ image, title, type }) => {
+export const HeaderChallenge: FC<IHeaderChallenge> = ({ image, title, type,newChallengeCategory=false }) => {
 
     return (
         <div className={'header-challenge'}>
@@ -26,7 +27,9 @@ export const HeaderChallenge: FC<IHeaderChallenge> = ({ image, title, type }) =>
                         <img src={IMAGE_URL + 'challenges/' + image} alt="logo" />
                     </div>
                     <div className="card-active-challenge__info">
-                        <div className={definitionColor(type, 'card-active-challenge__type')}>{typeConversion(type)} <span>Новый</span></div>
+                        <div className={definitionColor(type, 'card-active-challenge__type')}>{typeConversion(type)} 
+                       {!newChallengeCategory && <span>Новый</span>}
+                        </div>
                         <div className="card-active-challenge__title">{title}</div>
                     </div>
                 </div>

@@ -3,7 +3,8 @@ import {definitionColor} from "../../utils/common-functions";
 
 interface ITaskValue {
     title: string,
-    value: number | undefined,
+    value: any,
+    text: string,
     id: number
 }
 
@@ -23,7 +24,7 @@ export const TaskChallenge:FC<ITask> = ({type, tasks}) => {
                                 {item.title}
                             </div>
                             <div className={definitionColor(type, 'card-task__count')}>
-                                {item.value}
+                                {item.value} <span>/ {item.text}</span> 
                             </div>
                         </div>
                     </article>

@@ -5,19 +5,21 @@ import Header from "../../Components/Header/Header";
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks';
 import { getLessons, isLoadingSelector, lessonsSelector } from '../../Redux/slice/lessonsSlice';
 import { IMAGE_URL } from '../../http';
+import { useParams } from 'react-router-dom';
 
 export const LecturesPages = () => {
 
     const dispatch = useAppDispatch()
+    const params = useParams()
 
     const lessons = useAppSelector(lessonsSelector)
     const isLoading = useAppSelector(isLoadingSelector) 
   
     useEffect(()=>{
-        async function asd() {
-            await dispatch(getLessons())
+        async function fetch() {
+            await dispatch(getLessons(Number(params.id)))
         }
-        asd()
+        fetch()
     }, [])
 
     if(isLoading){
@@ -37,7 +39,10 @@ export const LecturesPages = () => {
                     reward={lesson.score}
                     key={lesson.id}
                 />)
-            }          
+            }   
+            {
+                !lessons.length && <h1>Лекций нет</h1>
+            }       
         </div>
     );
 };

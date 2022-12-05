@@ -7,36 +7,41 @@ import { roles, typesChallenge } from "../../types/enums";
 import icon_clock from "../../assets/image/Interesting/clock.svg";
 import { TaskChallenge } from "../../Components/Challenge/Task-challenge";
 import { RewardCount } from "../../Components/Reward/Reward-count";
-import { Link, useParams } from "react-router-dom";
-import { LECTURES_ROUTE, TEAM_SELECTION_ROUTE } from "../../provider/constants-route";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { ACTIVE_CHALLENGE_ROUTE, LECTURES_ROUTE, TEAM_SELECTION_ROUTE } from "../../provider/constants-route";
 import { ListLeadersChallenge } from "../../Components/List-leaders-challenge/List-leaders-challenge";
 import icon_edit from "../../assets/image/icon-edit.svg";
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks';
 import { challengeSelector, getChallengeById } from '../../Redux/slice/challengeSlice';
 import { definitionColor } from '../../utils/common-functions';
+import ChallengeService from '../../services/ChallengeService';
 
 export const NewChallengeInfo = () => {
 
     const dispatch = useAppDispatch()
     const params = useParams()
+    const navigate = useNavigate()
     const challenge = useAppSelector(challengeSelector)
 
     const itemsTask = [
         {
             title: challenge?.type === 1 ? 'Шагов для завершения' : 'Километров для завершения',
-            value: 50,
+            value: 0,
+            text: (challenge?.purpose?.quantity || 0) +' к',
             id: 1
         },
         {
             title: 'Обучающий материал',
-            value: challenge?.total_lessons,
+            value: challenge?.homeworks || 0,
+            text:  challenge?.total_lessons + ' лекции',
             id: 2
         },
         {
             title: 'Домашние задания',
-            value: 0,
+            value: challenge?.homeworks || 0,
+            text: challenge?.total_lessons +' ДЗ',
             id: 3
-        },       
+        },
     ]
 
     const itemsLeaders = [
@@ -58,6 +63,17 @@ export const NewChallengeInfo = () => {
         },
     ]
 
+
+
+    const enterIntoChallenge = async () => {
+        const response = await ChallengeService.challengeJoin(Number(params.id))
+        console.log(response);
+        
+        if (response.data.success) {
+            navigate(ACTIVE_CHALLENGE_ROUTE + '/' + challenge?.id)
+        }
+    }
+
     useEffect(() => {
         dispatch(getChallengeById(Number(params.id)))
     }, [])
@@ -66,9 +82,9 @@ export const NewChallengeInfo = () => {
         <div className={'new-challenge-info'}>
             {
                 challenge ? <>
-                    <Header title={'Челлендж'} customClass={'new-challenge-info__header'}/>
+                    <Header title={'Челлендж'} customClass={'new-challenge-info__header'} />
                     <div className='new-challenge-info__main'>
-                        <HeaderChallenge image={challenge.image} title={challenge.title} type={challenge.type}/>
+                        <HeaderChallenge image={challenge.image} title={challenge.title} type={challenge.type} />
                     </div>
                     <div className="new-challenge-info__description">
                         {challenge?.description}
@@ -80,20 +96,21 @@ export const NewChallengeInfo = () => {
                         </div>
                         <div className="new-challenge-info__reward">
                             <div className="new-challenge-info__reward-text">Награда:</div>
-                            <RewardCount count={95} />
+                            <RewardCount count={challenge.purpose?.reward || 0} />
                         </div>
                     </div>
                     <div className="new-challenge-info__title-block block-title">Задания</div>
                     <div className="new-challenge-info__tasks">
                         <TaskChallenge type={challenge.type} tasks={itemsTask} />
                     </div>
-                    <Link className="new-challenge-info__button _button-white" to={TEAM_SELECTION_ROUTE}>Принять участие</Link>
+                    {challenge.type === 2 && <Link className="new-challenge-info__button _button-white" to={TEAM_SELECTION_ROUTE}>Принять участие</Link>}
+                    {challenge.type === 1 && <div className="new-challenge-info__button _button-white" onClick={enterIntoChallenge}>Принять участие</div>}
                     {
-                    challenge.type === 1 && <> <div className="new-challenge-info__title-block block-title">Лидеры челленджа</div>
-                    <ListLeadersChallenge items={itemsLeaders} role={roles.members} /></>
+                        challenge.type === 1 && <> <div className="new-challenge-info__title-block block-title">Лидеры челленджа</div>
+                            <ListLeadersChallenge items={itemsLeaders} role={roles.members} /></>
                     }
-                  
-                </>                    :
+
+                </> :
                     <h1>Загрузка...</h1>
             }
         </div>

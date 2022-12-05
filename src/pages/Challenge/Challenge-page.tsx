@@ -10,7 +10,7 @@ import { TabContent, Tabs } from "../../Components/Tabs/Tabs";
 import { ModalInstructions } from "../../Components/Modal-instructions/Modal-instructions";
 import { routesNavigation } from "../../utils/globalConstants";
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks';
-import { getListChallenges, isLoadingSelector, listChallengesSelector } from '../../Redux/slice/challengeSlice';
+import { activeChallengesSelector, getListChallenges, isLoadingSelector, newChallengesSelector } from '../../Redux/slice/challengeSlice';
 import { Link } from 'react-router-dom';
 import { CREATING_CHALLENGE_ROUTE } from '../../provider/constants-route';
 
@@ -20,10 +20,11 @@ export const ChallengePage = () => {
     const [valueTab, setValueTab] = React.useState<number>(0)
     const labelsTabChallenge = ['Личные', 'Коммандные', 'Общие', 'Архив']
 
-    const challenges = useAppSelector(listChallengesSelector)
+    const newChallenges = useAppSelector(newChallengesSelector)
+    const activeChallenges = useAppSelector(activeChallengesSelector)
 
-    const commandsChallenge = challenges?.filter(item => item.type === 2 && item)
-    const personalChallenge = challenges?.filter(item => item.type === 1 && item)
+    const commandsChallenge = newChallenges?.filter(item => item.type === 2 && item)
+    const personalChallenge = newChallenges?.filter(item => item.type === 1 && item)
     const isLoading = useAppSelector(isLoadingSelector)
 
     const dispatch = useAppDispatch()
@@ -37,7 +38,7 @@ export const ChallengePage = () => {
     }
 
 
-    console.log('render challenge')
+    console.log('render challenge', newChallenges, activeChallenges)
 
     return (
         <div className={'challenge-page'}>
@@ -56,9 +57,13 @@ export const ChallengePage = () => {
             <TabContent index={0} value={valueTab}>
                 <div className="challenge-page__title-block block-title">Активные</div>
                 <div className="challenge-page__active">
-                    <div className="challenge-page__active-plug">Нет активных челленджей</div>
-                    {/*<CardChallenge type={typesChallenge.personal} percent={45} id={0}/>*/}
-                    {/*<CardChallenge type={typesChallenge.personal} percent={64} id={1}/>*/}
+                    {
+                        activeChallenges.length ? 
+                        activeChallenges.map(item=> <CardChallenge 
+                           key={item.id} challenge={item} percent={0}/> )
+                       : 
+                         <div className="challenge-page__active-plug">Нет активных челленджей</div>
+                    }        
                 </div>
                 <div className="challenge-page__title-block block-title">Новые челленджи</div>
                 {
@@ -72,8 +77,9 @@ export const ChallengePage = () => {
             <TabContent index={1} value={valueTab}>
                 <div className="challenge-page__title-block block-title">Командные</div>
                 <div className="challenge-page__active">
-                    <CardChallenge type={typesChallenge.command} percent={12} id={3} />
-                    <CardChallenge type={typesChallenge.command} percent={84} id={8} />
+                <div className="challenge-page__active-plug">Нет командных челленджей</div>
+                    {/* <CardChallenge type={typesChallenge.command} percent={12} id={3} />
+                    <CardChallenge type={typesChallenge.command} percent={84} id={8} /> */}
                 </div>
                 <div className="challenge-page__title-block block-title">Новые челленджи</div>
                 {
@@ -87,15 +93,15 @@ export const ChallengePage = () => {
             <TabContent index={2} value={valueTab}>
                 <div className="challenge-page__title-block block-title">Общие</div>
                 <div className="challenge-page__active">
-                    <CardChallenge type={typesChallenge.common} percent={55} id={9} />
-                    <CardChallenge type={typesChallenge.common} percent={70} id={2} />
+                    {/* <CardChallenge type={typesChallenge.common} percent={55} id={9} />
+                    <CardChallenge type={typesChallenge.common} percent={70} id={2} /> */}
                 </div>
             </TabContent>
             <TabContent index={3} value={valueTab}>
                 <div className="challenge-page__title-block block-title">Архив</div>
                 <div className="challenge-page__active">
-                    <CardChallenge type={typesChallenge.personal} percent={74} id={4} />
-                    <CardChallenge type={typesChallenge.command} percent={96} id={5} />
+                    {/* <CardChallenge type={typesChallenge.personal} percent={74} id={4} />
+                    <CardChallenge type={typesChallenge.command} percent={96} id={5} /> */}
                 </div>
             </TabContent>
 

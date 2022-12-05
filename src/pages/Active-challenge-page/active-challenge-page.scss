@@ -3,6 +3,9 @@
 
 .active-challenge-page{
   //padding: 16px 0 0 0;
+  &__header{
+    background: transparent;
+  }
 
   &__main{
     margin: 0 0 36px 0;

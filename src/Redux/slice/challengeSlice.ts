@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {RootState} from "../store";
-import { INewChallenge } from '../../models/IChallenge';
+import { IChallengeCard } from '../../models/IChallenge';
 import ChallengeService from '../../services/ChallengeService';
 
 const END_DATE = new Date()
@@ -19,10 +19,11 @@ export interface IChallenge {
         max_peoples: number
     },
     disabledButton?: boolean,
-    challenges: INewChallenge[] | [],
+    activeChallenges: IChallengeCard[] | [],
+    newChalenges: IChallengeCard[] | [],
     isLoading: boolean,
     challenge_id: number,
-    challenge: INewChallenge | null
+    challenge: IChallengeCard | null
 }
 
 
@@ -39,7 +40,8 @@ const initialState: IChallenge = {
         max_peoples: 0      
     },
     disabledButton: true,
-    challenges:[],
+    activeChallenges:[],
+    newChalenges: [],
     isLoading: false,
     challenge_id: 0,
     challenge: null
@@ -132,8 +134,10 @@ export const creatingChallengeSlice = createSlice({
         },
     },
     extraReducers: (builder) => {
-        builder.addCase(getListChallenges.fulfilled, (state, action:PayloadAction<INewChallenge[]>) => {
-            state.challenges = action.payload
+        builder.addCase(getListChallenges.fulfilled, (state, action:PayloadAction<IChallengeCard[]>) => {
+            const allChallenges = action.payload
+            state.activeChallenges = allChallenges.filter(challenge=>challenge.active === true)
+            state.newChalenges = allChallenges.filter(challenge=>challenge.active === false)          
             state.isLoading = false
         })
         builder.addCase(getListChallenges.pending, (state) => {
@@ -149,7 +153,7 @@ export const creatingChallengeSlice = createSlice({
         builder.addCase(getChallengeById.pending, (state) => {
             state.isLoading = true
         })
-        builder.addCase(getChallengeById.fulfilled, (state, action:PayloadAction<INewChallenge>) => {
+        builder.addCase(getChallengeById.fulfilled, (state, action:PayloadAction<IChallengeCard>) => {
             state.challenge = action.payload
             state.isLoading = false
         })
@@ -171,7 +175,8 @@ export const endDateCreatingChallengeSelector = (state: RootState) => state.crea
 export const maxPeoplesCreatingChallengeSelector = (state: RootState) => state.creatingChallenge.creatingChallenge.max_peoples
 export const teamAmountCreatingChallengeSelector = (state: RootState) => state.creatingChallenge.creatingChallenge.team_amount
 
-export const listChallengesSelector = (state: RootState) => state.creatingChallenge.challenges
+export const newChallengesSelector = (state: RootState) => state.creatingChallenge.newChalenges
+export const activeChallengesSelector = (state: RootState) => state.creatingChallenge.activeChallenges
 
 export const isLoadingSelector = (state: RootState) => state.creatingChallenge.isLoading
 

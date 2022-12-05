@@ -11,10 +11,14 @@ import {RewardCount} from "../../Components/Reward/Reward-count";
 import {Link, useParams} from "react-router-dom";
 import {LECTURES_ROUTE} from "../../provider/constants-route";
 import icon_clock from '../../assets/image/Interesting/clock.svg'
+import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks';
+import { challengeSelector, getChallengeById } from '../../Redux/slice/challengeSlice';
 
 export const ActiveChallengePage = () => {
 
     const params = useParams()
+    const dispatch = useAppDispatch()
+    const challenge = useAppSelector(challengeSelector)
 
     console.log(params)
 
@@ -37,51 +41,53 @@ export const ActiveChallengePage = () => {
 
     const itemsTask = [
         {
-            title: 'Обучающий материал',
-            value: '50',
-            id: 454
+            title: challenge?.type === 1 ? 'Шагов для завершения' : 'Километров для завершения',
+            value: 0,
+            text: challenge?.purpose?.quantity +'к',
+            id: 1
         },
         {
             title: 'Обучающий материал',
-            value: '4100',
-            id: 43
+            value: challenge?.homeworks || 0,
+            text:  challenge?.total_lessons + ' лекции',
+            id: 2
         },
         {
-            title: 'Обучающий материал',
-            value: 'va10lue',
-            id: 45245
+            title: 'Домашние задания',
+            value: challenge?.homeworks || 0,
+            text: challenge?.total_lessons +' ДЗ',
+            id: 3
         },
-        {
-            title: 'Обучающий материал',
-            value: 'va10lue',
-            id: 475
-        }
     ]
+
+    useEffect(() => {
+        dispatch(getChallengeById(Number(params.id)))
+    }, [])
 
 
     return (
         <div className={'active-challenge-page'}>
-            <Header title={'Челлендж'} />
+            <Header title={'Челлендж'} customClass={'active-challenge-page__header'}/>
             <div className='active-challenge-page__main'>
-                <HeaderChallenge type={1} image={''} title={''}/>
+                <HeaderChallenge type={challenge?.type || 1} image={challenge?.image || ''} title={challenge?.title || ''} newChallengeCategory/>
             </div>
             <div className='active-challenge-page__progress'>
                 <div className="active-challenge-page__title-17 title-17">
-                    Общий прогресс <span>86%</span> / 100%
+                    Общий прогресс <span>0%</span> / 100%
                 </div>
-                <ProgressBar percent={86} type={typesChallenge.common}/>
+                <ProgressBar percent={0} type={typesChallenge.common}/>
             </div>
             <div className="active-challenge-page__tasks tasks-active-challenge">
                 <div className="tasks-active-challenge__head">
                     <div className="tasks-active-challenge__title-17 title-17">Челлендж закончится:</div>
-                    <div className="tasks-active-challenge__data"><img src={icon_clock} alt=""/>01.03.22</div>
+                    <div className="tasks-active-challenge__data"><img src={icon_clock} alt=""/>{challenge?.end_date && new Date(challenge?.end_date*1000).toLocaleDateString()}</div>
                 </div>
-                {/* <TaskChallenge type={typesChallenge.common} tasks={itemsTask}/> */}
+                <TaskChallenge type={typesChallenge.common} tasks={itemsTask}/>
             </div>
             <div className='active-challenge-page__reward'>
-                Награда:  <RewardCount count={95} />
+                Награда:  <RewardCount count={challenge?.purpose?.reward || 0} />
             </div>
-            <Link to={LECTURES_ROUTE}  className="active-challenge-page__button _button-yellow">Лекции и домашнее задание</Link>
+            <Link to={LECTURES_ROUTE+'/'+params.id}  className="active-challenge-page__button _button-yellow">Лекции и домашнее задание</Link>
             <div className="active-challenge-page__title-block block-title">Лидеры челленджа</div>
             <ListLeadersChallenge items={itemsLeaders} role={roles.commands}/>
         </div>

@@ -33,5 +33,9 @@ export default class ChallengeService {
 	static async getChallengesTeam(){
 		return $api.get(`/v2/challenge-teams/?token=${localStorage.getItem('token')}`)	
 	}
+
+	static async challengeJoin(id:number){
+		return $api.post(`/v2/challenges/${id}/join/?token=${localStorage.getItem('token')}`)	
+	}
 	
 }

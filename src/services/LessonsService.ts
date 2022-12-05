@@ -22,8 +22,8 @@ export default class LessonService {
 		})
 	}
 
-	static getLessons(){
-		return $api.get(`/v2/lessons/?token=${localStorage.getItem('token')}`)
+	static getLessons(id:number){
+		return $api.get(`/v2/lessons/?token=${localStorage.getItem('token')}&challenge=${id}`)
 	}
 
 	static getLessonById(id: number){

@@ -165,7 +165,7 @@ export const privateRoutes = [
         Component: ActiveChallengePage
     },
     {
-        path: LECTURES_ROUTE,
+        path: LECTURES_ROUTE+'/:id',
         Component: LecturesPages
     },
     {

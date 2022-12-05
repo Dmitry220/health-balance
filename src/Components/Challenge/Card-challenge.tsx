@@ -1,23 +1,25 @@
-import React, {FC} from 'react';
+import React, { FC } from 'react';
 import './challenge.scss'
-import {definitionColor} from "../../utils/common-functions";
-import {ProgressBar} from "../Progress-bar/Progress-bar";
-import {typesChallenge} from "../../types/enums";
-import {Link} from "react-router-dom";
-import {ACTIVE_CHALLENGE_ROUTE} from "../../provider/constants-route";
+import { definitionColor, typeConversion } from "../../utils/common-functions";
+import { ProgressBar } from "../Progress-bar/Progress-bar";
+import { typesChallenge } from "../../types/enums";
+import { Link } from "react-router-dom";
+import { ACTIVE_CHALLENGE_ROUTE } from "../../provider/constants-route";
+import { IChallengeCard } from '../../models/IChallenge';
+import { IMAGE_URL } from '../../http';
 
 interface ICardChallenge {
-    type: number,
+    challenge: IChallengeCard
     percent: number,
-    id: number
+
 }
 
-export const CardChallenge: FC<ICardChallenge> = ({percent,type, id}) => {
+export const CardChallenge: FC<ICardChallenge> = ({ percent, challenge }) => {
 
 
 
     return (
-        <Link to={ACTIVE_CHALLENGE_ROUTE+'/'+id} className={'card-challenge'}>
+        <Link to={ACTIVE_CHALLENGE_ROUTE + '/' + challenge.id} className={'card-challenge'}>
             <div className="card-challenge__container">
                 <div className="card-challenge__dots">
                     <div className="card-challenge__dot" />
@@ -26,28 +28,27 @@ export const CardChallenge: FC<ICardChallenge> = ({percent,type, id}) => {
                 </div>
                 <div className="card-challenge__head">
                     <div className="card-challenge__img">
-                        <img src="https://a.d-cd.net/55199ads-1920.jpg" alt="challenge-image"/>
+                        <img src={IMAGE_URL + 'challenges/' + challenge.image} alt="challenge-image" />
                     </div>
                     <div className="card-challenge__head-body">
-                        <div className={definitionColor(type,'card-challenge__type')}>{type}</div>
+                        <div className={definitionColor(challenge.type, 'card-challenge__type')}>{typeConversion(challenge.type)}</div>
                         <div className="card-challenge__title">
-                            Российский марафон “Зимние забавы”
-                        </div>
-                        <div className="card-challenge__sub-title">
-                            Вы в команде “Hardcore”
+                            {challenge.title}
+                            <div className="card-challenge__sub-title">
+                                {challenge.type === 2 ? 'Вы в команде “Hardcore”' : 'Личное задание'}
+                            </div>
                         </div>
                     </div>
-
                 </div>
                 <div className="card-challenge__progress-bar">
-                   <ProgressBar percent={percent} type={typesChallenge.common}/>
-                   <div className={'progress-bar__value'}>{percent}%</div>
+                    <ProgressBar percent={percent} type={challenge.type} />
+                    <div className={'progress-bar__value'}>{percent}%</div>
                 </div>
                 <div className="card-challenge__data">
-                    <div className="card-challenge__days">12 <span>Дней</span></div>
-                    <div className="card-challenge__days">200К <span>Шагов</span></div>
-                    <div className="card-challenge__days">0/2 <span>Лекций</span></div>
-                    <div className="card-challenge__days">1/2 <span>Заданий</span></div>
+                    <div className="card-challenge__days">{1} <span>Дней</span></div>
+                    <div className="card-challenge__days">{challenge.purpose?.quantity} <span>{ } Шагов</span></div>
+                    <div className="card-challenge__days">0/{challenge.total_lessons} <span>Лекций</span></div>
+                    <div className="card-challenge__days">0/{challenge.total_lessons} <span>Заданий</span></div>
                 </div>
             </div>
         </Link>

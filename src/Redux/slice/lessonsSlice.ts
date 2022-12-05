@@ -27,8 +27,8 @@ export const getLessonById = createAsyncThunk(
   }
 );
 
-export const getLessons = createAsyncThunk("getLessons", async () => {
-  const response = await LessonService.getLessons();
+export const getLessons = createAsyncThunk("getLessons", async (id:number) => {
+  const response = await LessonService.getLessons(id);
   return await response.data.data;
 });
 
