@@ -21,6 +21,7 @@ import persistReducer from "redux-persist/es/persistReducer";
 import { visitedPagesSlice } from './slice/visitedPageSlice';
 import { lessonsSlice } from './slice/lessonsSlice';
 import { purposesSlice } from './slice/purposeSlice';
+import { newsSlice } from './slice/newsSlice';
 
 const persistConfig = {
   key: "root",
@@ -40,7 +41,8 @@ const reducer = combineReducers(
     shop: shopSlice.reducer,
     visitedPages: visitedPagesSlice.reducer,
     lessons: lessonsSlice.reducer,
-    purposes: purposesSlice.reducer
+    purposes: purposesSlice.reducer,
+    news: newsSlice.reducer
   }
 )
 

@@ -1,6 +1,7 @@
 @import "src/assets/style/variables";
 
 .creating-interesting {
+  padding-top: 50px;
   &__container {
     margin: 0 -16px;
   }
@@ -17,7 +18,7 @@
     font-size: 13px;
     display: block;
     color: $colorMain;
-
+    outline: none;
     &::placeholder {
       color: $colorMain;
     }
