@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
 
 import './lecture.scss'
-import { isLoadingSuccessSelector, lessonSelector, successSelector } from "../../Redux/slice/lessonsSlice";
+import { checkTask, isLoadingSuccessSelector, lessonSelector, successSelector } from "../../Redux/slice/lessonsSlice";
 import { useAppDispatch, useAppSelector } from "../../utils/hooks/redux-hooks";
 import { ModalSuccess } from "../Modal-status/Modal-success";
 import { LECTURES_ROUTE } from "../../provider/constants-route";
@@ -41,11 +41,15 @@ export const ScanQR = () => {
       const response = await LessonService.complete(params, lesson.id)
       if (response.data.success) {
         setShowModal(true)
-      }     
+      }
     } else {
       await showToast("Сканированный код не соответствует требуемому")
     }
   };
+
+  useEffect(() => {
+    lesson?.id && dispacth(checkTask(lesson.id))
+  }, [])
 
   if (isLoading) {
     return <h1>Загрузка...</h1>
@@ -56,7 +60,7 @@ export const ScanQR = () => {
   }
 
   if (showModal) {
-    return <ModalSuccess route={LECTURES_ROUTE + '/' + challengeId?.id} />
+    return <ModalSuccess route={LECTURES_ROUTE + '/' + challengeId?.id} reward={lesson?.score}/>
   }
 
   return (

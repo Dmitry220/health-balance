@@ -45,10 +45,10 @@ export const CardChallenge: FC<ICardChallenge> = ({ percent, challenge }) => {
                     <div className={'progress-bar__value'}>{percent}%</div>
                 </div>
                 <div className="card-challenge__data">
-                    <div className="card-challenge__days">{1} <span>Дней</span></div>
+                    <div className="card-challenge__days">{new Date(challenge.end_date*1000 - challenge.start_date*1000).getDate()} <span>Дней</span></div>
                     <div className="card-challenge__days">{challenge.purpose?.quantity} <span>{ } Шагов</span></div>
-                    <div className="card-challenge__days">0/{challenge.total_lessons} <span>Лекций</span></div>
-                    <div className="card-challenge__days">0/{challenge.total_lessons} <span>Заданий</span></div>
+                    <div className="card-challenge__days">{challenge.homeworks}/{challenge.total_lessons} <span>Лекций</span></div>
+                    <div className="card-challenge__days">{challenge.homeworks}/{challenge.total_lessons} <span>Заданий</span></div>
                 </div>
             </div>
         </Link>

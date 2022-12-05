@@ -13,6 +13,7 @@ import {LECTURES_ROUTE} from "../../provider/constants-route";
 import icon_clock from '../../assets/image/Interesting/clock.svg'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks';
 import { challengeSelector, getChallengeById } from '../../Redux/slice/challengeSlice';
+import { definitionColor } from '../../utils/common-functions';
 
 export const ActiveChallengePage = () => {
 
@@ -72,17 +73,17 @@ export const ActiveChallengePage = () => {
                 <HeaderChallenge type={challenge?.type || 1} image={challenge?.image || ''} title={challenge?.title || ''} newChallengeCategory/>
             </div>
             <div className='active-challenge-page__progress'>
-                <div className="active-challenge-page__title-17 title-17">
+                <div className={definitionColor(challenge?.type || 1,'active-challenge-page__title-17') + " title-17"}>
                     Общий прогресс <span>0%</span> / 100%
                 </div>
-                <ProgressBar percent={0} type={typesChallenge.common}/>
+                <ProgressBar percent={0} type={challenge?.type || 1}/>
             </div>
             <div className="active-challenge-page__tasks tasks-active-challenge">
                 <div className="tasks-active-challenge__head">
                     <div className="tasks-active-challenge__title-17 title-17">Челлендж закончится:</div>
                     <div className="tasks-active-challenge__data"><img src={icon_clock} alt=""/>{challenge?.end_date && new Date(challenge?.end_date*1000).toLocaleDateString()}</div>
                 </div>
-                <TaskChallenge type={typesChallenge.common} tasks={itemsTask}/>
+                <TaskChallenge type={challenge?.type || 1} tasks={itemsTask}/>
             </div>
             <div className='active-challenge-page__reward'>
                 Награда:  <RewardCount count={challenge?.purpose?.reward || 0} />

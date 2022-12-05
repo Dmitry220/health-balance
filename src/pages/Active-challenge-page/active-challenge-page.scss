@@ -20,6 +20,17 @@
     span{
       color: $yellowColor;
     }
+    &_command{
+      span{
+        color: $blueColor;
+      }
+    }
+    &_personal{
+      span{
+        color: $greenColor;
+      }
+    }
+   
   }
 
   &__progress{

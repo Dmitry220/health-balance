@@ -8,7 +8,7 @@ import icon_clock from "../../assets/image/Interesting/clock.svg";
 import { TaskChallenge } from "../../Components/Challenge/Task-challenge";
 import { RewardCount } from "../../Components/Reward/Reward-count";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { ACTIVE_CHALLENGE_ROUTE, LECTURES_ROUTE, TEAM_SELECTION_ROUTE } from "../../provider/constants-route";
+import { ACTIVE_CHALLENGE_ROUTE, CHALLENGE_ROUTE, LECTURES_ROUTE, TEAM_SELECTION_ROUTE } from "../../provider/constants-route";
 import { ListLeadersChallenge } from "../../Components/List-leaders-challenge/List-leaders-challenge";
 import icon_edit from "../../assets/image/icon-edit.svg";
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks';
@@ -70,7 +70,7 @@ export const NewChallengeInfo = () => {
         console.log(response);
         
         if (response.data.success) {
-            navigate(ACTIVE_CHALLENGE_ROUTE + '/' + challenge?.id)
+            navigate(CHALLENGE_ROUTE)
         }
     }
 

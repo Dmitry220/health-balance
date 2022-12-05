@@ -51,7 +51,7 @@ export const AnswerToQuestion = () => {
         return <h1 style={{ textAlign: 'center', color: 'red' }}>Выполнено</h1>
     }
     if (showModal) {
-        return <ModalSuccess route={LECTURES_ROUTE + '/' + challengeId?.id} />
+        return <ModalSuccess route={LECTURES_ROUTE + '/' + challengeId?.id} reward={lesson?.score}/>
     }
 
     return (
