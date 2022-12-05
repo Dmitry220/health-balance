@@ -60,7 +60,7 @@ export const creatingChallenge = createAsyncThunk<unknown>(
             formData.append("type",state.creatingChallenge.creatingChallenge.type)
             formData.append("image",state.creatingChallenge.creatingChallenge.image)
             formData.append("start_date",''+(state.creatingChallenge.creatingChallenge.startDate).getTime()/1000)
-            formData.append("end_date",''+(state.creatingChallenge.creatingChallenge.startDate).getTime()/1000)
+            formData.append("end_date",''+(state.creatingChallenge.creatingChallenge.endDate).getTime()/1000)
             formData.append("team_amount",state.creatingChallenge.creatingChallenge.team_amount)
             formData.append("max_peoples",state.creatingChallenge.creatingChallenge.max_peoples)            
         try{

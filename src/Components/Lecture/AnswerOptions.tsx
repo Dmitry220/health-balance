@@ -1,8 +1,12 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
-import { checkTask, isLoadingSelector, isLoadingSuccessSelector, lessonSelector, successSelector } from "../../Redux/slice/lessonsSlice";
+import { LECTURES_ROUTE } from "../../provider/constants-route";
+import { challengeSelector } from "../../Redux/slice/challengeSlice";
+import { checkTask, isLoadingSuccessSelector, lessonSelector, successSelector } from "../../Redux/slice/lessonsSlice";
 import LessonService from "../../services/LessonsService";
 import { showToast } from "../../utils/common-functions";
 import { useAppDispatch, useAppSelector } from "../../utils/hooks/redux-hooks";
+import { ModalStatus } from "../Modal-status/Modal-status";
+import { ModalSuccess } from "../Modal-status/Modal-success";
 import './lecture.scss'
 
 export const AnswerOptions = () => {
@@ -12,18 +16,19 @@ export const AnswerOptions = () => {
     const lesson = useAppSelector(lessonSelector)
     const answers = lesson?.answers.split(';')
     const [value, setValue] = useState<string>('')
-
+    const challengeId = useAppSelector(challengeSelector)
     const success = useAppSelector(successSelector)
     const isLoading = useAppSelector(isLoadingSuccessSelector)
 
-    console.log(value);
+    const [showModal, setShowModal] = useState<boolean>(false)
+  
 
     const complete = async () => {
         if (+value === lesson?.correct_answer) {
             const params = new FormData()
             params.append("answer", value)
             const response = await LessonService.complete(params, lesson.id)
-            await showToast("Задание выполнено")
+            setShowModal(true)
         } else {
             await showToast("Вы не правильно ответили на вопрос")
         }
@@ -41,7 +46,9 @@ export const AnswerOptions = () => {
     if(success){
         return <h1 style={{textAlign: 'center', color: 'red'}}>Выполнено</h1> 
     }
-    
+    if (showModal) {
+        return <ModalSuccess route={LECTURES_ROUTE + '/' + challengeId?.id} />
+    }
     return (
         <>
             <div className="task-lecture__title title-17">{lesson?.question}</div>

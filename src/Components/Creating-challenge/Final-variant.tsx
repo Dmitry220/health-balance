@@ -23,14 +23,12 @@ import FileService from '../../services/FilesServices';
 import ReactDatePicker, { registerLocale } from 'react-datepicker';
 import ru from 'date-fns/locale/ru';
 import { creatingPurposeSelector, setQuantityPurpose, setRewardPurpose, setTypePurpose } from '../../Redux/slice/purposeSlice';
+import { Link } from 'react-router-dom';
 
 registerLocale('ru', ru)
 
-interface IFinalVariant {
-    setOrder: Dispatch<SetStateAction<number>>,
-}
 
-export const FinalVariant: FC<IFinalVariant> = ({ setOrder }) => {
+export const FinalVariant = () => {
 
     const title = useAppSelector(titleCreatingChallengeSelector)
     const description = useAppSelector(descriptionCreatingChallengeSelector)
@@ -164,7 +162,6 @@ export const FinalVariant: FC<IFinalVariant> = ({ setOrder }) => {
                     </div>
                 </article>
             </div>
-            <button className='final-variant__button _button-yellow' onClick={() => setOrder(prev => prev + 1)}>Добавить лекции и ДЗ</button>
         </div>
     );
 };

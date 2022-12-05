@@ -42,8 +42,10 @@
     font-weight: 400;
     font-size: 15.0857px;
     line-height: 120%;
-
+    display: flex;
     color: #8B8787;
+    justify-content: center;
+    gap: 5px;
     margin: 0 0 36px 0;
     width: 175px;
     text-align: center;

@@ -38,7 +38,7 @@ import {
     SYNCING_ROUTE,
     PRODUCT_SCREEN_ROUTE,
     SURVEY_ACTUAL_ROUTE,
-    TEAM_MEMBER_ROUTE, PROFILE_MEMBER_ROUTE, RUBRIC_ROUTE, CURATOR_INTERESTING, DIALOG__ROUTE, INTERVIEW_PAGE
+    TEAM_MEMBER_ROUTE, PROFILE_MEMBER_ROUTE, RUBRIC_ROUTE, CURATOR_INTERESTING, DIALOG__ROUTE, INTERVIEW_PAGE, CREATING_LECTURE_ROUTE
 } from "./constants-route";
 import {AuthPage} from "../pages/Authorization/Auth-page";
 import {StartPage} from "../pages/Start-pages/StartPage";
@@ -85,6 +85,7 @@ import {RubricPage} from "../pages/Rubric-page/Rubric-page";
 import {CuratorInteresting} from "../pages/Curator-interesting/Curator-interesting";
 import { PersonalChat } from "../pages/Chat-page/Personal-chat";
 import { InterviewPage } from "../pages/Interview-page/Interview-page";
+import { CreatingLecture } from "../Components/Creating-challenge/Creating-lecture";
 
 
 export const publicRoutes = [
@@ -171,6 +172,10 @@ export const privateRoutes = [
     {
         path: LECTURE_ROUTE+'/:id',
         Component: LecturePage
+    },
+    {
+        path: CREATING_LECTURE_ROUTE+'/:id',
+        Component: CreatingLecture
     },
     {
         path: TEAM_SELECTION_ROUTE,

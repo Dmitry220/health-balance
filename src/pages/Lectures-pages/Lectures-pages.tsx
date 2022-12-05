@@ -6,6 +6,8 @@ import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks';
 import { getLessons, isLoadingSelector, lessonsSelector } from '../../Redux/slice/lessonsSlice';
 import { IMAGE_URL } from '../../http';
 import { useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { CREATING_LECTURE_ROUTE } from '../../provider/constants-route';
 
 export const LecturesPages = () => {
 
@@ -41,8 +43,9 @@ export const LecturesPages = () => {
                 />)
             }   
             {
-                !lessons.length && <h1>Лекций нет</h1>
-            }       
+                !lessons.length && <h1 style={{marginBottom: 20}}>Лекций нет</h1>
+            }    
+            <Link to={CREATING_LECTURE_ROUTE+'/'+params.id} className='_button-yellow'>Добавить лекции и ДЗ</Link>  
         </div>
     );
 };
