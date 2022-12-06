@@ -1,10 +1,10 @@
 @import "src/assets/style/variables";
 
 .header{
-  height: 47px;
+  height: 53px;
   position: fixed;
   z-index: 2;
-  top: 16px;
+  top: 0;
   width: 100%;
   padding: 0 16px;
   left: 0;
@@ -19,7 +19,7 @@
     position: absolute;
     left: 0;
     font-size: 13px;
-    top: 18px;
+    top: 21px;
     color: $colorMain;
   }
   &__title{
