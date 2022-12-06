@@ -54,7 +54,7 @@ export const RegistrationPage = () => {
     }
 
     return (
-        <div className={'registration=page'}>
+        <div className={'registration-page'} style={{  paddingTop: 50}}>
             <Header title={'Регистрация'}/>
             {renderRegistrationItems()}
         </div>

@@ -156,7 +156,8 @@
   input[type="file"] + label {
     display:block;
     height: 100%;
-    display: inline
+    align-items: center;
+    display: inline-flex;
   }
   &__photo{
     background: #313131;
