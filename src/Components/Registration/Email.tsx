@@ -1,28 +1,36 @@
-import {useAppDispatch, useAppSelector} from "../../utils/hooks/redux-hooks";
-import {emailSelector, setDisabledButton, setEmail} from "../../Redux/slice/authSlice";
-import React, { useEffect } from "react";
+import React, { useEffect } from 'react'
+import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
+import {
+  emailSelector,
+  setDisabledButton,
+  setEmail
+} from '../../Redux/slice/authSlice'
 
 export const Email = () => {
+  const email = useAppSelector(emailSelector)
+  const dispatch = useAppDispatch()
 
-    const email = useAppSelector(emailSelector)
-    const dispatch = useAppDispatch()
-
-    useEffect(()=>{      
-        if(email){
-            dispatch(setDisabledButton(false))
-        }
-    }, [])
-
-    const validateEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const validRegex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
-        const value = e.target.value
-        dispatch(setEmail(value))
-        value.match(validRegex) ? dispatch(setDisabledButton(false)) : dispatch(setDisabledButton(true))
+  useEffect(() => {
+    if (email) {
+      dispatch(setDisabledButton(false))
     }
-    return <input
-        className="registration__field _field"
-        value={email}
-        name="email"
-        onChange={validateEmail}
+  }, [])
+
+  const validateEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const validRegex =
+      /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
+    const value = e.target.value
+    dispatch(setEmail(value))
+    value.match(validRegex)
+      ? dispatch(setDisabledButton(false))
+      : dispatch(setDisabledButton(true))
+  }
+  return (
+    <input
+      className='registration__field _field'
+      value={email}
+      name='email'
+      onChange={validateEmail}
     />
+  )
 }

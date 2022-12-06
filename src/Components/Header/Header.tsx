@@ -1,35 +1,35 @@
-import React, { FC } from "react";
-import { useNavigate } from "react-router-dom";
-import "./header.scss";
+import { FC } from 'react'
+import { useNavigate } from 'react-router-dom'
+import './header.scss'
 
 interface HeaderProps {
-  title: string;
-  customClass?: string;
-  additionalComponent?: any;
-  additionalOnClick?: any;
+  title: string
+  customClass?: string
+  additionalComponent?: any
+  additionalOnClick?: any
 }
 
 export const Header: FC<HeaderProps> = ({
   title,
   customClass,
   additionalComponent,
-  additionalOnClick,
+  additionalOnClick
 }) => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
-  const back = () => navigate(-1);
+  const back = () => navigate(-1)
 
   return (
-    <header className={"header " + customClass}>
-      <div className="header__container">
-        <div className="header__back icon-icon_back" onClick={back} />
-        <div className="header__title">{title}</div>
+    <header className={'header ' + customClass}>
+      <div className='header__container'>
+        <div className='header__back icon-icon_back' onClick={back} />
+        <div className='header__title'>{title}</div>
         {additionalComponent && (
           <div onClick={additionalOnClick}>{additionalComponent}</div>
         )}
       </div>
     </header>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header

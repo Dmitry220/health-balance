@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { ListChat } from '../../Components/Chat/List-chat'
 import Header from '../../Components/Header/Header'
 import './chat-page.scss'

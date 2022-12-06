@@ -1,58 +1,81 @@
-import React, {useState} from "react";
-import {getItemsDays, getItemsMonth, getItemsYear} from "../../utils/common-functions";
-import {useAppDispatch, useAppSelector} from "../../utils/hooks/redux-hooks";
-import MultiPicker from "rmc-picker/lib/MultiPicker";
-import Picker from "rmc-picker/lib/Picker";
-import { birthdaySelector, setBirthday } from "../../Redux/slice/authSlice";
-
+import { useState } from 'react'
+import {
+  getItemsDays,
+  getItemsMonth,
+  getItemsYear
+} from '../../utils/common-functions'
+import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
+import MultiPicker from 'rmc-picker/lib/MultiPicker'
+import Picker from 'rmc-picker/lib/Picker'
+import { birthdaySelector, setBirthday } from '../../Redux/slice/authSlice'
 
 export const Birthday = () => {
+  const itemDays = getItemsDays()
+  const itemMonths = getItemsMonth()
+  const itemYears = getItemsYear(1970, 2020)
 
-    const itemDays = getItemsDays()
-    const itemMonths = getItemsMonth()
-    const itemYears = getItemsYear(1970, 2020)
+  const dispatch = useAppDispatch()
+  const birhday = useAppSelector(birthdaySelector)
 
-    const dispatch = useAppDispatch()
-    const birhday = useAppSelector(birthdaySelector)
+  const [value, setValue] = useState(
+    new Date(birhday * 1000).toLocaleDateString().split('.')
+  )
 
-    const [value, setValue] = useState(new Date(birhday*1000).toLocaleDateString().split('.'))
+  const onChange = (value: any) => {
+    setValue(value)
+    // [value[1], value[3]] = [value[3], value[1]];
+    const formatDate =
+      Date.parse(value[1] + '.' + value[0] + '.' + value[2]) / 1000
 
-    const onChange = (value: any) => {    
-        setValue(value)    
-       // [value[1], value[3]] = [value[3], value[1]];   
-        const formatDate = Date.parse(value[1]+'.'+value[0]+'.'+value[2])/1000
-         
-        dispatch(setBirthday(formatDate))
-    };   
+    dispatch(setBirthday(formatDate))
+  }
 
-    return (
-        <div className={'registration__picker'}>
-            <MultiPicker
-                selectedValue={value}
-                onValueChange={onChange}
+  return (
+    <div className={'registration__picker'}>
+      <MultiPicker selectedValue={value} onValueChange={onChange}>
+        <Picker
+          indicatorClassName='my-picker-indicator'
+          className={'registration__picker-item'}
+        >
+          {itemDays.map((item) => (
+            <Picker.Item
+              className='my-picker-view-item'
+              value={item}
+              key={+item}
             >
-                <Picker indicatorClassName="my-picker-indicator" className={'registration__picker-item'}>
-                    {itemDays.map(item => (
-                        <Picker.Item className="my-picker-view-item" value={item} key={+item}>
-                            {item}
-                        </Picker.Item>
-                    ))}
-                </Picker>
-                <Picker indicatorClassName="my-picker-indicator" className={'registration__picker-item'}>
-                    {itemMonths.map((item,i) => (
-                        <Picker.Item className="my-picker-view-item" value={(i+1) >=10 ? (i+1+'') :'0'+(i+1)} key={i}>
-                            {item}
-                        </Picker.Item>
-                    ))}
-                </Picker>
-                <Picker indicatorClassName="my-picker-indicator" className={'registration__picker-item'}>
-                    {itemYears.map(item => (
-                        <Picker.Item className="my-picker-view-item" value={item}  key={+item}>
-                            {item}
-                        </Picker.Item>
-                    ))}
-                </Picker>
-            </MultiPicker>
-        </div>
-    )
+              {item}
+            </Picker.Item>
+          ))}
+        </Picker>
+        <Picker
+          indicatorClassName='my-picker-indicator'
+          className={'registration__picker-item'}
+        >
+          {itemMonths.map((item, i) => (
+            <Picker.Item
+              className='my-picker-view-item'
+              value={i + 1 >= 10 ? i + 1 + '' : '0' + (i + 1)}
+              key={i}
+            >
+              {item}
+            </Picker.Item>
+          ))}
+        </Picker>
+        <Picker
+          indicatorClassName='my-picker-indicator'
+          className={'registration__picker-item'}
+        >
+          {itemYears.map((item) => (
+            <Picker.Item
+              className='my-picker-view-item'
+              value={item}
+              key={+item}
+            >
+              {item}
+            </Picker.Item>
+          ))}
+        </Picker>
+      </MultiPicker>
+    </div>
+  )
 }

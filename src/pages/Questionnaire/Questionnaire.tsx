@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import './questionnaire.scss'
 import { Quiz } from '../../Components/Quiz/Quiz'
 import Header from '../../Components/Header/Header'

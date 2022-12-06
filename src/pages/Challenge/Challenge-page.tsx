@@ -21,7 +21,7 @@ import { CREATING_CHALLENGE_ROUTE } from '../../provider/constants-route'
 
 export const ChallengePage = () => {
   const [valueTab, setValueTab] = React.useState<number>(0)
-  const labelsTabChallenge = ['Личные', 'Коммандные', 'Общие', 'Архив']
+  const labelsTabChallenge = ['Личные', 'Командные', 'Общие', 'Архив']
 
   const newChallenges = useAppSelector(newChallengesSelector)
   const activeChallenges = useAppSelector(activeChallengesSelector)
@@ -43,8 +43,6 @@ export const ChallengePage = () => {
   if (isLoading) {
     return <h1>Загрузка...</h1>
   }
-
-  console.log('render challenge', newChallenges, activeChallenges)
 
   return (
     <div className={'challenge-page'}>

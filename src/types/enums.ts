@@ -1,6 +1,6 @@
 export enum roles {
   members = 'Участники',
-  commands = 'Комманды'
+  commands = 'Команды'
 }
 
 export enum typesChallenge {
