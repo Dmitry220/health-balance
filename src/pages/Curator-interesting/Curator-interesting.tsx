@@ -39,14 +39,14 @@ export const CuratorInteresting = () => {
                     customClassParent={'scroll-tabs'}
                 />
                 <TabContent value={value} index={0}>
-                    <CardInteresting type={'Мотивация'} />
-                    <CardInteresting type={'Мотивация'} />
+                    {/* <CardInteresting type={'Мотивация'} />
+                    <CardInteresting type={'Мотивация'} /> */}
                 </TabContent>
                 <TabContent value={value} index={1}>
-                    <CardInteresting type={'Психология'} />
+                    {/* <CardInteresting type={'Психология'} /> */}
                 </TabContent>
                 <TabContent value={value} index={2}>
-                    <CardInteresting type={'Инструкция'} />
+                    {/* <CardInteresting type={'Инструкция'} /> */}
                 </TabContent>
             </div>
             <NavigationCurator />

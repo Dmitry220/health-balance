@@ -19,6 +19,7 @@
     display: block;
     color: $colorMain;
     outline: none;
+    font-family: inherit;
     &::placeholder {
       color: $colorMain;
     }
@@ -39,6 +40,17 @@
     img {
       margin: 0 3px 0 0;
     }
+  }
+  &__cover-image{
+    width: 100%;
+    object-fit: cover;
+    max-height: 250px;
+  }
+  input[type="file"] {
+    display:none;
+  }
+  input[type="file"] + label {
+    display: inline
   }
 
   &__category{

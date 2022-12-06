@@ -1,28 +1,40 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Navigation } from "../../Components/Navigation/Navigation";
-import Header from "../../Components/Header/Header";
 import { Tabs, TabContent } from "../../Components/Tabs/Tabs";
 import { CardInteresting } from "../../Components/Interesting/Card-interesting";
-import { CardChallenge } from "../../Components/Challenge/Card-challenge";
-import { typesChallenge } from "../../types/enums";
 import './interesting-page.scss'
-import CardLecture from "../../Components/Card-lecture/Card-lecture";
 import { useAppDispatch, useAppSelector } from "../../utils/hooks/redux-hooks";
 import { CardActual } from "../../Components/Card-actual/Card-actual";
 import { HeaderTwo } from "../../Components/Header-two/Header-two";
 import { routesNavigation } from "../../utils/globalConstants";
 import { CREATING_INTERESTING_ROUTE, MOTIVATION_ROUTE } from '../../provider/constants-route';
 import { NavLink } from 'react-router-dom';
+import { getNews, instructionNewsSelector, isLoadingSelector, motivationSelector, newsSelector, psyholgySelector } from '../../Redux/slice/newsSlice';
 
 
 
 export const InterestingPage = () => {
 
+    const dispatch = useAppDispatch()
+    const news = useAppSelector(newsSelector)
+    const psyhologyNews = useAppSelector(psyholgySelector)
+    const motivationNews = useAppSelector(motivationSelector)
+    const instructionNews = useAppSelector(instructionNewsSelector)
+    const isLoading = useAppSelector(isLoadingSelector)
+
     const [value, setValue] = React.useState<number>(0)
 
-    const labelTabs = ['Мотивация', 'Психология', 'Инструкция', 'Инструкция', 'Инструкция', 'Инструкция', 'Инструкция']
+    const labelTabs = ['Психология', 'Инструкция', 'Мотивация', 'Новость']
 
     const isCurator = true;
+
+    useEffect(() => {
+        dispatch(getNews())
+    }, [])
+
+    if (isLoading) {
+        return <h1>Загрузка...</h1>
+    }
 
     return (
         <div className={'interesting-page'}>
@@ -60,14 +72,24 @@ export const InterestingPage = () => {
                     customClassParent={'scroll-tabs'}
                 />
                 <TabContent value={value} index={0}>
-                    <CardInteresting type={'Мотивация'} />
-                    <CardInteresting type={'Мотивация'} />
+                    {
+                        psyhologyNews?.map((item) => <CardInteresting dataNews={item} />)
+                    }
                 </TabContent>
                 <TabContent value={value} index={1}>
-                    <CardInteresting type={'Психология'} />
+                    {
+                        instructionNews?.map((item) => <CardInteresting dataNews={item} />)
+                    }
                 </TabContent>
                 <TabContent value={value} index={2}>
-                    <CardInteresting type={'Инструкция'} />
+                    {
+                        motivationNews?.map((item) => <CardInteresting dataNews={item} />)
+                    }
+                </TabContent>
+                <TabContent value={value} index={3}>
+                    {
+                        news?.map((item) => <CardInteresting dataNews={item} />)
+                    }
                 </TabContent>
             </div>
             <Navigation routes={routesNavigation} />

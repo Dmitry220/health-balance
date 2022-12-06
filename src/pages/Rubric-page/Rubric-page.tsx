@@ -1,5 +1,10 @@
 import React, {ChangeEvent, useState} from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from "../../Components/Header/Header";
+import { CREATING_INTERESTING_ROUTE } from '../../provider/constants-route';
+import { creatingNewsSelector, setRubricNews } from '../../Redux/slice/newsSlice';
+import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks';
+import './rubric-page.scss'
 
 interface IRubric {
     id: number,
@@ -27,27 +32,29 @@ const rubrics = [
 
 export const RubricPage = () => {
 
-    const [checkedValues, setCheckedValues] = useState<IRubric[]>([])
+    const news = useAppSelector(creatingNewsSelector) 
+    const navigate = useNavigate()
 
-    const handleChange = (e:ChangeEvent<HTMLInputElement>) => {
+    const saveRubric = () => {
+        if(news.category != 0){
+            navigate(CREATING_INTERESTING_ROUTE)
+        }
+    }  
 
-        const checked = e.target.checked
+    const dispatch = useAppDispatch()
 
-        checked ? setCheckedValues(prev => [...prev, {
-                id: +e.target.value,
-            }]) :
-            setCheckedValues(prev => [...prev.filter(item => item.id !== +e.target.value)])
-    }
-
+    const handleChange = (e:ChangeEvent<HTMLInputElement>) => dispatch(setRubricNews(+e.target.value))       
+    
     return (
         <div className={'rubric-page'}>
             <Header title={'Рубрики'} />
             <div className="custom-checkbox">
                 {rubrics.map((item:any, i:number)=>(<div key={item.id}>
-                    <input value={item.id} type="checkbox" name={'radio'+item.id} className={'custom-checkbox__checkbox'} id={i+item.id} onChange={handleChange} />
+                    <input value={item.id} type="radio" name={'radio'} defaultChecked={item.id === news.category} className={'custom-checkbox__checkbox'} id={i+item.id} onChange={handleChange} />
                     <label htmlFor={i+item.id}>{item.title}</label>
                 </div>))}
             </div>
+            <button className='rubric-page__button _button-white' onClick={saveRubric}>Сохранить</button>
         </div>
     )
 }

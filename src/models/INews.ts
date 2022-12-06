@@ -3,7 +3,9 @@ export interface ICreatingNews {
 	annotation: string,
 	content: string,
 	image: string,
-	team: number
+	team: number,
+	category: number,
+	push: 0 | 1
 }
 
 export interface INews {
@@ -12,7 +14,12 @@ export interface INews {
 	annotation: string,
 	content: string,
 	image: string,
-	created: number
+	created_at: number,
+	category: number
+	push: boolean,
+	status: boolean,
+	team: number | null,
+	likes: number
 }
 
 export interface ICreatingComment {

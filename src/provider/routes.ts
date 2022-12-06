@@ -206,7 +206,7 @@ export const privateRoutes = [
         Component: ReportPage
     },
     {
-        path: MOTIVATION_ROUTE,
+        path: MOTIVATION_ROUTE + '/:id',
         Component: MotivationPage
     },
     {

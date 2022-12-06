@@ -1,7 +1,7 @@
 @import "src/assets/style/variables";
 
 .motivation-card {
-
+  padding-top: 50px;
   &__image {
     margin: 0 0 14px 0;
 
@@ -34,6 +34,12 @@
   &__title {
     margin: 0 0 16px 0;
   }
+  &__content{
+    padding: 20px 0 0 0;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 130%;
+  }
 
 }
 
@@ -42,7 +48,8 @@
   align-items: center;
   gap: 24px;
   font-size: 13px;
-
+  padding: 0 0 26px 0;
+  border-bottom: 1px solid #202020;
   color: #999999;
 
   &__favourite, &__comments{

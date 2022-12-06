@@ -1,32 +1,42 @@
 import React, {FC} from 'react';
 import './interesting.scss'
 import iconClock from '../../assets/image/Interesting/clock.svg'
-import {definitionColor} from "../../utils/common-functions";
+import {rubricConversion} from "../../utils/common-functions";
+import { INews } from '../../models/INews';
+import { useAppSelector } from '../../utils/hooks/redux-hooks';
+import { dataUserSelector } from '../../Redux/slice/profileSlice';
+import { Link } from 'react-router-dom';
+import { MOTIVATION_ROUTE } from '../../provider/constants-route';
+import { IMAGE_URL } from '../../http';
 
 interface ICardInteresting {
-    type: string
+    dataNews: INews
 }
 
-export const CardInteresting:FC<ICardInteresting> = ({type}) => {
+export const CardInteresting:FC<ICardInteresting> = ({dataNews}) => {
+
+    const profile = useAppSelector(dataUserSelector)
+
+
     return (
-        <div className='card-interesting'>
+        <Link to={MOTIVATION_ROUTE+'/'+dataNews.id} className='card-interesting'>
             <div className="card-interesting__container">
                 <div className="card-interesting__image">
-                    <div className={"card-interesting__hint " + definitionColor(1, '_hint')}>{type}</div>
-                    <img src="https://a.d-cd.net/55199ads-1920.jpg" alt="image-interesting"/>
+                    <div className={"card-interesting__hint _hint"}>{rubricConversion(dataNews.category)}</div>
+                    <img src={IMAGE_URL+'news/'+dataNews.image} alt="image-interesting"/>
                 </div>
                 <div className="card-interesting__title">
-                    Бег утром или вечером? Когда лучше всего бегать и почему.
+                   {dataNews.title}
                 </div>
                 <div className="card-interesting__text">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit consectetur adipiscing elit
+                   {dataNews.annotation}
                 </div>
                 <div className="card-interesting__info info-card">
-                    <div className="info-card__date"><img src={iconClock} alt="clock"/>12.12.2021</div>
-                    <div className="info-card__author">Автор: Иван Рыбаков</div>
+                    <div className="info-card__date"><img src={iconClock} alt="clock"/>{new Date(dataNews.created_at*1000).toLocaleDateString()}</div>
+                    <div className="info-card__author">Автор: {profile.name + ' ' + profile.surname}</div>
                 </div>
             </div>
-        </div>
+        </Link>
     );
 };
 

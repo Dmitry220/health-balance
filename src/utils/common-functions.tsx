@@ -94,7 +94,7 @@ export function getItemsMinutes() {
     return items;
 }
 
-export const typeConversion = (type: number) =>{
+export const typeConversion = (type: number) => {
     switch (type) {
         case 1:
             return 'Личный'
@@ -104,10 +104,22 @@ export const typeConversion = (type: number) =>{
             return 'Общий'
     }
 }
+export const rubricConversion = (type: number) => {
+    switch (type) {
+        case 1:
+            return 'Психология'
+        case 2:
+            return 'Инструкции'
+        case 3:
+            return 'Мотивация'
+        case 4:
+            return "Новость"
+    }
+}
 
-export const showToast = async (text:string) => {
+export const showToast = async (text: string) => {
     await Toast.show({
-      text: text,
-      position:'center'
+        text: text,
+        position: 'center'
     });
-  };  
+};  

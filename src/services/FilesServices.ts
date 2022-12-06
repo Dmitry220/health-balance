@@ -32,4 +32,14 @@ export default class FileService {
 			},	
 		})	
 	}
+
+	static async addImageNews(params:FormData){			
+
+		return $api.post(`/v2/images/?type=news&token=${localStorage.getItem('token')}`,params ,{
+			headers:{
+				'accept': 'application/json',
+				'Content-Type': 'multipart/form-data'
+			},	
+		})	
+	}
 }
