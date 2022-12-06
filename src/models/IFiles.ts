@@ -1,5 +1,5 @@
 export interface IFileAvatar {
-	data: {
-		avatar: string
-	}
+  data: {
+    avatar: string
+  }
 }

@@ -43,5 +43,5 @@ export const TEAM_MEMBER_ROUTE = '/team-member'
 export const PROFILE_MEMBER_ROUTE = '/profile-member'
 export const RUBRIC_ROUTE = '/rubric'
 export const CURATOR_INTERESTING = '/curator-interesting'
-export const CREATING_INTERESTING_ROUTE = "/creating-interesting";
-export const INTERVIEW_PAGE = "/interview";
+export const CREATING_INTERESTING_ROUTE = '/creating-interesting'
+export const INTERVIEW_PAGE = '/interview'

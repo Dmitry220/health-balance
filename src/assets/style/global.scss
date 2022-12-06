@@ -1,4 +1,4 @@
-@import "src/assets/style/variables";
+@import 'src/assets/style/variables';
 
 ._container {
   padding: 16px;
@@ -6,7 +6,7 @@
   margin: 0 auto;
   position: relative;
 }
-.line{
+.line {
   position: absolute;
   bottom: 0;
   width: 150px;
@@ -33,8 +33,12 @@
   font-weight: 700;
   font-family: inherit;
 
-  &.disabled{
-    background: linear-gradient(91.14deg, rgba(255, 255, 255, 0.53) -13.28%, rgba(0, 0, 0, 0.2597) 138.38%);
+  &.disabled {
+    background: linear-gradient(
+      91.14deg,
+      rgba(255, 255, 255, 0.53) -13.28%,
+      rgba(0, 0, 0, 0.2597) 138.38%
+    );
     color: #252525;
   }
 }
@@ -50,13 +54,12 @@
   border: none;
   border-radius: 8px;
   font-size: 15px;
-
 }
 
-._button-yellow{
+._button-yellow {
   width: 100%;
   color: #000;
-  background: linear-gradient(180deg, #F2994A 0%, #F4C119 100%);
+  background: linear-gradient(180deg, #f2994a 0%, #f4c119 100%);
   height: 41px;
   display: flex;
   align-items: center;
@@ -64,10 +67,9 @@
   border: none;
   border-radius: 8px;
   font-size: 15px;
-
 }
 
-._button-dark-yellow{
+._button-dark-yellow {
   width: 100%;
   color: $yellowColor;
   background: #232323;
@@ -78,11 +80,10 @@
   border: none;
   border-radius: 3px;
   font-size: 15px;
-
 }
 
 ._field {
-  background: #5C5C5C;
+  background: #5c5c5c;
   border-radius: 3px;
   height: 44.32px;
   color: $colorMain;
@@ -92,15 +93,16 @@
   font-size: 15px;
   line-height: 100%;
   outline: none;
-  &::placeholder{
-    color: #BFBFBF;
+  &::placeholder {
+    color: #bfbfbf;
   }
 }
 
 /*Этот класс присваивается div элементу (то есть родиетлю select)*/
 ._custom-select {
   position: relative;
-  &:after, &:before{
+  &:after,
+  &:before {
     content: '';
     position: absolute;
     width: 1px;
@@ -109,29 +111,28 @@
     display: block;
     pointer-events: none;
   }
-  &:before{
+  &:before {
     right: 18px;
     top: 50%;
     transform: translateY(-50%) rotate(-45deg);
   }
-  &:after{
+  &:after {
     right: 14px;
     top: 50%;
     transform: translateY(-50%) rotate(45deg);
   }
-  select{
+  select {
     border-radius: 3px;
     width: 100%;
-    background: #5C5C5C;
+    background: #5c5c5c;
     padding: 14px 12px;
     font-weight: 400;
     font-size: 15px;
     outline: none;
 
-    color: #BFBFBF;
+    color: #bfbfbf;
     appearance: none;
   }
-
 }
 
 .custom-checkbox {
@@ -169,7 +170,7 @@
       background-color: transparent;
       border: 2px solid $colorMain;
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05),
-      inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
+        inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
       padding: 7.5px;
       display: inline-block;
       position: relative;
@@ -197,14 +198,18 @@
 /***********************************************/
 
 /*******  Styles Swiper Slide *****************/
-.swiper-pagination-clickable .swiper-pagination-bullet.swiper-pagination-bullet-active {
+.swiper-pagination-clickable
+  .swiper-pagination-bullet.swiper-pagination-bullet-active {
   background: $yellowColor;
 }
 .swiper-pagination-clickable .swiper-pagination-bullet {
   background: $colorMain;
   opacity: 1;
 }
-.swiper-pagination-fraction, .swiper-pagination-custom, .swiper-horizontal > .swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal {
+.swiper-pagination-fraction,
+.swiper-pagination-custom,
+.swiper-horizontal > .swiper-pagination-bullets,
+.swiper-pagination-bullets.swiper-pagination-horizontal {
   bottom: 123px !important;
   @media (max-height: 612px) {
     bottom: 72px !important;
@@ -222,7 +227,7 @@
   bottom: -164px;
   background: $blueColor;
   filter: blur(85px);
-  &_top{
+  &_top {
     top: -22%;
     width: 74%;
     left: 17%;
@@ -235,7 +240,7 @@
 }
 
 /***********************************************/
-._hint{
+._hint {
   position: absolute;
   border-radius: 5px;
   left: 7.3px;
@@ -246,10 +251,10 @@
 
   padding: 10px 20px;
   z-index: 3;
-  &_command{
+  &_command {
     color: $blueColor;
   }
-  &_personal{
+  &_personal {
     color: $greenColor;
   }
 }
@@ -257,7 +262,7 @@
 .select-gender {
   display: flex;
 
-  input{
+  input {
     display: none;
   }
 
@@ -272,7 +277,7 @@
     margin: 0 15px 0 0;
     border-radius: 50px;
   }
-  input:checked + label{
+  input:checked + label {
     border: 1px solid;
   }
 }
@@ -353,10 +358,6 @@
 //   }
 // }
 
-
-
-
-
 // //.react-datepicker__day--selected,
 // //.react-datepicker__day--in-selecting-range,
 // //.react-datepicker__day--in-range,
@@ -411,8 +412,6 @@
 //   transform: translate3d(0, 0, 0px) !important;
 // }
 
-
-
 // .Calendar{
 //   background: $backgroundBlock !important;
 //   color: $colorMain !important;
@@ -442,7 +441,6 @@
 //   //background: #F9B477 !important;
 //   //border-radius: 50% !important;
 
-
 //   background: $yellowColor !important;
 //   color: #000 !important;
 // }
@@ -459,49 +457,44 @@
 // }
 
 /***************************Texts****************************************/
-.text-blue{
+.text-blue {
   font-weight: 400;
   font-size: 13px;
 
   color: $blueColor;
 }
-.text-yellow{
+.text-yellow {
   font-weight: 400;
   font-size: 13px;
 
   color: $yellowColor;
 }
-.main-title{
+.main-title {
   font-weight: 700;
   font-size: 25px;
-
 }
-.block-title{
+.block-title {
   font-weight: 700;
   font-size: 20px;
-
 }
-.title-17{
+.title-17 {
   font-weight: 500;
   font-size: 17px;
-
 }
-.title-35{
+.title-35 {
   font-weight: 700;
   font-size: 35px;
-
 }
-.small-text{
+.small-text {
   font-weight: 500;
   font-size: 13px;
-
 }
 /****************************************************************/
-.digits{
+.digits {
   font-weight: 400;
   font-size: 43.5849px;
 
-  .digits__square{
+  .digits__square {
     background: $backgroundBlock;
     border-radius: 10px;
     height: 77px;
@@ -512,16 +505,16 @@
   }
 }
 /****************************Scroll tabs***************************************/
-.scroll-tabs{
+.scroll-tabs {
   display: flex;
   overflow: scroll;
   margin: 0 0 20px 0;
-  &::-webkit-scrollbar{
+  &::-webkit-scrollbar {
     height: 0;
     width: 0;
   }
-  &-labels{
-    &:not(:last-child){
+  &-labels {
+    &:not(:last-child) {
       margin: 0 20px 0 0;
     }
     padding: 9px 20px;
@@ -530,7 +523,7 @@
     background: $backgroundBlock;
     font-size: 15px;
     letter-spacing: 0.02em;
-    &.active{
+    &.active {
       color: $yellowColor;
     }
   }

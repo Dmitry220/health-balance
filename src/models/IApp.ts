@@ -1,3 +1,3 @@
-export interface IBalance{
-	balance: number
+export interface IBalance {
+  balance: number
 }

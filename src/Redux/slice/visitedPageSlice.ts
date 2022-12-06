@@ -1,65 +1,65 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "../store";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import type { PayloadAction } from '@reduxjs/toolkit'
+import { RootState } from '../store'
 
 interface IVisitedSlice {
-  challengePage: any;
+  challengePage: any
   trackerPage: {
-	visitCount: number
-  };
-  newChallengeInfoPage: any;
+    visitCount: number
+  }
+  newChallengeInfoPage: any
   activityPage: {
-	visitCount: number
-  };
-  indexPage: any;
+    visitCount: number
+  }
+  indexPage: any
 }
 
 const initialState: IVisitedSlice = {
   challengePage: {
     visitCount: 0,
-    challengeCount: 0,
+    challengeCount: 0
   },
   trackerPage: {
-    visitCount: 0,
+    visitCount: 0
   },
   newChallengeInfoPage: {
-    firstChallange: true,
+    firstChallange: true
   },
   activityPage: {
-    visitCount: 0,
+    visitCount: 0
   },
   indexPage: {
-    answers: [],
-  },
-};
+    answers: []
+  }
+}
 
 export const visitedPagesSlice = createSlice({
-  name: "visitedPages",
+  name: 'visitedPages',
   initialState,
   reducers: {
     setVisitedChallengePage: (state, action) => {
-      state.challengePage.visitCount = action.payload;
+      state.challengePage.visitCount = action.payload
     },
     setVisitedTrackerPage: (state, action) => {
-      state.trackerPage.visitCount = action.payload;
+      state.trackerPage.visitCount = action.payload
     },
     setStoreFirstChallenge: (state) => {
-      state.newChallengeInfoPage.firstChallange = false;
+      state.newChallengeInfoPage.firstChallange = false
     },
     setShowFirstChallengeInstruction: (state, action) => {
-      state.challengePage.challengeCount = action.payload;
+      state.challengePage.challengeCount = action.payload
     },
     setVisitedActivityPage: (state, action) => {
-      state.activityPage.visitCount = action.payload;
+      state.activityPage.visitCount = action.payload
     },
     addIndexPageAnswer: (state, action) => {
-      state.indexPage.answers = [...state.indexPage.answers, action.payload];
+      state.indexPage.answers = [...state.indexPage.answers, action.payload]
     },
     resetIndexPageAnswer: (state) => {
-      state.indexPage.answers = [];
-    },
-  },
-});
+      state.indexPage.answers = []
+    }
+  }
+})
 
 export const {
   setVisitedChallengePage,
@@ -68,10 +68,12 @@ export const {
   setShowFirstChallengeInstruction,
   setVisitedActivityPage,
   addIndexPageAnswer,
-  resetIndexPageAnswer,
-} = visitedPagesSlice.actions;
+  resetIndexPageAnswer
+} = visitedPagesSlice.actions
 
-export const trackerVisitSelector = (state: RootState) => state.visitedPages.trackerPage.visitCount
-export const activityVisitSelector = (state: RootState) => state.visitedPages.activityPage.visitCount
+export const trackerVisitSelector = (state: RootState) =>
+  state.visitedPages.trackerPage.visitCount
+export const activityVisitSelector = (state: RootState) =>
+  state.visitedPages.activityPage.visitCount
 
-export default visitedPagesSlice.reducer;
+export default visitedPagesSlice.reducer

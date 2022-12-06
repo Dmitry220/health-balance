@@ -1,24 +1,24 @@
 export interface IRegistration {
-    email: string,
-    phone: string,
-    password: string,
-    name: string,
-    surname: string,
-    birthday: number,
-    gender: number,
-    platform: number | null,
-    avatar: string,
-    device_token: string
+  email: string
+  phone: string
+  password: string
+  name: string
+  surname: string
+  birthday: number
+  gender: number
+  platform: number | null
+  avatar: string
+  device_token: string
 }
 
 export interface ILogin {
-    email: string,
-    password: string,
+  email: string
+  password: string
 }
 
 export interface IAuthResponse {
-    data:{
-        id: number, 
-        token: string
-    }
+  data: {
+    id: number
+    token: string
+  }
 }

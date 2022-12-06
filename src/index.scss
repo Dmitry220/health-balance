@@ -1,5 +1,5 @@
 @import 'src/assets/style/fonts.scss';
-@import "src/assets/style/variables";
+@import 'src/assets/style/variables';
 
 /* Обнуление */
 *,
@@ -42,5 +42,4 @@ body {
   background: $backgroundMain;
   color: $colorMain;
   letter-spacing: -0.02em;
-
 }

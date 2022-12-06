@@ -1,4 +1,4 @@
-import { CapacitorConfig } from '@capacitor/cli';
+import { CapacitorConfig } from '@capacitor/cli'
 
 const config: CapacitorConfig = {
   appId: 'com.example.app',
@@ -6,10 +6,9 @@ const config: CapacitorConfig = {
   webDir: 'build',
   bundledWebRuntime: false,
   server: {
-    url: "http://192.168.0.104:3000",
+    url: 'http://192.168.0.104:3000',
     cleartext: true
-  },
+  }
+}
 
-};
-
-export default config;
+export default config
