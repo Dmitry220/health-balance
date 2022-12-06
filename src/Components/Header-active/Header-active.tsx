@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react'
+import { FC, useEffect } from 'react'
 import './header-active.scss'
 import icon from '../../assets/image/icon_reward.svg'
 import { RewardCount } from '../Reward/Reward-count'
@@ -24,8 +24,6 @@ const HeaderActive: FC<IHeaderActive> = ({ transparent }) => {
   useEffect(() => {
     dispatch(getBalance())
   }, [balance])
-
-  console.log('render header')
 
   return (
     <div

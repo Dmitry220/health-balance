@@ -1,136 +1,136 @@
-import { FC, useEffect, useState } from "react";
-import "./interview.scss";
-import Question from "./Question";
-import MultipleQuestion from "./MultipleQuestion";
+import { FC, useEffect, useState } from 'react'
+import './interview.scss'
+import Question from './Question'
+import MultipleQuestion from './MultipleQuestion'
 
 interface IInterview {
-  closeCallback: Function;
+  closeCallback: Function
 }
 
 const interviewTestData = [
   {
     id: 0,
     multiple: false,
-    question: "Первый вопрос",
+    question: 'Первый вопрос',
     answers: [
       {
         id: 0,
-        answer: "Первый ответ",
+        answer: 'Первый ответ'
       },
       {
         id: 1,
-        answer: "Второй ответ",
+        answer: 'Второй ответ'
       },
       {
         id: 2,
-        answer: "Третий ответ",
+        answer: 'Третий ответ'
       },
       {
         id: 3,
-        answer: "Четвертый ответ",
-      },
-    ],
+        answer: 'Четвертый ответ'
+      }
+    ]
   },
   {
     id: 1,
     multiple: true,
-    question: "Второй вопрос",
+    question: 'Второй вопрос',
     answers: [
       {
         id: 0,
-        answer: "Первый ответ",
+        answer: 'Первый ответ'
       },
       {
         id: 1,
-        answer: "Второй ответ",
+        answer: 'Второй ответ'
       },
       {
         id: 2,
-        answer: "Третий ответ",
+        answer: 'Третий ответ'
       },
       {
         id: 3,
-        answer: "Четвертый ответ",
-      },
-    ],
+        answer: 'Четвертый ответ'
+      }
+    ]
   },
   {
     id: 2,
     multiple: false,
-    question: "Третий вопрос",
+    question: 'Третий вопрос',
     answers: [
       {
         id: 0,
-        answer: "Первый ответ",
+        answer: 'Первый ответ'
       },
       {
         id: 1,
-        answer: "Второй ответ",
+        answer: 'Второй ответ'
       },
       {
         id: 2,
-        answer: "Третий ответ",
+        answer: 'Третий ответ'
       },
       {
         id: 3,
-        answer: "Четвертый ответ",
-      },
-    ],
+        answer: 'Четвертый ответ'
+      }
+    ]
   },
   {
     id: 3,
     multiple: true,
-    question: "Четвертый вопрос",
+    question: 'Четвертый вопрос',
     answers: [
       {
         id: 0,
-        answer: "Первый ответ",
+        answer: 'Первый ответ'
       },
       {
         id: 1,
-        answer: "Второй ответ",
+        answer: 'Второй ответ'
       },
       {
         id: 2,
-        answer: "Третий ответ",
+        answer: 'Третий ответ'
       },
       {
         id: 3,
-        answer: "Четвертый ответ",
-      },
-    ],
-  },
-];
+        answer: 'Четвертый ответ'
+      }
+    ]
+  }
+]
 
 const Interview: FC<IInterview> = ({ closeCallback }) => {
-  const [questions, setQuestions] = useState<any>(interviewTestData);
-  const [answers, setAnswers] = useState<any>([]);
+  const [questions, setQuestions] = useState<any>(interviewTestData)
+  const [answers, setAnswers] = useState<any>([])
   const saveAnswer = (answer: any) => {
-    setAnswers([...answers, answer]);
-  };
+    setAnswers([...answers, answer])
+  }
   useEffect(() => {
     if (answers.length === questions.length) {
-      console.log("result", answers);
+      console.log('result', answers)
     }
-  }, [answers]);
+  }, [answers])
 
   return (
-    <div className="interview-wrapper">
-      <div className="interview-wrapper__order">
+    <div className='interview-wrapper'>
+      <div className='interview-wrapper__order'>
         <div
-          style={answers.length === 0 ? { backgroundColor: "#fff" } : {}}
+          style={answers.length === 0 ? { backgroundColor: '#fff' } : {}}
         ></div>
         <div
-          style={answers.length === 1 ? { backgroundColor: "#fff" } : {}}
+          style={answers.length === 1 ? { backgroundColor: '#fff' } : {}}
         ></div>
         <div
-          style={answers.length === 2 ? { backgroundColor: "#fff" } : {}}
+          style={answers.length === 2 ? { backgroundColor: '#fff' } : {}}
         ></div>
         <div
-          style={answers.length === 3 ? { backgroundColor: "#fff" } : {}}
+          style={answers.length === 3 ? { backgroundColor: '#fff' } : {}}
         ></div>
       </div>
-      <div className="interview-wrapper__close">
+      <div className='interview-wrapper__close'>
         <div onClick={() => closeCallback(false)}>&#10006;</div>
       </div>
       <div>
@@ -153,7 +153,7 @@ const Interview: FC<IInterview> = ({ closeCallback }) => {
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Interview;
+export default Interview
