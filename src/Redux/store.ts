@@ -22,6 +22,7 @@ import { visitedPagesSlice } from './slice/visitedPageSlice'
 import { lessonsSlice } from './slice/lessonsSlice'
 import { purposesSlice } from './slice/purposeSlice'
 import { newsSlice } from './slice/newsSlice'
+import { trackerSlice } from './slice/trackerSlice'
 
 const persistConfig = {
   key: 'root',
@@ -41,7 +42,8 @@ const reducer = combineReducers({
   visitedPages: visitedPagesSlice.reducer,
   lessons: lessonsSlice.reducer,
   purposes: purposesSlice.reducer,
-  news: newsSlice.reducer
+  news: newsSlice.reducer,
+  tracker: trackerSlice.reducer
 })
 
 const persistedReducer = persistReducer(persistConfig, reducer)

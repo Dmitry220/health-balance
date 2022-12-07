@@ -19,6 +19,7 @@ import {
   setVisitedTrackerPage,
   trackerVisitSelector
 } from '../../Redux/slice/visitedPageSlice'
+import TrackerService from '../../services/TrackerService'
 
 export const TrackerPage = () => {
   const visitCount = useAppSelector(trackerVisitSelector)
@@ -54,6 +55,10 @@ export const TrackerPage = () => {
       dispatch(setVisitedTrackerPage(visitCount + 1))
     }
   }
+
+  console.log(hour);
+  
+  
 
   return (
     <div className={'tracker'}>
@@ -117,7 +122,7 @@ export const TrackerPage = () => {
 
               <div className='tracker__recommendation small-text'>
                 Оптимальное время засыпания:{' '}
-                <span className='text-blue'>22:30</span>
+                <span className='text-blue'>{+hour-8<0 ? 24+(+hour-8) :+hour-8} :{minutes}</span>
               </div>
             </div>
           </SwiperSlide>
@@ -173,6 +178,7 @@ export const TrackerPage = () => {
           </SwiperSlide>
           <SlideNextButton             
               customClass={'preview__button _button-dark'}
+              fruits={JSON.stringify(countFruits)} wake_up_time={hour+':'+minutes} weight={weightUser}
             />
               <div className={'circle-gradient circle-gradient_green'} />
         </Swiper>
@@ -185,24 +191,40 @@ export const TrackerPage = () => {
 
 interface ISwiperNextButton {
   customClass: string,
+  weight: string,
+  fruits: string,
+  wake_up_time: string
+
 }
 
 const SlideNextButton: FC<ISwiperNextButton> = ({
-  customClass,
+  customClass,fruits,wake_up_time,weight
 }) => {
   const swiper = useSwiper()
 
-  const next = () => {
+  const dispatch = useAppDispatch()
+
+  const next = async () => {
    
     switch (swiper.activeIndex) {
       case 3:
-        console.log('капец');
+        console.log(fruits,wake_up_time,weight);
+        const formData = new FormData()
+        formData.append("wake_up_time",wake_up_time)
+        formData.append("weight",weight)
+        formData.append("fruits",fruits)
+        const response = await TrackerService.creatingTracker(formData)
+        console.log(response);        
+       // if (response.data.succeess) {
+          dispatch(setVisitedTrackerPage(1))
+       // }
         break;
       default:
         break;
     }
     swiper.slideNext()
   }
+  
 
 
   return (

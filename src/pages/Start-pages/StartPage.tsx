@@ -20,36 +20,18 @@ import { setVisitedActivityPage } from '../../Redux/slice/visitedPageSlice'
 import { setPurposeSteps } from '../../Redux/slice/purposeSlice'
 
 interface ISwiperNextButton {
-  title: string,
   customClass: string,
-  jumpToMain?: any
+  quantity: string
 }
 
 export const StartPage = () => {
   const starValueStep = 0
   const endValueStep = 20000
 
-  const dispatch = useAppDispatch()
-
   const itemSteps = getItemsStep(starValueStep, endValueStep)
-  const [stepValue, setStepValue] = useState<string>(
-    (starValueStep + endValueStep) / 2 + ''
-  )
+  const [stepValue, setStepValue] = useState<string>((starValueStep + endValueStep) / 2 + '')
   const dataUser = useAppSelector(dataUserSelector)
   const changeStep = (value: string) => setStepValue(value)
-  const titles = ['Я в деле!', 'Просто', 'Дальше']
-
-  const jumpToMain = async () => {
-    const quantity = stepValue
-    const type = 1
-    console.log(type, quantity);
-
-    //await dispatch(setPurposeSteps({ quantity, type }))
-    //dispatch(setVisitedActivityPage(1))
-  }
-
-  console.log('dsasd');
-
 
   return (
     <div className='preview'>
@@ -137,8 +119,8 @@ export const StartPage = () => {
         </SwiperSlide>
         <div className={'circle-gradient'} />
         <SlideNextButton
-          title={'Дальше'}
           customClass={'preview__button _button-dark'}
+          quantity={stepValue}
         />
       </Swiper>
     </div>
@@ -146,14 +128,16 @@ export const StartPage = () => {
 }
 
 export const SlideNextButton: FC<ISwiperNextButton> = ({
-  customClass, jumpToMain
+  customClass,quantity
 }) => {
   const swiper = useSwiper()
   const [title, setTitle] = useState<string>('Я в деле!')
 
-  const next = () => {
-    swiper.slideNext()
-    switch (swiper.activeIndex) {
+  const dispatch = useAppDispatch()
+
+  swiper.on('slideChange', function () {
+    console.log("reach to End", swiper.activeIndex);
+      switch (swiper.activeIndex) {
       case 1:
         setTitle('Просто!')
         break;
@@ -164,15 +148,22 @@ export const SlideNextButton: FC<ISwiperNextButton> = ({
         setTitle('Дальше')
         break;
       case 4:
-        setTitle('Дальше!')
-       
+        setTitle('Наслаждайся!')
         break
-      case 5:
-        setTitle('Дальше!!!!!!')
-        break;
       default:
         break;
     }
+  });
+
+  const next = async () => {    
+    if(swiper.activeIndex === 4){
+      const type = 1
+      console.log("Идет запрос");
+      console.log(type, quantity);
+      dispatch(setVisitedActivityPage(1))
+      await dispatch(setPurposeSteps({ quantity, type}))      
+    }
+    swiper.slideNext()
   }
 
 
