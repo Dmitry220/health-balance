@@ -55,8 +55,8 @@ export const CreatingLecture = () => {
     if (file[0]) {
       formData.append('image', file[0])
       setPhotoPath(URL.createObjectURL(file[0]))
-      // const response = await FileService.addImageLesson(formData)
-      // setImage(response.data.data.avatar)
+      const response = await FileService.addImageLesson(formData)
+      setImage(response.data.data.avatar)
     }
   }
 
@@ -79,6 +79,7 @@ export const CreatingLecture = () => {
     setQuestion('')
     setVideoUrl('')
     setScore(0)
+    setPhotoPath('')
     setTypeLesson(0)
   }
 

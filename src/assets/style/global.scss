@@ -282,6 +282,17 @@
   }
 }
 
+.active-plug{
+  background: #191919;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 113px;
+  font-size: 15px;
+  color: #ABABAB;
+  border-radius: 10px;
+}
+
 /***********Calendar*************/
 // .react-datepicker__day--in-range {
 //   width: 100%;
@@ -513,6 +524,7 @@
     height: 0;
     width: 0;
   }
+  scrollbar-width: none;
   &-labels {
     &:not(:last-child) {
       margin: 0 20px 0 0;

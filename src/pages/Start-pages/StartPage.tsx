@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper'
 import { Swiper, SwiperSlide, useSwiper, useSwiperSlide } from 'swiper/react'
 import 'rmc-picker/assets/index.css'
@@ -20,8 +20,9 @@ import { setVisitedActivityPage } from '../../Redux/slice/visitedPageSlice'
 import { setPurposeSteps } from '../../Redux/slice/purposeSlice'
 
 interface ISwiperNextButton {
-  title: string
-  customClass: string
+  title: string,
+  customClass: string,
+  jumpToMain?: any
 }
 
 export const StartPage = () => {
@@ -36,13 +37,19 @@ export const StartPage = () => {
   )
   const dataUser = useAppSelector(dataUserSelector)
   const changeStep = (value: string) => setStepValue(value)
+  const titles = ['Я в деле!', 'Просто', 'Дальше']
 
   const jumpToMain = async () => {
     const quantity = stepValue
     const type = 1
-    await dispatch(setPurposeSteps({ quantity, type }))
-    dispatch(setVisitedActivityPage(1))
+    console.log(type, quantity);
+
+    //await dispatch(setPurposeSteps({ quantity, type }))
+    //dispatch(setVisitedActivityPage(1))
   }
+
+  console.log('dsasd');
+
 
   return (
     <div className='preview'>
@@ -62,11 +69,6 @@ export const StartPage = () => {
               Это приложение созданно для тех кто хочет большего! Вы с нами?
             </div>
           </div>
-          <SlideNextButton
-            title={'Я в деле!'}
-            customClass={'preview__button _button-dark'}
-          />
-          <div className={'circle-gradient'} />
         </SwiperSlide>
         <SwiperSlide>
           <div className='preview__body'>
@@ -88,11 +90,6 @@ export const StartPage = () => {
               Можно изменить в любой момент
             </div>
           </div>
-          <SlideNextButton
-            title={'Просто!'}
-            customClass={'preview__button _button-dark'}
-          />
-          <div className={'circle-gradient'} />
         </SwiperSlide>
         <SwiperSlide>
           <div className='preview__body'>
@@ -102,11 +99,6 @@ export const StartPage = () => {
               коллегами, занимайте почетные места!
             </div>
           </div>
-          <SlideNextButton
-            title={'Дальше'}
-            customClass={'preview__button _button-dark'}
-          />
-          <div className={'circle-gradient'} />
         </SwiperSlide>
         <SwiperSlide>
           <div className='preview__body'>
@@ -125,10 +117,6 @@ export const StartPage = () => {
               <Target />
             </div>
           </div>
-          <SlideNextButton
-            title={'Дальше'}
-            customClass={'preview__button _button-dark'}
-          />
         </SwiperSlide>
         <SwiperSlide>
           <div className='preview__body'>
@@ -139,28 +127,57 @@ export const StartPage = () => {
             <div className='preview__text'>
               Это чат <img src={iconChat} alt='' />
             </div>
-            <div
+            {/* <div
               className={'preview__button _button-dark'}
               onClick={jumpToMain}
             >
               Дальше
-            </div>
-            <div className={'circle-gradient'} />
+            </div>            */}
           </div>
         </SwiperSlide>
+        <div className={'circle-gradient'} />
+        <SlideNextButton
+          title={'Дальше'}
+          customClass={'preview__button _button-dark'}
+        />
       </Swiper>
     </div>
   )
 }
 
 export const SlideNextButton: FC<ISwiperNextButton> = ({
-  title,
-  customClass
+  customClass, jumpToMain
 }) => {
   const swiper = useSwiper()
+  const [title, setTitle] = useState<string>('Я в деле!')
+
+  const next = () => {
+    swiper.slideNext()
+    switch (swiper.activeIndex) {
+      case 1:
+        setTitle('Просто!')
+        break;
+      case 2:
+        setTitle('Дальше')
+        break;
+      case 3:
+        setTitle('Дальше')
+        break;
+      case 4:
+        setTitle('Дальше!')
+       
+        break
+      case 5:
+        setTitle('Дальше!!!!!!')
+        break;
+      default:
+        break;
+    }
+  }
+
 
   return (
-    <button className={customClass} onClick={() => swiper.slideNext()}>
+    <button className={customClass} onClick={next}>
       {title}
     </button>
   )

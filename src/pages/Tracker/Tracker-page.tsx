@@ -1,10 +1,9 @@
-import { useState } from 'react'
+import {FC, useState } from 'react'
 import { Pagination, A11y } from 'swiper'
-import { Swiper, SwiperSlide } from 'swiper/react'
+import { Swiper, SwiperSlide, useSwiper } from 'swiper/react'
 import { ScrollPicker } from '../../Components/Scroll-picker/Scroll-picker'
 import { Link } from 'react-router-dom'
 import { TRACKER_HABITS_ROUTE } from '../../provider/constants-route'
-import { SlideNextButton } from '../Start-pages/StartPage'
 import icon_dream from '../../assets/image/tracker/icon-dream.svg'
 import icon_fruit from '../../assets/image/tracker/icon-fruit.svg'
 import icon_water from '../../assets/image/tracker/icon-water.svg'
@@ -75,12 +74,8 @@ export const TrackerPage = () => {
                 Здесь мы будем приучаться хорошо спать, правильно пить воду и
                 есть фрукты/овощи
               </div>
-            </div>
-            <SlideNextButton
-              title={'Дальше'}
-              customClass={'tracker__button _button-dark'}
-            />
-            <div className={'circle-gradient circle-gradient_green'} />
+            </div> 
+          
           </SwiperSlide>
           <SwiperSlide>
             <div className='tracker__body'>
@@ -125,11 +120,6 @@ export const TrackerPage = () => {
                 <span className='text-blue'>22:30</span>
               </div>
             </div>
-            <SlideNextButton
-              title={'Дальше!'}
-              customClass={'tracker__button _button-dark'}
-            />
-            <div className={'circle-gradient circle-gradient_green'} />
           </SwiperSlide>
           <SwiperSlide>
             <div className='tracker__body'>
@@ -152,11 +142,6 @@ export const TrackerPage = () => {
                 <span className='text-blue'>2,1 литра</span>
               </div>
             </div>
-            <SlideNextButton
-              title={'Дальше'}
-              customClass={'preview__button _button-dark'}
-            />
-            <div className={'circle-gradient circle-gradient_green'} />
           </SwiperSlide>
           <SwiperSlide>
             <div className='tracker__body'>
@@ -179,18 +164,50 @@ export const TrackerPage = () => {
                 <span className='text-blue'>5 оптимально</span>
               </div>
             </div>
-            <div
+            {/* <div
               className={'preview__button _button-dark'}
               onClick={setVisitedTrackerPageHandler}
             >
               Дальше
-            </div>
-            <div className={'circle-gradient circle-gradient_green'} />
+            </div> */}
           </SwiperSlide>
+          <SlideNextButton             
+              customClass={'preview__button _button-dark'}
+            />
+              <div className={'circle-gradient circle-gradient_green'} />
         </Swiper>
       ) : (
         <TrackerHabitsPage />
       )}
     </div>
+  )
+}
+
+interface ISwiperNextButton {
+  customClass: string,
+}
+
+const SlideNextButton: FC<ISwiperNextButton> = ({
+  customClass,
+}) => {
+  const swiper = useSwiper()
+
+  const next = () => {
+   
+    switch (swiper.activeIndex) {
+      case 3:
+        console.log('капец');
+        break;
+      default:
+        break;
+    }
+    swiper.slideNext()
+  }
+
+
+  return (
+    <button className={customClass} onClick={next}>
+      Дальше
+    </button>
   )
 }

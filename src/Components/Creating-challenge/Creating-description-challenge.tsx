@@ -11,7 +11,7 @@ export const CreatingDescriptionChallenge = () => {
   const dispatch = useAppDispatch()
   const description = useAppSelector(descriptionCreatingChallengeSelector)
 
-  const handlerDescription = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlerDescription = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     dispatch(setDescriptionChallenge(e.target.value))
     e.target.value.length >= 3
       ? dispatch(setDisabledButton(false))
@@ -28,8 +28,7 @@ export const CreatingDescriptionChallenge = () => {
       <div className='creating-description-challenge__title main-title'>
         Краткое описание
       </div>
-      <input
-        type='text'
+      <textarea        
         className='creating-description-challenge__field _field'
         value={description}
         onChange={handlerDescription}

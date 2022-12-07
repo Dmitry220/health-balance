@@ -16,25 +16,29 @@ import {
   setImageNews,
   setPushNews,
   setRubricNews,
-  setTitleNews
+  setTempImageNews,
+  setTitleNews,
+  tempImageNewsSelector
 } from '../../Redux/slice/newsSlice'
 import { Link } from 'react-router-dom'
 import { INTERESTING_ROUTE, RUBRIC_ROUTE } from '../../provider/constants-route'
 import { ModalStatus } from '../../Components/Modal-status/Modal-status'
 import FileService from '../../services/FilesServices'
+import { rubricConversion } from '../../utils/common-functions'
 
 export const CreatingInteresting = () => {
   const [coverPath, setCoverPath] = useState<any | null>(null)
   const [showModal, setShowModal] = useState<boolean>(false)
+  const tempImage = useAppSelector(tempImageNewsSelector)
 
   const takePicture = async (e: ChangeEvent<HTMLInputElement>) => {
     const formData = new FormData()
     const file: any = e.target.files
     if (file[0]) {
-      setCoverPath(URL.createObjectURL(file[0]))
-      formData.append('image', file[0])
-      const response = await FileService.addImageNews(formData)
-      dispatch(setImageNews(response.data.data.avatar))
+      dispatch(setTempImageNews(URL.createObjectURL(file[0])))
+      // formData.append('image', file[0])
+      // const response = await FileService.addImageNews(formData)
+      // dispatch(setImageNews(response.data.data.avatar))
     }
   }
 
@@ -114,22 +118,22 @@ export const CreatingInteresting = () => {
           >
             Рубрика
           </Link>
+          <div style={{marginLeft: 20}}>{rubricConversion(dataNews.category)}</div>
         </div>
-        <div className='creating-interesting__row'>
-          {coverPath && (
+        {tempImage &&<div className='creating-interesting__row'>         
             <img
               className='creating-interesting__cover-image'
-              src={coverPath}
+              src={tempImage}
               alt='cover'
-            />
-          )}
-        </div>
+            />          
+        </div>}
         <div className='creating-interesting__push'>
           <div className='custom-checkbox'>
             <input
               type='checkbox'
               className='custom-checkbox__checkbox'
               id={'push'}
+              checked={dataNews.push === 1}
               onChange={handlerPush}
             />
             <label htmlFor='push'>Отправить PUSH</label>

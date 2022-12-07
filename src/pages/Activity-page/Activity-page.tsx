@@ -179,11 +179,11 @@ export const ActivityPage: FC = () => {
   useEffect(() => {
     window.addEventListener('scroll', function () {
       let scroll = window.pageYOffset
-      let step: any = document.querySelector('#step')
-      step.style.transform =
-        'translate3d(0,' + scroll / 5 + '%,0) scale(' + (1 - scroll / 250) + ')'
+      // let step: any = document.querySelector('#step')
+      // step.style.transform =
+      //   'translate3d(0,' + scroll / 5 + '%,0) scale(' + (1 - scroll / 250) + ')'
       if (scroll >= 200) {
-        step.style.transform = 'translate3d(0, 42.2222%,0) scale(0.24)'
+        //step.style.transform = 'translate3d(0, 42.2222%,0) scale(0.24)'
         setTransparentHeader(false)
       } else {
         setTransparentHeader(true)
@@ -209,7 +209,7 @@ export const ActivityPage: FC = () => {
       <div className='activity-page__steps-data'>
         <StepsData />
       </div>
-      <div className='activity-page__card-actual'>
+      {/* <div className='activity-page__card-actual'>
         {itemCardActuals.map((item) => (
           <CardActual
             key={item.id}
@@ -219,7 +219,7 @@ export const ActivityPage: FC = () => {
             type={item.type}
           />
         ))}
-      </div>
+      </div> */}
       <div className='activity-page__title title'>Статистика</div>
       <div className='activity-page__target'>
         <Target />

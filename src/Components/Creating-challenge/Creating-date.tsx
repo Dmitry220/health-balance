@@ -67,7 +67,7 @@ export const CreatingDate = () => {
   return (
     <div className={'creating-date'}>
       <div className='creating-date__title creating-title'>Даты</div>
-      <div className='creating-date__sub-title creating-sub-title'>
+      {/* <div className='creating-date__sub-title creating-sub-title'>
         Начало регистрации
         <span>
           {day + '.' + (month.length === 1 ? '0' + month : month) + '.' + year}
@@ -118,7 +118,7 @@ export const CreatingDate = () => {
             ))}
           </Picker>
         </MultiPicker>
-      </div>
+      </div> */}
       <div className='creating-date__sub-title creating-sub-title'>
         Продолжительность челленджа
         <span>

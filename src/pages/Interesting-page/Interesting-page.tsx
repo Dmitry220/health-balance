@@ -47,7 +47,7 @@ export const InterestingPage = () => {
     <div className={'interesting-page'}>
       <HeaderTwo title={'Интересное'} marginBottom={20} />
       <div className='interesting-page__actual'>
-        <div className='interesting-page__actual-item'>
+        {/* <div className='interesting-page__actual-item'>
           <CardActual
             title={'Как начать сегодня!'}
             path={MOTIVATION_ROUTE}
@@ -86,7 +86,7 @@ export const InterestingPage = () => {
             image={'https://www.cruisetips.ru/upload/upload1331487961917_1.jpg'}
             type={'Мотивация'}
           />
-        </div>
+        </div> */}
       </div>
       {isCurator && (
         <div style={{ marginTop: '-20px', marginBottom: '20px' }}>
@@ -104,24 +104,24 @@ export const InterestingPage = () => {
           customClassParent={'scroll-tabs'}
         />
         <TabContent value={value} index={0}>
-          {psyhologyNews?.map((item) => (
-            <CardInteresting dataNews={item} />
-          ))}
+          {psyhologyNews.length ? psyhologyNews?.map((item) => (
+            <CardInteresting dataNews={item} key={item.id} />
+          )): <div className='active-plug'>Новостей нет</div>}
         </TabContent>
         <TabContent value={value} index={1}>
-          {instructionNews?.map((item) => (
-            <CardInteresting dataNews={item} />
-          ))}
+          {instructionNews.length ? instructionNews?.map((item) => (
+            <CardInteresting dataNews={item} key={item.id}/>
+          )): <div className='active-plug'>Новостей нет</div>}
         </TabContent>
         <TabContent value={value} index={2}>
-          {motivationNews?.map((item) => (
-            <CardInteresting dataNews={item} />
-          ))}
+          {motivationNews.length ? motivationNews?.map((item) => (
+            <CardInteresting dataNews={item} key={item.id}/>
+          )) : <div className='active-plug'>Новостей нет</div>}
         </TabContent>
         <TabContent value={value} index={3}>
-          {news?.map((item) => (
-            <CardInteresting dataNews={item} />
-          ))}
+          {news.length ? news?.map((item) => (
+            <CardInteresting dataNews={item} key={item.id}/>
+          )): <div className='active-plug'>Новостей нет</div>}
         </TabContent>
       </div>
       <Navigation routes={routesNavigation} />

@@ -10,7 +10,8 @@ export interface IChallenge {
   motivationNews: INews[] | []
   instructionNews: INews[] | []
   newsById: INews | null
-  isLoading: boolean
+  isLoading: boolean,
+  imageNews?: any
 }
 
 const initialState: IChallenge = {
@@ -82,6 +83,9 @@ export const newsSlice = createSlice({
     setImageNews: (state, action) => {
       state.creatingNews.image = action.payload
     },
+    setTempImageNews: (state, action) => {
+      state.imageNews = action.payload
+    },
     setTeamNews: (state, action) => {
       state.creatingNews.team = action.payload
     },
@@ -132,7 +136,8 @@ export const {
   setTeamNews,
   setTitleNews,
   setRubricNews,
-  setPushNews
+  setPushNews,
+  setTempImageNews
 } = newsSlice.actions
 
 export const isLoadingSelector = (state: RootState) => state.news.isLoading
@@ -145,5 +150,7 @@ export const instructionNewsSelector = (state: RootState) =>
 export const newsByIdSelector = (state: RootState) => state.news.newsById
 export const creatingNewsSelector = (state: RootState) =>
   state.news.creatingNews
+  export const tempImageNewsSelector = (state: RootState) =>
+  state.news.imageNews
 
 export default newsSlice.reducer

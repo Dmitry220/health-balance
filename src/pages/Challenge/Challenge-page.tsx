@@ -94,7 +94,7 @@ export const ChallengePage = () => {
       <TabContent index={1} value={valueTab}>
         <div className='challenge-page__title-block block-title'>Командные</div>
         <div className='challenge-page__active'>
-          <div className='challenge-page__active-plug'>
+          <div className='challenge-page__active-plug active-plug'>
             Нет командных челленджей
           </div>
           {/* <CardChallenge type={typesChallenge.command} percent={12} id={3} />
@@ -120,6 +120,9 @@ export const ChallengePage = () => {
         <div className='challenge-page__active'>
           {/* <CardChallenge type={typesChallenge.common} percent={55} id={9} />
                     <CardChallenge type={typesChallenge.common} percent={70} id={2} /> */}
+                    <div className='challenge-page__active-plug'>
+            Нет общих челленджей
+          </div>
         </div>
       </TabContent>
       <TabContent index={3} value={valueTab}>
@@ -127,6 +130,9 @@ export const ChallengePage = () => {
         <div className='challenge-page__active'>
           {/* <CardChallenge type={typesChallenge.personal} percent={74} id={4} />
                     <CardChallenge type={typesChallenge.command} percent={96} id={5} /> */}
+                    <div className='challenge-page__active-plug'>
+            Челленджей нет
+          </div>
         </div>
       </TabContent>
     </div>
