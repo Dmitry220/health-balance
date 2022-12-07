@@ -1,20 +1,48 @@
 import './commnet.scss'
 import { CommentAnswer } from './Comment-answer'
+import { FC, useEffect, useState } from 'react'
+import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
+import { commentsSelector, getComments } from '../../Redux/slice/newsSlice'
+import { IComment } from '../../models/INews'
+import { CommentForm } from './Comment-form'
 
 export const ListComments = () => {
+
+  const comments = useAppSelector(commentsSelector)
+  const dispatch = useAppDispatch() 
+  useEffect(() => {
+    dispatch(getComments(1))
+  }, [])
+  
+  const [showForm, setShowForm] = useState<boolean>(false) 
+
   return (
     <div className={'list-comments'}>
       <div className='list-comments__items'>
-        <ItemComment />
-        <ItemComment />
-        <ItemComment />
-        <ItemComment />
+        {comments.map(comment=> <ItemComment comment={comment} key={comment.id} setShowForm={setShowForm}/>)}
+        {/* {comments.map(comment=> <ItemComment comment={comment} key={comment.id}/>)}
+         {comments.map(comment=> <ItemComment comment={comment} key={comment.id}/>)} */}
       </div>
+      <div className="list-comments">
+          {showForm && <CommentForm />}
+      </div>   
     </div>
   )
 }
 
-export const ItemComment = () => {
+interface ICommentItem {
+  comment: IComment,
+  setShowForm: any
+}
+
+export const ItemComment:FC<ICommentItem> = ({comment, setShowForm}) => {
+
+  //const [showForm, setShowForm] = useState<boolean>(false)
+
+  // useEffect(() => {
+  //   setShowForm(isShowForm) // Как только компонент получит кол-во, засетаем его
+  // }, [isShowForm])
+
   return (
     <div className={'item-comment'}>
       <div className='item-comment__body'>
@@ -27,18 +55,17 @@ export const ItemComment = () => {
         <div className='item-comment__info'>
           <div className='item-comment__author author-text'>Усейн Болт</div>
           <div className='item-comment__message message-text'>
-            Бегаю каждую минуту и всю свою жизнь! Бегать нужно тогда, когда это
-            возможно!
+            {comment.comment}
           </div>
           <div className='item-comment__data small-text-comment'>
-            12.12.21 в 12:32
+          {comment.created_at || '12.12.21 в 12:32'} <span onClick={()=>setShowForm(true)}>Ответить</span>
           </div>
         </div>
       </div>
-
       <div className='item-comment__answer'>
-        <CommentAnswer />
+        {comment.childrens.length != 0 && <CommentAnswer />}
       </div>
+   
     </div>
   )
 }

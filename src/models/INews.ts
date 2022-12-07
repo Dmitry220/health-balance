@@ -28,9 +28,10 @@ export interface ICreatingComment {
   comment: string
 }
 
-export interface IListComment {
+export interface IComment {
   id: number
   customer: number
   comment: string
-  childrens: any
+  childrens: any,
+  created_at: number
 }

@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../store'
-import { ICreatingNews, INews } from '../../models/INews'
+import { ICreatingNews, IComment, INews } from '../../models/INews'
 import NewsService from '../../services/NewsService'
 
 export interface IChallenge {
@@ -11,7 +11,8 @@ export interface IChallenge {
   instructionNews: INews[] | []
   newsById: INews | null
   isLoading: boolean,
-  imageNews?: any
+  imageNews?: any,
+  comments: IComment[]
 }
 
 const initialState: IChallenge = {
@@ -29,7 +30,8 @@ const initialState: IChallenge = {
   instructionNews: [],
   motivationNews: [],
   psychologyNews: [],
-  news: []
+  news: [],
+  comments: []
 }
 
 export const creatingNews = createAsyncThunk<unknown>(
@@ -63,6 +65,14 @@ export const getNewsById = createAsyncThunk(
   'getNewsById',
   async (id: number) => {
     const response = await NewsService.getNewsById(id)
+    return response.data.data
+  }
+)
+
+export const getComments = createAsyncThunk(
+  'getComments',
+  async (id: number) => {
+    const response = await NewsService.listComments()
     return response.data.data
   }
 )
@@ -126,6 +136,16 @@ export const newsSlice = createSlice({
         state.isLoading = false
       }
     )
+    builder.addCase(getComments.pending, (state) => {
+      state.isLoading = true
+    })
+    builder.addCase(
+      getComments.fulfilled,
+      (state, action: PayloadAction<IComment[]>) => {
+        state.comments = action.payload
+        state.isLoading = false
+      }
+    )
   }
 })
 
@@ -152,5 +172,7 @@ export const creatingNewsSelector = (state: RootState) =>
   state.news.creatingNews
   export const tempImageNewsSelector = (state: RootState) =>
   state.news.imageNews
+  export const commentsSelector = (state: RootState) =>
+  state.news.comments
 
 export default newsSlice.reducer

@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios'
 import { $api } from '../http'
-import { IListComment, INews } from '../models/INews'
+import { IComment, INews } from '../models/INews'
 
 export default class NewsService {
   static async creatingNews(params: FormData) {
@@ -39,7 +39,7 @@ export default class NewsService {
     )
   }
 
-  static async listComments(): Promise<AxiosResponse<IListComment[]>> {
+  static async listComments(): Promise<AxiosResponse<{data:IComment[]}>> {
     return $api.get(`/v2/news-comments/?token=${localStorage.getItem('token')}`)
   }
 
