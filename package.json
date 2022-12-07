@@ -1,6 +1,8 @@
 {
   "name": "health-balance",
-  "version": "0.1.0",
+  "version": "1.0.0",
+  "author": "WeeDoWeb",
+  "homepage": "https://weedoweb.com/",
   "private": true,
   "dependencies": {
     "@capacitor-community/barcode-scanner": "^3.0.1",
