@@ -17,12 +17,24 @@
   font-weight: 700;
   font-size: 15px;
   line-height: 130%;
-
+  margin-bottom: 5px;
   color: #FBFBFB;
 }
 
 
 .comment-form{
+
+  &__answer-author{
+    margin-bottom: 5px;
+    font-size: 10px;
+    line-height: 130%;
+    color: #919191;
+    span{
+      color: $colorMain;
+      margin-left: 5px;
+    }
+  }
+
   &__body{
     position: relative;
   }
@@ -31,7 +43,7 @@
     padding: 11px;
     font-size: 15px;
     line-height: 130%;
-
+    outline: none;
     color: #C2C1C1;
     resize: none;
     background: #5C5C5C;
@@ -54,9 +66,18 @@
 }
 
 .list-comments{
+  background: $backgroundBlock;
+  padding: 15px;
+  border-radius: 10px;
+  &__count{
+    font-weight: 500;
+    font-size: 15px;
+    margin-bottom: 20px;
+  }
   &__items{
     display: flex;
     flex-direction: column;
+    margin: 0 0 20px 0;
   }
 }
 
@@ -101,9 +122,9 @@
   display: flex;
   gap: 9px;
   margin: 10px 0 0 48px;
-  &:not(:last-child){
-    margin: 0 0 10px 0;
-  }
+  // &:not(:last-child){
+  //   margin: 0 0 10px 0;
+  // }
   &__avatar{
     flex: 0 0 26px;
     height: 26px;

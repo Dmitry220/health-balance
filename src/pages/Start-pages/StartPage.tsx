@@ -161,7 +161,7 @@ export const SlideNextButton: FC<ISwiperNextButton> = ({
       console.log("Идет запрос");
       console.log(type, quantity);
       dispatch(setVisitedActivityPage(1))
-      await dispatch(setPurposeSteps({ quantity, type}))      
+      //await dispatch(setPurposeSteps({ quantity, type}))      
     }
     swiper.slideNext()
   }

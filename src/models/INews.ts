@@ -30,8 +30,10 @@ export interface ICreatingComment {
 
 export interface IComment {
   id: number
-  customer: number
+  customer_id: number,
+  customer_name: string,
+  customer_avatar: string,
   comment: string
-  childrens: any,
+  childrens: IComment[],
   created_at: number
 }

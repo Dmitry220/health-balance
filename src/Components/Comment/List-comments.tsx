@@ -1,30 +1,51 @@
 import './commnet.scss'
 import { CommentAnswer } from './Comment-answer'
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useLayoutEffect, useMemo, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
-import { commentsSelector, getComments } from '../../Redux/slice/newsSlice'
+import { commentsSelector, getComments, idNewCommentSelector } from '../../Redux/slice/newsSlice'
 import { IComment } from '../../models/INews'
 import { CommentForm } from './Comment-form'
+import { useParams } from 'react-router-dom'
+import { IMAGE_URL } from '../../http'
 
 export const ListComments = () => {
 
+  const params = useParams()
+  const newsId = Number(params.id)
   const comments = useAppSelector(commentsSelector)
+  const idNewComment = useAppSelector(idNewCommentSelector)
+
   const dispatch = useAppDispatch() 
-  useEffect(() => {
-    dispatch(getComments(1))
-  }, [])
-  
+
+  const [parentId, setParentId] = useState<number>(0)
   const [showForm, setShowForm] = useState<boolean>(false) 
+  const [author, setAuthor] = useState<string | null>(null) 
+
+  useEffect(() => {     
+    dispatch(getComments(newsId))
+  }, [idNewComment])
+
+const formatingText = (number:number) => {
+  if(number === 1){
+    return 'комментарий'
+  }
+  if(number === 2 || number ===3 || number === 4){
+    return 'комментария'
+  }
+  return 'комментариев'
+}
+
+console.log(idNewComment);
+   
 
   return (
     <div className={'list-comments'}>
+      <div className="list-comments__count">{comments.length} {formatingText(comments.length)}</div>
       <div className='list-comments__items'>
-        {comments.map(comment=> <ItemComment comment={comment} key={comment.id} setShowForm={setShowForm}/>)}
-        {/* {comments.map(comment=> <ItemComment comment={comment} key={comment.id}/>)}
-         {comments.map(comment=> <ItemComment comment={comment} key={comment.id}/>)} */}
+        {comments.map(comment=> <ItemComment comment={comment} key={comment.id} setAuthor={setAuthor} setShowForm={setShowForm} setParentId={setParentId}/>)}
       </div>
       <div className="list-comments">
-          {showForm && <CommentForm />}
+          {showForm && <CommentForm parentId={parentId} author={author} setShowForm={setShowForm}/>}
       </div>   
     </div>
   )
@@ -32,38 +53,58 @@ export const ListComments = () => {
 
 interface ICommentItem {
   comment: IComment,
-  setShowForm: any
+  setShowForm: any,
+  setParentId: any,
+  setAuthor: any
 }
 
-export const ItemComment:FC<ICommentItem> = ({comment, setShowForm}) => {
+export const ItemComment:FC<ICommentItem> = ({comment, setShowForm, setParentId,setAuthor}) => {
 
-  //const [showForm, setShowForm] = useState<boolean>(false)
+  const idProfile = Number(localStorage.getItem("id"))
 
-  // useEffect(() => {
-  //   setShowForm(isShowForm) // Как только компонент получит кол-во, засетаем его
-  // }, [isShowForm])
+  const openForm = (id: number, name: string) => {
+    setShowForm(true)
+    setParentId(id)
+    setAuthor(name)
+  }
+
+  const formMinute = (minute:number) => minute.toLocaleString().length === 1 ? '0' +  minute : minute
+  const formatDate = (date: number) => {
+    return new Date(date*1000).toLocaleDateString() + ' в ' + new Date(date*1000).getHours() + ":" + formMinute(new Date(date*1000).getMinutes())
+  }
+
 
   return (
     <div className={'item-comment'}>
       <div className='item-comment__body'>
         <div className='item-comment__avatar'>
           <img
-            src='https://avatars.mds.yandex.net/i?id=9581e6f00597e511219d903f1808ce7a-5232396-images-thumbs&n=13&exp=1'
+            src={IMAGE_URL+'avatars/'+ comment.customer_avatar}
             alt=''
           />
         </div>
         <div className='item-comment__info'>
-          <div className='item-comment__author author-text'>Усейн Болт</div>
+          <div className='item-comment__author author-text'>{comment.customer_name}</div>
           <div className='item-comment__message message-text'>
             {comment.comment}
           </div>
           <div className='item-comment__data small-text-comment'>
-          {comment.created_at || '12.12.21 в 12:32'} <span onClick={()=>setShowForm(true)}>Ответить</span>
+          {formatDate(comment.created_at) || '12.12.21 в 12:32'} 
+          {comment.customer_id != idProfile && <span onClick={()=>openForm(comment.id, comment.customer_name)}>Ответить</span>}
           </div>
         </div>
       </div>
       <div className='item-comment__answer'>
-        {comment.childrens.length != 0 && <CommentAnswer />}
+        {comment.childrens.length != 0 &&  
+        comment.childrens.map(item=>
+        <CommentAnswer key={comment.id} 
+        setParentId={setParentId} 
+        setShowForm={setShowForm} 
+        comment={item} 
+        setAuthor={setAuthor}
+        replyAuthor={comment.customer_name}
+
+        />)}
       </div>
    
     </div>

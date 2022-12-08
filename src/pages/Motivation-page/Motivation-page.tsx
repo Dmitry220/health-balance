@@ -15,7 +15,7 @@ export const MotivationPage = () => {
       <div className='motivation-page__hr' />
       {/*<Post />*/}
       <div className='motivation-page__comments'>
-        <CommentForm />
+        <CommentForm parentId={0}/>
         <br />
         <br />
         <ListComments />

@@ -39,8 +39,8 @@ export default class NewsService {
     )
   }
 
-  static async listComments(): Promise<AxiosResponse<{data:IComment[]}>> {
-    return $api.get(`/v2/news-comments/?token=${localStorage.getItem('token')}`)
+  static async listComments(id:number): Promise<AxiosResponse<{data:IComment[]}>> {
+    return $api.get(`/v2/news-comments/?token=${localStorage.getItem('token')}&news=${id}`)
   }
 
   static async likeNews(id: number) {
