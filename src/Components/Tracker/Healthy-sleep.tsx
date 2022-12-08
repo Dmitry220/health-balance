@@ -7,9 +7,11 @@ import { Link } from 'react-router-dom'
 import { GOAL_SLEEP__ROUTE } from '../../provider/constants-route'
 
 interface IHealthySleep {
-  editProhibition?: boolean
+  editProhibition?: boolean,
+  morning: string,
+  evening: string
 }
-export const HealthySleep: FC<IHealthySleep> = ({ editProhibition }) => {
+export const HealthySleep: FC<IHealthySleep> = ({ editProhibition,evening,morning }) => {
   const weekDay = [
     {
       id: 1,
@@ -24,12 +26,12 @@ export const HealthySleep: FC<IHealthySleep> = ({ editProhibition }) => {
     {
       id: 3,
       day: 'Ср',
-      completed: true
+      completed: false
     },
     {
       id: 4,
       day: 'Чт',
-      completed: true
+      completed: false
     },
     {
       id: 5,
@@ -44,7 +46,7 @@ export const HealthySleep: FC<IHealthySleep> = ({ editProhibition }) => {
     {
       id: 7,
       day: 'Вс',
-      completed: true
+      completed: false
     }
   ]
 
@@ -65,7 +67,7 @@ export const HealthySleep: FC<IHealthySleep> = ({ editProhibition }) => {
         <div className='healthy-sleep__row'>
           <div className='healthy-sleep__icon'>
             <img src={moon} alt='moon' />
-            <div className='healthy-sleep__time'>22:12</div>
+            <div className='healthy-sleep__time'>{evening}</div>
           </div>
           <div className='healthy-sleep__border-dashed' />
           <div className='healthy-sleep__text'>
@@ -74,7 +76,7 @@ export const HealthySleep: FC<IHealthySleep> = ({ editProhibition }) => {
           <div className='healthy-sleep__border-dashed' />
           <div className='healthy-sleep__icon'>
             <img src={sun} alt='sun' />
-            <div className='healthy-sleep__time'>06:30</div>
+            <div className='healthy-sleep__time'>{morning}</div>
           </div>
         </div>
         <div className='healthy-sleep__days'>

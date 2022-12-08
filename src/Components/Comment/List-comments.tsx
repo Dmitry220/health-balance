@@ -2,7 +2,7 @@ import './commnet.scss'
 import { CommentAnswer } from './Comment-answer'
 import { FC, useEffect, useLayoutEffect, useMemo, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
-import { commentsSelector, getComments, idNewCommentSelector } from '../../Redux/slice/newsSlice'
+import { commentsSelector, getComments, idNewCommentSelector, newsByIdSelector } from '../../Redux/slice/newsSlice'
 import { IComment } from '../../models/INews'
 import { CommentForm } from './Comment-form'
 import { useParams } from 'react-router-dom'
@@ -13,6 +13,7 @@ export const ListComments = () => {
   const params = useParams()
   const newsId = Number(params.id)
   const comments = useAppSelector(commentsSelector)
+  const newsById = useAppSelector(newsByIdSelector)
   const idNewComment = useAppSelector(idNewCommentSelector)
 
   const dispatch = useAppDispatch() 
@@ -40,7 +41,7 @@ console.log(idNewComment);
 
   return (
     <div className={'list-comments'}>
-      <div className="list-comments__count">{comments.length} {formatingText(comments.length)}</div>
+      <div className="list-comments__count">{newsById?.comments} {formatingText(comments.length)}</div>
       <div className='list-comments__items'>
         {comments.map(comment=> <ItemComment comment={comment} key={comment.id} setAuthor={setAuthor} setShowForm={setShowForm} setParentId={setParentId}/>)}
       </div>

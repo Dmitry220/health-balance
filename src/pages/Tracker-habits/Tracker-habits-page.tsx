@@ -23,8 +23,32 @@ import { HeaderTwo } from '../../Components/Header-two/Header-two'
 import { HealthySleep } from '../../Components/Tracker/Healthy-sleep'
 import { routesNavigationTracker } from '../../utils/globalConstants'
 import { NavLink } from 'react-router-dom'
+import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
+import { useEffect } from 'react'
+import { getTracker, isLoadingSelector, trackerSelector } from '../../Redux/slice/trackerSlice'
 
 export const TrackerHabitsPage = () => {
+
+  const dispatch = useAppDispatch()
+  const tracker = useAppSelector(trackerSelector)
+ 
+  console.log(tracker);
+  
+
+  useEffect(() => {
+    dispatch(getTracker())
+  }, [])
+
+  // if(isLoading){
+  //   return <h1>Загрузка...</h1>
+  // }
+
+  const morning = tracker.wake_up_time.split(':')[0]
+  const evening = +morning-8<0 ? 24+(+morning-8) :+morning-8
+  console.log(morning);
+  
+  
+
   return (
     <div className={'tracker-habits-page'}>
       <Navigation routes={routesNavigationTracker} />
@@ -39,7 +63,7 @@ export const TrackerHabitsPage = () => {
         </NavLink>
       </div>
       <div className='tracker-habits-page__target'>
-        <HealthySleep />
+        <HealthySleep evening={evening+''} morning={morning+''}/>
       </div>
 
       <div className='tracker-habits-page__task-title'>
@@ -60,7 +84,7 @@ export const TrackerHabitsPage = () => {
       <div className='tracker-habits-page__task-title'>
         <div className='tracker-habits-page__task-column'>
           <img src={icon_fruit} alt='' />
-          Съесть <span>5</span> фрутков / овощей
+          Съесть <span>{tracker?.fruits}</span> фрутков / овощей
         </div>
         <div className='tracker-habits-page__task-column'>
           <Link to={GOAL_FRUITS__ROUTE} className='text-blue'>

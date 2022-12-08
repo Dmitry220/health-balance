@@ -53,7 +53,7 @@ export const MotivationCard = () => {
               </div>
               <div className='feed-back__comments'>
                 <img src={iconComments} alt='comments' />
-                24
+                {news.comments}
               </div>
             </div>
             <div className='motivation-card__content'>{news.content}</div>

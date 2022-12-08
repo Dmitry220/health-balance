@@ -19,7 +19,8 @@ export interface INews {
   push: boolean
   status: boolean
   team: number | null
-  likes: number
+  likes: number,
+  comments: number
 }
 
 export interface ICreatingComment {

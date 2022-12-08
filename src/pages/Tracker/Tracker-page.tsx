@@ -144,7 +144,7 @@ export const TrackerPage = () => {
               </div>
               <div className='tracker__recommendation small-text'>
                 Количество воды в день:{' '}
-                <span className='text-blue'>2,1 литра</span>
+                <span className='text-blue'>{(+weightUser*35/1000).toFixed(1)} литра</span>
               </div>
             </div>
           </SwiperSlide>
