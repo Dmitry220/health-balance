@@ -1,7 +1,7 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { appSlice } from './slice/appSlice'
 import { creatingChallengeSlice } from './slice/challengeSlice'
-import { quizSlice } from './slice/quizSlice'
+import { healthIndexSlice } from './slice/healthIndexSlice'
 import { authSlice } from './slice/authSlice'
 import { accessRecoverySlice } from './slice/accessRecoverySlice'
 import { profileSlice } from './slice/profileSlice'
@@ -27,12 +27,11 @@ import { trackerSlice } from './slice/trackerSlice'
 const persistConfig = {
   key: 'root',
   storage: storage,
-  whitelist: ['visitedPages']
+  whitelist: ['visitedPages','healthIndex']
 }
 
 const reducer = combineReducers({
   app: appSlice.reducer,
-  quiz: quizSlice.reducer,
   auth: authSlice.reducer,
   creatingChallenge: creatingChallengeSlice.reducer,
   recovery: accessRecoverySlice.reducer,
@@ -43,7 +42,8 @@ const reducer = combineReducers({
   lessons: lessonsSlice.reducer,
   purposes: purposesSlice.reducer,
   news: newsSlice.reducer,
-  tracker: trackerSlice.reducer
+  tracker: trackerSlice.reducer,
+  healthIndex: healthIndexSlice.reducer
 })
 
 const persistedReducer = persistReducer(persistConfig, reducer)

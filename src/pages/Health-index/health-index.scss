@@ -35,3 +35,13 @@
     bottom: 22px;
   }
 }
+.continue-questionaire{
+  &__title{
+    margin: 0 0 15px 0;
+  }
+  &__text{
+    margin: 0 0 40px 0;
+    font-size: 13px;
+    color: #ABABAB;
+  }
+}

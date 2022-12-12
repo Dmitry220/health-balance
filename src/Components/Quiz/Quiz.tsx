@@ -1,6 +1,6 @@
 import { ChangeEvent, FC } from 'react'
 import './quiz.scss'
-import { IQuestions } from '../../Redux/slice/quizSlice'
+
 
 export interface IQuiz {
   answer_type: string

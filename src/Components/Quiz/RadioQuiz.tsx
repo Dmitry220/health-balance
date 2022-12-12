@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { ChangeEvent, FC, useState } from "react";
 import "./quiz.scss";
 interface ITextQuiz {
   question: string;
@@ -8,42 +8,41 @@ interface ITextQuiz {
 }
 
 const RadioQuiz: FC<ITextQuiz> = ({ question, answerHandler, answers, id }) => {
-  const [value, setValue] = useState("");
+
+  
+  const [value, setValue] = useState<number | null>(null);
   const handleClick = () => {
-    setValue("");
-    answerHandler(value);
+    setValue(null);
+    answerHandler({[id]:value});
   };
-  const handleChange = (val: string) => {
-    if (val.length > 0) {
-      setValue(val);
-    } else {
-      setValue(val);
-    }
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {  
+      setValue(+e.target.value);
   };
+  
   return (
     <div className={"quiz"}>
       <div className="quiz__title">{question}</div>
       <div className="custom-checkbox" style={{ marginBottom: "10px" }}>
         {answers &&
-          JSON.parse(answers).map((item: any, i: number) => (
+          answers.map((item: any, i: number) => (
             <div key={i}>
               <input
-                checked={item === value}
-                value={item}
+                checked={i+1 === value}
+                value={i+1}
                 type="radio"
                 name={"radio" + id}
                 className={"custom-checkbox__checkbox"}
                 id={i + id}
-                onChange={(e) => handleChange(e.target.value)}
+                onChange={handleChange}
               />
               <label htmlFor={i + id}>{item}</label>
             </div>
           ))}
       </div>
       <button
-        disabled={value === ""}
+        disabled={value === null}
         className={
-          value === ""
+          value === null
             ? "questionnaire-page__button _button-white disabled"
             : "questionnaire-page__button _button-white"
         }

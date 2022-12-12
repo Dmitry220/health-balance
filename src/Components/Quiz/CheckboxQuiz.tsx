@@ -16,7 +16,7 @@ const CheckboxQuiz: FC<ITextQuiz> = ({
   const [value, setValue] = useState<any>([]);
   const handleClick = () => {
     setValue([]);
-    answerHandler(value);
+    answerHandler({[id]:value});
   };
 
   const handleChange = (val: string) => {
@@ -24,18 +24,18 @@ const CheckboxQuiz: FC<ITextQuiz> = ({
       setValue(value.filter((e: string) => e !== val));
       return false;
     }
-    setValue([...value, val]);
+    setValue([...value, +val]);
   };
   return (
     <div className={"quiz"}>
       <div className="quiz__title">{question}</div>
       <div className="custom-checkbox" style={{ marginBottom: "10px" }}>
         {answers &&
-          JSON.parse(answers).map((item: any, i: number) => (
+          answers.map((item: any, i: number) => (
             <div key={i}>
               <input
                 // checked={item === value}
-                value={item}
+                value={i+1}
                 type="checkbox"
                 name={"radio" + id}
                 className={"custom-checkbox__checkbox"}

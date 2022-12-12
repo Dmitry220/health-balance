@@ -5,25 +5,51 @@ import { QUESTIONNAIRE_ROUTE } from '../../provider/constants-route'
 import chart from '../../assets/image/Static-chart.png'
 import { useSelector } from 'react-redux'
 import { HealthIndexResults } from '../Health-index-results/Health-index-results'
-import { useAppDispatch } from '../../utils/hooks/redux-hooks'
-import { resetIndexPageAnswer } from '../../Redux/slice/visitedPageSlice'
+import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
+import { getProgressAndIdPolls, idPolleSelector, interruptPoll, progressPollSelector } from '../../Redux/slice/healthIndexSlice'
+import { Questionnaire } from '../Questionnaire/Questionnaire'
+import { FC, useEffect, useState } from 'react'
 
 export const HealthIndexPage = () => {
-  const answers = useSelector(
-    (state: any) => state.visitedPages.indexPage.answers
-  )
-  console.log(answers)
+
+  const idPoll = useAppSelector(idPolleSelector)
+  const progressPoll = useAppSelector(progressPollSelector)
+
+  const [continuePassing, setContinuePassing] = useState<boolean>(false)
+
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    dispatch(getProgressAndIdPolls())
+  }, []);
+
+  if (idPoll != 0 && progressPoll === 1 && !continuePassing) {
+    return <StartQuestionaire setContinuePassing={setContinuePassing} />
+  }
+
+  if (idPoll != 0 && progressPoll != 1 && progressPoll != 0 && !continuePassing) {
+    return <ContinueQuestionaire setContinuePassing={setContinuePassing} />
+  }
+
+  if (continuePassing) {
+    return <Questionnaire />
+  }
 
   return (
-    <>
-      {answers.length === 0 && <StartQuestionaire />}
-      {answers.length < 10 && answers.length != 0 && <ContinueQuestionaire />}
-      {answers.length === 10 && <HealthIndexResults />}
-    </>
+    <HealthIndexResults />
   )
 }
 
-const StartQuestionaire = () => {
+interface IStartQuestionaire {
+  setContinuePassing: Function
+}
+
+const StartQuestionaire: FC<IStartQuestionaire> = ({ setContinuePassing }) => {
+
+  const startTesting = () => {
+    setContinuePassing(true)
+  }
+
   return (
     <div className={'health-index'}>
       <Navigation />
@@ -39,32 +65,38 @@ const StartQuestionaire = () => {
         </div>
       </div>
 
-      <Link
-        to={QUESTIONNAIRE_ROUTE}
+      <button
+        onClick={startTesting}
         className='health-index__button _button-dark'
       >
         Пройти тестирование
-      </Link>
+      </button>
     </div>
   )
 }
 
-const ContinueQuestionaire = () => {
+interface IContinueQuestionaire {
+  setContinuePassing: Function
+}
+
+const ContinueQuestionaire: FC<IContinueQuestionaire> = ({ setContinuePassing }) => {
+
   const dispatch = useAppDispatch()
-  const navigate = useNavigate()
+  const idPoll = useAppSelector(idPolleSelector)
 
   const continueTest = () => {
-    navigate(QUESTIONNAIRE_ROUTE)
+    setContinuePassing(true)
   }
 
   const resetTest = () => {
-    dispatch(resetIndexPageAnswer())
+    dispatch(interruptPoll(idPoll))
   }
 
   return (
     <div className='continue-questionaire'>
-      <div className='continue-questionaire__title'>
-        Продолжить тестирование?
+      <Navigation />
+      <div className='continue-questionaire__title title'>
+        Продолжить <br /> тестирование?
       </div>
       <div className='continue-questionaire__text'>
         Ваши результаты были сохранены
