@@ -3,33 +3,34 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import HealthIndexService from "../../services/HealthIndexService";
 import {
+  IDynamics,
   IGetProgressAndIDPolls,
   IQuestionnaire,
 } from "../../models/IHealthIndex";
 
 interface IHealthIndex {
-  questionnaire: any;
+  questionnaire: IQuestionnaire[];
   answers: any;
-  last_step: number;
   progress: number;
   idPoll: number;
   isInterruptPoll: boolean;
+  dynamics: IDynamics[]
 }
 
 const initialState: IHealthIndex = {
   progress: 0,
-  questionnaire: { index: { id: 0, name: "", questions: [] } },
+  questionnaire: [],
   answers: [],
-  last_step: 0,
   idPoll: 0,
   isInterruptPoll: false,
+  dynamics: []
 };
 
 export const getQuestionnaire = createAsyncThunk(
   "getQuestionnaire",
   async () => {
     const response = await HealthIndexService.getQuestionnaire();
-    return response.data;
+    return response.data.data;
   }
 );
 
@@ -45,7 +46,10 @@ export const interruptPoll = createAsyncThunk(
   "interruptPoll",
   async (id: number) => {
     const response = await HealthIndexService.interruptPoll(id);
-    console.log(response);
+    if(response.data.data.success === true){
+      console.log(response);
+    }
+    
   }
 );
 
@@ -57,6 +61,7 @@ export const saveCurrentResult = createAsyncThunk(
     const formData = new FormData();
     formData.append("answers", JSON.stringify(answers));
     const response = await HealthIndexService.saveCurrentResult(id, formData);
+    console.log(response.data);
     return response.data.data;
   }
 );
@@ -66,6 +71,14 @@ export const generateResultsPoll = createAsyncThunk(
   async (id: number) => {
     const response = await HealthIndexService.generateResultsPoll(id);
     console.log(response);
+  }
+);
+
+export const getDynamics = createAsyncThunk(
+  "getDynamics",
+  async () => {
+    const response = await HealthIndexService.getDynamics();
+    return response.data.data
   }
 );
 
@@ -83,21 +96,27 @@ export const healthIndexSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(
       getQuestionnaire.fulfilled,
-      (state, action: PayloadAction<IQuestionnaire>) => {
+      (state, action: PayloadAction<IQuestionnaire[]>) => {
         state.questionnaire = action.payload;
       }
     );
     builder.addCase(
       getProgressAndIdPolls.fulfilled,
       (state, action: PayloadAction<IGetProgressAndIDPolls>) => {
-        state.progress = action.payload.progress;
+        state.progress = action.payload.progress - 1;
         state.idPoll = action.payload.id;
       }
     );
     builder.addCase(
       saveCurrentResult.fulfilled,
       (state, action: PayloadAction<{ progress: number }>) => {
-        state.progress = action.payload.progress;
+        state.progress = action.payload.progress - 1;
+      }
+    );
+    builder.addCase(
+      getDynamics.fulfilled,
+      (state, action: PayloadAction<IDynamics[]>) => {
+        state.dynamics = action.payload;
       }
     );
   },
@@ -112,5 +131,6 @@ export const answersQuestionnaireSelector = (state: RootState) =>
 export const progressPollSelector = (state: RootState) =>
   state.healthIndex.progress;
 export const idPolleSelector = (state: RootState) => state.healthIndex.idPoll;
+export const dynamicsSelector = (state: RootState) => state.healthIndex.dynamics;
 
 export default healthIndexSlice.reducer;

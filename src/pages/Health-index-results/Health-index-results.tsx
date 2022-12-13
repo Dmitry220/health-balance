@@ -14,8 +14,22 @@ import {
   routesNavigation,
   routesNavigationIndexResult
 } from '../../utils/globalConstants'
+import { useEffect } from 'react'
+import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
+import { dynamicsSelector, getDynamics } from '../../Redux/slice/healthIndexSlice'
 
 export const HealthIndexResults = () => {
+
+  const dispatch = useAppDispatch()
+  const dynamics = useAppSelector(dynamicsSelector)
+
+  const lastDynamic = dynamics[dynamics.length-1]
+
+  useEffect(() => {
+    dispatch(getDynamics())
+  }, [])
+
+
   return (
     <div className={'health-index-results-page'}>
       <Navigation routes={routesNavigationIndexResult} />
@@ -24,20 +38,23 @@ export const HealthIndexResults = () => {
         <Retesting />
       </div>
       <div className='health-index-results-page__age'>
-        <CardBiologyAge />
+        <CardBiologyAge age={lastDynamic?.biological_age}/>
       </div>
       <div className='health-index-results-page__title title-17'>
         Показатели вне нормы
       </div>
       <div className='health-index-results-page__index'>
         <div className='health-index-results-page__index-item'>
-          <CardIndex />
+          <CardIndex title={'Уровень глюкозы в крови'} value={1}/>
         </div>
         <div className='health-index-results-page__index-item'>
-          <CardIndex />
+          <CardIndex title='Индексмассы тела' value={lastDynamic?.body_mass_index}/>
         </div>
         <div className='health-index-results-page__index-item'>
-          <CardIndex />
+          <CardIndex title={'Физическая активность'} value={lastDynamic?.physical_activity}/>
+        </div>
+        <div className='health-index-results-page__index-item'>
+          <CardIndex title='Правильное питание' value={lastDynamic?.nutrition_risk}/>
         </div>
       </div>
       <Link
@@ -51,13 +68,28 @@ export const HealthIndexResults = () => {
       </div>
       <div className='health-index-results-page__disease'>
         <div className='health-index-results-page__disease-item'>
-          <CardDisease />
+          <CardDisease risk={0} title={'Сахарный диабет'}/>
         </div>
         <div className='health-index-results-page__disease-item'>
-          <CardDisease />
+          <CardDisease title='Онкология' risk={lastDynamic?.oncology_risk}/>
         </div>
         <div className='health-index-results-page__disease-item'>
-          <CardDisease />
+        <CardDisease title='Алкоголизм' risk={lastDynamic?.alcohol_risk}/>
+        </div>
+        <div className='health-index-results-page__disease-item'>
+        <CardDisease title='Депрессия' risk={lastDynamic?.depression_risk}/>
+        </div>
+        <div className='health-index-results-page__disease-item'>
+        <CardDisease title='Сердечно-сосудистые' risk={lastDynamic?.cardio_risk}/>
+        </div>
+        <div className='health-index-results-page__disease-item'>
+        <CardDisease title='Хронический' risk={lastDynamic?.chronic_risk}/>
+        </div>
+        <div className='health-index-results-page__disease-item'>
+        <CardDisease title='Холестерин' risk={lastDynamic?.cholesterol_risk}/>
+        </div>
+        <div className='health-index-results-page__disease-item'>
+        <CardDisease title='Стресс' risk={lastDynamic?.stress_risk}/>
         </div>
       </div>
       <Link

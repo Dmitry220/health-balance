@@ -27,7 +27,7 @@ import { trackerSlice } from './slice/trackerSlice'
 const persistConfig = {
   key: 'root',
   storage: storage,
-  whitelist: ['visitedPages','healthIndex']
+  whitelist: ['visitedPages']
 }
 
 const reducer = combineReducers({

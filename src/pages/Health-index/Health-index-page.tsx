@@ -6,16 +6,16 @@ import chart from '../../assets/image/Static-chart.png'
 import { useSelector } from 'react-redux'
 import { HealthIndexResults } from '../Health-index-results/Health-index-results'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
-import { getProgressAndIdPolls, idPolleSelector, interruptPoll, progressPollSelector } from '../../Redux/slice/healthIndexSlice'
+import { dynamicsSelector, getDynamics, getProgressAndIdPolls, idPolleSelector, interruptPoll, progressPollSelector } from '../../Redux/slice/healthIndexSlice'
 import { Questionnaire } from '../Questionnaire/Questionnaire'
 import { FC, useEffect, useState } from 'react'
+import HealthIndexService from '../../services/HealthIndexService'
 
 export const HealthIndexPage = () => {
 
   const idPoll = useAppSelector(idPolleSelector)
   const progressPoll = useAppSelector(progressPollSelector)
-
-  const [continuePassing, setContinuePassing] = useState<boolean>(false)
+  const dynamics = useAppSelector(dynamicsSelector)
 
   const dispatch = useAppDispatch()
 
@@ -23,16 +23,19 @@ export const HealthIndexPage = () => {
     dispatch(getProgressAndIdPolls())
   }, []);
 
-  if (idPoll != 0 && progressPoll === 1 && !continuePassing) {
-    return <StartQuestionaire setContinuePassing={setContinuePassing} />
-  }
 
-  if (idPoll != 0 && progressPoll != 1 && progressPoll != 0 && !continuePassing) {
-    return <ContinueQuestionaire setContinuePassing={setContinuePassing} />
-  }
-
-  if (continuePassing) {
-    return <Questionnaire />
+  if (dynamics.length) {
+    if (idPoll && progressPoll) {
+      return <ContinueQuestionaire />
+    }
+    return <HealthIndexResults />
+  }else{
+    if (idPoll && progressPoll) {
+      return <ContinueQuestionaire />
+    }  
+    if (idPoll && !progressPoll) {
+      return <StartQuestionaire />
+    }  
   }
 
   return (
@@ -40,14 +43,12 @@ export const HealthIndexPage = () => {
   )
 }
 
-interface IStartQuestionaire {
-  setContinuePassing: Function
-}
+const StartQuestionaire: FC = () => {
 
-const StartQuestionaire: FC<IStartQuestionaire> = ({ setContinuePassing }) => {
+  const navigate = useNavigate()
 
   const startTesting = () => {
-    setContinuePassing(true)
+    navigate(QUESTIONNAIRE_ROUTE)
   }
 
   return (
@@ -75,21 +76,20 @@ const StartQuestionaire: FC<IStartQuestionaire> = ({ setContinuePassing }) => {
   )
 }
 
-interface IContinueQuestionaire {
-  setContinuePassing: Function
-}
-
-const ContinueQuestionaire: FC<IContinueQuestionaire> = ({ setContinuePassing }) => {
+const ContinueQuestionaire: FC = () => {
 
   const dispatch = useAppDispatch()
   const idPoll = useAppSelector(idPolleSelector)
+  const navigate = useNavigate()
 
   const continueTest = () => {
-    setContinuePassing(true)
+    navigate(QUESTIONNAIRE_ROUTE)
   }
 
-  const resetTest = () => {
-    dispatch(interruptPoll(idPoll))
+  const resetTest = async () => {
+    await dispatch(interruptPoll(idPoll))
+    await dispatch(getProgressAndIdPolls())
+    navigate(QUESTIONNAIRE_ROUTE)
   }
 
   return (

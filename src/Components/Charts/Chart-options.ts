@@ -29,9 +29,9 @@ export const optionsChartBar:any = {
                 fontSize: 13,
                 beginAtZero: true,
                 color: "#DCDCDC",
-                stepSize: 10000/3,
+              //  stepSize: 10000/3,
                 callback: function(label:number) {
-                    return label === 0 ? '' : Math.floor(label/1000)+'k';
+                    return label === 0 ? '' : (label.toString().length <=3 ? label : Math.floor(label/1000)+'k');
                 }}
         },
     }

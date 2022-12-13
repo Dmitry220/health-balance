@@ -3,8 +3,11 @@ import "./quiz.scss";
 interface ITextQuiz {
   question: string;
   answerHandler: Function;
-  answers: any;
-  id: string;
+  answers: {
+    position: number;
+    value: string;
+  }[];
+  id: number;
 }
 
 const CheckboxQuiz: FC<ITextQuiz> = ({
@@ -31,18 +34,18 @@ const CheckboxQuiz: FC<ITextQuiz> = ({
       <div className="quiz__title">{question}</div>
       <div className="custom-checkbox" style={{ marginBottom: "10px" }}>
         {answers &&
-          answers.map((item: any, i: number) => (
-            <div key={i}>
+          answers.map((item) => (
+            <div key={item.position}>
               <input
-                // checked={item === value}
-                value={i+1}
+                checked={value.includes(item.position+1)}
+                value={item.position+1}
                 type="checkbox"
                 name={"radio" + id}
                 className={"custom-checkbox__checkbox"}
-                id={i + id}
+                id={item.position + id + ''}
                 onChange={(e) => handleChange(e.target.value)}
               />
-              <label htmlFor={i + id}>{item}</label>
+              <label htmlFor={item.position + id + ''}>{item.value}</label>
             </div>
           ))}
       </div>

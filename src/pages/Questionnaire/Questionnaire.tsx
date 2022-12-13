@@ -36,27 +36,38 @@ export const Questionnaire = () => {
   const idPoll = useAppSelector(idPolleSelector)
   const progressPoll = useAppSelector(progressPollSelector)
   const [indexQuestion, setIndexQuestion] = useState(0)
+  const [finished, setFinished] = useState<boolean>(false)
   const navigation = useNavigate();
 
   useEffect(() => {
-    // dispatch(getProgressAndIdPolls())
+   // dispatch(getProgressAndIdPolls())
     dispatch(getQuestionnaire());
     dispatch(resetAnswers());
   }, []);
 
+
+
   useEffect(() => {
-    if(questionnaire[progressPoll] === undefined && progressPoll != 0){
-      dispatch(generateResultsPoll(idPoll))
-      return
-    }
     if (questionnaire[progressPoll]?.questions.length === indexQuestion) {      
        dispatch(saveCurrentResult(idPoll));
        dispatch(resetAnswers()); 
-       setIndexQuestion(0)     
+       setIndexQuestion(0) 
+       console.log(progressPoll);
+       
+       if(progressPoll === 9 ){
+        console.log('Попал');
+        
+        dispatch(generateResultsPoll(idPoll))
+        setFinished(true)
+        return
+      }    
     }
+   
   }, [indexQuestion])
 
-   
+   if(finished){
+    return <h1>Конец</h1>
+   }
 
 
   const answerHandler = (answer: any) => {    
@@ -73,42 +84,41 @@ export const Questionnaire = () => {
         <div>
           {questionnaire ? (
             <div>
-              <Header title={"Анкета #" + progressPoll} />
+              <Header title={"Анкета #" + (progressPoll+1)} />
               <div className="questionnaire-page__progress-bar">
                 <div className="questionnaire-page__progress-value">
                   {answers.length + 1} / {questionnaire[progressPoll]?.questions.length}
                   <span>{questionnaire[progressPoll]?.name}</span>
                 </div>
                 <ProgressBar
-                  percent={((answers.length+1) * 100) / questionnaire[progressPoll]?.questions.length}
-                // percent={50}
+                  percent={((answers.length+1) * 100) / questionnaire[progressPoll]?.questions.length}                
                   type={typesChallenge.common}
                 />
               </div>
               <div className="questionnaire-page__question">               
                 <div>
                   {
-                    questionnaire[progressPoll]?.questions[indexQuestion]?.answer_type === "1" &&
+                    questionnaire[progressPoll]?.questions[indexQuestion]?.answer_type === 1 &&
                     <RadioQuiz
                       question={questionnaire[progressPoll]?.questions[indexQuestion]?.question}
                       answerHandler={answerHandler}
-                      answers={questionnaire[progressPoll]?.questions[indexQuestion]?.answers}
+                      answers={questionnaire[progressPoll].questions[indexQuestion].answers}
                       id={questionnaire[progressPoll]?.questions[indexQuestion]?.id}
                     />
                   }
                   {
-                    questionnaire[progressPoll]?.questions[indexQuestion]?.answer_type === "2" &&
+                    questionnaire[progressPoll]?.questions[indexQuestion]?.answer_type === 2 &&
                     <TextQuiz answerHandler={answerHandler} question={questionnaire[progressPoll]?.questions[indexQuestion]?.question} />
                   }
                   {
-                    questionnaire[progressPoll]?.questions[indexQuestion]?.answer_type === "3" &&
+                    questionnaire[progressPoll]?.questions[indexQuestion]?.answer_type === 3 &&
                     <NumberQuiz 
                     answerHandler={answerHandler} 
                     id={questionnaire[progressPoll]?.questions[indexQuestion]?.id}
                     question={questionnaire[progressPoll]?.questions[indexQuestion]?.question} />
                   }
                   {
-                    questionnaire[progressPoll]?.questions[indexQuestion]?.answer_type === "4" &&
+                    questionnaire[progressPoll]?.questions[indexQuestion]?.answer_type === 4 &&
                     <CheckboxQuiz
                       id={questionnaire[progressPoll]?.questions[indexQuestion]?.id}
                       answers={questionnaire[progressPoll]?.questions[indexQuestion]?.answers}
@@ -116,15 +126,15 @@ export const Questionnaire = () => {
                       question={questionnaire[progressPoll]?.questions[indexQuestion]?.question} />
                   }
                   {
-                    questionnaire[progressPoll]?.questions[indexQuestion]?.answer_type === "5" &&
+                    questionnaire[progressPoll]?.questions[indexQuestion]?.answer_type === 5 &&
                     <DateQuiz answerHandler={answerHandler} question={questionnaire[progressPoll]?.questions[indexQuestion]?.question} />
                   }
                   {
-                    questionnaire[progressPoll]?.questions[indexQuestion]?.answer_type === "6" &&
+                    questionnaire[progressPoll]?.questions[indexQuestion]?.answer_type === 6 &&
                     <RadioWithAnswer id={questionnaire[progressPoll]?.questions[indexQuestion]?.id} answers={questionnaire[progressPoll]?.questions[indexQuestion]?.answers} answerHandler={answerHandler} question={questionnaire[progressPoll]?.questions[indexQuestion]?.question} />
                   }
                   {
-                    questionnaire[progressPoll]?.questions[indexQuestion]?.answer_type === "7" &&
+                    questionnaire[progressPoll]?.questions[indexQuestion]?.answer_type === 7 &&
                     <CheckboxWithAnswer
                       id={questionnaire[progressPoll]?.questions[indexQuestion]?.id}
                       answers={questionnaire[progressPoll]?.questions[indexQuestion]?.answers}

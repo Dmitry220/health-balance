@@ -3,13 +3,15 @@ import "./quiz.scss";
 interface ITextQuiz {
   question: string;
   answerHandler: Function;
-  answers: any;
-  id: string;
+  answers: {
+    position: number;
+    value: string;
+  }[];
+  id: number;
 }
 
 const RadioQuiz: FC<ITextQuiz> = ({ question, answerHandler, answers, id }) => {
-
-  
+    
   const [value, setValue] = useState<number | null>(null);
   const handleClick = () => {
     setValue(null);
@@ -24,18 +26,18 @@ const RadioQuiz: FC<ITextQuiz> = ({ question, answerHandler, answers, id }) => {
       <div className="quiz__title">{question}</div>
       <div className="custom-checkbox" style={{ marginBottom: "10px" }}>
         {answers &&
-          answers.map((item: any, i: number) => (
-            <div key={i}>
+          answers.map((item) => (
+            <div key={item.position}>
               <input
-                checked={i+1 === value}
-                value={i+1}
+                checked={item.position+1 === value}
+                value={item.position+1}
                 type="radio"
                 name={"radio" + id}
                 className={"custom-checkbox__checkbox"}
-                id={i + id}
+                id={item.position + id + ''}
                 onChange={handleChange}
               />
-              <label htmlFor={i + id}>{item}</label>
+              <label htmlFor={item.position + id + ''}>{item.value}</label>
             </div>
           ))}
       </div>
