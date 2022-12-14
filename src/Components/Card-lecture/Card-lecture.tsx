@@ -16,7 +16,7 @@ const CardLecture: FC<ICardLecture> = ({ id, date, img, reward, title }) => {
   return (
     <NavLink to={LECTURE_ROUTE + '/' + id} className={'card-lecture'}>
       <div className='card-lecture__image'>
-        <img src={img} alt='image' />
+        <img src={img} alt='lecture' />
       </div>
       <div className='card-lecture__info'>
         <div className='card-lecture__title'>{title}</div>
