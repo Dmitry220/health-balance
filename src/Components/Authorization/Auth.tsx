@@ -68,10 +68,10 @@ export const Auth = () => {
             <button className='form-auth__button' onClick={submit}>
               Войти
             </button>
-            <button className='form-auth__button transparent'>
+            {/* <button className='form-auth__button transparent'>
               <img src={appleIcon} alt='apple' />
               Войти через Apple ID
-            </button>
+            </button> */}
           </div>
           <Link
             to={ACCESS_RECOVERY__ROUTE}

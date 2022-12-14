@@ -1,12 +1,16 @@
-import { FC, useEffect, useState } from 'react'
-import { Navigation, Pagination, Scrollbar, A11y } from 'swiper'
-import { Swiper, SwiperSlide, useSwiper, useSwiperSlide } from 'swiper/react'
+import { FC, useState } from 'react'
+import { Pagination, A11y } from 'swiper'
+import { Swiper, SwiperSlide, useSwiper } from 'swiper/react'
+
+import Pedometer from '../../plugins/pedometer'
+
 import 'rmc-picker/assets/index.css'
 import 'swiper/scss'
 import 'swiper/scss/navigation'
 import 'swiper/scss/pagination'
 import 'swiper/scss/scrollbar'
 import './start-page.scss'
+
 import { Steps } from '../../Components/Steps/Steps'
 import { Target } from '../../Components/Target/Target'
 import { StepsData } from '../../Components/Steps-data/Steps-data'
@@ -20,16 +24,18 @@ import { setVisitedActivityPage } from '../../Redux/slice/visitedPageSlice'
 import { setPurposeSteps } from '../../Redux/slice/purposeSlice'
 
 interface ISwiperNextButton {
-  customClass: string,
+  customClass: string
   quantity: string
 }
 
 export const StartPage = () => {
-  const starValueStep = 0
+  const startValueStep = 0
   const endValueStep = 20000
 
-  const itemSteps = getItemsStep(starValueStep, endValueStep)
-  const [stepValue, setStepValue] = useState<string>((starValueStep + endValueStep) / 2 + '')
+  const itemSteps = getItemsStep(startValueStep, endValueStep)
+  const [stepValue, setStepValue] = useState<string>(
+    (startValueStep + endValueStep) / 2 + ''
+  )
   const dataUser = useAppSelector(dataUserSelector)
   const changeStep = (value: string) => setStepValue(value)
 
@@ -128,7 +134,8 @@ export const StartPage = () => {
 }
 
 export const SlideNextButton: FC<ISwiperNextButton> = ({
-  customClass,quantity
+  customClass,
+  quantity
 }) => {
   const swiper = useSwiper()
   const [title, setTitle] = useState<string>('Я в деле!')
@@ -136,36 +143,32 @@ export const SlideNextButton: FC<ISwiperNextButton> = ({
   const dispatch = useAppDispatch()
 
   swiper.on('slideChange', function () {
-    console.log("reach to End", swiper.activeIndex);
-      switch (swiper.activeIndex) {
+    switch (swiper.activeIndex) {
       case 1:
         setTitle('Просто!')
-        break;
+        break
       case 2:
         setTitle('Дальше')
-        break;
+        break
       case 3:
         setTitle('Дальше')
-        break;
+        break
       case 4:
         setTitle('Наслаждайся!')
         break
       default:
-        break;
+        break
     }
-  });
+  })
 
-  const next = async () => {    
-    if(swiper.activeIndex === 4){
-      const type = 1
-      console.log("Идет запрос");
-      console.log(type, quantity);
+  const next = async () => {
+    if (swiper.activeIndex === 4) {
       dispatch(setVisitedActivityPage(1))
-      //await dispatch(setPurposeSteps({ quantity, type}))      
+      await Pedometer.requestPermission()
+      //await dispatch(setPurposeSteps({ quantity, type}))
     }
     swiper.slideNext()
   }
-
 
   return (
     <button className={customClass} onClick={next}>

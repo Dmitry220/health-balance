@@ -33,7 +33,7 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 @CapacitorPlugin(
-        name = "PedometerPlugin",
+        name = "Pedometer",
         permissions = {
                 @Permission(strings = { Manifest.permission.ACTIVITY_RECOGNITION }),
                 @Permission(strings = { Manifest.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS })

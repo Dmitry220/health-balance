@@ -1,8 +1,22 @@
-import { FC, useEffect, useRef, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
+import { Bar } from 'react-chartjs-2'
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+} from 'chart.js'
+
+import Pedometer from '../../plugins/pedometer'
+
 import 'swiper/scss'
 import 'swiper/scss/navigation'
 import 'swiper/scss/pagination'
 import 'swiper/scss/scrollbar'
+
 import { Steps } from '../../Components/Steps/Steps'
 import {
   INavigation,
@@ -18,20 +32,10 @@ import { Target } from '../../Components/Target/Target'
 import { TabContent, Tabs } from '../../Components/Tabs/Tabs'
 import { TopRating } from '../../Components/Top-rating/Top-rating'
 import { ImportantBlock } from '../../Components/Important-block/Important-block'
-import { Bar } from 'react-chartjs-2'
 import {
   getGradient,
   optionsChartBar
 } from '../../Components/Charts/Chart-options'
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-} from 'chart.js'
 import { Banner } from '../../Components/Banner/Banner'
 import {
   ACTIVITY_ROUTE,
@@ -90,6 +94,7 @@ export const ActivityPage: FC = () => {
   const namesTabsDynamics = ['Дни', 'Недели', 'Месяцы']
   const [currentValueTab, setCurrentValueTab] = useState<number>(0)
   const [transparentHeader, setTransparentHeader] = useState<boolean>(true)
+  const [stepsCount, setStepsCount] = useState<string>('-')
   const labels = [
     {
       day: 'Пн',
@@ -174,9 +179,9 @@ export const ActivityPage: FC = () => {
 
   const activityVisitCount = useAppSelector(activityVisitSelector)
 
-  console.log(activityVisitCount)
-
   useEffect(() => {
+    startPlugin()
+
     window.addEventListener('scroll', function () {
       let scroll = window.pageYOffset
       // let step: any = document.querySelector('#step')
@@ -189,7 +194,26 @@ export const ActivityPage: FC = () => {
         setTransparentHeader(true)
       }
     })
+
+    return () => {
+      window.removeEventListener('stepEvent', updateSteps)
+    }
   }, [])
+
+  const startPlugin = async () => {
+    Pedometer.start()
+
+    let savedData = await Pedometer.getSavedData()
+    let steps = savedData['numberOfSteps'] || '0'
+
+    setStepsCount(steps)
+
+    window.addEventListener('stepEvent', updateSteps)
+  }
+
+  const updateSteps = (steps: any) => {
+    setStepsCount(steps)
+  }
 
   if (activityVisitCount === 0) {
     return <StartPage />
@@ -204,7 +228,7 @@ export const ActivityPage: FC = () => {
         id={'step'}
         style={{ backgroundAttachment: 'fixed' }}
       >
-        <Steps maxStepsCount={1000} userStepsCount={0} />
+        <Steps maxStepsCount={1000} userStepsCount={parseInt(stepsCount)} />
       </div>
       <div className='activity-page__steps-data'>
         <StepsData />
