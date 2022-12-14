@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction, useRef, useState } from 'react'
+import { Dispatch, FC, SetStateAction } from 'react'
 import './registration.scss'
 import { stageRegistration } from '../../types/enums'
 import { FurtherButton } from './FurtherButton'

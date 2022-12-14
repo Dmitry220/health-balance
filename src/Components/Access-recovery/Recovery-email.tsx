@@ -18,7 +18,7 @@ export const RecoveryEmail = () => {
 
   return (
     <div className={'recovery-email'}>
-      <div className='recovery-email__title main-title'>Укажите почту</div>
+      <div className='recovery-email__title main-title'>Укажите вашу почту</div>
       <input
         type='text'
         className={

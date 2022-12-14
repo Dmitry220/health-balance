@@ -29,7 +29,7 @@ export const AccessRecoveryPage = () => {
 
   return (
     <div className={'access-recovery-page'}>
-      <Header title={'Восстановление доступа'} />
+      <Header title={'Восстановление пароля'} />
       {AccessRecoveryItems()}
     </div>
   )

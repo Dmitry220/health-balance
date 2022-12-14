@@ -7,7 +7,7 @@ import {
   setDisabledButton,
   setPlatform
 } from '../../Redux/slice/authSlice'
-import { Link } from 'react-router-dom'
+import { DOC_URL } from '../../http'
 
 export const Platform = () => {
   const dispatch = useAppDispatch()
@@ -55,16 +55,26 @@ export const Platform = () => {
             onChange={handlerAgree}
           />
           <label htmlFor={'agree'} className='confidentiality-block__text'>
-            Я принимаю условия использования и Политику <br />
-            конфиденциальности Health Balance
+            Я принимаю Условия использования и Политику <br />
+            конфиденциальности HealthBalance
           </label>
         </div>
-        <Link to={'/'} className='confidentiality-block__text yellow'>
+        <a
+          href={`${DOC_URL}terms.pdf`}
+          className='confidentiality-block__text yellow'
+          target='_blank'
+          rel='noreferrer'
+        >
           Условия использования
-        </Link>
-        <Link to={'/'} className='confidentiality-block__text yellow'>
+        </a>
+        <a
+          href={`${DOC_URL}privacy.pdf`}
+          className='confidentiality-block__text yellow'
+          target='_blank'
+          rel='noreferrer'
+        >
           Политика конфиденциальности
-        </Link>
+        </a>
       </div>
     </div>
   )

@@ -87,7 +87,9 @@ export const Editing = () => {
           <div className='editing__avatar'>
             <input type={'file'} onChange={dowloadPicture} id='file' />
             <label className='editing__label' htmlFor='file'>
-              {!dataUser.avatar && <img src={photo} alt='avatar' />}
+              {!dataUser.avatar && (
+                <img src={photo} style={{ borderRadius: 0 }} alt='avatar' />
+              )}
               {dataUser.avatar && (
                 <img
                   src={photoPath || IMAGE_URL + 'avatars/' + dataUser.avatar}

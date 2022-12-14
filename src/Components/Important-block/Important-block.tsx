@@ -11,7 +11,7 @@ export const ImportantBlock = () => {
         <div className='important-block__info'>
           <div className='important-block__title'>ВАЖНО!!!</div>
           <div className='important-block__text'>
-            Прими участие в первом челлендже от Health Balance
+            Примите участие в первом челлендже от HealthBalance
           </div>
         </div>
       </div>

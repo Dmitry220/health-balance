@@ -32,7 +32,7 @@ export const NameUser = () => {
         onChange={validateUserName}
       />
       <span className={'registration__sub-text-input'}>
-        Это имя появится в профиле Healt Balance
+        Это имя появится в профиле HealthBalance
       </span>
     </div>
   )
