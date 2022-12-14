@@ -1,11 +1,23 @@
 package com.academia.health;
 
 import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
+import android.provider.Settings;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
+import com.academia.health.utils.DateHelper;
+import com.academia.health.utils.PedometerWorker;
 import com.academia.health.utils.SharedPrefManager;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
@@ -16,22 +28,40 @@ import com.getcapacitor.annotation.Permission;
 
 import org.json.JSONException;
 
+import java.text.ParseException;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
 @CapacitorPlugin(
         name = "PedometerPlugin",
-        permissions = { @Permission(alias = "activity", strings = {Manifest.permission.ACTIVITY_RECOGNITION}) }
+        permissions = {
+                @Permission(strings = { Manifest.permission.ACTIVITY_RECOGNITION }),
+                @Permission(strings = { Manifest.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS })
+        }
 )
 public class PedometerPlugin extends Plugin {
     private PedometerPluginImpl plugin;
     private ActivityResultLauncher<String> requestPermissionLauncher;
 
+    private Boolean isDialogPresent = false;
+    private Boolean isStartInvoked = false;
+    private SharedPrefManager sharedPrefManager;
+
     @Override
     public void load() {
         super.load();
 
+        sharedPrefManager = new SharedPrefManager(getContext());
+
         requestPermissionLauncher =
-                getActivity().registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                getActivity().registerForActivityResult(new ActivityResultContracts
+                        .RequestPermission(), isGranted -> {
                     if (isGranted) {
-                        plugin.start();
+                        startExecution();
+                    } else {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            askPermission();
+                        }
                     }
                 });
 
@@ -40,12 +70,23 @@ public class PedometerPlugin extends Plugin {
         plugin.listener = data -> {
             bridge.triggerJSEvent("stepEvent", "window", String.valueOf(data));
 
-            try {
-                ForegroundService.startService(getContext(), String.valueOf(((Double) data.get("numberOfSteps")).intValue()));
-            } catch (JSONException e) {
-                e.printStackTrace();
+            if (sharedPrefManager.isNotSameDay()) {
+                plugin.reset();
             }
         };
+
+        isDialogPresent = false;
+        isStartInvoked = false;
+    }
+
+    @Override
+    protected void handleOnStart() {
+        super.handleOnStart();
+        if (isStartInvoked) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                askPermission();
+            }
+        }
     }
 
     @Override
@@ -55,10 +96,18 @@ public class PedometerPlugin extends Plugin {
 
     @PluginMethod
     public void getSavedData(PluginCall call) {
-        SharedPrefManager manager = new SharedPrefManager(getContext());
-        String savedData = manager.getData();
-        if (savedData == null) {
-            JSObject data = plugin.getStepsJSON(0);
+        String savedData = sharedPrefManager.getData();
+        boolean incompatible = false;
+        try {
+            Date savedDate = DateHelper.dateFormat.parse(sharedPrefManager.getLastDate());
+            incompatible = !DateHelper.isSameDay(savedDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        if (savedData == null || incompatible) {
+            plugin.reset();
+            JSObject data = PedometerPluginImpl.getStepsJSON(0);
             call.resolve(data);
             return;
         }
@@ -71,36 +120,114 @@ public class PedometerPlugin extends Plugin {
 
     @PluginMethod
     public void setData(PluginCall call) {
-        SharedPrefManager manager = new SharedPrefManager(getContext());
-        int stepsFromIonic = call.getInt("numberOfSteps");
-        manager.saveSteps(stepsFromIonic);
+        int stepsFromIonic = call.getInt("numberOfSteps", 0);
+
+        sharedPrefManager.save(String.valueOf(PedometerPluginImpl.getStepsJSON(stepsFromIonic)));
         plugin.lastNumberOfSteps = stepsFromIonic;
+        start(call);
+        call.resolve();
     }
 
     @PluginMethod
     public void start(PluginCall call) {
-        call.resolve();
-        SharedPrefManager sharedPrefManager = new SharedPrefManager(getContext());
-        String lastSavedSteps = String.valueOf(sharedPrefManager.getLastNumberOfSteps());
-        ForegroundService.startService(getContext(), lastSavedSteps);
-
-        if(ContextCompat.checkSelfPermission(getActivity(),
-                android.Manifest.permission.ACTIVITY_RECOGNITION) == android.content.pm.PackageManager.PERMISSION_DENIED){
-            //ask for permission
-            requestPermissionLauncher.launch(android.Manifest.permission.ACTIVITY_RECOGNITION);
-        } else {
-            plugin.start();
+        isStartInvoked = true;
+        askBatteryOptPermission();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            askPermission();
         }
     }
 
     @PluginMethod
-    public void stop() {
+    public void stop(PluginCall call) {
         plugin.stop();
         ForegroundService.stopService(getContext());
+        call.resolve();
     }
 
     @PluginMethod
-    public void reset() {
+    public void reset(PluginCall call) {
         plugin.reset();
+        call.resolve();
+    }
+
+    @PluginMethod
+    public void requestPermission(PluginCall call) {
+        requestPermissionLauncher.launch(android.Manifest.permission.ACTIVITY_RECOGNITION);
+        call.resolve();
+    }
+
+    public void startServiceViaWorker() {
+        String UNIQUE_WORK_NAME = "PedometerWeedoweb";
+        WorkManager workManager = WorkManager.getInstance(getContext());
+
+        // As per Documentation: The minimum repeat interval that can be defined is 15 minutes
+        // (same as the JobScheduler API), but in practice 15 doesn't work. Using 16 here
+        PeriodicWorkRequest request =
+                new PeriodicWorkRequest.Builder(
+                        PedometerWorker.class,
+                        16,
+                        TimeUnit.MINUTES)
+                        .build();
+
+        // to schedule a unique work, no matter how many times app is opened i.e. startServiceViaWorker gets called
+        // do check for AutoStart permission
+        workManager.enqueueUniquePeriodicWork(UNIQUE_WORK_NAME, ExistingPeriodicWorkPolicy.KEEP, request);
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void askPermission() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            startExecution();
+            return;
+        }
+        if(ContextCompat.checkSelfPermission(getActivity(),
+                android.Manifest.permission.ACTIVITY_RECOGNITION) ==
+                PackageManager.PERMISSION_GRANTED) {
+            startExecution();
+        } else if (getActivity().shouldShowRequestPermissionRationale(android.Manifest.permission.ACTIVITY_RECOGNITION)) {
+            requestPermissionLauncher.launch(android.Manifest.permission.ACTIVITY_RECOGNITION);
+        } else {
+            showSettingsDialog();
+        }
+    }
+
+    private void showSettingsDialog() {
+        if (isDialogPresent) return;
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setCancelable(false);
+        builder.setTitle("Необходимо разрешение");
+        builder.setMessage("Вы должны разрешить физическую активность для использования этого приложения");
+        builder.setPositiveButton("Настройки", (dialog, which) -> {
+            openSettings();
+            isDialogPresent = false;
+        });
+        builder.create().show();
+        isDialogPresent = true;
+    }
+
+    private void openSettings() {
+        Intent intent = new Intent();
+        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        intent.setData(Uri.fromParts("package", BuildConfig.APPLICATION_ID, null));
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getContext().startActivity(intent);
+    }
+
+    private void startExecution() {
+        startServiceViaWorker();
+        SharedPrefManager sharedPrefManager = new SharedPrefManager(getContext());
+        String lastSavedSteps = String.valueOf(sharedPrefManager.getLastNumberOfSteps());
+        ForegroundService.startService(getContext(), lastSavedSteps);
+
+        plugin.start();
+    }
+
+    private void askBatteryOptPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !sharedPrefManager.isBatteryOptDisAsked()) {
+            getContext().startActivity(new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS,
+                    Uri.parse("package:" +getContext().getPackageName())));
+            sharedPrefManager.setBatteryOptimizationDisabled(true);
+        }
     }
 }

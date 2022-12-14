@@ -12,7 +12,8 @@ import java.util.Locale;
 
 public abstract class DayChangedBroadcastReceiver extends BroadcastReceiver {
     private Date date = new Date();
-    private final DateFormat dateFormat = new SimpleDateFormat("yyMMdd", Locale.getDefault());
+    private final DateFormat dateFormat = new SimpleDateFormat(
+            "yyMMdd", Locale.getDefault());
 
     public abstract void onDayChanged();
 
@@ -35,11 +36,7 @@ public abstract class DayChangedBroadcastReceiver extends BroadcastReceiver {
 
     public static IntentFilter getIntentFilter() {
         IntentFilter intentFilter = new IntentFilter();
-
         intentFilter.addAction(Intent.ACTION_DATE_CHANGED);
-        //    intentFilter.addAction(Intent.ACTION_TIMEZONE_CHANGED);
-        //    intentFilter.addAction(Intent.ACTION_TIME_CHANGED);
-
         return intentFilter;
     }
 }
