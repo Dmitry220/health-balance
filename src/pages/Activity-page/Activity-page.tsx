@@ -18,14 +18,9 @@ import 'swiper/scss/pagination'
 import 'swiper/scss/scrollbar'
 
 import { Steps } from '../../Components/Steps/Steps'
-import {
-  INavigation,
-  IRoutesNavigation,
-  Navigation
-} from '../../Components/Navigation/Navigation'
+import { Navigation } from '../../Components/Navigation/Navigation'
 import './activity-page.scss'
 import { StepsData } from '../../Components/Steps-data/Steps-data'
-import { CardActual } from '../../Components/Card-actual/Card-actual'
 import image from '../../assets/image/lecture/lecture_img.jpg'
 import HeaderActive from '../../Components/Header-active/Header-active'
 import { Target } from '../../Components/Target/Target'
@@ -37,17 +32,7 @@ import {
   optionsChartBar
 } from '../../Components/Charts/Chart-options'
 import { Banner } from '../../Components/Banner/Banner'
-import {
-  ACTIVITY_ROUTE,
-  CHALLENGE_ROUTE,
-  HEALTH_INDEX_ROUTE,
-  INTERESTING_ROUTE,
-  MOTIVATION_ROUTE,
-  TRACKER_ROUTE
-} from '../../provider/constants-route'
 import { routesNavigation } from '../../utils/globalConstants'
-import { checkAuth } from '../../Redux/slice/authSlice'
-import { setUserData } from '../../Redux/slice/profileSlice'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
 import { activityVisitSelector } from '../../Redux/slice/visitedPageSlice'
 import { StartPage } from '../Start-pages/StartPage'
@@ -55,7 +40,9 @@ import { StartPage } from '../Start-pages/StartPage'
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 export const ActivityPage: FC = () => {
-  const dispatch = useAppDispatch()
+  const [currentValueTab, setCurrentValueTab] = useState<number>(0)
+  const [transparentHeader, setTransparentHeader] = useState<boolean>(true)
+  const [stepsCount, setStepsCount] = useState<string>('-')
 
   const itemCardActuals = [
     {
@@ -92,9 +79,7 @@ export const ActivityPage: FC = () => {
     }
   ]
   const namesTabsDynamics = ['Дни', 'Недели', 'Месяцы']
-  const [currentValueTab, setCurrentValueTab] = useState<number>(0)
-  const [transparentHeader, setTransparentHeader] = useState<boolean>(true)
-  const [stepsCount, setStepsCount] = useState<string>('-')
+
   const labels = [
     {
       day: 'Пн',
@@ -211,8 +196,13 @@ export const ActivityPage: FC = () => {
     window.addEventListener('stepEvent', updateSteps)
   }
 
-  const updateSteps = (steps: any) => {
-    setStepsCount(steps)
+  const updateSteps = (event: any) => {
+    let startDate = new Date(new Date().setHours(0, 0, 0, 0)).toISOString()
+    let endDate = new Date().toISOString()
+
+    console.log(startDate, endDate, event.numberOfSteps)
+
+    setStepsCount(event.numberOfSteps)
   }
 
   if (activityVisitCount === 0) {
