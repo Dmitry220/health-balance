@@ -11,8 +11,6 @@ export const PersonalChat = () => {
 
   const sendMessage = () => {
     if (message.trim()) {
-      let a = document.querySelector(`#qw${messages.length - 1}`)
-      a?.scrollIntoView({ block: 'start', behavior: 'smooth' })
       const messagea = {
         message: message,
         id: id,
@@ -57,7 +55,7 @@ export const PersonalChat = () => {
 
   return (
     <div className='personal-chat'>
-      {/* <Header title='Чат' /> */}
+      <Header title={'Диалог #'} />
       <div className='personal-chat__container'>
         <div className='personal-chat__messages'>
           {messages.map((mess: any, i: any) => (

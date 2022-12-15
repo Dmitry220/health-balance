@@ -1,7 +1,7 @@
 import { TabContent, Tabs } from '../../Components/Tabs/Tabs'
 import { useState } from 'react'
 import Header from '../../Components/Header/Header'
-
+import './statistic-tracker.scss'
 import { HealthySleep } from '../../Components/Tracker/Healthy-sleep'
 import { WaterTarget } from '../../Components/Tracker/Water-target'
 import { FruitTarget } from '../../Components/Tracker/Fruit-target'
@@ -17,7 +17,7 @@ export const StatisticTracker = () => {
   }
 
   return (
-    <div>
+    <div className='statistic-tracker'>
       <Header title='Статистика трекера' />
 
       <DayStatistic date={'05.05.2022'} />

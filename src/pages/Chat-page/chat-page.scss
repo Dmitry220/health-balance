@@ -1,23 +1,27 @@
 @import "src/assets/style/variables";
 
+.chat{
+	padding-top: 50px;
+}
+
 .personal-chat{
 	
-
-
+	padding-top: 50px;
+	height: calc(100vh - 34px);;
 	&__container{
-		height: calc(100vh - 45px);
+		height: 100%;
 		margin: 0 -16px;
 	}
 
 	&__messages{
 		overflow-y: auto;
-    	height: 100%;
-    	padding: 0 16px 93px 16px;
+    	height: 90%;
+    	padding: 0 16px;
 	}
 
 	&__send{
 		position: absolute;
-		bottom: 16px;
+		bottom: 23px;
 	//	margin: 0 -16px;
 		width: 100%;
 		display: flex;

@@ -36,9 +36,9 @@ export const CreatingInteresting = () => {
     const file: any = e.target.files
     if (file[0]) {
       dispatch(setTempImageNews(URL.createObjectURL(file[0])))
-      // formData.append('image', file[0])
-      // const response = await FileService.addImageNews(formData)
-      // dispatch(setImageNews(response.data.data.avatar))
+      formData.append('image', file[0])
+      const response = await FileService.addImageNews(formData)
+      dispatch(setImageNews(response.data.data.avatar))
     }
   }
 

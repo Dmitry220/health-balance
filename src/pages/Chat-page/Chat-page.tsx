@@ -14,10 +14,9 @@ export const ChatPage = () => {
   // }, [])
 
   return (
-    <div>
+    <div className='chat'>
       <Header title='Чат' />
       <ListChat />
-      {/* <PersonalChat /> */}
     </div>
   )
 }

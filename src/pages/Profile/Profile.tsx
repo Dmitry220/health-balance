@@ -2,8 +2,8 @@ import { useEffect } from 'react'
 import './profile.scss'
 import Header from '../../Components/Header/Header'
 import icon_reward from '../../assets/image/icon_reward.svg'
-import { Link } from 'react-router-dom'
-import { EDITING_ROUTE } from '../../provider/constants-route'
+import { Link, useNavigate } from 'react-router-dom'
+import { EDITING_ROUTE, SETTINGS_ROUTE } from '../../provider/constants-route'
 import { ProfileSteps } from '../../Components/Profile/Profile-steps'
 import { ProfileChallenge } from '../../Components/Profile/Profile-challenge'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
@@ -14,12 +14,21 @@ import {
 } from '../../Redux/slice/profileSlice'
 import { logout } from '../../Redux/slice/authSlice'
 import { IMAGE_URL } from '../../http'
+import settingsIcon from "../../assets/image/icon_option.svg";
+
 
 export const Profile = () => {
-  const dataUser = useAppSelector(dataUserSelector)
 
+  const dataUser = useAppSelector(dataUserSelector)
+  const navigation = useNavigate();
   const dispatch = useAppDispatch()
   const idUser = Number(localStorage.getItem('id'))
+
+  const additionalHeaderComponent = <img src={settingsIcon} />;
+
+  const additionalHeaderComponentClick = () => {
+    navigation(SETTINGS_ROUTE);
+  };
 
   useEffect(() => {
     dispatch(setUserData(idUser))
@@ -27,7 +36,11 @@ export const Profile = () => {
 
   return (
     <div className={'profile'}>
-      <Header title={'Мой профиль'} />
+      <Header 
+      title={'Мой профиль'} 
+      additionalComponent={additionalHeaderComponent}
+        additionalOnClick={additionalHeaderComponentClick}
+      />
       <div className='profile__block'>
         <div className='profile__header'>
           <div className='profile__avatar'>

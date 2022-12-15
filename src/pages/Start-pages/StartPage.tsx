@@ -139,7 +139,7 @@ export const SlideNextButton: FC<ISwiperNextButton> = ({
 }) => {
   const swiper = useSwiper()
   const [title, setTitle] = useState<string>('Я в деле!')
-
+  const type = 1
   const dispatch = useAppDispatch()
 
   swiper.on('slideChange', function () {
@@ -164,8 +164,9 @@ export const SlideNextButton: FC<ISwiperNextButton> = ({
   const next = async () => {
     if (swiper.activeIndex === 4) {
       dispatch(setVisitedActivityPage(1))
+      await dispatch(setPurposeSteps({ quantity, type}))
       await Pedometer.requestPermission()
-      //await dispatch(setPurposeSteps({ quantity, type}))
+    
     }
     swiper.slideNext()
   }

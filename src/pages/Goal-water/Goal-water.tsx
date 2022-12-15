@@ -28,7 +28,7 @@ export const GoalWater = () => {
         />
       </div>
       <div className='goal-water__recommendation small-text'>
-        Количество воды в день: <span className='text-blue'>2,1 литра</span>
+        Количество воды в день: <span className='text-blue'>{(+weightUser*35/1000).toFixed(1)} литра</span>
       </div>
       <button className='goal-water__button _button-white'>Установить</button>
     </div>

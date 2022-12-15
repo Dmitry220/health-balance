@@ -52,7 +52,7 @@ export const GoalSleep = () => {
       </div>
 
       <div className='goal-sleep__recommendation small-text'>
-        Оптимальное время засыпания: <span className='text-blue'>22:30</span>
+        Оптимальное время засыпания: <span className='text-blue'>{+hour-8<0 ? 24+(+hour-8) :+hour-8} :{minutes}</span>
       </div>
       <button className='goal-sleep__button _button-white'>Установить</button>
     </div>

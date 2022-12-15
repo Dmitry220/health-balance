@@ -180,7 +180,7 @@ export const ActivityPage: FC = () => {
   const activityVisitCount = useAppSelector(activityVisitSelector)
 
   useEffect(() => {
-    startPlugin()
+    //startPlugin()
 
     window.addEventListener('scroll', function () {
       let scroll = window.pageYOffset

@@ -1,5 +1,7 @@
 .dialog{
 	padding: 16px 0;
+	color: inherit;
+	display: block;
 	&:not(:last-child){
 		border-bottom: 1px solid #202020;
 	}
