@@ -12,6 +12,8 @@ import {
 
 import Pedometer from '../../plugins/pedometer'
 
+
+
 import 'swiper/scss'
 import 'swiper/scss/navigation'
 import 'swiper/scss/pagination'
@@ -36,14 +38,30 @@ import { routesNavigation } from '../../utils/globalConstants'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
 import { activityVisitSelector } from '../../Redux/slice/visitedPageSlice'
 import { StartPage } from '../Start-pages/StartPage'
+import AppService from '../../services/AppService'
+import { getPersonalPurpose, purposeSelector } from '../../Redux/slice/purposeSlice'
+import { getStepsPerDay, getStepsPerWeekAndMonth, stepsPerDaySelector, stepsPerWeekAndMonthSelector } from '../../Redux/slice/appSlice'
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 export const ActivityPage: FC = () => {
+
+  const startDateDay = new Date()
+  startDateDay.setDate(startDateDay.getDate() - 7)
+  const startDateMonth = new Date()
+  startDateMonth.setMonth(startDateMonth.getMonth() - 11)
   const [currentValueTab, setCurrentValueTab] = useState<number>(0)
   const [transparentHeader, setTransparentHeader] = useState<boolean>(true)
   const [stepsCount, setStepsCount] = useState<string>('-')
-
+  const activityVisitCount = useAppSelector(activityVisitSelector)
+  const steps = useAppSelector(stepsPerDaySelector)
+  const stepsPerWeekAndMonth = useAppSelector(stepsPerWeekAndMonthSelector)
+  const dispatch = useAppDispatch()
+  const purpose = useAppSelector(purposeSelector)
+  const namesTabsDynamics = ['Дни', 'Недели', 'Месяцы']
+  const labels = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+  const labelsMonth = ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'];
+  const labelsWeek = ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек']; 
   const itemCardActuals = [
     {
       id: 1,
@@ -78,91 +96,23 @@ export const ActivityPage: FC = () => {
         'https://w-dog.ru/wallpapers/3/19/345083118206129/sportsmenka-devushka-begovaya-dorozhka.jpg'
     }
   ]
-  const namesTabsDynamics = ['Дни', 'Недели', 'Месяцы']
-
-  const labels = [
-    {
-      day: 'Пн',
-      value: 1500
-    },
-    {
-      day: 'Вт',
-      value: 5000
-    },
-    {
-      day: 'Cр',
-      value: 7000
-    },
-    {
-      day: 'Чт',
-      value: 10000
-    },
-    {
-      day: 'Пь',
-      value: 7000
-    },
-    {
-      day: 'Сб',
-      value: 7000
-    },
-    {
-      day: 'Вс',
-      value: 100
+  let intervalId:any
+  useEffect(() => {
+    const data = { end_date: new Date().toLocaleDateString(), start_date: startDateDay }
+    const dataWeek = { end_date: new Date().toLocaleDateString(), start_date: "12.12.2022", type: 1 }
+    const dataMonth = { end_date: new Date().toLocaleDateString(), start_date:startDateMonth, type: 2 }
+    dispatch(getPersonalPurpose())
+    dispatch(getStepsPerWeekAndMonth(dataMonth))
+   
+    console.log("111");
+    intervalId = setInterval(() => {
+      // console.log("456");
+      dispatch(getStepsPerDay(data))
+    }, 5000)
+    return () => {
+      clearInterval(intervalId)
     }
-  ]
-  const dataDay = {
-    labels: labels.map((item) => item.day),
-    datasets: [
-      {
-        data: labels.map((item) => item.value),
-        //backgroundColor: '#F2994A',
-        backgroundColor: function (context: any) {
-          const chart = context.chart
-          const { ctx, chartArea } = chart
-          if (!chartArea) return null
-
-          return getGradient(ctx, chartArea, '#F2994A', '#F4C119')
-        },
-        borderRadius: 5
-      }
-    ]
-  }
-  const dataWeek = {
-    labels: labels.map((item) => item.day),
-    datasets: [
-      {
-        data: labels.map((item) => item.value),
-        //backgroundColor: '#F2994A',
-        backgroundColor: function (context: any) {
-          const chart = context.chart
-          const { ctx, chartArea } = chart
-          if (!chartArea) return null
-
-          return getGradient(ctx, chartArea, '#56CCF2', '#CCE0F7')
-        },
-        borderRadius: 5
-      }
-    ]
-  }
-  const dataMonth = {
-    labels: labels.map((item) => item.day),
-    datasets: [
-      {
-        data: labels.map((item) => item.value),
-        //backgroundColor: '#F2994A',
-        backgroundColor: function (context: any) {
-          const chart = context.chart
-          const { ctx, chartArea } = chart
-          if (!chartArea) return null
-
-          return getGradient(ctx, chartArea, '#56CCF2', '#CCE0F7')
-        },
-        borderRadius: 5
-      }
-    ]
-  }
-
-  const activityVisitCount = useAppSelector(activityVisitSelector)
+  }, [])
 
   useEffect(() => {
     startPlugin()
@@ -196,14 +146,78 @@ export const ActivityPage: FC = () => {
     window.addEventListener('stepEvent', updateSteps)
   }
 
-  const updateSteps = (event: any) => {
-    let startDate = new Date(new Date().setHours(0, 0, 0, 0)).toISOString()
+  const updateSteps = async (event: any) => {
+
     let endDate = new Date().toISOString()
 
-    console.log(startDate, endDate, event.numberOfSteps)
+    console.log(endDate, event.numberOfSteps)
+
+    const params = new FormData()
+    params.append("data", JSON.stringify([{ date: endDate, steps: event.numberOfSteps }]))
+    const response = await AppService.updateSteps(params)
+    console.log(response);
 
     setStepsCount(event.numberOfSteps)
   }
+console.log(steps);
+
+
+  const dataDay = {
+    labels: steps ? steps.map((item) => item.date) : [],
+    datasets: [
+      {
+        data: steps ? steps.map((item) => item.quantiny) : [],
+        //backgroundColor: '#F2994A',
+        backgroundColor: function (context: any) {
+          const chart = context.chart
+          const { ctx, chartArea } = chart
+          if (!chartArea) return null
+
+          return getGradient(ctx, chartArea, '#F2994A', '#F4C119')
+        },
+        borderRadius: 5
+      }
+    ]
+  }
+  const dataWeek = {
+    labels: labels.map((item) => item),
+    datasets: [
+      {
+        data: steps ? steps.map((item) => item.quantiny) : [],
+       // data: Object.keys(stepsPerWeekAndMonth).length ? Object.values(stepsPerWeekAndMonth : 0),
+        //backgroundColor: '#F2994A',
+        backgroundColor: function (context: any) {
+          const chart = context.chart
+          const { ctx, chartArea } = chart
+          if (!chartArea) return null
+
+          return getGradient(ctx, chartArea, '#56CCF2', '#CCE0F7')
+        },
+        borderRadius: 5
+      }
+    ]
+  }
+
+  const dataMonth = {
+    labels: labelsMonth.map((item) => item),
+    datasets: [
+      {
+       // data: Object.keys(stepsPerWeekAndMonth).length ? Object.values(stepsPerWeekAndMonth["2022"]) : 0,
+        data: steps ? steps.map((item) => item.quantiny) : [],
+        //backgroundColor: '#F2994A',
+        backgroundColor: function (context: any) {
+          const chart = context.chart
+          const { ctx, chartArea } = chart
+          if (!chartArea) return null
+
+          return getGradient(ctx, chartArea, '#56CCF2', '#CCE0F7')
+        },
+        borderRadius: 5
+      }
+    ]
+  }
+
+
 
   if (activityVisitCount === 0) {
     return <StartPage />
@@ -218,7 +232,7 @@ export const ActivityPage: FC = () => {
         id={'step'}
         style={{ backgroundAttachment: 'fixed' }}
       >
-        <Steps maxStepsCount={1000} userStepsCount={parseInt(stepsCount)} />
+        <Steps maxStepsCount={purpose?.quantity || 0} userStepsCount={parseInt(stepsCount)} />
       </div>
       <div className='activity-page__steps-data'>
         <StepsData />
@@ -236,7 +250,7 @@ export const ActivityPage: FC = () => {
       </div> */}
       <div className='activity-page__title title'>Статистика</div>
       <div className='activity-page__target'>
-        <Target />
+        <Target purpose={purpose} currentSteps={parseInt(stepsCount)} steps={steps}/>
       </div>
       <div className='activity-page__dynamics dynamics'>
         <div className='dynamics__title'>Динамика</div>
@@ -244,6 +258,7 @@ export const ActivityPage: FC = () => {
           labels={namesTabsDynamics}
           onClick={setCurrentValueTab}
           value={currentValueTab}
+         
         />
         <TabContent index={0} value={currentValueTab}>
           <div className='dynamics__chart'>

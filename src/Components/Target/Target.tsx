@@ -8,14 +8,18 @@ import {
   getPersonalPurpose,
   purposeSelector
 } from '../../Redux/slice/purposeSlice'
+import { IPurpose } from '../../models/IPurpose'
+import { IStepsPerDay } from '../../models/IApp'
 
-export const Target = () => {
-  const dispatch = useAppDispatch()
-  const purpose = useAppSelector(purposeSelector)
+interface ITarget {
+  purpose?: IPurpose | null,
+  currentSteps?: number,
+  steps: IStepsPerDay[]
+}
 
-  useEffect(() => {
-    dispatch(getPersonalPurpose())
-  }, [])
+export const Target:FC<ITarget> = ({purpose, currentSteps, steps}) => {
+  const labels = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+  const week = new Date().getDay()
 
   return (
     <div className={'target'}>
@@ -29,13 +33,18 @@ export const Target = () => {
           </Link>
         </div>
         <div className='target__body'>
-          <CircleDays title={'Пн'} percent={0} />
+          {purpose&&steps&&
+            steps.map((item,i)=>{
+              return <CircleDays key={item.id} title={item.date} percent={steps[i]?.quantiny * 100 / purpose?.quantity || 0} />
+            })
+          }
+        {!steps && <> <CircleDays title={'Пн'} percent={0} />
           <CircleDays title={'Вт'} percent={0} />
           <CircleDays title={'Ср'} percent={0} />
           <CircleDays title={'Чт'} percent={0} />
-          <CircleDays title={'Пт'} percent={0} />
+          <CircleDays title={'Пт'} percent={100 || 0} />
           <CircleDays title={'Сб'} percent={0} />
-          <CircleDays title={'Вс'} percent={0} />
+          <CircleDays title={'Вс'} percent={0} /></>}
         </div>
       </div>
     </div>

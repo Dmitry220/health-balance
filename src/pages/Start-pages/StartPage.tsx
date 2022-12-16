@@ -102,7 +102,7 @@ export const StartPage = () => {
             </div>
             <div className='preview__sub-title'>Выполнением цели</div>
             <div className='preview__target'>
-              <Target />
+              {/* <Target /> */}
             </div>
           </div>
         </SwiperSlide>
