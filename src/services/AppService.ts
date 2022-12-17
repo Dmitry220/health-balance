@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 import { $api } from "../http";
-import { IBalance, IStepsPerDay, IStepsPerWeekAndMonth } from "../models/IApp";
+import { IBalance, IStepsPerDay, IStepsPerMonth } from "../models/IApp";
 
 export default class AppService {
   static getBalance(): Promise<AxiosResponse<{ data: IBalance }>> {

@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react'
+import { FC, useEffect, useState } from 'react'
 import './target.scss'
 import icon_status_full from '../../assets/image/icon_purpose__status_full.svg'
 import { Link } from 'react-router-dom'
@@ -10,16 +10,34 @@ import {
 } from '../../Redux/slice/purposeSlice'
 import { IPurpose } from '../../models/IPurpose'
 import { IStepsPerDay } from '../../models/IApp'
+import { daysWeekSelector, setActualStepsbyWeek, setDaysWeek, stepsPerDaySelector } from '../../Redux/slice/appSlice'
 
 interface ITarget {
   purpose?: IPurpose | null,
   currentSteps?: number,
-  steps: IStepsPerDay[]
+  steps?: IStepsPerDay[]
 }
 
-export const Target:FC<ITarget> = ({purpose, currentSteps, steps}) => {
-  const labels = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
-  const week = new Date().getDay()
+export const Target: FC<ITarget> = () => {
+
+  const dispatch = useAppDispatch()
+  const daysWeek = useAppSelector(daysWeekSelector)  
+  const purpose = useAppSelector(purposeSelector)
+  const steps = useAppSelector(stepsPerDaySelector)
+
+  useEffect(()=>{
+    dispatch(getPersonalPurpose())
+  }, [])
+
+  useEffect(() => {
+    dispatch(setDaysWeek())
+    overwriteDaysWeek()
+  }, [steps])
+
+
+  const overwriteDaysWeek = () => {
+    steps?.forEach(item=>dispatch(setActualStepsbyWeek(item)))    
+  }
 
   return (
     <div className={'target'}>
@@ -33,18 +51,9 @@ export const Target:FC<ITarget> = ({purpose, currentSteps, steps}) => {
           </Link>
         </div>
         <div className='target__body'>
-          {purpose&&steps&&
-            steps.map((item,i)=>{
-              return <CircleDays key={item.id} title={item.date} percent={steps[i]?.quantiny * 100 / purpose?.quantity || 0} />
-            })
-          }
-        {!steps && <> <CircleDays title={'Пн'} percent={0} />
-          <CircleDays title={'Вт'} percent={0} />
-          <CircleDays title={'Ср'} percent={0} />
-          <CircleDays title={'Чт'} percent={0} />
-          <CircleDays title={'Пт'} percent={100 || 0} />
-          <CircleDays title={'Сб'} percent={0} />
-          <CircleDays title={'Вс'} percent={0} /></>}
+          {
+            steps&&purpose&&daysWeek.map(item => <CircleDays key={item.id} title={item.title} percent={item.quantiny * 100 / purpose?.quantity || 0} />)
+          }         
         </div>
       </div>
     </div>
@@ -61,7 +70,7 @@ export const CircleDays: FC<IDays> = ({ title, percent }) => {
 
   return (
     <div className='target__days days'>
-      {percent === 100 ? (
+      {percent >= 100 ? (
         <img src={icon_status_full} alt='' className='days__circle' />
       ) : (
         <svg className='days__circle' viewBox='0 0 100 100'>
@@ -69,13 +78,13 @@ export const CircleDays: FC<IDays> = ({ title, percent }) => {
             d='M 50,50 m 0,-47 a 47,47 0 1 1 0,94 a 47,47 0 1 1 0,-94'
             fill={'#191919'}
             stroke={'#999999'}
-            strokeWidth={2}
+            strokeWidth={3}
             id={'dfg'}
           ></path>
           <path
             d='M 50,50 m 0,-47 a 47,47 0 1 1 0,94 a 47,47 0 1 1 0,-94'
             stroke={'#56CCF2'}
-            strokeWidth={2}
+            strokeWidth={3}
             fillOpacity={0}
             style={{
               strokeDasharray: '295.416, 295.416',

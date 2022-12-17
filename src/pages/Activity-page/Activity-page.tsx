@@ -40,79 +40,16 @@ import { activityVisitSelector } from '../../Redux/slice/visitedPageSlice'
 import { StartPage } from '../Start-pages/StartPage'
 import AppService from '../../services/AppService'
 import { getPersonalPurpose, purposeSelector } from '../../Redux/slice/purposeSlice'
-import { getStepsPerDay, getStepsPerWeekAndMonth, stepsPerDaySelector, stepsPerWeekAndMonthSelector } from '../../Redux/slice/appSlice'
+import { daysWeekSelector, getStepsPerDay, getStepsPerMonth, monthSelector, setMonth, setWeeks, stepsPerDaySelector, stepsPerWeekAndMonthSelector, weeksSelector } from '../../Redux/slice/appSlice'
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 export const ActivityPage: FC = () => {
 
-  const startDateDay = new Date()
-  startDateDay.setDate(startDateDay.getDate() - 7)
-  const startDateMonth = new Date()
-  startDateMonth.setMonth(startDateMonth.getMonth() - 11)
-  const [currentValueTab, setCurrentValueTab] = useState<number>(0)
   const [transparentHeader, setTransparentHeader] = useState<boolean>(true)
   const [stepsCount, setStepsCount] = useState<string>('-')
   const activityVisitCount = useAppSelector(activityVisitSelector)
-  const steps = useAppSelector(stepsPerDaySelector)
-  const stepsPerWeekAndMonth = useAppSelector(stepsPerWeekAndMonthSelector)
-  const dispatch = useAppDispatch()
   const purpose = useAppSelector(purposeSelector)
-  const namesTabsDynamics = ['Дни', 'Недели', 'Месяцы']
-  const labels = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
-  const labelsMonth = ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'];
-  const labelsWeek = ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек']; 
-  const itemCardActuals = [
-    {
-      id: 1,
-      title: 'Как начать сегодня!',
-      type: 'Мотивация',
-      image: image
-    },
-    {
-      id: 2,
-      title: 'Что нас объединяет?',
-      type: 'Интересное',
-      image:
-        'https://w-dog.ru/wallpapers/3/19/345083118206129/sportsmenka-devushka-begovaya-dorozhka.jpg'
-    },
-    {
-      id: 3,
-      title: 'Ежемесячный забег поддержки',
-      type: 'Челлендж',
-      image: image
-    },
-    {
-      id: 4,
-      title: 'Что нас объединяет?',
-      type: 'Интересное',
-      image: image
-    },
-    {
-      id: 5,
-      title: 'Ежемесячный забег поддержки',
-      type: 'Челлендж',
-      image:
-        'https://w-dog.ru/wallpapers/3/19/345083118206129/sportsmenka-devushka-begovaya-dorozhka.jpg'
-    }
-  ]
-  let intervalId:any
-  useEffect(() => {
-    const data = { end_date: new Date().toLocaleDateString(), start_date: startDateDay }
-    const dataWeek = { end_date: new Date().toLocaleDateString(), start_date: "12.12.2022", type: 1 }
-    const dataMonth = { end_date: new Date().toLocaleDateString(), start_date:startDateMonth, type: 2 }
-    dispatch(getPersonalPurpose())
-    dispatch(getStepsPerWeekAndMonth(dataMonth))
-   
-    console.log("111");
-    intervalId = setInterval(() => {
-      // console.log("456");
-      dispatch(getStepsPerDay(data))
-    }, 5000)
-    return () => {
-      clearInterval(intervalId)
-    }
-  }, [])
 
   useEffect(() => {
     startPlugin()
@@ -159,65 +96,8 @@ export const ActivityPage: FC = () => {
 
     setStepsCount(event.numberOfSteps)
   }
-console.log(steps);
 
-
-  const dataDay = {
-    labels: steps ? steps.map((item) => item.date) : [],
-    datasets: [
-      {
-        data: steps ? steps.map((item) => item.quantiny) : [],
-        //backgroundColor: '#F2994A',
-        backgroundColor: function (context: any) {
-          const chart = context.chart
-          const { ctx, chartArea } = chart
-          if (!chartArea) return null
-
-          return getGradient(ctx, chartArea, '#F2994A', '#F4C119')
-        },
-        borderRadius: 5
-      }
-    ]
-  }
-  const dataWeek = {
-    labels: labels.map((item) => item),
-    datasets: [
-      {
-        data: steps ? steps.map((item) => item.quantiny) : [],
-       // data: Object.keys(stepsPerWeekAndMonth).length ? Object.values(stepsPerWeekAndMonth : 0),
-        //backgroundColor: '#F2994A',
-        backgroundColor: function (context: any) {
-          const chart = context.chart
-          const { ctx, chartArea } = chart
-          if (!chartArea) return null
-
-          return getGradient(ctx, chartArea, '#56CCF2', '#CCE0F7')
-        },
-        borderRadius: 5
-      }
-    ]
-  }
-
-  const dataMonth = {
-    labels: labelsMonth.map((item) => item),
-    datasets: [
-      {
-       // data: Object.keys(stepsPerWeekAndMonth).length ? Object.values(stepsPerWeekAndMonth["2022"]) : 0,
-        data: steps ? steps.map((item) => item.quantiny) : [],
-        //backgroundColor: '#F2994A',
-        backgroundColor: function (context: any) {
-          const chart = context.chart
-          const { ctx, chartArea } = chart
-          if (!chartArea) return null
-
-          return getGradient(ctx, chartArea, '#56CCF2', '#CCE0F7')
-        },
-        borderRadius: 5
-      }
-    ]
-  }
-
-
+  console.log('render app');
 
   if (activityVisitCount === 0) {
     return <StartPage />
@@ -237,88 +117,172 @@ console.log(steps);
       <div className='activity-page__steps-data'>
         <StepsData />
       </div>
-      {/* <div className='activity-page__card-actual'>
-        {itemCardActuals.map((item) => (
-          <CardActual
-            key={item.id}
-            title={item.title}
-            path={MOTIVATION_ROUTE}
-            image={item.image}
-            type={item.type}
-          />
-        ))}
-      </div> */}
       <div className='activity-page__title title'>Статистика</div>
       <div className='activity-page__target'>
-        <Target purpose={purpose} currentSteps={parseInt(stepsCount)} steps={steps}/>
+        <Target />
       </div>
-      <div className='activity-page__dynamics dynamics'>
-        <div className='dynamics__title'>Динамика</div>
-        <Tabs
-          labels={namesTabsDynamics}
-          onClick={setCurrentValueTab}
-          value={currentValueTab}
-         
-        />
-        <TabContent index={0} value={currentValueTab}>
-          <div className='dynamics__chart'>
-            <Bar options={optionsChartBar} data={dataDay} />
-          </div>
-          <div className={'dynamics__info'}>
-            <div className='dynamics__value'>
-              10 758 <br /> <span>шагов</span>
-            </div>
-            <div className='dynamics__value'>
-              8,6 <br /> <span>км</span>
-            </div>
-            <div className='dynamics__value'>
-              100% <br /> <span>от цели</span>
-            </div>
-          </div>
-        </TabContent>
-        <TabContent index={1} value={currentValueTab}>
-          <div className='dynamics__chart'>
-            <Bar options={optionsChartBar} data={dataWeek} />
-          </div>
-          <div className={'dynamics__info'}>
-            <div className='dynamics__value'>
-              10 758 <br /> <span>шагов</span>
-            </div>
-            <div className='dynamics__value'>
-              8,6 <br /> <span>км</span>
-            </div>
-            <div className='dynamics__value'>
-              100% <br /> <span>от цели</span>
-            </div>
-          </div>
-        </TabContent>
-        <TabContent index={2} value={currentValueTab}>
-          <div className='dynamics__chart'>
-            <Bar options={optionsChartBar} data={dataMonth} />
-          </div>
-          <div className={'dynamics__info'}>
-            <div className='dynamics__value'>
-              10 758 <br /> <span>шагов</span>
-            </div>
-            <div className='dynamics__value'>
-              8,6 <br /> <span>км</span>
-            </div>
-            <div className='dynamics__value'>
-              100% <br /> <span>от цели</span>
-            </div>
-          </div>
-        </TabContent>
-      </div>
+      <Graphis />
       <div className='activity-page__important'>
         <ImportantBlock />
         <Banner title={'Стартовый опрос'} text={'Ответьте на 4 вопроса'} />
       </div>
-
       <div className='activity-page__top-rating top-rating'>
         <div className='top-rating__title title'>Топ рейтинг</div>
         <TopRating />
       </div>
       <div className='circle-gradient circle-gradient_top' />
+    </div>
+  )
+}
+
+
+const Graphis = () => {
+
+  const startDateDay = new Date()
+  startDateDay.setDate(startDateDay.getDate() - 7)
+  const startDateMonth = new Date()
+  startDateMonth.setMonth(startDateMonth.getMonth() - 11)
+  const dispatch = useAppDispatch()
+  const [currentValueTab, setCurrentValueTab] = useState<number>(0)
+  const namesTabsDynamics = ['Дни', 'Недели', 'Месяцы']
+  const steps = useAppSelector(stepsPerDaySelector)
+  const daysWeek = useAppSelector(daysWeekSelector)
+  const month = useAppSelector(monthSelector)
+  const weeks = useAppSelector(weeksSelector)
+  const purpose = useAppSelector(purposeSelector)
+  let intervalId: any
+
+  const dataDay = {
+    labels: daysWeek ? daysWeek.map((item) => item.title) : [],
+    datasets: [
+      {
+        data: steps ? daysWeek.map((item) => item.quantiny) : [],
+        backgroundColor: function (context: any) {
+          const chart = context.chart
+          const { ctx, chartArea } = chart
+          if (!chartArea) return null
+          return getGradient(ctx, chartArea, '#F2994A', '#F4C119')
+        },
+        borderRadius: 5
+      }
+    ]
+  }
+
+  const dataWeek = {
+    labels: weeks.map((item) => item.date),
+    datasets: [
+      {
+        data: weeks ? weeks.map((item) => item.count) : [],
+        // data: Object.keys(stepsPerWeekAndMonth).length ? Object.values(stepsPerWeekAndMonth : 0),
+        //backgroundColor: '#F2994A',
+        backgroundColor: function (context: any) {
+          const chart = context.chart
+          const { ctx, chartArea } = chart
+          if (!chartArea) return null
+
+          return getGradient(ctx, chartArea, '#56CCF2', '#CCE0F7')
+        },
+        borderRadius: 5
+      }
+    ]
+  }
+
+  const dataMonth = {
+    labels: month.map((item) => item.title),
+    datasets: [
+      {
+        data: month ? month.map((item) => item.count) : [],
+        backgroundColor: function (context: any) {
+          const chart = context.chart
+          const { ctx, chartArea } = chart
+          if (!chartArea) return null
+
+          return getGradient(ctx, chartArea, '#56CCF2', '#CCE0F7')
+        },
+        borderRadius: 5
+      }
+    ]
+  }
+
+  useEffect(() => {
+    const data = { end_date: new Date().toLocaleDateString(), start_date: startDateDay }
+    const dataWeek = { end_date: new Date().toLocaleDateString(), start_date: "11.12.2022", type: 1 }
+    const dataMonth = { end_date: new Date().toLocaleDateString(), start_date: startDateMonth, type: 2 }
+
+    async function asyncQuery() {
+      await dispatch(getStepsPerDay(data))
+      await dispatch(getStepsPerMonth(dataMonth))
+      dispatch(setMonth())
+      // dispatch(setWeeks())
+    }
+    asyncQuery()
+    intervalId = setInterval(() => {
+      dispatch(getStepsPerDay(data))
+    }, 5000)
+    return () => {
+      clearInterval(intervalId)
+    }
+  }, [])
+
+  console.log('render graph');
+
+
+  return (
+    <div className='activity-page__dynamics dynamics'>
+      <div className='dynamics__title'>Динамика</div>
+      <Tabs
+        labels={namesTabsDynamics}
+        onClick={setCurrentValueTab}
+        value={currentValueTab}
+      />
+      <TabContent index={0} value={currentValueTab}>
+        <div className='dynamics__chart'>
+          <Bar options={optionsChartBar} data={dataDay} />
+        </div>
+        <div className={'dynamics__info'}>
+          <div className='dynamics__value'>
+            {steps && steps[steps.length - 1]?.quantiny} <br /> <span>шагов</span>
+          </div>
+          <div className='dynamics__value'>
+            {steps && (steps[steps.length - 1]?.quantiny * 0.7 / 1000).toFixed(2)} <br /> <span>км</span>
+          </div>
+          <div className='dynamics__value'>
+            {(purpose && steps) ? (steps[steps.length - 1]?.quantiny * 100 / purpose?.quantity).toFixed(2) : 0}%<br /> <span>от цели</span>
+          </div>
+        </div>
+      </TabContent>
+      <TabContent index={1} value={currentValueTab}>
+        <div className='dynamics__chart'>
+          <Bar options={optionsChartBar} data={dataWeek} />
+        </div>
+        <div className={'dynamics__info'}>
+          <div className='dynamics__value'>
+            0 <br /> <span>шагов</span>
+          </div>
+          <div className='dynamics__value'>
+            0 <br /> <span>км</span>
+          </div>
+          <div className='dynamics__value'>
+            0% <br /> <span>от цели</span>
+          </div>
+        </div>
+      </TabContent>
+      <TabContent index={2} value={currentValueTab}>
+        <div className='dynamics__chart'>
+          <Bar options={optionsChartBar} data={dataMonth} />
+        </div>
+        <div className={'dynamics__info'}>
+          <div className='dynamics__value'>
+            {month[month.length - 1].count} <br /> <span>шагов</span>
+          </div>
+          <div className='dynamics__value'>
+            {(month[month.length - 1].count * 0.7 / 1000).toFixed(2)} <br /> <span>км</span>
+          </div>
+          <div className='dynamics__value'>
+            {(purpose && steps) ? (steps[steps?.length - 1]?.quantiny * 100 / purpose?.quantity).toFixed(2) : 0}%<br /> <span>от цели</span>
+          </div>
+        </div>
+      </TabContent>
     </div>
   )
 }

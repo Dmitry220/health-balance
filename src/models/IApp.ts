@@ -8,14 +8,14 @@ export interface IStepsPerDay {
   date: string;
 }
 
-export interface IStepsPerWeekAndMonth {
+export interface IStepsPerWeek {
   [key: number]: {
     [key: number]: number;
   };
 }
 
 export interface IStepsPerMonth {
-  "2022": {
-    "50": 150;
+  [key: number]: {
+    [key: number]: number;
   };
 }
