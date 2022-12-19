@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import './challenge.scss'
 import { definitionColor, typeConversion } from '../../utils/common-functions'
 import { ProgressBar } from '../Progress-bar/Progress-bar'
@@ -7,13 +7,33 @@ import { Link } from 'react-router-dom'
 import { ACTIVE_CHALLENGE_ROUTE } from '../../provider/constants-route'
 import { IChallengeCard } from '../../models/IChallenge'
 import { IMAGE_URL } from '../../http'
+import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
+import { getStepsPerDay, stepsPerDaySelector } from '../../Redux/slice/appSlice'
+import { IStepsPerDay } from '../../models/IApp'
 
 interface ICardChallenge {
   challenge: IChallengeCard
   percent: number
 }
 
-export const CardChallenge: FC<ICardChallenge> = ({ percent, challenge }) => {
+export const CardChallenge: FC<ICardChallenge> = ({ challenge }) => {
+
+  const steps = useAppSelector(stepsPerDaySelector)
+  const dispatch = useAppDispatch()
+
+  //@ts-ignore
+  let percent = steps?.reduce((accumulator:number, currentValue:IStepsPerDay) => accumulator + +currentValue.quantity,0) * 100 / challenge.purpose?.quantity >=100 && 100
+  
+console.log(typeof percent);
+
+  useEffect(()=>{
+    const data = { end_date: new Date(challenge.end_date*1000).toLocaleDateString(), start_date:'15.12.2022' }
+    dispatch(getStepsPerDay(data))
+    console.log(data);    
+  }, [])
+  
+  console.log(steps);
+
   return (
     <Link
       to={ACTIVE_CHALLENGE_ROUTE + '/' + challenge.id}
@@ -52,7 +72,7 @@ export const CardChallenge: FC<ICardChallenge> = ({ percent, challenge }) => {
           </div>
         </div>
         <div className='card-challenge__progress-bar'>
-          <ProgressBar percent={percent} type={challenge.type} />
+          <ProgressBar percent={percent || 0} type={challenge.type} />
           <div className={'progress-bar__value'}>{percent}%</div>
         </div>
         <div className='card-challenge__data'>

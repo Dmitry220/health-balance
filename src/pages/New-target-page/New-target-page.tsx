@@ -38,7 +38,7 @@ export const NewTargetPage = () => {
     try {
       if (purpose?.id) {
         await PurposeService.changePersonalPurpose(purpose.id, +valueStep)
-        await showToast('Цель успешно изменина')
+        await showToast('Цель успешно изменена')
       }
     } catch (error) {
       await showToast('Ошибка!')

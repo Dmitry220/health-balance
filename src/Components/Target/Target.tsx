@@ -10,7 +10,7 @@ import {
 } from '../../Redux/slice/purposeSlice'
 import { IPurpose } from '../../models/IPurpose'
 import { IStepsPerDay } from '../../models/IApp'
-import { daysWeekSelector, setActualStepsbyWeek, setDaysWeek, stepsPerDaySelector } from '../../Redux/slice/appSlice'
+import { currentStepsCountSelector, daysSelector, setActualStepsbyWeek, setDaysWeek, stepsPerDaySelector } from '../../Redux/slice/appSlice'
 import PurposeService from '../../services/PurposeService'
 
 interface ITarget {
@@ -22,7 +22,7 @@ interface ITarget {
 export const Target: FC<ITarget> = () => {
 
   const dispatch = useAppDispatch()
-  const daysWeek = useAppSelector(daysWeekSelector)  
+  const days = useAppSelector(daysSelector)  
   const purpose = useAppSelector(purposeSelector)
   const steps = useAppSelector(stepsPerDaySelector)
 
@@ -54,9 +54,9 @@ export const Target: FC<ITarget> = () => {
         </div>
         <div className='target__body'>
           {
-            steps&&purpose&&daysWeek.map(
+            steps&&purpose&&days.map(
               item => 
-              <CircleDays key={item.id} id={purpose.id} date={item.date} finished={item.finished} title={item.title} percent={item.quantity * 100 / purpose.quantity || 0} />)
+              <CircleDays key={item.id} id={purpose.id} date={item.date} finished={item.finished} title={item.title} percent={(item.quantity * 100 / purpose.quantity)>=100 ? 100:item.quantity * 100 / purpose.quantity} />)
           }         
         </div>
       </div>
@@ -69,21 +69,23 @@ interface IDays {
   percent: number,
   finished: null | number
   id: number,
-  date: string
+  date: number
 }
 
 export const CircleDays: FC<IDays> = ({ title, percent,finished,id,date }) => {
+
   const circleOutlineLength: number = 295
+  const currentStepsCount = useAppSelector(currentStepsCountSelector)
 
   useEffect(()=>{
-    if(percent >= 100 && finished === null && (new Date().toLocaleDateString() === date)){
+    if(percent >= 100 && finished === null && (new Date(date).getTime() === date)){     
       PurposeService.completePersonalPurpose(id)
     }
-  }, [])
+  }, [currentStepsCount])
 
   return (
     <div className='target__days days'>
-      {!finished && finished === 1 ? (
+      {finished === 1 ? (
         <img src={icon_status_full} alt='' className='days__circle' />
       ) : (
         <svg className='days__circle' viewBox='0 0 100 100'>
