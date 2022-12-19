@@ -4,8 +4,9 @@ export interface IBalance {
 
 export interface IStepsPerDay {
   id: number;
-  quantiny: number;
+  quantity: number;
   date: string;
+  finished: number | null
 }
 
 export interface IStepsPerWeek {

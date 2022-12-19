@@ -40,16 +40,20 @@ import { activityVisitSelector } from '../../Redux/slice/visitedPageSlice'
 import { StartPage } from '../Start-pages/StartPage'
 import AppService from '../../services/AppService'
 import { getPersonalPurpose, purposeSelector } from '../../Redux/slice/purposeSlice'
-import { daysWeekSelector, getStepsPerDay, getStepsPerMonth, monthSelector, setMonth, setWeeks, stepsPerDaySelector, stepsPerWeekAndMonthSelector, weeksSelector } from '../../Redux/slice/appSlice'
+import { currentStepsCountSelector, daysWeekSelector, getStepsPerDay, getStepsPerMonth, getStepsPerWeek, monthSelector, setCurrentStepsCount, setMonth, setWeeks, stepsPerDaySelector, stepsPerWeekAndMonthSelector, weeksSelector } from '../../Redux/slice/appSlice'
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 export const ActivityPage: FC = () => {
 
+  const dispatch = useAppDispatch()
+
   const [transparentHeader, setTransparentHeader] = useState<boolean>(true)
   const [stepsCount, setStepsCount] = useState<string>('-')
   const activityVisitCount = useAppSelector(activityVisitSelector)
   const purpose = useAppSelector(purposeSelector)
+  const currentStepsCount = useAppSelector(currentStepsCountSelector)
+
 
   useEffect(() => {
     startPlugin()
@@ -94,7 +98,8 @@ export const ActivityPage: FC = () => {
     const response = await AppService.updateSteps(params)
     console.log(response);
 
-    setStepsCount(event.numberOfSteps)
+    dispatch(setCurrentStepsCount(parseInt(event.numberOfSteps)))
+   // setStepsCount(parseInt(event.numberOfSteps))
   }
 
   console.log('render app');
@@ -112,7 +117,7 @@ export const ActivityPage: FC = () => {
         id={'step'}
         style={{ backgroundAttachment: 'fixed' }}
       >
-        <Steps maxStepsCount={purpose?.quantity || 0} userStepsCount={parseInt(stepsCount)} />
+        <Steps maxStepsCount={purpose?.quantity || 0} userStepsCount={currentStepsCount} />
       </div>
       <div className='activity-page__steps-data'>
         <StepsData />
@@ -146,6 +151,7 @@ const Graphis = () => {
   const [currentValueTab, setCurrentValueTab] = useState<number>(0)
   const namesTabsDynamics = ['Дни', 'Недели', 'Месяцы']
   const steps = useAppSelector(stepsPerDaySelector)
+  const currentStepsCount = useAppSelector(currentStepsCountSelector)
   const daysWeek = useAppSelector(daysWeekSelector)
   const month = useAppSelector(monthSelector)
   const weeks = useAppSelector(weeksSelector)
@@ -156,7 +162,7 @@ const Graphis = () => {
     labels: daysWeek ? daysWeek.map((item) => item.title) : [],
     datasets: [
       {
-        data: steps ? daysWeek.map((item) => item.quantiny) : [],
+        data: steps ? daysWeek.map((item) => item.quantity) : [],
         backgroundColor: function (context: any) {
           const chart = context.chart
           const { ctx, chartArea } = chart
@@ -173,13 +179,10 @@ const Graphis = () => {
     datasets: [
       {
         data: weeks ? weeks.map((item) => item.count) : [],
-        // data: Object.keys(stepsPerWeekAndMonth).length ? Object.values(stepsPerWeekAndMonth : 0),
-        //backgroundColor: '#F2994A',
         backgroundColor: function (context: any) {
           const chart = context.chart
           const { ctx, chartArea } = chart
           if (!chartArea) return null
-
           return getGradient(ctx, chartArea, '#56CCF2', '#CCE0F7')
         },
         borderRadius: 5
@@ -212,20 +215,20 @@ const Graphis = () => {
     async function asyncQuery() {
       await dispatch(getStepsPerDay(data))
       await dispatch(getStepsPerMonth(dataMonth))
+      await dispatch(getStepsPerWeek(dataWeek))
       dispatch(setMonth())
-      // dispatch(setWeeks())
+      dispatch(setWeeks())
     }
     asyncQuery()
     intervalId = setInterval(() => {
-      dispatch(getStepsPerDay(data))
+     // dispatch(getStepsPerDay(data))
     }, 5000)
     return () => {
       clearInterval(intervalId)
     }
   }, [])
 
-  console.log('render graph');
-
+  console.log(weeks);
 
   return (
     <div className='activity-page__dynamics dynamics'>
@@ -241,13 +244,13 @@ const Graphis = () => {
         </div>
         <div className={'dynamics__info'}>
           <div className='dynamics__value'>
-            {steps && steps[steps.length - 1]?.quantiny} <br /> <span>шагов</span>
+            {currentStepsCount} <br /> <span>шагов</span>
           </div>
           <div className='dynamics__value'>
-            {steps && (steps[steps.length - 1]?.quantiny * 0.7 / 1000).toFixed(2)} <br /> <span>км</span>
+            {(currentStepsCount * 0.7 / 1000).toFixed(2)} <br /> <span>км</span>
           </div>
           <div className='dynamics__value'>
-            {(purpose && steps) ? (steps[steps.length - 1]?.quantiny * 100 / purpose?.quantity).toFixed(2) : 0}%<br /> <span>от цели</span>
+            {purpose&&(currentStepsCount * 100 / purpose?.quantity).toFixed(2)}%<br /> <span>от цели</span>
           </div>
         </div>
       </TabContent>
@@ -257,13 +260,13 @@ const Graphis = () => {
         </div>
         <div className={'dynamics__info'}>
           <div className='dynamics__value'>
-            0 <br /> <span>шагов</span>
+            {weeks[weeks.length - 1].count} <br /> <span>шагов</span>
           </div>
           <div className='dynamics__value'>
-            0 <br /> <span>км</span>
+          {(weeks[weeks.length - 1].count * 0.7 / 1000).toFixed(2)} <br /> <span>км</span>
           </div>
           <div className='dynamics__value'>
-            0% <br /> <span>от цели</span>
+          {purpose&&(currentStepsCount * 100 / purpose?.quantity).toFixed(2)}%<br /> <span>от цели</span>
           </div>
         </div>
       </TabContent>
@@ -273,13 +276,13 @@ const Graphis = () => {
         </div>
         <div className={'dynamics__info'}>
           <div className='dynamics__value'>
-            {month[month.length - 1].count} <br /> <span>шагов</span>
+            {month[new Date().getMonth()].count} <br /> <span>шагов</span>
           </div>
           <div className='dynamics__value'>
-            {(month[month.length - 1].count * 0.7 / 1000).toFixed(2)} <br /> <span>км</span>
+            {(month[new Date().getMonth()].count * 0.7 / 1000).toFixed(2)} <br /> <span>км</span>
           </div>
           <div className='dynamics__value'>
-            {(purpose && steps) ? (steps[steps?.length - 1]?.quantiny * 100 / purpose?.quantity).toFixed(2) : 0}%<br /> <span>от цели</span>
+          {purpose&&(currentStepsCount * 100 / purpose?.quantity).toFixed(2)}%<br /> <span>от цели</span>
           </div>
         </div>
       </TabContent>

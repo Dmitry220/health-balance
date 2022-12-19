@@ -11,6 +11,7 @@ import {
 import { IPurpose } from '../../models/IPurpose'
 import { IStepsPerDay } from '../../models/IApp'
 import { daysWeekSelector, setActualStepsbyWeek, setDaysWeek, stepsPerDaySelector } from '../../Redux/slice/appSlice'
+import PurposeService from '../../services/PurposeService'
 
 interface ITarget {
   purpose?: IPurpose | null,
@@ -32,6 +33,7 @@ export const Target: FC<ITarget> = () => {
   useEffect(() => {
     dispatch(setDaysWeek())
     overwriteDaysWeek()
+   
   }, [steps])
 
 
@@ -52,7 +54,9 @@ export const Target: FC<ITarget> = () => {
         </div>
         <div className='target__body'>
           {
-            steps&&purpose&&daysWeek.map(item => <CircleDays key={item.id} title={item.title} percent={item.quantiny * 100 / purpose?.quantity || 0} />)
+            steps&&purpose&&daysWeek.map(
+              item => 
+              <CircleDays key={item.id} id={purpose.id} date={item.date} finished={item.finished} title={item.title} percent={item.quantity * 100 / purpose.quantity || 0} />)
           }         
         </div>
       </div>
@@ -62,15 +66,24 @@ export const Target: FC<ITarget> = () => {
 
 interface IDays {
   title: string
-  percent: number
+  percent: number,
+  finished: null | number
+  id: number,
+  date: string
 }
 
-export const CircleDays: FC<IDays> = ({ title, percent }) => {
+export const CircleDays: FC<IDays> = ({ title, percent,finished,id,date }) => {
   const circleOutlineLength: number = 295
+
+  useEffect(()=>{
+    if(percent >= 100 && finished === null && (new Date().toLocaleDateString() === date)){
+      PurposeService.completePersonalPurpose(id)
+    }
+  }, [])
 
   return (
     <div className='target__days days'>
-      {percent >= 100 ? (
+      {!finished && finished === 1 ? (
         <img src={icon_status_full} alt='' className='days__circle' />
       ) : (
         <svg className='days__circle' viewBox='0 0 100 100'>

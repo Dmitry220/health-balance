@@ -17,11 +17,11 @@ export default class PurposeService {
     )
   }
 
-  static getPersonalPurpose(): Promise<AxiosResponse<{ data: IPurpose }>> {
+  static async getPersonalPurpose(): Promise<AxiosResponse<{ data: IPurpose }>> {
     return $api.get(`/v2/purposes?token=${localStorage.getItem('token')}`)
   }
 
-  static getChallengePurpose(
+  static async getChallengePurpose(
     id: number
   ): Promise<AxiosResponse<{ data: IPurpose }>> {
     return $api.get(
@@ -29,9 +29,15 @@ export default class PurposeService {
     )
   }
 
-  static changePersonalPurpose(id: number, quantity: number) {
+  static async changePersonalPurpose(id: number, quantity: number) {
     return $api.patch(
       `/v2/purposes/${id}/${quantity}?token=${localStorage.getItem('token')}`
+    )
+  }
+
+  static async completePersonalPurpose(id: number) {
+    return await $api.post(
+      `/v2/purposes/${id}/complete?token=${localStorage.getItem('token')}`
     )
   }
 }
