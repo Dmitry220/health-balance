@@ -51,7 +51,7 @@ export const StartPage = () => {
         <SwiperSlide>
           <div className='preview__body'>
             <div className='preview__title'>
-              Здравствуйте, <br /> {dataUser.name}!
+              Здравствуйте, <br /> {dataUser?.name}!
             </div>
             <div className='preview__text'>
               Это приложение созданно для тех кто хочет большего! Вы с нами?
@@ -101,9 +101,7 @@ export const StartPage = () => {
               <StepsData />
             </div>
             <div className='preview__sub-title'>Выполнением цели</div>
-            <div className='preview__target'>
-              {/* <Target /> */}
-            </div>
+            <div className='preview__target'>{/* <Target /> */}</div>
           </div>
         </SwiperSlide>
         <SwiperSlide>
@@ -164,9 +162,8 @@ export const SlideNextButton: FC<ISwiperNextButton> = ({
   const next = async () => {
     if (swiper.activeIndex === 4) {
       dispatch(setVisitedActivityPage(1))
-      await dispatch(setPurposeSteps({ quantity, type}))
+      await dispatch(setPurposeSteps({ quantity, type }))
       await Pedometer.requestPermission()
-    
     }
     swiper.slideNext()
   }

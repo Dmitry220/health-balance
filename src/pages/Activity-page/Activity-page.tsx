@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useState, useRef } from 'react'
 import { Bar } from 'react-chartjs-2'
 import {
   Chart as ChartJS,
@@ -11,7 +11,7 @@ import {
 } from 'chart.js'
 import { Capacitor } from '@capacitor/core'
 
-// import { Health } from '@awesome-cordova-plugins/health'
+import { Health } from '@awesome-cordova-plugins/health'
 import Pedometer from '../../plugins/pedometer'
 
 import 'swiper/scss'
@@ -63,12 +63,18 @@ export const ActivityPage: FC = () => {
 
   const [transparentHeader, setTransparentHeader] = useState<boolean>(true)
 
+  const interval: { current: NodeJS.Timer | null } = useRef(null)
+
   const activityVisitCount = useAppSelector(activityVisitSelector)
   const purpose = useAppSelector(purposeSelector)
   const currentStepsCount = useAppSelector(currentStepsCountSelector)
 
   useEffect(() => {
-    startPlugin()
+    if (Capacitor.getPlatform() === 'android') {
+      startPlugin()
+    } else if (Capacitor.getPlatform() === 'ios') {
+      startHealthKit()
+    }
 
     window.addEventListener('scroll', function () {
       let scroll = window.pageYOffset
@@ -85,6 +91,7 @@ export const ActivityPage: FC = () => {
 
     return () => {
       window.removeEventListener('stepEvent', updateSteps)
+      clearInterval(interval.current as NodeJS.Timeout)
     }
   }, [])
 
@@ -102,9 +109,8 @@ export const ActivityPage: FC = () => {
   const updateSteps = async (event: any) => {
     let endDate = new Date().toISOString()
 
-    console.log(endDate, event.numberOfSteps)
-
     const params = new FormData()
+
     params.append(
       'data',
       JSON.stringify([{ date: endDate, steps: event.numberOfSteps }])
@@ -113,6 +119,59 @@ export const ActivityPage: FC = () => {
     await AppService.updateSteps(params)
 
     dispatch(setCurrentStepsCount(parseInt(event.numberOfSteps)))
+  }
+
+  const updateStepsPeriod = async (data: any) => {
+    let endDate = new Date().toISOString()
+
+    const params = new FormData()
+
+    params.append('data', JSON.stringify([{ date: endDate, steps: data }]))
+
+    await AppService.updateSteps(params)
+
+    dispatch(setCurrentStepsCount(parseInt(data)))
+  }
+
+  const startHealthKit = async () => {
+    // запрос на авторизацию в Apple Health для отправки шагов
+    Health.isAvailable()
+      .then((available) => {
+        if (available) {
+          Health.requestAuthorization([{ read: ['steps'] }])
+            .then(() => getStepsHistory())
+            .catch((error) => console.error(error))
+        }
+      })
+      .catch((error) => console.error(error))
+  }
+
+  const getStepsHistory = async () => {
+    // каждые 5 секунд запрашиваем изменения шагов
+    const id = setInterval(() => {
+      // получение данных по шагам за последние 3 месяца
+      Health.queryAggregated({
+        startDate: subtractMonths(3),
+        endDate: new Date(),
+        dataType: 'steps',
+        bucket: 'day'
+      })
+        .then((res: any) => {
+          let steps = res.map((item: any) => {
+            return { ...item, value: item.value.toFixed() }
+          })
+
+          updateStepsPeriod(steps)
+        })
+        .catch((e) => console.log(e))
+    }, 5000)
+
+    interval.current = id
+  }
+
+  const subtractMonths = (numOfMonths: number, date = new Date()) => {
+    date.setMonth(date.getMonth() - numOfMonths)
+    return date
   }
 
   if (activityVisitCount === 0) {
@@ -140,7 +199,7 @@ export const ActivityPage: FC = () => {
       <div className='activity-page__target'>
         <Target />
       </div>
-      <Graphis />
+      <Graphs />
       <div className='activity-page__important'>
         <ImportantBlock />
         <Banner title={'Стартовый опрос'} text={'Ответьте на 4 вопроса'} />
@@ -154,7 +213,7 @@ export const ActivityPage: FC = () => {
   )
 }
 
-const Graphis = () => {
+const Graphs = () => {
   const startDateDay = new Date()
   startDateDay.setDate(startDateDay.getDate() - 7)
   const startDateMonth = new Date()
