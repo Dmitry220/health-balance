@@ -42,7 +42,7 @@ export const Auth = () => {
   }
 
   return (
-    <div className={'auth'}>
+    <form className={'auth'} onSubmit={submit}>
       <div className='auth__content'>
         <div className='auth__logo'>
           <img src={logo} alt='' />
@@ -92,6 +92,6 @@ export const Auth = () => {
           </Link>
         </div>
       </div>
-    </div>
+    </form>
   )
 }

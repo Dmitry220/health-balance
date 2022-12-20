@@ -4,7 +4,8 @@
 .link-auth{
   font-weight: 400;
   font-size: 12px;
-
+  display: block;
+  margin: 0 0 20px 0;
   color: $colorMain;
   &.yellow{
     color: $yellowColor;

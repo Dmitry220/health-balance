@@ -11,7 +11,7 @@ import {
 } from 'chart.js'
 import { Capacitor } from '@capacitor/core'
 
-import { Health } from '@awesome-cordova-plugins/health'
+// import { Health } from '@awesome-cordova-plugins/health'
 import Pedometer from '../../plugins/pedometer'
 
 import 'swiper/scss'
@@ -89,8 +89,6 @@ export const ActivityPage: FC = () => {
   }, [])
 
   const startPlugin = async () => {
-    console.log(Capacitor.getPlatform())
-
     Pedometer.start()
 
     let savedData = await Pedometer.getSavedData()

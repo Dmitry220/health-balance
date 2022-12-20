@@ -10,12 +10,13 @@ export const StepsData = () => {
   const purpose = useAppSelector(purposeSelector)
   const steps = useAppSelector(stepsPerDaySelector)
   const currentStepsCount = useAppSelector(currentStepsCountSelector)
+  let currentProgressPurpose = purpose && steps ? (steps[steps.length-1]?.finished === 1 ? 100 :currentStepsCount *100 / purpose?.quantity) : 0
 
   return (
     <div className={'steps-data'}>
       <div className='steps-data__content'>
         <article className='steps-data__card'>
-          <div className='steps-data__value'>{purpose&&(currentStepsCount *100 / purpose?.quantity <=100 || 100)}%</div>
+          <div className='steps-data__value'>{currentProgressPurpose}%</div>
           <div className='steps-data__text'>
             Цель: <br />
             <span>{purpose?.quantity} шагов</span>
@@ -28,7 +29,7 @@ export const StepsData = () => {
           </div>
           <div className='steps-data__text'>
             {'на '} <span>
-            {steps?.length >= 2 && Math.abs(steps[steps.length-1].quantity - steps[steps.length-2].quantity)}
+            {steps?.length >= 2 ? Math.abs(steps[steps.length-1].quantity - steps[steps.length-2].quantity):0}
               {' шагов '} 
             {steps?.length >= 2 && steps[steps.length-1].quantity > steps[steps.length-2].quantity ? ' больше':' меньше'},</span>
             чем вчера
