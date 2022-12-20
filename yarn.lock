@@ -19,6 +19,13 @@
     "jsonpointer" "^5.0.0"
     "leven" "^3.1.0"
 
+"@awesome-cordova-plugins/health@^6.2.0":
+  "integrity" "sha512-vmEXmmK4umRKwcwE01WozXGp2etqCQ8dHk/uy7tyVoQN8ew6FrVfwRKuEe6BUmzNbyXxRhFiIaUusYRt+jNeVw=="
+  "resolved" "https://registry.npmjs.org/@awesome-cordova-plugins/health/-/health-6.2.0.tgz"
+  "version" "6.2.0"
+  dependencies:
+    "@types/cordova" "latest"
+
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.10.4", "@babel/code-frame@^7.12.13", "@babel/code-frame@^7.16.0", "@babel/code-frame@^7.18.6", "@babel/code-frame@^7.8.3":
   "integrity" "sha512-TDCmlK5eOvH+eH7cdAFlNXeVJqWIQ7gW9tY1GJIpUtFb6CmjVyq2VM3u71bOyR8CRihcCgMUYoDNyLXao3+70Q=="
   "resolved" "https://registry.npmjs.org/@babel/code-frame/-/code-frame-7.18.6.tgz"
@@ -1988,6 +1995,11 @@
   dependencies:
     "@types/node" "*"
 
+"@types/cordova@latest":
+  "integrity" "sha512-rkiiTuf/z2wTd4RxFOb+clE7PF4AEJU0hsczbUdkHHBtkUmpWQpEddynNfJYKYtZFJKbq4F+brfekt1kx85IZA=="
+  "resolved" "https://registry.npmjs.org/@types/cordova/-/cordova-0.0.34.tgz"
+  "version" "0.0.34"
+
 "@types/eslint-scope@^3.7.3":
   "integrity" "sha512-PB3ldyrcnAicT35TWPs5IcwKD8S333HMaa2VVv4+wdvebJkjWuW/xESoB8IwRcog8HYVYamb1g/R31Qv5Bx03g=="
   "resolved" "https://registry.npmjs.org/@types/eslint-scope/-/eslint-scope-3.7.3.tgz"
@@ -3577,6 +3589,11 @@
   "integrity" "sha512-YZ3GUyn/o8gfKJlnlX7g7xq4gyO6OSuhGPKaaGssGB2qgDUS0gPgtTvoyZLTt9Ab6dC4hfc9dV5arkvc/OCmrw=="
   "resolved" "https://registry.npmjs.org/cookie/-/cookie-0.5.0.tgz"
   "version" "0.5.0"
+
+"cordova-plugin-health@^2.0.5":
+  "integrity" "sha512-joDJX4MSOCQtCjyNIfJFU60PwFnFsOfgAfClHwgqewhjYGzrhR0eNNZ/SD4hBdzm7KBSFmEQ7BA7/LVI/l55Fg=="
+  "resolved" "https://registry.npmjs.org/cordova-plugin-health/-/cordova-plugin-health-2.0.5.tgz"
+  "version" "2.0.5"
 
 "core-js-compat@^3.21.0", "core-js-compat@^3.22.1":
   "integrity" "sha512-WSzUs2h2vvmKsacLHNTdpyOC9k43AEhcGoFlVgCY4L7aw98oSBKtPL6vD0/TqZjRWRQYdDSLkzZIni4Crbbiqw=="
