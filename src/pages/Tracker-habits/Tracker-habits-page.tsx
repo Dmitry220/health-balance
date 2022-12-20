@@ -25,12 +25,13 @@ import { routesNavigationTracker } from '../../utils/globalConstants'
 import { NavLink } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
 import { useEffect } from 'react'
-import { getTracker, isLoadingSelector, trackerSelector } from '../../Redux/slice/trackerSlice'
+import { countWaterSelector, getTracker, isLoadingSelector, trackerSelector } from '../../Redux/slice/trackerSlice'
 
 export const TrackerHabitsPage = () => {
 
   const dispatch = useAppDispatch()
   const tracker = useAppSelector(trackerSelector)
+  const countWater = useAppSelector(countWaterSelector)
  
   console.log(tracker);
   
@@ -42,11 +43,10 @@ export const TrackerHabitsPage = () => {
   // if(isLoading){
   //   return <h1>Загрузка...</h1>
   // }
-
-  const morning = tracker.wake_up_time.split(':')[0]
-  const evening = +morning-8<0 ? 24+(+morning-8) :+morning-8
-  console.log(morning);
-  
+  let hour = tracker.wake_up_time.split(':')[0].length ===2 ? tracker.wake_up_time.split(':')[0] : '0'+tracker.wake_up_time.split(':')[0]
+  let minutes = tracker.wake_up_time.split(':')[1].length ===2 ? tracker.wake_up_time.split(':')[1] : '0'+tracker.wake_up_time.split(':')[1]
+  const morning = hour + ':'+ minutes
+  const evening = (+hour-8<0 ? 24+(+hour-8): +hour-8) + ':'+ minutes  
   
 
   return (
@@ -63,13 +63,13 @@ export const TrackerHabitsPage = () => {
         </NavLink>
       </div>
       <div className='tracker-habits-page__target'>
-        <HealthySleep evening={evening+''} morning={morning+''}/>
+        <HealthySleep evening={evening} morning={morning}/>
       </div>
 
       <div className='tracker-habits-page__task-title'>
         <div className='tracker-habits-page__task-column'>
-          <img src={icon_water} alt='' />
-          <span>2,1 л.</span>
+          <img src={icon_water} alt='icon_water' />
+          <span>{countWater} л.</span>
           воды сегодня
         </div>
         <div className='tracker-habits-page__task-column'>
