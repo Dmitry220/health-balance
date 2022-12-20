@@ -1,15 +1,31 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Header from '../../Components/Header/Header'
+import { trackerSelector } from '../../Redux/slice/trackerSlice'
+import TrackerService from '../../services/TrackerService'
+import { showToast } from '../../utils/common-functions'
+import { useAppSelector } from '../../utils/hooks/redux-hooks'
 import './goal-fruits.scss'
 
 export const GoalFruits = () => {
-  const [countFruits, setCountFruits] = useState<number>(0)
+
+  const tracker = useAppSelector(trackerSelector)
+  useEffect(() => {
+
+
+  }, [])
+
+  const [countFruits, setCountFruits] = useState<number>(tracker.fruits)
 
   const addCountFruits = () => setCountFruits((prev) => prev + 1)
   const decreaseCountFruits = () => {
     if (countFruits > 0) {
       setCountFruits((prev) => prev - 1)
     }
+  }
+
+  const save = async () => {
+    await TrackerService.updateTracker(tracker.id, 'fruits', countFruits + '')
+    await showToast('Изменено успешно!')
   }
 
   return (
@@ -25,7 +41,7 @@ export const GoalFruits = () => {
         </div>
         <div onClick={addCountFruits}>+</div>
       </div>
-      <button className='goal-fruits__button _button-white'>Установить</button>
+      <button className='goal-fruits__button _button-white' onClick={save}>Установить</button>
     </div>
   )
 }

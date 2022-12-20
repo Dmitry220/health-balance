@@ -11,14 +11,16 @@ END_DATE.setDate(END_DATE.getDate() + 3)
 export interface ITracker {
   creatingTracker: ICreatingTracker,
   tracker: IGetTracker,
-  isLoading: boolean
+  isLoading: boolean,
+  countWater: number
   
 }
 
 const initialState: ITracker = {
 	creatingTracker: {fruits:0,weight: 60,wake_up_time:"06:20"},
 	tracker: {id:0,fruits:0,weight: 60,wake_up_time:"06:20"},
-	isLoading: false
+	isLoading: false,
+  countWater: 0
  
 }
 
@@ -64,6 +66,7 @@ export const trackerSlice = createSlice({
       getTracker.fulfilled,
       (state, action: PayloadAction<IGetTracker>) => {
         state.tracker = action.payload
+        state.countWater = +(action.payload.weight*35/1000).toFixed(1)
         state.isLoading = false
       }
     )
@@ -76,7 +79,7 @@ export const {
 
 export const creatingTrackerSelector = (state: RootState) =>state.tracker.creatingTracker
 export const trackerSelector = (state: RootState) =>state.tracker.tracker
-
+export const countWaterSelector = (state: RootState) =>state.tracker.countWater
 export const isLoadingSelector = (state: RootState) => state.tracker.isLoading
 
 

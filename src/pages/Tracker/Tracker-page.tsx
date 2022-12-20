@@ -58,11 +58,13 @@ export const TrackerPage = () => {
 
   console.log(hour);
   
+  if(visitCount === 1){
+    return <TrackerHabitsPage />
+  }
   
 
   return (
     <div className={'tracker'}>
-      {visitCount === 0 ? (
         <Swiper
           modules={[Pagination, A11y]}
           className={'preview__swiper'}
@@ -181,10 +183,7 @@ export const TrackerPage = () => {
               fruits={JSON.stringify(countFruits)} wake_up_time={hour+':'+minutes} weight={weightUser}
             />
               <div className={'circle-gradient circle-gradient_green'} />
-        </Swiper>
-      ) : (
-        <TrackerHabitsPage />
-      )}
+        </Swiper>   
     </div>
   )
 }
