@@ -3,8 +3,6 @@ import './interesting.scss'
 import iconClock from '../../assets/image/Interesting/clock.svg'
 import { rubricConversion } from '../../utils/common-functions'
 import { INews } from '../../models/INews'
-import { useAppSelector } from '../../utils/hooks/redux-hooks'
-import { dataUserSelector } from '../../Redux/slice/profileSlice'
 import { Link } from 'react-router-dom'
 import { MOTIVATION_ROUTE } from '../../provider/constants-route'
 import { IMAGE_URL } from '../../http'
@@ -14,7 +12,6 @@ interface ICardInteresting {
 }
 
 export const CardInteresting: FC<ICardInteresting> = ({ dataNews }) => {
-  const profile = useAppSelector(dataUserSelector)
 
   return (
     <Link
@@ -39,7 +36,7 @@ export const CardInteresting: FC<ICardInteresting> = ({ dataNews }) => {
             {new Date(dataNews.created_at * 1000).toLocaleDateString()}
           </div>
           <div className='info-card__author'>
-            Автор: {profile.name + ' ' + profile.surname}
+            Автор: {dataNews.author}
           </div>
         </div>
       </div>

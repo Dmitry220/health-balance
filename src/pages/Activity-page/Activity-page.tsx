@@ -205,7 +205,7 @@ export const ActivityPage: FC = () => {
         <Banner title={'Стартовый опрос'} text={'Ответьте на 4 вопроса'} />
       </div>
       <div className='activity-page__top-rating top-rating'>
-        <div className='top-rating__title title'>Топ рейтинг</div>
+        <div className='top-rating__title title'>ТОП сегодня</div>
         <TopRating />
       </div>
       <div className='circle-gradient circle-gradient_top' />

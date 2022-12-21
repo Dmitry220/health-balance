@@ -1,6 +1,6 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { appSlice } from './slice/appSlice'
-import { creatingChallengeSlice } from './slice/challengeSlice'
+import { challengeSlice } from './slice/challengeSlice'
 import { healthIndexSlice } from './slice/healthIndexSlice'
 import { authSlice } from './slice/authSlice'
 import { accessRecoverySlice } from './slice/accessRecoverySlice'
@@ -34,7 +34,7 @@ const persistConfig = {
 const reducer = combineReducers({
   app: appSlice.reducer,
   auth: authSlice.reducer,
-  creatingChallenge: creatingChallengeSlice.reducer,
+  challenges: challengeSlice.reducer,
   recovery: accessRecoverySlice.reducer,
   profile: profileSlice.reducer,
   user: userSlice.reducer,

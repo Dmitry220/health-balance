@@ -17,7 +17,6 @@ export const MotivationCard = () => {
   const params = useParams()
   const dispatch = useAppDispatch()
   const news = useAppSelector(newsByIdSelector)
-  const profile = useAppSelector(dataUserSelector)
   const isLoading = useAppSelector(isLoadingSelector)
 
   useEffect(() => {
@@ -41,7 +40,7 @@ export const MotivationCard = () => {
               <span>
                 {new Date(news.created_at * 1000).toLocaleDateString()}
               </span>
-              <span>{profile.name + ' ' + profile.surname}</span>
+              <span>{news.author}</span>
             </div>
             <div className='motivation-card__title block-title'>
               {news.title}

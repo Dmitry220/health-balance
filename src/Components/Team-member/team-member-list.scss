@@ -1,4 +1,5 @@
 .team-member-list{
+  padding-top: 50px;
   &__row{
     display: flex;
     justify-content: space-between;
@@ -6,11 +7,13 @@
     &:not(:last-child){
       margin: 0 0 20px 0;
     }
+
   }
 
   &__column{
     display: flex;
     align-items: center;
+    color: #fff;
   }
   &__avatar{
     width: 37px;

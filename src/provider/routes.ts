@@ -262,7 +262,7 @@ export const privateRoutes = [
     Component: SurveyActualPage
   },
   {
-    path: TEAM_MEMBER_ROUTE,
+    path: TEAM_MEMBER_ROUTE+'/:id',
     Component: TeamMembersPage
   },
   {

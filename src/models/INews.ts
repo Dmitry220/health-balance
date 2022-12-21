@@ -20,7 +20,8 @@ export interface INews {
   status: boolean
   team: number | null
   likes: number,
-  comments: number
+  comments: number,
+  author:string
 }
 
 export interface ICreatingComment {
