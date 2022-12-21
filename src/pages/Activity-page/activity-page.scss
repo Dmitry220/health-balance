@@ -1,22 +1,21 @@
-@import "src/assets/style/variables";
+@import 'src/assets/style/variables';
 
-.title{
+.title {
   font-weight: 700;
   font-size: 25px;
-
 }
 
-.activity-page{
+.activity-page {
   padding: 0 0 84px 0;
 
-  &__steps{
+  &__steps {
     margin: 0 0 48px 0;
     padding: 92px 0 0 0;
   }
-  &__steps-data{
+  &__steps-data {
     margin: 0 0 38px 0;
   }
-  &__card-actual{
+  &__card-actual {
     display: flex;
     gap: 9px;
     align-items: center;
@@ -28,53 +27,50 @@
     }
     scrollbar-width: none;
   }
-  &__title{
+  &__title {
     margin: 0 0 27px 0;
   }
-  &__target{
+  &__target {
     margin: 0 0 23px 0;
   }
-  &__dynamics{
+  &__dynamics {
     margin: 0 0 18px 0;
   }
-  &__important{
+  &__important {
     margin: 0 0 40px 0;
   }
-  &__top-rating{
-
+  &__top-rating {
   }
 }
 
-
-.dynamics{
+.dynamics {
   background: $backgroundBlock;
   padding: 10px 10px 15px 10px;
-  &__title{
+  &__title {
     font-weight: 500;
     font-size: 15px;
     margin: 0 0 20px 0;
-
   }
-  &__chart{
+  &__chart {
     margin: 40px 0 28px 0;
   }
-  &__info{
+  &__info {
     display: flex;
     justify-content: space-around;
   }
-  &__value{
+  &__value {
     font-weight: 500;
     font-size: 17px;
 
-    span{
+    span {
       font-size: 13px;
-      color: #ABABAB;
+      color: #ababab;
     }
   }
 }
 
-.top-rating{
-  &__title{
+.top-rating {
+  &__title {
     margin: 0 0 19px 0;
   }
 }
