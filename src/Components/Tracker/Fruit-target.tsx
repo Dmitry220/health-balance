@@ -1,15 +1,38 @@
 import './tracker.scss'
 import { HabitsTargetItem } from './Habits-tracker-item'
+import { useAppSelector } from '../../utils/hooks/redux-hooks'
+import { trackerSelector } from '../../Redux/slice/trackerSlice'
+import { useEffect } from 'react'
+import { useState } from 'react'
 
 export const FruitTarget = () => {
+
+
+  const tracker = useAppSelector(trackerSelector)
+  const [targetsFruit, setTargtesFruits] = useState<{
+    id: number,
+    fruits: 'Фрукт',
+    date: string
+  }[]>([])
+
+  useEffect(() => {
+    setTargtesFruits([])
+    for (let index = 0; index < tracker.fruits; index++) {
+      setTargtesFruits(prev=>[...prev, {
+        id: index + 1,
+        fruits: 'Фрукт',
+        date: index < tracker.fruits/3 ? '12:30' : (index<tracker.fruits*(2/3) ? '15:30':'19:00')
+      }])
+    }
+  }, [tracker])
+
+  console.log(targetsFruit);
+
+
   return (
     <div className={'fruit-target'}>
       <div className='fruit-target__container'>
-        <HabitsTargetItem data={'12:30'} value={'Фрукт'} />
-        <HabitsTargetItem data={'15:00'} value={'Фрукт'} />
-        <HabitsTargetItem data={'19:00'} value={'Фрукт'} />
-        <HabitsTargetItem data={'19:30'} value={'Фрукт'} />
-        <HabitsTargetItem data={'21:30'} value={'Фрукт'} />
+        {targetsFruit.map(item => <HabitsTargetItem key={item.id} value={item.fruits} date={item.date} />)}
       </div>
     </div>
   )
