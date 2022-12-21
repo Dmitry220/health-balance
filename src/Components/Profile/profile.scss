@@ -96,7 +96,9 @@
   }
 
   &__user-name{
-
+    flex: 0 0 70%;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 .profile-member-contact{

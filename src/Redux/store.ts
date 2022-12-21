@@ -23,6 +23,7 @@ import { lessonsSlice } from './slice/lessonsSlice'
 import { purposesSlice } from './slice/purposeSlice'
 import { newsSlice } from './slice/newsSlice'
 import { trackerSlice } from './slice/trackerSlice'
+import leaderBoardSlice, { leaderboardSlice } from './slice/leaderBoardSlice'
 
 const persistConfig = {
   key: 'root',
@@ -43,7 +44,8 @@ const reducer = combineReducers({
   purposes: purposesSlice.reducer,
   news: newsSlice.reducer,
   tracker: trackerSlice.reducer,
-  healthIndex: healthIndexSlice.reducer
+  healthIndex: healthIndexSlice.reducer,
+  leaderboard: leaderboardSlice.reducer
 })
 
 const persistedReducer = persistReducer(persistConfig, reducer)

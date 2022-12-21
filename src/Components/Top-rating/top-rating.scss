@@ -1,8 +1,6 @@
 @import "src/assets/style/variables";
 
 .top-rating{
-
-
   &__header-top{
     padding: 20px 33px 30px 33px;
     background: $backgroundBlock;
@@ -49,6 +47,7 @@
     border-radius: 50%;
     background: #B48C00;
     display: flex;
+    color: $colorMain;
     align-items: center;
     justify-content: center;
     font-size: 13px;
@@ -86,6 +85,7 @@
 
   &__item{
     display: flex;
+    color: $colorMain;
     justify-content: space-between;
     align-items: center;
     &:not(:last-child){
