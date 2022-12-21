@@ -122,15 +122,13 @@ export const ActivityPage: FC = () => {
   }
 
   const updateStepsPeriod = async (data: any) => {
-    let endDate = new Date().toISOString()
-
     const params = new FormData()
 
-    params.append('data', JSON.stringify([{ date: endDate, steps: data }]))
+    params.append('data', JSON.stringify(data))
 
     await AppService.updateSteps(params)
 
-    dispatch(setCurrentStepsCount(parseInt(data)))
+    dispatch(setCurrentStepsCount(parseInt(data[data.length - 1].steps)))
   }
 
   const startHealthKit = async () => {
@@ -158,7 +156,7 @@ export const ActivityPage: FC = () => {
       })
         .then((res: any) => {
           let steps = res.map((item: any) => {
-            return { ...item, value: item.value.toFixed() }
+            return { date: item.startDate, steps: item.value.toFixed() }
           })
 
           updateStepsPeriod(steps)
