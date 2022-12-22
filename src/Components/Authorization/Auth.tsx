@@ -21,6 +21,7 @@ export const Auth = () => {
 
   const handlerLogin = (e: ChangeEvent<HTMLInputElement>) =>
     setEmail(e.target.value)
+
   const handlerPassword = (e: ChangeEvent<HTMLInputElement>) =>
     setPassword(e.target.value)
 
@@ -32,6 +33,7 @@ export const Auth = () => {
       position: 'center'
     })
   }
+
   const submit = async () => {
     await dispatch(sendLogin({ email, password }))
 
@@ -50,7 +52,8 @@ export const Auth = () => {
         <div className='auth__form form-auth'>
           <div className='form-auth__fields'>
             <input
-              type='text'
+              type='email'
+              spellCheck={false}
               className='form-auth__field'
               placeholder={'Email'}
               value={email}
@@ -58,6 +61,7 @@ export const Auth = () => {
             />
             <input
               type='password'
+              spellCheck={false}
               className='form-auth__field'
               placeholder={'Пароль'}
               value={password}
