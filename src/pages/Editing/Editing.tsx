@@ -53,7 +53,7 @@ export const Editing = () => {
   }
 
   const onSubmit = handleSubmit(
-    ({ email, birthdayParameter, gender, name, phone, surname }) => {
+    ({ email, birthdayParameter, gender, name, phone, surname }) => { 
       const birthday = birthdayParameter.getTime() / 1000
       const data = { id, name, surname, gender, birthday, phone, email, avatar }
       dispatch(updateProfile(data))
@@ -62,7 +62,6 @@ export const Editing = () => {
       } else {
         showToast('Ошибка!')
       }
-      console.log(data, typeof birthday)
     }
   )
 
@@ -73,7 +72,7 @@ export const Editing = () => {
     if (file[0]) {
       setPhotoPath(URL.createObjectURL(file[0]))
       formData.append('image', file[0])
-      const response = await FileService.uploadFile(formData)
+      const response = await FileService.uploadFile(formData)      
       setAvatar(response.data.data.avatar)
     }
   }
@@ -87,10 +86,10 @@ export const Editing = () => {
           <div className='editing__avatar'>
             <input type={'file'} onChange={dowloadPicture} id='file' />
             <label className='editing__label' htmlFor='file'>
-              {!dataUser.avatar && (
+              {!dataUser.avatar && !photoPath && (
                 <img src={photo} style={{ borderRadius: 0 }} alt='avatar' />
               )}
-              {dataUser.avatar && (
+              {(dataUser.avatar || photoPath) && (
                 <img
                   src={photoPath || IMAGE_URL + 'avatars/' + dataUser.avatar}
                   alt='avatar'

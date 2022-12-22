@@ -104,9 +104,16 @@ export const healthIndexSlice = createSlice({
     );
     builder.addCase(
       getProgressAndIdPolls.fulfilled,
-      (state, action: PayloadAction<IGetProgressAndIDPolls>) => {
+      (state, action: PayloadAction<IGetProgressAndIDPolls>) => {      
         state.progress = action.payload.progress - 1;
         state.idPoll = action.payload.id;
+        state.isLoading = false;
+      }
+    );
+    builder.addCase(
+      getProgressAndIdPolls.pending,
+      (state) => {      
+        state.isLoading = true;
       }
     );
     builder.addCase(
@@ -116,18 +123,19 @@ export const healthIndexSlice = createSlice({
       }
     );
     builder.addCase(
+      getDynamics.pending,
+      (state) => {
+        state.isLoading = true;
+      }
+    );
+    builder.addCase(
       getDynamics.fulfilled,
       (state, action: PayloadAction<IDynamics[]>) => {
         state.dynamics = action.payload;
         state.isLoading = false;
       }
     );
-    builder.addCase(
-      getDynamics.pending,
-      (state) => {
-        state.isLoading = true;
-      }
-    );
+
   },
 });
 

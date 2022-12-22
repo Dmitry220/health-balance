@@ -25,9 +25,8 @@ export const HealthIndexResults = () => {
   const isLoading = useAppSelector(isLoadingSelector)
   const lastDynamic = dynamics[dynamics.length-1]
 
-  useEffect(() => {
-    dispatch(getDynamics())
-  }, [])
+  console.log(Object.values(lastDynamic), lastDynamic);
+  
 
   if(isLoading){
     return <h1>Загрузка...</h1>
