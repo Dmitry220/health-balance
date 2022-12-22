@@ -21,30 +21,35 @@ export const HealthIndexPage = () => {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    dispatch(getDynamics())
-    dispatch(getProgressAndIdPolls())
+    async function asyncQueries() {
+      await dispatch(getDynamics())
+      await dispatch(getProgressAndIdPolls())
+    }
+    asyncQueries()
   }, []);
 
 
+  if (isLoading) {
+    return <h1>Загрузка...</h1>
+  }
 
+ 
   if (dynamics.length) {
     if (idPoll && progressPoll) {
       return <ContinueQuestionaire />
     }
     return <HealthIndexResults />
-  }else{
+  } else {
+
     if (idPoll && progressPoll) {
       return <ContinueQuestionaire />
-    }  
+    }
     if (idPoll && !progressPoll) {
       return <StartQuestionaire />
-    }  
+    }
   }
 
-
-  return (
-    <StartQuestionaire />
-  )
+  return <StartQuestionaire />
 }
 
 export const StartQuestionaire: FC = () => {
