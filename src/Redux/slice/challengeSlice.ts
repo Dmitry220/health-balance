@@ -196,6 +196,10 @@ export const challengeSlice = createSlice({
     builder.addCase(getListChallenges.pending, (state) => {
       state.isLoading = true;
     });
+    builder.addCase(getListChallenges.rejected, (state) => {
+      state.isLoading = false;      
+      state.activeChallenges = [];
+    });
     builder.addCase(creatingChallenge.pending, (state) => {
       state.isLoading = true;
     });

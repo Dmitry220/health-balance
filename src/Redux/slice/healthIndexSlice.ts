@@ -14,7 +14,8 @@ interface IHealthIndex {
   progress: number;
   idPoll: number;
   isInterruptPoll: boolean;
-  dynamics: IDynamics[]
+  dynamics: IDynamics[],
+  isLoading: boolean
 }
 
 const initialState: IHealthIndex = {
@@ -23,7 +24,8 @@ const initialState: IHealthIndex = {
   answers: [],
   idPoll: 0,
   isInterruptPoll: false,
-  dynamics: []
+  dynamics: [],
+  isLoading: false
 };
 
 export const getQuestionnaire = createAsyncThunk(
@@ -117,6 +119,13 @@ export const healthIndexSlice = createSlice({
       getDynamics.fulfilled,
       (state, action: PayloadAction<IDynamics[]>) => {
         state.dynamics = action.payload;
+        state.isLoading = false;
+      }
+    );
+    builder.addCase(
+      getDynamics.pending,
+      (state) => {
+        state.isLoading = true;
       }
     );
   },
@@ -132,5 +141,5 @@ export const progressPollSelector = (state: RootState) =>
   state.healthIndex.progress;
 export const idPolleSelector = (state: RootState) => state.healthIndex.idPoll;
 export const dynamicsSelector = (state: RootState) => state.healthIndex.dynamics;
-
+export const isLoadingSelector = (state: RootState) => state.healthIndex.isLoading;
 export default healthIndexSlice.reducer;

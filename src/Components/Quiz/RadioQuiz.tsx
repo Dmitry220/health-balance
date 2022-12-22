@@ -50,7 +50,7 @@ const RadioQuiz: FC<ITextQuiz> = ({ question, answerHandler, answers, id }) => {
         }
         onClick={handleClick}
       >
-        Далее
+        {id === 161 ? 'Завершить': 'Далее'}
       </button>
     </div>
   );

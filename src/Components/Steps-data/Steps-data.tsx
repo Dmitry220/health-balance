@@ -32,7 +32,7 @@ export const StepsData = () => {
             {steps?.length >= 2 ? Math.abs(steps[steps.length-1].quantity - steps[steps.length-2].quantity):0}
               {' шагов '} 
             {steps?.length >= 2 && steps[steps.length-1].quantity > steps[steps.length-2].quantity ? ' больше':' меньше'},</span>
-            чем вчера
+            чем в прошлый раз
           </div>
         </article>
         <article className='steps-data__card'>

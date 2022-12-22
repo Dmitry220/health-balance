@@ -4,7 +4,7 @@ import Header from '../../Components/Header/Header'
 import { useAppSelector } from '../../utils/hooks/redux-hooks'
 import { dynamicsSelector } from '../../Redux/slice/healthIndexSlice'
 import { Bar } from 'react-chartjs-2'
-import { optionsChartBar,getGradient } from '../../Components/Charts/Chart-options'
+import { optionsChartBar, getGradient } from '../../Components/Charts/Chart-options'
 
 export const DynamicsPage = () => {
 
@@ -27,7 +27,7 @@ export const DynamicsPage = () => {
       value: 10000
     },
     {
-      day: 'Пь',
+      day: 'Пт',
       value: 7000
     },
     {
@@ -73,18 +73,23 @@ export const DynamicsPage = () => {
         </div> */}
       </div>
       <div className='dynamics-page__main-title main-title'>Динамика</div>
-      <div className='dynamics__chart'>
-            <Bar options={optionsChartBar} data={dataDay} />
+      <div className="">
+      <div className="">
+        <div className='dynamics__chart'>
+          <h3>Биологический возраст</h3>
+          <Bar options={optionsChartBar} data={dataDay} />
+        </div>
+        <div className={'dynamics__info'}>
+          <div className='dynamics__value'>
+            {dynamics[dynamics.length-1].biological_age}
           </div>
-          <div className={'dynamics__info'}>
-            <div className='dynamics__value'>
-              120
-            </div>
-            <div className='dynamics__value'>
-            Нет результатов
-            </div>
-    
+          <div className='dynamics__value'>
+            Показатель за {new Date().getFullYear()}
           </div>
+        </div>
+      </div>
+      </div>
+
     </div>
   )
 }

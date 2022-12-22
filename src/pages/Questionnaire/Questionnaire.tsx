@@ -16,6 +16,7 @@ import { ProgressBar } from "../../Components/Progress-bar/Progress-bar";
 import { typesChallenge } from "../../types/enums";
 import { useNavigate } from "react-router-dom";
 import {
+  ACTIVITY_ROUTE,
   HEALTH_INDEX_RESULTS_ROUTE,
   HEALTH_INDEX_ROUTE,
 } from "../../provider/constants-route";
@@ -27,6 +28,7 @@ import { CheckboxWithAnswer } from "../../Components/Quiz/CheckboxWithAnswer";
 import { NumberQuiz } from "../../Components/Quiz/NumberQuiz";
 import { DateQuiz } from "../../Components/Quiz/DateQuiz";
 import { RadioWithAnswer } from "../../Components/Quiz/RadioWithAnswer";
+import { ContinueQuestionaire, StartQuestionaire } from "../Health-index/Health-index-page";
 
 
 export const Questionnaire = () => {
@@ -39,12 +41,17 @@ export const Questionnaire = () => {
   const [finished, setFinished] = useState<boolean>(false)
   const navigation = useNavigate();
 
+  const generateResult = async () => {
+    await dispatch(generateResultsPoll(idPoll))
+    navigation(ACTIVITY_ROUTE)
+   }
+
+
   useEffect(() => {
    // dispatch(getProgressAndIdPolls())
     dispatch(getQuestionnaire());
     dispatch(resetAnswers());
   }, []);
-
 
 
   useEffect(() => {
@@ -55,29 +62,34 @@ export const Questionnaire = () => {
        console.log(progressPoll);
        
        if(progressPoll === 9 ){
-        console.log('Попал');
-        
-        dispatch(generateResultsPoll(idPoll))
-        setFinished(true)
+        console.log('Попал');        
+        generateResult()       
         return
       }    
     }
+    
+    if(progressPoll+1 === 3 &&indexQuestion===2 && !answers[1]['22'].includes(3)){      
+      dispatch(addIndexPageAnswer({'23':null}));
+      setIndexQuestion(prev => prev + 1)      
+    }
+    if(progressPoll+1 === 4 && indexQuestion===1 && (answers[0]['61'] === 8 ||  answers[0]['61'] === 9)){      
+      dispatch(addIndexPageAnswer({'62':null}));
+      dispatch(addIndexPageAnswer({'63':null}));
+      setIndexQuestion(prev => prev + 2)      
+    }
    
   }, [indexQuestion])
+  
 
-   if(finished){
-    return <h1>Конец</h1>
-   }
-
-
-  const answerHandler = (answer: any) => {    
+  const answerHandler = (answer: any) => {       
     dispatch(addIndexPageAnswer(answer));
     setIndexQuestion(prev => prev + 1)
   };
 
   console.log(Object.assign({},...answers));
-  
+ 
 
+  
  return (
     <div className="questionnaire-page">
       {(
@@ -95,8 +107,8 @@ export const Questionnaire = () => {
                   type={typesChallenge.common}
                 />
               </div>
-              <div className="questionnaire-page__question">               
-                <div>
+              <div className="questionnaire-page__question">             
+               <div>
                   {
                     questionnaire[progressPoll]?.questions[indexQuestion]?.answer_type === 1 &&
                     <RadioQuiz

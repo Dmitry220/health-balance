@@ -16,19 +16,22 @@ import {
 } from '../../utils/globalConstants'
 import { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
-import { dynamicsSelector, getDynamics } from '../../Redux/slice/healthIndexSlice'
+import { dynamicsSelector, getDynamics, isLoadingSelector } from '../../Redux/slice/healthIndexSlice'
 
 export const HealthIndexResults = () => {
 
   const dispatch = useAppDispatch()
   const dynamics = useAppSelector(dynamicsSelector)
-
+  const isLoading = useAppSelector(isLoadingSelector)
   const lastDynamic = dynamics[dynamics.length-1]
 
   useEffect(() => {
     dispatch(getDynamics())
   }, [])
 
+  if(isLoading){
+    return <h1>Загрузка...</h1>
+  }
 
   return (
     <div className={'health-index-results-page'}>
@@ -45,7 +48,7 @@ export const HealthIndexResults = () => {
       </div>
       <div className='health-index-results-page__index'>
         <div className='health-index-results-page__index-item'>
-          <CardIndex title={'Уровень глюкозы в крови'} value={1}/>
+          <CardIndex title={'Уровень глюкозы в крови'} value={lastDynamic?.glucose_risk}/>
         </div>
         <div className='health-index-results-page__index-item'>
           <CardIndex title='Индексмассы тела' value={lastDynamic?.body_mass_index}/>
@@ -90,6 +93,12 @@ export const HealthIndexResults = () => {
         </div>
         <div className='health-index-results-page__disease-item'>
         <CardDisease title='Стресс' risk={lastDynamic?.stress_risk}/>
+        </div>
+        <div className='health-index-results-page__disease-item'>
+        <CardDisease title='Уровень выгорания' risk={lastDynamic?.burnout_risk}/>
+        </div>
+        <div className='health-index-results-page__disease-item'>
+        <CardDisease title='Презентеизм ' risk={lastDynamic?.presenteism}/>
         </div>
       </div>
       <Link

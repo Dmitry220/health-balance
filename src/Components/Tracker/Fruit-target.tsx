@@ -17,13 +17,16 @@ export const FruitTarget = () => {
 
   useEffect(() => {
     setTargtesFruits([])
-    for (let index = 0; index < tracker.fruits; index++) {
+    if(tracker.fruits!=0){
+         for (let index = 0; index < tracker.fruits; index++) {
       setTargtesFruits(prev=>[...prev, {
         id: index + 1,
         fruits: 'Фрукт',
         date: index < tracker.fruits/3 ? '12:30' : (index<tracker.fruits*(2/3) ? '15:30':'19:00')
       }])
+    } 
     }
+
   }, [tracker])
 
   console.log(targetsFruit);

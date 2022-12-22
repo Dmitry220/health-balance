@@ -70,7 +70,7 @@ export const WaterTarget = () => {
       return {
         ...item,
         date: Math.ceil(+tracker.wake_up_time.split(':')[0] + 1.6 * i) + ':' + minutes,
-        value: countWater / 10 * 1000 + ' мл'
+        value: Math.ceil(countWater / 10 * 1000) + ' мл'
       }
     }))
   }, [tracker])

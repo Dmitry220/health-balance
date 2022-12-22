@@ -70,6 +70,7 @@ export const CreatingInteresting = () => {
     dispatch(setContentNews(''))
     dispatch(setTitleNews(''))
     dispatch(setImageNews(''))
+    dispatch(setTempImageNews(''))
     dispatch(setRubricNews(0))
   }
 
@@ -88,6 +89,7 @@ export const CreatingInteresting = () => {
             placeholder={'Введите заголовок записи...'}
             value={dataNews.title}
             onChange={handlerTitle}
+            required
           />
           <input
             type='text'
@@ -95,6 +97,7 @@ export const CreatingInteresting = () => {
             placeholder={'Введите аннотацию...'}
             onChange={handlerAnnotation}
             value={dataNews.annotation}
+            required
           />
           <textarea
             className='creating-interesting__field'

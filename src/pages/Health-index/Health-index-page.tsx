@@ -6,7 +6,7 @@ import chart from '../../assets/image/Static-chart.png'
 import { useSelector } from 'react-redux'
 import { HealthIndexResults } from '../Health-index-results/Health-index-results'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
-import { dynamicsSelector, getDynamics, getProgressAndIdPolls, idPolleSelector, interruptPoll, progressPollSelector } from '../../Redux/slice/healthIndexSlice'
+import { dynamicsSelector, getDynamics, getProgressAndIdPolls, idPolleSelector, interruptPoll, isLoadingSelector, progressPollSelector } from '../../Redux/slice/healthIndexSlice'
 import { Questionnaire } from '../Questionnaire/Questionnaire'
 import { FC, useEffect, useState } from 'react'
 import HealthIndexService from '../../services/HealthIndexService'
@@ -16,12 +16,15 @@ export const HealthIndexPage = () => {
   const idPoll = useAppSelector(idPolleSelector)
   const progressPoll = useAppSelector(progressPollSelector)
   const dynamics = useAppSelector(dynamicsSelector)
+  const isLoading = useAppSelector(isLoadingSelector)
 
   const dispatch = useAppDispatch()
 
   useEffect(() => {
+    dispatch(getDynamics())
     dispatch(getProgressAndIdPolls())
   }, []);
+
 
 
   if (dynamics.length) {
@@ -38,12 +41,13 @@ export const HealthIndexPage = () => {
     }  
   }
 
+
   return (
-    <HealthIndexResults />
+    <StartQuestionaire />
   )
 }
 
-const StartQuestionaire: FC = () => {
+export const StartQuestionaire: FC = () => {
 
   const navigate = useNavigate()
 
@@ -76,7 +80,7 @@ const StartQuestionaire: FC = () => {
   )
 }
 
-const ContinueQuestionaire: FC = () => {
+export const ContinueQuestionaire: FC = () => {
 
   const dispatch = useAppDispatch()
   const idPoll = useAppSelector(idPolleSelector)

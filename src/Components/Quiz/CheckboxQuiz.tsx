@@ -37,7 +37,7 @@ const CheckboxQuiz: FC<ITextQuiz> = ({
           answers.map((item) => (
             <div key={item.position}>
               <input
-                checked={value.includes(item.position+1)}
+               // checked={value.includes(item.position+1)}
                 value={item.position+1}
                 type="checkbox"
                 name={"radio" + id}

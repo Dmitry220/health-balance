@@ -72,7 +72,7 @@ export const TopRating = () => {
       </div>
       <div className='top-rating__list list-participant'>
         {
-          topToday.length && topToday.map((item, i) => i > 2 &&
+          topToday.map((item, i) => i > 2 &&
 
             <Link to={PROFILE_MEMBER_ROUTE + '/' + item.id} className='list-participant__item' key={i}>
               <div className='list-participant__column'>

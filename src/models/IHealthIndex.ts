@@ -35,4 +35,7 @@ export interface IDynamics {
   oncology_risk: number;
   chronic_risk: number;
   cardio_risk: number;
+  burnout_risk: number;
+  presenteism: number;
+  glucose_risk: number;
 }

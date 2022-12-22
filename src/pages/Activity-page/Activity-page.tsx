@@ -221,6 +221,7 @@ const Graphs = () => {
   const namesTabsDynamics = ['Дни', 'Недели', 'Месяцы']
   const currentStepsCount = useAppSelector(currentStepsCountSelector)
   const days = useAppSelector(daysSelector)
+  const steps = useAppSelector(stepsPerDaySelector)
   const months = useAppSelector(monthsSelector)
   const weeks = useAppSelector(weeksSelector)
   const purpose = useAppSelector(purposeSelector)
@@ -321,8 +322,7 @@ const Graphs = () => {
             <span>км</span>
           </div>
           <div className='dynamics__value'>
-            {purpose &&
-              ((currentStepsCount * 100) / purpose?.quantity).toFixed(2)}
+          {purpose && steps ? (steps[steps.length-1]?.finished === 1 ? 100 :currentStepsCount *100 / purpose?.quantity) : 0}
             %<br /> <span>от цели</span>
           </div>
         </div>
@@ -339,8 +339,7 @@ const Graphs = () => {
             {((weeks[0].count * 0.7) / 1000).toFixed(2)} <br /> <span>км</span>
           </div>
           <div className='dynamics__value'>
-            {purpose &&
-              ((currentStepsCount * 100) / purpose?.quantity).toFixed(2)}
+            {purpose && steps ? (steps[steps.length-1]?.finished === 1 ? 100 :currentStepsCount *100 / purpose?.quantity) : 0}
             %<br /> <span>от цели</span>
           </div>
         </div>
@@ -358,8 +357,7 @@ const Graphs = () => {
             <br /> <span>км</span>
           </div>
           <div className='dynamics__value'>
-            {purpose &&
-              ((currentStepsCount * 100) / purpose?.quantity).toFixed(2)}
+            {purpose && steps ? (steps[steps.length-1]?.finished === 1 ? 100 :currentStepsCount *100 / purpose?.quantity) : 0}
             %<br /> <span>от цели</span>
           </div>
         </div>

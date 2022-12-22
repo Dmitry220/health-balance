@@ -39,12 +39,15 @@
   min-height: 104px;
   &_1{
     background: linear-gradient(180deg, #00A62E 0%, #176B09 100%);
+    color: #00A62E
   }
   &_2{
     background: linear-gradient(180deg, #D7CF15 0%, #A69500 100%);
+    color: #D7CF15
   }
   &_3{
     background: linear-gradient(180deg, #D71515 0%, #862221 100%);
+    color: #FF0000;
   }
 
   &__head {
@@ -75,6 +78,15 @@
     line-height: 82.5%;
 
     color: #171717;
+    &_1{
+      color: #fff;
+    }
+    &_2{
+      color: #171717
+    }
+    &_3{
+      color: #fff;
+    }
   }
 }
 
