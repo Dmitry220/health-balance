@@ -73,6 +73,7 @@ export const generateResultsPoll = createAsyncThunk(
   async (id: number) => {
     const response = await HealthIndexService.generateResultsPoll(id);
     console.log(response);
+    return response.data
   }
 );
 
@@ -93,6 +94,9 @@ export const healthIndexSlice = createSlice({
     },
     resetAnswers: (state) => {
       state.answers = [];
+    },
+    resetQuestionnaire: (state) => {
+      state.questionnaire = [];
     },
   },
   extraReducers: (builder) => {
@@ -120,6 +124,13 @@ export const healthIndexSlice = createSlice({
       saveCurrentResult.fulfilled,
       (state, action: PayloadAction<{ progress: number }>) => {
         state.progress = action.payload.progress - 1;
+        state.isLoading = false
+      }
+    );
+    builder.addCase(
+      saveCurrentResult.pending,
+      (state, action) => {
+        state.isLoading = true
       }
     );
     builder.addCase(
@@ -136,10 +147,23 @@ export const healthIndexSlice = createSlice({
       }
     );
 
+    builder.addCase(
+      generateResultsPoll.pending,
+      (state) => {
+        state.isLoading = true;
+      }
+    );
+    builder.addCase(
+      generateResultsPoll.fulfilled,
+      (state) => {
+        state.isLoading = false;
+      }
+    );
+
   },
 });
 
-export const { addIndexPageAnswer, resetAnswers } = healthIndexSlice.actions;
+export const { addIndexPageAnswer, resetAnswers,resetQuestionnaire } = healthIndexSlice.actions;
 
 export const questionnaireSelector = (state: RootState) =>
   state.healthIndex.questionnaire;

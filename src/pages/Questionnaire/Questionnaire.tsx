@@ -9,8 +9,10 @@ import {
   getProgressAndIdPolls,
   getQuestionnaire,
   idPolleSelector,
+  isLoadingSelector,
   progressPollSelector,
   questionnaireSelector,
+  resetQuestionnaire,
 } from "../../Redux/slice/healthIndexSlice";
 import { ProgressBar } from "../../Components/Progress-bar/Progress-bar";
 import { typesChallenge } from "../../types/enums";
@@ -40,15 +42,18 @@ export const Questionnaire = () => {
   const progressPoll = useAppSelector(progressPollSelector)
   const [indexQuestion, setIndexQuestion] = useState(0)
   const [finished, setFinished] = useState<boolean>(false)
+  const isLoading = useAppSelector(isLoadingSelector)
+
 
   const generateResult = async () => {
     await dispatch(generateResultsPoll(idPoll))
+    dispatch(resetQuestionnaire())
     setFinished(true)
   }
 
 
   useEffect(() => {
-    // dispatch(getProgressAndIdPolls())
+    // dispatch(getProgressAndIdPolls())    
     dispatch(getQuestionnaire());
     dispatch(resetAnswers());
   }, []);
@@ -58,7 +63,9 @@ export const Questionnaire = () => {
     if (questionnaire[progressPoll]?.questions.length === indexQuestion) {
       dispatch(saveCurrentResult(idPoll));
       dispatch(resetAnswers());
-      setIndexQuestion(0)
+      if(progressPoll!==9){
+        setIndexQuestion(0)
+      }      
 
       if (progressPoll === 9) {
         generateResult()
@@ -85,16 +92,21 @@ export const Questionnaire = () => {
   };
 
   console.log(Object.assign({}, ...answers));
+console.log(questionnaire);
+  if(isLoading){
+    return <h1>Загрузка...</h1>
+  }
 
   if (finished) {
     return <ModalStatus route={HEALTH_INDEX_ROUTE} subTitle={'Нажмите ОК для просмотра результатов'} />
   }
 
+
   return (
     <div className="questionnaire-page">
       {(
         <div>
-          {questionnaire ? (
+          {questionnaire.length ? (
             <div>
               <Header title={"Анкета #" + (progressPoll + 1)} />
               <div className="questionnaire-page__progress-bar">
@@ -157,7 +169,7 @@ export const Questionnaire = () => {
               </div>
             </div>
           ) : (
-            <div>Анкета заполнена</div>
+            <div></div>
           )}
         </div>
       )}
