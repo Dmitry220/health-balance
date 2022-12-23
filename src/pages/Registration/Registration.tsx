@@ -14,7 +14,7 @@ export const RegistrationPage = () => {
             stage={stageRegistration.email}
             order={order}
             setOrder={setOrder}
-            title={'Какая у вас почта?'}
+            title={'Укажите вашу почту'}
           />
         )
       case 1:
@@ -23,7 +23,7 @@ export const RegistrationPage = () => {
             stage={stageRegistration.password}
             order={order}
             setOrder={setOrder}
-            title={'Какой у вас пароль?'}
+            title={'Укажите ваш пароль'}
           />
         )
       case 2:
@@ -32,7 +32,7 @@ export const RegistrationPage = () => {
             stage={stageRegistration.telephone}
             order={order}
             setOrder={setOrder}
-            title={'Ваш телефон'}
+            title={'Ваш номер телефона'}
           />
         )
       case 3:
@@ -50,7 +50,7 @@ export const RegistrationPage = () => {
             stage={stageRegistration.gender}
             order={order}
             setOrder={setOrder}
-            title={'Укажите пол'}
+            title={'Укажите ваш пол'}
           />
         )
       case 5:
@@ -59,7 +59,7 @@ export const RegistrationPage = () => {
             stage={stageRegistration.userName}
             order={order}
             setOrder={setOrder}
-            title={'Как вас зовут?'}
+            title={'Укажите ваше имя'}
           />
         )
       case 6:
@@ -68,7 +68,7 @@ export const RegistrationPage = () => {
             stage={stageRegistration.surname}
             order={order}
             setOrder={setOrder}
-            title={'Какая у вас фамилия?'}
+            title={'Укажите вашу фамилию'}
           />
         )
       case 7:
@@ -77,7 +77,7 @@ export const RegistrationPage = () => {
             stage={stageRegistration.platform}
             order={order}
             setOrder={setOrder}
-            title={'Выберите платформу'}
+            title={'Выберите вашу платформу'}
           />
         )
       case 8:
@@ -86,7 +86,7 @@ export const RegistrationPage = () => {
             stage={stageRegistration.photo}
             order={order}
             setOrder={setOrder}
-            title={'Установите фото профиля'}
+            title={'Установите фото для вашего профиля'}
           />
         )
       case 9:

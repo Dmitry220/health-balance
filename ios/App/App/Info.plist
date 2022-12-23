@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-        <string>HealthBalance</string>
+	<string>HealthBalance</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -22,28 +22,48 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Для съемки фото и видео</string>
+	<key>NSHealthShareUsageDescription</key>
+	<string>Чтобы подсчитать количество шагов</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>Чтобы обновлять количество шагов</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Для повышения точности подсчета шагов</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Для повышения точности подсчета шагов</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Для повышения точности подсчета шагов</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Для записи видео со звуком</string>
+	<key>NSMotionUsageDescription</key>
+	<string>Мы используем датчик движения, чтобы отслеживать количество ваших шагов</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Для сохранения фотографий с камеры в библиотеку</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Чтобы выбрать фотографии из библиотеки</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
+	<string>LaunchScreen.storyboard</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
 	</array>
+	<key>UIStatusBarHidden</key>
+	<true/>
+	<key>UIStatusBarStyle</key>
+	<string>UIStatusBarStyleLightContent</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>UISupportedInterfaceOrientations~ipad</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<true/>
+	<false/>
 </dict>
 </plist>
