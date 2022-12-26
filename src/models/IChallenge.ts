@@ -12,8 +12,8 @@ export interface IChallengeCard {
   max_peoples?: number;
   register_team?: number;
   total_lessons?: number;
-  active: boolean;
-  purpose?: ICreatingPurpose;
+  active: number;
+  purpose: ICreatingPurpose;
   teams?: any;
   platform: {
     id: number;
@@ -25,6 +25,7 @@ export interface IChallengeCard {
     status: boolean;
   };
   homeworks: number;
+  remains_to_pass: number
 }
 
 export interface ICommandList {

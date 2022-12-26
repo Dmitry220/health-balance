@@ -121,7 +121,7 @@ export const NewChallengeInfo = () => {
               Принять участие
             </Link>
           )}
-          {challenge.type === 1 && (
+          {challenge.type === 3 && (
             <div
               className='new-challenge-info__button _button-white'
               onClick={enterIntoChallenge}
@@ -129,7 +129,7 @@ export const NewChallengeInfo = () => {
               Принять участие
             </div>
           )}
-          {challenge.type === 1 && (
+          {challenge.type === 3 && (
             <>
               {/* {' '}
               <div className='new-challenge-info__title-block block-title'>

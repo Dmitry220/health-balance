@@ -105,11 +105,13 @@ export function getItemsMinutes() {
 export const typeConversion = (type: number) => {
   switch (type) {
     case 1:
-      return 'Личный'
+      return 'Общий'
     case 2:
       return 'Командный'
+    case 3:
+      return 'Личный'
     default:
-      return 'Общий'
+        return 'Общий'
   }
 }
 export const rubricConversion = (type: number) => {
@@ -132,11 +134,11 @@ export const showToast = async (text: string) => {
   })
 }
 
-export function getWeek(d:any) {
+export function getWeek(d: any) {
   d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
- 
-  d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay()||7));
-  let yearStart:any = new Date(Date.UTC(d.getUTCFullYear(),0,1));
-  var weekNo = Math.ceil(( ( (d - yearStart) / 86400000) + 1)/7);
+
+  d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+  let yearStart: any = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+  var weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
   return [d.getUTCFullYear(), weekNo];
 }

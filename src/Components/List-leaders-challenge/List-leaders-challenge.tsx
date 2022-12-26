@@ -13,8 +13,8 @@ interface IListLeadersChallengeItem {
 }
 
 interface IListLeadersChallenge {
-  items: IListLeadersChallengeItem[]
-  role: roles
+  items?: IListLeadersChallengeItem[]
+  role: number
 }
 
 export const ListLeadersChallenge: FC<IListLeadersChallenge> = ({
@@ -41,7 +41,7 @@ export const ListLeadersChallenge: FC<IListLeadersChallenge> = ({
         <div className='leader-challenge__title'>Прогресс</div>
       </div>
       <div className='leader-challenge__items'>
-        {items.map((item, i) => (
+        {items&&items.map((item, i) => (
           <article className='leader-challenge__item item-leader' key={i}>
             <div className='item-leader__column item-leader__column_1'>
               <div className={'item-leader__place ' + colorReward(item.place)}>
@@ -49,7 +49,7 @@ export const ListLeadersChallenge: FC<IListLeadersChallenge> = ({
               </div>
               <div
                 className={
-                  role === roles.members
+                  role === 3
                     ? 'item-leader__avatar item-leader__avatar_member'
                     : 'item-leader__avatar'
                 }

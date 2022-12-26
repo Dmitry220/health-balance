@@ -22,35 +22,14 @@ export const ActiveChallengePage = () => {
   const params = useParams()
   const dispatch = useAppDispatch()
   const challenge = useAppSelector(challengeSelector)
-
-  console.log(params)
-
-  const itemsLeaders = [
-    {
-      reward: 40,
-      place: 1,
-      isYourCommand: true,
-      avatar:
-        'https://e7.pngegg.com/pngimages/36/880/png-clipart-avatar-series-wykop-pl-designer-graphic-artist-designer-face-cartoon.png',
-      title: 'Команда №1'
-    },
-    {
-      reward: 40,
-      place: 2,
-      isYourCommand: false,
-      avatar:
-        'https://avatars.mds.yandex.net/i?id=3fd93707d9fb159c82e4a25dc15d9e2c-4885166-images-thumbs&n=13&exp=1',
-      title: 'Команда №2'
-    }
-  ]
-
+  let percent = challenge?.purpose && ((challenge.purpose?.quantity - challenge.remains_to_pass) * 100) / challenge.purpose?.quantity
   const itemsTask = [
     {
       title:
-        challenge?.type === 1
+        challenge?.type === 3
           ? 'Шагов для завершения'
           : 'Километров для завершения',
-      value: 0,
+      value: challenge?.purpose ? challenge.purpose.quantity - challenge.remains_to_pass : 0,
       text: challenge?.purpose?.quantity + 'к',
       id: 1
     },
@@ -59,12 +38,6 @@ export const ActiveChallengePage = () => {
       value: challenge?.homeworks || 0,
       text: challenge?.total_lessons + ' лекции',
       id: 2
-    },
-    {
-      title: 'Домашние задания',
-      value: challenge?.homeworks || 0,
-      text: challenge?.total_lessons + ' ДЗ',
-      id: 3
     }
   ]
 
@@ -95,9 +68,9 @@ export const ActiveChallengePage = () => {
             ) + ' title-17'
           }
         >
-          Общий прогресс <span>0%</span> / 100%
+          Общий прогресс <span>{percent}%</span> / 100%
         </div>
-        <ProgressBar percent={0} type={challenge?.type || 1} />
+        <ProgressBar percent={percent || 0} type={challenge?.type || 1} />
       </div>
       <div className='active-challenge-page__tasks tasks-active-challenge'>
         <div className='tasks-active-challenge__head'>
@@ -124,7 +97,7 @@ export const ActiveChallengePage = () => {
       <div className='active-challenge-page__title-block block-title'>
         Лидеры челленджа
       </div>
-      <ListLeadersChallenge items={itemsLeaders} role={roles.commands} />
+      <ListLeadersChallenge role={challenge?.type || 1} />
     </div>
   )
 }

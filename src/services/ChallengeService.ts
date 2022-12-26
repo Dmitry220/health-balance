@@ -64,4 +64,10 @@ export default class ChallengeService {
       `/v2/challenges/${id}/purpose_done/?token=${localStorage.getItem('token')}`
     )
   }
+
+  static async completeChallenge(id: number) {
+    return $api.post(
+      `/v2/challenges/${id}/complete/?token=${localStorage.getItem('token')}`
+    )
+  }
 }

@@ -19,9 +19,9 @@ export const TypeChallenge = () => {
         <input
           type='radio'
           name={'type-challenge'}
-          value={1}
+          value={3}
           id={'personal'}
-          defaultChecked={type === 1}
+          defaultChecked={type === 3}
           className='type-challenge__input'
         />
         <label htmlFor='personal' className='type-challenge__label'>

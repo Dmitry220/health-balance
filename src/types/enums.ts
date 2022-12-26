@@ -4,9 +4,9 @@ export enum roles {
 }
 
 export enum typesChallenge {
-  personal = 1,
+  personal = 3,
   command = 2,
-  common = 3
+  common = 1
 }
 
 export enum stageRegistration {

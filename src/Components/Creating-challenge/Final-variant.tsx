@@ -109,7 +109,7 @@ export const FinalVariant = () => {
                 dispatch(setTypeChallenge(+e.target.value))
               }
             >
-              <option value='1'>Личный</option>
+              <option value='3'>Личный</option>
               <option value='2'>Командный</option>
             </select>
             <img src={icon_edit} alt='' />
@@ -183,7 +183,7 @@ export const FinalVariant = () => {
           <div className='card-task__container'>
             <div className='card-task__title'>Шагов пройдено</div>
             <div className={definitionColor(type, 'card-task__count')}>
-              {0 + '/' + creatingPurpose.quantity + 'км'}
+              {0 + '/' + creatingPurpose.quantity + (type===3 ? ' шагов': ' км')}
             </div>
           </div>
         </article>

@@ -10,6 +10,7 @@ import { IMAGE_URL } from '../../http'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
 import { getStepsPerDay, stepsPerDaySelector } from '../../Redux/slice/appSlice'
 import { IStepsPerDay } from '../../models/IApp'
+import ChallengeService from '../../services/ChallengeService'
 
 interface ICardChallenge {
   challenge: IChallengeCard
@@ -18,21 +19,21 @@ interface ICardChallenge {
 
 export const CardChallenge: FC<ICardChallenge> = ({ challenge }) => {
 
-  const steps = useAppSelector(stepsPerDaySelector)
   const dispatch = useAppDispatch()
 
-  //@ts-ignore
-  let percent = steps?.reduce((accumulator:number, currentValue:IStepsPerDay) => accumulator + +currentValue.quantity,0) * 100 / challenge.purpose?.quantity >=100 && 100
-  
-console.log(typeof percent);
+  let percent = challenge.purpose && ((challenge.purpose?.quantity - challenge.remains_to_pass) * 100) / challenge.purpose?.quantity
 
-  useEffect(()=>{
-    const data = { end_date: new Date(challenge.end_date*1000).toLocaleDateString(), start_date:'15.12.2022' }
-    dispatch(getStepsPerDay(data))
-    console.log(data);    
-  }, [])
-  
-  console.log(steps);
+  useEffect(() => {
+    async function asyncQuery() {
+      if((challenge.purpose.quantity - challenge.remains_to_pass) >= challenge.purpose.quantity && challenge.homeworks === challenge.total_lessons ){
+        const response = await ChallengeService.completeChallenge(challenge.id)
+        console.log(response);      
+      }
+    }
+    asyncQuery()
+  }, [challenge.remains_to_pass])
+
+  console.log(challenge);
 
   return (
     <Link
@@ -83,7 +84,7 @@ console.log(typeof percent);
             <span>Дней</span>
           </div>
           <div className='card-challenge__days'>
-            {challenge.purpose?.quantity} <span>{} Шагов</span>
+            {challenge.purpose?.quantity} <span>{ } Шагов</span>
           </div>
           <div className='card-challenge__days'>
             {challenge.homeworks}/{challenge.total_lessons} <span>Лекций</span>

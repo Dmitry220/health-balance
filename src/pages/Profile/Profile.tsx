@@ -15,11 +15,13 @@ import {
 import { logout } from '../../Redux/slice/authSlice'
 import { IMAGE_URL } from '../../http'
 import settingsIcon from "../../assets/image/icon_option.svg";
+import { balanceSelector } from '../../Redux/slice/appSlice'
 
 
 export const Profile = () => {
 
   const dataUser = useAppSelector(dataUserSelector)
+  const ballance = useAppSelector(balanceSelector)
   const navigation = useNavigate();
   const dispatch = useAppDispatch()
   const idUser = Number(localStorage.getItem('id'))
@@ -55,16 +57,16 @@ export const Profile = () => {
         </div>
         <div className='profile__buttons'>
           <button className='profile__button-balance'>
-            Баланс: 365 <img src={icon_reward} alt='reward' />
+            Баланс: {ballance} <img src={icon_reward} alt='reward' />
           </button>
           <button className='_button-white'>Обменять</button>
         </div>
       </div>
       <div className='profile__block'>
-        <ProfileSteps steps={237456} kilometer={456} />
+        <ProfileSteps steps={dataUser.steps} kilometer={+((dataUser.steps * 0.7) / 1000).toFixed(2)} />
       </div>
       <div className='profile__block'>
-        <ProfileChallenge />
+      <ProfileChallenge challenges={dataUser.challenges} completed_challenges={dataUser.completed_challenges}/>
       </div>
       <div className='profile__block'>
         <div className='profile__out' onClick={() => dispatch(logout())}>

@@ -27,10 +27,10 @@ import FileService from '../../services/FilesServices'
 import { rubricConversion } from '../../utils/common-functions'
 
 export const CreatingInteresting = () => {
-  const [coverPath, setCoverPath] = useState<any | null>(null)
+  const [coverPath, setCoverPath] = useState<string>('')
   const [showModal, setShowModal] = useState<boolean>(false)
   const tempImage = useAppSelector(tempImageNewsSelector)
-
+  const asss = useAppSelector(creatingNewsSelector)
   const takePicture = async (e: ChangeEvent<HTMLInputElement>) => {
     const formData = new FormData()
     const file: any = e.target.files
@@ -50,7 +50,9 @@ export const CreatingInteresting = () => {
     dispatch(setTitleNews(e.target.value))
 
   const handlerContent = (e: ChangeEvent<HTMLTextAreaElement>) =>
-    dispatch(setContentNews(e.target.value))
+    {dispatch(setContentNews(e.target.value))
+    setCoverPath(e.target.value)
+  }
 
   const handlerAnnotation = (e: ChangeEvent<HTMLInputElement>) =>
     dispatch(setAnnotationNews(e.target.value))
@@ -63,6 +65,7 @@ export const CreatingInteresting = () => {
     reset()
     setShowModal(true)
   }
+console.log(asss.content);
 
   const reset = () => {
     dispatch(setPushNews(0))
@@ -149,6 +152,7 @@ export const CreatingInteresting = () => {
           Опубликовать
         </button>
       </div>
+   <div style={{whiteSpace:'pre-line'}}>   {asss.content}</div>
     </div>
   )
 }

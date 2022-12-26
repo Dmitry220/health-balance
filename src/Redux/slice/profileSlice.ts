@@ -1,71 +1,75 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction } from '@reduxjs/toolkit'
-import { RootState } from '../store'
-import { IUser } from '../../models/IUsers'
-import UserService from '../../services/UserServices'
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "../store";
+import { IUser } from "../../models/IUsers";
+import UserService from "../../services/UserServices";
 
 export interface IProfile {
-  dataUser: IUser
-  isSuccesfullRequest: boolean
+  dataUser: IUser;
+  isSuccesfullRequest: boolean;
 }
 
 const initialState: IProfile = {
   dataUser: {
     id: 0,
-    name: '',
-    surname: '',
+    name: "",
+    surname: "",
     gender: 1,
     birthday: 0,
-    phone: '',
-    email: '',
-    avatar: ''
+    phone: "",
+    email: "",
+    avatar: "",
+    challenges: 0,
+    completed_challenges: 0,
+    role: 0,
+    steps: 0,
   },
-  isSuccesfullRequest: false
-}
+  isSuccesfullRequest: false,
+};
 
-export const setUserData = createAsyncThunk('dataUser', async (id: number) => {
-  const response = await UserService.getUserDataOnId(id)
-  return response.data.data
-})
+export const setUserData = createAsyncThunk("dataUser", async (id: number) => {
+  const response = await UserService.getUserDataOnId(id);
+  return response.data.data;
+});
 
 export const updateProfile = createAsyncThunk(
-  'updateProfile',
-  async (data: IUser) => {
-    const params = new URLSearchParams()
-    data.surname && params.append('surname', data.surname)
-    data.gender && params.append('gender', data.gender + '')
-    data.name && params.append('name', data.name)
-    data.birthday && params.append('birthday', data.birthday + '')
-    data.phone && params.append('phone', data.phone)
-    data.email && params.append('email', data.email)
-    data.avatar && params.append('avatar', data.avatar)
-    const response = await UserService.editingProfile(params)
-    console.log(response.data)
+  "updateProfile",
+  async (data: any) => {
+    const params = new URLSearchParams();
+    data.surname && params.append("surname", data.surname);
+    data.gender && params.append("gender", data.gender + "");
+    data.name && params.append("name", data.name);
+    data.birthday && params.append("birthday", data.birthday + "");
+    data.phone && params.append("phone", data.phone);
+    data.email && params.append("email", data.email);
+    data.avatar && params.append("avatar", data.avatar);
+    const response = await UserService.editingProfile(params);
+    console.log(response.data);
   }
-)
+);
 
 export const profileSlice = createSlice({
-  name: 'profile',
+  name: "profile",
   initialState: initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(
       setUserData.fulfilled,
       (state, action: PayloadAction<IUser>) => {
-        state.dataUser = action.payload
-        state.isSuccesfullRequest = true
+        state.dataUser = action.payload;
+        state.isSuccesfullRequest = true;
       }
-    )
+    );
     builder.addCase(setUserData.rejected, (state) => {
-      state.isSuccesfullRequest = false
-    })
-  }
-})
+      state.isSuccesfullRequest = false;
+    });
+  },
+});
 
-export const {} = profileSlice.actions
+export const {} = profileSlice.actions;
 
-export const dataUserSelector = (state: RootState) => state.profile.dataUser
+export const dataUserSelector = (state: RootState) => state.profile.dataUser;
 export const isSuccesfullRequestSelector = (state: RootState) =>
-  state.profile.isSuccesfullRequest
+  state.profile.isSuccesfullRequest;
 
-export default profileSlice.reducer
+export default profileSlice.reducer;

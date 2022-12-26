@@ -37,7 +37,7 @@ const initialState: IChallenge = {
     platform: 0,
     title: "",
     description: "",
-    type: 1,
+    type: 3,
     image: "",
     startDate: new Date(),
     endDate: END_DATE,
@@ -51,60 +51,34 @@ const initialState: IChallenge = {
   challenge_id: 0,
   challenge: null,
   commandList: [],
-  membersCommandList: {customers:[],title:''},
+  membersCommandList: { customers: [], title: "" },
 };
 
 export const creatingChallenge = createAsyncThunk<unknown>(
   "creatingChallenge",
   async (arg, { getState }) => {
     const state: any = getState();
-    console.log(
-      state.creatingChallenge.creatingChallenge.startDate.getTime() / 1000
-    );
     const formData = new FormData();
-    formData.append(
-      "platform",
-      state.creatingChallenge.creatingChallenge.platform
-    );
-    formData.append("title", state.creatingChallenge.creatingChallenge.title);
-    formData.append(
-      "description",
-      state.creatingChallenge.creatingChallenge.description
-    );
-    formData.append("type", state.creatingChallenge.creatingChallenge.type);
-    formData.append("image", state.creatingChallenge.creatingChallenge.image);
-    formData.append(
-      "start_date",
-      "" + state.creatingChallenge.creatingChallenge.startDate.getTime() / 1000
-    );
-    formData.append(
-      "end_date",
-      "" + state.creatingChallenge.creatingChallenge.endDate.getTime() / 1000
-    );
-    formData.append(
-      "team_amount",
-      state.creatingChallenge.creatingChallenge.team_amount
-    );
-    formData.append(
-      "max_peoples",
-      state.creatingChallenge.creatingChallenge.max_peoples
-    );
+    formData.append("platform", state.challenges.creatingChallenge.platform);
+    formData.append("title", state.challenges.creatingChallenge.title);
+    formData.append("description",state.challenges.creatingChallenge.description);
+    formData.append("type", state.challenges.creatingChallenge.type);
+    formData.append("image", state.challenges.creatingChallenge.image);
+    formData.append("start_date","" +state.challenges.creatingChallenge.startDate.setHours(0, 0, 0, 0) / 1000);
+    formData.append("end_date","" +state.challenges.creatingChallenge.endDate.setHours(0, 0, 0, 0) / 1000);
+    formData.append("team_amount",state.challenges.creatingChallenge.team_amount);
+    formData.append("max_peoples",state.challenges.creatingChallenge.max_peoples);
     try {
       const response = await ChallengeService.creatingChallenge(formData);
-      //console.log(response);
+      console.log(response);
 
       const formDataPurpose = new FormData();
-      formDataPurpose.append(
-        "quantity",
-        state.purposes.creatingPurpose.quantity
-      );
+      formDataPurpose.append("quantity",state.purposes.creatingPurpose.quantity);
       formDataPurpose.append("type", state.purposes.creatingPurpose.type);
       formDataPurpose.append("reward", state.purposes.creatingPurpose.reward);
       formDataPurpose.append("challenge", response.data.challenge_id);
 
-      const responsepurpose = await ChallengeService.creatingPurpose(
-        formDataPurpose
-      );
+      const responsepurpose = await ChallengeService.creatingPurpose(formDataPurpose);
       console.log(responsepurpose);
       return await response.data.challenge_id;
     } catch (e) {
@@ -185,10 +159,10 @@ export const challengeSlice = createSlice({
       (state, action: PayloadAction<IChallengeCard[]>) => {
         const allChallenges = action.payload;
         state.activeChallenges = allChallenges.filter(
-          (challenge) => challenge.active === true
+          (challenge) => challenge.active === 1
         );
         state.newChalenges = allChallenges.filter(
-          (challenge) => challenge.active === false
+          (challenge) => challenge.active === 0
         );
         state.isLoading = false;
       }
@@ -197,7 +171,7 @@ export const challengeSlice = createSlice({
       state.isLoading = true;
     });
     builder.addCase(getListChallenges.rejected, (state) => {
-      state.isLoading = false;      
+      state.isLoading = false;
       state.activeChallenges = [];
     });
     builder.addCase(creatingChallenge.pending, (state) => {

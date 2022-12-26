@@ -45,7 +45,7 @@ console.log(idNewComment);
       <div className='list-comments__items'>
         {comments.map(comment=> <ItemComment comment={comment} key={comment.id} setAuthor={setAuthor} setShowForm={setShowForm} setParentId={setParentId}/>)}
       </div>
-      <div className="list-comments">
+      <div className="list-comments" style={{padding:0}}>
           {showForm && <CommentForm parentId={parentId} author={author} setShowForm={setShowForm}/>}
       </div>   
     </div>

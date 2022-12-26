@@ -65,7 +65,7 @@ export const CreatingChallengePage = () => {
           <button
             className='creating-challenge-page__button _button-white'
             onClick={() => {
-              if (type === 1 && order === 7) {
+              if (type === 3 && order === 7) {
                 setOrder((prev) => prev - 2)
               } else {
                 setOrder((prev) => prev - 1)
@@ -94,7 +94,7 @@ export const CreatingChallengePage = () => {
             }
             disabled={disabledButton}
             onClick={() => {
-              if (type === 1 && order === 5) {
+              if (type === 3 && order === 5) {
                 setOrder((prev) => prev + 2)
               } else {
                 setOrder((prev) => prev + 1)

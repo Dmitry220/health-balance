@@ -17,7 +17,7 @@ export const CreatingTargets = () => {
   const minReward = 0
   const maxReward = 200
   const minDistance = 0
-  const maxDistance = type === 1 ? 25000 : 100
+  const maxDistance = type === 3 ? 25000 : 100
 
   const dispatch = useAppDispatch()
 
@@ -70,7 +70,7 @@ export const CreatingTargets = () => {
               Цель челленджа
             </div>
             <div className='choice-target__value creating-title'>
-              {creatingPurpose?.quantity}{ type === 1 ? ' шагов' : 'км'}
+              {creatingPurpose?.quantity}{ type === 3 ? ' шагов' : ' км'}
             </div>
           </div>
           <input

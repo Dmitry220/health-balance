@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect,useState } from 'react'
 import './motivation.scss'
 import iconClock from '../../assets/image/Interesting/clock.svg'
 import iconComments from '../../assets/image/icon-comments-fill.svg'
@@ -12,12 +12,25 @@ import {
 } from '../../Redux/slice/newsSlice'
 import { dataUserSelector } from '../../Redux/slice/profileSlice'
 import { IMAGE_URL } from '../../http'
+import NewsService from '../../services/NewsService'
+import { showToast } from '../../utils/common-functions'
 
 export const MotivationCard = () => {
   const params = useParams()
   const dispatch = useAppDispatch()
   const news = useAppSelector(newsByIdSelector)
   const isLoading = useAppSelector(isLoadingSelector)
+  const [isLike, setLike] = useState<boolean>(false)
+
+  const like = async () => {
+    const response = await NewsService.likeNews(Number(params.id))
+    console.log(response);
+    if(response.data.data.success === 1){
+       setLike(true)
+    }else{
+      await showToast('Вы уже лайк ставили')
+    }    
+  }
 
   useEffect(() => {
     dispatch(getNewsById(Number(params.id)))
@@ -46,9 +59,8 @@ export const MotivationCard = () => {
               {news.title}
             </div>
             <div className='motivation__feed-back feed-back'>
-              <div className='feed-back__favourite'>
-                <img src={iconFavourite} alt='favourite' />
-                {news.likes}
+              <div className='feed-back__favourite' onClick={like} > 
+                {news.likes + (isLike ? 1 : 0)} <span style={{color: isLike ? 'red' : 'white',fontSize: 18}}>❤</span> 
               </div>
               <div className='feed-back__comments'>
                 <img src={iconComments} alt='comments' />

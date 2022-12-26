@@ -30,11 +30,14 @@ export const ChallengePage = () => {
     (item) => item.type === 2 && item
   )
   const personalChallenge = newChallenges?.filter(
-    (item) => item.type === 1 && item
+    (item) => item.type === 3 && item
   )
   const isLoading = useAppSelector(isLoadingSelector)
 
   const dispatch = useAppDispatch()
+
+  console.log(newChallenges);
+  
 
   useEffect(() => {
     dispatch(getListChallenges())
