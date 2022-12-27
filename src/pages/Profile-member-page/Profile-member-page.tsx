@@ -19,15 +19,21 @@ export const ProfileMemberPage = () => {
 
   return (
     <div className={'profile-member-page'}>
-      <Header title={'Профиль учатсника'} />
+      <Header title={'Профиль участника'} />
       <div className='profile-member-page__block'>
         <ProfileMemberHead />
       </div>
       <div className='profile-member-page__block'>
-      <ProfileSteps steps={infoUser.steps} kilometer={+((infoUser.steps * 0.7) / 1000).toFixed(2)} />
+        <ProfileSteps
+          steps={infoUser.steps}
+          kilometer={+((infoUser.steps * 0.7) / 1000).toFixed(2)}
+        />
       </div>
       <div className='profile-member-page__block'>
-        <ProfileChallenge challenges={infoUser.challenges} completed_challenges={infoUser.completed_challenges}/>
+        <ProfileChallenge
+          challenges={infoUser.challenges}
+          completed_challenges={infoUser.completed_challenges}
+        />
       </div>
       <div className='profile-member-page__block'>
         <ProfileMemberContact />

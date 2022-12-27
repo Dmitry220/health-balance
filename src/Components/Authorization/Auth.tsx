@@ -85,9 +85,7 @@ export const Auth = () => {
           </Link>
         </div>
         <div className='auth__links'>
-          <Link to={REGISTRATION_ROUTE} className={'auth__link link-auth'}>
-            У вас ещё нет аккаунта?
-          </Link>
+          <div className={'auth__link link-auth'}>У вас ещё нет аккаунта?</div>
           <Link
             to={REGISTRATION_ROUTE}
             className={'auth__link link-auth yellow'}
