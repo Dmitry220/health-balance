@@ -20,6 +20,7 @@ import {
   newsSelector,
   psyholgySelector
 } from '../../Redux/slice/newsSlice'
+import { dataUserSelector } from '../../Redux/slice/profileSlice'
 
 export const InterestingPage = () => {
   const dispatch = useAppDispatch()
@@ -28,12 +29,11 @@ export const InterestingPage = () => {
   const motivationNews = useAppSelector(motivationSelector)
   const instructionNews = useAppSelector(instructionNewsSelector)
   const isLoading = useAppSelector(isLoadingSelector)
-
+  const dataUser = useAppSelector(dataUserSelector)
   const [value, setValue] = React.useState<number>(0)
 
   const labelTabs = ['Психология', 'Инструкция', 'Мотивация', 'Новость']
 
-  const isCurator = true
 
   useEffect(() => {
     dispatch(getNews())
@@ -46,8 +46,8 @@ export const InterestingPage = () => {
   return (
     <div className={'interesting-page'}>
       <HeaderTwo title={'Интересное'} marginBottom={20} />
-      <div className='interesting-page__actual'>
-        {/* <div className='interesting-page__actual-item'>
+      {/* <div className='interesting-page__actual'>
+        <div className='interesting-page__actual-item'>
           <CardActual
             title={'Как начать сегодня!'}
             path={MOTIVATION_ROUTE}
@@ -86,10 +86,10 @@ export const InterestingPage = () => {
             image={'https://www.cruisetips.ru/upload/upload1331487961917_1.jpg'}
             type={'Мотивация'}
           />
-        </div> */}
-      </div>
-      {isCurator && (
-        <div style={{ marginTop: '-20px', marginBottom: '20px' }}>
+        </div>
+      </div> */}
+      {dataUser.role === 1 && (
+        <div style={{ marginTop: '20px', marginBottom: '20px' }}>
           <NavLink to={CREATING_INTERESTING_ROUTE} className='_button-yellow'>
             Добавить интересное
           </NavLink>

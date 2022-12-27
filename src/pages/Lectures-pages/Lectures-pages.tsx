@@ -13,12 +13,13 @@ import { useParams } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { CREATING_LECTURE_ROUTE } from '../../provider/constants-route'
 import plug from '../../assets/image/plug.png'
+import { dataUserSelector } from '../../Redux/slice/profileSlice'
 
 
 export const LecturesPages = () => {
   const dispatch = useAppDispatch()
   const params = useParams()
-
+  const dataUser = useAppSelector(dataUserSelector)
   const lessons = useAppSelector(lessonsSelector)
   const isLoading = useAppSelector(isLoadingSelector)
 
@@ -48,12 +49,12 @@ export const LecturesPages = () => {
         />
       ))}
       {!lessons.length && <h1 style={{ marginBottom: 20 }}>Лекций нет</h1>}
-      <Link
+     {dataUser.role === 1 && <Link
         to={CREATING_LECTURE_ROUTE + '/' + params.id}
         className='_button-yellow'
       >
         Добавить лекции и ДЗ
-      </Link>
+      </Link>}
     </div>
   )
 }
