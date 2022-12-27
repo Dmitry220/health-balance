@@ -6,6 +6,8 @@ import { INews } from '../../models/INews'
 import { Link } from 'react-router-dom'
 import { MOTIVATION_ROUTE } from '../../provider/constants-route'
 import { IMAGE_URL } from '../../http'
+import plug from '../../assets/image/plug.png'
+
 
 interface ICardInteresting {
   dataNews: INews
@@ -23,10 +25,14 @@ export const CardInteresting: FC<ICardInteresting> = ({ dataNews }) => {
           <div className={'card-interesting__hint _hint'}>
             {rubricConversion(dataNews.category)}
           </div>
-          <img
+         {dataNews.image&& <img
             src={IMAGE_URL + 'news/' + dataNews.image}
             alt='image-interesting'
-          />
+          />}
+         {!dataNews.image&& <img
+            src={plug}
+            alt='image-interesting'
+          />}
         </div>
         <div className='card-interesting__title'>{dataNews.title}</div>
         <div className='card-interesting__text'>{dataNews.annotation}</div>

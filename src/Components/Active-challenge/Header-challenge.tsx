@@ -5,6 +5,8 @@ import logo from '../../assets/image/Logo-dark.svg'
 import { typesChallenge } from '../../types/enums'
 import demoImage from '../../assets/image/demo-challenge.jpg'
 import { IMAGE_URL } from '../../http'
+import plug from '../../assets/image/plug.png'
+
 
 interface IHeaderChallenge {
   image: string
@@ -24,13 +26,14 @@ export const HeaderChallenge: FC<IHeaderChallenge> = ({
       <div
         className={'header-challenge__image banner'}
         style={{
-          backgroundImage: `url("${IMAGE_URL + 'challenges/' + image}")`
+          backgroundImage: `url("${image? IMAGE_URL + 'challenges/' + image:plug}")`
         }}
       />
       <div className='header-challenge__content'>
         <div className='header-challenge-card card-active-challenge'>
           <div className='card-active-challenge__icon'>
-            <img src={IMAGE_URL + 'challenges/' + image} alt='logo' />
+           {image&& <img src={IMAGE_URL + 'challenges/' + image} alt='logo' />}
+           {!image&& <img src={plug} alt='logo' />}
           </div>
           <div className='card-active-challenge__info'>
             <div

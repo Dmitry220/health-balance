@@ -5,6 +5,8 @@ import { PROFILE_MEMBER_ROUTE } from '../../provider/constants-route'
 import { leaderboard, topTodaySelector } from '../../Redux/slice/leaderBoardSlice'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
 import './top-rating.scss'
+import avatar from '../../assets/image/avatar.jpeg'
+
 
 export const TopRating = () => {
 
@@ -39,7 +41,7 @@ export const TopRating = () => {
                   <span className={'personal__place personal__place' + (leaderDisplayOrder + 1 != 1 && '_' + (leaderDisplayOrder + 1))}>{leaderDisplayOrder + 1}</span>
                   <img
                     src={topToday[leaderDisplayOrder].avatar ? (IMAGE_URL + 'avatars/' + topToday[leaderDisplayOrder].avatar)
-                      : 'https://i2.wp.com/www.easttamakidentist.co.nz/wp-content/uploads/2016/10/male-member-placeholder-1.jpg?fit=800%2C800&ssl=1'}
+                      : avatar}
                     alt='avatar'
                   />
                 </div>
@@ -59,7 +61,7 @@ export const TopRating = () => {
               <span className={'personal__place personal__place_' + (i + 1)}>{i + 1}</span>
               <img
                 src={item.avatar ? (IMAGE_URL + 'avatars/' + item.avatar)
-                  : 'https://i2.wp.com/www.easttamakidentist.co.nz/wp-content/uploads/2016/10/male-member-placeholder-1.jpg?fit=800%2C800&ssl=1'}
+                  : avatar}
                 alt='avatar'
               />
             </div>
@@ -80,7 +82,7 @@ export const TopRating = () => {
                 <div className='list-participant__avatar'>
                   <img
                     src={item.avatar ? IMAGE_URL + 'avatars/' + item.avatar
-                      : 'https://i2.wp.com/www.easttamakidentist.co.nz/wp-content/uploads/2016/10/male-member-placeholder-1.jpg?fit=800%2C800&ssl=1'}
+                      : avatar}
                     alt='avatar'
                   />
                 </div>

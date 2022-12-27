@@ -4,6 +4,8 @@ import { definitionColor, typeConversion } from '../../utils/common-functions'
 import { Link } from 'react-router-dom'
 import { NEW_CHALLENGE_INFO_ROUTE } from '../../provider/constants-route'
 import { IMAGE_URL } from '../../http'
+import plug from '../../assets/image/plug.png'
+
 
 interface INewChallengeCard {
   type: number
@@ -30,7 +32,7 @@ export const NewChallengeCard: FC<INewChallengeCard> = ({
           src={
             image
               ? IMAGE_URL + 'challenges/' + image
-              : 'https://a.d-cd.net/55199ads-1920.jpg'
+              : plug
           }
           alt='image-new-board'
         />
@@ -41,7 +43,7 @@ export const NewChallengeCard: FC<INewChallengeCard> = ({
             src={
               image
                 ? IMAGE_URL + 'challenges/' + image
-                : 'https://a.d-cd.net/55199ads-1920.jpg'
+                : plug
             }
             alt='icon'
           />

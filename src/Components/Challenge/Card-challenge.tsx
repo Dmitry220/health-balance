@@ -11,6 +11,8 @@ import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
 import { getStepsPerDay, stepsPerDaySelector } from '../../Redux/slice/appSlice'
 import { IStepsPerDay } from '../../models/IApp'
 import ChallengeService from '../../services/ChallengeService'
+import plug from '../../assets/image/plug.png'
+
 
 interface ICardChallenge {
   challenge: IChallengeCard
@@ -47,11 +49,9 @@ export const CardChallenge: FC<ICardChallenge> = ({ challenge }) => {
           <div className='card-challenge__dot' />
         </div>
         <div className='card-challenge__head'>
-          <div className='card-challenge__img'>
-            <img
-              src={IMAGE_URL + 'challenges/' + challenge.image}
-              alt='challenge-image'
-            />
+          <div className='card-challenge__img'>         
+            {challenge.image&& <img  src={IMAGE_URL + 'challenges/' + challenge.image} alt='challenge-image' />}
+           {!challenge.image&& <img src={plug} alt='challenge-image' />}
           </div>
           <div className='card-challenge__head-body'>
             <div

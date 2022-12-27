@@ -16,6 +16,7 @@ import { logout } from '../../Redux/slice/authSlice'
 import { IMAGE_URL } from '../../http'
 import settingsIcon from "../../assets/image/icon_option.svg";
 import { balanceSelector } from '../../Redux/slice/appSlice'
+import avatar from '../../assets/image/avatar.jpeg'
 
 
 export const Profile = () => {
@@ -46,7 +47,8 @@ export const Profile = () => {
       <div className='profile__block'>
         <div className='profile__header'>
           <div className='profile__avatar'>
-            <img src={IMAGE_URL + 'avatars/' + dataUser.avatar} alt='avatar' />
+            {dataUser.avatar && <img src={IMAGE_URL + 'avatars/' + dataUser.avatar} alt='avatar' />}
+            {!dataUser.avatar&&<img src={avatar} alt='avatar' />}
           </div>
           <div className='profile__user-info'>
             <div className='profile__user-name'>{dataUser.name}</div>

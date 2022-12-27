@@ -7,6 +7,8 @@ import { IComment } from '../../models/INews'
 import { CommentForm } from './Comment-form'
 import { useParams } from 'react-router-dom'
 import { IMAGE_URL } from '../../http'
+import avatar from '../../assets/image/avatar.jpeg'
+
 
 export const ListComments = () => {
 
@@ -80,7 +82,7 @@ export const ItemComment:FC<ICommentItem> = ({comment, setShowForm, setParentId,
       <div className='item-comment__body'>
         <div className='item-comment__avatar'>
           <img
-            src={IMAGE_URL+'avatars/'+ comment.customer_avatar}
+            src={comment.customer_avatar?IMAGE_URL+'avatars/'+ comment.customer_avatar:avatar}
             alt=''
           />
         </div>

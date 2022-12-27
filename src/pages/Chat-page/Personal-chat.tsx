@@ -1,6 +1,7 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import paperclip from '../../assets/image/chat/icon_paperclip.svg'
 import Header from '../../Components/Header/Header'
+import ChatService from '../../services/ChatService'
 import './chat-page.scss'
 
 export const PersonalChat = () => {
@@ -24,34 +25,15 @@ export const PersonalChat = () => {
     setMessage('')
   }
 
-  useEffect(() => {
-    socket.current = new WebSocket(
-      'wss://demo.piesocket.com/v3/channel_123?api_key=VCXCEuvhGcBDP7XhiJJUDvR1e1D3eiVjgZ9VRiaV&notify_self'
-    )
 
-    socket.current.onopen = () => {
-      console.log('Open')
-      // const message = {
-      // 	event: 'connection',
-      // 	id: id
-      // }
-      // socket.current.send(JSON.stringify(message))
+  useEffect(() => {
+    async function asyncQuery() {
+      const response = await ChatService.newChannel('канал', [164, 165])
+      console.log(response.data);
     }
-    socket.current.onmessage = (event: any) => {
-      const message = JSON.parse(event.data)
-      setMessages((prev: any) => [...prev, message])
-      console.log('message')
-    }
-    socket.current.onclose = () => {
-      console.log('close')
-    }
-    socket.current.onerror = () => {
-      console.log('error')
-    }
-    // let a = document.querySelector('#qw9')
-    // a?.scrollIntoView({block: "start",behavior: "smooth"});
-    // console.log(a);
+    asyncQuery()
   }, [])
+
 
   return (
     <div className='personal-chat'>

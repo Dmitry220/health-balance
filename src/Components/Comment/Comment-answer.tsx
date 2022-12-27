@@ -2,6 +2,8 @@ import { FC } from 'react'
 import { IMAGE_URL } from '../../http'
 import { IComment } from '../../models/INews'
 import { ItemComment } from './List-comments'
+import avatar from '../../assets/image/avatar.jpeg'
+
 
 interface ICommentAnswer {
   comment: IComment,
@@ -34,7 +36,7 @@ export const CommentAnswer:FC<ICommentAnswer> = ({comment,replyAuthor,setParentI
       <div className={'item-comment-answer'}>
         <div className='item-comment-answer__avatar'>
           <img
-            src={IMAGE_URL+'avatars/'+ comment.customer_avatar}
+            src={comment.customer_avatar ? IMAGE_URL+'avatars/'+ comment.customer_avatar : avatar}
             alt=''
           />
         </div>

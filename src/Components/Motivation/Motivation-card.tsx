@@ -1,6 +1,7 @@
 import { useEffect,useState } from 'react'
 import './motivation.scss'
 import iconClock from '../../assets/image/Interesting/clock.svg'
+import plug from '../../assets/image/plug.png'
 import iconComments from '../../assets/image/icon-comments-fill.svg'
 import iconFavourite from '../../assets/image/icon-favourite-fill.svg'
 import { useParams } from 'react-router-dom'
@@ -45,7 +46,8 @@ export const MotivationCard = () => {
       {news && (
         <div className={'motivation-card'}>
           <div className='motivation-card__image'>
-            <img src={IMAGE_URL + 'news/' + news.image} alt='' />
+           {news.image&& <img src={IMAGE_URL + 'news/' + news.image} alt={'news/'+news.id} />}
+           {!news.image&& <img src={plug} alt={'news/'} />}
           </div>
           <div className='motivation-card__body'>
             <div className='motivation-card__text'>

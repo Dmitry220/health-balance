@@ -12,6 +12,8 @@ import { IMAGE_URL } from '../../http'
 import { useParams } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { CREATING_LECTURE_ROUTE } from '../../provider/constants-route'
+import plug from '../../assets/image/plug.png'
+
 
 export const LecturesPages = () => {
   const dispatch = useAppDispatch()
@@ -38,7 +40,7 @@ export const LecturesPages = () => {
       {lessons.map((lesson) => (
         <CardLecture
           id={lesson.id}
-          img={IMAGE_URL + 'lessons/' + lesson.image}
+          img={lesson.image ? IMAGE_URL + 'lessons/' + lesson.image:plug}
           title={lesson.title}
           date={new Date(lesson.end_date * 1000).toLocaleDateString()}
           reward={lesson.score}

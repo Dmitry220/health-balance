@@ -1,6 +1,8 @@
+import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { DIALOG__ROUTE } from '../../provider/constants-route'
 import { dataUserSelector } from '../../Redux/slice/profileSlice'
+import ChatService from '../../services/ChatService'
 import { useAppSelector } from '../../utils/hooks/redux-hooks'
 import './chat.scss'
 
@@ -8,6 +10,16 @@ export const Dialog = () => {
   const id = Number(localStorage.getItem('id'))
 
   const dataUser = useAppSelector(dataUserSelector)
+
+  useEffect(() => {
+    async function asyncQuery() {
+      const response = await ChatService.getChannels()
+      console.log(response.data);
+    }
+    asyncQuery()
+   
+  }, [])
+  
 
   return (
     <Link to={DIALOG__ROUTE + '/' + 1} className='dialog'>

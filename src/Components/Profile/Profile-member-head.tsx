@@ -1,6 +1,7 @@
 import './profile.scss'
 import { Link } from 'react-router-dom'
 import { CHAT__ROUTE, DIALOG__ROUTE } from '../../provider/constants-route'
+import avatar from '../../assets/image/avatar.jpeg'
 import icon_chat from '../../assets/image/icon_chat.svg'
 import { useAppSelector } from '../../utils/hooks/redux-hooks'
 import { infoUserSelector } from '../../Redux/slice/userSlice'
@@ -14,7 +15,8 @@ export const ProfileMemberHead = () => {
       <div className='profile-member-head__row'>
         <div className='profile-member-head__column'>
           <div className='profile-member-head__avatar'>
-            <img src={IMAGE_URL + 'avatars/' + infoUser.avatar} alt='avatar' />
+           {infoUser.avatar && <img src={IMAGE_URL + 'avatars/' + infoUser.avatar} alt='avatar' />}
+           {!infoUser.avatar && <img src={avatar} alt='avatar' />}
           </div>
           <div className='profile-member-head__user-name title'>
             {infoUser.name}

@@ -6,10 +6,10 @@ import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
 import {  getMembersCommandList, membersCommandListSelector } from '../../Redux/slice/challengeSlice'
 import { useEffect } from 'react'
 import { IMAGE_URL } from '../../http'
+import avatar from '../../assets/image/avatar.jpeg'
+
 
 export const TeamMemberList = () => {
-
-
   const params = useParams()
 
   const dispatch = useAppDispatch()
@@ -30,7 +30,7 @@ export const TeamMemberList = () => {
             <div className='team-member-list__avatar'>
               <img
                 src={item.avatar ? (IMAGE_URL + 'avatars/' + item.avatar)
-                : 'https://i2.wp.com/www.easttamakidentist.co.nz/wp-content/uploads/2016/10/male-member-placeholder-1.jpg?fit=800%2C800&ssl=1'}
+                : avatar}
               alt='avatar'
               />
             </div>

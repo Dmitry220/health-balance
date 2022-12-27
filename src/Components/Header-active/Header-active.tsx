@@ -10,6 +10,8 @@ import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
 import { dataUserSelector } from '../../Redux/slice/profileSlice'
 import { IMAGE_URL } from '../../http'
 import { balanceSelector, getBalance } from '../../Redux/slice/appSlice'
+import avatar from '../../assets/image/avatar.jpeg'
+
 
 interface IHeaderActive {
   transparent: boolean
@@ -33,12 +35,8 @@ const HeaderActive: FC<IHeaderActive> = ({ transparent }) => {
       <div className='header-active__container'>
         <Link to={PROFILE_ROUTE} className='header-active__column'>
           <div className='header-active__avatar'>
-            {dataUser.avatar && (
-              <img
-                src={IMAGE_URL + 'avatars/' + dataUser.avatar}
-                alt='avatar'
-              />
-            )}
+            {dataUser.avatar && <img src={IMAGE_URL + 'avatars/' + dataUser.avatar} alt='avatar' />}
+            {!dataUser.avatar && <img src={avatar} alt='avatar' />}
           </div>
           <div className='header-active__user-name icon-icon_back'>
             {dataUser.name}
