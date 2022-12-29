@@ -44,10 +44,11 @@ export const CreatingLecture = () => {
   const [endDate, setEndDate] = useState<Date>(END_DATE)
   const [correctAnswer, setCorrectAnswer] = useState<number>(0)
   const [videoUrl, setVideoUrl] = useState<string>('')
-  const [image, setImage] = useState<any>(
-    '1e9d7f18d4e66f48913f14b655ab1c49.jpeg'
-  )
+  const [image, setImage] = useState<any>('')
   const [photoPath, setPhotoPath] = useState<any | null>(null)
+
+  console.log(correctAnswer);
+  
 
   const addCover = async (e: ChangeEvent<HTMLInputElement>) => {
     const formData = new FormData()
@@ -92,14 +93,14 @@ export const CreatingLecture = () => {
     formData.append('description', description)
     formData.append('type', JSON.stringify(typeLesson))
     formData.append('video', videoUrl)
-    formData.append('start_date', JSON.stringify(startDate.getTime() / 1000))
-    formData.append('end_date', JSON.stringify(endDate.getTime() / 1000))
+    formData.append('start_date', JSON.stringify(startDate.setHours(0,0,0,0) / 1000))
+    formData.append('end_date', JSON.stringify(endDate.setHours(0,0,0,0)  / 1000))
     formData.append('score', JSON.stringify(score))
     formData.append('image', image)
     switch (typeLesson) {
       case 1:
         formData.append('answers', JSON.stringify(answers))
-        formData.append('correct_answer', JSON.stringify(correctAnswer))
+        formData.append('correct_answer', correctAnswer+'')
         formData.append('question', question)
         break
       case 2:

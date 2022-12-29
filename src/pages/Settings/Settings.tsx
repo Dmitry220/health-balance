@@ -99,7 +99,6 @@ export const Settings = () => {
           </div>
         </div>
         <div className='settings__block'>
-          <div className='settings__title'>Конфиденциальность</div>
           <div className='settings__block-links'>
             <Link
               to={'/'}

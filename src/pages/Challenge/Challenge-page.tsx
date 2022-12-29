@@ -19,6 +19,7 @@ import {
 import { Link } from 'react-router-dom'
 import { CREATING_CHALLENGE_ROUTE } from '../../provider/constants-route'
 import { dataUserSelector } from '../../Redux/slice/profileSlice'
+import { InstructionsChallenge } from '../../Components/Challenge/Instruction-challenge'
 
 export const ChallengePage = () => {
   const [valueTab, setValueTab] = React.useState<number>(0)
@@ -44,6 +45,10 @@ export const ChallengePage = () => {
 
   if (isLoading) {
     return <h1>Загрузка...</h1>
+  }
+
+  if(!isLoading){
+    return <InstructionsChallenge />
   }
 
   return (

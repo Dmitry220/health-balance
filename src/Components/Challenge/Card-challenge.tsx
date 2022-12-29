@@ -1,6 +1,6 @@
 import { FC, useEffect } from 'react'
 import './challenge.scss'
-import { definitionColor, typeConversion } from '../../utils/common-functions'
+import { definitionColor, nFormatter, sklonenie, typeConversion } from '../../utils/common-functions'
 import { ProgressBar } from '../Progress-bar/Progress-bar'
 import { typesChallenge } from '../../types/enums'
 import { Link } from 'react-router-dom'
@@ -27,9 +27,9 @@ export const CardChallenge: FC<ICardChallenge> = ({ challenge }) => {
 
   useEffect(() => {
     async function asyncQuery() {
-      if((challenge.purpose.quantity - challenge.remains_to_pass) >= challenge.purpose.quantity && challenge.homeworks === challenge.total_lessons ){
+      if ((challenge.purpose.quantity - challenge.remains_to_pass) >= challenge.purpose.quantity && challenge.homeworks === challenge.total_lessons) {
         const response = await ChallengeService.completeChallenge(challenge.id)
-        console.log(response);      
+        console.log(response);
       }
     }
     asyncQuery()
@@ -49,9 +49,9 @@ export const CardChallenge: FC<ICardChallenge> = ({ challenge }) => {
           <div className='card-challenge__dot' />
         </div>
         <div className='card-challenge__head'>
-          <div className='card-challenge__img'>         
-            {challenge.image&& <img  src={IMAGE_URL + 'challenges/' + challenge.image} alt='challenge-image' />}
-           {!challenge.image&& <img src={plug} alt='challenge-image' />}
+          <div className='card-challenge__img'>
+            {challenge.image && <img src={IMAGE_URL + 'challenges/' + challenge.image} alt='challenge-image' />}
+            {!challenge.image && <img src={plug} alt='challenge-image' />}
           </div>
           <div className='card-challenge__head-body'>
             <div
@@ -81,16 +81,15 @@ export const CardChallenge: FC<ICardChallenge> = ({ challenge }) => {
             {new Date(
               challenge.end_date * 1000 - challenge.start_date * 1000
             ).getDate()}{' '}
-            <span>Дней</span>
+            <span>{sklonenie(new Date(
+              challenge.end_date * 1000 - challenge.start_date * 1000
+            ).getDate(), ['день', 'дня', 'дней'])}</span>
           </div>
           <div className='card-challenge__days'>
-            {challenge.purpose?.quantity} <span>{ } Шагов</span>
+            {nFormatter(challenge.purpose?.quantity, 1)} <span>{ } {sklonenie(challenge.purpose?.quantity, ['шаг', 'шага', 'шагов'])}</span>
           </div>
           <div className='card-challenge__days'>
             {challenge.homeworks}/{challenge.total_lessons} <span>Лекций</span>
-          </div>
-          <div className='card-challenge__days'>
-            {challenge.homeworks}/{challenge.total_lessons} <span>Заданий</span>
           </div>
         </div>
       </div>

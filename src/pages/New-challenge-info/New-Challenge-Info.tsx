@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import './new-challenge-info.scss'
 import Header from '../../Components/Header/Header'
-import { HeaderChallenge } from '../../Components/Active-challenge/Header-challenge'
+import { HeaderChallenge } from '../../Components/Challenge/Header-challenge'
 import { ProgressBar } from '../../Components/Progress-bar/Progress-bar'
 import { roles, typesChallenge } from '../../types/enums'
 import icon_clock from '../../assets/image/Interesting/clock.svg'
@@ -21,7 +21,7 @@ import {
   challengeSelector,
   getChallengeById
 } from '../../Redux/slice/challengeSlice'
-import { definitionColor } from '../../utils/common-functions'
+import { definitionColor, nFormatter } from '../../utils/common-functions'
 import ChallengeService from '../../services/ChallengeService'
 
 export const NewChallengeInfo = () => {
@@ -32,26 +32,17 @@ export const NewChallengeInfo = () => {
 
   const itemsTask = [
     {
-      title:
-        challenge?.type === 1
-          ? 'Шагов для завершения'
-          : 'Километров для завершения',
+      title: 'Шагов для завершения',
       value: 0,
-      text: (challenge?.purpose?.quantity || 0) + ' к',
+      text: nFormatter(challenge?.purpose?.quantity || 0,1)+'',
       id: 1
     },
     {
       title: 'Обучающий материал',
       value: challenge?.homeworks || 0,
-      text: challenge?.total_lessons + ' лекции',
+      text: challenge?.total_lessons + ' лекций',
       id: 2
     },
-    {
-      title: 'Домашние задания',
-      value: challenge?.homeworks || 0,
-      text: challenge?.total_lessons + ' ДЗ',
-      id: 3
-    }
   ]
 
  

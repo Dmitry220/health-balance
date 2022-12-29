@@ -60,4 +60,10 @@
   &__answers-options{
     margin: 0 0 29px 0;
   }
+  input[type="file"] {
+    display:none;
+  }
+  input[type="file"] + label {
+    display: inline-flex;
+  }
 }

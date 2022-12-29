@@ -1,45 +1,54 @@
-import { useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { FC, useEffect, useState } from 'react'
+import { Link, useParams } from 'react-router-dom'
 import { DIALOG__ROUTE } from '../../provider/constants-route'
 import { dataUserSelector } from '../../Redux/slice/profileSlice'
 import ChatService from '../../services/ChatService'
 import { useAppSelector } from '../../utils/hooks/redux-hooks'
 import './chat.scss'
+import avatarPlug from '../../assets/image/avatar.jpeg'
+import { IMAGE_URL } from '../../http'
 
-export const Dialog = () => {
+
+interface IDialogComponent{
+  avatar?: string,
+  title?: string,
+  date?: string
+  idChannel:number
+}
+
+export const Dialog:FC<IDialogComponent> = ({idChannel,title,avatar,date}) => {
   const id = Number(localStorage.getItem('id'))
 
-  const dataUser = useAppSelector(dataUserSelector)
+  const [dialogs, setDialogs] = useState<any[]>([])
 
   useEffect(() => {
     async function asyncQuery() {
-      const response = await ChatService.getChannels()
-      console.log(response.data);
+      // const response = await ChatService.getChannels()
+      // setDialogs(response.data.data)
     }
     asyncQuery()
    
   }, [])
+
   
 
   return (
-    <Link to={DIALOG__ROUTE + '/' + 1} className='dialog'>
+    <Link to={DIALOG__ROUTE + '/' + idChannel} className='dialog'>
       <div className='dialog__row'>
         <div className='dialog__column'>
           <div className='dialog__img'>
-            <img
-              src='https://i2.wp.com/www.easttamakidentist.co.nz/wp-content/uploads/2016/10/male-member-placeholder-1.jpg?fit=800%2C800&ssl=1'
-              alt=''
-            />
+          {avatar && <img src={IMAGE_URL + 'avatars/' + avatar} alt='avatar' />}
+           {!avatar && <img src={avatarPlug} alt='avatar' />}
           </div>
           <div className='dialog__body'>
-            <div className='dialog__title'>Чат с поддержкой</div>
+            <div className='dialog__title'>{title}</div>
             <div className='dialog__author'>
               Вы: <span>Сделайте так...</span>
             </div>
           </div>
         </div>
         <div className='dialog__column'>
-          <div className='dialog__date'>2 месяца назад</div>
+          <div className='dialog__date'>{date?.slice(0,-10)}</div>
         </div>
       </div>
     </Link>

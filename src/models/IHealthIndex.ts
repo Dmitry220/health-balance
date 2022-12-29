@@ -38,4 +38,11 @@ export interface IDynamics {
   burnout_risk: number;
   presenteism: number;
   glucose_risk: number;
+  date:number,
+  diabetes_risk:number
+}
+
+export interface IListReport {
+  date: number;
+  id:number
 }

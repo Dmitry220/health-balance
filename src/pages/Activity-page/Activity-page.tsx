@@ -55,6 +55,7 @@ import {
   stepsPerDaySelector,
   weeksSelector
 } from '../../Redux/slice/appSlice'
+import { nFormatter, sklonenie } from '../../utils/common-functions'
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
@@ -315,10 +316,10 @@ const Graphs = () => {
         </div>
         <div className={'dynamics__info'}>
           <div className='dynamics__value'>
-            {currentStepsCount} <br /> <span>шагов</span>
+            {nFormatter(currentStepsCount,1)} <br /> <span>{sklonenie(currentStepsCount, ['шаг', 'шага','шагов'])}</span>
           </div>
           <div className='dynamics__value'>
-            {((currentStepsCount * 0.7) / 1000).toFixed(2)} <br />{' '}
+            {nFormatter(+((currentStepsCount * 0.7) / 1000).toFixed(2),1)} <br />{' '}
             <span>км</span>
           </div>
           <div className='dynamics__value'>
@@ -333,10 +334,10 @@ const Graphs = () => {
         </div>
         <div className={'dynamics__info'}>
           <div className='dynamics__value'>
-            {weeks[0].count} <br /> <span>шагов</span>
+            {nFormatter(weeks[0].count, 2)} <br /> <span>{sklonenie(weeks[0].count, ['шаг', 'шага','шагов'])}</span>
           </div>
           <div className='dynamics__value'>
-            {((weeks[0].count * 0.7) / 1000).toFixed(2)} <br /> <span>км</span>
+            {nFormatter(+((weeks[0].count * 0.7) / 1000).toFixed(2),1)} <br /> <span>км</span>
           </div>
           <div className='dynamics__value'>
             {purpose && steps ? (steps[steps.length-1]?.finished === 1 ? 100 :currentStepsCount *100 / purpose?.quantity) : 0}
@@ -350,10 +351,10 @@ const Graphs = () => {
         </div>
         <div className={'dynamics__info'}>
           <div className='dynamics__value'>
-            {months[new Date().getMonth()].count} <br /> <span>шагов</span>
+            {nFormatter(months[new Date().getMonth()].count, 1)} <br /> <span>{sklonenie(months[new Date().getMonth()].count,['шаг', 'шага','шагов'])}</span>
           </div>
           <div className='dynamics__value'>
-            {((months[new Date().getMonth()].count * 0.7) / 1000).toFixed(2)}{' '}
+            {nFormatter(+((months[new Date().getMonth()].count * 0.7) / 1000).toFixed(2),1)}
             <br /> <span>км</span>
           </div>
           <div className='dynamics__value'>
