@@ -20,6 +20,7 @@ import { Link } from 'react-router-dom'
 import { CREATING_CHALLENGE_ROUTE } from '../../provider/constants-route'
 import { dataUserSelector } from '../../Redux/slice/profileSlice'
 import { InstructionsChallenge } from '../../Components/Challenge/Instruction-challenge'
+import { challengeVisitSelector } from '../../Redux/slice/visitedPageSlice'
 
 export const ChallengePage = () => {
   const [valueTab, setValueTab] = React.useState<number>(0)
@@ -27,6 +28,11 @@ export const ChallengePage = () => {
   const dataUser = useAppSelector(dataUserSelector)
   const newChallenges = useAppSelector(newChallengesSelector)
   const activeChallenges = useAppSelector(activeChallengesSelector)
+  const visitChallenges = useAppSelector(challengeVisitSelector)
+
+  const activeCommandChallenge = activeChallenges.filter((item) => item.active === 1 && item.type === 2 && item)
+  const activePersonalChallenge = activeChallenges.filter((item) => item.active === 1 && item.type === 3 && item)
+  const activeCommonChallenge = activeChallenges.filter((item) => item.active === 1 && item.type === 1 && item)
 
   const commandsChallenge = newChallenges?.filter(
     (item) => item.type === 2 && item
@@ -47,7 +53,7 @@ export const ChallengePage = () => {
     return <h1>Загрузка...</h1>
   }
 
-  if(!isLoading){
+  if(visitChallenges===0){
     return <InstructionsChallenge />
   }
 
@@ -73,8 +79,8 @@ export const ChallengePage = () => {
       <TabContent index={0} value={valueTab}>
         <div className='challenge-page__title-block block-title'>Активные</div>
         <div className='challenge-page__active'>
-          {activeChallenges.length ? (
-            activeChallenges.map((item) => (
+          {activePersonalChallenge.length ? (
+            activePersonalChallenge.map((item) => (
               <CardChallenge key={item.id} challenge={item} percent={0} />
             ))
           ) : (
@@ -100,12 +106,16 @@ export const ChallengePage = () => {
       </TabContent>
       <TabContent index={1} value={valueTab}>
         <div className='challenge-page__title-block block-title'>Командные</div>
-        <div className='challenge-page__active'>
-          <div className='challenge-page__active-plug active-plug'>
-            Нет командных челленджей
-          </div>
-          {/* <CardChallenge type={typesChallenge.command} percent={12} id={3} />
-                    <CardChallenge type={typesChallenge.command} percent={84} id={8} /> */}
+        <div className='challenge-page__active'>         
+          {activeCommandChallenge.length ? (
+            activeCommandChallenge.map((item) => (
+              <CardChallenge key={item.id} challenge={item} percent={0} />
+            ))
+          ) : (
+            <div className='challenge-page__active-plug'>
+              Нет активных челленджей
+            </div>
+          )}
         </div>
         <div className='challenge-page__title-block block-title'>
           Новые челленджи
@@ -125,11 +135,15 @@ export const ChallengePage = () => {
       <TabContent index={2} value={valueTab}>
         <div className='challenge-page__title-block block-title'>Общие</div>
         <div className='challenge-page__active'>
-          {/* <CardChallenge type={typesChallenge.common} percent={55} id={9} />
-                    <CardChallenge type={typesChallenge.common} percent={70} id={2} /> */}
-          <div className='challenge-page__active-plug'>
-            Нет общих челленджей
-          </div>
+          {activeCommonChallenge.length ? (
+            activeCommonChallenge.map((item) => (
+              <CardChallenge key={item.id} challenge={item} percent={0} />
+            ))
+          ) : (
+            <div className='challenge-page__active-plug'>
+              Нет активных челленджей
+            </div>
+          )}
         </div>
       </TabContent>
       <TabContent index={3} value={valueTab}>

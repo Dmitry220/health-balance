@@ -31,7 +31,7 @@ import { NumberQuiz } from "../../Components/Quiz/NumberQuiz";
 import { DateQuiz } from "../../Components/Quiz/DateQuiz";
 import { RadioWithAnswer } from "../../Components/Quiz/RadioWithAnswer";
 import { ContinueQuestionaire, StartQuestionaire } from "../Health-index/Health-index-page";
-import { ModalStatus } from "../../Components/Modal-status/Modal-status";
+import { ModalStatus } from "../../Components/Modals/Modal-status";
 
 
 export const Questionnaire = () => {

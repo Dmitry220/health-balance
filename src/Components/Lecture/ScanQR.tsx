@@ -9,7 +9,7 @@ import {
   successSelector
 } from '../../Redux/slice/lessonsSlice'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
-import { ModalSuccess } from '../Modal-status/Modal-success'
+import { ModalSuccess } from '../Modals/Modal-success'
 import { LECTURES_ROUTE } from '../../provider/constants-route'
 import { challengeSelector } from '../../Redux/slice/challengeSlice'
 import { showToast } from '../../utils/common-functions'

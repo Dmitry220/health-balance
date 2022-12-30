@@ -36,9 +36,9 @@ export const HealthIndexResults = () => {
     <div className={'health-index-results-page'}>
       <Navigation routes={routesNavigationIndexResult} />
       <HeaderTwo title={'Индексы здоровья'} marginBottom={42} />
-      <div className='health-index-results-page__retesting'>
+      {new Date(lastDynamic.date *1000).getMonth() !== new Date().getMonth() && <div className='health-index-results-page__retesting'>
         <Retesting />
-      </div>
+      </div>}
       <div className='health-index-results-page__age'>
         <CardBiologyAge age={lastDynamic?.biological_age}/>
       </div>

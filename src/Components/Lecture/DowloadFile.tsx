@@ -5,7 +5,7 @@ import { checkTask, isLoadingSuccessSelector, lessonSelector, successSelector } 
 import LessonService from '../../services/LessonsService'
 import { showToast } from '../../utils/common-functions'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
-import { ModalSuccess } from '../Modal-status/Modal-success'
+import { ModalSuccess } from '../Modals/Modal-success'
 import './lecture.scss'
 
 export const DownloadFile = () => {
@@ -42,7 +42,7 @@ export const DownloadFile = () => {
         
       }    
     } else {
-      await showToast('Вы не правильно выполнили задание')
+      await showToast('Вы неправильно выполнили задание')
     }
   }
 

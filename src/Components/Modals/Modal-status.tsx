@@ -1,18 +1,15 @@
 import { Dispatch, FC, SetStateAction } from 'react'
-import './modal-status.scss'
+import './modals.scss'
 import icon from '../../assets/image/icon_purpose__status_full.svg'
 import { useNavigate } from 'react-router-dom'
-import { RewardCount } from '../Reward/Reward-count'
 
-interface IModalSuccess {
+interface IModalStatus {
   subTitle?: string
   textButton?: string
   route?: any
-  reward?: number
 }
 
-export const ModalSuccess: FC<IModalSuccess> = ({
-  reward,
+export const ModalStatus: FC<IModalStatus> = ({
   subTitle,
   textButton,
   route
@@ -34,10 +31,16 @@ export const ModalSuccess: FC<IModalSuccess> = ({
         <div className='modal-status__icon'>
           <img src={icon} alt='icon' />
         </div>
-        <div className='modal-status__title'>Задание выполнено</div>
+        <div className='modal-status__title'>Успех!</div>
         <div className='modal-status__sub-title'>
-          {subTitle || 'Ваша награда: '} <RewardCount count={reward || 0} />
+          {subTitle || 'Новость появится после проверки модератором'}
         </div>
+        <button
+          className='modal-status__button _button-white'
+          onClick={handler}
+        >
+          {textButton || 'Ок'}
+        </button>
       </div>
     </div>
   )

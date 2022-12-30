@@ -28,7 +28,7 @@ import leaderBoardSlice, { leaderboardSlice } from './slice/leaderBoardSlice'
 const persistConfig = {
   key: 'root',
   storage: storage,
-  whitelist: ['visitedPages']
+  whitelist: ['visitedPages','shop']
 }
 
 const reducer = combineReducers({

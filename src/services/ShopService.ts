@@ -1,21 +1,46 @@
-import { AxiosResponse } from 'axios'
-import { $api } from '../http'
-import { IShopCategory, IShopProduct } from '../models/IShop'
+import { AxiosResponse } from "axios";
+import { $api } from "../http";
+import { IOrders, IShopCategory, IShopProduct } from "../models/IShop";
 
 export default class ShopService {
   static async getCategory(): Promise<
     AxiosResponse<{ data: IShopCategory[] }>
   > {
     return $api.get(
-      `/v2/shop-categories/?token=${localStorage.getItem('token')}`
-    )
+      `/v2/shop-categories/?token=${localStorage.getItem("token")}`
+    );
   }
 
   static async getProducts(
     id: number
   ): Promise<AxiosResponse<{ data: IShopProduct[] }>> {
     return $api.get(
-      `/v2/products/${id}/?token=${localStorage.getItem('token')}`
-    )
+      `/v2/products/?token=${localStorage.getItem("token")}&category=${id}`
+    );
+  }
+
+  static async getProductById(
+    id: number
+  ): Promise<AxiosResponse<{ data: IShopProduct }>> {
+    return $api.get(
+      `/v2/products/${id}?token=${localStorage.getItem("token")}&category=${id}`
+    );
+  }
+
+  static async getOrders(): Promise<AxiosResponse<{ data: IOrders[] }>> {
+    return $api.get(
+      `/v2/orders/?token=${localStorage.getItem("token")}`
+    );
+  }
+
+  static async sendOrder(products:number[]): Promise<AxiosResponse<{ success: 1|0 }>> {
+    return $api.post(
+      `/v2/orders/?token=${localStorage.getItem("token")}`,
+      {products:JSON.stringify(products)},
+     { headers: {
+        accept: 'application/json',
+        'Content-Type': 'application/json'
+      }},
+    );
   }
 }

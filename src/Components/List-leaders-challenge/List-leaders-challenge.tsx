@@ -1,26 +1,67 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import './list-leaders-challenge.scss'
 import icon from '../../assets/image/icon_reward.svg'
-import { roles } from '../../types/enums'
-
-interface IListLeadersChallengeItem {
-  reward: number
-  place: number
-  isYourCommand?: boolean
-  avatar?: string
-  title: string
-  isYou?: boolean
-}
+import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
+import { getLeaderboardChallenge, getLeaderboardTeamsChallenge, isLoadingSelector, leaderboardChallengeSelector, leaderboardTeamsChallengeChallengeSelector } from '../../Redux/slice/leaderBoardSlice'
+import { IMAGE_URL } from '../../http'
+import avatar from '../../assets/image/avatar.jpeg'
+import { ILeaderBoardChallenge, ILeaderBoardChallengTeam } from '../../models/ILeaderBoard'
 
 interface IListLeadersChallenge {
-  items?: IListLeadersChallengeItem[]
-  role: number
+  type: number,
+  idChallenge: number
 }
 
-export const ListLeadersChallenge: FC<IListLeadersChallenge> = ({
-  items,
-  role
-}) => {
+export const ListLeadersChallenge: FC<IListLeadersChallenge> = ({type,idChallenge}) => {
+
+ 
+  const dispatch = useAppDispatch()
+  const leaderboardChallenge = useAppSelector(leaderboardChallengeSelector)
+  const leaderboardTeamsChallenge = useAppSelector(leaderboardTeamsChallengeChallengeSelector)
+  const isLoading = useAppSelector(isLoadingSelector)
+
+  useEffect(()=>{    
+    if(type === 2){
+      dispatch(getLeaderboardTeamsChallenge(idChallenge))
+    }else{
+      dispatch(getLeaderboardChallenge(idChallenge))
+    }    
+  }, [])
+  
+
+  if(isLoading){
+    return <h1>Загрузка...</h1>
+  }
+
+  return (
+    <div className={'leader-challenge'}>
+      <div className='leader-challenge__header'>
+        <div className='leader-challenge__title'>{'Участники'}</div>
+        <div className='leader-challenge__title'>Прогресс</div>
+      </div>
+      <div className='leader-challenge__items'>
+        {(type === 1 || type === 3 )&& leaderboardChallenge.map((item, i) => (
+         <LeaderboardItem item={item} place={i+1} typeChallenge={type} key={item.id} />
+        ))}
+         {type === 2 && leaderboardTeamsChallenge.map((item, i) => (
+         <LeaderboardItem item={item} place={i+1} typeChallenge={type} key={item.id} />
+        ))}
+      </div>
+    </div>
+  )
+}
+
+
+interface ILeaderboardItem {
+  place: number,
+  typeChallenge: number,
+  item: ILeaderBoardChallengTeam & ILeaderBoardChallenge
+}
+
+const LeaderboardItem:FC<ILeaderboardItem> = ({place,typeChallenge,item}) => {
+
+  const idProfile = Number(localStorage.getItem('id'))
+
   const colorReward = (place: number) => {
     switch (place) {
       case 1:
@@ -35,36 +76,29 @@ export const ListLeadersChallenge: FC<IListLeadersChallenge> = ({
   }
 
   return (
-    <div className={'leader-challenge'}>
-      <div className='leader-challenge__header'>
-        <div className='leader-challenge__title'>{role}</div>
-        <div className='leader-challenge__title'>Прогресс</div>
-      </div>
-      <div className='leader-challenge__items'>
-        {items&&items.map((item, i) => (
-          <article className='leader-challenge__item item-leader' key={i}>
+    <article className='leader-challenge__item item-leader'>
             <div className='item-leader__column item-leader__column_1'>
-              <div className={'item-leader__place ' + colorReward(item.place)}>
-                {item.place}
+              <div className={'item-leader__place ' + colorReward(place)}>
+                {place}
               </div>
               <div
                 className={
-                  role === 3
+                  typeChallenge === 3
                     ? 'item-leader__avatar item-leader__avatar_member'
                     : 'item-leader__avatar'
                 }
               >
-                {item.avatar && <img src={item.avatar} alt='avatar' />}
+                {<img src={item.avatar ? IMAGE_URL + 'avatars/'+item.avatar : avatar} alt='avatar' style={{borderRadius: item.avatar ? '50%':'10px'}}/>}
               </div>
               <div
                 className={
-                  item.isYourCommand || item.isYou
+                  item.id === idProfile
                     ? 'item-leader__title item-leader__title_yourCommand'
                     : 'item-leader__title'
                 }
               >
-                {item.title}
-                {item.isYourCommand && (
+                {typeChallenge === 2 ? item.title : item.name}
+                {item.active === 1 && (
                   <div className='item-leader__your-command'>Ваша команда</div>
                 )}
               </div>
@@ -73,11 +107,8 @@ export const ListLeadersChallenge: FC<IListLeadersChallenge> = ({
               <div className='item-leader__icon'>
                 <img src={icon} alt='icon' />
               </div>
-              <div className='item-leader__reward'>{item.reward}</div>
+              <div className='item-leader__reward'>{item.points}</div>
             </div>
           </article>
-        ))}
-      </div>
-    </div>
   )
 }

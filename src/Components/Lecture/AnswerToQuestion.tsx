@@ -13,8 +13,8 @@ import {
 import LessonService from '../../services/LessonsService'
 import { showToast } from '../../utils/common-functions'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
-import { ModalStatus } from '../Modal-status/Modal-status'
-import { ModalSuccess } from '../Modal-status/Modal-success'
+import { ModalStatus } from '../Modals/Modal-status'
+import { ModalSuccess } from '../Modals/Modal-success'
 import './lecture.scss'
 
 export const AnswerToQuestion = () => {

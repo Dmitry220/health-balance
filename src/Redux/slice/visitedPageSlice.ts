@@ -3,7 +3,9 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../store'
 
 interface IVisitedSlice {
-  challengePage: any
+  challengePage: {
+    visitCount: number
+  }
   trackerPage: {
     visitCount: number
   }
@@ -17,7 +19,6 @@ interface IVisitedSlice {
 const initialState: IVisitedSlice = {
   challengePage: {
     visitCount: 0,
-    challengeCount: 0
   },
   trackerPage: {
     visitCount: 0
@@ -46,9 +47,9 @@ export const visitedPagesSlice = createSlice({
     setStoreFirstChallenge: (state) => {
       state.newChallengeInfoPage.firstChallange = false
     },
-    setShowFirstChallengeInstruction: (state, action) => {
-      state.challengePage.challengeCount = action.payload
-    },
+    // setShowFirstChallengeInstruction: (state, action) => {
+    //   state.challengePage.challengeCount = action.payload
+    // },
     setVisitedActivityPage: (state, action) => {
       state.activityPage.visitCount = action.payload
     },
@@ -65,7 +66,6 @@ export const {
   setVisitedChallengePage,
   setVisitedTrackerPage,
   setStoreFirstChallenge,
-  setShowFirstChallengeInstruction,
   setVisitedActivityPage,
   addIndexPageAnswer,
   resetIndexPageAnswer
@@ -75,5 +75,7 @@ export const trackerVisitSelector = (state: RootState) =>
   state.visitedPages.trackerPage.visitCount
 export const activityVisitSelector = (state: RootState) =>
   state.visitedPages.activityPage.visitCount
+  export const challengeVisitSelector = (state: RootState) =>
+  state.visitedPages.challengePage.visitCount
 
 export default visitedPagesSlice.reducer

@@ -11,5 +11,6 @@ export interface ILesson {
   start_date: number
   end_date: number
   score: number
-  image: string
+  image: string,
+  completed: boolean
 }

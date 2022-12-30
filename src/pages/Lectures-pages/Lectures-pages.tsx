@@ -46,6 +46,7 @@ export const LecturesPages = () => {
           date={new Date(lesson.end_date * 1000).toLocaleDateString()}
           reward={lesson.score}
           key={lesson.id}
+          completed={lesson.completed}
         />
       ))}
       {!lessons.length && <h1 style={{ marginBottom: 20 }}>Лекций нет</h1>}

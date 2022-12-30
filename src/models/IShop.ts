@@ -13,3 +13,18 @@ export interface IShopProduct {
   position: number
   status: boolean
 }
+
+export interface IOrders {
+  id: number
+  customer: number,
+  products: IShopProduct[]
+  created_at: number
+  status: boolean
+}
+
+export interface IBasket {
+  id: number,
+  image: string,
+  title: string,
+  price: number
+}

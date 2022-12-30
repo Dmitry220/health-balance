@@ -6,7 +6,6 @@ import { roles, typesChallenge } from '../../types/enums'
 import './active-challenge-page.scss'
 import { TaskChallenge } from '../../Components/Challenge/Task-challenge'
 import { ProgressBar } from '../../Components/Progress-bar/Progress-bar'
-import { ShopCard } from '../../Components/Shop/Shop-card'
 import { RewardCount } from '../../Components/Reward/Reward-count'
 import { Link, useParams } from 'react-router-dom'
 import { LECTURES_ROUTE } from '../../provider/constants-route'
@@ -94,7 +93,7 @@ export const ActiveChallengePage = () => {
       <div className='active-challenge-page__title-block block-title'>
         Лидеры челленджа
       </div>
-      <ListLeadersChallenge role={challenge?.type || 1} />
+      <ListLeadersChallenge type={challenge?.type || 0} idChallenge={challenge?.id || 0}/>
     </div>
   )
 }

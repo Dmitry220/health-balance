@@ -1,22 +1,38 @@
 @import "src/assets/style/variables";
 
-.shop-card {
-  background: $backgroundBlock;
-  border-radius: 10px;
+.shop-cards{
+  display: flex;
+  margin: 0 -5px -20px;
+  flex-wrap: wrap;
+}
 
+.shop-card {
+
+
+  display: block;
+  color: $colorMain;
+  flex: 0 1 50%;
+  padding: 0 10px;
+  margin: 0 0 20px 0;
   &__container {
+    background: $backgroundBlock;
+    border-radius: 10px;
+  }
+  &__row {
     padding: 0 8px 16px 8px;
   }
 
   &__img {
-    height: 146px;
+    display: block;
+    height: 166px;
     margin: 0 0 20px 0;
-    padding: 17px;
+    // padding: 17px;
 
     img {
       width: 100%;
       height: 100%;
-      object-fit: contain;
+      border-radius: 10px 10px 0 0;
+      object-fit: cover;
     }
   }
 
@@ -62,26 +78,34 @@
     height: 20px;
     background: $yellowColor;
     position: relative;
-
-    &::after, &::before {
-      position: absolute;
-      content: "";
-      display: inline-block;
-      background: #000;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-    }
-
-    &::before {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 1s all ease;
+    img{
       width: 14px;
-      height: 2px;
+    height: 14px;
+    transition: 0.3s all ease;
     }
+    // &::after, &::before {
+    //   position: absolute;
+    //   content: "";
+    //   display: inline-block;
+    //   background: #000;
+    //   left: 50%;
+    //   top: 50%;
+    //   transform: translate(-50%, -50%);
+    // }
 
-    &::after {
-      width: 2px;
-      height: 14px;
-    }
+    // &::before {
+    //   width: 14px;
+    //   height: 2px;
+    // }
+
+    // &::after {
+    //   width: 2px;
+    //   height: 14px;
+    // }
   }
 }
 

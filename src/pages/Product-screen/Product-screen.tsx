@@ -3,15 +3,41 @@ import './product-screen.scss'
 import Header from '../../Components/Header/Header'
 import { ShopHead } from '../../Components/Shop/Shop-head'
 import { ShopButton } from '../../Components/Shop/Shop-button'
+import { useEffect, useState } from 'react'
+import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
+import { basketSelector, deleteBasket, getProductById, isLoadingSelector, productByIdSelector, setBasket } from '../../Redux/slice/shopSlice'
+import plug from '../../assets/image/plug.png'
+import { IMAGE_URL } from '../../http'
+import { showToast } from '../../utils/common-functions'
+
 
 export const ProductScreen = () => {
-  const params = useParams()
 
-  const addBasket = () => {
-    console.log('Add')
+  const params = useParams()
+  const dispatch = useAppDispatch()
+  const product = useAppSelector(productByIdSelector)
+  const isLoading = useAppSelector(isLoadingSelector)
+  const basket = useAppSelector(basketSelector)
+
+  const addBasket = (id:number,image:string,price:number, title:string) => {
+    const isExistProduct = basket.find(item=>item.id===id)
+    if(isExistProduct){
+      dispatch(deleteBasket({id,image,price,title})) 
+      showToast('Товар удален из корзины!')
+    }else{
+      dispatch(setBasket({id,image,price,title}))
+      showToast('Товар добавлен в корзину!')
+    }  
   }
 
-  console.log(params)
+  useEffect(() => {
+    dispatch(getProductById(Number(params.id)))
+  }, [])
+
+  if(isLoading){
+    return <h1>Загрузка...</h1>
+  }
+  
 
   return (
     <div className={'product-screen'}>
@@ -19,24 +45,23 @@ export const ProductScreen = () => {
       <ShopHead marginBottom={42} />
       <div className='product-screen__image'>
         <img
-          src='https://i.pinimg.com/originals/d3/0d/33/d30d339ef6bfa4e9eed8c131f33dd17c.jpg'
+          src={product?.image ? IMAGE_URL+'shop/'+product.image : plug}
           alt=''
         />
       </div>
       <div className='product-screen__title block-title'>
-        3 мес. подписки на Яндекс.Плюс
+        {product?.title}
       </div>
       <div className='product-screen__description'>
-        Проведите незабываемые январские праздники: смотрите кинопремьеры на
-        Кинопоиске и слушайте новогодние хиты на Яндекс.Музыке
+        {product?.description}
       </div>
       <div className='product-screen__button'>
-        <ShopButton
-          title={'Добавить в корзину'}
-          rewardCount={10}
-          onClick={addBasket}
-        />
-        <div className='product-screen__footnote'>В наличии 12 шт.</div>
+        {product&&<ShopButton
+          title={basket.find(item=>item.id===product.id)?"Убрать из корзины":'Добавить в корзину'}
+          rewardCount={product?.price||0}
+          onClick={()=>addBasket(product?.id,product?.image, product?.price,product?.title)}
+        />}
+        <div className='product-screen__footnote'>В наличии {product?.quantity} шт.</div>
       </div>
     </div>
   )

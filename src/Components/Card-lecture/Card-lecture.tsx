@@ -9,12 +9,14 @@ interface ICardLecture {
   title: string
   date: string
   reward: number
-  id: number
+  id: number,
+  completed: boolean
 }
 
-const CardLecture: FC<ICardLecture> = ({ id, date, img, reward, title }) => {
+const CardLecture: FC<ICardLecture> = ({ id, date, img, reward, title,completed }) => {
   return (
     <NavLink to={LECTURE_ROUTE + '/' + id} className={'card-lecture'}>
+      <div className="card-lecture__plug">{completed ? 'Выполнено' : 'Доступно'}</div>
       <div className='card-lecture__image'>
         <img src={img} alt='lecture' />
       </div>

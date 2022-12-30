@@ -9,6 +9,7 @@ import ChallengeService from '../../services/ChallengeService'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
 import './team-selection.scss'
 import plug from '../../assets/image/plug.png'
+import { showToast } from '../../utils/common-functions'
 
 
 export const TeamSelection = () => {
@@ -44,12 +45,20 @@ const TeamItem: FC<ITeamItem> = ({ img, title, challengeId,commandId }) => {
   const [existTeam, setExistTeam] = useState<boolean>(false)
 
   const join = async () => {
-    const response = await ChallengeService.challengeJoin(challengeId)
-    console.log(response);
-    
-    if (response.data.success === 1) {
+
+    try {
+      const response = await ChallengeService.challengeJoin(challengeId)
+      console.log(response);    
       setExistTeam(true)
+      await showToast('Вы в команде!')
+
+    } catch (error) {
+      console.log(error);
+      await showToast('Ошибка!')
+      
     }
+
+    
   }
 
   return (

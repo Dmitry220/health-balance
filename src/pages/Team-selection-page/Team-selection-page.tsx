@@ -1,6 +1,8 @@
 import './team-selection-page.scss'
 import { TeamSelection } from '../../Components/Team-selection/Team-selection'
 import Header from '../../Components/Header/Header'
+import { Link } from 'react-router-dom'
+import { CHALLENGE_ROUTE } from '../../provider/constants-route'
 
 export const TeamSelectionPage = () => {
   return (
@@ -16,9 +18,9 @@ export const TeamSelectionPage = () => {
         <TeamSelection />
       </div>
 
-      <button className='team-selection-page__button _button-white'>
+      <Link to={CHALLENGE_ROUTE} className='team-selection-page__button _button-white'>
         Готово
-      </button>
+      </Link>
     </div>
   )
 }

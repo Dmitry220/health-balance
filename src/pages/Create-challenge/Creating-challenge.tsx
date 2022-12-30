@@ -10,7 +10,7 @@ import {
   setDisabledButton,
   typeCreatingChallengeSelector
 } from '../../Redux/slice/challengeSlice'
-import { ModalStatus } from '../../Components/Modal-status/Modal-status'
+import { ModalStatus } from '../../Components/Modals/Modal-status'
 import { CREATING_LECTURE_ROUTE } from '../../provider/constants-route'
 
 export const CreatingChallengePage = () => {

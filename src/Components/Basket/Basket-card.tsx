@@ -1,24 +1,31 @@
 import './basket.scss'
 import icon_reward from '../../assets/image/icon_reward.svg'
 import { RewardCount } from '../Reward/Reward-count'
+import plug from '../../assets/image/plug.png'
+import { IMAGE_URL } from '../../http'
+import { FC } from 'react'
+import { IBasket } from '../../models/IShop'
 
-export const BasketCard = () => {
+
+
+
+export const BasketCard:FC<IBasket> = ({image,price,title}) => {
   return (
     <div className={'basket-card'}>
       <div className='basket-card__container'>
         <div className='basket-card__image'>
           <img
             src={
-              'https://avatars.mds.yandex.net/i?id=edf06d652e7d1f53c51d937d09b8cba3-5234866-images-thumbs&n=13&exp=1'
+             image ? IMAGE_URL + 'shop/' + image: plug
             }
             alt='product'
           />
         </div>
         <div className='basket-card__info'>
           <div className='basket-card__title'>
-            Скидка 50% на месячный абонемент в фитнес клуб X-FIT
+           {title}
           </div>
-          <RewardCount count={10} fontSize={15} sizeIcon={15} />
+          <RewardCount count={price} fontSize={15} sizeIcon={15} />
         </div>
       </div>
     </div>

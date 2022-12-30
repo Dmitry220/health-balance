@@ -22,7 +22,7 @@ import {
 } from '../../Redux/slice/newsSlice'
 import { Link } from 'react-router-dom'
 import { INTERESTING_ROUTE, RUBRIC_ROUTE } from '../../provider/constants-route'
-import { ModalStatus } from '../../Components/Modal-status/Modal-status'
+import { ModalStatus } from '../../Components/Modals/Modal-status'
 import FileService from '../../services/FilesServices'
 import { rubricConversion } from '../../utils/common-functions'
 
