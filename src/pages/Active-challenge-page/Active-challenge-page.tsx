@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import Header from '../../Components/Header/Header'
-import { HeaderChallenge } from '../../Components/Active-challenge/Header-challenge'
+import { HeaderChallenge } from '../../Components/Challenge/Header-challenge'
 import { ListLeadersChallenge } from '../../Components/List-leaders-challenge/List-leaders-challenge'
 import { roles, typesChallenge } from '../../types/enums'
 import './active-challenge-page.scss'
@@ -16,7 +16,7 @@ import {
   challengeSelector,
   getChallengeById
 } from '../../Redux/slice/challengeSlice'
-import { definitionColor } from '../../utils/common-functions'
+import { definitionColor, nFormatter } from '../../utils/common-functions'
 
 export const ActiveChallengePage = () => {
   const params = useParams()
@@ -25,18 +25,15 @@ export const ActiveChallengePage = () => {
   let percent = challenge?.purpose && ((challenge.purpose?.quantity - challenge.remains_to_pass) * 100) / challenge.purpose?.quantity
   const itemsTask = [
     {
-      title:
-        challenge?.type === 3
-          ? 'Шагов для завершения'
-          : 'Километров для завершения',
-      value: challenge?.purpose ? challenge.purpose.quantity - challenge.remains_to_pass : 0,
-      text: challenge?.purpose?.quantity + 'к',
+      title: 'Шагов для завершения',
+      value: challenge?.purpose ? nFormatter(challenge.purpose.quantity - challenge.remains_to_pass, 1) : 0,
+      text: nFormatter(challenge?.purpose?.quantity || 0,1)+'',
       id: 1
     },
     {
       title: 'Обучающий материал',
       value: challenge?.homeworks || 0,
-      text: challenge?.total_lessons + ' лекции',
+      text: challenge?.total_lessons + ' лекций',
       id: 2
     }
   ]

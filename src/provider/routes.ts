@@ -182,7 +182,7 @@ export const privateRoutes = [
     Component: CreatingLecture
   },
   {
-    path: TEAM_SELECTION_ROUTE,
+    path: TEAM_SELECTION_ROUTE+'/:id',
     Component: TeamSelectionPage
   },
   {
@@ -206,7 +206,7 @@ export const privateRoutes = [
     Component: IndividualReportPage
   },
   {
-    path: REPORT_ROUTE,
+    path: REPORT_ROUTE+'/:id',
     Component: ReportPage
   },
   {

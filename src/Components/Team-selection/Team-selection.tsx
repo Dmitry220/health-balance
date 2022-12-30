@@ -8,6 +8,8 @@ import { commandListSelector, getCommandList } from '../../Redux/slice/challenge
 import ChallengeService from '../../services/ChallengeService'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
 import './team-selection.scss'
+import plug from '../../assets/image/plug.png'
+
 
 export const TeamSelection = () => {
 
@@ -34,7 +36,7 @@ interface ITeamItem {
   img: string,
   title: string,
   challengeId: number,
-  commandId: number
+  commandId: number,
 }
 
 const TeamItem: FC<ITeamItem> = ({ img, title, challengeId,commandId }) => {
@@ -43,6 +45,8 @@ const TeamItem: FC<ITeamItem> = ({ img, title, challengeId,commandId }) => {
 
   const join = async () => {
     const response = await ChallengeService.challengeJoin(challengeId)
+    console.log(response);
+    
     if (response.data.success === 1) {
       setExistTeam(true)
     }
@@ -52,7 +56,7 @@ const TeamItem: FC<ITeamItem> = ({ img, title, challengeId,commandId }) => {
     <div className='team-selection__item team-item'>
       <Link to={TEAM_MEMBER_ROUTE+'/'+commandId} className='team-item__column'>
         <div className='team-item__img'>
-          <img src='' alt='' />
+          <img src={plug} alt='' />
         </div>
         <div className='team-item__title'>{title}</div>
       </Link>

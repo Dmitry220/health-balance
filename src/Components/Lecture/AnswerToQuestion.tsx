@@ -28,15 +28,19 @@ export const AnswerToQuestion = () => {
   const isLoading = useAppSelector(isLoadingSuccessSelector)
 
   const complete = async () => {
+    
     if (value != '' && lesson?.id) {
       const params = new FormData()
       params.append('answer', value)
-      const response = await LessonService.complete(params, lesson.id)
-      console.log(response)
+      try {
+        const response = await LessonService.complete(params, lesson.id)
+        console.log(response);
 
-      if (response.data.success) {
         setShowModal(true)
+      } catch (error) {
       }
+
+
     } else {
       await showToast('Произошла ошибка')
     }

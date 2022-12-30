@@ -18,11 +18,13 @@ import {
 } from '../../Redux/slice/challengeSlice'
 import { Link } from 'react-router-dom'
 import { CREATING_CHALLENGE_ROUTE } from '../../provider/constants-route'
+import { dataUserSelector } from '../../Redux/slice/profileSlice'
+import { InstructionsChallenge } from '../../Components/Challenge/Instruction-challenge'
 
 export const ChallengePage = () => {
   const [valueTab, setValueTab] = React.useState<number>(0)
   const labelsTabChallenge = ['Личные', 'Командные', 'Общие', 'Архив']
-
+  const dataUser = useAppSelector(dataUserSelector)
   const newChallenges = useAppSelector(newChallengesSelector)
   const activeChallenges = useAppSelector(activeChallengesSelector)
 
@@ -36,8 +38,6 @@ export const ChallengePage = () => {
 
   const dispatch = useAppDispatch()
 
-  console.log(newChallenges);
-  
 
   useEffect(() => {
     dispatch(getListChallenges())
@@ -47,17 +47,21 @@ export const ChallengePage = () => {
     return <h1>Загрузка...</h1>
   }
 
+  if(!isLoading){
+    return <InstructionsChallenge />
+  }
+
   return (
     <div className={'challenge-page'}>
       <Navigation routes={routesNavigation} />
       <HeaderTwo title={'Челленджи'} marginBottom={40} />
-
-      <Link
-        to={CREATING_CHALLENGE_ROUTE}
-        className='challenge-page__link _button-yellow'
-      >
-        Создать челлендж
-      </Link>
+      {dataUser.role === 1 &&
+        <Link
+          to={CREATING_CHALLENGE_ROUTE}
+          className='challenge-page__link _button-yellow'
+        >
+          Создать челлендж
+        </Link>}
 
       <Tabs
         labels={labelsTabChallenge}
@@ -123,7 +127,7 @@ export const ChallengePage = () => {
         <div className='challenge-page__active'>
           {/* <CardChallenge type={typesChallenge.common} percent={55} id={9} />
                     <CardChallenge type={typesChallenge.common} percent={70} id={2} /> */}
-                    <div className='challenge-page__active-plug'>
+          <div className='challenge-page__active-plug'>
             Нет общих челленджей
           </div>
         </div>
@@ -133,7 +137,7 @@ export const ChallengePage = () => {
         <div className='challenge-page__active'>
           {/* <CardChallenge type={typesChallenge.personal} percent={74} id={4} />
                     <CardChallenge type={typesChallenge.command} percent={96} id={5} /> */}
-                    <div className='challenge-page__active-plug'>
+          <div className='challenge-page__active-plug'>
             Челленджей нет
           </div>
         </div>

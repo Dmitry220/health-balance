@@ -27,11 +27,18 @@ export const AnswerOptions = () => {
   const [showModal, setShowModal] = useState<boolean>(false)
 
   const complete = async () => {
+    console.log(lesson, value);
+    
     if (+value === lesson?.correct_answer) {
       const params = new FormData()
       params.append('answer', value)
+     try {
       const response = await LessonService.complete(params, lesson.id)
+      console.log(response);      
       setShowModal(true)
+     } catch (error) {      
+     }
+     
     } else {
       await showToast('Вы не правильно ответили на вопрос')
     }

@@ -2,7 +2,7 @@ import './commnet.scss'
 import { CommentAnswer } from './Comment-answer'
 import { FC, useEffect, useLayoutEffect, useMemo, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
-import { commentsSelector, getComments, idNewCommentSelector, newsByIdSelector } from '../../Redux/slice/newsSlice'
+import { commentsSelector, getComments, getNewsById, idNewCommentSelector, newsByIdSelector } from '../../Redux/slice/newsSlice'
 import { IComment } from '../../models/INews'
 import { CommentForm } from './Comment-form'
 import { useParams } from 'react-router-dom'
@@ -26,6 +26,7 @@ export const ListComments = () => {
 
   useEffect(() => {     
     dispatch(getComments(newsId))
+    dispatch(getNewsById(Number(params.id)))
   }, [idNewComment])
 
 const formatingText = (number:number) => {

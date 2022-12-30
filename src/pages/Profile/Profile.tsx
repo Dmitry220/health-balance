@@ -51,7 +51,7 @@ export const Profile = () => {
             {!dataUser.avatar&&<img src={avatar} alt='avatar' />}
           </div>
           <div className='profile__user-info'>
-            <div className='profile__user-name'>{dataUser.name}</div>
+            <div className='profile__user-name'>{dataUser.name + ' ' + dataUser.surname}</div>
             <Link to={EDITING_ROUTE} className='profile__link text-blue'>
               Редактировать
             </Link>

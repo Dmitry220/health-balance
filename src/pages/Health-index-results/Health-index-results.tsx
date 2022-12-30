@@ -70,7 +70,7 @@ export const HealthIndexResults = () => {
       </div>
       <div className='health-index-results-page__disease'>
         <div className='health-index-results-page__disease-item'>
-          <CardDisease risk={0} title={'Сахарный диабет'}/>
+          <CardDisease risk={lastDynamic.diabetes_risk} title={'Сахарный диабет'}/>
         </div>
         <div className='health-index-results-page__disease-item'>
           <CardDisease title='Онкология' risk={lastDynamic?.oncology_risk}/>

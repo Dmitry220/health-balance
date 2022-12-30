@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 import { $api } from "../http";
-import { IDynamics, IGetProgressAndIDPolls, IQuestionnaire } from "../models/IHealthIndex";
+import { IDynamics, IGetProgressAndIDPolls, IListReport, IQuestionnaire } from "../models/IHealthIndex";
 
 export default class HealthIndexService {
   static async saveCurrentResult(
@@ -64,5 +64,13 @@ export default class HealthIndexService {
 
   static async getDynamics(): Promise<AxiosResponse<{data:IDynamics[]}>> {
     return $api.get(`/v2/dynamics/?token=${localStorage.getItem("token")}`);
+  }
+
+  static async getListReports(): Promise<AxiosResponse<{data:IListReport[]}>> {
+    return $api.get(`/v2/indexes/?token=${localStorage.getItem("token")}`);
+  }
+
+  static async getReport(idIndex:number){
+    return $api.get(`/v2/indexes/${idIndex}?token=${localStorage.getItem("token")}`);
   }
 }

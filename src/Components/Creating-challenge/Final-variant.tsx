@@ -178,7 +178,7 @@ export const FinalVariant = () => {
           />
         </div>
       </div>
-      <div className='final-variant__tasks'>
+      {/* <div className='final-variant__tasks'>
         <article className='task-challenge__card-task card-task'>
           <div className='card-task__container'>
             <div className='card-task__title'>Шагов пройдено</div>
@@ -203,7 +203,7 @@ export const FinalVariant = () => {
             </div>
           </div>
         </article>
-      </div>
+      </div> */}
     </div>
   )
 }

@@ -1,4 +1,4 @@
-import { useEffect,useState } from 'react'
+import { useEffect, useState } from 'react'
 import './motivation.scss'
 import iconClock from '../../assets/image/Interesting/clock.svg'
 import plug from '../../assets/image/plug.png'
@@ -24,17 +24,17 @@ export const MotivationCard = () => {
   const [isLike, setLike] = useState<boolean>(false)
 
   const like = async () => {
+   try {
     const response = await NewsService.likeNews(Number(params.id))
     console.log(response);
-    if(response.data.data.success === 1){
-       setLike(true)
-    }else{
-      await showToast('Вы уже лайк ставили')
-    }    
+    setLike(true)
+   } catch (error) {
+    await showToast('Вы уже ставили лайк!')
+   }
   }
 
   useEffect(() => {
-    dispatch(getNewsById(Number(params.id)))
+    //dispatch(getNewsById(Number(params.id)))
   }, [])
 
   if (isLoading) {
@@ -46,8 +46,8 @@ export const MotivationCard = () => {
       {news && (
         <div className={'motivation-card'}>
           <div className='motivation-card__image'>
-           {news.image&& <img src={IMAGE_URL + 'news/' + news.image} alt={'news/'+news.id} />}
-           {!news.image&& <img src={plug} alt={'news/'} />}
+            {news.image && <img src={IMAGE_URL + 'news/' + news.image} alt={'news/' + news.id} />}
+            {!news.image && <img src={plug} alt={'news/'} />}
           </div>
           <div className='motivation-card__body'>
             <div className='motivation-card__text'>
@@ -61,8 +61,8 @@ export const MotivationCard = () => {
               {news.title}
             </div>
             <div className='motivation__feed-back feed-back'>
-              <div className='feed-back__favourite' onClick={like} > 
-                {news.likes + (isLike ? 1 : 0)} <span style={{color: isLike ? 'red' : 'white',fontSize: 18}}>❤</span> 
+              <div className='feed-back__favourite' onClick={like} >
+                {news.likes + (isLike ? 1 : 0)} <span style={{ color: 'white', fontSize: 18 }}>❤</span>
               </div>
               <div className='feed-back__comments'>
                 <img src={iconComments} alt='comments' />
