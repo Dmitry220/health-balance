@@ -6,6 +6,7 @@ import { getLeaderboardChallenge, getLeaderboardTeamsChallenge, isLoadingSelecto
 import { IMAGE_URL } from '../../http'
 import avatar from '../../assets/image/avatar.jpeg'
 import { ILeaderBoardChallenge, ILeaderBoardChallengTeam } from '../../models/ILeaderBoard'
+import { Preloader } from '../Preloader/Preloader'
 
 interface IListLeadersChallenge {
   type: number,
@@ -32,7 +33,7 @@ export const ListLeadersChallenge: FC<IListLeadersChallenge> = ({type,idChalleng
   
   
   if(isLoading){
-    return <h1>Загрузка...</h1>
+    return <Preloader />
   }
 
   return (

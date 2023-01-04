@@ -24,11 +24,11 @@ import { Link } from 'react-router-dom'
 import { INTERESTING_ROUTE, RUBRIC_ROUTE } from '../../provider/constants-route'
 import { ModalStatus } from '../../Components/Modals/Modal-status'
 import FileService from '../../services/FilesServices'
-import { rubricConversion } from '../../utils/common-functions'
+import { rubricConversion, showToast } from '../../utils/common-functions'
 
 
 export const CreatingInteresting = () => {
-  
+
   const [showModal, setShowModal] = useState<boolean>(false)
   const tempImage = useAppSelector(tempImageNewsSelector)
   const takePicture = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -49,8 +49,8 @@ export const CreatingInteresting = () => {
   const handlerTitle = (e: ChangeEvent<HTMLInputElement>) =>
     dispatch(setTitleNews(e.target.value))
 
-  const handlerContent = (e: ChangeEvent<HTMLTextAreaElement>) =>
-    {dispatch(setContentNews(e.target.value))
+  const handlerContent = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    dispatch(setContentNews(e.target.value))
   }
 
   const handlerAnnotation = (e: ChangeEvent<HTMLInputElement>) =>
@@ -60,11 +60,14 @@ export const CreatingInteresting = () => {
     dispatch(setPushNews(+e.target.checked))
 
   const publish = async () => {
-    await dispatch(creatingNews())
-    reset()
-    setShowModal(true)
+    if (dataNews.title && dataNews.annotation && dataNews.category && dataNews.content) {
+      await dispatch(creatingNews())
+      reset()
+      setShowModal(true)
+    } else {
+      await showToast('Вы заполнили не все поля!')
+    }
   }
-
 
   const reset = () => {
     dispatch(setPushNews(0))
@@ -123,14 +126,14 @@ export const CreatingInteresting = () => {
           >
             Рубрика
           </Link>
-          <div style={{marginLeft: 20}}>{rubricConversion(dataNews.category)}</div>
+          <div style={{ marginLeft: 20 }}>{rubricConversion(dataNews.category)}</div>
         </div>
-        {tempImage &&<div className='creating-interesting__row'>         
-            <img
-              className='creating-interesting__cover-image'
-              src={tempImage}
-              alt='cover'
-            />          
+        {tempImage && <div className='creating-interesting__row'>
+          <img
+            className='creating-interesting__cover-image'
+            src={tempImage}
+            alt='cover'
+          />
         </div>}
         <div className='creating-interesting__push'>
           <div className='custom-checkbox'>

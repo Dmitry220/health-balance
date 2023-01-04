@@ -9,6 +9,7 @@ import { IMAGE_URL } from '../../http'
 import { Link } from 'react-router-dom'
 import { PRODUCT_SCREEN_ROUTE } from '../../provider/constants-route'
 import { showToast } from '../../utils/common-functions'
+import { Preloader } from '../Preloader/Preloader'
 
 
 interface IShopCards {
@@ -37,7 +38,7 @@ export const ShopCards: FC<IShopCards> = ({ idCategory }) => {
   }, [])
 
   if(isLoading){
-    return <h1>Загрузка...</h1>
+    return <Preloader />
   }
 
   return (

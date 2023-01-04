@@ -21,6 +21,7 @@ import {
   psyholgySelector
 } from '../../Redux/slice/newsSlice'
 import { dataUserSelector } from '../../Redux/slice/profileSlice'
+import { Preloader } from '../../Components/Preloader/Preloader'
 
 export const InterestingPage = () => {
   const dispatch = useAppDispatch()
@@ -40,7 +41,7 @@ export const InterestingPage = () => {
   }, [])
 
   if (isLoading) {
-    return <h1>Загрузка...</h1>
+    return <Preloader />
   }
 
   return (

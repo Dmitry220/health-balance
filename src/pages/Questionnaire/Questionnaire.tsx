@@ -32,6 +32,7 @@ import { DateQuiz } from "../../Components/Quiz/DateQuiz";
 import { RadioWithAnswer } from "../../Components/Quiz/RadioWithAnswer";
 import { ContinueQuestionaire, StartQuestionaire } from "../Health-index/Health-index-page";
 import { ModalStatus } from "../../Components/Modals/Modal-status";
+import { Preloader } from "../../Components/Preloader/Preloader";
 
 
 export const Questionnaire = () => {
@@ -94,7 +95,7 @@ export const Questionnaire = () => {
   console.log(Object.assign({}, ...answers));
 console.log(questionnaire);
   if(isLoading){
-    return <h1>Загрузка...</h1>
+    return <Preloader />
   }
 
   if (finished) {

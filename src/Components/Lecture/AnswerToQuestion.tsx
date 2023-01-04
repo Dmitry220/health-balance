@@ -15,6 +15,7 @@ import { showToast } from '../../utils/common-functions'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
 import { ModalStatus } from '../Modals/Modal-status'
 import { ModalSuccess } from '../Modals/Modal-success'
+import { Preloader } from '../Preloader/Preloader'
 import './lecture.scss'
 
 export const AnswerToQuestion = () => {
@@ -51,7 +52,7 @@ export const AnswerToQuestion = () => {
   }, [])
 
   if (isLoading) {
-    return <h1>Загрузка...</h1>
+    return <Preloader />
   }
 
   if (success) {

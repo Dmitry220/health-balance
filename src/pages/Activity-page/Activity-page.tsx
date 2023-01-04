@@ -201,7 +201,7 @@ export const ActivityPage: FC = () => {
       <Graphs />
       <div className='activity-page__important'>
         <ImportantBlock />
-        <Banner title={'Стартовый опрос'} text={'Ответьте на 4 вопроса'} />
+        {/* <Banner title={'Стартовый опрос'} text={'Ответьте на 4 вопроса'} /> */}
       </div>
       <div className='activity-page__top-rating top-rating'>
         <div className='top-rating__title title'>ТОП сегодня</div>

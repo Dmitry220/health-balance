@@ -8,6 +8,7 @@ import { optionsChartBar, getGradient } from '../../Components/Charts/Chart-opti
 import { SwiperSlide, Swiper } from 'swiper/react'
 import { useEffect, useState } from 'react'
 import { IDynamics } from '../../models/IHealthIndex'
+import { Pagination } from 'swiper'
 
 export const DynamicsPage = () => {
 
@@ -24,6 +25,7 @@ export const DynamicsPage = () => {
        'Июль',
        'Август',
        'Сентябрь',
+       'Октябрь',
        'Ноябрь',
        'Декабрь',
     ];
@@ -33,7 +35,7 @@ export const DynamicsPage = () => {
     body_mass_index: 'Индекс массы тела',
     physical_activity: 'Физическая активность',
     nutrition_risk: 'Правильное питание',
-    cholesterol_risk: 'Холестерие',
+    cholesterol_risk: 'Холестерин',
     alcohol_risk: 'Алколизм',
     depression_risk: 'Депрессия',
     stress_risk: 'Стресс',
@@ -325,7 +327,6 @@ export const DynamicsPage = () => {
     })
   }, [])
 
-  console.log('labels', labels);
 
   const getValueIndex = (param: any) => {
     return {
@@ -347,6 +348,9 @@ export const DynamicsPage = () => {
     }
   }
 
+
+  
+
   return (
     <div className={'dynamics-page'}>
       <Header title={'Динамика'} />
@@ -367,24 +371,32 @@ export const DynamicsPage = () => {
       </div>
       <div className='dynamics-page__main-title main-title'>Динамика</div>
       <Swiper
-        spaceBetween={50} >
+        spaceBetween={16} 
+        slidesPerView={1.1}
+        pagination={{ clickable: true,bulletClass: 'dynamic-bullet', bulletActiveClass:'dynamic-bullet_active',modifierClass:'mod' }}
+        
+        modules={[Pagination]}
+        >
         {
           titlesIndex.map((item, i) => (
             <SwiperSlide key={i}>
-              <div className='dynamics__chart'>
+              <div className="dynamics-index">
+                     <div className='dynamics-index__chart'>
 
                 <h3>{//@ts-ignore
                   translateIndex[item]}</h3>
                 <Bar options={optionsChartBar} data={getValueIndex(item)} />
               </div>
-              <div className={'dynamics__info'}>
-                <div className='dynamics__value'>
+              <div className={'dynamics-index__info'}>
+                <div className='dynamics-index__value'>
                   {indexCurrentMonth[i]}
                 </div>
-                <div className='dynamics__value'>
-                  Показатель на {months[new Date(1000).getMonth()] + ' ' + new Date().getFullYear()}
+                <div className='dynamics-index__text'>
+                  Показатель на <span>{months[new Date(lastDynamic.date*1000).getMonth()] + ' ' + new Date(lastDynamic.date*1000).getFullYear()}</span> 
                 </div>
               </div>
+              </div>
+         
             </SwiperSlide>
           ))
         }

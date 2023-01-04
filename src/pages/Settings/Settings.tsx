@@ -3,6 +3,7 @@ import './settings.scss'
 import Header from '../../Components/Header/Header'
 import { Link } from 'react-router-dom'
 import { SYNCING_ROUTE } from '../../provider/constants-route'
+import { DOC_URL } from '../../http'
 
 export const Settings = () => {
   const [notificationNews, setNotificationNews] = useState<boolean>(true)
@@ -100,18 +101,22 @@ export const Settings = () => {
         </div>
         <div className='settings__block'>
           <div className='settings__block-links'>
-            <Link
-              to={'/'}
+            <a
+              href={`${DOC_URL}terms.pdf`}
               className='settings__notification-title settings__notification-title_blue'
-            >
-              Политика конфиденциальности
-            </Link>
-            <Link
-              to={'/'}
-              className='settings__notification-title settings__notification-title_blue'
+              target='_blank'
+              rel='noreferrer'
             >
               Условия использования
-            </Link>
+            </a>
+            <a
+              href={`${DOC_URL}privacy.pdf`}
+              className='settings__notification-title settings__notification-title_blue'
+              target='_blank'
+              rel='noreferrer'
+            >
+              Политика конфиденциальности
+            </a>
           </div>
         </div>
       </div>

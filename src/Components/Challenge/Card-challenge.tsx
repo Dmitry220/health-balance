@@ -23,7 +23,7 @@ export const CardChallenge: FC<ICardChallenge> = ({ challenge }) => {
 
   const dispatch = useAppDispatch()
 
-  let percent = challenge.purpose && ((challenge.purpose?.quantity - challenge.remains_to_pass) * 100) / challenge.purpose?.quantity
+  let percent = challenge.purpose && +((challenge.purpose?.quantity - challenge.remains_to_pass) * 100 / challenge.purpose?.quantity).toFixed(1)
 
   useEffect(() => {
     async function asyncQuery() {

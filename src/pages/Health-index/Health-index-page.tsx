@@ -10,6 +10,7 @@ import { dynamicsSelector, getDynamics, getProgressAndIdPolls, idPolleSelector, 
 import { Questionnaire } from '../Questionnaire/Questionnaire'
 import { FC, useEffect, useState } from 'react'
 import HealthIndexService from '../../services/HealthIndexService'
+import { Preloader } from '../../Components/Preloader/Preloader'
 
 export const HealthIndexPage = () => {
 
@@ -30,7 +31,7 @@ export const HealthIndexPage = () => {
 
 
   if (isLoading) {
-    return <h1>Загрузка...</h1>
+    return <Preloader />
   }
 
  

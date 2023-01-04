@@ -14,6 +14,7 @@ import { LECTURES_ROUTE } from '../../provider/constants-route'
 import { challengeSelector } from '../../Redux/slice/challengeSlice'
 import { showToast } from '../../utils/common-functions'
 import LessonService from '../../services/LessonsService'
+import { Preloader } from '../Preloader/Preloader'
 
 export const ScanQR = () => {
   const lesson = useAppSelector(lessonSelector)
@@ -59,7 +60,7 @@ export const ScanQR = () => {
   }, [])
 
   if (isLoading) {
-    return <h1>Загрузка...</h1>
+    return <Preloader />
   }
 
   if (success) {

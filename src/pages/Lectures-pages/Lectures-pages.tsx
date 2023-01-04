@@ -14,6 +14,7 @@ import { Link } from 'react-router-dom'
 import { CREATING_LECTURE_ROUTE } from '../../provider/constants-route'
 import plug from '../../assets/image/plug.png'
 import { dataUserSelector } from '../../Redux/slice/profileSlice'
+import { Preloader } from '../../Components/Preloader/Preloader'
 
 
 export const LecturesPages = () => {
@@ -31,7 +32,7 @@ export const LecturesPages = () => {
   }, [])
 
   if (isLoading) {
-    return <h1>Загрузка...</h1>
+    return <Preloader />
   }
 
   return (

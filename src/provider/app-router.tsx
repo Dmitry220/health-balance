@@ -10,6 +10,7 @@ import {
   isLoadingSelector
 } from '../Redux/slice/authSlice'
 import { setUserData } from '../Redux/slice/profileSlice'
+import { Preloader } from '../Components/Preloader/Preloader'
 
 const AppRouter = () => {
   const user = localStorage.getItem('token')
@@ -28,7 +29,7 @@ const AppRouter = () => {
   }, [isAuth])
 
   if (isLoading) {
-    return <h1>Загрузка...</h1>
+    return <Preloader />
   }
 
   return isAuth && user ? (

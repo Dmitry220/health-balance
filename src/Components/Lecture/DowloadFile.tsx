@@ -6,6 +6,7 @@ import LessonService from '../../services/LessonsService'
 import { showToast } from '../../utils/common-functions'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
 import { ModalSuccess } from '../Modals/Modal-success'
+import { Preloader } from '../Preloader/Preloader'
 import './lecture.scss'
 
 export const DownloadFile = () => {
@@ -51,7 +52,7 @@ export const DownloadFile = () => {
   }, [])
 
   if (isLoading) {
-    return <h1>Загрузка...</h1>
+    return <Preloader />
   }
 
   if (success) {

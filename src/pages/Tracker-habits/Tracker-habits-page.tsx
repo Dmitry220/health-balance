@@ -41,7 +41,7 @@ export const TrackerHabitsPage = () => {
   }, [])
 
   // if(isLoading){
-  //   return <h1>Загрузка...</h1>
+  //   return <Preloader />
   // }
   let hour = tracker.wake_up_time.split(':')[0].length ===2 ? tracker.wake_up_time.split(':')[0] : '0'+tracker.wake_up_time.split(':')[0]
   let minutes = tracker.wake_up_time.split(':')[1].length ===2 ? tracker.wake_up_time.split(':')[1] : '0'+tracker.wake_up_time.split(':')[1]

@@ -15,6 +15,7 @@ import { dataUserSelector } from '../../Redux/slice/profileSlice'
 import { IMAGE_URL } from '../../http'
 import NewsService from '../../services/NewsService'
 import { showToast } from '../../utils/common-functions'
+import { Preloader } from '../Preloader/Preloader'
 
 export const MotivationCard = () => {
   const params = useParams()
@@ -38,7 +39,7 @@ export const MotivationCard = () => {
   }, [])
 
   if (isLoading) {
-    return <h1>Загрузка...</h1>
+    return <Preloader />
   }
 
   return (

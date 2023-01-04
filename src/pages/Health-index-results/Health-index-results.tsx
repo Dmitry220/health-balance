@@ -17,6 +17,7 @@ import {
 import { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
 import { dynamicsSelector, getDynamics, isLoadingSelector } from '../../Redux/slice/healthIndexSlice'
+import { Preloader } from '../../Components/Preloader/Preloader'
 
 export const HealthIndexResults = () => {
 
@@ -29,7 +30,7 @@ export const HealthIndexResults = () => {
   
 
   if(isLoading){
-    return <h1>Загрузка...</h1>
+    return <Preloader />
   }
 
   return (

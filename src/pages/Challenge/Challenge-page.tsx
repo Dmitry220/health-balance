@@ -21,10 +21,11 @@ import { CREATING_CHALLENGE_ROUTE } from '../../provider/constants-route'
 import { dataUserSelector } from '../../Redux/slice/profileSlice'
 import { InstructionsChallenge } from '../../Components/Challenge/Instruction-challenge'
 import { challengeVisitSelector } from '../../Redux/slice/visitedPageSlice'
+import { Preloader } from '../../Components/Preloader/Preloader'
 
 export const ChallengePage = () => {
   const [valueTab, setValueTab] = React.useState<number>(0)
-  const labelsTabChallenge = ['Личные', 'Командные', 'Общие', 'Архив']
+  const labelsTabChallenge = ['Личные', 'Командные', 'Общие']
   const dataUser = useAppSelector(dataUserSelector)
   const newChallenges = useAppSelector(newChallengesSelector)
   const activeChallenges = useAppSelector(activeChallengesSelector)
@@ -40,6 +41,9 @@ export const ChallengePage = () => {
   const personalChallenge = newChallenges?.filter(
     (item) => item.type === 3 && item
   )
+  const commonChallenge = newChallenges?.filter(
+    (item) => item.type === 1 && item
+  )
   const isLoading = useAppSelector(isLoadingSelector)
 
   const dispatch = useAppDispatch()
@@ -50,7 +54,7 @@ export const ChallengePage = () => {
   }, [])
 
   if (isLoading) {
-    return <h1>Загрузка...</h1>
+    return <Preloader />
   }
 
   if(visitChallenges===0){
@@ -92,7 +96,7 @@ export const ChallengePage = () => {
         <div className='challenge-page__title-block block-title'>
           Новые челленджи
         </div>
-        {personalChallenge.map((item, i) => (
+        {personalChallenge.length ? personalChallenge.map((item, i) => (
           <div className={'challenge-page__new-challenges'} key={i}>
             <NewChallengeCard
               type={item.type}
@@ -102,7 +106,9 @@ export const ChallengePage = () => {
               title={item.title}
             />
           </div>
-        ))}
+        )): <div className='challenge-page__active-plug'>
+        Нет новых челленджей
+      </div>}
       </TabContent>
       <TabContent index={1} value={valueTab}>
         <div className='challenge-page__title-block block-title'>Командные</div>
@@ -120,7 +126,7 @@ export const ChallengePage = () => {
         <div className='challenge-page__title-block block-title'>
           Новые челленджи
         </div>
-        {commandsChallenge.map((item, i) => (
+        {commandsChallenge.length ? commandsChallenge.map((item, i) => (
           <div className={'challenge-page__new-challenges'} key={i}>
             <NewChallengeCard
               type={item.type}
@@ -130,7 +136,9 @@ export const ChallengePage = () => {
               title={item.title}
             />
           </div>
-        ))}
+        )): <div className='challenge-page__active-plug'>
+        Нет новых челленджей
+      </div>}
       </TabContent>
       <TabContent index={2} value={valueTab}>
         <div className='challenge-page__title-block block-title'>Общие</div>
@@ -145,16 +153,22 @@ export const ChallengePage = () => {
             </div>
           )}
         </div>
-      </TabContent>
-      <TabContent index={3} value={valueTab}>
-        <div className='challenge-page__title-block block-title'>Архив</div>
-        <div className='challenge-page__active'>
-          {/* <CardChallenge type={typesChallenge.personal} percent={74} id={4} />
-                    <CardChallenge type={typesChallenge.command} percent={96} id={5} /> */}
-          <div className='challenge-page__active-plug'>
-            Челленджей нет
-          </div>
+        <div className='challenge-page__title-block block-title'>
+          Новые челленджи
         </div>
+        {commonChallenge.length ? commonChallenge.map((item, i) => (
+          <div className={'challenge-page__new-challenges'} key={i}>
+            <NewChallengeCard
+              type={item.type}
+              id={item.id}
+              description={item.description}
+              image={item.image}
+              title={item.title}
+            />
+          </div>
+        )): <div className='challenge-page__active-plug'>
+        Нет новых челленджей
+      </div>}
       </TabContent>
     </div>
   )

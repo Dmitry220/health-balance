@@ -23,6 +23,7 @@ import {
 } from '../../Redux/slice/challengeSlice'
 import { definitionColor, nFormatter } from '../../utils/common-functions'
 import ChallengeService from '../../services/ChallengeService'
+import { Preloader } from '../../Components/Preloader/Preloader'
 
 export const NewChallengeInfo = () => {
   const dispatch = useAppDispatch()
@@ -131,7 +132,7 @@ export const NewChallengeInfo = () => {
           )}
         </>
       ) : (
-        <h1>Загрузка...</h1>
+        <Preloader />
       )}
     </div>
   )

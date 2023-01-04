@@ -9,6 +9,7 @@ import { basketSelector, deleteBasket, getProductById, isLoadingSelector, produc
 import plug from '../../assets/image/plug.png'
 import { IMAGE_URL } from '../../http'
 import { showToast } from '../../utils/common-functions'
+import { Preloader } from '../../Components/Preloader/Preloader'
 
 
 export const ProductScreen = () => {
@@ -35,7 +36,7 @@ export const ProductScreen = () => {
   }, [])
 
   if(isLoading){
-    return <h1>Загрузка...</h1>
+    return <Preloader />
   }
   
 

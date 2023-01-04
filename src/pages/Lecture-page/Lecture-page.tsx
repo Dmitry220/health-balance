@@ -11,6 +11,7 @@ import {
   lessonSelector
 } from '../../Redux/slice/lessonsSlice'
 import { useParams } from 'react-router-dom'
+import { Preloader } from '../../Components/Preloader/Preloader'
 
 export const LecturePage = () => {
   const params = useParams()
@@ -25,7 +26,7 @@ export const LecturePage = () => {
   }, [])
 
   if (isLoading) {
-    return <h1>Загрузка...</h1>
+    return <Preloader />
   }
 
   return (
