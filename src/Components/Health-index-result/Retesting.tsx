@@ -10,7 +10,7 @@ export const Retesting = () => {
         <span>Пройдите тестирование</span>
       </div>
       <Link to={QUESTIONNAIRE_ROUTE} className='retesting__link'>
-        Тестирвоание
+        Тестирование
       </Link>
     </div>
   )

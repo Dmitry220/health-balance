@@ -110,7 +110,7 @@ export const Settings = () => {
               to={'/'}
               className='settings__notification-title settings__notification-title_blue'
             >
-              Правила и условия
+              Условия использования
             </Link>
           </div>
         </div>

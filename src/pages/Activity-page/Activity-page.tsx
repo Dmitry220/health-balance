@@ -135,14 +135,14 @@ export const ActivityPage: FC = () => {
   const startHealthKit = async () => {
     // запрос на авторизацию в Apple Health для отправки шагов
     Health.isAvailable()
-      .then((available) => {
+      .then((available: any) => {
         if (available) {
           Health.requestAuthorization([{ read: ['steps'] }])
             .then(() => getStepsHistory())
-            .catch((error) => console.error(error))
+            .catch((error: any) => console.error(error))
         }
       })
-      .catch((error) => console.error(error))
+      .catch((error: any) => console.error(error))
   }
 
   const getStepsHistory = async () => {
@@ -162,7 +162,7 @@ export const ActivityPage: FC = () => {
 
           updateStepsPeriod(steps)
         })
-        .catch((e) => console.log(e))
+        .catch((e: any) => console.log(e))
     }, 5000)
 
     interval.current = id
@@ -215,8 +215,11 @@ export const ActivityPage: FC = () => {
 const Graphs = () => {
   const startDateDay = new Date()
   startDateDay.setDate(startDateDay.getDate() - 7)
+  const startDateWeek = new Date()
+  startDateWeek.setDate(startDateWeek.getDate() - 7 * 7)
   const startDateMonth = new Date()
   startDateMonth.setMonth(startDateMonth.getMonth() - 11)
+  
   const dispatch = useAppDispatch()
   const [currentValueTab, setCurrentValueTab] = useState<number>(0)
   const namesTabsDynamics = ['Дни', 'Недели', 'Месяцы']
@@ -283,7 +286,7 @@ const Graphs = () => {
     }
     const dataWeek = {
       end_date: new Date().toLocaleDateString(),
-      start_date: '11.12.2022',
+      start_date: startDateWeek,
       type: 1
     }
     const dataMonth = {
@@ -316,14 +319,21 @@ const Graphs = () => {
         </div>
         <div className={'dynamics__info'}>
           <div className='dynamics__value'>
-            {nFormatter(currentStepsCount,1)} <br /> <span>{sklonenie(currentStepsCount, ['шаг', 'шага','шагов'])}</span>
+            {nFormatter(currentStepsCount, 1)} <br />{' '}
+            <span>
+              {sklonenie(currentStepsCount, ['шаг', 'шага', 'шагов'])}
+            </span>
           </div>
           <div className='dynamics__value'>
-            {nFormatter(+((currentStepsCount * 0.7) / 1000).toFixed(2),1)} <br />{' '}
-            <span>км</span>
+            {nFormatter(+((currentStepsCount * 0.7) / 1000).toFixed(2), 1)}{' '}
+            <br /> <span>км</span>
           </div>
           <div className='dynamics__value'>
-          {purpose && steps ? (steps[steps.length-1]?.finished === 1 ? 100 :currentStepsCount *100 / purpose?.quantity) : 0}
+            {purpose && steps
+              ? steps[steps.length - 1]?.finished === 1
+                ? 100
+                : (currentStepsCount * 100) / purpose?.quantity
+              : 0}
             %<br /> <span>от цели</span>
           </div>
         </div>
@@ -334,13 +344,19 @@ const Graphs = () => {
         </div>
         <div className={'dynamics__info'}>
           <div className='dynamics__value'>
-            {nFormatter(weeks[0].count, 2)} <br /> <span>{sklonenie(weeks[0].count, ['шаг', 'шага','шагов'])}</span>
+            {nFormatter(weeks[0].count, 2)} <br />{' '}
+            <span>{sklonenie(weeks[0].count, ['шаг', 'шага', 'шагов'])}</span>
           </div>
           <div className='dynamics__value'>
-            {nFormatter(+((weeks[0].count * 0.7) / 1000).toFixed(2),1)} <br /> <span>км</span>
+            {nFormatter(+((weeks[0].count * 0.7) / 1000).toFixed(2), 1)} <br />{' '}
+            <span>км</span>
           </div>
           <div className='dynamics__value'>
-            {purpose && steps ? (steps[steps.length-1]?.finished === 1 ? 100 :currentStepsCount *100 / purpose?.quantity) : 0}
+            {purpose && steps
+              ? steps[steps.length - 1]?.finished === 1
+                ? 100
+                : (currentStepsCount * 100) / purpose?.quantity
+              : 0}
             %<br /> <span>от цели</span>
           </div>
         </div>
@@ -351,14 +367,28 @@ const Graphs = () => {
         </div>
         <div className={'dynamics__info'}>
           <div className='dynamics__value'>
-            {nFormatter(months[new Date().getMonth()].count, 1)} <br /> <span>{sklonenie(months[new Date().getMonth()].count,['шаг', 'шага','шагов'])}</span>
+            {nFormatter(months[new Date().getMonth()].count, 1)} <br />{' '}
+            <span>
+              {sklonenie(months[new Date().getMonth()].count, [
+                'шаг',
+                'шага',
+                'шагов'
+              ])}
+            </span>
           </div>
           <div className='dynamics__value'>
-            {nFormatter(+((months[new Date().getMonth()].count * 0.7) / 1000).toFixed(2),1)}
+            {nFormatter(
+              +((months[new Date().getMonth()].count * 0.7) / 1000).toFixed(2),
+              1
+            )}
             <br /> <span>км</span>
           </div>
           <div className='dynamics__value'>
-            {purpose && steps ? (steps[steps.length-1]?.finished === 1 ? 100 :currentStepsCount *100 / purpose?.quantity) : 0}
+            {purpose && steps
+              ? steps[steps.length - 1]?.finished === 1
+                ? 100
+                : (currentStepsCount * 100) / purpose?.quantity
+              : 0}
             %<br /> <span>от цели</span>
           </div>
         </div>
