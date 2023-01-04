@@ -18,7 +18,7 @@ export const AnswerOptions = () => {
   const dispacth = useAppDispatch()
 
   const lesson = useAppSelector(lessonSelector)
-  const answers = lesson?.answers.split(';')
+  const answers = lesson?.answers
   const [value, setValue] = useState<string>('')
   const challengeId = useAppSelector(challengeSelector)
   const success = useAppSelector(successSelector)

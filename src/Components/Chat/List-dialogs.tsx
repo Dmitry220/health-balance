@@ -29,12 +29,12 @@ export const ListDialog = () => {
           if(dialog.members.length === 2){
             let companionId = dialog.members[0].id === id ? 1 : 0
             return <Dialog idChannel={dialog.id} key={dialog.id} 
-            title={dialog.members[companionId].name + ' ' + dialog.members[companionId].surname } 
+            title={dialog.members.length > 2 ? dialog.title : dialog.members[companionId].name + ' ' + dialog.members[companionId].surname } 
             avatar={dialog.members[companionId].avatar } 
             date={dialog.created_at.date}
             />
           }
-          return <Dialog idChannel={dialog.id} key={dialog.id} title={dialog.title} />
+          return <Dialog idChannel={dialog.id} key={dialog.id} title={dialog.title} date={dialog.created_at.date} />
         })
       }
     </div>

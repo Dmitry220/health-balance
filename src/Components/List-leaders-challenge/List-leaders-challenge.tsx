@@ -20,15 +20,17 @@ export const ListLeadersChallenge: FC<IListLeadersChallenge> = ({type,idChalleng
   const leaderboardTeamsChallenge = useAppSelector(leaderboardTeamsChallengeChallengeSelector)
   const isLoading = useAppSelector(isLoadingSelector)
 
-  useEffect(()=>{    
+  useEffect(()=>{       
     if(type === 2){
       dispatch(getLeaderboardTeamsChallenge(idChallenge))
+      console.log('team');      
     }else{
       dispatch(getLeaderboardChallenge(idChallenge))
+      console.log('personal');
     }    
   }, [])
   
-
+  
   if(isLoading){
     return <h1>Загрузка...</h1>
   }
@@ -36,7 +38,7 @@ export const ListLeadersChallenge: FC<IListLeadersChallenge> = ({type,idChalleng
   return (
     <div className={'leader-challenge'}>
       <div className='leader-challenge__header'>
-        <div className='leader-challenge__title'>{'Участники'}</div>
+        <div className='leader-challenge__title'>{type === 3 ? 'Участники':'Команды'}</div>
         <div className='leader-challenge__title'>Прогресс</div>
       </div>
       <div className='leader-challenge__items'>
@@ -88,7 +90,7 @@ const LeaderboardItem:FC<ILeaderboardItem> = ({place,typeChallenge,item}) => {
                     : 'item-leader__avatar'
                 }
               >
-                {<img src={item.avatar ? IMAGE_URL + 'avatars/'+item.avatar : avatar} alt='avatar' style={{borderRadius: item.avatar ? '50%':'10px'}}/>}
+                {<img src={item.avatar ? IMAGE_URL + 'avatars/'+item.avatar : avatar} alt='avatar' style={{borderRadius: typeChallenge === 3 ? '50%':'10px'}}/>}
               </div>
               <div
                 className={

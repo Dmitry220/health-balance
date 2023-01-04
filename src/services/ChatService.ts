@@ -22,8 +22,8 @@ export default class ChatService {
     return $api.get(`/v2/channels/${channel_id}?token=${localStorage.getItem("token")}`);
   }
 
-  static async changeChannel(channel_id: number) {
-    return $api.put(`/v2/channels/${channel_id}?token=${localStorage.getItem("token")}`,{},{
+  static async changeChannel(channel_id: number,title: string, customers_id:number[]) {
+    return $api.put(`/v2/channels/${channel_id}?token=${localStorage.getItem("token")}`,{title,customers_id},{
         headers: {
           accept: 'application/json',
           'Content-Type': 'application/json'

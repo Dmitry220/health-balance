@@ -5,7 +5,7 @@ export interface ILesson {
   type: number
   video: string
   question: string
-  answers: string
+  answers: string[]
   correct_answer: number
   qr_code: string
   start_date: number

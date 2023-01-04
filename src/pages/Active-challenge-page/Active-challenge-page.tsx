@@ -93,7 +93,7 @@ export const ActiveChallengePage = () => {
       <div className='active-challenge-page__title-block block-title'>
         Лидеры челленджа
       </div>
-      <ListLeadersChallenge type={challenge?.type || 0} idChallenge={challenge?.id || 0}/>
+      {challenge?.type &&<ListLeadersChallenge type={challenge?.type} idChallenge={challenge?.id}/>}
     </div>
   )
 }
