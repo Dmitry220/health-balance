@@ -1,7 +1,14 @@
 import { FC } from 'react'
 import { IFurtherButton } from '../Registration/FurtherButton'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
-import { codeRecoverySelector, disableButtonSelector, emailRecoverySelector, passwordRecoverySelector, setDisabledButton, setError } from '../../Redux/slice/accessRecoverySlice'
+import {
+  codeRecoverySelector,
+  disableButtonSelector,
+  emailRecoverySelector,
+  passwordRecoverySelector,
+  setDisabledButton,
+  setError
+} from '../../Redux/slice/accessRecoverySlice'
 import './access-recovery.scss'
 import { useNavigate } from 'react-router-dom'
 import { LOGIN_ROUTE } from '../../provider/constants-route'
@@ -22,8 +29,7 @@ export const FurtherRecoveryButton: FC<IFurtherButton> = ({
   const changePassword = async () => {
     if (order === 0) {
       try {
-        const response = await AuthService.restorePassword(email)
-        console.log(response.data);
+        await AuthService.restorePassword(email)
         await showToast('Письмо с кодом отправлено на почту!')
         if (order < 1) {
           setOrder((prev) => prev + 1)
@@ -33,18 +39,16 @@ export const FurtherRecoveryButton: FC<IFurtherButton> = ({
       } catch (error) {
         dispatch(setError(true))
       }
-
     }
     if (order === 1) {
       try {
         const response = await AuthService.updatePassword(email, code, password)
-        console.log(response);
         await showToast('Ваш пароль восстановлен!')
         navigate(LOGIN_ROUTE)
       } catch (error) {
-        console.log(error);
+        console.log(error)
         await showToast('Ошибка!')
-      }    
+      }
     }
   }
 
