@@ -26,6 +26,7 @@ import { NavLink } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
 import { useEffect } from 'react'
 import { countWaterSelector, getTracker, isLoadingSelector, trackerSelector } from '../../Redux/slice/trackerSlice'
+import { sklonenie } from '../../utils/common-functions'
 
 export const TrackerHabitsPage = () => {
 
@@ -84,7 +85,7 @@ export const TrackerHabitsPage = () => {
       <div className='tracker-habits-page__task-title'>
         <div className='tracker-habits-page__task-column'>
           <img src={icon_fruit} alt='' />
-          Съесть <span>{tracker?.fruits}</span> фрутков / овощей
+          Съесть <span>{tracker?.fruits}</span> {sklonenie(tracker?.fruits, ['фрукт', 'фрукта', 'фруктов'])} / {sklonenie(tracker?.fruits, ['овощ', 'овоща', 'овощей'])}
         </div>
         <div className='tracker-habits-page__task-column'>
           <Link to={GOAL_FRUITS__ROUTE} className='text-blue'>

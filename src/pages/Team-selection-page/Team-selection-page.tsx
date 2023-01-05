@@ -17,10 +17,6 @@ export const TeamSelectionPage = () => {
       <div className='team-selection-page__team'>
         <TeamSelection />
       </div>
-
-      <Link to={CHALLENGE_ROUTE} className='team-selection-page__button _button-white'>
-        Готово
-      </Link>
     </div>
   )
 }

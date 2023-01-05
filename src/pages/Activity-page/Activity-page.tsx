@@ -98,11 +98,20 @@ export const ActivityPage: FC = () => {
 
   const startPlugin = async () => {
     Pedometer.start()
-
+    let endDate = new Date().toISOString()
     let savedData = await Pedometer.getSavedData()
     let steps = savedData['numberOfSteps'] || '0'
 
     dispatch(setCurrentStepsCount(steps))
+
+    const params = new FormData()
+
+    params.append(
+      'data',
+      JSON.stringify([{ date: endDate, steps: steps }])
+    )
+
+    await AppService.updateSteps(params)
 
     window.addEventListener('stepEvent', updateSteps)
   }

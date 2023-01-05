@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import { FC } from 'react'
 import { Link } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
-import { TEAM_MEMBER_ROUTE } from '../../provider/constants-route'
+import { CHALLENGE_ROUTE, TEAM_MEMBER_ROUTE } from '../../provider/constants-route'
 import { commandListSelector, getCommandList } from '../../Redux/slice/challengeSlice'
 import ChallengeService from '../../services/ChallengeService'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
@@ -28,7 +28,10 @@ export const TeamSelection = () => {
     <div className={'team-selection'}>
       {
         commands.map(item => <TeamItem key={item.id} commandId={item.id} title={item.title} img={''} challengeId={item.challenge_id} />)
-      }
+      } <br />
+     {commands.length ? <Link to={CHALLENGE_ROUTE} className='team-selection-page__button _button-white'>
+        Готово
+      </Link> : <h1>Команд нет!</h1>}
     </div>
   )
 }
@@ -40,7 +43,7 @@ interface ITeamItem {
   commandId: number,
 }
 
-const TeamItem: FC<ITeamItem> = ({ img, title, challengeId,commandId }) => {
+const TeamItem: FC<ITeamItem> = ({ img, title, challengeId, commandId }) => {
 
   const [existTeam, setExistTeam] = useState<boolean>(false)
 
@@ -48,22 +51,22 @@ const TeamItem: FC<ITeamItem> = ({ img, title, challengeId,commandId }) => {
 
     try {
       const response = await ChallengeService.challengeJoin(challengeId)
-      console.log(response);    
+      console.log(response);
       setExistTeam(true)
       await showToast('Вы в команде!')
 
     } catch (error) {
       console.log(error);
       await showToast('Ошибка!')
-      
+
     }
 
-    
+
   }
 
   return (
     <div className='team-selection__item team-item'>
-      <Link to={TEAM_MEMBER_ROUTE+'/'+commandId} className='team-item__column'>
+      <Link to={TEAM_MEMBER_ROUTE + '/' + commandId} className='team-item__column'>
         <div className='team-item__img'>
           <img src={plug} alt='' />
         </div>

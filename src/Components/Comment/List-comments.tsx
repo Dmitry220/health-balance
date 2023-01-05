@@ -8,6 +8,7 @@ import { CommentForm } from './Comment-form'
 import { useParams } from 'react-router-dom'
 import { IMAGE_URL } from '../../http'
 import avatar from '../../assets/image/avatar.jpeg'
+import { sklonenie } from '../../utils/common-functions'
 
 
 export const ListComments = () => {
@@ -29,22 +30,13 @@ export const ListComments = () => {
     dispatch(getNewsById(Number(params.id)))
   }, [idNewComment])
 
-const formatingText = (number:number) => {
-  if(number === 1){
-    return 'комментарий'
-  }
-  if(number === 2 || number ===3 || number === 4){
-    return 'комментария'
-  }
-  return 'комментариев'
-}
 
 console.log(idNewComment);
    
 
   return (
     <div className={'list-comments'}>
-      <div className="list-comments__count">{newsById?.comments} {formatingText(comments.length)}</div>
+      <div className="list-comments__count">{newsById?.comments} {sklonenie(newsById?.comments||0, ['комментарий','комментария','комментариев'])}</div>
       <div className='list-comments__items'>
         {comments.map(comment=> <ItemComment comment={comment} key={comment.id} setAuthor={setAuthor} setShowForm={setShowForm} setParentId={setParentId}/>)}
       </div>
