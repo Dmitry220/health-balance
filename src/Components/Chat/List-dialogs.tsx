@@ -37,6 +37,7 @@ export const ListDialog = () => {
           return <Dialog idChannel={dialog.id} key={dialog.id} title={dialog.title} date={dialog.created_at.date} />
         })
       }
+      {dialogs.length === 0 && <h1>У вас пока нет чатов!</h1> }
     </div>
   )
 }
