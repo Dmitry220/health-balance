@@ -1,4 +1,5 @@
 import type { ChartArea } from 'chart.js';
+import { nFormatter } from '../../utils/common-functions';
 
 
 export const optionsChartBar:any = {
@@ -31,7 +32,7 @@ export const optionsChartBar:any = {
                 color: "#DCDCDC",
               //  stepSize: 10000/3,
                 callback: function(label:number) {
-                    return label === 0 ? '' : (label.toString().length <=3 ? label : label/1000+'k');
+                    return nFormatter(label,1);
                 }}
         },
     }

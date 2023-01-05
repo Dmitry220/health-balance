@@ -12,6 +12,7 @@ dependencies {
     implementation project(':capacitor-community-barcode-scanner')
     implementation project(':capacitor-camera')
     implementation project(':capacitor-device')
+    implementation project(':capacitor-filesystem')
     implementation project(':capacitor-toast')
     implementation "com.google.android.gms:play-services-fitness:16.0.1"
     implementation "com.onesignal:OneSignal:4.8.2"
