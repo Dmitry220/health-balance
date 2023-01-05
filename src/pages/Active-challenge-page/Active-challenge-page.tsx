@@ -64,7 +64,7 @@ export const ActiveChallengePage = () => {
             ) + ' title-17'
           }
         >
-          Общий прогресс <span>{percent}%</span> / 100%
+          Общий прогресс <span>{(percent)?.toFixed(1)}%</span> / 100%
         </div>
         <ProgressBar percent={percent || 0} type={challenge?.type || 1} />
       </div>
