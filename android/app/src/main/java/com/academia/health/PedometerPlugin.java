@@ -152,7 +152,9 @@ public class PedometerPlugin extends Plugin {
 
     @PluginMethod
     public void requestPermission(PluginCall call) {
-        requestPermissionLauncher.launch(android.Manifest.permission.ACTIVITY_RECOGNITION);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            askPermission();
+        }
         call.resolve();
     }
 
@@ -186,32 +188,24 @@ public class PedometerPlugin extends Plugin {
                 PackageManager.PERMISSION_GRANTED) {
             startExecution();
         } else if (getActivity().shouldShowRequestPermissionRationale(android.Manifest.permission.ACTIVITY_RECOGNITION)) {
-            requestPermissionLauncher.launch(android.Manifest.permission.ACTIVITY_RECOGNITION);
+            showContextDialog();
         } else {
-            showSettingsDialog();
+            requestPermissionLauncher.launch(android.Manifest.permission.ACTIVITY_RECOGNITION);
         }
     }
 
-    private void showSettingsDialog() {
+    private void showContextDialog() {
         if (isDialogPresent) return;
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setCancelable(false);
         builder.setTitle("Необходимо разрешение");
         builder.setMessage("Вы должны разрешить физическую активность для использования этого приложения");
         builder.setPositiveButton("Настройки", (dialog, which) -> {
-            openSettings();
+            requestPermissionLauncher.launch(android.Manifest.permission.ACTIVITY_RECOGNITION);
             isDialogPresent = false;
         });
         builder.create().show();
         isDialogPresent = true;
-    }
-
-    private void openSettings() {
-        Intent intent = new Intent();
-        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-        intent.setData(Uri.fromParts("package", BuildConfig.APPLICATION_ID, null));
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        getContext().startActivity(intent);
     }
 
     private void startExecution() {
