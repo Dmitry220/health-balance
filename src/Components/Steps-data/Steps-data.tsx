@@ -4,13 +4,17 @@ import arrowSuccess from '../../assets/image/Arrow-success.png'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
 import { currentStepsCountSelector, daysSelector, stepsPerDaySelector } from '../../Redux/slice/appSlice'
 import { purposeSelector } from '../../Redux/slice/purposeSlice'
+import { useEffect } from 'react'
 
 export const StepsData = () => {
 
   const purpose = useAppSelector(purposeSelector)
   const steps = useAppSelector(stepsPerDaySelector)
   const currentStepsCount = useAppSelector(currentStepsCountSelector)
-  let currentProgressPurpose = purpose && steps ? (steps[steps.length-1]?.finished === 1 ? 100 :currentStepsCount *100 / purpose?.quantity) : 0
+  const sortStepsForDate = steps.slice().sort((a, b) => a.date - b.date)
+  let currentProgressPurpose = purpose && steps ? ((currentStepsCount * 100) / purpose?.quantity).toFixed() : 0
+  console.log(sortStepsForDate);
+  
 
   return (
     <div className={'steps-data'}>
@@ -24,14 +28,14 @@ export const StepsData = () => {
         </article>
         <article className='steps-data__card average'>
           <div className='steps-data__value'>
-         { steps?.length >= 2 ? <img src={steps[steps.length-1].quantity > steps[steps.length-2].quantity ? arrowSuccess:arrowDanger} alt='arrow' /> : ''}
+         { sortStepsForDate?.length >= 2 ? <img src={sortStepsForDate[sortStepsForDate.length-1].quantity > sortStepsForDate[sortStepsForDate.length-2].quantity ? arrowSuccess:arrowDanger} alt='arrow' /> : ''}
            
           </div>
           <div className='steps-data__text'>
             {'на '} <span>
-            {steps?.length >= 2 ? Math.abs(steps[steps.length-1].quantity - steps[steps.length-2].quantity):0}
+            {sortStepsForDate?.length >= 2 ? Math.abs(sortStepsForDate[sortStepsForDate.length-1].quantity - sortStepsForDate[sortStepsForDate.length-2].quantity):0}
               {' шагов '} 
-            {steps?.length >= 2 && steps[steps.length-1].quantity > steps[steps.length-2].quantity ? ' больше':' меньше'},</span>
+            {sortStepsForDate?.length >= 2 && (sortStepsForDate[sortStepsForDate.length-1].quantity > sortStepsForDate[sortStepsForDate.length-2].quantity ? ' больше':' меньше')},</span>
             чем в прошлый раз
           </div>
         </article>

@@ -339,9 +339,7 @@ const Graphs = () => {
           </div>
           <div className='dynamics__value'>
             {purpose && steps
-              ? steps[steps.length - 1]?.finished === 1
-                ? 100
-                : ((currentStepsCount * 100) / purpose?.quantity).toFixed()
+              ? ((currentStepsCount * 100) / purpose?.quantity).toFixed()
               : 0}
             %<br /> <span>от цели</span>
           </div>

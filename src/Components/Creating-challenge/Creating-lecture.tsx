@@ -2,9 +2,6 @@ import {
   ChangeEvent,
   forwardRef,
   useState,
-  Dispatch,
-  FC,
-  SetStateAction
 } from 'react'
 import DatePicker, { registerLocale } from 'react-datepicker'
 import ru from 'date-fns/locale/ru'
@@ -48,7 +45,7 @@ export const CreatingLecture = () => {
   const [photoPath, setPhotoPath] = useState<any | null>(null)
 
   console.log(correctAnswer);
-  
+
 
   const addCover = async (e: ChangeEvent<HTMLInputElement>) => {
     const formData = new FormData()
@@ -86,21 +83,20 @@ export const CreatingLecture = () => {
 
   const addLecture = async () => {
     const formData = new FormData()
-    const idChallenge =
-      Number(params.id) === 0 ? challenge_id : Number(params.id)
+    const idChallenge = Number(params.id) === 0 ? challenge_id : Number(params.id)
     formData.append('title', title)
     formData.append('challenge', JSON.stringify(idChallenge))
     formData.append('description', description)
     formData.append('type', JSON.stringify(typeLesson))
     formData.append('video', videoUrl)
-    formData.append('start_date', JSON.stringify(startDate.setHours(0,0,0,0) / 1000))
-    formData.append('end_date', JSON.stringify(endDate.setHours(0,0,0,0)  / 1000))
+    formData.append('start_date', JSON.stringify(startDate.setHours(0, 0, 0, 0) / 1000))
+    formData.append('end_date', JSON.stringify(endDate.setHours(0, 0, 0, 0) / 1000))
     formData.append('score', JSON.stringify(score))
     formData.append('image', image)
     switch (typeLesson) {
       case 1:
         formData.append('answers', JSON.stringify(answers))
-        formData.append('correct_answer', correctAnswer+'')
+        formData.append('correct_answer', correctAnswer + '')
         formData.append('question', question)
         break
       case 2:
@@ -115,23 +111,23 @@ export const CreatingLecture = () => {
         break
     }
     try {
-      console.log(
-        title,
-        description,
-        typeLesson,
-        question,
-        answers,
-        score,
-        startDate.getTime() / 1000,
-        endDate.getTime() / 1000,
-        image,
-        correctAnswer,
+      if (title &&
+        description &&
+        typeLesson &&
+        (typeLesson === 1 ? (question && answers && correctAnswer) : typeLesson === 3 ? question : qrCode) &&
+        score &&
+        startDate&&
+        endDate &&       
         videoUrl
-      )
-      const response = await LessonService.createLesson(formData)
-      console.log(response)
-      showToast('Лекция успешно добавлена!')
-      reset()
+        ) {
+        const response = await LessonService.createLesson(formData)
+        console.log(response)
+        showToast('Лекция успешно добавлена!')
+        reset()
+      } else {
+        await showToast('Вы заполнили не все поля!')
+      }
+
     } catch (error) {
       showToast('Произошла ошибка!')
       console.log(error)
@@ -342,7 +338,6 @@ export const CreatingLecture = () => {
 const ExampleCustomInput = forwardRef(({ value, onClick }: any, ref: any) => {
   return (
     <div className={'text-blue'} onClick={onClick}>
-      {' '}
       {value}
     </div>
   )
