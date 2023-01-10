@@ -12,7 +12,7 @@ export interface IAuth {
   isAuth: boolean
   error: boolean
   isLoading: boolean
-  dataRegistration: IRegistration | null
+  dataRegistration: IRegistration
 }
 
 const initialState: IAuth = {
@@ -29,7 +29,7 @@ const initialState: IAuth = {
     surname: '',
     birthday: 1029528000,
     gender: 1,
-    platform: null,
+    platform: 0,
     avatar: '',
     device_token: ''
   }

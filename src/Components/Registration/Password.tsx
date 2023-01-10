@@ -13,6 +13,8 @@ export const Password = () => {
   useEffect(() => {
     if (password.length >= 8) {
       dispatch(setDisabledButton(false))
+    }else{
+      dispatch(setDisabledButton(true))
     }
   }, [])
 

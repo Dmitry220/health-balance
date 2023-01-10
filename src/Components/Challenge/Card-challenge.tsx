@@ -31,9 +31,10 @@ export const CardChallenge: FC<ICardChallenge> = ({ challenge }) => {
     async function asyncQuery() {
       if ((challenge.purpose.quantity - challenge.remains_to_pass) >= challenge.purpose.quantity && challenge.homeworks === challenge.total_lessons) {
         const response = await ChallengeService.completeChallenge(challenge.id)
-        console.log(response);
-        setSuccesChallenge(true)
-
+        console.log(response.data.success);
+        if(response.data.success){
+          setSuccesChallenge(true)
+        } 
       }
     }
     asyncQuery()

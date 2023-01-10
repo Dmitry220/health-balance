@@ -34,8 +34,11 @@ export const Platform = () => {
   return (
     <div className={'registration__platform'}>
       <div className='registration__select _custom-select'>
-        <select name='platform' id='platform' onChange={handlerPlatforms}>
-          <option value=''>Ваша платформа</option>
+        <select 
+        defaultValue={platform === 0 ? 'DEFAULT' : platform} 
+        onChange={handlerPlatforms}
+        >
+          <option value={'DEFAULT'} disabled>Ваша платформа</option>
           {listPLatforms &&
             listPLatforms.map((p) => (
               <option value={p.id} key={p.id}>

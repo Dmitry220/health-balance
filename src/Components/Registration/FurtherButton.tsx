@@ -37,7 +37,7 @@ export const FurtherButton: FC<IFurtherButton> = ({ order, setOrder }) => {
           className={'registration__button _button-white'}
           onClick={() => {
             setOrder((prev) => prev - 1)
-            order !== 5 && order !== 4 && dispatch(setDisabledButton(false))
+            //order !== 4 && order !== 3 && dispatch(setDisabledButton(false))
           }}
         >
           Назад
@@ -52,7 +52,9 @@ export const FurtherButton: FC<IFurtherButton> = ({ order, setOrder }) => {
           disabled={disabledButton}
           onClick={() => {
             setOrder((prev) => prev + 1)
-            order !== 2 && order !== 3 && dispatch(setDisabledButton(true))
+            console.log(order);
+            
+            //order !== 4 && order !== 3 && dispatch(setDisabledButton(true))
           }}
         >
           {order !== 7 ? 'Далее' : 'Завершить регистрацию'}

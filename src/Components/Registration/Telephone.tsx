@@ -12,8 +12,12 @@ export const Telephone = () => {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    if (!telephone.includes('_')) {
+    console.log(telephone.length)
+    
+    if (telephone.length&&!telephone.includes('_')) {      
       dispatch(setDisabledButton(false))
+    }else{
+      dispatch(setDisabledButton(true))
     }
   }, [])
 

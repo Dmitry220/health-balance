@@ -13,6 +13,8 @@ export const SurName = () => {
   useEffect(() => {
     if (surName.length >= 3) {
       dispatch(setDisabledButton(false))
+    }else{
+      dispatch(setDisabledButton(true))
     }
   }, [])
 

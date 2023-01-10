@@ -1,12 +1,17 @@
-import React from 'react'
-import { useAppDispatch } from '../../utils/hooks/redux-hooks'
-import { setGender } from '../../Redux/slice/authSlice'
+import { useEffect } from 'react'
+import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
+import { genderSelector, setDisabledButton, setGender } from '../../Redux/slice/authSlice'
 
 export const Gender = () => {
   const dispatch = useAppDispatch()
+  const gender = useAppSelector(genderSelector)
 
   const handlerGender = (e: React.ChangeEvent<HTMLInputElement>) =>
     dispatch(setGender(+e.target.value))
+
+  useEffect(() => {
+    dispatch(setDisabledButton(false))
+  }, [])
 
   return (
     <div
@@ -18,10 +23,10 @@ export const Gender = () => {
         id={'man'}
         name={'gender'}
         value={1}
-        defaultChecked={true}
+        defaultChecked={gender === 1}
       />
       <label htmlFor={'man'}>Мужской</label>
-      <input type='radio' id={'woman'} name={'gender'} value={2} />
+      <input type='radio' id={'woman'} name={'gender'} value={2} defaultChecked={gender === 2} />
       <label htmlFor={'woman'}>Женский</label>
     </div>
   )

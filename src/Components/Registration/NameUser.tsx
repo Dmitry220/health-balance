@@ -11,10 +11,12 @@ export const NameUser = () => {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    if (nameUser.length >= 3) {
+    if (nameUser.length >= 2) {
       dispatch(setDisabledButton(false))
+    }else{
+      dispatch(setDisabledButton(true))
     }
-  }, [])
+  }, [nameUser])
 
   const validateUserName = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value

@@ -29,7 +29,7 @@ export const Auth = () => {
 
   const showHelloToast = async () => {
     await Toast.show({
-      text: 'Ошибка! Попробуйте еще раз!',
+      text: 'Неверный email или пароль!',
       position: 'center'
     })
   }

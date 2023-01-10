@@ -153,7 +153,6 @@
     width: initial;
     margin-bottom: 0;
     display: none;
-    cursor: pointer;
   }
   label {
     color: var(--colorMain);
@@ -161,7 +160,6 @@
     line-height: 100%;
 
     position: relative;
-    cursor: pointer;
     display: flex;
     align-items: center;
     &:before {
@@ -175,7 +173,6 @@
       display: inline-block;
       position: relative;
       vertical-align: middle;
-      cursor: pointer;
       margin-right: 13px;
     }
   }
@@ -278,7 +275,7 @@
     border-radius: 50px;
   }
   input:checked + label {
-    border: 1px solid;
+    border: 1px solid $yellowColor;
   }
 }
 

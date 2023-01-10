@@ -6,7 +6,7 @@ export interface IRegistration {
   surname: string
   birthday: number
   gender: number
-  platform: number | null
+  platform: number
   avatar: string
   device_token: string
 }

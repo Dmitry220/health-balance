@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   getItemsDays,
   getItemsMonth,
@@ -7,7 +7,7 @@ import {
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
 import MultiPicker from 'rmc-picker/lib/MultiPicker'
 import Picker from 'rmc-picker/lib/Picker'
-import { birthdaySelector, setBirthday } from '../../Redux/slice/authSlice'
+import { birthdaySelector, setBirthday, setDisabledButton } from '../../Redux/slice/authSlice'
 
 export const Birthday = () => {
   const itemDays = getItemsDays()
@@ -29,6 +29,10 @@ export const Birthday = () => {
 
     dispatch(setBirthday(formatDate))
   }
+
+  useEffect(() => {
+    dispatch(setDisabledButton(false))
+  }, [])
 
   return (
     <div className={'registration__picker'}>

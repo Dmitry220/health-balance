@@ -40,7 +40,7 @@ export const RecoveryEmail = () => {
       />
       {error && (
         <div className='recovery-email__error'>
-          Учетная запись не с таким email не существует
+          Учетная запись с таким email не существует
         </div>
       )}
     </div>
