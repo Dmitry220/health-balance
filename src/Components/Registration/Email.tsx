@@ -9,16 +9,22 @@ import {
 export const Email = () => {
   const email = useAppSelector(emailSelector)
   const dispatch = useAppDispatch()
-
+  const validRegex =
+/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
+  
   useEffect(() => {
-    if (email) {
+  
+    
+    if (email.match(validRegex)) {
       dispatch(setDisabledButton(false))
+    }else{
+      dispatch(setDisabledButton(true))
     }
   }, [])
 
   const validateEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     const validRegex =
-      /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
+    /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
     const value = e.target.value
     dispatch(setEmail(value))
     value.match(validRegex)

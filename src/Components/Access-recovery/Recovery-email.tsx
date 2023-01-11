@@ -5,13 +5,18 @@ import {
   emailRecoverySelector,
   errorRecoverySelector,
   setDisabledButton,
+  setError,
   setRecoveryEmail
 } from '../../Redux/slice/accessRecoverySlice'
 
 export const RecoveryEmail = () => {
   const error = useAppSelector(errorRecoverySelector)
+  const email = useAppSelector(emailRecoverySelector)
+  const dispatch = useAppDispatch()
 
+  
   const handlerEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(setError(false))
     const validRegex =
       /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
     const value = e.target.value
@@ -22,8 +27,7 @@ export const RecoveryEmail = () => {
    
   }
 
-  const email = useAppSelector(emailRecoverySelector)
-  const dispatch = useAppDispatch()
+
 
   return (
     <div className={'recovery-email'}>

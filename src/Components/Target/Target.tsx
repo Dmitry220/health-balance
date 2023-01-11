@@ -54,7 +54,7 @@ export const Target: FC<ITarget> = () => {
         </div>
         <div className='target__body'>
           {
-            steps&&purpose&&days.map(
+            purpose&&days.map(
               item => 
               <CircleDays key={item.id} id={purpose.id} date={item.date} finished={item.finished} title={item.title} percent={(item.quantity * 100 / purpose.quantity)>=100 ? 100:item.quantity * 100 / purpose.quantity} />)
           }         

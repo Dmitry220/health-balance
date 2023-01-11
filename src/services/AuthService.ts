@@ -13,21 +13,10 @@ export default class AuthService {
     email: string,
     password: string,
     device_token: string,
-    platform: number | null
+    platform: number
   ) {
-    const formData: FormData = new FormData();
-    formData.append("email", email);
-    formData.append("password", password);
-    formData.append("name", name);
-    formData.append("surname", surname);
-    formData.append("gender", gender + "");
-    formData.append("avatar", avatar);
-    formData.append("birthday", birthday + "");
-    formData.append("device_token", device_token);
-    formData.append("platform", platform + "");
-    formData.append("phone", phone);
 
-    return $api.post("/v2/customers", formData, {
+    return $api.post("/v2/customers", {email,password,name,surname,gender,avatar,birthday,device_token,platform,phone}, {
       headers: {
         accept: "application/json",
         "Content-Type": `multipart/form-data`,

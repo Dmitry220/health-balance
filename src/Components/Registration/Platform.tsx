@@ -18,7 +18,7 @@ export const Platform = () => {
 
   const handlerAgree = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAgree((prev) => !prev)
-    dispatch(setDisabledButton(platform === null ? true : agree))
+    dispatch(setDisabledButton(platform === 0 ? true : agree))
   }
 
   const handlerPlatforms = (e: React.ChangeEvent<HTMLSelectElement>) => {

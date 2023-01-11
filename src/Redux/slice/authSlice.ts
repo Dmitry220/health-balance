@@ -5,6 +5,8 @@ import AuthService from '../../services/AuthService'
 import { ILogin, IRegistration } from '../../models/IAuth'
 import PlatformService from '../../services/PlatformService'
 import { IListPlatform } from '../../models/IPlatforms'
+import { showToast } from '../../utils/common-functions'
+import { AxiosError } from 'axios'
 
 export interface IAuth {
   disabledButton?: boolean
@@ -50,19 +52,32 @@ export const requestRegistration = createAsyncThunk(
       device_token,
       platform
     } = data
-    const response = await AuthService.registration(
-      name,
-      surname,
-      birthday,
-      gender,
-      avatar,
-      phone,
-      email,
-      password,
-      device_token,
-      platform
-    )
-    console.log(response)
+
+    try {
+      const response = await AuthService.registration(
+        name,
+        surname,
+        birthday,
+        gender,
+        avatar,
+        phone,
+        email,
+        password,
+        device_token,
+        platform
+      )      
+      console.log(response)
+      return response.data
+    } catch (e) {
+      const error = e as AxiosError<any>   
+      if(error.response?.data.errors.email[0]){
+        await showToast('Пользователь с таким email уже существует!')
+      }else{
+        await showToast('Ошибка!')
+      }         
+    }
+    
+ 
   }
 )
 
@@ -75,8 +90,13 @@ export const sendLogin = createAsyncThunk('login', async (data: ILogin) => {
     console.log(response)
     localStorage.setItem('token', response.data.data.token)
     localStorage.setItem('id', response.data.data.id + '')
-  } catch (e) {
+  } catch (e:any) {
     console.log(e)
+    if(e.code != 'ERR_NETWORK'){
+      await showToast('Неверный email или пароль!')
+    }else{
+      await showToast('Нет подключения к интернету!')
+    }   
   }
 })
 

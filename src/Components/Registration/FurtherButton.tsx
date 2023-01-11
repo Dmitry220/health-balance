@@ -17,7 +17,7 @@ import {
 import { Device } from '@capacitor/device'
 import './registration.scss'
 import { useNavigate } from 'react-router-dom'
-import { LOGIN_ROUTE, START_ROUTE } from '../../provider/constants-route'
+import { LOGIN_ROUTE } from '../../provider/constants-route'
 
 export interface IFurtherButton {
   order: number
@@ -26,23 +26,11 @@ export interface IFurtherButton {
 
 export const FurtherButton: FC<IFurtherButton> = ({ order, setOrder }) => {
   const disabledButton = useAppSelector(disableButtonSelector)
-  const dispatch = useAppDispatch()
 
   const indexIdenticalButtons = [0, 1, 2, 3, 4, 5, 6, 7]
 
   return (
     <div className='registration__nav'>
-      {order > 0 && order <= 7 && (
-        <button
-          className={'registration__button _button-white'}
-          onClick={() => {
-            setOrder((prev) => prev - 1)
-            //order !== 4 && order !== 3 && dispatch(setDisabledButton(false))
-          }}
-        >
-          Назад
-        </button>
-      )}
       {indexIdenticalButtons.includes(order) && (
         <button
           className={
@@ -50,12 +38,7 @@ export const FurtherButton: FC<IFurtherButton> = ({ order, setOrder }) => {
             (disabledButton ? ' disabled' : '')
           }
           disabled={disabledButton}
-          onClick={() => {
-            setOrder((prev) => prev + 1)
-            console.log(order);
-            
-            //order !== 4 && order !== 3 && dispatch(setDisabledButton(true))
-          }}
+          onClick={() => setOrder((prev) => prev + 1)}
         >
           {order !== 7 ? 'Далее' : 'Завершить регистрацию'}
         </button>
@@ -81,7 +64,7 @@ const ButtonSubmit: FC<IFurtherButton> = ({ order, setOrder }) => {
   const platform = useAppSelector(platformSelector)
 
   const submitRegistration = async () => {
-    // setOrder((prev) => prev + 1)
+
     dispatch(setDisabledButton(true))
 
     const uuid = await Device.getId()
@@ -101,8 +84,14 @@ const ButtonSubmit: FC<IFurtherButton> = ({ order, setOrder }) => {
         device_token,
         platform
       })
-    )
-    navigate(LOGIN_ROUTE)
+    ).then((e)=>{   
+      if(e.payload){
+        navigate(LOGIN_ROUTE) 
+      }else{
+        setOrder(0)
+      }      
+    })   
+
   }
   return (
     <div style={{ textAlign: 'center' }}>

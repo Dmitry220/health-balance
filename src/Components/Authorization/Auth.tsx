@@ -9,9 +9,8 @@ import {
   REGISTRATION_ROUTE,
   START_ROUTE
 } from '../../provider/constants-route'
-import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
+import { useAppDispatch } from '../../utils/hooks/redux-hooks'
 import { sendLogin } from '../../Redux/slice/authSlice'
-import { Toast } from '@capacitor/toast'
 
 export const Auth = () => {
   const [email, setEmail] = useState<string>('')
@@ -27,20 +26,9 @@ export const Auth = () => {
 
   let navigate = useNavigate()
 
-  const showHelloToast = async () => {
-    await Toast.show({
-      text: 'Неверный email или пароль!',
-      position: 'center'
-    })
-  }
-
   const submit = async () => {
     await dispatch(sendLogin({ email, password }))
-
     navigate(ACTIVITY_ROUTE)
-    if (!localStorage.getItem('token')) {
-      showHelloToast()
-    }
   }
 
   return (

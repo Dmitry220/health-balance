@@ -27,6 +27,14 @@ export const SetPhoto = () => {
     }
   }
 
+  useEffect(() => {
+    if (photoPath) {
+      dispatch(setDisabledButton(false))
+    }else{
+      dispatch(setDisabledButton(true))
+    }
+  }, [])
+
   return (
     <div className={'set-photo'}>
       <div className='set-photo__photo'>

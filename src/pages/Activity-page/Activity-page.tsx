@@ -227,7 +227,7 @@ const Graphs = () => {
   const startDateWeek = new Date()
   startDateWeek.setDate(startDateWeek.getDate() - 7 * 7)
   const startDateMonth = new Date()
-  startDateMonth.setMonth(startDateMonth.getMonth() - 11)
+  startDateMonth.setMonth(startDateMonth.getMonth() - 12)
   
   const dispatch = useAppDispatch()
   const [currentValueTab, setCurrentValueTab] = useState<number>(0)
@@ -291,16 +291,16 @@ const Graphs = () => {
   useEffect(() => {
     const data = {
       end_date: new Date().toLocaleDateString(),
-      start_date: startDateDay
+      start_date: startDateDay.toLocaleDateString()
     }
     const dataWeek = {
       end_date: new Date().toLocaleDateString(),
-      start_date: startDateWeek,
+      start_date: startDateWeek.toLocaleDateString(),
       type: 1
     }
     const dataMonth = {
       end_date: new Date().toLocaleDateString(),
-      start_date: startDateMonth,
+      start_date: startDateMonth.toLocaleDateString(),
       type: 2
     }
 

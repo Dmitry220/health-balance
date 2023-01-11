@@ -11,7 +11,7 @@ export const StepsData = () => {
   const purpose = useAppSelector(purposeSelector)
   const steps = useAppSelector(stepsPerDaySelector)
   const currentStepsCount = useAppSelector(currentStepsCountSelector)
-  const sortStepsForDate = steps.slice().sort((a, b) => a.date - b.date)
+  const sortStepsForDate = steps?.slice().sort((a, b) => a.date - b.date)
   let currentProgressPurpose = purpose && steps ? ((currentStepsCount * 100) / purpose?.quantity).toFixed() : 0
   console.log(sortStepsForDate);
   
