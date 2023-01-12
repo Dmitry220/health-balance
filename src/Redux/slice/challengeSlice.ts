@@ -57,15 +57,16 @@ const initialState: IChallenge = {
 export const creatingChallenge = createAsyncThunk<unknown>(
   "creatingChallenge",
   async (arg, { getState }) => {
+
     const state: any = getState();
-    const formData = new FormData();
+    const formData = new FormData();   
     formData.append("platform", state.challenges.creatingChallenge.platform);
     formData.append("title", state.challenges.creatingChallenge.title);
     formData.append("description",state.challenges.creatingChallenge.description);
     formData.append("type", state.challenges.creatingChallenge.type);
     formData.append("image", state.challenges.creatingChallenge.image);
-    formData.append("start_date","" +state.challenges.creatingChallenge.startDate.setHours(0, 0, 0, 0) / 1000);
-    formData.append("end_date","" +state.challenges.creatingChallenge.endDate.setHours(0, 0, 0, 0) / 1000);
+    formData.append("start_date",state.challenges.creatingChallenge.startDate.toLocaleDateString());
+    formData.append("end_date",state.challenges.creatingChallenge.endDate.toLocaleDateString());
     formData.append("team_amount",state.challenges.creatingChallenge.team_amount);
     formData.append("max_peoples",state.challenges.creatingChallenge.max_peoples);
     try {

@@ -36,16 +36,13 @@ export const CreatingLecture = () => {
   const [qrCode, setQrCode] = useState<string>('')
   const [question, setQuestion] = useState<string>('')
   const [answer, setAnswer] = useState<string>('')
-  const [score, setScore] = useState<number>(10)
+  const [score, setScore] = useState<string>('10')
   const [startDate, setStartDate] = useState<Date>(new Date())
   const [endDate, setEndDate] = useState<Date>(END_DATE)
   const [correctAnswer, setCorrectAnswer] = useState<number>(0)
   const [videoUrl, setVideoUrl] = useState<string>('')
   const [image, setImage] = useState<any>('')
   const [photoPath, setPhotoPath] = useState<any | null>(null)
-
-  console.log(correctAnswer);
-
 
   const addCover = async (e: ChangeEvent<HTMLInputElement>) => {
     const formData = new FormData()
@@ -76,7 +73,7 @@ export const CreatingLecture = () => {
     setQrCode('')
     setQuestion('')
     setVideoUrl('')
-    setScore(0)
+    setScore('')
     setPhotoPath('')
     setTypeLesson(0)
   }
@@ -89,9 +86,9 @@ export const CreatingLecture = () => {
     formData.append('description', description)
     formData.append('type', JSON.stringify(typeLesson))
     formData.append('video', videoUrl)
-    formData.append('start_date', JSON.stringify(startDate.setHours(0, 0, 0, 0) / 1000))
-    formData.append('end_date', JSON.stringify(endDate.setHours(0, 0, 0, 0) / 1000))
-    formData.append('score', JSON.stringify(score))
+    formData.append('start_date', startDate.toLocaleDateString())
+    formData.append('end_date', endDate.toLocaleDateString())
+    formData.append('score', score)
     formData.append('image', image)
     switch (typeLesson) {
       case 1:
@@ -110,16 +107,16 @@ export const CreatingLecture = () => {
       default:
         break
     }
+    
     try {
+      //Проверка на не пустые поля
       if (title &&
         description &&
         typeLesson &&
-        (typeLesson === 1 ? (question && answers && correctAnswer) : typeLesson === 3 ? question : qrCode) &&
-        score &&
-        startDate&&
-        endDate &&       
-        videoUrl
-        ) {
+        image&&
+        (typeLesson === 1 ? (question && answers) : (typeLesson === 3 ? question : (typeLesson === 2 ? qrCode:true))) &&
+        score &&    
+        videoUrl) {
         const response = await LessonService.createLesson(formData)
         console.log(response)
         showToast('Лекция успешно добавлена!')
@@ -312,7 +309,7 @@ export const CreatingLecture = () => {
           type='number'
           className='_field'
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setScore(+e.target.value)
+            setScore(e.target.value.replace(/\D/,''))
           }
           value={score}
         />
