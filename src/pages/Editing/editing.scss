@@ -54,10 +54,14 @@
     }
   }
 
-  input[type='file'] {
-    display: none;
-  }
-  input[type='file'] + label {
+  // input[type='file'] {
+  //   display: none;
+  // }
+  // input[type='file'] + label {
+  //   display: inline;
+  // }
+
+  &__label{
     display: inline;
   }
 

@@ -43,6 +43,7 @@ export const Editing = () => {
   const id = Number(localStorage.getItem('id'))
   const [avatar, setAvatar] = useState<any>()
   const [photoPath, setPhotoPath] = useState<any | null>(null)
+  const [isLoadingAvatar, setIsLoadingAvatar] = useState<boolean>(false)
   const dispatch = useAppDispatch()
 
   const showToast = async (text: string) => {
@@ -53,7 +54,7 @@ export const Editing = () => {
   }
 
   const onSubmit = handleSubmit(
-    ({ email, birthdayParameter, gender, name, phone, surname }) => { 
+    ({ email, birthdayParameter, gender, name, phone, surname }) => {
       const birthday = birthdayParameter.getTime() / 1000
       const data = { id, name, surname, gender, birthday, phone, email, avatar }
       dispatch(updateProfile(data))
@@ -65,15 +66,37 @@ export const Editing = () => {
     }
   )
 
-  const dowloadPicture = async (e: ChangeEvent<HTMLInputElement>) => {
-    const formData = new FormData()
-    const file: any = e.target.files
+  const dowloadPicture = async () => {
 
-    if (file[0]) {
-      setPhotoPath(URL.createObjectURL(file[0]))
-      formData.append('image', file[0])
-      const response = await FileService.uploadFile(formData)      
-      setAvatar(response.data.data.avatar)
+    const image = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: true,
+      resultType: CameraResultType.Uri
+    });
+
+    let imageUrl = image.webPath || '';
+
+    let blob = await fetch(imageUrl).then(r => r.blob());
+    setIsLoadingAvatar(true)
+    console.log(blob);
+
+    if (blob) {
+      const formData = new FormData()
+      formData.append('image', blob)
+      try {
+        const response = await FileService.uploadFile(formData)  
+        setPhotoPath(imageUrl); 
+        console.log(response);
+        setAvatar(response.data.data.avatar)
+        setIsLoadingAvatar(false)
+      } catch (error) {
+        console.log(error);  
+        setIsLoadingAvatar(false)  
+        await showToast('Изображение слишком много весит')   
+        setPhotoPath(''); 
+      }      
+    } else {
+      await showToast('Изображения нет')
     }
   }
 
@@ -84,10 +107,10 @@ export const Editing = () => {
       <div className='editing__row'>
         <div className='editing__wrapper-header'>
           <div className='editing__avatar'>
-            <input type={'file'} onChange={dowloadPicture} id='file' />
-            <label className='editing__label' htmlFor='file'>
+            {/* <input type={'file'} onChange={dowloadPicture} id='file' /> */}
+           {!isLoadingAvatar ? <div className='editing__label' onClick={dowloadPicture}>
               {!dataUser.avatar && !photoPath && (
-                <img src={photo} style={{ borderRadius: 0,objectFit:'contain' }} alt='avatar'/>
+                <img src={photo} style={{ borderRadius: 0, objectFit: 'contain' }} alt='avatar' />
               )}
               {(dataUser.avatar || photoPath) && (
                 <img
@@ -96,7 +119,7 @@ export const Editing = () => {
                 />
               )}
               <span>Изменить</span>
-            </label>
+            </div> : <h1>Загружается...</h1> }
           </div>
           <div className='editing__names'>
             <div className='editing__caption' style={{ margin: 0 }}>
