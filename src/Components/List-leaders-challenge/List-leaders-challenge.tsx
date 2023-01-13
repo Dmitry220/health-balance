@@ -29,7 +29,7 @@ export const ListLeadersChallenge: FC<IListLeadersChallenge> = ({type,idChalleng
       dispatch(getLeaderboardChallenge(idChallenge))
       console.log('personal');
     }    
-  }, [])
+  }, [idChallenge])
   
   
   if(isLoading){

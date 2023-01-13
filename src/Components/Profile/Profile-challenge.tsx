@@ -1,4 +1,6 @@
 import { FC } from 'react'
+import { Link } from 'react-router-dom'
+import { CHALLENGE_ROUTE } from '../../provider/constants-route'
 import './profile.scss'
 
 interface IProfileChallenge{
@@ -13,15 +15,15 @@ export const ProfileChallenge:FC<IProfileChallenge> = ({challenges,completed_cha
       <div className='profile-challenge__statistics-challenges'>
         <div className='profile-challenge__card-statistics'>
           <div className='profile-challenge__value'>{challenges}</div>
-          <div className='profile-challenge__items-text small-text'>
+          <Link to={CHALLENGE_ROUTE} className='profile-challenge__item-text small-text'>
             Активные
-          </div>
+          </Link>
         </div>
         <div className='profile-challenge__card-statistics'>
           <div className='profile-challenge__value'>{completed_challenges}</div>
-          <div className='profile-challenge__items-text small-text'>
+          <Link to={CHALLENGE_ROUTE} className='profile-challenge__item-text small-text'>
             Пройдено
-          </div>
+          </Link>
         </div>
       </div>
     </div>

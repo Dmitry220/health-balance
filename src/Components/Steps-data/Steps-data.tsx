@@ -5,13 +5,14 @@ import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
 import { currentStepsCountSelector, daysSelector, stepsPerDaySelector } from '../../Redux/slice/appSlice'
 import { purposeSelector } from '../../Redux/slice/purposeSlice'
 import { useEffect } from 'react'
+import { sklonenie } from '../../utils/common-functions'
 
 export const StepsData = () => {
 
   const purpose = useAppSelector(purposeSelector)
   const steps = useAppSelector(stepsPerDaySelector)
   const currentStepsCount = useAppSelector(currentStepsCountSelector)
-  const sortStepsForDate = steps?.slice().sort((a, b) => a.date - b.date)
+  const sortStepsForDate = steps?steps?.slice().sort((a, b) => a.date - b.date):[]
   let currentProgressPurpose = purpose && steps ? ((currentStepsCount * 100) / purpose?.quantity).toFixed() : 0
   console.log(sortStepsForDate);
   
@@ -23,7 +24,9 @@ export const StepsData = () => {
           <div className='steps-data__value'>{currentProgressPurpose}%</div>
           <div className='steps-data__text'>
             Цель: <br />
-            <span>{purpose?.quantity} шагов</span>
+            <span>{purpose?.quantity} 
+            {purpose?.quantity&&sklonenie(purpose?.quantity,[' шаг', ' шага', ' шагов'])}
+            </span>
           </div>
         </article>
         <article className='steps-data__card average'>
@@ -34,7 +37,8 @@ export const StepsData = () => {
           <div className='steps-data__text'>
             {'на '} <span>
             {sortStepsForDate?.length >= 2 ? Math.abs(sortStepsForDate[sortStepsForDate.length-1].quantity - sortStepsForDate[sortStepsForDate.length-2].quantity):0}
-              {' шагов '} 
+            {sklonenie(Math.abs(sortStepsForDate[sortStepsForDate.length-1]?.quantity - sortStepsForDate[sortStepsForDate.length-2]?.quantity),
+            [' шаг', ' шага', ' шагов'])}
             {sortStepsForDate?.length >= 2 && (sortStepsForDate[sortStepsForDate.length-1].quantity > sortStepsForDate[sortStepsForDate.length-2].quantity ? ' больше':' меньше')},</span>
             чем в прошлый раз
           </div>

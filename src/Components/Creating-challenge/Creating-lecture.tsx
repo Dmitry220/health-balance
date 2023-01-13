@@ -274,7 +274,7 @@ export const CreatingLecture = () => {
             }
             value={question}
           />
-          <input
+          {/* <input
             type='text'
             className='string-answer__input _field'
             placeholder={'Ответ'}
@@ -282,7 +282,7 @@ export const CreatingLecture = () => {
               setAnswer(e.target.value)
             }
             value={answer}
-          />
+          /> */}
         </div>
       )}
       {typeLesson === 4 && <div className='dowload-file'></div>}

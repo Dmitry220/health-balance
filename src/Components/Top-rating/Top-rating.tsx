@@ -9,6 +9,7 @@ import {
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
 import './top-rating.scss'
 import avatar from '../../assets/image/avatar.jpeg'
+import { sklonenie } from '../../utils/common-functions'
 
 export const TopRating = () => {
   const dispatch = useAppDispatch()
@@ -72,7 +73,7 @@ export const TopRating = () => {
                       {topToday[leaderDisplayOrder].surname}
                     </div>
                     <div className='personal__count-steps'>
-                      {topToday[leaderDisplayOrder].total_quantity} шагов
+                     {topToday[leaderDisplayOrder].total_quantity} {sklonenie(topToday[leaderDisplayOrder].total_quantity,['шаг', 'шага', 'шагов'])}
                     </div>
                   </Link>
                 )
@@ -104,7 +105,7 @@ export const TopRating = () => {
                   {item.name} <br /> {item.surname}
                 </div>
                 <div className='personal__count-steps'>
-                  {item.total_quantity} шагов
+                  {item.total_quantity} {sklonenie(item.total_quantity,['шаг', 'шага', 'шагов'])}
                 </div>
               </Link>
             ))
@@ -138,7 +139,7 @@ export const TopRating = () => {
                 </div>
                 <div className='list-participant__column'>
                   <div className='list-participant__count-steps'>
-                    {item.total_quantity} шагов
+                    {item.total_quantity} {sklonenie(item.total_quantity,['шаг', 'шага', 'шагов'])}
                   </div>
                 </div>
               </Link>
