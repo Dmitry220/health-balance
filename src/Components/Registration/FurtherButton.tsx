@@ -87,16 +87,17 @@ const ButtonSubmit: FC<IFurtherButton> = ({ order, setOrder }) => {
         device_token,
         platform
       ) 
+      console.log('успекх');
+      
       navigate(LOGIN_ROUTE)    
     } 
-    catch (e) {      
-      const error = e as AxiosError<any>   
-      if(error.response?.data.errors.email[0]){
-        await showToast('Пользователь с таким email уже существует!')
-        setOrder(0)
-      }else{
-        await showToast('Ошибка!')
-        setOrder(0)
+    catch (e) {       
+      setOrder(0)       
+      const error = e as AxiosError<any>         
+      if(error.response?.data.errors?.email){
+        await showToast('Пользователь с таким email уже существует!')      
+      }else{     
+        await showToast('Ошибка!')    
       }         
     }
 
