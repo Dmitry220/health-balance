@@ -68,7 +68,8 @@ export const requestRegistration = createAsyncThunk(
       )      
       console.log(response)
       return response.data
-    } catch (e) {
+    } 
+    catch (e) {
       const error = e as AxiosError<any>   
       if(error.response?.data.errors.email[0]){
         await showToast('Пользователь с таким email уже существует!')

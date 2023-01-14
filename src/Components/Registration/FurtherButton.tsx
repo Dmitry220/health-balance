@@ -18,6 +18,9 @@ import { Device } from '@capacitor/device'
 import './registration.scss'
 import { useNavigate } from 'react-router-dom'
 import { LOGIN_ROUTE } from '../../provider/constants-route'
+import AuthService from '../../services/AuthService'
+import { AxiosError } from 'axios'
+import { showToast } from '../../utils/common-functions'
 
 export interface IFurtherButton {
   order: number
@@ -71,8 +74,8 @@ const ButtonSubmit: FC<IFurtherButton> = ({ order, setOrder }) => {
 
     const device_token = uuid.uuid
 
-    await dispatch(
-      requestRegistration({
+    try {
+      await AuthService.registration(
         name,
         surname,
         birthday,
@@ -83,14 +86,19 @@ const ButtonSubmit: FC<IFurtherButton> = ({ order, setOrder }) => {
         password,
         device_token,
         platform
-      })
-    ).then((e)=>{   
-      if(e.payload){
-        navigate(LOGIN_ROUTE) 
-      }else{
+      ) 
+      navigate(LOGIN_ROUTE)    
+    } 
+    catch (e) {      
+      const error = e as AxiosError<any>   
+      if(error.response?.data.errors.email[0]){
+        await showToast('Пользователь с таким email уже существует!')
         setOrder(0)
-      }      
-    })   
+      }else{
+        await showToast('Ошибка!')
+        setOrder(0)
+      }         
+    }
 
   }
   return (
