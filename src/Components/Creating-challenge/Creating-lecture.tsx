@@ -71,7 +71,7 @@ export const CreatingLecture = () => {
     setVideoUrl('')
     setScore('10')
     setPhotoPath('')
-    setTypeLesson(-5)
+    setTypeLesson(0)
   }
 
   const addLecture = async () => {
@@ -120,7 +120,7 @@ export const CreatingLecture = () => {
         showToast('Лекция успешно добавлена!')
         reset()
       } else {
-        await showToast('Вы заполнили не все поля!')
+        await showToast('Необходимо заполнить все поля!')
       }
     } catch (error) {
       showToast('Произошла ошибка!')
