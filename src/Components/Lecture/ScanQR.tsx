@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { BarcodeScanner } from '@capacitor-community/barcode-scanner'
+import { QrReader } from 'react-qr-reader'
 
 import './lecture.scss'
 import {
@@ -21,44 +21,61 @@ export const ScanQR = () => {
   const challengeId = useAppSelector(challengeSelector)
   const dispacth = useAppDispatch()
   const [showModal, setShowModal] = useState<boolean>(false)
+  const [startScan, setStartScan] = useState<boolean>(false)
+  const [data, setData] = useState<string>('')
 
   const success = useAppSelector(successSelector)
   const isLoading = useAppSelector(isLoadingSuccessSelector)
 
-  const startScan = async () => {
-    // Check camera permission
-    // This is just a simple example, check out the better checks below
-    //await BarcodeScanner.checkPermission({ force: true })
-    const status = await BarcodeScanner.checkPermission({ force: true })
-
-    if (status.granted) {
-      // the user granted permission
-      // make background of WebView transparent
-      // note: if you are using ionic this might not be enough, check below
-      BarcodeScanner.hideBackground()
-
-      const result = await BarcodeScanner.startScan() // start scanning and wait for a result
-
-      // if the result has content
-      if (
-        result.hasContent &&
-        result.content === lesson?.qr_code &&
-        lesson?.id &&
-        result.content
-      ) {
-        const params = new FormData()
-        params.append('answer', result.content)
-        const response = await LessonService.complete(params, lesson.id)
-        if (response.data.success) {
-          setShowModal(true)
-        }
-      } else {
-        await showToast('Сканированный код не соответствует требуемому')
-      }
+  useEffect(() => {
+    if (data) {
+      checkQRCode()
     }
+  }, [data])
 
-    return false
+  const checkQRCode = async () => {
+    if (data === lesson?.qr_code && lesson?.id) {
+      const params = new FormData()
+      params.append('answer', data)
+      const response = await LessonService.complete(params, lesson.id)
+      if (response.data.success) {
+        setShowModal(true)
+        setData('')
+      }
+    } else {
+      await showToast('Сканированный код не соответствует требуемому')
+    }
   }
+
+  // const startScan = async () => {
+  // const status = await BarcodeScanner.checkPermission({ force: true })
+
+  // if (status.granted) {
+  //   BarcodeScanner.hideBackground()
+
+  //   const result = await BarcodeScanner.startScan({
+  //     targetedFormats: [SupportedFormat.QR_CODE]
+  //   })
+
+  //   if (
+  //     result.hasContent &&
+  //     result.content === lesson?.qr_code &&
+  //     lesson?.id &&
+  //     result.content
+  //   ) {
+  //     const params = new FormData()
+  //     params.append('answer', result.content)
+  //     const response = await LessonService.complete(params, lesson.id)
+  //     if (response.data.success) {
+  //       setShowModal(true)
+  //     }
+  //   } else {
+  //     await showToast('Сканированный код не соответствует требуемому')
+  //   }
+  // }
+
+  // return false
+  // }
 
   useEffect(() => {
     lesson?.id && dispacth(checkTask(lesson.id))
@@ -81,11 +98,29 @@ export const ScanQR = () => {
     )
   }
 
+  if (startScan) {
+    return (
+      <QrReader
+        onResult={(result, error) => {
+          if (!!result) {
+            setData(result.getText())
+          }
+
+          if (!!error) {
+            console.info(error)
+          }
+        }}
+        containerStyle={{ width: '100%' }}
+        constraints={{ facingMode: 'environment' }}
+      />
+    )
+  }
+
   return (
     <>
       <button
         className='task-lecture__button-execute _button-white'
-        onClick={startScan}
+        onClick={() => setStartScan(true)}
       >
         Сканировать QR
       </button>
