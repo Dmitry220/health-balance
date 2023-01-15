@@ -39,15 +39,27 @@ export const CreatingLecture = () => {
   const [videoUrl, setVideoUrl] = useState<string>('')
   const [image, setImage] = useState<any>('')
   const [photoPath, setPhotoPath] = useState<any | null>(null)
+  const [isLoadingAvatar, setIsLoadingAvatar] = useState<boolean>(false)
 
   const addCover = async (e: ChangeEvent<HTMLInputElement>) => {
+    setIsLoadingAvatar(true)
     const formData = new FormData()
     const file: any = e.target.files
     if (file[0]) {
       formData.append('image', file[0])
-      setPhotoPath(URL.createObjectURL(file[0]))
-      const response = await FileService.addImageLesson(formData)
-      setImage(response.data.data.avatar)
+      try {       
+        const response = await FileService.addImageLesson(formData)       
+        console.log(response);
+        setPhotoPath(URL.createObjectURL(file[0]))
+        setIsLoadingAvatar(false)
+        setImage(response.data.data.avatar)
+      } catch (error) {
+        setIsLoadingAvatar(false)
+        setPhotoPath('')
+        setImage('')
+        await showToast('Изображение слишком много весит')
+      }
+    
     }
   }
 
@@ -166,7 +178,7 @@ export const CreatingLecture = () => {
         className='creating-lecture__description'
         onChange={addCover}
       />
-      <label htmlFor='image' className='creating-lecture__image'>
+    {!isLoadingAvatar ?  <label htmlFor='image' className='creating-lecture__image'>
         {photoPath && <img src={photoPath} alt='' />}
         {!photoPath && (
           <div className={'creating-lecture__local-image'}>
@@ -174,7 +186,7 @@ export const CreatingLecture = () => {
             <br />
           </div>
         )}
-      </label>
+      </label> :<h1 style={{marginBottom: 20}}>Загружается...</h1> }
       <div className='creating-lecture__sub-title creating-sub-title'>
         Задание
       </div>

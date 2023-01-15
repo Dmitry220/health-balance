@@ -29,16 +29,27 @@ import { rubricConversion, showToast } from '../../utils/common-functions'
 
 export const CreatingInteresting = () => {
 
+  const [isLoadingAvatar, setIsLoadingAvatar] = useState<boolean>(false)
   const [showModal, setShowModal] = useState<boolean>(false)
   const tempImage = useAppSelector(tempImageNewsSelector)
+
   const takePicture = async (e: ChangeEvent<HTMLInputElement>) => {
+    setIsLoadingAvatar(true)
     const formData = new FormData()
     const file: any = e.target.files
     if (file[0]) {
-      dispatch(setTempImageNews(URL.createObjectURL(file[0])))
-      formData.append('image', file[0])
-      const response = await FileService.addImageNews(formData)
-      dispatch(setImageNews(response.data.data.avatar))
+      try {   
+        formData.append('image', file[0])
+        const response = await FileService.addImageNews(formData)
+        dispatch(setTempImageNews(URL.createObjectURL(file[0])))
+        dispatch(setImageNews(response.data.data.avatar))
+        setIsLoadingAvatar(false)
+      } catch (error) {
+        setIsLoadingAvatar(false)
+        dispatch(setTempImageNews(''))
+        dispatch(setImageNews(''))
+        await showToast('Изображение слишком много весит')
+      }
     }
   }
 
@@ -113,13 +124,13 @@ export const CreatingInteresting = () => {
         </div>
         <div className='creating-interesting__row'>
           <input id='cover' type='file' onChange={takePicture} />
-          <label
+       {!isLoadingAvatar ?    <label
             htmlFor='cover'
             className='creating-interesting__cover text-blue'
           >
             <img src={paper_clip} alt='' />
             Загрузить обложку
-          </label>
+          </label> : <h1 className='creating-interesting__cover'>Загружается...</h1>}
           <Link
             to={RUBRIC_ROUTE}
             className='creating-interesting__category text-blue'
@@ -129,11 +140,11 @@ export const CreatingInteresting = () => {
           <div style={{ marginLeft: 20 }}>{rubricConversion(dataNews.category)}</div>
         </div>
         {tempImage && <div className='creating-interesting__row'>
-          <img
+        <img
             className='creating-interesting__cover-image'
             src={tempImage}
             alt='cover'
-          />
+          /> 
         </div>}
         <div className='creating-interesting__push'>
           <div className='custom-checkbox'>

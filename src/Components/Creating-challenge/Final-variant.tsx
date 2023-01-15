@@ -24,7 +24,7 @@ import {
 import icon_edit from '../../assets/image/icon-edit.svg'
 import icon_camera from '../../assets/image/icon-camera-add.svg'
 import icon_clock from '../../assets/image/Interesting/clock.svg'
-import { definitionColor } from '../../utils/common-functions'
+import { definitionColor, showToast } from '../../utils/common-functions'
 import { RewardCount } from '../Reward/Reward-count'
 import FileService from '../../services/FilesServices'
 import ReactDatePicker, { registerLocale } from 'react-datepicker'
@@ -47,7 +47,7 @@ export const FinalVariant = () => {
   const endDate = useAppSelector(endDateCreatingChallengeSelector)
   const creatingPurpose = useAppSelector(creatingPurposeSelector)
   const icon = false
-
+  const [isLoadingAvatar, setIsLoadingAvatar] = useState<boolean>(false)
   const [photoPath, setPhotoPath] = useState<any | null>(null)
   const [isEditReward, setIsEditReward] = useState<boolean>(false)
   const [isEditTitle, setIsEditTitle] = useState<boolean>(false)
@@ -56,13 +56,22 @@ export const FinalVariant = () => {
   const dispatch = useAppDispatch()
 
   const addCover = async (e: ChangeEvent<HTMLInputElement>) => {
+    setIsLoadingAvatar(true)
     const formData = new FormData()
     const file: any = e.target.files
     if (file[0]) {
-      setPhotoPath(URL.createObjectURL(file[0]))
-      formData.append('image', file[0])
-      const response = await FileService.addImageChallenge(formData)
-      dispatch(setImageChallenge(response.data.data.avatar))
+      try {
+        formData.append('image', file[0])
+        const response = await FileService.addImageChallenge(formData)
+        setPhotoPath(URL.createObjectURL(file[0]))
+        dispatch(setImageChallenge(response.data.data.avatar))
+        setIsLoadingAvatar(false)
+      } catch (error) {
+        setIsLoadingAvatar(false)
+        await showToast('Изображение слишком много весит')
+        setPhotoPath('')
+        dispatch(setImageChallenge(''))
+      }
     }
   }
 
@@ -75,7 +84,7 @@ export const FinalVariant = () => {
   return (
     <div className={'final-variant'}>
       <input type={'file'} onChange={addCover} id='file' />
-      <label htmlFor='file' className='final-variant__image'>
+      {!isLoadingAvatar ? <label htmlFor='file' className='final-variant__image'>
         {photoPath && (
           <img className={'final-variant__image-main'} src={photoPath} alt='' />
         )}
@@ -85,10 +94,10 @@ export const FinalVariant = () => {
             <span>Загрузите обложку</span>
           </div>
         )}
-      </label>
+      </label> : <h1 className='final-variant__image'>Загружается...</h1>}
       <div className='final-variant__header'>
         <input type={'file'} onChange={addCover} id='iconFile' />
-        <label htmlFor='iconFile' className='final-variant__icon'>
+        {!isLoadingAvatar ? <label htmlFor='iconFile' className='final-variant__icon'>
           {photoPath && <img src={photoPath} alt='' />}
           {!photoPath && (
             <div className={'final-variant__text'}>
@@ -97,7 +106,7 @@ export const FinalVariant = () => {
               <span>icon</span>
             </div>
           )}
-        </label>
+        </label> : <h1 className='final-variant__icon'>...</h1>}
         <div className='final-variant__header__info'>
           <div>
             <select
