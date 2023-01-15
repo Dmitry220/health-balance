@@ -25,34 +25,43 @@ export const ScanQR = () => {
   const success = useAppSelector(successSelector)
   const isLoading = useAppSelector(isLoadingSuccessSelector)
 
+
+
   const startScan = async () => {
     // Check camera permission
     // This is just a simple example, check out the better checks below
-    await BarcodeScanner.checkPermission({ force: true })
+    //await BarcodeScanner.checkPermission({ force: true })
+    const status = await BarcodeScanner.checkPermission({ force: true });
 
-    // make background of WebView transparent
-    // note: if you are using ionic this might not be enough, check below
-    BarcodeScanner.hideBackground()
+    if (status.granted) {
+      // the user granted permission
+      // make background of WebView transparent
+      // note: if you are using ionic this might not be enough, check below
+      BarcodeScanner.hideBackground()
 
-    const result = await BarcodeScanner.startScan() // start scanning and wait for a result
+      const result = await BarcodeScanner.startScan() // start scanning and wait for a result
 
-    // if the result has content
-    if (
-      result.hasContent &&
-      result.content === lesson?.qr_code &&
-      lesson?.id &&
-      result.content
-    ) {
-      console.log(result.content)
-      const params = new FormData()
-      params.append('answer', result.content)
-      const response = await LessonService.complete(params, lesson.id)
-      if (response.data.success) {
-        setShowModal(true)
+      // if the result has content
+      if (
+        result.hasContent &&
+        result.content === lesson?.qr_code &&
+        lesson?.id &&
+        result.content
+      ) {
+        console.log(result.content)
+        const params = new FormData()
+        params.append('answer', result.content)
+        const response = await LessonService.complete(params, lesson.id)
+        if (response.data.success) {
+          setShowModal(true)
+        }
+      } else {
+        await showToast('Сканированный код не соответствует требуемому')
       }
-    } else {
-      await showToast('Сканированный код не соответствует требуемому')
     }
+
+    return false;
+
   }
 
   useEffect(() => {

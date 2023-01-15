@@ -148,15 +148,15 @@
 .set-photo{
   margin: 71px auto 45px auto;
   max-width: 208px;
-  input[type="file"] {
-    display:none;
-  }
-  input[type="file"] + label {
-    display:block;
-    height: 100%;
-    align-items: center;
-    display: inline-flex;
-  }
+  // input[type="file"] {
+  //   display:none;
+  // }
+  // input[type="file"] + label {
+  //   display:block;
+  //   height: 100%;
+  //   align-items: center;
+  //   display: inline-flex;
+  // }
   &__photo{
     background: #313131;
     display: flex;
@@ -175,6 +175,9 @@
       border-radius: 50%;
       object-fit: cover;
     }
+  }
+  &__label{
+    display: contents;
   }
 }
 

@@ -35,7 +35,7 @@ export const CreatingLecture = () => {
   const [description, setDescription] = useState<string>('')
   const [qrCode, setQrCode] = useState<string>('')
   const [question, setQuestion] = useState<string>('')
-  const [answer, setAnswer] = useState<string>('')
+  // const [answer, setAnswer] = useState<string>('')
   const [score, setScore] = useState<string>('10')
   const [startDate, setStartDate] = useState<Date>(new Date())
   const [endDate, setEndDate] = useState<Date>(END_DATE)
@@ -45,6 +45,8 @@ export const CreatingLecture = () => {
   const [photoPath, setPhotoPath] = useState<any | null>(null)
 
   const addCover = async (e: ChangeEvent<HTMLInputElement>) => {
+    console.log('dsf');
+    
     const formData = new FormData()
     const file: any = e.target.files
     if (file[0]) {
@@ -61,10 +63,13 @@ export const CreatingLecture = () => {
     setEndDate(end)
   }
 
+  console.log(answers);
+  
+
   const reset = () => {
-    setAnswer('')
+   // setAnswer('')
     setTitle('')
-    setAnswers([])
+    setAnswers([{ answer: '' }])
     setCorrectAnswer(0)
     setDescription('')
     setEndDate(END_DATE)
@@ -73,9 +78,9 @@ export const CreatingLecture = () => {
     setQrCode('')
     setQuestion('')
     setVideoUrl('')
-    setScore('')
+    setScore('10')
     setPhotoPath('')
-    setTypeLesson(0)
+    setTypeLesson(-5)
   }
 
   const addLecture = async () => {
@@ -114,7 +119,7 @@ export const CreatingLecture = () => {
         description &&
         typeLesson &&
         image&&
-        (typeLesson === 1 ? (question && answers) : (typeLesson === 3 ? question : (typeLesson === 2 ? qrCode:true))) &&
+        (typeLesson === 2 ? qrCode : typeLesson === 4 ? true : question) &&
         score &&    
         videoUrl) {
         const response = await LessonService.createLesson(formData)
@@ -186,12 +191,13 @@ export const CreatingLecture = () => {
       <div className='creating-lecture__select _custom-select'>
         <select
           name='type-task'
+          value={typeLesson} 
           id='type-task'
           onChange={(e: ChangeEvent<HTMLSelectElement>) =>
             setTypeLesson(+e.target.value)
           }
         >
-          <option value=''>Тип задания</option>
+          <option value={'0'}>Тип задания</option>
           <option value='1'>Выбор правильного ответа</option>
           <option value='2'>Отсканировать QR Код</option>
           <option value='3'>Строка для ответа</option>
