@@ -1,6 +1,6 @@
 import './profile.scss'
-import { Link, useNavigate } from 'react-router-dom'
-import { CHAT__ROUTE, DIALOG__ROUTE } from '../../provider/constants-route'
+import { useNavigate } from 'react-router-dom'
+import { DIALOG__ROUTE } from '../../provider/constants-route'
 import avatar from '../../assets/image/avatar.jpeg'
 import icon_chat from '../../assets/image/icon_chat.svg'
 import { useAppSelector } from '../../utils/hooks/redux-hooks'
@@ -19,7 +19,6 @@ export const ProfileMemberHead = () => {
 
   const goChat = async () => {
     const response = await ChatService.newChannel(infoUser.name + ' ' + infoUser.surname, [infoUser.id])
-    console.log(response.data.data);
     navigate(DIALOG__ROUTE + '/' + response.data.data[0].id)
   }
 

@@ -8,9 +8,7 @@ interface IVideo {
 export const Video: FC<IVideo> = ({ url }) => {
   const videoPlayer: React.Ref<any> = useRef()
 
-  const runVideo = () => {
-    console.log(videoPlayer.current)
-  }
+  const runVideo = () => {}
 
   return (
     <div className='lecture__video'>

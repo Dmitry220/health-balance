@@ -18,7 +18,6 @@ const Question: FC<IQuestion> = ({ question, saveAnswer }) => {
 
   const saveAnswerHandler = () => {
     if (answer === undefined) {
-      console.log('stop')
       return false
     }
     saveAnswer(answer)
@@ -57,18 +56,18 @@ const Question: FC<IQuestion> = ({ question, saveAnswer }) => {
 
 export default Question
 
-/*
-{question.answers.map((answer: any) => {
-                return (
-                  <div key={answer.id}>
-                    <input
-                      //onChange={(e) => changeAnswerHandler(e.target.value)}
-                      //value={answer.id}
-                      type="radio"
-                      id={answer.id + "test"}
-                    />
-                    <label htmlFor={answer.id + "test"}>{answer.answer}</label>
-                  </div>
-                );
-              })}
-*/
+// {
+//   question.answers.map((answer: any) => {
+//     return (
+//       <div key={answer.id}>
+//         <input
+//           //onChange={(e) => changeAnswerHandler(e.target.value)}
+//           //value={answer.id}
+//           type='radio'
+//           id={answer.id + 'test'}
+//         />
+//         <label htmlFor={answer.id + 'test'}>{answer.answer}</label>
+//       </div>
+//     )
+//   })
+// }

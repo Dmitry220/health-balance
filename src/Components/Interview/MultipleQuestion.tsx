@@ -22,7 +22,6 @@ export const MultipleQuestion: FC<IQuestion> = ({ question, saveAnswer }) => {
 
   const saveAnswerHandler = () => {
     if (answer.length === 0) {
-      console.log('stop')
       return false
     }
     saveAnswer(answer)

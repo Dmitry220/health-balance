@@ -1,9 +1,6 @@
 import { useState, useEffect, ChangeEvent } from 'react'
-import { LECTURES_ROUTE, LECTURE_ROUTE } from '../../provider/constants-route'
-import {
-  challengeIdSelector,
-  challengeSelector
-} from '../../Redux/slice/challengeSlice'
+import { LECTURES_ROUTE } from '../../provider/constants-route'
+import { challengeSelector } from '../../Redux/slice/challengeSlice'
 import {
   checkTask,
   isLoadingSuccessSelector,
@@ -13,7 +10,6 @@ import {
 import LessonService from '../../services/LessonsService'
 import { showToast } from '../../utils/common-functions'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
-import { ModalStatus } from '../Modals/Modal-status'
 import { ModalSuccess } from '../Modals/Modal-success'
 import { Preloader } from '../Preloader/Preloader'
 import './lecture.scss'
@@ -29,19 +25,14 @@ export const AnswerToQuestion = () => {
   const isLoading = useAppSelector(isLoadingSuccessSelector)
 
   const complete = async () => {
-    
     if (value != '' && lesson?.id) {
       const params = new FormData()
       params.append('answer', value)
       try {
-        const response = await LessonService.complete(params, lesson.id)
-        console.log(response);
+        await LessonService.complete(params, lesson.id)
 
         setShowModal(true)
-      } catch (error) {
-      }
-
-
+      } catch (error) {}
     } else {
       await showToast('Произошла ошибка')
     }
@@ -58,6 +49,7 @@ export const AnswerToQuestion = () => {
   if (success) {
     return <h1 style={{ textAlign: 'center', color: 'red' }}>Выполнено</h1>
   }
+
   if (showModal) {
     return (
       <ModalSuccess

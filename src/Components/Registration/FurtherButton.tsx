@@ -9,7 +9,6 @@ import {
   nameUserSelector,
   passwordSelector,
   platformSelector,
-  requestRegistration,
   setDisabledButton,
   surNameSelector,
   telephoneSelector
@@ -67,7 +66,6 @@ const ButtonSubmit: FC<IFurtherButton> = ({ order, setOrder }) => {
   const platform = useAppSelector(platformSelector)
 
   const submitRegistration = async () => {
-
     dispatch(setDisabledButton(true))
 
     const uuid = await Device.getId()
@@ -86,21 +84,18 @@ const ButtonSubmit: FC<IFurtherButton> = ({ order, setOrder }) => {
         password,
         device_token,
         platform
-      ) 
-      console.log('успекх');
-      
-      navigate(LOGIN_ROUTE)    
-    } 
-    catch (e) {       
-      setOrder(0)       
-      const error = e as AxiosError<any>         
-      if(error.response?.data.errors?.email){
-        await showToast('Пользователь с таким email уже существует!')      
-      }else{     
-        await showToast('Ошибка!')    
-      }         
-    }
+      )
 
+      navigate(LOGIN_ROUTE)
+    } catch (e) {
+      setOrder(0)
+      const error = e as AxiosError<any>
+      if (error.response?.data.errors?.email) {
+        await showToast('Пользователь с таким email уже существует!')
+      } else {
+        await showToast('Ошибка!')
+      }
+    }
   }
   return (
     <div style={{ textAlign: 'center' }}>

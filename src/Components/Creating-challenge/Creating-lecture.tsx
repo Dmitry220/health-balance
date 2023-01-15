@@ -106,7 +106,7 @@ export const CreatingLecture = () => {
     }
 
     try {
-      //Проверка на не пустые поля
+      // Проверка на не пустые поля
       if (
         title &&
         description &&
@@ -124,7 +124,6 @@ export const CreatingLecture = () => {
       }
     } catch (error) {
       showToast('Произошла ошибка!')
-      console.log(error)
     }
   }
 

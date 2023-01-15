@@ -10,7 +10,6 @@ import {
 import LessonService from '../../services/LessonsService'
 import { showToast } from '../../utils/common-functions'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
-import { ModalStatus } from '../Modals/Modal-status'
 import { ModalSuccess } from '../Modals/Modal-success'
 import { Preloader } from '../Preloader/Preloader'
 import './lecture.scss'
@@ -28,18 +27,13 @@ export const AnswerOptions = () => {
   const [showModal, setShowModal] = useState<boolean>(false)
 
   const complete = async () => {
-    console.log(lesson, value);
-    
     if (+value === lesson?.correct_answer) {
       const params = new FormData()
       params.append('answer', value)
-     try {
-      const response = await LessonService.complete(params, lesson.id)
-      console.log(response);      
-      setShowModal(true)
-     } catch (error) {      
-     }
-     
+      try {
+        await LessonService.complete(params, lesson.id)
+        setShowModal(true)
+      } catch (error) {}
     } else {
       await showToast('Вы неправильно ответили на вопрос')
     }

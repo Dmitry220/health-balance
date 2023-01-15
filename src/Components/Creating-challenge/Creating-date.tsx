@@ -49,12 +49,8 @@ export const CreatingDate = () => {
 
   const onChange = (value: any) => {
     // setValue(value)
-    console.log(value)
-
-    // [value[1], value[3]] = [value[3], value[1]];
     const formatDate =
       Date.parse(value[1] + '.' + value[0] + '.' + value[2]) / 1000
-
     // dispatch(setBirthday(formatDate))
   }
 

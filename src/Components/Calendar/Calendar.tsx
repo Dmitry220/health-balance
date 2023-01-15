@@ -41,8 +41,6 @@ export const Calendar: FC<ICalendar> = () => {
     //                             month: "long",
     //                            // year: "numeric",
     //                         })
-    //                         console.log('f',selectedMonth[0].toLocaleUpperCase() + selectedMonth.slice(1));
-
     //                         return <div className='calendar-header'>
     //         <button onClick={decreaseMonth} disabled={prevMonthButtonDisabled} className={'calendar-arrow-button'}>
     //             <img src={arrowLeft} alt="arrowLeft"/>

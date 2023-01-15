@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 import './interview.scss'
 import Question from './Question'
 import MultipleQuestion from './MultipleQuestion'
@@ -108,11 +108,6 @@ const Interview: FC<IInterview> = ({ closeCallback }) => {
   const saveAnswer = (answer: any) => {
     setAnswers([...answers, answer])
   }
-  useEffect(() => {
-    if (answers.length === questions.length) {
-      console.log('result', answers)
-    }
-  }, [answers])
 
   return (
     <div className='interview-wrapper'>
