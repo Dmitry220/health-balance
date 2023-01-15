@@ -1,8 +1,6 @@
 import { AxiosResponse } from 'axios'
 import { $api } from '../http'
-import { IPurposeResponse } from '../models/IPurpose'
-import { IGetTracker, ITrack } from '../models/ITracker'
-import { ITracker } from '../Redux/slice/trackerSlice'
+import { IGetTracker } from '../models/ITracker'
 
 export default class TrackerService {
   static async creatingTracker(params: FormData) {
@@ -28,7 +26,6 @@ export default class TrackerService {
     value: string
   ) {
     const body = type + '=' + value
-    console.log(body)
     return (
       $api.patch(
         `/v2/tracker/${id}/update?token=${localStorage.getItem('token')}`,

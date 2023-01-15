@@ -1,16 +1,10 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "../store";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import type { PayloadAction } from '@reduxjs/toolkit'
+import { RootState } from '../store'
 
+interface IChatSlice {}
 
-interface IChatSlice {
-
-}
-
-const initialState: IChatSlice = {
-
-
-};
+const initialState: IChatSlice = {}
 
 // export const getQuestionnaire = createAsyncThunk(
 //   "getQuestionnaire",
@@ -31,11 +25,7 @@ const initialState: IChatSlice = {
 // export const interruptPoll = createAsyncThunk(
 //   "interruptPoll",
 //   async (id: number) => {
-//     const response = await HealthIndexService.interruptPoll(id);
-//     if(response.data.data.success === true){
-//       console.log(response);
-//     }
-    
+//     await HealthIndexService.interruptPoll(id);
 //   }
 // );
 
@@ -47,21 +37,17 @@ const initialState: IChatSlice = {
 //     const formData = new FormData();
 //     formData.append("answers", JSON.stringify(answers));
 //     const response = await HealthIndexService.saveCurrentResult(id, formData);
-//     console.log(response.data);
 //     return response.data.data;
 //   }
 // );
 
-
-
 export const chatSlice = createSlice({
-  name: "healthIndex",
+  name: 'healthIndex',
   initialState,
   reducers: {
     // addIndexPageAnswer: (state, action) => {
     //   state.answers = [...state.answers, action.payload];
     // },
-
   },
   extraReducers: (builder) => {
     // builder.addCase(
@@ -70,11 +56,10 @@ export const chatSlice = createSlice({
     //     state.questionnaire = action.payload;
     //   }
     // );
+  }
+})
 
-  },
-});
-
-export const {} = chatSlice.actions;
+export const {} = chatSlice.actions
 
 // export const questionnaireSelector = (state: RootState) =>
 //   state.healthIndex.questionnaire;
@@ -86,4 +71,4 @@ export const {} = chatSlice.actions;
 // export const dynamicsSelector = (state: RootState) => state.healthIndex.dynamics;
 // export const isLoadingSelector = (state: RootState) => state.healthIndex.isLoading;
 
-export default chatSlice.reducer;
+export default chatSlice.reducer

@@ -32,16 +32,12 @@ import {
   getGradient,
   optionsChartBar
 } from '../../Components/Charts/Chart-options'
-import { Banner } from '../../Components/Banner/Banner'
 import { routesNavigation } from '../../utils/globalConstants'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
 import { activityVisitSelector } from '../../Redux/slice/visitedPageSlice'
 import { StartPage } from '../Start-pages/StartPage'
 import AppService from '../../services/AppService'
-import {
-  getPersonalPurpose,
-  purposeSelector
-} from '../../Redux/slice/purposeSlice'
+import { purposeSelector } from '../../Redux/slice/purposeSlice'
 import {
   currentStepsCountSelector,
   daysSelector,
@@ -106,10 +102,7 @@ export const ActivityPage: FC = () => {
 
     const params = new FormData()
 
-    params.append(
-      'data',
-      JSON.stringify([{ date: endDate, steps: steps }])
-    )
+    params.append('data', JSON.stringify([{ date: endDate, steps: steps }]))
 
     await AppService.updateSteps(params)
 
@@ -228,7 +221,7 @@ const Graphs = () => {
   startDateWeek.setDate(startDateWeek.getDate() - 7 * 7)
   const startDateMonth = new Date()
   startDateMonth.setMonth(startDateMonth.getMonth() - 12)
-  
+
   const dispatch = useAppDispatch()
   const [currentValueTab, setCurrentValueTab] = useState<number>(0)
   const namesTabsDynamics = ['Дни', 'Недели', 'Месяцы']

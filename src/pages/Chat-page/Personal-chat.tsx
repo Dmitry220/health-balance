@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useRef, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import paperclip from '../../assets/image/chat/icon_paperclip.svg'
 import Header from '../../Components/Header/Header'
@@ -7,7 +7,6 @@ import { IAllMessages } from '../../models/IChat'
 import ChatService from '../../services/ChatService'
 import './chat-page.scss'
 import avatar from '../../assets/image/avatar.jpeg'
-
 
 export const PersonalChat = () => {
   const id = Number(localStorage.getItem('id'))
@@ -19,8 +18,7 @@ export const PersonalChat = () => {
 
   const sendMessage = async () => {
     if (message.trim()) {
-      const response = await ChatService.sendMessage(message, idChannel)
-      console.log(response);
+      await ChatService.sendMessage(message, idChannel)
       const allMessages = await ChatService.listMessages(idChannel)
       setMessages(allMessages.data.data)
       //setMessages(prev=>[...prev,response.data.data])
@@ -29,22 +27,18 @@ export const PersonalChat = () => {
   }
 
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       const allMessages = await ChatService.listMessages(idChannel)
       setMessages(allMessages.data.data)
-      console.log(allMessages.data.data);
-    })();
+    })()
 
     let interval = setInterval(async () => {
       const allMessages = await ChatService.listMessages(idChannel)
       setMessages(allMessages.data.data)
-      console.log(allMessages.data.data);
     }, 5000)
 
     return () => clearInterval(interval)
-
   }, [])
-
 
   return (
     <div className='personal-chat'>
@@ -58,16 +52,32 @@ export const PersonalChat = () => {
               style={{ marginLeft: id === mess.author.id ? 'auto' : 0 }}
               id={'qw' + i}
             >
-               {id != mess.author.id && <div className='message-item__avatar'> <img src={ mess.author.avatar ?IMAGE_URL + 'avatars/' + mess.author.avatar:avatar} alt="" width={20} /></div>}
-              
-              <div className="message-item__container" >
-              {id != mess.author.id && <div className='message-item__name text-blue'>{mess.author.name}</div>}
+              {id != mess.author.id && (
+                <div className='message-item__avatar'>
+                  {' '}
+                  <img
+                    src={
+                      mess.author.avatar
+                        ? IMAGE_URL + 'avatars/' + mess.author.avatar
+                        : avatar
+                    }
+                    alt=''
+                    width={20}
+                  />
+                </div>
+              )}
+
+              <div className='message-item__container'>
+                {id != mess.author.id && (
+                  <div className='message-item__name text-blue'>
+                    {mess.author.name}
+                  </div>
+                )}
                 <div className='message-item__text'>{mess.content}</div>
                 <div className='message-item__time'>
                   {mess.createdAt.date.slice(10, -10)}
                 </div>
               </div>
-
             </div>
           ))}
         </div>

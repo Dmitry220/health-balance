@@ -2,7 +2,6 @@ import { useState } from 'react'
 import {
   getItemsHour,
   getItemsMinutes,
-  getItemsWeight,
   showToast
 } from '../../utils/common-functions'
 import Header from '../../Components/Header/Header'
@@ -16,8 +15,14 @@ export const GoalSleep = () => {
   const tracker = useAppSelector(trackerSelector)
   const itemsHour = getItemsHour()
   const itemsMinutes = getItemsMinutes()
-  const [hour, setHour] = useState<string>(tracker.wake_up_time.split(':')[0].length ===2 ? tracker.wake_up_time.split(':')[0][1] : tracker.wake_up_time.split(':')[0] + '')
-  const [minutes, setMinutes] = useState<string>(tracker.wake_up_time.split(':')[1] + '')
+  const [hour, setHour] = useState<string>(
+    tracker.wake_up_time.split(':')[0].length === 2
+      ? tracker.wake_up_time.split(':')[0][1]
+      : tracker.wake_up_time.split(':')[0] + ''
+  )
+  const [minutes, setMinutes] = useState<string>(
+    tracker.wake_up_time.split(':')[1] + ''
+  )
 
   const changeHour = (value: string) => setHour(value)
   const changeMinutes = (value: string) => setMinutes(value)
@@ -25,12 +30,13 @@ export const GoalSleep = () => {
   let outputHour = +hour - 8 < 0 ? 24 + (+hour - 8) : +hour - 8
 
   const save = async () => {
-    await TrackerService.updateTracker(tracker.id, 'wake_up_time', hour+':'+minutes)
+    await TrackerService.updateTracker(
+      tracker.id,
+      'wake_up_time',
+      hour + ':' + minutes
+    )
     await showToast('Изменено успешно!')
-
   }
-
-console.log(outputHour);
 
   return (
     <div className={'goal-sleep'}>
@@ -67,12 +73,17 @@ console.log(outputHour);
       </div>
 
       <div className='goal-sleep__recommendation small-text'>
-        Оптимальное время засыпания: <span className='text-blue'>
-          {outputHour.toLocaleString().length === 2 ? outputHour : '0'+outputHour} 
-          :
-          {minutes.length === 2 ? minutes : '0'+minutes}</span>
+        Оптимальное время засыпания:{' '}
+        <span className='text-blue'>
+          {outputHour.toLocaleString().length === 2
+            ? outputHour
+            : '0' + outputHour}
+          :{minutes.length === 2 ? minutes : '0' + minutes}
+        </span>
       </div>
-      <button className='goal-sleep__button _button-white' onClick={save}>Установить</button>
+      <button className='goal-sleep__button _button-white' onClick={save}>
+        Установить
+      </button>
     </div>
   )
 }

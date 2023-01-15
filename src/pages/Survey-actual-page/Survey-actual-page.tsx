@@ -64,7 +64,6 @@ export const SurveyActualPage = () => {
 
   const showQuestion = (current: number) => {
     const itemQuestion = surveys[current]
-    console.log(checkedValues)
     // return <Quiz
     //     answer_type={''}
     //     answers={itemQuestion.variants[current].answer}

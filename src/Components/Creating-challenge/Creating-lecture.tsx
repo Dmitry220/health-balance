@@ -1,8 +1,4 @@
-import {
-  ChangeEvent,
-  forwardRef,
-  useState,
-} from 'react'
+import { ChangeEvent, forwardRef, useState } from 'react'
 import DatePicker, { registerLocale } from 'react-datepicker'
 import ru from 'date-fns/locale/ru'
 import './creating-challenge.scss'
@@ -45,8 +41,6 @@ export const CreatingLecture = () => {
   const [photoPath, setPhotoPath] = useState<any | null>(null)
 
   const addCover = async (e: ChangeEvent<HTMLInputElement>) => {
-    console.log('dsf');
-    
     const formData = new FormData()
     const file: any = e.target.files
     if (file[0]) {
@@ -63,11 +57,8 @@ export const CreatingLecture = () => {
     setEndDate(end)
   }
 
-  console.log(answers);
-  
-
   const reset = () => {
-   // setAnswer('')
+    // setAnswer('')
     setTitle('')
     setAnswers([{ answer: '' }])
     setCorrectAnswer(0)
@@ -85,7 +76,8 @@ export const CreatingLecture = () => {
 
   const addLecture = async () => {
     const formData = new FormData()
-    const idChallenge = Number(params.id) === 0 ? challenge_id : Number(params.id)
+    const idChallenge =
+      Number(params.id) === 0 ? challenge_id : Number(params.id)
     formData.append('title', title)
     formData.append('challenge', JSON.stringify(idChallenge))
     formData.append('description', description)
@@ -112,24 +104,24 @@ export const CreatingLecture = () => {
       default:
         break
     }
-    
+
     try {
       //Проверка на не пустые поля
-      if (title &&
+      if (
+        title &&
         description &&
         typeLesson &&
-        image&&
+        image &&
         (typeLesson === 2 ? qrCode : typeLesson === 4 ? true : question) &&
-        score &&    
-        videoUrl) {
-        const response = await LessonService.createLesson(formData)
-        console.log(response)
+        score &&
+        videoUrl
+      ) {
+        await LessonService.createLesson(formData)
         showToast('Лекция успешно добавлена!')
         reset()
       } else {
         await showToast('Вы заполнили не все поля!')
       }
-
     } catch (error) {
       showToast('Произошла ошибка!')
       console.log(error)
@@ -191,13 +183,13 @@ export const CreatingLecture = () => {
       <div className='creating-lecture__select _custom-select'>
         <select
           name='type-task'
-          value={typeLesson} 
+          value={typeLesson}
           id='type-task'
           onChange={(e: ChangeEvent<HTMLSelectElement>) =>
             setTypeLesson(+e.target.value)
           }
         >
-          <option value={'0'}>Тип задания</option>
+          <option value='0'>Тип задания</option>
           <option value='1'>Выбор правильного ответа</option>
           <option value='2'>Отсканировать QR Код</option>
           <option value='3'>Строка для ответа</option>
@@ -315,7 +307,7 @@ export const CreatingLecture = () => {
           type='number'
           className='_field'
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setScore(e.target.value.replace(/\D/,''))
+            setScore(e.target.value.replace(/\D/, ''))
           }
           value={score}
         />

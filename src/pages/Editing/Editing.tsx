@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react'
+import { useState } from 'react'
 import Header from '../../Components/Header/Header'
 import './editing.scss'
 import { Camera, CameraResultType } from '@capacitor/camera'
@@ -6,7 +6,6 @@ import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
 import {
   dataUserSelector,
   isSuccesfullRequestSelector,
-  setUserData,
   updateProfile
 } from '../../Redux/slice/profileSlice'
 import InputMask from 'react-input-mask'
@@ -67,34 +66,30 @@ export const Editing = () => {
   )
 
   const dowloadPicture = async () => {
-
     const image = await Camera.getPhoto({
-      quality: 90,
+      quality: 50,
       allowEditing: true,
       resultType: CameraResultType.Uri
-    });
+    })
 
-    let imageUrl = image.webPath || '';
+    let imageUrl = image.webPath || ''
 
-    let blob = await fetch(imageUrl).then(r => r.blob());
+    let blob = await fetch(imageUrl).then((r) => r.blob())
     setIsLoadingAvatar(true)
-    console.log(blob);
 
     if (blob) {
       const formData = new FormData()
       formData.append('image', blob)
       try {
-        const response = await FileService.uploadFile(formData)  
-        setPhotoPath(imageUrl); 
-        console.log(response);
+        const response = await FileService.uploadFile(formData)
+        setPhotoPath(imageUrl)
         setAvatar(response.data.data.avatar)
         setIsLoadingAvatar(false)
       } catch (error) {
-        console.log(error);  
-        setIsLoadingAvatar(false)  
-        await showToast('Изображение слишком много весит')   
-        setPhotoPath(''); 
-      }      
+        setIsLoadingAvatar(false)
+        await showToast('Изображение слишком много весит')
+        setPhotoPath('')
+      }
     } else {
       await showToast('Изображения нет')
     }
@@ -108,18 +103,26 @@ export const Editing = () => {
         <div className='editing__wrapper-header'>
           <div className='editing__avatar'>
             {/* <input type={'file'} onChange={dowloadPicture} id='file' /> */}
-           {!isLoadingAvatar ? <div className='editing__label' onClick={dowloadPicture}>
-              {!dataUser.avatar && !photoPath && (
-                <img src={photo} style={{ borderRadius: 0, objectFit: 'contain' }} alt='avatar' />
-              )}
-              {(dataUser.avatar || photoPath) && (
-                <img
-                  src={photoPath || IMAGE_URL + 'avatars/' + dataUser.avatar}
-                  alt='avatar'
-                />
-              )}
-              <span>Изменить</span>
-            </div> : <h1>Загружается...</h1> }
+            {!isLoadingAvatar ? (
+              <div className='editing__label' onClick={dowloadPicture}>
+                {!dataUser.avatar && !photoPath && (
+                  <img
+                    src={photo}
+                    style={{ borderRadius: 0, objectFit: 'contain' }}
+                    alt='avatar'
+                  />
+                )}
+                {(dataUser.avatar || photoPath) && (
+                  <img
+                    src={photoPath || IMAGE_URL + 'avatars/' + dataUser.avatar}
+                    alt='avatar'
+                  />
+                )}
+                <span>Изменить</span>
+              </div>
+            ) : (
+              <h1>Загружается...</h1>
+            )}
           </div>
           <div className='editing__names'>
             <div className='editing__caption' style={{ margin: 0 }}>

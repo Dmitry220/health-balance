@@ -1,12 +1,12 @@
-import {FC, useState } from 'react'
+import { FC, useState } from 'react'
 import { Pagination, A11y } from 'swiper'
 import { Swiper, SwiperSlide, useSwiper } from 'swiper/react'
 import { ScrollPicker } from '../../Components/Scroll-picker/Scroll-picker'
-import { Link } from 'react-router-dom'
-import { TRACKER_HABITS_ROUTE } from '../../provider/constants-route'
+
 import icon_dream from '../../assets/image/tracker/icon-dream.svg'
 import icon_fruit from '../../assets/image/tracker/icon-fruit.svg'
 import icon_water from '../../assets/image/tracker/icon-water.svg'
+
 import './tracker.scss'
 import {
   getItemsHour,
@@ -56,175 +56,172 @@ export const TrackerPage = () => {
     }
   }
 
-  console.log(hour);
-  
-  if(visitCount === 1){
+  if (visitCount === 1) {
     return <TrackerHabitsPage />
   }
-  
 
   return (
     <div className={'tracker'}>
-        <Swiper
-          modules={[Pagination, A11y]}
-          className={'preview__swiper'}
-          slidesPerView={1}
-          pagination={{ clickable: true }}
-          spaceBetween={50}
-        >
-          <SwiperSlide>
-            <div className='tracker__body'>
-              <div className='tracker__title tracker__title_start title-35'>
-                Это трекер <br /> полезных превычек
-              </div>
-              <div className='tracker__text'>
-                Здесь мы будем приучаться хорошо спать, правильно пить воду и
-                есть фрукты/овощи
-              </div>
-            </div> 
-          
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className='tracker__body'>
-              <div className='tracker__icon'>
-                <img src={icon_dream} alt='dream' />
-              </div>
-              <div className='tracker__sub-text-icon small-text'>
-                Здоровый сон
-              </div>
-              <div className='tracker__title title-35'>
-                Во сколько вы просыпаетесь?
-              </div>
-
-              <div className='tracker__clocks'>
-                <div className='tracker__clocks-item'>
-                  <ScrollPicker
-                    onChange={changeHour}
-                    items={itemsHour}
-                    value={hour}
-                    totalHeight={77}
-                    size={1}
-                    customClassname={'clock'}
-                    fontSize={44}
-                  />
-                </div>
-                <div className={''}>:</div>
-                <div className='tracker__clocks-item'>
-                  <ScrollPicker
-                    onChange={changeMinutes}
-                    items={itemsMinutes}
-                    value={minutes}
-                    size={1}
-                    totalHeight={77}
-                    fontSize={44}
-                    customClassname={'clock'}
-                  />
-                </div>
-              </div>
-
-              <div className='tracker__recommendation small-text'>
-                Оптимальное время засыпания:{' '}
-                <span className='text-blue'>{+hour-8<0 ? 24+(+hour-8) :+hour-8} :{minutes}</span>
-              </div>
+      <Swiper
+        modules={[Pagination, A11y]}
+        className={'preview__swiper'}
+        slidesPerView={1}
+        pagination={{ clickable: true }}
+        spaceBetween={50}
+      >
+        <SwiperSlide>
+          <div className='tracker__body'>
+            <div className='tracker__title tracker__title_start title-35'>
+              Это трекер <br /> полезных превычек
             </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className='tracker__body'>
-              <div className='tracker__icon'>
-                <img src={icon_water} alt='dream' />
-              </div>
-              <div className='tracker__sub-text-icon small-text'>
-                Водный баланс
-              </div>
-              <div className='tracker__title title-35'>Ваш текущий вес</div>
-              <div className='tracker__weight'>
+            <div className='tracker__text'>
+              Здесь мы будем приучаться хорошо спать, правильно пить воду и есть
+              фрукты/овощи
+            </div>
+          </div>
+        </SwiperSlide>
+        <SwiperSlide>
+          <div className='tracker__body'>
+            <div className='tracker__icon'>
+              <img src={icon_dream} alt='dream' />
+            </div>
+            <div className='tracker__sub-text-icon small-text'>
+              Здоровый сон
+            </div>
+            <div className='tracker__title title-35'>
+              Во сколько вы просыпаетесь?
+            </div>
+
+            <div className='tracker__clocks'>
+              <div className='tracker__clocks-item'>
                 <ScrollPicker
-                  onChange={changeWeight}
-                  items={itemsWeight}
-                  value={weightUser}
+                  onChange={changeHour}
+                  items={itemsHour}
+                  value={hour}
+                  totalHeight={77}
+                  size={1}
+                  customClassname={'clock'}
+                  fontSize={44}
                 />
               </div>
-              <div className='tracker__recommendation small-text'>
-                Количество воды в день:{' '}
-                <span className='text-blue'>{(+weightUser*35/1000).toFixed(1)} литра</span>
+              <div className={''}>:</div>
+              <div className='tracker__clocks-item'>
+                <ScrollPicker
+                  onChange={changeMinutes}
+                  items={itemsMinutes}
+                  value={minutes}
+                  size={1}
+                  totalHeight={77}
+                  fontSize={44}
+                  customClassname={'clock'}
+                />
               </div>
             </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className='tracker__body'>
-              <div className='tracker__icon'>
-                <img src={icon_fruit} alt='dream' />
-              </div>
-              <div className='tracker__sub-text-icon small-text'>
-                Фрукты и овощи
-              </div>
-              <div className='tracker__title title-35'>Фрукты и овощи</div>
-              <div className='tracker__clocks digits'>
-                <div onClick={decreaseCountFruits}>-</div>
-                <div className='digits__square'>
-                  {countFruits >= 10 ? countFruits : '0' + countFruits}
-                </div>
-                <div onClick={addCountFruits}>+</div>
-              </div>
-              <div className='tracker__recommendation small-text'>
-                Количество фруктов в день{' '}
-                <span className='text-blue'>5 оптимально</span>
-              </div>
+
+            <div className='tracker__recommendation small-text'>
+              Оптимальное время засыпания:{' '}
+              <span className='text-blue'>
+                {+hour - 8 < 0 ? 24 + (+hour - 8) : +hour - 8} :{minutes}
+              </span>
             </div>
-            {/* <div
+          </div>
+        </SwiperSlide>
+        <SwiperSlide>
+          <div className='tracker__body'>
+            <div className='tracker__icon'>
+              <img src={icon_water} alt='dream' />
+            </div>
+            <div className='tracker__sub-text-icon small-text'>
+              Водный баланс
+            </div>
+            <div className='tracker__title title-35'>Ваш текущий вес</div>
+            <div className='tracker__weight'>
+              <ScrollPicker
+                onChange={changeWeight}
+                items={itemsWeight}
+                value={weightUser}
+              />
+            </div>
+            <div className='tracker__recommendation small-text'>
+              Количество воды в день:{' '}
+              <span className='text-blue'>
+                {((+weightUser * 35) / 1000).toFixed(1)} литра
+              </span>
+            </div>
+          </div>
+        </SwiperSlide>
+        <SwiperSlide>
+          <div className='tracker__body'>
+            <div className='tracker__icon'>
+              <img src={icon_fruit} alt='dream' />
+            </div>
+            <div className='tracker__sub-text-icon small-text'>
+              Фрукты и овощи
+            </div>
+            <div className='tracker__title title-35'>Фрукты и овощи</div>
+            <div className='tracker__clocks digits'>
+              <div onClick={decreaseCountFruits}>-</div>
+              <div className='digits__square'>
+                {countFruits >= 10 ? countFruits : '0' + countFruits}
+              </div>
+              <div onClick={addCountFruits}>+</div>
+            </div>
+            <div className='tracker__recommendation small-text'>
+              Количество фруктов в день{' '}
+              <span className='text-blue'>5 оптимально</span>
+            </div>
+          </div>
+          {/* <div
               className={'preview__button _button-dark'}
               onClick={setVisitedTrackerPageHandler}
             >
               Дальше
             </div> */}
-          </SwiperSlide>
-          <SlideNextButton             
-              customClass={'preview__button _button-dark'}
-              fruits={JSON.stringify(countFruits)} wake_up_time={hour+':'+minutes} weight={weightUser}
-            />
-              <div className={'circle-gradient circle-gradient_green'} />
-        </Swiper>   
+        </SwiperSlide>
+        <SlideNextButton
+          customClass={'preview__button _button-dark'}
+          fruits={JSON.stringify(countFruits)}
+          wake_up_time={hour + ':' + minutes}
+          weight={weightUser}
+        />
+        <div className={'circle-gradient circle-gradient_green'} />
+      </Swiper>
     </div>
   )
 }
 
 interface ISwiperNextButton {
-  customClass: string,
-  weight: string,
-  fruits: string,
+  customClass: string
+  weight: string
+  fruits: string
   wake_up_time: string
-
 }
 
 const SlideNextButton: FC<ISwiperNextButton> = ({
-  customClass,fruits,wake_up_time,weight
+  customClass,
+  fruits,
+  wake_up_time,
+  weight
 }) => {
   const swiper = useSwiper()
 
   const dispatch = useAppDispatch()
 
   const next = async () => {
-   
     switch (swiper.activeIndex) {
       case 3:
-        console.log(fruits,wake_up_time,weight);
         const formData = new FormData()
-        formData.append("wake_up_time",wake_up_time)
-        formData.append("weight",weight)
-        formData.append("fruits",fruits)
-        const response = await TrackerService.creatingTracker(formData)
-        console.log(response);        
-       // if (response.data.succeess) {
-          dispatch(setVisitedTrackerPage(1))
-       // }
-        break;
+        formData.append('wake_up_time', wake_up_time)
+        formData.append('weight', weight)
+        formData.append('fruits', fruits)
+        await TrackerService.creatingTracker(formData)
+        dispatch(setVisitedTrackerPage(1))
+        break
       default:
-        break;
+        break
     }
     swiper.slideNext()
   }
-  
-
 
   return (
     <button className={customClass} onClick={next}>

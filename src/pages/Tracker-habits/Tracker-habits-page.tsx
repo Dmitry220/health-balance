@@ -1,7 +1,4 @@
-import {
-  IRoutesNavigation,
-  Navigation
-} from '../../Components/Navigation/Navigation'
+import { Navigation } from '../../Components/Navigation/Navigation'
 import { WaterTarget } from '../../Components/Tracker/Water-target'
 import { FruitTarget } from '../../Components/Tracker/Fruit-target'
 import './tracker-habits_page.scss'
@@ -9,15 +6,9 @@ import icon_fruit from '../../assets/image/tracker/icon-fruit.svg'
 import icon_water from '../../assets/image/tracker/icon-water.svg'
 import { Link } from 'react-router-dom'
 import {
-  ACTIVITY_ROUTE,
-  CHALLENGE_ROUTE,
   GOAL_FRUITS__ROUTE,
   GOAL_WATER__ROUTE,
-  HEALTH_INDEX_ROUTE,
-  INTERESTING_ROUTE,
-  STATISTICS_TRACKER__ROUTE,
-  TRACKER_HABITS_ROUTE,
-  TRACKER_ROUTE
+  STATISTICS_TRACKER__ROUTE
 } from '../../provider/constants-route'
 import { HeaderTwo } from '../../Components/Header-two/Header-two'
 import { HealthySleep } from '../../Components/Tracker/Healthy-sleep'
@@ -25,17 +16,17 @@ import { routesNavigationTracker } from '../../utils/globalConstants'
 import { NavLink } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
 import { useEffect } from 'react'
-import { countWaterSelector, getTracker, isLoadingSelector, trackerSelector } from '../../Redux/slice/trackerSlice'
+import {
+  countWaterSelector,
+  getTracker,
+  trackerSelector
+} from '../../Redux/slice/trackerSlice'
 import { sklonenie } from '../../utils/common-functions'
 
 export const TrackerHabitsPage = () => {
-
   const dispatch = useAppDispatch()
   const tracker = useAppSelector(trackerSelector)
   const countWater = useAppSelector(countWaterSelector)
- 
-  console.log(tracker);
-  
 
   useEffect(() => {
     dispatch(getTracker())
@@ -44,11 +35,17 @@ export const TrackerHabitsPage = () => {
   // if(isLoading){
   //   return <Preloader />
   // }
-  let hour = tracker.wake_up_time.split(':')[0].length ===2 ? tracker.wake_up_time.split(':')[0] : '0'+tracker.wake_up_time.split(':')[0]
-  let minutes = tracker.wake_up_time.split(':')[1].length ===2 ? tracker.wake_up_time.split(':')[1] : '0'+tracker.wake_up_time.split(':')[1]
-  const morning = hour + ':'+ minutes
-  const evening = (+hour-8<0 ? 24+(+hour-8): +hour-8) + ':'+ minutes  
-  
+
+  let hour =
+    tracker.wake_up_time.split(':')[0].length === 2
+      ? tracker.wake_up_time.split(':')[0]
+      : '0' + tracker.wake_up_time.split(':')[0]
+  let minutes =
+    tracker.wake_up_time.split(':')[1].length === 2
+      ? tracker.wake_up_time.split(':')[1]
+      : '0' + tracker.wake_up_time.split(':')[1]
+  const morning = hour + ':' + minutes
+  const evening = (+hour - 8 < 0 ? 24 + (+hour - 8) : +hour - 8) + ':' + minutes
 
   return (
     <div className={'tracker-habits-page'}>
@@ -64,7 +61,7 @@ export const TrackerHabitsPage = () => {
         </NavLink>
       </div>
       <div className='tracker-habits-page__target'>
-        <HealthySleep evening={evening} morning={morning}/>
+        <HealthySleep evening={evening} morning={morning} />
       </div>
 
       <div className='tracker-habits-page__task-title'>
@@ -85,7 +82,9 @@ export const TrackerHabitsPage = () => {
       <div className='tracker-habits-page__task-title'>
         <div className='tracker-habits-page__task-column'>
           <img src={icon_fruit} alt='' />
-          Съесть <span>{tracker?.fruits}</span> {sklonenie(tracker?.fruits, ['фрукт', 'фрукта', 'фруктов'])} / {sklonenie(tracker?.fruits, ['овощ', 'овоща', 'овощей'])}
+          Съесть <span>{tracker?.fruits}</span>{' '}
+          {sklonenie(tracker?.fruits, ['фрукт', 'фрукта', 'фруктов'])} /{' '}
+          {sklonenie(tracker?.fruits, ['овощ', 'овоща', 'овощей'])}
         </div>
         <div className='tracker-habits-page__task-column'>
           <Link to={GOAL_FRUITS__ROUTE} className='text-blue'>

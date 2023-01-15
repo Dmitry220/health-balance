@@ -10,26 +10,20 @@ import {
   INDIVIDUAL_REPORT_ROUTE
 } from '../../provider/constants-route'
 import { HeaderTwo } from '../../Components/Header-two/Header-two'
+import { routesNavigationIndexResult } from '../../utils/globalConstants'
+import { useAppSelector } from '../../utils/hooks/redux-hooks'
 import {
-  routesNavigation,
-  routesNavigationIndexResult
-} from '../../utils/globalConstants'
-import { useEffect } from 'react'
-import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
-import { dynamicsSelector, getDynamics, isLoadingSelector } from '../../Redux/slice/healthIndexSlice'
+  dynamicsSelector,
+  isLoadingSelector
+} from '../../Redux/slice/healthIndexSlice'
 import { Preloader } from '../../Components/Preloader/Preloader'
 
 export const HealthIndexResults = () => {
-
-  const dispatch = useAppDispatch()
   const dynamics = useAppSelector(dynamicsSelector)
   const isLoading = useAppSelector(isLoadingSelector)
-  const lastDynamic = dynamics[dynamics.length-1]
+  const lastDynamic = dynamics[dynamics.length - 1]
 
-  console.log(Object.values(lastDynamic), lastDynamic);
-  
-
-  if(isLoading){
+  if (isLoading) {
     return <Preloader />
   }
 
@@ -37,27 +31,42 @@ export const HealthIndexResults = () => {
     <div className={'health-index-results-page'}>
       <Navigation routes={routesNavigationIndexResult} />
       <HeaderTwo title={'Индексы здоровья'} marginBottom={42} />
-      {new Date(lastDynamic.date *1000).getMonth() !== new Date().getMonth() && <div className='health-index-results-page__retesting'>
-        <Retesting />
-      </div>}
+      {new Date(lastDynamic.date * 1000).getMonth() !==
+        new Date().getMonth() && (
+        <div className='health-index-results-page__retesting'>
+          <Retesting />
+        </div>
+      )}
       <div className='health-index-results-page__age'>
-        <CardBiologyAge age={lastDynamic?.biological_age}/>
+        <CardBiologyAge age={lastDynamic?.biological_age} />
       </div>
       <div className='health-index-results-page__title title-17'>
         Показатели вне нормы
       </div>
       <div className='health-index-results-page__index'>
         <div className='health-index-results-page__index-item'>
-          <CardIndex title={'Уровень глюкозы в крови'} value={lastDynamic?.glucose_risk}/>
+          <CardIndex
+            title={'Уровень глюкозы в крови'}
+            value={lastDynamic?.glucose_risk}
+          />
         </div>
         <div className='health-index-results-page__index-item'>
-          <CardIndex title='Индексмассы тела' value={lastDynamic?.body_mass_index}/>
+          <CardIndex
+            title='Индексмассы тела'
+            value={lastDynamic?.body_mass_index}
+          />
         </div>
         <div className='health-index-results-page__index-item'>
-          <CardIndex title={'Физическая активность'} value={lastDynamic?.physical_activity}/>
+          <CardIndex
+            title={'Физическая активность'}
+            value={lastDynamic?.physical_activity}
+          />
         </div>
         <div className='health-index-results-page__index-item'>
-          <CardIndex title='Правильное питание' value={lastDynamic?.nutrition_risk}/>
+          <CardIndex
+            title='Правильное питание'
+            value={lastDynamic?.nutrition_risk}
+          />
         </div>
       </div>
       <Link
@@ -71,34 +80,46 @@ export const HealthIndexResults = () => {
       </div>
       <div className='health-index-results-page__disease'>
         <div className='health-index-results-page__disease-item'>
-          <CardDisease risk={lastDynamic.diabetes_risk} title={'Сахарный диабет'}/>
+          <CardDisease
+            risk={lastDynamic.diabetes_risk}
+            title={'Сахарный диабет'}
+          />
         </div>
         <div className='health-index-results-page__disease-item'>
-          <CardDisease title='Онкология' risk={lastDynamic?.oncology_risk}/>
+          <CardDisease title='Онкология' risk={lastDynamic?.oncology_risk} />
         </div>
         <div className='health-index-results-page__disease-item'>
-        <CardDisease title='Алкоголизм' risk={lastDynamic?.alcohol_risk}/>
+          <CardDisease title='Алкоголизм' risk={lastDynamic?.alcohol_risk} />
         </div>
         <div className='health-index-results-page__disease-item'>
-        <CardDisease title='Депрессия' risk={lastDynamic?.depression_risk}/>
+          <CardDisease title='Депрессия' risk={lastDynamic?.depression_risk} />
         </div>
         <div className='health-index-results-page__disease-item'>
-        <CardDisease title='Сердечно-сосудистые' risk={lastDynamic?.cardio_risk}/>
+          <CardDisease
+            title='Сердечно-сосудистые'
+            risk={lastDynamic?.cardio_risk}
+          />
         </div>
         <div className='health-index-results-page__disease-item'>
-        <CardDisease title='Хронический' risk={lastDynamic?.chronic_risk}/>
+          <CardDisease title='Хронический' risk={lastDynamic?.chronic_risk} />
         </div>
         <div className='health-index-results-page__disease-item'>
-        <CardDisease title='Холестерин' risk={lastDynamic?.cholesterol_risk}/>
+          <CardDisease
+            title='Холестерин'
+            risk={lastDynamic?.cholesterol_risk}
+          />
         </div>
         <div className='health-index-results-page__disease-item'>
-        <CardDisease title='Стресс' risk={lastDynamic?.stress_risk}/>
+          <CardDisease title='Стресс' risk={lastDynamic?.stress_risk} />
         </div>
         <div className='health-index-results-page__disease-item'>
-        <CardDisease title='Уровень выгорания' risk={lastDynamic?.burnout_risk}/>
+          <CardDisease
+            title='Уровень выгорания'
+            risk={lastDynamic?.burnout_risk}
+          />
         </div>
         <div className='health-index-results-page__disease-item'>
-        <CardDisease title='Презентеизм ' risk={lastDynamic?.presenteism}/>
+          <CardDisease title='Презентеизм ' risk={lastDynamic?.presenteism} />
         </div>
       </div>
       <Link

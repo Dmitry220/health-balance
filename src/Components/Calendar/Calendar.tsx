@@ -21,14 +21,11 @@ export const Calendar: FC<ICalendar> = () => {
 
   const months = getItemsMonth()
   months.forEach((item) => item.toLocaleLowerCase())
-  console.log(months.indexOf('Март'))
 
-  const appp = (monthDate: Date) => {
-    const temp = monthDate.toLocaleDateString().substring(3, 5)
-    console.log(temp.length === 2 ? +temp.substring(1) : +temp)
-
-    return temp.length === 2 ? +temp.substring(1) - 1 : +temp - 1
-  }
+  // const app = (monthDate: Date) => {
+  //   const temp = monthDate.toLocaleDateString().substring(3, 5)
+  //   return temp.length === 2 ? +temp.substring(1) - 1 : +temp - 1
+  // }
 
   return (
     <div

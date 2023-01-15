@@ -9,13 +9,9 @@ import { TaskChallenge } from '../../Components/Challenge/Task-challenge'
 import { RewardCount } from '../../Components/Reward/Reward-count'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import {
-  ACTIVE_CHALLENGE_ROUTE,
   CHALLENGE_ROUTE,
-  LECTURES_ROUTE,
   TEAM_SELECTION_ROUTE
 } from '../../provider/constants-route'
-import { ListLeadersChallenge } from '../../Components/List-leaders-challenge/List-leaders-challenge'
-import icon_edit from '../../assets/image/icon-edit.svg'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
 import {
   challengeSelector,
@@ -35,7 +31,7 @@ export const NewChallengeInfo = () => {
     {
       title: 'Шагов для завершения',
       value: 0,
-      text: nFormatter(challenge?.purpose?.quantity || 0,1)+'',
+      text: nFormatter(challenge?.purpose?.quantity || 0, 1) + '',
       id: 1
     },
     {
@@ -43,13 +39,11 @@ export const NewChallengeInfo = () => {
       value: challenge?.homeworks || 0,
       text: challenge?.total_lessons + ' лекций',
       id: 2
-    },
+    }
   ]
 
- 
   const enterIntoChallenge = async () => {
     const response = await ChallengeService.challengeJoin(Number(params.id))
-    console.log(response)
 
     if (response.data.success) {
       navigate(CHALLENGE_ROUTE)
@@ -108,7 +102,7 @@ export const NewChallengeInfo = () => {
           {challenge.type === 2 && (
             <Link
               className='new-challenge-info__button _button-white'
-              to={TEAM_SELECTION_ROUTE+'/'+challenge.id}
+              to={TEAM_SELECTION_ROUTE + '/' + challenge.id}
             >
               Принять участие
             </Link>

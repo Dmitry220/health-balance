@@ -4,8 +4,7 @@ import HealthIndexService from '../../services/HealthIndexService'
 import './report-page.scss'
 import { useParams, useLocation } from 'react-router-dom'
 import { PDFGenerator } from '@awesome-cordova-plugins/pdf-generator'
-import { showToast } from '../../utils/common-functions'
-import { Filesystem, Directory, Encoding } from '@capacitor/filesystem'
+import { Filesystem, Directory } from '@capacitor/filesystem'
 import { FileOpener } from '@capacitor-community/file-opener'
 
 type LocationProps = {

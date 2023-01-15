@@ -65,39 +65,32 @@ export const requestRegistration = createAsyncThunk(
         password,
         device_token,
         platform
-      )      
-      console.log(response)
+      )
       return response.data
-    } 
-    catch (e) {
-      const error = e as AxiosError<any>   
-      if(error.response?.data.errors.email[0]){
+    } catch (e) {
+      const error = e as AxiosError<any>
+      if (error.response?.data.errors.email[0]) {
         await showToast('Пользователь с таким email уже существует!')
-      }else{
+      } else {
         await showToast('Ошибка!')
-      }         
+      }
     }
-    
- 
   }
 )
 
 export const sendLogin = createAsyncThunk('login', async (data: ILogin) => {
   const { email, password } = data
-  console.log(email, password)
 
   try {
     const response = await AuthService.login(email, password)
-    console.log(response)
     localStorage.setItem('token', response.data.data.token)
     localStorage.setItem('id', response.data.data.id + '')
-  } catch (e:any) {
-    console.log(e)
-    if(e.code != 'ERR_NETWORK'){
+  } catch (e: any) {
+    if (e.code != 'ERR_NETWORK') {
       await showToast('Неверный email или пароль!')
-    }else{
+    } else {
       await showToast('Нет подключения к интернету!')
-    }   
+    }
   }
 })
 

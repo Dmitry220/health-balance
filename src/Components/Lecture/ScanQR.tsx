@@ -25,13 +25,11 @@ export const ScanQR = () => {
   const success = useAppSelector(successSelector)
   const isLoading = useAppSelector(isLoadingSuccessSelector)
 
-
-
   const startScan = async () => {
     // Check camera permission
     // This is just a simple example, check out the better checks below
     //await BarcodeScanner.checkPermission({ force: true })
-    const status = await BarcodeScanner.checkPermission({ force: true });
+    const status = await BarcodeScanner.checkPermission({ force: true })
 
     if (status.granted) {
       // the user granted permission
@@ -48,7 +46,6 @@ export const ScanQR = () => {
         lesson?.id &&
         result.content
       ) {
-        console.log(result.content)
         const params = new FormData()
         params.append('answer', result.content)
         const response = await LessonService.complete(params, lesson.id)
@@ -60,8 +57,7 @@ export const ScanQR = () => {
       }
     }
 
-    return false;
-
+    return false
   }
 
   useEffect(() => {

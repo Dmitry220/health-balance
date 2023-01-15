@@ -42,12 +42,11 @@ export const FurtherRecoveryButton: FC<IFurtherButton> = ({
     }
     if (order === 1) {
       try {
-        const response = await AuthService.updatePassword(email, code, password)
+        await AuthService.updatePassword(email, code, password)
         await showToast('Ваш пароль восстановлен!')
         navigate(LOGIN_ROUTE)
       } catch (error) {
-        console.log(error)
-        await showToast('Ошибка!')
+        await showToast('Ошибка! ' + error)
       }
     }
   }

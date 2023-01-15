@@ -28,10 +28,8 @@ export const setPurposeSteps = createAsyncThunk(
     const formData = new FormData()
     formData.append('quantity', quantity)
     formData.append('type', JSON.stringify(type))
-    console.log(data)
 
-    const response = await PurposeService.creatingPersonalPurpose(formData)
-    console.log(response)
+    await PurposeService.creatingPersonalPurpose(formData)
   }
 )
 
