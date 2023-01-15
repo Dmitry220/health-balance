@@ -21,12 +21,17 @@ export const ActiveChallengePage = () => {
   const params = useParams()
   const dispatch = useAppDispatch()
   const challenge = useAppSelector(challengeSelector)
-  let percent = challenge?.purpose && ((challenge.purpose?.quantity - challenge.remains_to_pass) * 100) / challenge.purpose?.quantity
+  let percent =
+    challenge?.purpose &&
+    ((challenge.purpose?.quantity - challenge.remains_to_pass) * 100) /
+      challenge.purpose?.quantity
   const itemsTask = [
     {
       title: 'Шагов для завершения',
-      value: challenge?.purpose ? nFormatter(challenge.purpose.quantity - challenge.remains_to_pass, 1) : 0,
-      text: nFormatter(challenge?.purpose?.quantity || 0,1)+'',
+      value: challenge?.purpose
+        ? nFormatter(challenge.purpose.quantity - challenge.remains_to_pass, 1)
+        : 0,
+      text: nFormatter(challenge?.purpose?.quantity || 0, 1) + '',
       id: 1
     },
     {
@@ -64,7 +69,7 @@ export const ActiveChallengePage = () => {
             ) + ' title-17'
           }
         >
-          Общий прогресс <span>{(percent)?.toFixed(1)}%</span> / 100%
+          Общий прогресс <span>{percent?.toFixed(1) || 100}%</span> / 100%
         </div>
         <ProgressBar percent={percent || 0} type={challenge?.type || 1} />
       </div>
@@ -93,7 +98,12 @@ export const ActiveChallengePage = () => {
       <div className='active-challenge-page__title-block block-title'>
         Лидеры челленджа
       </div>
-      {challenge?.type &&<ListLeadersChallenge type={challenge?.type} idChallenge={challenge?.id}/>}
+      {challenge?.type && (
+        <ListLeadersChallenge
+          type={challenge?.type}
+          idChallenge={challenge?.id}
+        />
+      )}
     </div>
   )
 }
