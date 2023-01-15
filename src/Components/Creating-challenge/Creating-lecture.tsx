@@ -82,7 +82,7 @@ export const CreatingLecture = () => {
     setQuestion('')
     setVideoUrl('')
     setScore('10')
-    setPhotoPath('')
+    setPhotoPath(null)
     setTypeLesson(0)
   }
 
