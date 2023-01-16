@@ -21,7 +21,7 @@ export const SelectPlatform = () => {
 
   useEffect(() => {
     async function getListPlatform() {
-      const response = await PlatformService.getPlatfotms()
+      const response = await PlatformService.getPlatfotmsForChallenge()
       setListPlatforms(response.data.data)
     }
     getListPlatform()
