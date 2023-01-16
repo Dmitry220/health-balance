@@ -79,7 +79,7 @@ export const StepsData = () => {
         </article>
         <article className='steps-data__card'>
           <div className='steps-data__value'>
-            <span>+0</span>{' '}
+            <span>+{purpose?.reward}</span>{' '}
           </div>
           <div className='steps-data__text'>
             <span>Health coin</span> <br />
