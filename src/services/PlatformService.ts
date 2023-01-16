@@ -5,6 +5,6 @@ export default class PlatformService {
     return $api.get('/v2/platforms')
   }
   static async getPlatfotmsForChallenge() {
-    return $api.get('/v2/platforms?curator=1')
+    return $api.get(`/v2/platforms?curator=1&token=${localStorage.getItem('token')}`)
   }
 }
