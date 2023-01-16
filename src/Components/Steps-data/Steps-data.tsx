@@ -41,7 +41,7 @@ export const StepsData = () => {
               <img
                 src={
                   sortStepsForDate[sortStepsForDate.length - 1].quantity >
-                  sortStepsForDate[sortStepsForDate.length - 2].quantity
+                    sortStepsForDate[sortStepsForDate.length - 2].quantity
                     ? arrowSuccess
                     : arrowDanger
                 }
@@ -51,31 +51,35 @@ export const StepsData = () => {
               ''
             )}
           </div>
-          <div className='steps-data__text'>
+          {sortStepsForDate.length<2 || sortStepsForDate[sortStepsForDate.length-1].quantity === sortStepsForDate[sortStepsForDate.length-2].quantity ? 
+           <div className="steps-data__text">
+              Шагов пройдено столько же, сколько и в прошлый раз
+            </div> : 
+            <div className='steps-data__text'>
             {'на '}{' '}
             <span>
               {sortStepsForDate?.length >= 2
                 ? Math.abs(
-                    sortStepsForDate[sortStepsForDate.length - 1].quantity -
-                      sortStepsForDate[sortStepsForDate.length - 2].quantity
-                  )
+                  sortStepsForDate[sortStepsForDate.length - 1].quantity -
+                  sortStepsForDate[sortStepsForDate.length - 2].quantity
+                )
                 : 0}
               {sklonenie(
                 Math.abs(
                   sortStepsForDate[sortStepsForDate.length - 1]?.quantity -
-                    sortStepsForDate[sortStepsForDate.length - 2]?.quantity
+                  sortStepsForDate[sortStepsForDate.length - 2]?.quantity
                 ),
                 [' шаг', ' шага', ' шагов']
               )}
               {sortStepsForDate?.length >= 2 &&
                 (sortStepsForDate[sortStepsForDate.length - 1].quantity >
-                sortStepsForDate[sortStepsForDate.length - 2].quantity
+                  sortStepsForDate[sortStepsForDate.length - 2].quantity
                   ? ' больше'
                   : ' меньше')}
               ,
             </span>
             чем в прошлый раз
-          </div>
+          </div>}
         </article>
         <article className='steps-data__card'>
           <div className='steps-data__value'>
