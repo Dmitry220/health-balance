@@ -5,8 +5,21 @@ import huawei from '../../assets/image/syncing/Huawei-Health.png'
 import google from '../../assets/image/syncing/Google-fit.png'
 import mi from '../../assets/image/syncing/Mi-Fit.png'
 import Header from '../../Components/Header/Header'
+import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
+import { isGoogleFitSelector, setGoogleFit } from '../../Redux/slice/settingsSlice'
 
 export const SyncingPage = () => {
+  const isGoogleFit = useAppSelector(isGoogleFitSelector)
+  const dispatch = useAppDispatch()
+
+  const togleGoogleFit = () => {
+    if (isGoogleFit) {
+      dispatch(setGoogleFit(false))
+    } else {
+      dispatch(setGoogleFit(true))
+    }
+  }
+
   return (
     <div className={'sync-page'}>
       <Header title={'Синхронизация'} />
@@ -17,9 +30,10 @@ export const SyncingPage = () => {
           </div>
           <div className='sync-page__title'>Google fit</div>
         </div>
-        <div className='sync-page__action text-yellow'>Отключить</div>
+        <div className={'sync-page__action ' + (isGoogleFit ? 'text-yellow' : 'text-blue')}
+          onClick={togleGoogleFit}>{isGoogleFit ? 'Отключить' : 'Включить'}</div>
       </div>
-      <div className='sync-page__item'>
+      {/* <div className='sync-page__item'>
         <div className='sync-page__column'>
           <div className='sync-page__icon'>
             <img src={apple} alt='apple' />
@@ -54,7 +68,7 @@ export const SyncingPage = () => {
           <div className='sync-page__title'>Mi Fit</div>
         </div>
         <div className='sync-page__action text-blue'>Подключить</div>
-      </div>
+      </div> */}
     </div>
   )
 }

@@ -1136,7 +1136,7 @@
     "tslib" "^2.4.0"
     "xml2js" "^0.4.23"
 
-"@capacitor/core@^3.0.0 || ^4.0.0", "@capacitor/core@^4.0.0", "@capacitor/core@^4.5.0", "@capacitor/core@^4.6.0", "@capacitor/core@^4.6.1":
+"@capacitor/core@^3.0.0", "@capacitor/core@^3.0.0 || ^4.0.0", "@capacitor/core@^4.0.0", "@capacitor/core@^4.5.0", "@capacitor/core@^4.6.0", "@capacitor/core@^4.6.1":
   "integrity" "sha512-7A2IV9E8umgu9u0fChUTjQJq+Jp25GJZMmWxoQN/nVx/1rcpFJ4m1xo3NPBoIRs+aV7FR+BM17mPrnkKlA8N2g=="
   "resolved" "https://registry.npmjs.org/@capacitor/core/-/core-4.6.1.tgz"
   "version" "4.6.1"
@@ -1712,6 +1712,11 @@
   dependencies:
     "mkdirp" "^1.0.4"
     "rimraf" "^3.0.2"
+
+"@perfood/capacitor-google-fit@^1.0.2":
+  "integrity" "sha512-GNOLe3XHidAYDOBB9T2ghqeDNfJw6E+DapsU0iK3HDP/kPqr5gNq6FtF+TwUOlJSD1Y9sRq7e6xykHKDOKpayA=="
+  "resolved" "https://registry.npmjs.org/@perfood/capacitor-google-fit/-/capacitor-google-fit-1.0.2.tgz"
+  "version" "1.0.2"
 
 "@pmmmwh/react-refresh-webpack-plugin@^0.5.3":
   "integrity" "sha512-bcKCAzF0DV2IIROp9ZHkRJa6O4jy7NlnHdWL3GmcUxYWNjLXkK5kfELELwEfSP5hXPfVL/qOGMAROuMQb9GG8Q=="

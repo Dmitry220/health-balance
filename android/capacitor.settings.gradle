@@ -19,3 +19,6 @@ project(':capacitor-filesystem').projectDir = new File('../node_modules/@capacit
 
 include ':capacitor-toast'
 project(':capacitor-toast').projectDir = new File('../node_modules/@capacitor/toast/android')
+
+include ':perfood-capacitor-google-fit'
+project(':perfood-capacitor-google-fit').projectDir = new File('../node_modules/@perfood/capacitor-google-fit/android')

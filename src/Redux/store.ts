@@ -24,11 +24,12 @@ import { purposesSlice } from './slice/purposeSlice'
 import { newsSlice } from './slice/newsSlice'
 import { trackerSlice } from './slice/trackerSlice'
 import leaderBoardSlice, { leaderboardSlice } from './slice/leaderBoardSlice'
+import { settingsSlice } from './slice/settingsSlice'
 
 const persistConfig = {
   key: 'root',
   storage: storage,
-  whitelist: ['visitedPages','shop']
+  whitelist: ['visitedPages','shop', 'settings']
 }
 
 const reducer = combineReducers({
@@ -45,7 +46,8 @@ const reducer = combineReducers({
   news: newsSlice.reducer,
   tracker: trackerSlice.reducer,
   healthIndex: healthIndexSlice.reducer,
-  leaderboard: leaderboardSlice.reducer
+  leaderboard: leaderboardSlice.reducer,
+  settings: settingsSlice.reducer
 })
 
 const persistedReducer = persistReducer(persistConfig, reducer)
