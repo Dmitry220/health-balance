@@ -75,7 +75,7 @@ export const ActivityPage: FC = () => {
 
     if (Capacitor.getPlatform() === 'android') {
       if (isGoogleFit) {
-        getHistoryGoogleFit()
+        authGoogleFit()
       } else {
         startPlugin()
       }
@@ -103,11 +103,11 @@ export const ActivityPage: FC = () => {
     }
   }, [])
 
-  const getHistoryGoogleFit = async () => {
+  const authGoogleFit = async () => {
 
-     // запрос на авторизацию в Apple Health для отправки шагов
+     // запрос на авторизацию для отправки шагов
      Health.isAvailable()
-     .then((available: any) => {
+     .then((available) => {
        if (available) {
          Health.requestAuthorization([{ read: ['steps'] }])
            .then(() =>{
@@ -115,10 +115,10 @@ export const ActivityPage: FC = () => {
               getStepsHistory()
             })
            })
-           .catch((error: any) => console.error(error))
+           .catch((error) => console.error(error))
        }
      })
-     .catch((error: any) => console.error(error))
+     .catch((error) => console.error(error))
 
     // GoogleFit.isAllowed().then(e => {
     //   if (e.allowed) {
