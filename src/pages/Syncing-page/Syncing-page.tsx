@@ -6,9 +6,10 @@ import google from '../../assets/image/syncing/Google-fit.png'
 import mi from '../../assets/image/syncing/Mi-Fit.png'
 import Header from '../../Components/Header/Header'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
-import { isGoogleFitSelector, setGoogleFit } from '../../Redux/slice/settingsSlice'
-import { GoogleFit } from '@perfood/capacitor-google-fit'
-import { Capacitor } from '@capacitor/core'
+import {
+  isGoogleFitSelector,
+  setGoogleFit
+} from '../../Redux/slice/settingsSlice'
 
 export const SyncingPage = () => {
   const isGoogleFit = useAppSelector(isGoogleFitSelector)
@@ -36,8 +37,14 @@ export const SyncingPage = () => {
           </div>
           <div className='sync-page__title'>Google fit</div>
         </div>
-        <div className={'sync-page__action ' + (isGoogleFit ? 'text-yellow' : 'text-blue')}
-          onClick={togleGoogleFit}>{isGoogleFit ? 'Отключить' : 'Включить'}</div>
+        <div
+          className={
+            'sync-page__action ' + (isGoogleFit ? 'text-yellow' : 'text-blue')
+          }
+          onClick={togleGoogleFit}
+        >
+          {isGoogleFit ? 'Отключить' : 'Включить'}
+        </div>
       </div>
       {/* <div className='sync-page__item'>
         <div className='sync-page__column'>

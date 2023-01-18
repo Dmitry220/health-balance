@@ -19,7 +19,6 @@
     "@capacitor/ios": "^4.6.1",
     "@capacitor/toast": "^4.1.0",
     "@ionic/pwa-elements": "^3.1.1",
-    "@perfood/capacitor-google-fit": "^1.0.2",
     "@reduxjs/toolkit": "^1.8.3",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",

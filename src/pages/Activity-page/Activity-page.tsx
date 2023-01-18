@@ -52,10 +52,7 @@ import {
   weeksSelector
 } from '../../Redux/slice/appSlice'
 import { nFormatter, showToast, sklonenie } from '../../utils/common-functions'
-import { GoogleFit } from '@perfood/capacitor-google-fit'
 import { isGoogleFitSelector } from '../../Redux/slice/settingsSlice'
-
-
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
@@ -72,14 +69,12 @@ export const ActivityPage: FC = () => {
   const isGoogleFit = useAppSelector(isGoogleFitSelector)
 
   useEffect(() => {
-
     if (Capacitor.getPlatform() === 'android') {
       if (isGoogleFit) {
         authGoogleFit()
       } else {
         startPlugin()
       }
-
     } else if (Capacitor.getPlatform() === 'ios') {
       startHealthKit()
     }
@@ -104,21 +99,20 @@ export const ActivityPage: FC = () => {
   }, [])
 
   const authGoogleFit = async () => {
-
-     // запрос на авторизацию для отправки шагов
-     Health.isAvailable()
-     .then((available) => {
-       if (available) {
-         Health.requestAuthorization([{ read: ['steps'] }])
-           .then(() =>{
-            Health.promptInstallFit().then(()=>{
-              getStepsHistory()
+    // запрос на авторизацию для отправки шагов
+    Health.isAvailable()
+      .then((available) => {
+        if (available) {
+          Health.requestAuthorization([{ read: ['steps'] }])
+            .then(() => {
+              Health.promptInstallFit().then(() => {
+                getStepsHistory()
+              })
             })
-           })
-           .catch((error) => console.error(error))
-       }
-     })
-     .catch((error) => console.error(error))
+            .catch((error) => console.error(error))
+        }
+      })
+      .catch((error) => console.error(error))
 
     // GoogleFit.isAllowed().then(e => {
     //   if (e.allowed) {
@@ -151,8 +145,6 @@ export const ActivityPage: FC = () => {
     //     showToast('Ошибка! Попробуйте еще раз!')
     //   }
     // })
-
-
   }
 
   const startPlugin = async () => {
