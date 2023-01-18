@@ -22,9 +22,5 @@
 	{
 		"pkg": "@capacitor/toast",
 		"classpath": "com.capacitorjs.plugins.toast.ToastPlugin"
-	},
-	{
-		"pkg": "@perfood/capacitor-google-fit",
-		"classpath": "com.adscientiam.capacitor.googlefit.GoogleFitPlugin"
 	}
 ]

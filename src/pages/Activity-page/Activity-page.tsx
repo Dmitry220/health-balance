@@ -113,38 +113,6 @@ export const ActivityPage: FC = () => {
         }
       })
       .catch((error) => console.error(error))
-
-    // GoogleFit.isAllowed().then(e => {
-    //   if (e.allowed) {
-    //     // каждые 5 секунд запрашиваем изменения шагов
-    //     const id = setInterval(async () => {
-    //       // получение данных по шагам за неделю
-    //       const today = new Date();
-    //       const lastWeek = new Date(today);
-    //       lastWeek.setDate(lastWeek.getDate() - 7);
-    //       const result = await GoogleFit.getHistoryActivity({
-    //         startTime: lastWeek,
-    //         endTime: today
-    //       });
-    //       showToast('' + result)
-    //       let steps = result.activities.map((item) => {
-    //         return { date: item.start, steps: item.steps }
-    //       })
-
-    //       const params = new FormData()
-
-    //       params.append('data', JSON.stringify(steps[steps.length - 1]))
-
-    //       await AppService.updateSteps(params)
-
-    //       dispatch(setCurrentStepsCount(steps[steps.length - 1].steps))
-
-    //     }, 5000)
-    //     interval.current = id
-    //   }else{
-    //     showToast('Ошибка! Попробуйте еще раз!')
-    //   }
-    // })
   }
 
   const startPlugin = async () => {

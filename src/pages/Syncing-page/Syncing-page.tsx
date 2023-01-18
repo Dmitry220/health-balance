@@ -1,9 +1,11 @@
 import './syncing-page.scss'
+
 import apple from '../../assets/image/syncing/Apple-health.png'
 import samsung from '../../assets/image/syncing/Samsung-Health.png'
 import huawei from '../../assets/image/syncing/Huawei-Health.png'
 import google from '../../assets/image/syncing/Google-fit.png'
 import mi from '../../assets/image/syncing/Mi-Fit.png'
+
 import Header from '../../Components/Header/Header'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
 import {
@@ -20,10 +22,6 @@ export const SyncingPage = () => {
       dispatch(setGoogleFit(false))
     } else {
       dispatch(setGoogleFit(true))
-      // if (Capacitor.getPlatform() === 'android') {
-      //   //авторизация google fit
-      //   GoogleFit.connectToGoogleFit()
-      // }
     }
   }
 
