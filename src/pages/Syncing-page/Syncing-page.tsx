@@ -7,6 +7,8 @@ import mi from '../../assets/image/syncing/Mi-Fit.png'
 import Header from '../../Components/Header/Header'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
 import { isGoogleFitSelector, setGoogleFit } from '../../Redux/slice/settingsSlice'
+import { GoogleFit } from '@perfood/capacitor-google-fit'
+import { Capacitor } from '@capacitor/core'
 
 export const SyncingPage = () => {
   const isGoogleFit = useAppSelector(isGoogleFitSelector)
@@ -17,6 +19,10 @@ export const SyncingPage = () => {
       dispatch(setGoogleFit(false))
     } else {
       dispatch(setGoogleFit(true))
+      if (Capacitor.getPlatform() === 'android') {
+        //авторизация google fit
+        GoogleFit.connectToGoogleFit()
+      }
     }
   }
 
