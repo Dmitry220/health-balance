@@ -105,37 +105,52 @@ export const ActivityPage: FC = () => {
 
   const getHistoryGoogleFit = async () => {
 
-    GoogleFit.isAllowed().then(e => {
-      if (e.allowed) {
-        // каждые 5 секунд запрашиваем изменения шагов
-        const id = setInterval(async () => {
-          // получение данных по шагам за неделю
-          const today = new Date();
-          const lastWeek = new Date(today);
-          lastWeek.setDate(lastWeek.getDate() - 7);
-          const result = await GoogleFit.getHistoryActivity({
-            startTime: lastWeek,
-            endTime: today
-          });
-          showToast('' + result)
-          let steps = result.activities.map((item) => {
-            return { date: item.start, steps: item.steps }
-          })
+     // запрос на авторизацию в Apple Health для отправки шагов
+     Health.isAvailable()
+     .then((available: any) => {
+       if (available) {
+         Health.requestAuthorization([{ read: ['steps'] }])
+           .then(() =>{
+            Health.promptInstallFit().then(()=>{
+              getStepsHistory()
+            })
+           })
+           .catch((error: any) => console.error(error))
+       }
+     })
+     .catch((error: any) => console.error(error))
 
-          const params = new FormData()
+    // GoogleFit.isAllowed().then(e => {
+    //   if (e.allowed) {
+    //     // каждые 5 секунд запрашиваем изменения шагов
+    //     const id = setInterval(async () => {
+    //       // получение данных по шагам за неделю
+    //       const today = new Date();
+    //       const lastWeek = new Date(today);
+    //       lastWeek.setDate(lastWeek.getDate() - 7);
+    //       const result = await GoogleFit.getHistoryActivity({
+    //         startTime: lastWeek,
+    //         endTime: today
+    //       });
+    //       showToast('' + result)
+    //       let steps = result.activities.map((item) => {
+    //         return { date: item.start, steps: item.steps }
+    //       })
 
-          params.append('data', JSON.stringify(steps[steps.length - 1]))
+    //       const params = new FormData()
 
-          await AppService.updateSteps(params)
+    //       params.append('data', JSON.stringify(steps[steps.length - 1]))
 
-          dispatch(setCurrentStepsCount(steps[steps.length - 1].steps))
+    //       await AppService.updateSteps(params)
 
-        }, 5000)
-        interval.current = id
-      }else{
-        showToast('Ошибка! Попробуйте еще раз!')
-      }
-    })
+    //       dispatch(setCurrentStepsCount(steps[steps.length - 1].steps))
+
+    //     }, 5000)
+    //     interval.current = id
+    //   }else{
+    //     showToast('Ошибка! Попробуйте еще раз!')
+    //   }
+    // })
 
 
   }

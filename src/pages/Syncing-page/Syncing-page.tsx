@@ -19,10 +19,10 @@ export const SyncingPage = () => {
       dispatch(setGoogleFit(false))
     } else {
       dispatch(setGoogleFit(true))
-      if (Capacitor.getPlatform() === 'android') {
-        //авторизация google fit
-        GoogleFit.connectToGoogleFit()
-      }
+      // if (Capacitor.getPlatform() === 'android') {
+      //   //авторизация google fit
+      //   GoogleFit.connectToGoogleFit()
+      // }
     }
   }
 
