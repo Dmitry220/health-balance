@@ -254,7 +254,15 @@ const Graphs = () => {
   const months = useAppSelector(monthsSelector)
   const weeks = useAppSelector(weeksSelector)
   const purpose = useAppSelector(purposeSelector)
- 
+  const sortStepsForDate = steps
+  ? steps?.slice().sort((a, b) => a.date - b.date)
+  : []
+  const percent = purpose
+  ? sortStepsForDate[sortStepsForDate.length - 1]?.finished === 1
+    ? 100
+    : ((currentStepsCount * 100) / purpose?.quantity).toFixed(2)
+  : 0
+
   const dataDay = {
     labels: days ? days.map((item) => item.title) : [],
     datasets: [
@@ -354,11 +362,7 @@ const Graphs = () => {
             <br /> <span>км</span>
           </div>
           <div className='dynamics__value'>
-          {purpose && steps
-              ? steps[steps.length - 1]?.finished === 1
-                ? 100
-                : ((currentStepsCount * 100) / purpose?.quantity).toFixed(2)
-              : 0}
+          {percent}
             %<br /> <span>от цели</span>
           </div>
         </div>
@@ -377,11 +381,7 @@ const Graphs = () => {
             <span>км</span>
           </div>
           <div className='dynamics__value'>
-            {purpose && steps
-              ? steps[steps.length - 1]?.finished === 1
-                ? 100
-                : ((currentStepsCount * 100) / purpose?.quantity).toFixed(2)
-              : 0}
+            {percent}
             %<br /> <span>от цели</span>
           </div>
         </div>
@@ -409,11 +409,7 @@ const Graphs = () => {
             <br /> <span>км</span>
           </div>
           <div className='dynamics__value'>
-            {purpose && steps
-              ? steps[steps.length - 1]?.finished === 1
-                ? 100
-                : ((currentStepsCount * 100) / purpose?.quantity).toFixed(2)
-              : 0}
+            {percent}
             %<br /> <span>от цели</span>
           </div>
         </div>

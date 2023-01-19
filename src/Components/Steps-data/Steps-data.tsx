@@ -17,7 +17,7 @@ export const StepsData = () => {
     ? steps?.slice().sort((a, b) => a.date - b.date)
     : []
   let currentProgressPurpose =purpose && steps
-    ? steps[steps.length - 1]?.finished === 1
+    ? sortStepsForDate[sortStepsForDate.length - 1]?.finished === 1
       ? 100
       : ((currentStepsCount * 100) / purpose?.quantity).toFixed(2)
     : 0
@@ -84,7 +84,7 @@ export const StepsData = () => {
         </article>
         <article className='steps-data__card'>
           <div className='steps-data__value'>
-            <span>+{purpose?.reward}</span>{' '}
+            <span>+{sortStepsForDate[sortStepsForDate.length-1]?.finished === 1 ? purpose?.reward : 0}</span>{' '}
           </div>
           <div className='steps-data__text'>
             <span>Health coin</span> <br />
