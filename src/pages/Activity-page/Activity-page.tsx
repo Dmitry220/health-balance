@@ -254,7 +254,7 @@ const Graphs = () => {
   const months = useAppSelector(monthsSelector)
   const weeks = useAppSelector(weeksSelector)
   const purpose = useAppSelector(purposeSelector)
-
+ 
   const dataDay = {
     labels: days ? days.map((item) => item.title) : [],
     datasets: [
@@ -354,8 +354,10 @@ const Graphs = () => {
             <br /> <span>км</span>
           </div>
           <div className='dynamics__value'>
-            {purpose && steps
-              ? ((currentStepsCount * 100) / purpose?.quantity).toFixed()
+          {purpose && steps
+              ? steps[steps.length - 1]?.finished === 1
+                ? 100
+                : ((currentStepsCount * 100) / purpose?.quantity).toFixed(2)
               : 0}
             %<br /> <span>от цели</span>
           </div>

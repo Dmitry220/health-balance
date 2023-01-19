@@ -1,5 +1,6 @@
 import { ChangeEvent, useState } from 'react'
 import Header from '../../Components/Header/Header'
+import { daysSelector } from '../../Redux/slice/appSlice'
 import { purposeSelector } from '../../Redux/slice/purposeSlice'
 import PurposeService from '../../services/PurposeService'
 import { showToast } from '../../utils/common-functions'
@@ -10,7 +11,8 @@ export const NewTargetPage = () => {
   const dispatch = useAppDispatch()
 
   const purpose = useAppSelector(purposeSelector)
-
+  const days = useAppSelector(daysSelector)  
+  const noFinished = days.find(item=>item.date===new Date().setHours(0,0,0,0)/1000 && item.finished === null)
   const range = function (start: number, stop: number, step: number) {
     if (stop === null) {
       stop = start || 0
@@ -36,9 +38,11 @@ export const NewTargetPage = () => {
 
   const savePurpose = async () => {
     try {
-      if (purpose?.id) {
+      if (purpose?.id && noFinished) {
         await PurposeService.changePersonalPurpose(purpose.id, +valueStep)
         await showToast('Цель успешно изменена')
+      }else{
+        await showToast('На сегодня цель выполнена!')
       }
     } catch (error) {
       await showToast('Ошибка!')

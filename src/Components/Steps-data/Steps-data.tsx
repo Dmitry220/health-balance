@@ -16,10 +16,11 @@ export const StepsData = () => {
   const sortStepsForDate = steps
     ? steps?.slice().sort((a, b) => a.date - b.date)
     : []
-  let currentProgressPurpose =
-    purpose && steps
-      ? ((currentStepsCount * 100) / purpose?.quantity).toFixed()
-      : 0
+  let currentProgressPurpose =purpose && steps
+    ? steps[steps.length - 1]?.finished === 1
+      ? 100
+      : ((currentStepsCount * 100) / purpose?.quantity).toFixed(2)
+    : 0
 
   return (
     <div className={'steps-data'}>
