@@ -31,7 +31,7 @@ export const NewTargetPage = () => {
 
   const [valueStep, setValueStep] = useState<string>('')
 
-  const optionsSteps = range(500, 25000, 500)
+  const optionsSteps = range(1000, 25000, 500)
 
   const handlerSelect = (e: ChangeEvent<HTMLSelectElement>) =>
     setValueStep(e.target.value)
