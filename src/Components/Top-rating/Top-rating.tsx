@@ -17,7 +17,6 @@ export const TopRating = () => {
   const topToday = useAppSelector(topTodaySelector)
   let leaderDisplayOrder = 2
   const currentStepsCount = useAppSelector(currentStepsCountSelector)
-  console.log('top');  
 
   useEffect(() => {
     dispatch(leaderboard())
