@@ -24,15 +24,16 @@ export const Target: FC<ITarget> = () => {
   const dispatch = useAppDispatch()
   const days = useAppSelector(daysSelector)  
   const purpose = useAppSelector(purposeSelector)
-  const steps = useAppSelector(stepsPerDaySelector)
 
   useEffect(()=>{
     dispatch(getPersonalPurpose())
   }, [])
 
   // useEffect(() => {
-  //   dispatch(setDaysWeek())
-  //   overwriteDaysWeek()
+  //   // dispatch(setDaysWeek())
+  //   // overwriteDaysWeek()
+  //   console.log('target');
+    
    
   // }, [steps])
 

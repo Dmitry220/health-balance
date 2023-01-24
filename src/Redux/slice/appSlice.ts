@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import AppService from "../../services/AppService";
@@ -32,7 +32,6 @@ interface AppState {
   }[];
   monthData: {};
   weekData: {};
- 
 }
 
 const initialState: AppState = {
@@ -204,7 +203,7 @@ const initialState: AppState = {
     },
   ],
   monthData: {},
- 
+
   weekData: {},
 };
 
@@ -251,24 +250,27 @@ export const appSlice = createSlice({
   name: "app",
   initialState,
   reducers: {
-    setActualStepsbyWeek: (state, action: PayloadAction<IStepsPerDay>) => {
-      state.days = state.days.map((label) =>  
-        label.date === action.payload.date
-          ? {
-              ...label,
-              quantity: action.payload.quantity,
-              finished: action.payload.finished,
-            }
-          : label
+    setActualStepsbyWeek: (state) => {
+      state.steps?.forEach(
+        (step) =>
+          (state.days = state.days.map((label) =>
+            label.date === step.date
+              ? {
+                  ...label,
+                  quantity: step.quantity,
+                  finished: step.finished,
+                }
+              : label
+          ))
       );
     },
     setCurrentStepsCount(state, action) {
       state.currentStepsCount = action.payload;
     },
     setDaysWeek: (state) => {
-      state.days = state.days.map(item => {
+      state.days = state.days.map((item) => {
         if (weekNow != 0) {
-          if (weekNow <= item.id) {            
+          if (weekNow <= item.id) {
             return {
               ...item,
               date:
@@ -285,7 +287,7 @@ export const appSlice = createSlice({
                 ).setHours(0, 0, 0, 0) / 1000,
             };
           }
-        } else {         
+        } else {
           return {
             ...item,
             date:
@@ -296,10 +298,8 @@ export const appSlice = createSlice({
         }
       });
     },
-    setMonths: (state) => {    
-      let array = state.monthData
-        ? Object.values(state.monthData)
-        : null;
+    setMonths: (state) => {
+      let array = state.monthData ? Object.values(state.monthData) : null;
       array &&
         array.forEach((year: any, i) => {
           Object.keys(year).map((month: any, index: number) => {
@@ -356,8 +356,8 @@ export const appSlice = createSlice({
     builder.addCase(getStepsPerDay.rejected, (state, action) => {
       state.steps = [];
     });
-    builder.addCase(getStepsPerMonth.fulfilled, (state, action) => {      
-      state.monthData = action.payload 
+    builder.addCase(getStepsPerMonth.fulfilled, (state, action) => {
+      state.monthData = action.payload;
     });
     builder.addCase(getStepsPerWeek.fulfilled, (state, action) => {
       state.weekData = action.payload;

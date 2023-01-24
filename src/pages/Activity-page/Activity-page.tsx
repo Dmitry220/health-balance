@@ -314,9 +314,6 @@ const Graphs = () => {
     ]
   }
 
-  const overwriteDaysWeek = () => {
-    steps?.forEach(item=>dispatch(setActualStepsbyWeek(item)))    
-  }
 
   useEffect(() => {
     const data = {
@@ -334,18 +331,20 @@ const Graphs = () => {
       type: 2
     }
 
-    async function asyncQuery() {
+    async function asyncQuery() {   
+   
       await dispatch(getStepsPerDay(data))
       await dispatch(getStepsPerMonth(dataMonth))
       await dispatch(getStepsPerWeek(dataWeek)) 
       dispatch(setDaysWeek())
-      overwriteDaysWeek()
+      dispatch(setActualStepsbyWeek()) 
       dispatch(setMonths())
       dispatch(setWeeks())
     }
     asyncQuery()
   }, [currentStepsCount])
 
+  console.log(days);  
   return (
     <div className='activity-page__dynamics dynamics'>
       <div className='dynamics__title'>Динамика</div>
