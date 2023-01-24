@@ -337,14 +337,13 @@ const Graphs = () => {
       await dispatch(getStepsPerMonth(dataMonth))
       await dispatch(getStepsPerWeek(dataWeek)) 
       dispatch(setDaysWeek())
-      dispatch(setActualStepsbyWeek()) 
+      dispatch(setActualStepsbyWeek())       
       dispatch(setMonths())
       dispatch(setWeeks())
     }
     asyncQuery()
   }, [currentStepsCount])
-
-  console.log(days);  
+ 
   return (
     <div className='activity-page__dynamics dynamics'>
       <div className='dynamics__title'>Динамика</div>

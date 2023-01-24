@@ -5,8 +5,6 @@ import AppService from "../../services/AppService";
 import { IBalance, IStepsPerDay, IStepsPerMonth } from "../../models/IApp";
 import { getWeek } from "../../utils/common-functions";
 
-
-
 interface AppState {
   balance: number;
   currentStepsCount: number;
@@ -269,7 +267,8 @@ export const appSlice = createSlice({
     },
     setDaysWeek: (state) => {
       let weekNow = new Date().getDay();
-      state.days = state.days.map((item) => {     
+
+      state.days = state.days.map((item) => {
         if (weekNow != 0) {
           if (weekNow <= item.id) {
             return {
@@ -300,16 +299,17 @@ export const appSlice = createSlice({
       });
     },
     setMonths: (state) => {
-      let array = state.monthData ? Object.values(state.monthData) : null;
+      let array = state.monthData
+        ? Object.values(current(state.monthData))
+        : [];
+      const year: any = array[array?.length - 1];
       array &&
-        array.forEach((year: any, i) => {
-          Object.keys(year).map((month: any, index: number) => {
-            state.months = state.months.map((label) =>
-              label.id === +month
-                ? { ...label, count: Number(Object.values(year)[index]) }
-                : label
-            );
-          });
+        Object.keys(year).map((month: any, index: number) => {
+          state.months = state.months.map((label) =>
+            label.id === +month
+              ? { ...label, count: Number(Object.values(year)[index]) }
+              : label
+          );
         });
     },
     setWeeks: (state) => {
