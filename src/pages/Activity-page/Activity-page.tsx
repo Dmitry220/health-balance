@@ -45,7 +45,9 @@ import {
   getStepsPerMonth,
   getStepsPerWeek,
   monthsSelector,
+  setActualStepsbyWeek,
   setCurrentStepsCount,
+  setDaysWeek,
   setMonths,
   setWeeks,
   stepsPerDaySelector,
@@ -312,6 +314,10 @@ const Graphs = () => {
     ]
   }
 
+  const overwriteDaysWeek = () => {
+    steps?.forEach(item=>dispatch(setActualStepsbyWeek(item)))    
+  }
+
   useEffect(() => {
     const data = {
       end_date: new Date().toLocaleDateString(),
@@ -331,7 +337,9 @@ const Graphs = () => {
     async function asyncQuery() {
       await dispatch(getStepsPerDay(data))
       await dispatch(getStepsPerMonth(dataMonth))
-      await dispatch(getStepsPerWeek(dataWeek))
+      await dispatch(getStepsPerWeek(dataWeek)) 
+      dispatch(setDaysWeek())
+      overwriteDaysWeek()
       dispatch(setMonths())
       dispatch(setWeeks())
     }

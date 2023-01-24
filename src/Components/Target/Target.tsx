@@ -30,16 +30,16 @@ export const Target: FC<ITarget> = () => {
     dispatch(getPersonalPurpose())
   }, [])
 
-  useEffect(() => {
-    dispatch(setDaysWeek())
-    overwriteDaysWeek()
+  // useEffect(() => {
+  //   dispatch(setDaysWeek())
+  //   overwriteDaysWeek()
    
-  }, [steps])
+  // }, [steps])
 
 
-  const overwriteDaysWeek = () => {
-    steps?.forEach(item=>dispatch(setActualStepsbyWeek(item)))    
-  }
+  // const overwriteDaysWeek = () => {
+  //   steps?.forEach(item=>dispatch(setActualStepsbyWeek(item)))    
+  // }
 
   return (
     <div className={'target'}>
