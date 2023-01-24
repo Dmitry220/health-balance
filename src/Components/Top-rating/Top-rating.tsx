@@ -10,15 +10,18 @@ import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
 import './top-rating.scss'
 import avatar from '../../assets/image/avatar.jpeg'
 import { sklonenie } from '../../utils/common-functions'
+import { currentStepsCountSelector } from '../../Redux/slice/appSlice'
 
 export const TopRating = () => {
   const dispatch = useAppDispatch()
   const topToday = useAppSelector(topTodaySelector)
   let leaderDisplayOrder = 2
+  const currentStepsCount = useAppSelector(currentStepsCountSelector)
+  console.log('top');  
 
   useEffect(() => {
     dispatch(leaderboard())
-  }, [])
+  }, [currentStepsCount])
 
   return (
     <div className={'top-rating'}>
