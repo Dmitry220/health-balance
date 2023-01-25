@@ -26,11 +26,13 @@ export default class AuthService {
 
   static async login(
     email: string,
-    password: string
+    password: string,
+    device_token: string
   ): Promise<AxiosResponse<IAuthResponse>> {
     const formData = new FormData();
     formData.append("email", email);
     formData.append("password", password);
+    formData.append("device_token", device_token);
     return $api.post("/v2/login", formData, {
       headers: {
         accept: "application/json",

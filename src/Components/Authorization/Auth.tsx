@@ -11,6 +11,8 @@ import {
 } from '../../provider/constants-route'
 import { useAppDispatch } from '../../utils/hooks/redux-hooks'
 import { sendLogin } from '../../Redux/slice/authSlice'
+import { Device } from '@capacitor/device'
+
 
 export const Auth = () => {
   const [email, setEmail] = useState<string>('')
@@ -26,8 +28,12 @@ export const Auth = () => {
 
   let navigate = useNavigate()
 
-  const submit = async () => {
-    await dispatch(sendLogin({ email, password }))
+  const submit = async (e:any) => {
+    e.preventDefault()    
+    const uuid = await Device.getId()   
+    const device_token = uuid.uuid
+    
+    await dispatch(sendLogin({ email, password, device_token}))
     navigate(ACTIVITY_ROUTE)
   }
 

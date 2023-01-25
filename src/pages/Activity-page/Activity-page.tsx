@@ -119,7 +119,7 @@ export const ActivityPage: FC = () => {
 
   const startPlugin = async () => {
     Pedometer.start()
-    let endDate = new Date().toISOString()
+    let endDate = new Date().toLocaleDateString()
     let savedData = await Pedometer.getSavedData()
     let steps = savedData['numberOfSteps'] || '0'
 
@@ -135,7 +135,7 @@ export const ActivityPage: FC = () => {
   }
 
   const updateSteps = async (event: any) => {
-    let endDate = new Date().toISOString()
+    let endDate = new Date().toLocaleDateString()
 
     const params = new FormData()
 
@@ -184,7 +184,7 @@ export const ActivityPage: FC = () => {
       })
         .then((res: any) => {
           let steps = res.map((item: any) => {
-            return { date: item.startDate, steps: item.value.toFixed() }
+            return { date: item.startDate.toLocaleDateString(), steps: item.value.toFixed() }
           })
 
           updateStepsPeriod(steps)

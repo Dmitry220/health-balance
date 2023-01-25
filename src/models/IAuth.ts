@@ -13,7 +13,8 @@ export interface IRegistration {
 
 export interface ILogin {
   email: string
-  password: string
+  password: string,
+  device_token: string
 }
 
 export interface IAuthResponse {
