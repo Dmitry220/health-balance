@@ -5,7 +5,7 @@ import AppService from "../../services/AppService";
 import { IBalance, IStepsPerDay, IStepsPerMonth } from "../../models/IApp";
 import { getWeek } from "../../utils/common-functions";
 
-let weekNow = new Date().getDay();
+
 
 interface AppState {
   balance: number;
@@ -268,7 +268,8 @@ export const appSlice = createSlice({
       state.currentStepsCount = action.payload;
     },
     setDaysWeek: (state) => {
-      state.days = state.days.map((item) => {
+      let weekNow = new Date().getDay();
+      state.days = state.days.map((item) => {     
         if (weekNow != 0) {
           if (weekNow <= item.id) {
             return {
