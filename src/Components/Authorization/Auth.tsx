@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import './auth.scss'
 import { Link, useNavigate } from 'react-router-dom'
 import logo from '../../assets/image/Logo.svg'
@@ -11,12 +11,13 @@ import {
 } from '../../provider/constants-route'
 import { useAppDispatch } from '../../utils/hooks/redux-hooks'
 import { sendLogin } from '../../Redux/slice/authSlice'
-import { Device } from '@capacitor/device'
-
+import OneSignal from 'onesignal-cordova-plugin'
+import { Capacitor } from '@capacitor/core'
 
 export const Auth = () => {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
+  const [device_token, setDeviceToken] = useState<string>('')
 
   const dispatch = useAppDispatch()
 
@@ -28,14 +29,20 @@ export const Auth = () => {
 
   let navigate = useNavigate()
 
-  const submit = async (e:any) => {
-    e.preventDefault()    
-    const uuid = await Device.getId()   
-    const device_token = uuid.uuid
-    
-    await dispatch(sendLogin({ email, password, device_token}))
+  const submit = async (e: any) => {
+    e.preventDefault()
+    await dispatch(sendLogin({ email, password, device_token }))
     navigate(ACTIVITY_ROUTE)
   }
+
+  useEffect(() => {
+    if (Capacitor.getPlatform() !== 'web') {
+      OneSignal.getDeviceState((state) => {
+        setDeviceToken(state.userId);
+      });
+    }
+  }, [])
+  
 
   return (
     <form className={'auth'} onSubmit={submit}>
