@@ -35,8 +35,8 @@ export const CardChallenge: FC<ICardChallenge> = ({ challenge }) => {
   useEffect(() => {
     async function asyncQuery() {
       if (
-        challenge.purpose.quantity - challenge.remains_to_pass >=
-          challenge.purpose.quantity &&
+        challenge.purpose?.quantity - challenge.remains_to_pass >=
+          challenge.purpose?.quantity &&
         challenge.homeworks === challenge.total_lessons
       ) {
         const response = await ChallengeService.completeChallenge(challenge.id)

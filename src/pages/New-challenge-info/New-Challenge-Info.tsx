@@ -107,7 +107,7 @@ export const NewChallengeInfo = () => {
               Принять участие
             </Link>
           )}
-          {challenge.type === 3 && (
+          {challenge.type === 3 || challenge.type === 1 && (
             <div
               className='new-challenge-info__button _button-white'
               onClick={enterIntoChallenge}

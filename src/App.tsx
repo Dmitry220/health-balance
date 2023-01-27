@@ -48,7 +48,6 @@ function App() {
      
     }
   }
-console.log('new Consoleeee');
 
   return (
     <div className={'_container'}>
