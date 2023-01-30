@@ -20,7 +20,7 @@ export const StatisticTracker = () => {
     <div className='statistic-tracker'>
       <Header title='Статистика трекера' />
 
-      <DayStatistic date={'05.05.2022'} />
+      {/* <DayStatistic date={new Date().toLocaleDateString()} /> */}
       <Tabs
         labels={namesTabsDynamics}
         onClick={setCurrentValueTab}
