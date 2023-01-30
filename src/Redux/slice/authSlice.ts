@@ -172,7 +172,7 @@ export const authSlice = createSlice({
         state.error = false;
       }
     );
-    builder.addCase(sendLogin.fulfilled, (state, action) => {
+    builder.addCase(sendLogin.fulfilled, (state, action) => {          
       state.isAuth = true;
       state.error = false;
       state.isLoading = false;
@@ -180,9 +180,11 @@ export const authSlice = createSlice({
     builder.addCase(sendLogin.rejected, (state, action) => {
       state.error = true;
       state.isLoading = false;
+      state.isAuth = false;
     });
     builder.addCase(sendLogin.pending, (state, action) => {
       state.isLoading = true;
+      state.isAuth = false;
     });
   },
 });
