@@ -8,7 +8,6 @@ import 'swiper/scss/navigation'
 import 'swiper/scss/pagination'
 import 'swiper/scss/scrollbar'
 import { useAppDispatch } from '../../utils/hooks/redux-hooks'
-import { setVisitedChallengePage } from '../../Redux/slice/visitedPageSlice'
 
 import inst0 from '../../assets/image/instruction-challenges/Инструкция челленджи 0.png'
 import inst1 from '../../assets/image/instruction-challenges/Инструкция челленджи 1.png'
@@ -28,6 +27,7 @@ import inst14 from '../../assets/image/instruction-challenges/Инструкци
 import inst15 from '../../assets/image/instruction-challenges/Инструкция челленджи 15.png'
 import inst16 from '../../assets/image/instruction-challenges/Инструкция челленджи 16.png'
 import inst17 from '../../assets/image/instruction-challenges/Инструкция челленджи 17.png'
+import { setVisitedChallengePage } from '../../Redux/slice/authSlice'
 
 interface ISwiperNextButton {
   customClass: string

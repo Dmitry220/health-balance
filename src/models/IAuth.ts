@@ -23,3 +23,9 @@ export interface IAuthResponse {
     token: string
   }
 }
+
+export interface IVisitPages {
+  activity: number
+  tracker: number,
+  challenge: number
+}

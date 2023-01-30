@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Navigation } from '../../Components/Navigation/Navigation'
-import Header from '../../Components/Header/Header'
 import { CardChallenge } from '../../Components/Challenge/Card-challenge'
-import { typesChallenge } from '../../types/enums'
 import { NewChallengeCard } from '../../Components/Challenge/New-challenge-card'
 import './challenge-page.scss'
 import { HeaderTwo } from '../../Components/Header-two/Header-two'
 import { TabContent, Tabs } from '../../Components/Tabs/Tabs'
-import { ModalInstructions } from '../../Components/Modal-instructions/Modal-instructions'
 import { routesNavigation } from '../../utils/globalConstants'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
 import {
@@ -20,8 +17,8 @@ import { Link } from 'react-router-dom'
 import { CREATING_CHALLENGE_ROUTE } from '../../provider/constants-route'
 import { dataUserSelector } from '../../Redux/slice/profileSlice'
 import { InstructionsChallenge } from '../../Components/Challenge/Instruction-challenge'
-import { challengeVisitSelector } from '../../Redux/slice/visitedPageSlice'
 import { Preloader } from '../../Components/Preloader/Preloader'
+import { visitPagesSelector } from '../../Redux/slice/authSlice'
 
 export const ChallengePage = () => {
   const [valueTab, setValueTab] = React.useState<number>(0)
@@ -29,7 +26,7 @@ export const ChallengePage = () => {
   const dataUser = useAppSelector(dataUserSelector)
   const newChallenges = useAppSelector(newChallengesSelector)
   const activeChallenges = useAppSelector(activeChallengesSelector)
-  const visitChallenges = useAppSelector(challengeVisitSelector)
+  const visitChallenges = useAppSelector(visitPagesSelector)
 
   const activeCommandChallenge = activeChallenges.filter((item) => item.active === 1 && item.type === 2 && item)
   const activePersonalChallenge = activeChallenges.filter((item) => item.active === 1 && item.type === 3 && item)
@@ -57,7 +54,7 @@ export const ChallengePage = () => {
     return <Preloader />
   }
 
-  if(visitChallenges===0){
+  if(visitChallenges.challenge===0){
     return <InstructionsChallenge />
   }
 

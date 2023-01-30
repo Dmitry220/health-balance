@@ -23,6 +23,9 @@ export const SelectPlatform = () => {
     async function getListPlatform() {
       const response = await PlatformService.getPlatfotmsForChallenge()
       setListPlatforms(response.data.data)
+      if(platform){
+        dispatch(setDisabledButton(false))
+      }
     }
     getListPlatform()
   }, [])

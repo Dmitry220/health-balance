@@ -16,13 +16,13 @@ import {
 import { TrackerHabitsPage } from '../Tracker-habits/Tracker-habits-page'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
 import {
-  setVisitedTrackerPage,
   trackerVisitSelector
 } from '../../Redux/slice/visitedPageSlice'
 import TrackerService from '../../services/TrackerService'
+import { setVisitedTrackerPage, visitPagesSelector } from '../../Redux/slice/authSlice'
 
 export const TrackerPage = () => {
-  const visitCount = useAppSelector(trackerVisitSelector)
+  const trackerVisitCount = useAppSelector(visitPagesSelector)
   const dispatch = useAppDispatch()
 
   const startValueWeight = 0
@@ -50,13 +50,8 @@ export const TrackerPage = () => {
   const changeHour = (value: string) => setHour(value)
   const changeMinutes = (value: string) => setMinutes(value)
 
-  const setVisitedTrackerPageHandler = () => {
-    if (visitCount === 0) {
-      dispatch(setVisitedTrackerPage(visitCount + 1))
-    }
-  }
 
-  if (visitCount === 1) {
+  if (trackerVisitCount.tracker === 1) {
     return <TrackerHabitsPage />
   }
 

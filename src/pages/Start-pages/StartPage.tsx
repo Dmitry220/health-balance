@@ -20,8 +20,8 @@ import { ACTIVITY_ROUTE } from '../../provider/constants-route'
 import { getItemsStep } from '../../utils/common-functions'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
 import { dataUserSelector } from '../../Redux/slice/profileSlice'
-import { setVisitedActivityPage } from '../../Redux/slice/visitedPageSlice'
 import { setPurposeSteps } from '../../Redux/slice/purposeSlice'
+import { setVisitedActivityPage } from '../../Redux/slice/authSlice'
 
 interface ISwiperNextButton {
   customClass: string
@@ -29,7 +29,7 @@ interface ISwiperNextButton {
 }
 
 export const StartPage = () => {
-  const startValueStep = 0
+  const startValueStep = 1000
   const endValueStep = 20000
 
   const itemSteps = getItemsStep(startValueStep, endValueStep)

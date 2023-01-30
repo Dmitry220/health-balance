@@ -55,6 +55,7 @@ import {
 } from '../../Redux/slice/appSlice'
 import { nFormatter, showToast, sklonenie } from '../../utils/common-functions'
 import { isGoogleFitSelector } from '../../Redux/slice/settingsSlice'
+import { visitPagesSelector } from '../../Redux/slice/authSlice'
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
@@ -65,7 +66,7 @@ export const ActivityPage: FC = () => {
 
   const interval: { current: NodeJS.Timer | null } = useRef(null)
 
-  const activityVisitCount = useAppSelector(activityVisitSelector)
+  const activityVisitCount = useAppSelector(visitPagesSelector)
   const purpose = useAppSelector(purposeSelector)
   const currentStepsCount = useAppSelector(currentStepsCountSelector)
   const isGoogleFit = useAppSelector(isGoogleFitSelector)
@@ -200,7 +201,7 @@ export const ActivityPage: FC = () => {
     return date
   }
 
-  if (activityVisitCount === 0) {
+  if (activityVisitCount.activity === 0) {
     return <StartPage />
   }
 
