@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { useEffect } from 'react'
+import { useEffect, Dispatch, SetStateAction } from 'react'
 import { FC } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 import {
   CHALLENGE_ROUTE,
@@ -18,10 +18,27 @@ import plug from '../../assets/image/plug.png'
 import { showToast } from '../../utils/common-functions'
 
 export const TeamSelection = () => {
+
   const params = useParams()
 
   const dispatch = useAppDispatch()
   const commands = useAppSelector(commandListSelector)
+  const navigate = useNavigate()
+  const [existTeam, setExistTeam] = useState<boolean>(false)
+
+  const joinToChallenge = async () => {
+    try {
+      const response = await ChallengeService.challengeJoin(Number(params.id))
+      console.log(response.data.success);
+      if (response.data.success) {
+        navigate(CHALLENGE_ROUTE)
+      } else {
+        await showToast('Ошибка!')
+      }
+    } catch (error) {
+      await showToast('Ошибка!')
+    }
+  }
 
   useEffect(() => {
     dispatch(getCommandList(Number(params.id)))
@@ -36,19 +53,20 @@ export const TeamSelection = () => {
           title={item.title}
           img={''}
           challengeId={item.challenge_id}
+          existTeam={existTeam}
+          setExistTeam={setExistTeam}
         />
       ))}{' '}
       <br />
-      {commands.length ? (
-        <Link
-          to={CHALLENGE_ROUTE}
-          className='team-selection-page__button _button-white'
-        >
-          Готово
-        </Link>
-      ) : (
-        <h1>Команд нет!</h1>
-      )}
+
+      <button
+        onClick={joinToChallenge}
+        className={existTeam ? 'team-selection-page__button _button-white' : 'team-selection-page__button _button-white disabled'}
+        disabled={!existTeam}
+      >
+        Готово
+      </button>
+
     </div>
   )
 }
@@ -57,17 +75,24 @@ interface ITeamItem {
   img: string
   title: string
   challengeId: number
-  commandId: number
+  commandId: number,
+  existTeam: boolean,
+  setExistTeam: Dispatch<SetStateAction<boolean>>
 }
 
-const TeamItem: FC<ITeamItem> = ({ img, title, challengeId, commandId }) => {
-  const [existTeam, setExistTeam] = useState<boolean>(false)
+const TeamItem: FC<ITeamItem> = ({ img, title, challengeId, commandId, setExistTeam, existTeam }) => {
 
-  const join = async () => {
+
+  const joinToCommand = async () => {
     try {
-      await ChallengeService.challengeJoin(challengeId)
-      setExistTeam(true)
-      await showToast('Вы в команде!')
+      const response = await ChallengeService.teamJoin(commandId)
+      console.log(response.data.success);
+      if (response.data.success) {
+        await showToast('Вы в команде!')
+        setExistTeam(true)
+      } else {
+        await showToast('Ошибка!')
+      }
     } catch (error) {
       await showToast('Ошибка!')
     }
@@ -85,7 +110,7 @@ const TeamItem: FC<ITeamItem> = ({ img, title, challengeId, commandId }) => {
         <div className='team-item__title'>{title}</div>
       </Link>
       {!existTeam && (
-        <div className='team-item__join text-blue' onClick={join}>
+        <div className='team-item__join text-blue' onClick={joinToCommand}>
           Вступить
         </div>
       )}

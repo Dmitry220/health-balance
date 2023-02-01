@@ -198,10 +198,13 @@
 }
 
 .creating-commands-challenge{
-  &__title{
+  &__main-title{
     margin: 0 0 15px 0;
   }
-  &__select{
+  &__title{
+    margin: 0 0 10px 0;
+  }
+  &__block{
     &:not(:last-child){
       margin: 0 0 18px 0;
     }

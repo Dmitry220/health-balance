@@ -10,14 +10,16 @@ export interface ITracker {
   creatingTracker: ICreatingTracker
   tracker: IGetTracker
   isLoading: boolean
-  countWater: number
+  countWater: number,
+  isChangeTrack: boolean
 }
 
 const initialState: ITracker = {
   creatingTracker: { fruits: 0, weight: 60, wake_up_time: '06:20' },
   tracker: { id: 0, fruits: 0, weight: 60, wake_up_time: '06:20' },
   isLoading: false,
-  countWater: 0
+  countWater: 0,
+  isChangeTrack: true
 }
 
 export const creatingTracker = createAsyncThunk<unknown>(
@@ -49,6 +51,9 @@ export const trackerSlice = createSlice({
     },
     setWakeUpCreatingTracker: (state, action) => {
       state.tracker.wake_up_time = action.payload
+    },
+    setChangeTrack: (state, action:PayloadAction<boolean>) => {
+      state.isChangeTrack = action.payload
     }
   },
   extraReducers: (builder) => {
@@ -69,7 +74,8 @@ export const trackerSlice = createSlice({
 export const {
   setFruitsCreatingTracker,
   setWakeUpCreatingTracker,
-  setWeightCreatingTracker
+  setWeightCreatingTracker,
+  setChangeTrack
 } = trackerSlice.actions
 
 export const creatingTrackerSelector = (state: RootState) =>
@@ -77,5 +83,6 @@ export const creatingTrackerSelector = (state: RootState) =>
 export const trackerSelector = (state: RootState) => state.tracker.tracker
 export const countWaterSelector = (state: RootState) => state.tracker.countWater
 export const isLoadingSelector = (state: RootState) => state.tracker.isLoading
+export const isChangeTrackSelector = (state: RootState) => state.tracker.isChangeTrack
 
 export default trackerSlice.reducer

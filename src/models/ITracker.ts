@@ -14,5 +14,6 @@ export interface ITrack{
 	type: number,
 	additional: string,
 	time: string,
-	date: number
+	date: number,
+	completed: null | boolean
 }

@@ -8,10 +8,12 @@ import Header from '../../Components/Header/Header'
 import { ScrollPicker } from '../../Components/Scroll-picker/Scroll-picker'
 import './goal-sleep.scss'
 import TrackerService from '../../services/TrackerService'
-import { trackerSelector } from '../../Redux/slice/trackerSlice'
-import { useAppSelector } from '../../utils/hooks/redux-hooks'
+import { setChangeTrack, trackerSelector } from '../../Redux/slice/trackerSlice'
+import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
 
 export const GoalSleep = () => {
+
+  const dispatch = useAppDispatch()
   const tracker = useAppSelector(trackerSelector)
   const itemsHour = getItemsHour()
   const itemsMinutes = getItemsMinutes()
@@ -26,16 +28,22 @@ export const GoalSleep = () => {
 
   const changeHour = (value: string) => setHour(value)
   const changeMinutes = (value: string) => setMinutes(value)
-
+  
   let outputHour = +hour - 8 < 0 ? 24 + (+hour - 8) : +hour - 8
 
   const save = async () => {
-    await TrackerService.updateTracker(
-      tracker.id,
-      'wake_up_time',
-      hour + ':' + minutes
-    )
-    await showToast('Изменено успешно!')
+    try {
+      await TrackerService.updateTracker(
+        tracker.id,
+        'wake_up_time',
+        hour + ':' + minutes
+      )      
+      dispatch(setChangeTrack(true))
+      await showToast('Изменено успешно!')
+    } catch (error) {
+      await showToast('Ошибка!') 
+    }
+ 
   }
 
   return (

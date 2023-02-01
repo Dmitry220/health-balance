@@ -16,6 +16,8 @@ import {
   ILeaderBoardChallengTeam
 } from '../../models/ILeaderBoard'
 import { Preloader } from '../Preloader/Preloader'
+import { Link } from 'react-router-dom'
+import { PROFILE_MEMBER_ROUTE, TEAM_MEMBER_ROUTE } from '../../provider/constants-route'
 
 interface IListLeadersChallenge {
   type: number
@@ -44,6 +46,7 @@ export const ListLeadersChallenge: FC<IListLeadersChallenge> = ({
   if (isLoading) {
     return <Preloader />
   }
+console.log(leaderboardTeamsChallenge);
 
   return (
     <div className={'leader-challenge'}>
@@ -104,7 +107,7 @@ const LeaderboardItem: FC<ILeaderboardItem> = ({
   }
 
   return (
-    <article className='leader-challenge__item item-leader'>
+    <Link to={typeChallenge === 2 ? TEAM_MEMBER_ROUTE + '/' + item.id : PROFILE_MEMBER_ROUTE+'/'+item.id} className='leader-challenge__item item-leader'>
       <div className='item-leader__column item-leader__column_1'>
         <div className={'item-leader__place ' + colorReward(place)}>
           {place}
@@ -143,6 +146,6 @@ const LeaderboardItem: FC<ILeaderboardItem> = ({
         </div>
         <div className='item-leader__reward'>{item.points}</div>
       </div>
-    </article>
+    </Link>
   )
 }

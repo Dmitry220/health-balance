@@ -29,7 +29,7 @@ import { settingsSlice } from './slice/settingsSlice'
 const persistConfig = {
   key: 'root',
   storage: storage,
-  whitelist: ['visitedPages','shop', 'settings','auth']
+  whitelist: ['tracker','shop', 'settings','auth']
 }
 
 const reducer = combineReducers({

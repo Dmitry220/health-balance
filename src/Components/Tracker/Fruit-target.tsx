@@ -40,13 +40,13 @@ export const FruitTarget = () => {
   return (
     <div className={'fruit-target'}>
       <div className='fruit-target__container'>
-        {targetsFruit.map((item) => (
+        {/* {targetsFruit.map((item) => (
           <HabitsTargetItem
             key={item.id}
             value={item.fruits}
             date={item.date}
           />
-        ))}
+        ))} */}
       </div>
     </div>
   )

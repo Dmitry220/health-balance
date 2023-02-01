@@ -53,7 +53,7 @@ export const ModalChat: FC<IModalChat> = ({ active, setActive, idUser }) => {
   }
 
   useEffect(() => {
-    ;(async () => {
+    (async () => {
       const response = await ChatService.getChannels()
       setChannels(response.data.data)
     })()

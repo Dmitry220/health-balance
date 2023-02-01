@@ -59,6 +59,12 @@ export default class ChallengeService {
     )
   }
 
+  static async teamJoin(id: number) {
+    return $api.post(
+      `/v2/challenge-teams/${id}/join/?token=${localStorage.getItem('token')}`
+    )
+  }
+
   static async purposeChallengeComplete(id: number) {
     return $api.post(
       `/v2/challenges/${id}/purpose_done/?token=${localStorage.getItem('token')}`

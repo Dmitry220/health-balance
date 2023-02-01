@@ -15,12 +15,12 @@ export const CreatingCommandsChallenge = () => {
   const maxPeoples = useAppSelector(maxPeoplesCreatingChallengeSelector)
   const teamAmount = useAppSelector(teamAmountCreatingChallengeSelector)
 
-  const handlerTeamAmount = (e: ChangeEvent<HTMLSelectElement>) => {
-    dispatch(setTeamAmountChallenge(+e.target.value))
+  const handlerTeamAmount = (e: ChangeEvent<HTMLInputElement>) => {
+    dispatch(setTeamAmountChallenge(e.target.value.replace(/\D/, '')))
     // dispatch(setDisabledButton(false))
   }
-  const handleraMaxPeoples = (e: ChangeEvent<HTMLSelectElement>) => {
-    dispatch(setMaxPeoplesChallenge(+e.target.value))
+  const handleraMaxPeoples = (e: ChangeEvent<HTMLInputElement>) => {
+    dispatch(setMaxPeoplesChallenge(e.target.value.replace(/\D/, '')))
     //dispatch(setDisabledButton(false))
   }
 
@@ -32,42 +32,21 @@ export const CreatingCommandsChallenge = () => {
 
   return (
     <div className={'creating-commands-challenge'}>
-      <div className='creating-commands-challenge__title main-title'>
+      <div className='creating-commands-challenge__main-title main-title'>
         Команды
       </div>
-      <div className='creating-commands-challenge__select _custom-select'>
-        <select
-          defaultValue={teamAmount === 0 ? 'DEFAULT' : teamAmount}
-          onChange={handlerTeamAmount}
-        >
-          <option value={'DEFAULT'} disabled>
-            Количество команд
-          </option>
-          <option value='1'>1</option>
-          <option value='2'>2</option>
-          <option value='3'>3</option>
-          <option value='4'>4</option>
-          <option value='5'>5</option>
-          <option value='6'>6</option>
-          <option value='7'>7</option>
-          <option value='8'>8</option>
-          <option value='9'>9</option>
-          <option value='10'>10</option>
-        </select>
+      <div className='creating-commands-challenge__block'>
+        <h1 className='creating-commands-challenge__title'>
+          Количество команд
+        </h1>
+        <input type="number" className='_field' onChange={handlerTeamAmount} value={teamAmount} />
+
       </div>
-      <div className='creating-commands-challenge__select _custom-select'>
-        <select
-          defaultValue={maxPeoples === 0 ? 'DEFAULT' : maxPeoples}
-          onChange={handleraMaxPeoples}
-        >
-          <option value={'DEFAULT'} disabled>
-            Участников на команду
-          </option>
-          <option value='1'>1</option>
-          <option value='2'>2</option>
-          <option value='3'>3</option>
-          <option value='4'>4</option>
-        </select>
+      <div className='creating-commands-challenge__block'>
+        <h1 className='creating-commands-challenge__title'>
+          Участников на команду
+        </h1>
+        <input type="number" className='_field' onChange={handleraMaxPeoples} value={maxPeoples} />
       </div>
     </div>
   )

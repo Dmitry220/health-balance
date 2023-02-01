@@ -16,7 +16,7 @@
     color: #fff;
   }
   &__avatar{
-    width: 37px;
+    flex: 0 0 37px;
     height: 37px;
     margin: 0 13px 0 0;
     img{
@@ -29,5 +29,8 @@
   &__user-name{
     font-weight: 500;
     font-size: 13px;
+    flex: 0 0 75%;
+    margin: 0px 15px 0 0;
+    word-break: break-word;
   }
 }
