@@ -57,11 +57,6 @@ export const Editing = () => {
       const birthday = birthdayParameter.getTime() / 1000
       const data = { id, name, surname, gender, birthday, phone, email, avatar }
       dispatch(updateProfile(data))
-      if (isSuccesfullRequest) {
-        showToast('Данные успешно сохранены!')
-      } else {
-        showToast('Ошибка!')
-      }
     }
   )
 
@@ -132,8 +127,16 @@ export const Editing = () => {
               className='editing__input'
               style={{ marginBottom: 15, padding: '5px 0' }}
               defaultValue={dataUser.name}
-              {...register('name')}
+              {...register("name", {
+                required: true,
+                minLength: 2,
+                maxLength: 20
+              })}
+              aria-invalid={errors.name ? "true" : "false"}
             />
+            {errors.name?.type === 'required' && <p role="alert" className='editing__error'>Данное поле не может быть пустым</p>}
+            {errors.name?.type === 'maxLength' && <p role="alert" className='editing__error'>Длина имени должна быть от 2 до 20 символов</p>}
+            {errors.name?.type === 'minLength' && <p role="alert" className='editing__error'>Длина имени должна быть от 2 до 20 символов</p>}
             <div className='editing__caption' style={{ margin: 0 }}>
               Фамилия
             </div>
@@ -141,8 +144,15 @@ export const Editing = () => {
               className='editing__input'
               style={{ marginBottom: 15, padding: '5px 0' }}
               defaultValue={dataUser.surname}
-              {...register('surname')}
+              {...register('surname', {
+                required: true,
+                minLength: 2,
+                maxLength: 20
+              })}
             />
+            {errors.surname?.type === 'required' && <p role="alert" className='editing__error'>Данное поле не может быть пустым</p>}
+            {errors.surname?.type === 'maxLength' && <p role="alert" className='editing__error'>Длина фамилии должна быть от 2 до 20 символов</p>}
+            {errors.surname?.type === 'minLength' && <p role="alert" className='editing__error'>Длина фамилии должна быть от 2 до 20 символов</p>}
           </div>
         </div>
         <div className={'editing__gender select-gender'}>
@@ -169,13 +179,16 @@ export const Editing = () => {
         <input
           className='editing__input'
           defaultValue={dataUser.email}
-          {...register('email')}
+          {...register('email', {
+            pattern: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
+          })}
         />
+        {errors.email?.type === 'pattern' && <p role="alert" className='editing__error'>Не валидный email</p>}
         <div className='editing__caption'>Телефон</div>
         <Controller
           control={control}
           name='phone'
-          rules={{ required: true }}
+          rules={{ required: true, pattern: /^([+]?[0-9\s-\(\)]{3,25})*$/i }}
           defaultValue={dataUser.phone}
           render={({ field }) => (
             <InputMask
@@ -186,6 +199,7 @@ export const Editing = () => {
             />
           )}
         />
+        {errors.phone?.type === 'pattern' && <p role="alert" className='editing__error'>Не корректный номер телефона</p>}
         <div className='editing__caption'>Дата рождения</div>
         <Controller
           control={control}

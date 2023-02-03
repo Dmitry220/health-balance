@@ -424,6 +424,11 @@
       object-fit: inherit;
     }
   }
+  &__error{
+    margin: -15px 0 10px 0;
+    color: red;
+    font-size: 13px;
+  }
 
 }
 .qr-code{
@@ -456,10 +461,8 @@
  .choice-answer{
   // display: flex;
   margin-bottom: 20px;
-   &__input{
-     &:not(:last-child){
-       margin: 0 0 20px 0;
-     }
+   &__input{     
+    margin: 0 0 20px 0;     
      &_corrected{
       box-shadow: 1px 1px 7px 0px #f01111;
     }

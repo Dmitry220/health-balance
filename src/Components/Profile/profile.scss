@@ -84,6 +84,9 @@
   &__column{
     display: flex;
     align-items: center;
+    &_col-1{
+      flex: 1 1 auto;
+    }
   }
 
   &__avatar{

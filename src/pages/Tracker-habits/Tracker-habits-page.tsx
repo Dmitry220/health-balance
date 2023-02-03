@@ -32,20 +32,14 @@ export const TrackerHabitsPage = () => {
     dispatch(getTracker())
   }, [])
 
+  // console.log('track');
+  
+
   // if(isLoading){
   //   return <Preloader />
   // }
 
-  let hour =
-    tracker.wake_up_time.split(':')[0].length === 2
-      ? tracker.wake_up_time.split(':')[0]
-      : '0' + tracker.wake_up_time.split(':')[0]
-  let minutes =
-    tracker.wake_up_time.split(':')[1].length === 2
-      ? tracker.wake_up_time.split(':')[1]
-      : '0' + tracker.wake_up_time.split(':')[1]
-  const morning = hour + ':' + minutes
-  const evening = (+hour - 8 < 0 ? 24 + (+hour - 8) : +hour - 8) + ':' + minutes
+
 
   return (
     <div className={'tracker-habits-page'}>
@@ -61,7 +55,7 @@ export const TrackerHabitsPage = () => {
         </NavLink>
       </div>
       <div className='tracker-habits-page__target'>
-        <HealthySleep evening={evening} morning={morning} />
+        <HealthySleep />
       </div>
 
       <div className='tracker-habits-page__task-title'>

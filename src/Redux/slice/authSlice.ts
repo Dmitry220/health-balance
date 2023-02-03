@@ -155,6 +155,20 @@ export const authSlice = createSlice({
     setVisitedActivityPage: (state, action) => {
       state.visitPages.activity = action.payload;
     },
+    resetFieldRegistration: (state) => {
+      state.dataRegistration = {
+        email: "",
+        phone: "",
+        password: "",
+        name: "",
+        surname: "",
+        birthday: 1029528000,
+        gender: 1,
+        platform: 0,
+        avatar: "",
+        device_token: "",
+      }
+    },
     logout: (state) => {
       localStorage.removeItem("token");
       localStorage.removeItem("id");
@@ -205,6 +219,7 @@ export const {
   setVisitedActivityPage,
   setVisitedChallengePage,
   setVisitedTrackerPage,
+  resetFieldRegistration
 } = authSlice.actions;
 
 export const emailSelector = (state: RootState) =>

@@ -9,10 +9,6 @@ import './goal-fruits.scss'
 export const GoalFruits = () => {
 
   const tracker = useAppSelector(trackerSelector)
-  useEffect(() => {
-
-
-  }, [])
 
   const [countFruits, setCountFruits] = useState<number>(tracker.fruits)
 
@@ -24,8 +20,28 @@ export const GoalFruits = () => {
   }
 
   const save = async () => {
-    await TrackerService.updateTracker(tracker.id, 'fruits', countFruits + '')
-    await showToast('Изменено успешно!')
+    try {
+      await TrackerService.updateTracker(tracker.id, 'fruits', countFruits + '')
+      // if (item.type === 3) {
+      //   for (let i = 0; i < countFruits; i++) {
+      //     let time = i < countFruits / 3
+      //       ? '12:30'
+      //       : i < countFruits * (2 / 3)
+      //         ? '15:30'
+      //         : '19:00'
+      //     await TrackerService.installPushTracker(3,
+      //       time,
+      //       new Date().setHours(Math.ceil(+time.split(':')[0]), Math.ceil(+time.split(':')[1]), 0, 0) / 1000,
+      //       'Фрукт'
+      //     )
+      //   }
+      // }
+      await showToast('Изменено успешно!')
+    } catch (error) {
+      await showToast('Ошибка!')
+    }
+
+
   }
 
   return (

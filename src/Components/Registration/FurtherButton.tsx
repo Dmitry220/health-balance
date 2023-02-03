@@ -9,6 +9,7 @@ import {
   nameUserSelector,
   passwordSelector,
   platformSelector,
+  resetFieldRegistration,
   setDisabledButton,
   surNameSelector,
   telephoneSelector
@@ -85,7 +86,8 @@ const ButtonSubmit: FC<IFurtherButton> = ({ order, setOrder }) => {
         device_token,
         platform
       )
-
+      await showToast('Регистрация прошла успешно!')
+      dispatch(resetFieldRegistration())
       navigate(LOGIN_ROUTE)
     } catch (e) {
       setOrder(0)

@@ -28,7 +28,7 @@ export const StatisticTracker = () => {
       />
       <div style={{ height: '25px' }}></div>
       <TabContent index={0} value={currentValueTab}>
-        <HealthySleep editProhibition evening='' morning=''/>
+        <HealthySleep editProhibition />
       </TabContent>
       <TabContent index={1} value={currentValueTab}>
         <WaterTarget />

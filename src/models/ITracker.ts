@@ -10,7 +10,7 @@ export interface IGetTracker{
 	fruits: number
 }
 export interface ITrack{
-	id: string,
+	id: number,
 	type: number,
 	additional: string,
 	time: string,

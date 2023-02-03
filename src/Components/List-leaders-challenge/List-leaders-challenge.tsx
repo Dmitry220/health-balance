@@ -46,7 +46,6 @@ export const ListLeadersChallenge: FC<IListLeadersChallenge> = ({
   if (isLoading) {
     return <Preloader />
   }
-console.log(leaderboardTeamsChallenge);
 
   return (
     <div className={'leader-challenge'}>
@@ -144,7 +143,7 @@ const LeaderboardItem: FC<ILeaderboardItem> = ({
         <div className='item-leader__icon'>
           <img src={icon} alt='icon' />
         </div>
-        <div className='item-leader__reward'>{item.points}</div>
+        <div className='item-leader__reward'>{item.points || 0}</div>
       </div>
     </Link>
   )

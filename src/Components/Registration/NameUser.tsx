@@ -11,7 +11,7 @@ export const NameUser = () => {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    if (nameUser.length >= 2) {
+    if (nameUser.length >= 2 && nameUser.length <= 20) {
       dispatch(setDisabledButton(false))
     }else{
       dispatch(setDisabledButton(true))
@@ -21,7 +21,7 @@ export const NameUser = () => {
   const validateUserName = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     dispatch(setNameUser(value))
-    value.length < 3
+    value.length < 2 && value.length >= 20
       ? dispatch(setDisabledButton(true))
       : dispatch(setDisabledButton(false))
   }

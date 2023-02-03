@@ -58,7 +58,7 @@
   &__title {
     font-weight: 700;
     font-size: 17px;
-
+    word-break: break-all;
     color: #E1E1E1;
   }
 
@@ -72,7 +72,7 @@
   &__type {
     font-weight: 400;
     font-size: 13px;
-
+    margin: 0 0 10px 0;
     color: $yellowColor;
   }
 

@@ -25,33 +25,27 @@ export const WaterTarget = () => {
     for (let i = 0; i < 10; i++) {
       await TrackerService.installPushTracker(2,
         Math.ceil(+tracker.wake_up_time.split(':')[0] + 1.6 * i) + ':' + minutes,
-        new Date().setHours(Math.ceil(+tracker.wake_up_time.split(':')[0] + 1.6 * i), 0, 0, 0) / 1000, ''
+        new Date().setHours(Math.ceil(+tracker.wake_up_time.split(':')[0] + 1.6 * i), +minutes, 0, 0) / 1000, 
+        Math.ceil(countWater / 10 * 1000) + ' мл'
       )
     }
   }
-
-  const createTrack = async () => {
-    for (let i = 0; i < 10; i++) {
-      await TrackerService.createTrack(2,
-        Math.ceil(+tracker.wake_up_time.split(':')[0] + 1.6 * i) + ':' + minutes, ''
-      )
-      dispatch(setChangeTrack(false))
-    }
-  }
-console.log(targets);
-
+  
   useEffect(() => {
     (async () => {
       // if(tracker.id){
       //   const response = await TrackerService.complteteTrack(tracker.id)
       //   console.log(response);
-      // }       
-      if (isChangeTrack && tracker.id) {           
-        await createTrack()
-        await installPush()
-      }
+      // }  
       const response = await TrackerService.getTracks(new Date().toLocaleDateString())
-      setTargtes(response.data.data.filter(item=>item.type === 2))
+     
+      if(!response.data.data.length && tracker.id){
+        console.log('query', tracker.id);
+        
+        //await installPush()
+      }else{
+        setTargtes(response.data.data.filter(item=>item.type === 2))
+      }  
     })()
   }, [tracker])
 
@@ -62,7 +56,7 @@ console.log(targets);
   return (
     <div className={'water-target'}>
       <div className='water-target__container'>
-        {targets?.map(item => <HabitsTargetItem key={item.id} value={Math.ceil(countWater / 10 * 1000) + ' мл'} date={item.time} />)}
+        {targets?.map(item => <HabitsTargetItem key={item.id} value={item.additional} date={item.time} />)}
       </div>
     </div>
   )

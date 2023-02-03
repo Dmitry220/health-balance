@@ -81,4 +81,10 @@
     color: $blueColor;
     background: transparent;
   }
+
+  &__error{
+    color: red;
+    margin: 0 0 10px 0;
+    font-size: 13px;
+  }
 }

@@ -62,6 +62,7 @@ export const CardChallenge: FC<ICardChallenge> = ({ challenge }) => {
       />
     )
   }
+console.log(challenge);
 
   return (
     <Link
@@ -69,11 +70,11 @@ export const CardChallenge: FC<ICardChallenge> = ({ challenge }) => {
       className={'card-challenge'}
     >
       <div className='card-challenge__container'>
-        <div className='card-challenge__dots'>
+        {/* <div className='card-challenge__dots'>
           <div className='card-challenge__dot' />
           <div className='card-challenge__dot' />
           <div className='card-challenge__dot' />
-        </div>
+        </div> */}
         <div className='card-challenge__head'>
           <div className='card-challenge__img'>
             {challenge.image && (

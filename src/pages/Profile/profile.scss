@@ -38,6 +38,10 @@
     }
   }
 
+  &__user-name{
+    word-break: break-all;
+  }
+
   &__buttons{
     display: flex;
     align-items: center;

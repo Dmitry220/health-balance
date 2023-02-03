@@ -3,11 +3,11 @@ import { RootState } from "../store";
 
 
 export interface ISettingsSlice {
-  googleFit: boolean;
+  googleFit: number;
 }
 
 const initialState: ISettingsSlice = {
-  googleFit: false,
+  googleFit: 1,
 };
 
 export const settingsSlice = createSlice({

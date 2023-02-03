@@ -1,15 +1,11 @@
-import React, { FC, useRef } from 'react'
-// import previewVideo from "../../assets/image/lecture/lecture_img.jpg";
+import React, { FC } from 'react'
 
 interface IVideo {
   url: string
 }
 
 export const Video: FC<IVideo> = ({ url }) => {
-  const videoPlayer: React.Ref<any> = useRef()
-
-  const runVideo = () => {}
-
+  
   return (
     <div className='lecture__video'>
       <iframe

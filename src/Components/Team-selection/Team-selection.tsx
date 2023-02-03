@@ -26,18 +26,8 @@ export const TeamSelection = () => {
   const navigate = useNavigate()
   const [existTeam, setExistTeam] = useState<boolean>(false)
 
-  const joinToChallenge = async () => {
-    try {
-      const response = await ChallengeService.challengeJoin(Number(params.id))
-      console.log(response.data.success);
-      if (response.data.success) {
-        navigate(CHALLENGE_ROUTE)
-      } else {
-        await showToast('Ошибка!')
-      }
-    } catch (error) {
-      await showToast('Ошибка!')
-    }
+  const redirectToChallenge = () => {
+    navigate(CHALLENGE_ROUTE)
   }
 
   useEffect(() => {
@@ -58,14 +48,16 @@ export const TeamSelection = () => {
         />
       ))}{' '}
       <br />
-
-      <button
-        onClick={joinToChallenge}
-        className={existTeam ? 'team-selection-page__button _button-white' : 'team-selection-page__button _button-white disabled'}
-        disabled={!existTeam}
-      >
-        Готово
-      </button>
+        {
+          commands.length ?     <button
+          onClick={redirectToChallenge}
+          className={existTeam ? 'team-selection-page__button _button-white' : 'team-selection-page__button _button-white disabled'}
+          disabled={!existTeam}
+        >
+          Готово
+        </button> : <h1>Команд нет!</h1>
+        }
+ 
 
     </div>
   )
@@ -82,6 +74,16 @@ interface ITeamItem {
 
 const TeamItem: FC<ITeamItem> = ({ img, title, challengeId, commandId, setExistTeam, existTeam }) => {
 
+  const joinToChallenge = async () => {
+    try {
+      const response = await ChallengeService.challengeJoin(Number(challengeId))
+      if (!response.data.success) {
+        await showToast('Ошибка!')
+      }
+    } catch (error) {
+      await showToast('Ошибка!')
+    }
+  }
 
   const joinToCommand = async () => {
     try {
@@ -90,6 +92,7 @@ const TeamItem: FC<ITeamItem> = ({ img, title, challengeId, commandId, setExistT
       if (response.data.success) {
         await showToast('Вы в команде!')
         setExistTeam(true)
+        await joinToChallenge()        
       } else {
         await showToast('Ошибка!')
       }

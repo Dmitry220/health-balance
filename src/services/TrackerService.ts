@@ -75,16 +75,12 @@ export default class TrackerService {
     );
   }
 
-  static async createTrack(
-    type: 1 | 2 | 3,
-    time: string,
-    additional: string
-  ) {
+  static async createTrack(type: 1 | 2 | 3, time: string, additional: string) {
     return (
       $api.post(`/v2/tracks?token=${localStorage.getItem("token")}`, {
         type,
         time,
-        additional
+        additional,
       }),
       {
         headers: {
@@ -95,7 +91,31 @@ export default class TrackerService {
     );
   }
 
-  static async getTracks(date:string): Promise<AxiosResponse<{ data: ITrack[] }>> {
-    return $api.get(`/v2/tracks/?date=${date}&token=${localStorage.getItem("token")}`);
+  static async getTracks(
+    date: string
+  ): Promise<AxiosResponse<{ data: ITrack[] }>> {
+    return $api.get(
+      `/v2/tracks/?date=${date}&token=${localStorage.getItem("token")}`
+    );
+  }
+  static async updateTrack(data: {
+    id: number;
+    type?: 1 | 2 | 3;
+    additional?: string;
+    time?: string;
+    send_time?: number;
+  }) {
+
+    return (
+      $api.patch(
+        `/v2/tracks/${data.id}?token=${localStorage.getItem("token")}`,data
+      ),
+      {
+        headers: {
+          accept: "application/json",
+          "Content-Type": "text/plain",
+        },
+      }
+    );
   }
 }

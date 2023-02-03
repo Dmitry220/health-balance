@@ -29,7 +29,7 @@ export const ProfileMemberHead = () => {
   return (
     <div className={'profile-member-head'}>
       <div className='profile-member-head__row'>
-        <div className='profile-member-head__column'>
+        <div className='profile-member-head__column profile-member-head__column_col-1'>
           <div className='profile-member-head__avatar'>
             {infoUser.avatar && <img src={IMAGE_URL + 'avatars/' + infoUser.avatar} alt='avatar' />}
             {!infoUser.avatar && <img src={avatar} alt='avatar' />}
@@ -38,11 +38,11 @@ export const ProfileMemberHead = () => {
             {infoUser.name}
           </div>
         </div>
-        <div className='profile-member-head__column'>
+        {profile.id != infoUser.id && <div className='profile-member-head__column'>
           <div onClick={goChat}>
             <img src={icon_chat} alt='chat' />
           </div>
-        </div>
+        </div>}
       </div>
       {profile.role === 1 && <div className='profile-member-head__row'>
         <button className='profile-member-head__button _button-dark-yellow' onClick={generateGeneralChat}>

@@ -43,6 +43,11 @@ export const Profile = () => {
      return <ModalExit actionCallback={()=>dispatch(logout())} closeCallback={setLogoutModal}/>
   }
 
+  const ads = {
+    naem: "sdf",
+    f: null
+  }
+
   return (
     <div className={'profile'}>
       <Header 
@@ -57,7 +62,7 @@ export const Profile = () => {
             {!dataUser.avatar&&<img src={avatar} alt='avatar' />}
           </div>
           <div className='profile__user-info'>
-            <div className='profile__user-name'>{dataUser.name + ' ' + dataUser.surname}</div>
+            <div className='profile__user-name'>{dataUser.name + ' ' + (dataUser.surname != null ? dataUser.surname : '')}</div>
             <Link to={EDITING_ROUTE} className='profile__link text-blue'>
               Редактировать
             </Link>

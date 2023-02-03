@@ -1,4 +1,4 @@
-import { ChangeEvent, forwardRef, useState } from 'react'
+import { ChangeEvent, forwardRef, useEffect, useState } from 'react'
 import DatePicker, { registerLocale } from 'react-datepicker'
 import ru from 'date-fns/locale/ru'
 import './creating-challenge.scss'
@@ -11,10 +11,24 @@ import { Link, useParams } from 'react-router-dom'
 import { CHALLENGE_ROUTE } from '../../provider/constants-route'
 import icon_camera from '../../assets/image/icon-camera-add.svg'
 import Header from '../Header/Header'
+import { useFieldArray, useForm } from 'react-hook-form'
 registerLocale('ru', ru)
 
 interface IAnswer {
   answer: string
+}
+
+interface FormData {
+  typeLesson: string
+  answers: IAnswer[]
+  title: string
+  description: string
+  question: string
+  score: number,
+  startDate: any,
+  endDate: Date,
+  videoUrl: string,
+  qrCode: string
 }
 
 export const CreatingLecture = () => {
@@ -25,18 +39,30 @@ export const CreatingLecture = () => {
 
   const challenge_id = useAppSelector(challengeIdSelector)
 
-  const [typeLesson, setTypeLesson] = useState<number>(0)
-  const [answers, setAnswers] = useState<IAnswer[] | []>([{ answer: '' }])
-  const [title, setTitle] = useState<string>('')
-  const [description, setDescription] = useState<string>('')
-  const [qrCode, setQrCode] = useState<string>('')
-  const [question, setQuestion] = useState<string>('')
-  // const [answer, setAnswer] = useState<string>('')
-  const [score, setScore] = useState<string>('10')
+  const {
+    register,
+    handleSubmit,
+    control,
+    reset,
+    watch,
+    formState: { errors }
+  } = useForm<FormData>({
+    mode: "onChange",
+    defaultValues: { startDate: [] }
+  })
+  const allFiled = watch()
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "answers",
+  });
+
+  useEffect(() => {
+    append({ answer: "" })
+  }, [])
+
   const [startDate, setStartDate] = useState<Date>(new Date())
   const [endDate, setEndDate] = useState<Date>(END_DATE)
   const [correctAnswer, setCorrectAnswer] = useState<number>(0)
-  const [videoUrl, setVideoUrl] = useState<string>('')
   const [image, setImage] = useState<any>('')
   const [photoPath, setPhotoPath] = useState<any | null>(null)
   const [isLoadingAvatar, setIsLoadingAvatar] = useState<boolean>(false)
@@ -47,8 +73,8 @@ export const CreatingLecture = () => {
     const file: any = e.target.files
     if (file[0]) {
       formData.append('image', file[0])
-      try {       
-        const response = await FileService.addImageLesson(formData)       
+      try {
+        const response = await FileService.addImageLesson(formData)
         console.log(response);
         setPhotoPath(URL.createObjectURL(file[0]))
         setIsLoadingAvatar(false)
@@ -59,7 +85,6 @@ export const CreatingLecture = () => {
         setImage('')
         await showToast('Изображение слишком много весит')
       }
-    
     }
   }
 
@@ -69,78 +94,64 @@ export const CreatingLecture = () => {
     setEndDate(end)
   }
 
-  const reset = () => {
-    // setAnswer('')
-    setTitle('')
-    setAnswers([{ answer: '' }])
-    setCorrectAnswer(0)
-    setDescription('')
-    setEndDate(END_DATE)
-    setStartDate(new Date())
+  const resetField = () => {
+    const END_DATE = new Date()
+    END_DATE.setDate(END_DATE.getDate() + 3)
+    setPhotoPath('')
     setImage('')
-    setQrCode('')
-    setQuestion('')
-    setVideoUrl('')
-    setScore('10')
-    setPhotoPath(null)
-    setTypeLesson(0)
+    setStartDate(new Date())
+    setEndDate(END_DATE)
+    reset()
   }
 
-  const addLecture = async () => {
-    const formData = new FormData()
-    const idChallenge =
-      Number(params.id) === 0 ? challenge_id : Number(params.id)
-    formData.append('title', title)
-    formData.append('challenge', JSON.stringify(idChallenge))
-    formData.append('description', description)
-    formData.append('type', JSON.stringify(typeLesson))
-    formData.append('video', videoUrl)
-    formData.append('start_date', startDate.toLocaleDateString())
-    formData.append('end_date', endDate.toLocaleDateString())
-    formData.append('score', score)
-    formData.append('image', image)
-    switch (typeLesson) {
-      case 1:
-        formData.append('answers', JSON.stringify(answers))
-        formData.append('correct_answer', correctAnswer + '')
-        formData.append('question', question)
-        break
-      case 2:
-        formData.append('qr_code', qrCode)
-        break
-      case 3:
-        formData.append('question', question)
-        break
-      case 4:
-        break
-      default:
-        break
-    }
-
-    try {
-      // Проверка на не пустые поля
-      if (
-        title &&
-        description &&
-        typeLesson &&
-        image &&
-        (typeLesson === 2 ? qrCode : typeLesson === 4 ? true : question) &&
-        score &&
-        videoUrl
-      ) {
-        await LessonService.createLesson(formData)
-        showToast('Лекция успешно добавлена!')
-        reset()
-      } else {
-        await showToast('Необходимо заполнить все поля!')
+  const addLecture = handleSubmit(
+    async ({ answers, description, question, score, title, typeLesson, videoUrl, qrCode }) => {
+      const data = { answers, correctAnswer, description, endDate, image, question, score, startDate, title, typeLesson, videoUrl, qrCode }
+      const formData = new FormData()
+      const idChallenge = Number(params.id) === 0 ? challenge_id : Number(params.id)
+      formData.append('title', title)
+      formData.append('challenge', JSON.stringify(idChallenge))
+      formData.append('description', description)
+      formData.append('type', typeLesson)
+      videoUrl && formData.append('video', videoUrl)
+      formData.append('start_date', startDate.toLocaleDateString())
+      formData.append('end_date', endDate.toLocaleDateString())
+      formData.append('score', score + '')
+      image && formData.append('image', image)
+      switch (typeLesson) {
+        case '1':
+          formData.append('answers', JSON.stringify(answers))
+          formData.append('correct_answer', correctAnswer + '')
+          formData.append('question', question)
+          break
+        case '2':
+          formData.append('qr_code', qrCode)
+          break
+        case '3':
+          formData.append('question', question)
+          break
+        case '4':
+          break
+        default:
+          break
       }
-    } catch (error) {
-      showToast('Произошла ошибка!')
+      console.log(data);
+      try {
+        const response = await LessonService.createLesson(formData)
+        if (response.data.success) {
+          showToast('Лекция успешно добавлена!')
+          resetField()
+        } else {
+          showToast('Произошла ошибка!')
+        }
+      } catch (error) {
+        showToast('Произошла ошибка!')
+      }
     }
-  }
+  )
 
   return (
-    <div className={'creating-lecture'}>
+    <form onSubmit={addLecture} className={'creating-lecture'}>
       <Header title='Создание лекции' />
       <div className='creating-lecture__title creating-title'>Лекции и ДЗ</div>
       <div className='creating-lecture__sub-title creating-sub-title'>
@@ -150,35 +161,32 @@ export const CreatingLecture = () => {
         type='text'
         className='creating-lecture__input _field'
         placeholder={'Заголовок лекции'}
-        onChange={(e: ChangeEvent<HTMLInputElement>) =>
-          setTitle(e.target.value)
-        }
-        value={title}
+        {...register("title", {
+          required: true
+        })}
       />
+      {errors.title?.type === 'required' && <p role="alert" className='creating-lecture__error'>Данное поле не может быть пустым</p>}
       <input
         className={'creating-lecture__url _field'}
         placeholder={'URL лекции'}
-        onChange={(e: ChangeEvent<HTMLInputElement>) =>
-          setVideoUrl(e.target.value)
-        }
-        value={videoUrl}
+        {...register("videoUrl")}
       />
       <input
         type='text'
         className='creating-lecture__description _field'
         placeholder={'Описание задания'}
-        onChange={(e: ChangeEvent<HTMLInputElement>) =>
-          setDescription(e.target.value)
-        }
-        value={description}
+        {...register("description", {
+          required: true
+        })}
       />
+      {errors.description?.type === 'required' && <p role="alert" className='creating-lecture__error'>Данное поле не может быть пустым</p>}
       <input
         id='image'
         type='file'
         className='creating-lecture__description'
         onChange={addCover}
       />
-    {!isLoadingAvatar ?  <label htmlFor='image' className='creating-lecture__image'>
+      {!isLoadingAvatar ? <label htmlFor='image' className='creating-lecture__image'>
         {photoPath && <img src={photoPath} alt='' />}
         {!photoPath && (
           <div className={'creating-lecture__local-image'}>
@@ -186,115 +194,95 @@ export const CreatingLecture = () => {
             <br />
           </div>
         )}
-      </label> :<h1 style={{marginBottom: 20}}>Загружается...</h1> }
+      </label> : <h1 style={{ marginBottom: 20 }}>Загружается...</h1>}
       <div className='creating-lecture__sub-title creating-sub-title'>
         Задание
       </div>
 
       <div className='creating-lecture__select _custom-select'>
         <select
-          name='type-task'
-          value={typeLesson}
-          id='type-task'
-          onChange={(e: ChangeEvent<HTMLSelectElement>) =>
-            setTypeLesson(+e.target.value)
-          }
+          {...register("typeLesson", {
+            required: "select one option"
+          })}
         >
-          <option value='0'>Тип задания</option>
-          <option value='1'>Выбор правильного ответа</option>
-          <option value='2'>Отсканировать QR Код</option>
-          <option value='3'>Строка для ответа</option>
-          <option value='4'>Загрузить файл</option>
+          <option value={""}>Тип задания</option>
+          <option value={1}>Выбор правильного ответа</option>
+          <option value={2}>Отсканировать QR Код</option>
+          <option value={3}>Строка для ответа</option>
+          <option value={4}>Загрузить файл</option>
         </select>
       </div>
-      {typeLesson === 1 && (
+      {errors.typeLesson?.type === 'required' && <p role="alert" className='creating-lecture__error'>Вы не выбрали тип задания</p>}
+      {allFiled.typeLesson === '1' && (
         <div className='choice-answer'>
           <input
             type='text'
             className='choice-answer__input _field'
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              setQuestion(e.target.value)
-            }
-            value={question}
+            {...register("question", {
+              required: true
+            })}
             placeholder='Вопрос'
           />
-          {answers.map((item, i) => (
-            <input
-              type='text'
-              className={
-                correctAnswer === i
-                  ? 'choice-answer__input _field + choice-answer__input_corrected'
-                  : 'choice-answer__input _field'
-              }
-              placeholder='Ответ на вопрос'
-              onClick={() => setCorrectAnswer(i)}
-              value={item.answer}
-              key={i}
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setAnswers((prev) =>
-                  prev.map((answer, index) =>
-                    index === i ? { answer: e.target.value } : answer
-                  )
-                )
-              }
-            />
-          ))}
+          {errors.question?.type === 'required' && <p role="alert" className='creating-lecture__error'>Данное поле не может быть пустым</p>}
+          {
+            fields.map((item, index) => (
+              <div key={item.id}>
+                <input
+                  onClick={() => setCorrectAnswer(index)}
+                  placeholder='Ответ на вопрос'
+                  className={
+                    correctAnswer === index
+                      ? 'choice-answer__input _field + choice-answer__input_corrected'
+                      : 'choice-answer__input _field'
+                  }
+                  {...register(`answers.${index}.answer`, {
+                    required: true
+                  })}
+                />
+                {errors?.['answers']?.[index]?.['answer']?.type === 'required' && <p role="alert" className='creating-lecture__error'>Данное поле не может быть пустым</p>}
+              </div>
+            ))
+          }
           <div className='choice-answer__buttons'>
             <button
               className='choice-answer__button'
-              onClick={(e: ChangeEvent<any>) =>
-                setAnswers((prev) => [...prev, { answer: e.target.value }])
-              }
+              type="button"
+              onClick={() => append({ answer: "" })}
             >
-              Добавить
+              Добавить ответ
             </button>
-            <button
-              className='choice-answer__button choice-answer__button_del'
-              onClick={(e: ChangeEvent<any>) =>
-                setAnswers((prev) => prev.slice(0, prev.length - 1))
-              }
-            >
-              Удалить
-            </button>
+            <button className='choice-answer__button choice-answer__button_del' type="button"
+              onClick={() => allFiled.answers.length > 1 && remove(allFiled.answers.length - 1)}>Удалить ответ</button>
           </div>
         </div>
       )}
-      {typeLesson === 2 && (
+      {allFiled.typeLesson === '2' && (
         <div className='qr-code'>
           <input
             type='text'
             className='qr-code__input _field'
             placeholder={'Информация для QR кода'}
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              setQrCode(e.target.value)
-            }
-            value={qrCode}
+            {...register("qrCode", {
+              required: true
+            })}
           />
+          {errors.qrCode?.type === 'required' && <p role="alert" className='creating-lecture__error'>Данное поле не может быть пустым</p>}
         </div>
       )}
-      {typeLesson === 3 && (
+      {allFiled.typeLesson === '3' && (
         <div className='string-answer'>
           <input
             type='text'
             className='string-answer__input _field'
             placeholder={'Вопрос'}
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              setQuestion(e.target.value)
-            }
-            value={question}
+            {...register("question", {
+              required: true
+            })}
           />
-          {/* <input
-            type='text'
-            className='string-answer__input _field'
-            placeholder={'Ответ'}
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              setAnswer(e.target.value)
-            }
-            value={answer}
-          /> */}
+          {errors.question?.type === 'required' && <p role="alert" className='creating-lecture__error'>Данное поле не может быть пустым</p>}
         </div>
       )}
-      {typeLesson === 4 && <div className='dowload-file'></div>}
+      {allFiled.typeLesson === '4' && <div className='dowload-file'></div>}
       <div className='creating-lecture__date'>
         <div className='creating-lecture__sub-title creating-sub-title'>
           Продолжительность выполнения задания
@@ -309,7 +297,7 @@ export const CreatingLecture = () => {
           customInput={<ExampleCustomInput />}
         />
       </div>
-
+      {errors.startDate?.type === 'required' && <p role="alert" className='creating-lecture__error'>Выберите начало и конец периода</p>}
       <div className='creating-lecture__score'>
         <div className='creating-lecture__sub-title creating-sub-title'>
           Награда за выполненное задания
@@ -317,12 +305,13 @@ export const CreatingLecture = () => {
         <input
           type='number'
           className='_field'
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setScore(e.target.value.replace(/\D/, ''))
-          }
-          value={score}
+          {...register("score", {
+            required: true,
+            valueAsNumber: true
+          })}
         />
       </div>
+      {errors.score?.type === 'required' && <p role="alert" className='creating-lecture__error'>Данное поле не может быть пустым</p>}
       <div className='creating-lecture__buttons'>
         <Link
           to={CHALLENGE_ROUTE}
@@ -337,7 +326,7 @@ export const CreatingLecture = () => {
           Добавить лекцию
         </button>
       </div>
-    </div>
+    </form>
   )
 }
 

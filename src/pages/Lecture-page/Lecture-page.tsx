@@ -32,9 +32,9 @@ export const LecturePage = () => {
   return (
     <div className={'lecture-page'}>
       <Header title={lesson?.title || 'Лекция'} />
-      <div className='lecture-page__video'>
+      {lesson?.video && <div className='lecture-page__video'>
         <Video url={lesson?.video || ''} />
-      </div>
+      </div>}
 
       <div className='lecture__task task-lecture'>
         <LectureHead

@@ -11,17 +11,17 @@ export const SurName = () => {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    if (surName.length >= 3) {
+    if (surName.length >= 2 && surName.length <=20) {
       dispatch(setDisabledButton(false))
     }else{
       dispatch(setDisabledButton(true))
     }
-  }, [])
+  }, [surName])
 
   const validateSurname = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     dispatch(setSurname(value))
-    value.length < 3
+    value.length < 2 && value.length >= 20
       ? dispatch(setDisabledButton(true))
       : dispatch(setDisabledButton(false))
   }

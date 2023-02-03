@@ -3,6 +3,7 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../store'
 import { IUser } from '../../models/IUsers'
 import UserService from '../../services/UserServices'
+import { showToast } from '../../utils/common-functions'
 
 export interface IProfile {
   dataUser: IUser
@@ -44,7 +45,17 @@ export const updateProfile = createAsyncThunk(
     data.email && params.append('email', data.email)
     data.avatar && params.append('avatar', data.avatar)
 
-    await UserService.editingProfile(params)
+    try {
+     const response = await UserService.editingProfile(params)     
+     if(response.data.success){
+        await showToast('Данные успешно сохранены!')
+     }else{
+      await showToast('Ошибка!')
+     }    
+    } catch (error) {
+      console.log(error);      
+      await showToast('Ошибка!')
+    } 
   }
 )
 

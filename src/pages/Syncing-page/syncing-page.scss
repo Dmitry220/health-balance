@@ -28,4 +28,15 @@
     font-size: 13px;
     font-weight: 500;
   }
+  &__radio{
+    width: 100%;
+    label{
+      flex-direction: row-reverse;
+      justify-content: space-between;
+    }
+    input:checked + label:after {
+      right: 17px;
+      left: auto;
+  }
+  }
 }

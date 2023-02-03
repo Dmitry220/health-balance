@@ -32,33 +32,33 @@
   &__joined{
     display: flex;
     align-items: center;
-    gap: 36px;
+    //gap: 36px;
     position: relative;
 
     span{
       position: relative;
-      display: inline-block;
-      width: 4px;
-      height: 4px;
+      // display: inline-block;
+      // width: 4px;
+      // height: 4px;
       border-radius: 50%;
       background: $colorMain;
-      &:after, &:before{
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        content: "";
-        width: 4px;
-        height: 4px;
-        border-radius: 50%;
-        display: inline-block;
-        background: $colorMain;
-      }
-      &:after{
-        right: 6px;
-      }
-      &:before{
-        right: 12px;
-      }
+      // &:after, &:before{
+      //   position: absolute;
+      //   top: 50%;
+      //   transform: translateY(-50%);
+      //   content: "";
+      //   width: 4px;
+      //   height: 4px;
+      //   border-radius: 50%;
+      //   display: inline-block;
+      //   background: $colorMain;
+      // }
+      // &:after{
+      //   right: 6px;
+      // }
+      // &:before{
+      //   right: 12px;
+      // }
     }
 
 
