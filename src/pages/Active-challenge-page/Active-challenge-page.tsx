@@ -21,6 +21,7 @@ export const ActiveChallengePage = () => {
   const params = useParams()
   const dispatch = useAppDispatch()
   const challenge = useAppSelector(challengeSelector)
+  const [transparentHeader, setTransparentHeader] = useState<boolean>(true)
   let percent =
     challenge?.purpose &&
     ((challenge.purpose?.quantity - challenge.remains_to_pass) * 100) /
@@ -44,13 +45,25 @@ export const ActiveChallengePage = () => {
 
   useEffect(() => {
     dispatch(getChallengeById(Number(params.id)))
+    window.addEventListener('scroll', function () {
+      let scroll = window.pageYOffset
+      // let step: any = document.querySelector('#step')
+      // step.style.transform =
+      //   'translate3d(0,' + scroll / 5 + '%,0) scale(' + (1 - scroll / 250) + ')'
+      if (scroll >= 230) {
+        //step.style.transform = 'translate3d(0, 42.2222%,0) scale(0.24)'
+        setTransparentHeader(false)
+      } else {
+        setTransparentHeader(true)
+      }
+    })
   }, [])
 
   return (
     <div className={'active-challenge-page'}>
       <Header
         title={'Челлендж'}
-        customClass={'active-challenge-page__header'}
+        customClass={transparentHeader?'active-challenge-page__header':""}
       />
       <div className='active-challenge-page__main'>
         <HeaderChallenge

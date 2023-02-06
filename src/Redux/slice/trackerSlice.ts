@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, current, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
-import { ICreatingTracker, IGetTracker } from "../../models/ITracker";
+import { ICreatingTracker, IGetTracker, ITrack } from "../../models/ITracker";
 import TrackerService from "../../services/TrackerService";
 
 const END_DATE = new Date();
@@ -17,6 +17,11 @@ export interface ITracker {
     day: string;
     date: Date;
   }[];
+  tracks:{
+    waterTrack: ITrack[],
+    sleepTrack: ITrack[],
+    fruitTrack: ITrack[]
+  }
 }
 
 const initialState: ITracker = {
@@ -62,6 +67,11 @@ const initialState: ITracker = {
       date: new Date(),
     }
   ],
+  tracks: {
+    fruitTrack: [],
+    sleepTrack: [],
+    waterTrack: []
+  }
 };
 
 export const creatingTracker = createAsyncThunk<unknown>(
@@ -80,6 +90,13 @@ export const getTracker = createAsyncThunk("getTracker", async () => {
   const response = await TrackerService.getTracker();
   return response.data.data;
 });
+
+export const getTracks = createAsyncThunk("getTracks", async () => {
+  const response = await TrackerService.getTracks(new Date().toLocaleDateString());
+  return response.data.data;
+});
+
+
 
 export const trackerSlice = createSlice({
   name: "trackerSlice",
@@ -175,6 +192,18 @@ export const trackerSlice = createSlice({
         state.isLoading = false;
       }
     );
+    builder.addCase(getTracks.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(
+      getTracks.fulfilled,
+      (state, action:PayloadAction<ITrack[]>) => {
+        state.tracks.fruitTrack = action.payload.filter(item=>item.type === 3);
+        state.tracks.waterTrack = action.payload.filter(item=>item.type === 2);
+        state.tracks.sleepTrack = action.payload.filter(item=>item.type === 1);
+        state.isLoading = false;
+      }
+    );
   },
 });
 
@@ -196,5 +225,7 @@ export const isChangeTrackSelector = (state: RootState) =>
   state.tracker.isChangeTrack;
 export const datesSleepSelector = (state: RootState) =>
   state.tracker.datesSleep;
+  export const tracksSelector = (state: RootState) =>
+  state.tracker.tracks;
 
 export default trackerSlice.reducer;

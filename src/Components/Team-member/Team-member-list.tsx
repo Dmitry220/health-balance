@@ -8,25 +8,30 @@ import './team-member-list.scss'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
 import {
   getMembersCommandList,
+  isLoadingSelector,
   membersCommandListSelector
 } from '../../Redux/slice/challengeSlice'
 import { useEffect } from 'react'
 import { IMAGE_URL } from '../../http'
 import avatar from '../../assets/image/avatar.jpeg'
+import { Preloader } from '../Preloader/Preloader'
 
 export const TeamMemberList = () => {
   const params = useParams()
 
   const dispatch = useAppDispatch()
   const members = useAppSelector(membersCommandListSelector)
+  const isLoading = useAppSelector(isLoadingSelector)
 
   useEffect(() => {
     dispatch(getMembersCommandList(Number(params.id)))
   }, [])
+  
 
   return (
     <div className={'team-member-list'}>
-      {members &&
+      {!isLoading ?
+      members.customers.length ?
         members.customers.map((item) => (
           <div className='team-member-list__row' key={item.id}>
             <Link
@@ -49,7 +54,8 @@ export const TeamMemberList = () => {
               </Link>
             </div>
           </div>
-        ))}
+        )) : <h1>Участников нет!</h1> : <Preloader height='auto'/>
+        }
     </div>
   )
 }

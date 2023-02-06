@@ -70,10 +70,11 @@ export const ActivityPage: FC = () => {
   const purpose = useAppSelector(purposeSelector)
   const currentStepsCount = useAppSelector(currentStepsCountSelector)
   const isGoogleFit = useAppSelector(isGoogleFitSelector)
+  
 
   useEffect(() => {
     if (Capacitor.getPlatform() === 'android') {
-      if (isGoogleFit) {
+      if (isGoogleFit===2) {
         authGoogleFit()
       } else {
         startPlugin()
@@ -227,10 +228,10 @@ export const ActivityPage: FC = () => {
         <Target />
       </div>
       <Graphs />
-      <div className='activity-page__important'>
+      {/* <div className='activity-page__important'>
         <ImportantBlock />
-        {/* <Banner title={'Стартовый опрос'} text={'Ответьте на 4 вопроса'} /> */}
-      </div>
+        <Banner title={'Стартовый опрос'} text={'Ответьте на 4 вопроса'} />
+      </div> */}
       <div className='activity-page__top-rating top-rating'>
         <div className='top-rating__title title'>ТОП сегодня</div>
         <TopRating />

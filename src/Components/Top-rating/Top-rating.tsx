@@ -113,7 +113,7 @@ export const TopRating = () => {
             ))
           )
         ) : (
-          <h1>Данных за сегодня нет</h1>
+          <h1 style={{marginLeft:10}}>Данных за сегодня нет</h1>
         )}
       </div>
       <div className='top-rating__list list-participant'>

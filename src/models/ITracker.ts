@@ -13,7 +13,7 @@ export interface ITrack{
 	id: number,
 	type: number,
 	additional: string,
-	time: string,
-	date: number,
-	completed: null | boolean
+	send_time: number,
+	completed: boolean,
+	notification_send: boolean
 }

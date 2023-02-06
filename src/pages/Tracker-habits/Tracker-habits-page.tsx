@@ -19,6 +19,7 @@ import { useEffect } from 'react'
 import {
   countWaterSelector,
   getTracker,
+  getTracks,
   trackerSelector
 } from '../../Redux/slice/trackerSlice'
 import { sklonenie } from '../../utils/common-functions'
@@ -30,6 +31,7 @@ export const TrackerHabitsPage = () => {
 
   useEffect(() => {
     dispatch(getTracker())
+    dispatch(getTracks())
   }, [])
 
   // console.log('track');
@@ -38,8 +40,6 @@ export const TrackerHabitsPage = () => {
   // if(isLoading){
   //   return <Preloader />
   // }
-
-
 
   return (
     <div className={'tracker-habits-page'}>

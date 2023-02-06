@@ -13,42 +13,20 @@ import {
   setGoogleFit
 } from '../../Redux/slice/settingsSlice'
 import { ChangeEvent } from 'react'
+import { Capacitor } from '@capacitor/core'
 
 export const SyncingPage = () => {
   const isGoogleFit = useAppSelector(isGoogleFitSelector)
   const dispatch = useAppDispatch()
 
-  const togleGoogleFit = (e:ChangeEvent<HTMLInputElement>) => {
-    dispatch(setGoogleFit(+e.target.value));    
+  const togleGoogleFit = (e: ChangeEvent<HTMLInputElement>) => {
+    dispatch(setGoogleFit(+e.target.value));
   }
 
   return (
     <div className={'sync-page'}>
       <Header title={'Синхронизация'} />
-      <div className='sync-page__item'>
-        <div className="custom-checkbox sync-page__radio">
-          <div>
-            <input
-              checked={isGoogleFit === 2}
-              value={2}
-              type="radio"
-              name={"radio"}
-              className={"custom-checkbox__checkbox"}
-              id={'2'}
-              onChange={togleGoogleFit}
-            />
-            <label htmlFor={'2'}>
-              <div className='sync-page__column'>
-                <div className='sync-page__icon'>
-                  <img src={google} alt='google' />
-                </div>
-                <div className='sync-page__title'>Google fit</div>
-              </div>
-            </label>
-          </div>
-        </div>
-      </div>
-      <div className='sync-page__item'>
+      {(Capacitor.getPlatform() === 'android' || Capacitor.getPlatform() === 'web') && <> <div className='sync-page__item'>
         <div className="custom-checkbox sync-page__radio">
           <div>
             <input
@@ -71,6 +49,29 @@ export const SyncingPage = () => {
           </div>
         </div>
       </div>
+        <div className='sync-page__item'>
+          <div className="custom-checkbox sync-page__radio">
+            <input
+              checked={isGoogleFit === 2}
+              value={2}
+              type="radio"
+              name={"radio"}
+              className={"custom-checkbox__checkbox"}
+              id={'2'}
+              onChange={togleGoogleFit}
+            />
+            <label htmlFor={'2'}>
+              <div className='sync-page__column'>
+                <div className='sync-page__icon'>
+                  <img src={google} alt='google' />
+                </div>
+                <div className='sync-page__title'>Google fit</div>
+              </div>
+            </label>
+          </div>
+        </div>
+      </>}
+
       {/* <div className='sync-page__item'>
         <div className='sync-page__column'>
           <div className='sync-page__icon'>

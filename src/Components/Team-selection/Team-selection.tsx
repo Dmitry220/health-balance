@@ -16,6 +16,7 @@ import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
 import './team-selection.scss'
 import plug from '../../assets/image/plug.png'
 import { showToast } from '../../utils/common-functions'
+import { log } from 'console'
 
 export const TeamSelection = () => {
 
@@ -48,16 +49,16 @@ export const TeamSelection = () => {
         />
       ))}{' '}
       <br />
-        {
-          commands.length ?     <button
+      {
+        commands.length ? <button
           onClick={redirectToChallenge}
           className={existTeam ? 'team-selection-page__button _button-white' : 'team-selection-page__button _button-white disabled'}
           disabled={!existTeam}
         >
           Готово
         </button> : <h1>Команд нет!</h1>
-        }
- 
+      }
+
 
     </div>
   )
@@ -73,6 +74,8 @@ interface ITeamItem {
 }
 
 const TeamItem: FC<ITeamItem> = ({ img, title, challengeId, commandId, setExistTeam, existTeam }) => {
+
+  const [disabledTeams, setDisabledTeams] = useState(false)
 
   const joinToChallenge = async () => {
     try {
@@ -91,8 +94,9 @@ const TeamItem: FC<ITeamItem> = ({ img, title, challengeId, commandId, setExistT
       console.log(response.data.success);
       if (response.data.success) {
         await showToast('Вы в команде!')
+        setDisabledTeams(true)
         setExistTeam(true)
-        await joinToChallenge()        
+        await joinToChallenge()
       } else {
         await showToast('Ошибка!')
       }
@@ -105,20 +109,20 @@ const TeamItem: FC<ITeamItem> = ({ img, title, challengeId, commandId, setExistT
     <div className='team-selection__item team-item'>
       <Link
         to={TEAM_MEMBER_ROUTE + '/' + commandId}
-        className='team-item__column'
+        className={!existTeam ? 'team-item__column' : 'team-item__column disabled'}
       >
         <div className='team-item__img'>
           <img src={plug} alt='' />
         </div>
         <div className='team-item__title'>{title}</div>
       </Link>
-      {!existTeam && (
-        <div className='team-item__join text-blue' onClick={joinToCommand}>
+      {(!disabledTeams) && (
+        <div className={(existTeam ? disabledTeams : !existTeam) ? 'team-item__join text-blue' : 'team-item__join disabled text-blue'} onClick={joinToCommand}>
           Вступить
         </div>
       )}
-      {existTeam && (
-        <div className='team-item__joined text-yellow'>
+      {disabledTeams && (
+        <div className='team-item__join text-yellow'>
           Вы в команде <span />
         </div>
       )}

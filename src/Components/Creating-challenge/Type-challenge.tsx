@@ -1,16 +1,28 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './creating-challenge.scss'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
 import {
   setTypeChallenge,
   typeCreatingChallengeSelector
 } from '../../Redux/slice/challengeSlice'
+import { setQuantityPurpose, setRewardPurpose } from '../../Redux/slice/purposeSlice'
 
 export const TypeChallenge = () => {
   const dispatch = useAppDispatch()
+  const [resetTarget, setResetTarget] = useState<boolean>(false)
   const type = useAppSelector(typeCreatingChallengeSelector)
-  const handlerType = (e: React.ChangeEvent<HTMLInputElement>) =>
+  const handlerType = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setTypeChallenge(+e.target.value))
+    setResetTarget(true)
+  }
+
+  useEffect(() => {
+    if (resetTarget) {
+      dispatch(setRewardPurpose(0))
+      dispatch(setQuantityPurpose(0))
+    }
+
+  }, [type])
 
   return (
     <div className={'type-challenge'}>

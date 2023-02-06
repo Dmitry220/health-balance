@@ -116,7 +116,7 @@ export const TrackerPage = () => {
             <div className='tracker__recommendation small-text'>
               Оптимальное время засыпания:{' '}
               <span className='text-blue'>
-                {+hour - 8 < 0 ? 24 + (+hour - 8) : +hour - 8} :{minutes}
+                {(+hour - 8 < 0 ? 24 + (+hour - 8) : +hour - 8).toString().padStart(2, '0')} :{minutes.padStart(2, '0')}
               </span>
             </div>
           </div>
@@ -176,7 +176,7 @@ export const TrackerPage = () => {
         <SlideNextButton
           customClass={'preview__button _button-dark'}
           fruits={JSON.stringify(countFruits)}
-          wake_up_time={hour + ':' + minutes}
+          wake_up_time={hour.padStart(2, '0') + ':' + minutes.padStart(2, '0')}
           weight={weightUser}
         />
         <div className={'circle-gradient circle-gradient_green'} />
@@ -205,6 +205,7 @@ const SlideNextButton: FC<ISwiperNextButton> = ({
   const next = async () => {
     switch (swiper.activeIndex) {
       case 3:
+        console.log(wake_up_time);        
         const formData = new FormData()
         formData.append('wake_up_time', wake_up_time)
         formData.append('weight', weight)

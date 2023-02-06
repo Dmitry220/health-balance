@@ -4,13 +4,15 @@ import './tracker.scss'
 
 import { HabitsTargetItem } from './Habits-tracker-item'
 import { useAppSelector } from '../../utils/hooks/redux-hooks'
-import { trackerSelector } from '../../Redux/slice/trackerSlice'
+import { trackerSelector, tracksSelector } from '../../Redux/slice/trackerSlice'
 import TrackerService from '../../services/TrackerService'
 import { ITrack } from '../../models/ITracker'
 
 export const FruitTarget = () => {
   const tracker = useAppSelector(trackerSelector)
   const [targetsFruit, setTargtesFruits] = useState<ITrack[]>([])
+
+  const tracks = useAppSelector(tracksSelector) 
 
   const installPush = async () => {
     for (let i = 0; i < tracker.fruits; i++) {
@@ -29,24 +31,26 @@ export const FruitTarget = () => {
 
   useEffect(() => {
     (async () => {
-      const response = await TrackerService.getTracks(new Date().toLocaleDateString())
-      if(!response.data.data.find(item=>item.type === 3) && tracker.id){     
-        //await installPush()
-      }else{
-        const response = await TrackerService.getTracks(new Date().toLocaleDateString())
-        setTargtesFruits(response.data.data.filter(item=>item.type === 3))
-      }  
+      // const response = await TrackerService.getTracks(new Date().toLocaleDateString())
+      // console.log(response);
+      
+      // if(!response.data.data.find(item=>item.type === 3) && tracker.id){     
+      //   //await installPush()
+      // }else{
+      //   const response = await TrackerService.getTracks(new Date().toLocaleDateString())
+      //   setTargtesFruits(response.data.data.filter(item=>item.type === 3))
+      // }  
     })()
-  }, [tracker])
+  }, [])
 
   return (
     <div className={'fruit-target'}>
       <div className='fruit-target__container'>
-        {targetsFruit.map((item) => (
+        {tracks.fruitTrack.map((item) => (
           <HabitsTargetItem
             key={item.id}
             value={item.additional}
-            date={item.time}
+            date={item.send_time}
           />
         ))}
       </div>

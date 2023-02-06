@@ -62,7 +62,6 @@ export const CardChallenge: FC<ICardChallenge> = ({ challenge }) => {
       />
     )
   }
-console.log(challenge);
 
   return (
     <Link
@@ -98,7 +97,7 @@ console.log(challenge);
               {challenge.title}
               <div className='card-challenge__sub-title'>
                 {challenge.type === 2
-                  ? 'Вы в команде “Hardcore”'
+                  ? 'Вы в команде "' + challenge.customer_team_name + '"'
                   : 'Личное задание'}
               </div>
             </div>

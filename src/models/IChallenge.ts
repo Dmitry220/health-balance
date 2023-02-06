@@ -15,6 +15,7 @@ export interface IChallengeCard {
   active: number;
   purpose: ICreatingPurpose;
   teams?: any;
+  customer_team_name: string
   platform: {
     id: number;
     title: string;

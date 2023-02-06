@@ -8,7 +8,7 @@ import {
   REGISTRATION_ROUTE,
 } from '../../provider/constants-route'
 import { useAppDispatch } from '../../utils/hooks/redux-hooks'
-import { sendLogin } from '../../Redux/slice/authSlice'
+import { resetFieldRegistration, sendLogin } from '../../Redux/slice/authSlice'
 import { Device } from '@capacitor/device'
 import { Capacitor } from '@capacitor/core'
 import OneSignal from 'onesignal-cordova-plugin'
@@ -34,6 +34,7 @@ export const Auth = () => {
     const device_token = uuid.uuid
 
     await dispatch(sendLogin({ email, password, device_token}))
+    dispatch(resetFieldRegistration())
     OneSignalInit()    
     navigate(ACTIVITY_ROUTE)
   }

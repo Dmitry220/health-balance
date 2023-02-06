@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 import { GOAL_SLEEP__ROUTE } from '../../provider/constants-route'
 import TrackerService from '../../services/TrackerService'
 import { ITrack } from '../../models/ITracker'
-import { datesSleepSelector, isLoadingSelector, setDateSleep, trackerSelector } from '../../Redux/slice/trackerSlice'
+import { datesSleepSelector, isLoadingSelector, setDateSleep, trackerSelector, tracksSelector } from '../../Redux/slice/trackerSlice'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
 import { Preloader } from '../Preloader/Preloader'
 
@@ -19,75 +19,11 @@ export const HealthySleep: FC<IHealthySleep> = ({ editProhibition }) => {
   const dispacth = useAppDispatch()
   const tracker = useAppSelector(trackerSelector)
   const isloading = useAppSelector(isLoadingSelector)
-  const datesSleep = useAppSelector(datesSleepSelector)
-  let hour = tracker.wake_up_time.split(':')[0].length === 2
-    ? tracker.wake_up_time.split(':')[0]
-    : '0' + tracker.wake_up_time.split(':')[0]
-  let minutes = tracker.wake_up_time.split(':')[1].length === 2
-    ? tracker.wake_up_time.split(':')[1]
-    : '0' + tracker.wake_up_time.split(':')[1]
-  const morning = hour + ':' + minutes
-  const evening = (+hour - 8 < 0 ? 24 + (+hour - 8) : +hour - 8) + ':' + minutes
-
-
-
-  const [weekDay, setWeekDay] = useState<ITrack[]>([])
-  const titleWeek: string[] = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс']
-
-  // const installPush = async () => {
-  //   for (let i = 0; i < 7; i++) {
-  //     for (let j = 0; j < 2; j++) {
-  //       if (j === 0) {
-  //         await TrackerService.installPushTracker(1, morning,
-  //           new Date().setHours(+hour, +minutes, 0, 0) / 1000, titleWeek[i]
-  //         )
-  //       } else {
-  //         await TrackerService.installPushTracker(1, evening,
-  //           new Date().setHours(+hour, +minutes, 0, 0) / 1000, titleWeek[i]
-  //         )
-  //       }
-  //     }
-  //   }
-  // }
-
-
-  // const installPush = async () => {
-
-  //   for (let i = 0; i < 7; i++) {
-  //     for (let j = 0; j < 2; j++) {
-  //       if (j === 0) {
-  //         console.log(
-  //           1, morning, datesSleep[i].date.setHours(+hour, +minutes, 0, 0) / 1000, titleWeek[i]
-  //         );
-  //         console.log(1, morning, datesSleep[i].date.setHours(+hour, +minutes, 0, 0) / 1000, titleWeek[i]);
-          
-  //       } else {
-  //         console.log(
-  //           1, evening,
-  //           (datesSleep[i].date.setHours(+hour - 8 < 0 ? 24 + (+hour - 8) : +hour - 8,+minutes, 0,0) / 1000 + 86400),titleWeek[i]
-  //         );
-  //         console.log(  1, evening,
-  //           (datesSleep[i].date.setHours(+hour - 8 < 0 ? 24 + (+hour - 8) : +hour - 8,+minutes, 0,0) / 1000 + 86400),titleWeek[i]);
-          
-  //       }
-  //     }
-  //   }
-  // }
- 
-  useEffect(() => {
-    (async () => {
-      const response = await TrackerService.getTracks(new Date().toLocaleDateString())
-        
-      if (response.data.data.filter(item => item.type === 1).length <= 3 && tracker.id) {
-        console.log('sad');
-        //dispacth(setDateSleep()) 
-       
-      }
-      setWeekDay(response.data.data.filter(item => item.type === 1))
-    })()
-  }, [tracker])
-
-
+  let hour = tracker.wake_up_time.split(':')[0]
+  let minutes = tracker.wake_up_time.split(':')[1]
+  const morning = tracker.wake_up_time
+  const evening = (+hour - 8 < 0 ? 24 + (+hour - 8) : +hour - 8).toString().padStart(2, '0') + ':' + minutes
+  const tracks = useAppSelector(tracksSelector)
 
   if (isloading) {
     return <Preloader height='auto' />
@@ -123,7 +59,7 @@ export const HealthySleep: FC<IHealthySleep> = ({ editProhibition }) => {
           </div>
         </div>
         <div className='healthy-sleep__days'>
-          {weekDay.map((item) => (
+          {tracks.sleepTrack.map((item) => (
             <div className='healthy-sleep__item-day' key={item.id}>
               {!item.completed ? (
                 <div className='healthy-sleep__circle' />

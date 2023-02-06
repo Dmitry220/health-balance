@@ -24,9 +24,11 @@ export const CreatingCommandsChallenge = () => {
     //dispatch(setDisabledButton(false))
   }
 
-  useEffect(() => {
-    if (maxPeoples !== 0 && teamAmount !== 0) {
+  useEffect(() => {    
+    if (maxPeoples != 0 && teamAmount != 0) {
       dispatch(setDisabledButton(false))
+    }else{
+      dispatch(setDisabledButton(true))
     }
   }, [maxPeoples, teamAmount])
 

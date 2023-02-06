@@ -19,25 +19,11 @@ export const GoalWater = () => {
 
   const save = async () => {  
     try {
-      await TrackerService.updateTracker(tracker.id, 'weight', weightUser)
-      const response = await TrackerService.getTracks(new Date().toLocaleDateString())
-      response.data.data.forEach(async (item, i) => {
-        if(item.type === 2){
-          await TrackerService.updateTrack(
-            {
-              id:item.id, type:2,  
-            additional: Math.ceil(+((+weightUser * 35) / 1000).toFixed(1) / 10 * 1000) + ' мл'
-            }
-          )
-        }
-   
-      })
+      await TrackerService.updateTracker(tracker.id, 'weight', weightUser)   
       await showToast('Изменено успешно!')
     } catch (error) {
       await showToast('Ошибка!')
-    }  
-   
-   
+    }
   }
 
 

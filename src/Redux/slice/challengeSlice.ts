@@ -230,9 +230,16 @@ export const challengeSlice = createSlice({
       }
     );
     builder.addCase(
+      getMembersCommandList.pending,
+      (state) => {
+        state.isLoading = true;
+      }
+    );
+    builder.addCase(
       getMembersCommandList.fulfilled,
       (state, action: PayloadAction<IMembersCommandList>) => {
         state.membersCommandList = action.payload;
+        state.isLoading = false;
       }
     );
   },

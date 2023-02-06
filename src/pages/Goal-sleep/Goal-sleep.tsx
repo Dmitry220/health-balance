@@ -17,14 +17,8 @@ export const GoalSleep = () => {
   const tracker = useAppSelector(trackerSelector)
   const itemsHour = getItemsHour()
   const itemsMinutes = getItemsMinutes()
-  const [hour, setHour] = useState<string>(
-    tracker.wake_up_time.split(':')[0].length === 2
-      ? tracker.wake_up_time.split(':')[0][1]
-      : tracker.wake_up_time.split(':')[0] + ''
-  )
-  const [minutes, setMinutes] = useState<string>(
-    tracker.wake_up_time.split(':')[1] + ''
-  )
+  const [hour, setHour] = useState<string>((+tracker.wake_up_time.split(':')[0]).toString())
+  const [minutes, setMinutes] = useState<string>((+tracker.wake_up_time.split(':')[1]).toString())
 
   const changeHour = (value: string) => setHour(value)
   const changeMinutes = (value: string) => setMinutes(value)
@@ -36,28 +30,13 @@ export const GoalSleep = () => {
       await TrackerService.updateTracker(
         tracker.id,
         'wake_up_time',
-        hour + ':' + minutes
+        hour.padStart(2, '0') + ':' + minutes.padStart(2, '0')
       )
-
-      const response = await TrackerService.getTracks(new Date().toLocaleDateString())
-      response.data.data.forEach(async (item, i) => {
-        if(item.type === 1 || item.type === 3){
-          await TrackerService.updateTrack(
-            {
-              id: item.id,
-              time: Math.ceil(+(hour + ':' + minutes).split(':')[0] + 1.6 * i) + ':' + minutes,
-              send_time: new Date().setHours(Math.ceil(+(hour + ':' + minutes).split(':')[0] + 1.6 * i), +minutes, 0, 0) / 1000,
-            }
-          )
-        }
-  
-      })
 
       await showToast('Изменено успешно!')
     } catch (error) {
       await showToast('Ошибка!')
     }
-
   }
 
   return (
@@ -97,10 +76,8 @@ export const GoalSleep = () => {
       <div className='goal-sleep__recommendation small-text'>
         Оптимальное время засыпания:{' '}
         <span className='text-blue'>
-          {outputHour.toLocaleString().length === 2
-            ? outputHour
-            : '0' + outputHour}
-          :{minutes.length === 2 ? minutes : '0' + minutes}
+          {outputHour.toLocaleString().padStart(2, '0')}
+          :{minutes.padStart(2, '0')}
         </span>
       </div>
       <button className='goal-sleep__button _button-white' onClick={save}>
