@@ -97,7 +97,7 @@ export const Editing = () => {
 
   if(isLogoutModal){
     return <ModalExit actionCallback={async ()=>{
-      const response = await AuthService.deleteCustomerAccount(id)
+      const response = await AuthService.deleteCustomerAccount()
       if(response.data.success){
         dispatch(logout())
         await showToast('Ваш аккаунт успешно удален!')

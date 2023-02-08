@@ -65,7 +65,7 @@ export default class AuthService {
     });
   }
 
-  static async deleteCustomerAccount(idCustomer:number) {
-    return $api.delete(`/v2/customers/${idCustomer}`);
+  static async deleteCustomerAccount() {
+    return $api.delete(`/v2/customers?token=${localStorage.getItem("token")}`);
   }
 }

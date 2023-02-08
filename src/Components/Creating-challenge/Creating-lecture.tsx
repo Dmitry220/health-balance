@@ -98,10 +98,12 @@ export const CreatingLecture = () => {
     const END_DATE = new Date()
     END_DATE.setDate(END_DATE.getDate() + 3)
     setPhotoPath('')
+    setCorrectAnswer(0)
     setImage('')
     setStartDate(new Date())
     setEndDate(END_DATE)
     reset()
+    append({ answer: "" })
   }
 
   const addLecture = handleSubmit(
@@ -135,7 +137,6 @@ export const CreatingLecture = () => {
         default:
           break
       }
-      console.log(data);
       try {
         const response = await LessonService.createLesson(formData)
         if (response.data.success) {
@@ -233,7 +234,10 @@ export const CreatingLecture = () => {
                   className={
                     correctAnswer === index
                       ? 'choice-answer__input _field + choice-answer__input_corrected'
-                      : 'choice-answer__input _field'
+                      
+                      : ( correctAnswer === -1 ? 'choice-answer__input _field + choice-answer__input_corrected'
+                        :
+                        'choice-answer__input _field')
                   }
                   {...register(`answers.${index}.answer`, {
                     required: true
@@ -253,6 +257,13 @@ export const CreatingLecture = () => {
             </button>
             <button className='choice-answer__button choice-answer__button_del' type="button"
               onClick={() => allFiled.answers.length > 1 && remove(allFiled.answers.length - 1)}>Удалить ответ</button>
+            <button
+              className='choice-answer__button choice-answer__button_suc'
+              type="button"
+              onClick={() => setCorrectAnswer(-1)}
+            >
+              Все правильные
+            </button>
           </div>
         </div>
       )}

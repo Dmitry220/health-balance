@@ -26,17 +26,29 @@ export const AnswerOptions = () => {
 
   const [showModal, setShowModal] = useState<boolean>(false)
 
+  const sendAnswer = async (lessonId: number) => {
+    const params = new FormData()
+    params.append('answer', value)
+    try {
+      await LessonService.complete(params, lessonId)
+      setShowModal(true)
+    } catch (error) {
+      await showToast('Ошибка')
+     }
+  }
+
   const complete = async () => {
-    if (+value === lesson?.correct_answer) {
-      const params = new FormData()
-      params.append('answer', value)
-      try {
-        await LessonService.complete(params, lesson.id)
-        setShowModal(true)
-      } catch (error) {}
+ 
+    if (lesson?.correct_answer === -1 && value) {
+      await sendAnswer(lesson.id)
     } else {
-      await showToast('Вы неправильно ответили на вопрос')
+      if (+value === lesson?.correct_answer) {
+        await sendAnswer(lesson.id)
+      } else {
+        await showToast('Вы неправильно ответили на вопрос')
+      }
     }
+
   }
 
   useEffect(() => {
@@ -65,7 +77,7 @@ export const AnswerOptions = () => {
         {answers?.map((answer, i) => (
           <div key={i}>
             <input
-              type='radio'
+              type={'radio'}
               id={i + ''}
               className={'custom-checkbox__radio'}
               name={'radio'}

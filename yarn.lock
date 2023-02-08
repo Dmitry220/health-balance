@@ -1158,11 +1158,6 @@
   "resolved" "https://registry.npmjs.org/@capacitor/ios/-/ios-4.6.1.tgz"
   "version" "4.6.1"
 
-"@capacitor/push-notifications@^4.1.2":
-  "integrity" "sha512-ok6CGvedwK1azmf8VWhrNlg6jhi4PFz3HoyS0GNE2ew7+JGnxN77sgK5q1TVzdkge+vkqipO6uu5bD1xfj/pWQ=="
-  "resolved" "https://registry.npmjs.org/@capacitor/push-notifications/-/push-notifications-4.1.2.tgz"
-  "version" "4.1.2"
-
 "@capacitor/toast@^4.1.0":
   "integrity" "sha512-hU3GoA1dT+dsMuDOlEeiaU2mdd4VCLvIzgbp7Vk0Mqy9tbg++W4t7hcewlawzJGs6FxH59rIekf2lz7m4ir33w=="
   "resolved" "https://registry.npmjs.org/@capacitor/toast/-/toast-4.1.0.tgz"
