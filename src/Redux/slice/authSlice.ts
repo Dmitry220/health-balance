@@ -86,10 +86,10 @@ export const requestRegistration = createAsyncThunk(
 );
 
 export const sendLogin = createAsyncThunk("login", async (data: ILogin) => {
-  const { email, password, device_token } = data;
+  const { email, password, device_token,timezone } = data;
 
   try {
-    const response = await AuthService.login(email, password, device_token);
+    const response = await AuthService.login(email, password, device_token,timezone);
 
     localStorage.setItem("token", response.data.data.token);
     localStorage.setItem("id", response.data.data.id + "");

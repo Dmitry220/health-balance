@@ -27,12 +27,14 @@ export default class AuthService {
   static async login(
     email: string,
     password: string,
-    device_token: string
+    device_token: string,
+    timezone: number
   ): Promise<AxiosResponse<IAuthResponse>> {
     const formData = new FormData();
     formData.append("email", email);
     formData.append("password", password);
     formData.append("device_token", device_token);
+    formData.append("timezone", timezone+'');
     return $api.post("/v2/login", formData, {
       headers: {
         accept: "application/json",
@@ -61,5 +63,9 @@ export default class AuthService {
         "Content-Type": `multipart/form-data`,
       },
     });
+  }
+
+  static async deleteCustomerAccount(idCustomer:number) {
+    return $api.delete(`/v2/customers/${idCustomer}`);
   }
 }

@@ -14,7 +14,8 @@ export interface IRegistration {
 export interface ILogin {
   email: string
   password: string,
-  device_token: string
+  device_token: string,
+  timezone: number
 }
 
 export interface IAuthResponse {

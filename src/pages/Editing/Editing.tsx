@@ -17,6 +17,10 @@ import ru from 'date-fns/locale/ru'
 import photo from '../../assets/image/icon-camera-add.svg'
 import FileService from '../../services/FilesServices'
 import { IMAGE_URL } from '../../http'
+import { ModalExit } from '../../Components/Modals/Modal-exit'
+import { useNavigate } from 'react-router-dom'
+import { logout } from '../../Redux/slice/authSlice'
+import AuthService from '../../services/AuthService'
 
 registerLocale('ru', ru)
 
@@ -38,12 +42,13 @@ export const Editing = () => {
   } = useForm<FormData>()
 
   const dataUser = useAppSelector(dataUserSelector)
-  const isSuccesfullRequest = useAppSelector(isSuccesfullRequestSelector)
+  const [isLogoutModal, setLogoutModal] = useState<boolean>(false)
   const id = Number(localStorage.getItem('id'))
   const [avatar, setAvatar] = useState<any>()
   const [photoPath, setPhotoPath] = useState<any | null>(null)
   const [isLoadingAvatar, setIsLoadingAvatar] = useState<boolean>(false)
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
 
   const showToast = async (text: string) => {
     await Toast.show({
@@ -89,6 +94,21 @@ export const Editing = () => {
       await showToast('Изображения нет')
     }
   }
+
+  if(isLogoutModal){
+    return <ModalExit actionCallback={async ()=>{
+      const response = await AuthService.deleteCustomerAccount(id)
+      if(response.data.success){
+        dispatch(logout())
+        await showToast('Ваш аккаунт успешно удален!')
+      }else{
+        await showToast('Ошибка')
+      }     
+    }} 
+    closeCallback={setLogoutModal}
+    text={"Вы действительно хотите удалить аккаунт?"}
+    />
+ }
 
   return (
     <form className={'editing'} onSubmit={onSubmit}>
@@ -220,6 +240,11 @@ export const Editing = () => {
             />
           )}
         />
+      </div>
+      <div className='editing__row'>
+        <div className='editing__delete'onClick={() => setLogoutModal(true)}>
+          Удалить аккаунт
+        </div>
       </div>
     </form>
   )

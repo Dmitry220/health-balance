@@ -32,8 +32,9 @@ export const Auth = () => {
     e.preventDefault()    
     const uuid = await Device.getId()   
     const device_token = uuid.uuid
-
-    await dispatch(sendLogin({ email, password, device_token}))
+    const timezone = -new Date().getTimezoneOffset()/60
+        
+    await dispatch(sendLogin({ email, password, device_token,timezone}))
     dispatch(resetFieldRegistration())
     OneSignalInit()    
     navigate(ACTIVITY_ROUTE)

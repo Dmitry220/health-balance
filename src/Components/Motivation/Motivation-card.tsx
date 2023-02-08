@@ -71,7 +71,7 @@ export const MotivationCard = () => {
                 {news.comments}
               </div>
             </div>
-            <div className='motivation-card__content'>{news.content}</div>
+            <div className='motivation-card__content' dangerouslySetInnerHTML={{ __html: news.content }}></div>
           </div>
         </div>
       )}
