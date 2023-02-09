@@ -72,9 +72,9 @@ const ButtonSubmit: FC<IFurtherButton> = ({ order, setOrder }) => {
     const uuid = await Device.getId()
 
     const device_token = uuid.uuid
-
+    const timezone = -new Date().getTimezoneOffset()/60 
     try {
-      await AuthService.registration(
+      const response = await AuthService.registration(
         name,
         surname,
         birthday,
@@ -84,11 +84,16 @@ const ButtonSubmit: FC<IFurtherButton> = ({ order, setOrder }) => {
         email,
         password,
         device_token,
-        platform
+        platform,
+        timezone
       )
-      await showToast('Регистрация прошла успешно!')
-      dispatch(resetFieldRegistration())
-      navigate(LOGIN_ROUTE)
+      if(response.data.success){
+        await showToast('Регистрация прошла успешно!')
+        dispatch(resetFieldRegistration())
+        navigate(LOGIN_ROUTE)
+      }else{
+        await showToast('Ошибка!')
+      } 
     } catch (e) {
       setOrder(0)
       const error = e as AxiosError<any>

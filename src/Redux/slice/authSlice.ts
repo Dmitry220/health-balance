@@ -36,6 +36,7 @@ const initialState: IAuth = {
     platform: 0,
     avatar: "",
     device_token: "",
+    timezone:-new Date().getTimezoneOffset()/60 
   },
   visitPages: {
     activity: 0,
@@ -44,46 +45,6 @@ const initialState: IAuth = {
   },
 };
 
-export const requestRegistration = createAsyncThunk(
-  "requestRegistration",
-  async (data: IRegistration) => {
-    const {
-      name,
-      surname,
-      birthday,
-      gender,
-      avatar,
-      phone,
-      email,
-      password,
-      device_token,
-      platform,
-    } = data;
-
-    try {
-      const response = await AuthService.registration(
-        name,
-        surname,
-        birthday,
-        gender,
-        avatar,
-        phone,
-        email,
-        password,
-        device_token,
-        platform
-      );
-      return response.data;
-    } catch (e) {
-      const error = e as AxiosError<any>;
-      if (error.response?.data.errors.email[0]) {
-        await showToast("Пользователь с таким email уже существует!");
-      } else {
-        await showToast("Ошибка!");
-      }
-    }
-  }
-);
 
 export const sendLogin = createAsyncThunk("login", async (data: ILogin) => {
   const { email, password, device_token,timezone } = data;
@@ -167,6 +128,7 @@ export const authSlice = createSlice({
         platform: 0,
         avatar: "",
         device_token: "",
+        timezone:-new Date().getTimezoneOffset()/60 
       }
     },
     logout: (state) => {

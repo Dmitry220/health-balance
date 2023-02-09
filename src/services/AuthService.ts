@@ -13,10 +13,11 @@ export default class AuthService {
     email: string,
     password: string,
     device_token: string,
-    platform: number
+    platform: number,
+    timezone:number
   ) {
 
-    return $api.post("/v2/customers", {email,password,name,surname,gender,avatar,birthday,device_token,platform,phone}, {
+    return $api.post("/v2/customers", {email,password,name,surname,gender,avatar,birthday,device_token,platform,phone,timezone}, {
       headers: {
         accept: "application/json",
         "Content-Type": `multipart/form-data`,

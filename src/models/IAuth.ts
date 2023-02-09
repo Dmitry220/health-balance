@@ -8,7 +8,8 @@ export interface IRegistration {
   gender: number
   platform: number
   avatar: string
-  device_token: string
+  device_token: string,
+  timezone: number
 }
 
 export interface ILogin {
