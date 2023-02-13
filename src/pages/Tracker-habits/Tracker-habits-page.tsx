@@ -31,15 +31,8 @@ export const TrackerHabitsPage = () => {
 
   useEffect(() => {
     dispatch(getTracker())
-    dispatch(getTracks())
+    dispatch(getTracks(new Date().toLocaleDateString()))
   }, [])
-
-  // console.log('track');
-  
-
-  // if(isLoading){
-  //   return <Preloader />
-  // }
 
   return (
     <div className={'tracker-habits-page'}>

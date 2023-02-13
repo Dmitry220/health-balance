@@ -12,7 +12,7 @@ import { birthdaySelector, setBirthday, setDisabledButton } from '../../Redux/sl
 export const Birthday = () => {
   const itemDays = getItemsDays()
   const itemMonths = getItemsMonth()
-  const itemYears = getItemsYear(1970, 2020)
+  const itemYears = getItemsYear(new Date().getFullYear()-80, new Date().getFullYear()-18)
 
   const dispatch = useAppDispatch()
   const birhday = useAppSelector(birthdaySelector)

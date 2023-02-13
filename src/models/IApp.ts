@@ -6,7 +6,8 @@ export interface IStepsPerDay {
   id: number;
   quantity: number;
   date: number;
-  finished: number | null
+  finished: boolean,
+  day: string
 }
 
 export interface IStepsPerWeek {

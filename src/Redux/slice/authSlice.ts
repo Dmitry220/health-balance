@@ -31,7 +31,7 @@ const initialState: IAuth = {
     password: "",
     name: "",
     surname: "",
-    birthday: 1029528000,
+    birthday: new Date('07.15.'+(new Date().getFullYear()-23).toString()).setHours(0,0,0,0)/1000,
     gender: 1,
     platform: 0,
     avatar: "",

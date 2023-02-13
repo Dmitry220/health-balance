@@ -8,8 +8,8 @@ import { useAppSelector } from '../../utils/hooks/redux-hooks'
 import { trackerSelector } from '../../Redux/slice/trackerSlice'
 
 export const GoalWater = () => {
-  const startValueWeight = 0
-  const endValueWeight = 100
+  const startValueWeight = 40
+  const endValueWeight = 200
   const tracker = useAppSelector(trackerSelector)
   const itemsWeight = getItemsWeight(startValueWeight, endValueWeight, 'кг')
 

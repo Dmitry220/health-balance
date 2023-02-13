@@ -10,12 +10,12 @@ export const FruitTarget = () => {
   return (
     <div className={'fruit-target'}>
       <div className='fruit-target__container'>
-        {tracks.fruitTrack.map((item) => (
+        {tracks.fruitTrack.length ? tracks.fruitTrack.map((item) => (
           <HabitsTargetItem
             key={item.id}
             track={item}         
           />
-        ))}
+        )) : <h1>Данных нет</h1>}
       </div>
     </div>
   )

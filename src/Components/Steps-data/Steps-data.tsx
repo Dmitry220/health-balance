@@ -10,21 +10,21 @@ import { purposeSelector } from '../../Redux/slice/purposeSlice'
 import { sklonenie } from '../../utils/common-functions'
 
 export const StepsData = () => {
-  const purpose = useAppSelector(purposeSelector)
-  const steps = useAppSelector(stepsPerDaySelector)
-  const currentStepsCount = useAppSelector(currentStepsCountSelector)
-  const sortStepsForDate = steps
-    ? steps?.slice().sort((a, b) => a.date - b.date)
-    : []
-  let currentProgressPurpose =purpose && steps
-    ? sortStepsForDate[sortStepsForDate.length - 1]?.finished === 1
-      ? 100
-      : ((currentStepsCount * 100) / purpose?.quantity).toFixed(2)
-    : 0
+  // const purpose = useAppSelector(purposeSelector)
+  // const steps = useAppSelector(stepsPerDaySelector)
+  // const currentStepsCount = useAppSelector(currentStepsCountSelector)
+  // const sortStepsForDate = steps
+  //   ? steps?.slice().sort((a, b) => a.date - b.date)
+  //   : []
+  // let currentProgressPurpose =purpose && steps
+  //   ? sortStepsForDate[sortStepsForDate.length - 1]?.finished === 1
+  //     ? 100
+  //     : ((currentStepsCount * 100) / purpose?.quantity).toFixed(2)
+  //   : 0
 
   return (
     <div className={'steps-data'}>
-      <div className='steps-data__content'>
+      {/* <div className='steps-data__content'>
         <article className='steps-data__card'>
           <div className='steps-data__value'>{currentProgressPurpose}%</div>
           <div className='steps-data__text'>
@@ -91,7 +91,7 @@ export const StepsData = () => {
             получено
           </div>
         </article>
-      </div>
+      </div> */}
     </div>
   )
 }

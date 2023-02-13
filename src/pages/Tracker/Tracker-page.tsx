@@ -25,13 +25,11 @@ export const TrackerPage = () => {
   const trackerVisitCount = useAppSelector(visitPagesSelector)
   const dispatch = useAppDispatch()
 
-  const startValueWeight = 0
-  const endValueWeight = 100
+  const startValueWeight = 40
+  const endValueWeight = 200
 
   const itemsWeight = getItemsWeight(startValueWeight, endValueWeight, 'кг')
-  const [weightUser, setWeightUser] = useState<string>(
-    (startValueWeight + endValueWeight) / 2 + ''
-  )
+  const [weightUser, setWeightUser] = useState<string>('80')
   const [countFruits, setCountFruits] = useState<number>(0)
 
   const changeWeight = (value: string) => setWeightUser(value)

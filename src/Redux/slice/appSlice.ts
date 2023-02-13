@@ -249,18 +249,18 @@ export const appSlice = createSlice({
   initialState,
   reducers: {
     setActualStepsbyWeek: (state) => {
-      state.steps?.forEach(
-        (step) =>
-          (state.days = state.days.map((label) =>
-            label.date === step.date
-              ? {
-                  ...label,
-                  quantity: step.quantity,
-                  finished: step.finished,
-                }
-              : label
-          ))
-      );
+      // state.steps?.forEach(
+      //   (step) =>
+      //     (state.days = state.days.map((label) =>
+      //       label.date === step.date
+      //         ? {
+      //             ...label,
+      //             quantity: step.quantity,
+      //             finished: step.finished,
+      //           }
+      //         : label
+      //     ))
+      // );
     },
     setCurrentStepsCount(state, action) {
       state.currentStepsCount = action.payload;

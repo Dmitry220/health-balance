@@ -91,12 +91,10 @@ export const getTracker = createAsyncThunk("getTracker", async () => {
   return response.data.data;
 });
 
-export const getTracks = createAsyncThunk("getTracks", async () => {
-  const response = await TrackerService.getTracks(new Date().toLocaleDateString());
+export const getTracks = createAsyncThunk("getTracks", async (date:string) => {
+  const response = await TrackerService.getTracks(date);
   return response.data.data;
 });
-
-
 
 export const trackerSlice = createSlice({
   name: "trackerSlice",

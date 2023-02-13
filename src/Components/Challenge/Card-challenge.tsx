@@ -109,14 +109,10 @@ export const CardChallenge: FC<ICardChallenge> = ({ challenge }) => {
         </div>
         <div className='card-challenge__data'>
           <div className='card-challenge__days'>
-            {new Date(
-              challenge.end_date * 1000 - challenge.start_date * 1000
-            ).getDate()}{' '}
+            {Math.ceil(Math.abs(challenge.end_date*1000 - challenge.start_date*1000) / (1000 * 3600 * 24))}
             <span>
               {sklonenie(
-                new Date(
-                  challenge.end_date * 1000 - challenge.start_date * 1000
-                ).getDate(),
+                Math.ceil(Math.abs(challenge.end_date*1000 - challenge.start_date*1000) / (1000 * 3600 * 24)),
                 ['день', 'дня', 'дней']
               )}
             </span>

@@ -16,7 +16,7 @@ export const WaterTarget = () => {
   return (
     <div className={'water-target'}>
       <div className='water-target__container'>
-        {tracks.waterTrack.map(item => <HabitsTargetItem key={item.id} track={item} />)}
+        {tracks.waterTrack.length ? tracks.waterTrack.map(item => <HabitsTargetItem key={item.id} track={item} />) : <h1>Данных нет</h1> }
       </div>
     </div>
   )

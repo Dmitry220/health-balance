@@ -8,20 +8,28 @@ interface IModalSuccess {
   subTitle?: string
   textButton?: string
   route?: any
-  reward?: number
+  reward?: number,
+  title?: string,
+  setShowModal?:  Dispatch<SetStateAction<boolean>>
+  showModal?: boolean 
 }
 
 export const ModalSuccess: FC<IModalSuccess> = ({
   reward,
   subTitle,
   textButton,
-  route
+  route,
+  setShowModal,
+  showModal,
+  title
 }) => {
   const navigation = useNavigate()
 
   const handler = () => {
     if (route) {
       navigation(route)
+    }else{      
+      setShowModal&&setShowModal(false)
     }
   }
 
@@ -34,7 +42,7 @@ export const ModalSuccess: FC<IModalSuccess> = ({
         <div className='modal-status__icon'>
           <img src={icon} alt='icon' />
         </div>
-        <div className='modal-status__title'>Задание выполнено</div>
+        <div className='modal-status__title'>{title||'Задание выполнено'}</div>
         <div className='modal-status__sub-title'>
           {subTitle || 'Ваша награда: '} <RewardCount count={reward || 0} />
         </div>

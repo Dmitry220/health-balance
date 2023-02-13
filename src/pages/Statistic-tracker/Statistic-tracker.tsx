@@ -6,21 +6,32 @@ import { HealthySleep } from '../../Components/Tracker/Healthy-sleep'
 import { WaterTarget } from '../../Components/Tracker/Water-target'
 import { FruitTarget } from '../../Components/Tracker/Fruit-target'
 import DayStatistic from '../../Components/Tracker/Day-statistic'
+import ReactDatePicker,{registerLocale} from 'react-datepicker'
+import { useAppDispatch } from '../../utils/hooks/redux-hooks'
+import { getTracks } from '../../Redux/slice/trackerSlice'
+import ru from 'date-fns/locale/ru'
 
 export const StatisticTracker = () => {
   const namesTabsDynamics = ['Сон', 'Вода', 'Фрукты']
   const [currentValueTab, setCurrentValueTab] = useState<number>(0)
-
-  const convertDate = (date: string) => {
-    const dateArr = date.split('-')
-    return dateArr[2] + '.' + dateArr[1] + '.' + dateArr[0]
-  }
+  const [startDate, setStartDate] = useState<Date>(new Date());
+  const dispatch = useAppDispatch()
 
   return (
     <div className='statistic-tracker'>
       <Header title='Статистика трекера' />
-
-      {/* <DayStatistic date={new Date().toLocaleDateString()} /> */}
+      <div className="statistic-tracker__calendar">
+        <ReactDatePicker
+          selected={startDate}
+          onChange={(date: Date) => {
+            setStartDate(date)
+            dispatch(getTracks(date.toLocaleDateString()))
+          }}
+          locale={ru}
+          inline
+        />
+      </div>
+      <DayStatistic date={startDate.toLocaleDateString()} />
       <Tabs
         labels={namesTabsDynamics}
         onClick={setCurrentValueTab}

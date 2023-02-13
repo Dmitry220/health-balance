@@ -258,20 +258,19 @@ const Graphs = () => {
   const months = useAppSelector(monthsSelector)
   const weeks = useAppSelector(weeksSelector)
   const purpose = useAppSelector(purposeSelector)
-  const sortStepsForDate = steps
-  ? steps?.slice().sort((a, b) => a.date - b.date)
-  : []
+  const sortStepsForDate =  Object.values(steps)
+
   const percent = purpose
-  ? sortStepsForDate[sortStepsForDate.length - 1]?.finished === 1
+  ? sortStepsForDate[sortStepsForDate.length - 1]?.finished
     ? 100
     : ((currentStepsCount * 100) / purpose?.quantity).toFixed(2)
   : 0
 
   const dataDay = {
-    labels: days ? days.map((item) => item.title) : [],
+    labels: sortStepsForDate ? sortStepsForDate.map((item) => item.day) : [],
     datasets: [
       {
-        data: days ? days.map((item) => item.quantity) : [],
+        data: sortStepsForDate ? sortStepsForDate.map((item) => item.quantity) : [],
         backgroundColor: function (context: any) {
           const chart = context.chart
           const { ctx, chartArea } = chart
@@ -338,13 +337,13 @@ const Graphs = () => {
       await dispatch(getStepsPerDay(data))
       await dispatch(getStepsPerMonth(dataMonth))
       await dispatch(getStepsPerWeek(dataWeek)) 
-      dispatch(setDaysWeek())
-      dispatch(setActualStepsbyWeek())       
+      // dispatch(setDaysWeek())
+      // dispatch(setActualStepsbyWeek())       
       dispatch(setMonths())
       dispatch(setWeeks())
     }
     asyncQuery()
-  }, [currentStepsCount])
+  }, [])
  
   return (
     <div className='activity-page__dynamics dynamics'>

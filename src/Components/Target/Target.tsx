@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from 'react'
 import './target.scss'
 import icon_status_full from '../../assets/image/icon_purpose__status_full.svg'
 import { Link } from 'react-router-dom'
-import { NEW_TARGET_ROUTE } from '../../provider/constants-route'
+import { ACTIVITY_ROUTE, NEW_TARGET_ROUTE } from '../../provider/constants-route'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
 import {
   getPersonalPurpose,
@@ -10,8 +10,9 @@ import {
 } from '../../Redux/slice/purposeSlice'
 import { IPurpose } from '../../models/IPurpose'
 import { IStepsPerDay } from '../../models/IApp'
-import { currentStepsCountSelector, daysSelector, setActualStepsbyWeek, setDaysWeek, stepsPerDaySelector } from '../../Redux/slice/appSlice'
+import { daysSelector, getBalance, stepsPerDaySelector } from '../../Redux/slice/appSlice'
 import PurposeService from '../../services/PurposeService'
+import { ModalSuccess } from '../Modals/Modal-success'
 
 interface ITarget {
   purpose?: IPurpose | null,
@@ -22,25 +23,13 @@ interface ITarget {
 export const Target: FC<ITarget> = () => {
 
   const dispatch = useAppDispatch()
-  const days = useAppSelector(daysSelector)  
+  const days = useAppSelector(daysSelector)
   const purpose = useAppSelector(purposeSelector)
+  const steps = useAppSelector(stepsPerDaySelector)
 
-  useEffect(()=>{
+  useEffect(() => {
     dispatch(getPersonalPurpose())
   }, [])
-
-  // useEffect(() => {
-  //   // dispatch(setDaysWeek())
-  //   // overwriteDaysWeek()
-  //   console.log('target');
-    
-   
-  // }, [steps])
-
-
-  // const overwriteDaysWeek = () => {
-  //   steps?.forEach(item=>dispatch(setActualStepsbyWeek(item)))    
-  // }
 
   return (
     <div className={'target'}>
@@ -55,10 +44,14 @@ export const Target: FC<ITarget> = () => {
         </div>
         <div className='target__body'>
           {
-            purpose&&days.map(
-              item => 
-              <CircleDays key={item.id} id={purpose.id} date={item.date} finished={item.finished} title={item.title} percent={(item.quantity * 100 / purpose.quantity)>=100 ? 100:item.quantity * 100 / purpose.quantity} />)
-          }         
+            purpose && Object.values(steps).map(
+              (item,i) =>
+                <CircleDays key={i} 
+                 id={purpose.id} item={item}
+                  reward={purpose.reward}
+                  percent={(item.quantity * 100 / purpose.quantity) >= 100 ? 100 : item.quantity * 100 / purpose.quantity} 
+                  />)
+          }
         </div>
       </div>
     </div>
@@ -66,27 +59,40 @@ export const Target: FC<ITarget> = () => {
 }
 
 interface IDays {
-  title: string
   percent: number,
-  finished: null | number
   id: number,
-  date: number
+  reward: number,
+  item:IStepsPerDay
 }
 
-export const CircleDays: FC<IDays> = ({ title, percent,finished,id,date }) => {
+export const CircleDays: FC<IDays> = (
+  { percent, item, id, reward }
+  ) => {
 
   const circleOutlineLength: number = 295
-  const currentStepsCount = useAppSelector(currentStepsCountSelector)
+  const [showModal, setShowModal] = useState<boolean>(false)
 
-  useEffect(()=>{
-    if(percent >= 100 && finished === null && (new Date(date).getTime() === date)){     
-      PurposeService.completePersonalPurpose(id)
-    }
-  }, [currentStepsCount])
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    (async () => {
+      if (percent >= 100 && item.finished && new Date().setHours(0, 0, 0, 0) / 1000 === item.date) {
+        // const response = await PurposeService.completePersonalPurpose(id)
+        // if (response.data.success) {
+        //   setShowModal(true)
+        // }
+        setShowModal(true)       
+      }
+    })()
+  }, [percent])
+
+  if (showModal) {
+    return <ModalSuccess setShowModal={setShowModal} showModal={showModal} subTitle='Ваша награда' reward={reward} title={'Личная цель на сегодня выполнена'} />
+  }
 
   return (
     <div className='target__days days'>
-      {finished === 1 ? (
+      {item.finished ? (
         <img src={icon_status_full} alt='' className='days__circle' />
       ) : (
         <svg className='days__circle' viewBox='0 0 100 100'>
@@ -110,7 +116,7 @@ export const CircleDays: FC<IDays> = ({ title, percent,finished,id,date }) => {
           ></path>
         </svg>
       )}
-      <div className='days__text'>{title}</div>
+      <div className='days__text'>{item.day}</div>
     </div>
   )
 }
