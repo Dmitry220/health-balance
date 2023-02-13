@@ -72,9 +72,15 @@ export const CreatingInteresting = () => {
 
   const publish = async () => {
     if (dataNews.title && dataNews.annotation && dataNews.category && dataNews.content) {
-      await dispatch(creatingNews())
-      reset()
-      setShowModal(true)
+      await dispatch(creatingNews()).then(e=>{
+        if(e.payload){
+          reset()
+          setShowModal(true)
+        }else{
+          showToast('Ошибка')
+        }      
+      })
+     
     } else {
       await showToast('Вы заполнили не все поля!')
     }

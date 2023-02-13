@@ -8,14 +8,7 @@ import { getWeek } from "../../utils/common-functions";
 interface AppState {
   balance: number;
   currentStepsCount: number;
-  steps: IStepsPerDay[] | [];
-  days: {
-    id: number;
-    quantity: number;
-    date: number;
-    title: string;
-    finished: null | number;
-  }[];
+  steps: {statistic:IStepsPerDay[],difference:number};
   months: {
     id: number;
     title: string;
@@ -35,58 +28,7 @@ interface AppState {
 const initialState: AppState = {
   balance: 0,
   currentStepsCount: 0,
-  steps: [],
-  days: [
-    {
-      id: 1,
-      quantity: 0,
-      date: 0,
-      title: "Пн",
-      finished: null,
-    },
-    {
-      id: 2,
-      quantity: 0,
-      date: 0,
-      title: "Вт",
-      finished: null,
-    },
-    {
-      id: 3,
-      quantity: 0,
-      date: 0,
-      title: "Ср",
-      finished: null,
-    },
-    {
-      id: 4,
-      quantity: 0,
-      date: 0,
-      title: "Чт",
-      finished: null,
-    },
-    {
-      id: 5,
-      quantity: 0,
-      date: 0,
-      title: "Пт",
-      finished: null,
-    },
-    {
-      id: 6,
-      quantity: 0,
-      date: 0,
-      title: "Сб",
-      finished: null,
-    },
-    {
-      id: 7,
-      quantity: 0,
-      date: 0,
-      title: "Вс",
-      finished: null,
-    },
-  ],
+  steps: {difference:0,statistic:[]},
   months: [
     {
       id: 1,
@@ -248,56 +190,10 @@ export const appSlice = createSlice({
   name: "app",
   initialState,
   reducers: {
-    setActualStepsbyWeek: (state) => {
-      // state.steps?.forEach(
-      //   (step) =>
-      //     (state.days = state.days.map((label) =>
-      //       label.date === step.date
-      //         ? {
-      //             ...label,
-      //             quantity: step.quantity,
-      //             finished: step.finished,
-      //           }
-      //         : label
-      //     ))
-      // );
-    },
     setCurrentStepsCount(state, action) {
       state.currentStepsCount = action.payload;
     },
-    setDaysWeek: (state) => {
-      let weekNow = new Date().getDay();
-
-      state.days = state.days.map((item) => {
-        if (weekNow != 0) {
-          if (weekNow <= item.id) {
-            return {
-              ...item,
-              date:
-                new Date(
-                  new Date().setDate(new Date().getDate() + (item.id - weekNow))
-                ).setHours(0, 0, 0, 0) / 1000,
-            };
-          } else {
-            return {
-              ...item,
-              date:
-                new Date(
-                  new Date().setDate(new Date().getDate() - (weekNow - item.id))
-                ).setHours(0, 0, 0, 0) / 1000,
-            };
-          }
-        } else {
-          return {
-            ...item,
-            date:
-              new Date(
-                new Date().setDate(new Date().getDate() - (7 - item.id))
-              ).setHours(0, 0, 0, 0) / 1000,
-          };
-        }
-      });
-    },
+    
     setMonths: (state) => {
       let array = state.monthData
         ? Object.values(current(state.monthData))
@@ -320,11 +216,12 @@ export const appSlice = createSlice({
         array.forEach((year: any, i) => {
           Object.keys(year).map((week: any, index: number) => {
             state.weeks = state.weeks.map((item, indexWeek) => {
-              let dateWeekNow = new Date(state.days[0].date * 1000);
+              let dateWeekNow = new Date(state.steps.statistic[0].date*1000);
               let numberWeek =
                 weekNow[1] - indexWeek <= 0
                   ? 52 - (indexWeek - weekNow[1])
-                  : weekNow[1] - indexWeek;
+                  : weekNow[1] - indexWeek;             
+                  
               return {
                 ...item,
                 date: new Date(
@@ -337,7 +234,7 @@ export const appSlice = createSlice({
                   numberWeek === +Object.keys(year)[index]
                     ? Number(Object.values(year)[index])
                     : item.count,
-              };
+              };              
             });
           });
         });
@@ -350,12 +247,13 @@ export const appSlice = createSlice({
     });
     builder.addCase(
       getStepsPerDay.fulfilled,
-      (state, action: PayloadAction<IStepsPerDay[]>) => {
-        state.steps = action.payload;
+      (state, action: PayloadAction<{statistic:IStepsPerDay[],difference:number}>) => {
+        state.steps.statistic = Object.values(action.payload.statistic)
+        state.steps.difference = action.payload.difference
       }
     );
     builder.addCase(getStepsPerDay.rejected, (state, action) => {
-      state.steps = [];
+      state.steps = {difference:0,statistic:[]};
     });
     builder.addCase(getStepsPerMonth.fulfilled, (state, action) => {
       state.monthData = action.payload;
@@ -367,8 +265,6 @@ export const appSlice = createSlice({
 });
 
 export const {
-  setDaysWeek,
-  setActualStepsbyWeek,
   setMonths,
   setWeeks,
   setCurrentStepsCount,
@@ -376,7 +272,6 @@ export const {
 
 export const balanceSelector = (state: RootState) => state.app.balance;
 export const stepsPerDaySelector = (state: RootState) => state.app.steps;
-export const daysSelector = (state: RootState) => state.app.days;
 export const monthsSelector = (state: RootState) => state.app.months;
 export const weeksSelector = (state: RootState) => state.app.weeks;
 export const currentStepsCountSelector = (state: RootState) =>

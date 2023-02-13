@@ -27,27 +27,22 @@ import HeaderActive from '../../Components/Header-active/Header-active'
 import { Target } from '../../Components/Target/Target'
 import { TabContent, Tabs } from '../../Components/Tabs/Tabs'
 import { TopRating } from '../../Components/Top-rating/Top-rating'
-import { ImportantBlock } from '../../Components/Important-block/Important-block'
 import {
   getGradient,
   optionsChartBar
 } from '../../Components/Charts/Chart-options'
 import { routesNavigation } from '../../utils/globalConstants'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
-import { activityVisitSelector } from '../../Redux/slice/visitedPageSlice'
 import { StartPage } from '../Start-pages/StartPage'
 import AppService from '../../services/AppService'
 import { purposeSelector } from '../../Redux/slice/purposeSlice'
 import {
   currentStepsCountSelector,
-  daysSelector,
   getStepsPerDay,
   getStepsPerMonth,
   getStepsPerWeek,
   monthsSelector,
-  setActualStepsbyWeek,
   setCurrentStepsCount,
-  setDaysWeek,
   setMonths,
   setWeeks,
   stepsPerDaySelector,
@@ -253,24 +248,22 @@ const Graphs = () => {
   const [currentValueTab, setCurrentValueTab] = useState<number>(0)
   const namesTabsDynamics = ['Дни', 'Недели', 'Месяцы']
   const currentStepsCount = useAppSelector(currentStepsCountSelector)
-  const days = useAppSelector(daysSelector)
   const steps = useAppSelector(stepsPerDaySelector)
   const months = useAppSelector(monthsSelector)
   const weeks = useAppSelector(weeksSelector)
   const purpose = useAppSelector(purposeSelector)
-  const sortStepsForDate =  Object.values(steps)
 
   const percent = purpose
-  ? sortStepsForDate[sortStepsForDate.length - 1]?.finished
+  ? steps.statistic[new Date().getDay() === 0 ? 6 : new Date().getDay() - 1]?.finished
     ? 100
     : ((currentStepsCount * 100) / purpose?.quantity).toFixed(2)
   : 0
 
   const dataDay = {
-    labels: sortStepsForDate ? sortStepsForDate.map((item) => item.day) : [],
+    labels: steps ? steps.statistic.map((item) => item.day) : [],
     datasets: [
       {
-        data: sortStepsForDate ? sortStepsForDate.map((item) => item.quantity) : [],
+        data: steps ? steps.statistic.map((item) => item.quantity) : [],
         backgroundColor: function (context: any) {
           const chart = context.chart
           const { ctx, chartArea } = chart
@@ -315,7 +308,6 @@ const Graphs = () => {
     ]
   }
 
-
   useEffect(() => {
     const data = {
       end_date: new Date().toLocaleDateString(),
@@ -336,14 +328,12 @@ const Graphs = () => {
    
       await dispatch(getStepsPerDay(data))
       await dispatch(getStepsPerMonth(dataMonth))
-      await dispatch(getStepsPerWeek(dataWeek)) 
-      // dispatch(setDaysWeek())
-      // dispatch(setActualStepsbyWeek())       
+      await dispatch(getStepsPerWeek(dataWeek))       
       dispatch(setMonths())
       dispatch(setWeeks())
     }
     asyncQuery()
-  }, [])
+  }, [currentStepsCount])
  
   return (
     <div className='activity-page__dynamics dynamics'>

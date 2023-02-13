@@ -3,6 +3,8 @@ import './modals.scss'
 import icon from '../../assets/image/icon_purpose__status_full.svg'
 import { useNavigate } from 'react-router-dom'
 import { RewardCount } from '../Reward/Reward-count'
+import { useAppDispatch } from '../../utils/hooks/redux-hooks'
+import { getBalance, getStepsPerDay } from '../../Redux/slice/appSlice'
 
 interface IModalSuccess {
   subTitle?: string
@@ -11,7 +13,8 @@ interface IModalSuccess {
   reward?: number,
   title?: string,
   setShowModal?:  Dispatch<SetStateAction<boolean>>
-  showModal?: boolean 
+  showModal?: boolean ,
+  updateActive?:boolean
 }
 
 export const ModalSuccess: FC<IModalSuccess> = ({
@@ -21,15 +24,27 @@ export const ModalSuccess: FC<IModalSuccess> = ({
   route,
   setShowModal,
   showModal,
+  updateActive,
   title
 }) => {
   const navigation = useNavigate()
-
-  const handler = () => {
+  const dispatch = useAppDispatch()
+  const handler = async () => {
     if (route) {
       navigation(route)
-    }else{      
-      setShowModal&&setShowModal(false)
+    }else{  
+      if(updateActive){
+        const startDateDay = new Date()
+        startDateDay.setDate(startDateDay.getDate() - 7)
+        const data = {
+          end_date: new Date().toLocaleDateString(),
+          start_date: startDateDay.toLocaleDateString()
+        }
+        setShowModal&&setShowModal(false)
+        await dispatch(getStepsPerDay(data))
+        await dispatch(getBalance())
+      }    
+      
     }
   }
 

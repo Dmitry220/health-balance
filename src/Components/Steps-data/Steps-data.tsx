@@ -10,21 +10,23 @@ import { purposeSelector } from '../../Redux/slice/purposeSlice'
 import { sklonenie } from '../../utils/common-functions'
 
 export const StepsData = () => {
-  // const purpose = useAppSelector(purposeSelector)
-  // const steps = useAppSelector(stepsPerDaySelector)
-  // const currentStepsCount = useAppSelector(currentStepsCountSelector)
-  // const sortStepsForDate = steps
-  //   ? steps?.slice().sort((a, b) => a.date - b.date)
-  //   : []
-  // let currentProgressPurpose =purpose && steps
-  //   ? sortStepsForDate[sortStepsForDate.length - 1]?.finished === 1
-  //     ? 100
-  //     : ((currentStepsCount * 100) / purpose?.quantity).toFixed(2)
-  //   : 0
+  const purpose = useAppSelector(purposeSelector)
+  const steps = useAppSelector(stepsPerDaySelector)
+  const currentStepsCount = useAppSelector(currentStepsCountSelector)
+
+  const indexWeek = new Date().getDay() === 0 ? 6 : new Date().getDay() - 1
+
+
+  let currentProgressPurpose = purpose && steps
+    ? steps.statistic[indexWeek]?.finished
+      ? 100
+      : ((currentStepsCount * 100) / purpose?.quantity).toFixed(2)
+    : 0
+
 
   return (
     <div className={'steps-data'}>
-      {/* <div className='steps-data__content'>
+      <div className='steps-data__content'>
         <article className='steps-data__card'>
           <div className='steps-data__value'>{currentProgressPurpose}%</div>
           <div className='steps-data__text'>
@@ -38,60 +40,34 @@ export const StepsData = () => {
         </article>
         <article className='steps-data__card average'>
           <div className='steps-data__value'>
-            {sortStepsForDate?.length >= 2 ? (
-              <img
-                src={
-                  sortStepsForDate[sortStepsForDate.length - 1].quantity >
-                    sortStepsForDate[sortStepsForDate.length - 2].quantity
-                    ? arrowSuccess
-                    : arrowDanger
-                }
-                alt='arrow'
-              />
-            ) : (
-              ''
-            )}
+            {steps.difference != 0 ? (
+              <img src={steps.difference > 0 ? arrowSuccess : arrowDanger} alt='arrow' />) : ('')}
           </div>
-          {sortStepsForDate.length<2 || sortStepsForDate[sortStepsForDate.length-1].quantity === sortStepsForDate[sortStepsForDate.length-2].quantity ? 
-           <div className="steps-data__text">
+          {steps.difference === 0 ?
+            <div className="steps-data__text">
               Шагов пройдено столько же, сколько и в прошлый раз
-            </div> : 
+            </div> :
             <div className='steps-data__text'>
-            {'на '}{' '}
-            <span>
-              {sortStepsForDate?.length >= 2
-                ? Math.abs(
-                  sortStepsForDate[sortStepsForDate.length - 1].quantity -
-                  sortStepsForDate[sortStepsForDate.length - 2].quantity
-                )
-                : 0}
-              {sklonenie(
-                Math.abs(
-                  sortStepsForDate[sortStepsForDate.length - 1]?.quantity -
-                  sortStepsForDate[sortStepsForDate.length - 2]?.quantity
-                ),
-                [' шаг', ' шага', ' шагов']
-              )}
-              {sortStepsForDate?.length >= 2 &&
-                (sortStepsForDate[sortStepsForDate.length - 1].quantity >
-                  sortStepsForDate[sortStepsForDate.length - 2].quantity
-                  ? ' больше'
-                  : ' меньше')}
-              ,
-            </span>
-            чем в прошлый раз
-          </div>}
+              {'на '}{' '}
+              <span>
+                {steps.difference < 0 ? Math.abs(steps.difference) : 0}
+                {sklonenie(Math.abs(steps.difference), [' шаг', ' шага', ' шагов'])}
+                {steps.difference > 0 ? ' больше' : ' меньше'}
+                ,
+              </span>
+              чем в прошлый раз
+            </div>}
         </article>
         <article className='steps-data__card'>
           <div className='steps-data__value'>
-            <span>+{sortStepsForDate[sortStepsForDate.length-1]?.finished === 1 ? purpose?.reward : 0}</span>{' '}
+            <span>+{steps.statistic[indexWeek]?.finished ? purpose?.reward : 0}</span>
           </div>
           <div className='steps-data__text'>
             <span>Health coin</span> <br />
             получено
           </div>
         </article>
-      </div> */}
+      </div>
     </div>
   )
 }

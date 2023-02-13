@@ -6,6 +6,7 @@ import {
   IMembersCommandList,
 } from "../../models/IChallenge";
 import ChallengeService from "../../services/ChallengeService";
+import { showToast } from "../../utils/common-functions";
 
 const END_DATE = new Date();
 END_DATE.setDate(END_DATE.getDate() + 3);
@@ -30,6 +31,7 @@ export interface IChallenge {
   challenge: IChallengeCard | null;
   commandList: ICommandList[];
   membersCommandList: IMembersCommandList;
+  error:boolean
 }
 
 const initialState: IChallenge = {
@@ -52,6 +54,7 @@ const initialState: IChallenge = {
   challenge: null,
   commandList: [],
   membersCommandList: { customers: [], title: "" },
+  error:false
 };
 
 export const creatingChallenge = createAsyncThunk<unknown>(
@@ -86,19 +89,25 @@ export const creatingChallenge = createAsyncThunk<unknown>(
     try {
       const response = await ChallengeService.creatingChallenge(formData);
 
-      const formDataPurpose = new FormData();
-      formDataPurpose.append(
-        "quantity",
-        state.purposes.creatingPurpose.quantity
-      );
-      formDataPurpose.append("type", state.purposes.creatingPurpose.type);
-      formDataPurpose.append("reward", state.purposes.creatingPurpose.reward);
-      formDataPurpose.append("challenge", response.data.challenge_id);
-
-      await ChallengeService.creatingPurpose(formDataPurpose);
-      return await response.data.challenge_id;
+      if(response.data.challenge_id){
+        const formDataPurpose = new FormData();
+        formDataPurpose.append("quantity",state.purposes.creatingPurpose.quantity);
+        formDataPurpose.append("type", state.purposes.creatingPurpose.type);
+        formDataPurpose.append("reward", state.purposes.creatingPurpose.reward);
+        formDataPurpose.append("challenge", response.data.challenge_id);
+  
+        const purposeResponse = await ChallengeService.creatingPurpose(formDataPurpose);
+        if(purposeResponse.data.purpose_id){
+          return await response.data.challenge_id;
+        }else{
+          await showToast("Ошибка создания цели")
+        }        
+      }else{
+        await showToast("Ошибка создания")
+      }
     } catch (e) {
       console.log(e);
+      await showToast("Ошибка создания")
     }
   }
 );
@@ -213,6 +222,13 @@ export const challengeSlice = createSlice({
         };
       }
     );
+    builder.addCase(
+      creatingChallenge.rejected,
+      (state) => {
+        state.error = true;
+        state.isLoading = false;
+      }
+    );
     builder.addCase(getChallengeById.pending, (state) => {
       state.isLoading = true;
     });
@@ -296,4 +312,6 @@ export const commandListSelector = (state: RootState) =>
   state.challenges.commandList;
 export const membersCommandListSelector = (state: RootState) =>
   state.challenges.membersCommandList;
+  export const errorCreatingChallengeSelector = (state: RootState) =>
+  state.challenges.error;
 export default challengeSlice.reducer;

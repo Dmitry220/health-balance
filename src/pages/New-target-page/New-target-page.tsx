@@ -1,6 +1,6 @@
 import { ChangeEvent, useState } from 'react'
 import Header from '../../Components/Header/Header'
-import { daysSelector } from '../../Redux/slice/appSlice'
+import { stepsPerDaySelector } from '../../Redux/slice/appSlice'
 import { purposeSelector } from '../../Redux/slice/purposeSlice'
 import PurposeService from '../../services/PurposeService'
 import { showToast } from '../../utils/common-functions'
@@ -11,8 +11,8 @@ export const NewTargetPage = () => {
   const dispatch = useAppDispatch()
 
   const purpose = useAppSelector(purposeSelector)
-  const days = useAppSelector(daysSelector)  
-  const noFinished = days.find(item=>item.date===new Date().setHours(0,0,0,0)/1000 && item.finished === null)
+  const steps = useAppSelector(stepsPerDaySelector)  
+  const noFinished = steps.statistic.find(item=>item.date===new Date().setHours(0,0,0,0)/1000 && item.finished === null)
   const range = function (start: number, stop: number, step: number) {
     if (stop === null) {
       stop = start || 0

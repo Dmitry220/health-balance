@@ -7,21 +7,34 @@ import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
 import {
   creatingChallenge,
   disableButtonChallengeSelector,
+  errorCreatingChallengeSelector,
   setDisabledButton,
   typeCreatingChallengeSelector
 } from '../../Redux/slice/challengeSlice'
 import { ModalStatus } from '../../Components/Modals/Modal-status'
 import { CREATING_LECTURE_ROUTE } from '../../provider/constants-route'
+import { showToast } from '../../utils/common-functions'
 
 export const CreatingChallengePage = () => {
   const [order, setOrder] = useState<number>(0)
   const disabledButton = useAppSelector(disableButtonChallengeSelector)
+  const error = useAppSelector(errorCreatingChallengeSelector)
   const type = useAppSelector(typeCreatingChallengeSelector)
   const dispatch = useAppDispatch()
 
   const saveChallenge = async () => {
-    await dispatch(creatingChallenge())
-    setOrder((prev) => prev + 1)
+    try {
+    await dispatch(creatingChallenge()).then(e=>{
+      if(e.payload){
+        setOrder((prev) => prev + 1)
+      }      
+    })
+    } catch (error) {
+      console.log(error);
+      await showToast('Ошибка')
+    }
+ 
+  
   }
 
   const renderCreatingChallengeItems = () => {
