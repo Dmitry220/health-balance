@@ -64,14 +64,14 @@ export default class TrackerService {
   static async complteteTrack(id: number) {
     return (
       $api.post(
-        `/v2/tracks/${id}/complete?token=${localStorage.getItem("token")}`
-      ),
-      {
-        headers: {
-          accept: "application/json",
-          "Content-Type": `multipart/form-data`,
-        },
-      }
+        `/v2/tracks/${id}/complete?token=${localStorage.getItem("token")}`,{},  {
+          headers: {
+            accept: "application/json",
+            "Content-Type": `multipart/form-data`,
+          },
+        }
+      )
+    
     );
   }
 

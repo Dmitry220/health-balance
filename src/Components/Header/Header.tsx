@@ -1,5 +1,4 @@
 import { FC } from 'react'
-import { useNavigate } from 'react-router-dom'
 import './header.scss'
 
 interface HeaderProps {
@@ -15,9 +14,10 @@ export const Header: FC<HeaderProps> = ({
   additionalComponent,
   additionalOnClick
 }) => {
-  const navigate = useNavigate()
 
-  const back = () => navigate(-1)
+  const back = () => {
+    window.history.back();  
+  } 
 
   return (
     <header className={'header ' + customClass}>

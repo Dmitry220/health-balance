@@ -38,14 +38,12 @@
     font-size: 20px;
 
     color: #F5F5F5;
-    position: relative;
+    display: flex;
+    flex-direction: row-reverse;
     &::before{
       font-size: 13px;
-      display: inline-block;
-      right: -20px;
-      top: 39%;
       transform: rotate(-180deg);
-      position: absolute;
+      margin: 0 0 0 3px;
     }
   }
   &__icon-reward{

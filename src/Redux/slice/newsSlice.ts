@@ -36,27 +36,6 @@ const initialState: INewsSlice = {
   idNewComment: 0
 }
 
-export const creatingNews = createAsyncThunk<unknown>(
-  'creatingNews',
-  async (arg, { getState }) => {
-    const state: any = getState()
-    const formData = new FormData()
-    formData.append('title', state.news.creatingNews.title)
-    formData.append('annotation', state.news.creatingNews.annotation)
-    formData.append('content', state.news.creatingNews.content)
-    formData.append('image', state.news.creatingNews.image)
-    state.news.creatingNews.team != 0 &&
-      formData.append('team', state.news.creatingNews.team)
-    formData.append('category', state.news.creatingNews.category)
-    formData.append('push', state.news.creatingNews.push)
-    try {
-      await NewsService.creatingNews(formData)
-    } catch (e) {
-      console.log(e)
-    }
-  }
-)
-
 export const getNews = createAsyncThunk('getNews', async () => {
   const response = await NewsService.getNews()
   return response.data.data

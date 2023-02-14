@@ -8,6 +8,10 @@
 		"classpath": "com.ryltsov.alex.plugins.file.opener.FileOpenerPlugin"
 	},
 	{
+		"pkg": "@capacitor/app",
+		"classpath": "com.capacitorjs.plugins.app.AppPlugin"
+	},
+	{
 		"pkg": "@capacitor/camera",
 		"classpath": "com.capacitorjs.plugins.camera.CameraPlugin"
 	},

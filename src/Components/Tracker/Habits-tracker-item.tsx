@@ -22,7 +22,9 @@ export const HabitsTargetItem: FC<IWaterTargetItem> = ({ track }) => {
           ':' +
           new Date(track.send_time * 1000).getMinutes().toString().padStart(2, '0')}
       </div>}
-      <div className='habits-tracker-item__value'>{track.additional}</div>
+     {(!track.notification_send && !track.completed)&& <div className={'habits-tracker-item__value'}>{track.additional}</div>}
+      {(track.notification_send && track.completed) && <div className={'habits-tracker-item__value habits-tracker-item__value_green'}>{track.additional}</div>}
+      { (track.notification_send && !track.completed) && <div className={'habits-tracker-item__value habits-tracker-item__value_yellow'}>{track.additional}</div>}
     </div>
   )
 }

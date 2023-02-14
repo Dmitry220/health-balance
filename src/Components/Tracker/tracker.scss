@@ -51,6 +51,12 @@
   &__value {
     font-weight: 700;
     text-align: center;
+    &_green{
+      color: $greenColor;
+    }
+    &_yellow{
+      color: #F4C119;
+    }
   }
 }
 

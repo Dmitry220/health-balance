@@ -2,14 +2,8 @@ import { useState, ChangeEvent } from 'react'
 import './creating-interesting.scss'
 import Header from '../../Components/Header/Header'
 import paper_clip from '../../assets/image/icon-paper-clip.svg'
-import { Camera, CameraResultType } from '@capacitor/camera'
-import {
-  setAvatarRegistartion,
-  setDisabledButton
-} from '../../Redux/slice/authSlice'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
 import {
-  creatingNews,
   creatingNewsSelector,
   setAnnotationNews,
   setContentNews,
@@ -25,6 +19,7 @@ import { INTERESTING_ROUTE, RUBRIC_ROUTE } from '../../provider/constants-route'
 import { ModalStatus } from '../../Components/Modals/Modal-status'
 import FileService from '../../services/FilesServices'
 import { rubricConversion, showToast } from '../../utils/common-functions'
+import NewsService from '../../services/NewsService'
 
 
 export const CreatingInteresting = () => {
@@ -38,7 +33,7 @@ export const CreatingInteresting = () => {
     const formData = new FormData()
     const file: any = e.target.files
     if (file[0]) {
-      try {   
+      try {
         formData.append('image', file[0])
         const response = await FileService.addImageNews(formData)
         dispatch(setTempImageNews(URL.createObjectURL(file[0])))
@@ -72,15 +67,27 @@ export const CreatingInteresting = () => {
 
   const publish = async () => {
     if (dataNews.title && dataNews.annotation && dataNews.category && dataNews.content) {
-      await dispatch(creatingNews()).then(e=>{
-        if(e.payload){
+      const formData = new FormData()
+      formData.append('title', dataNews.title)
+      formData.append('annotation', dataNews.annotation)
+      formData.append('content', dataNews.content)
+      formData.append('image', dataNews.image)
+      dataNews.team != 0 &&
+        formData.append('team', dataNews.team.toString())
+      formData.append('category', dataNews.category.toString())
+      formData.append('push', dataNews.push.toString())
+      try {
+        const response = await NewsService.creatingNews(formData)
+        if (response.data.news_id) {
           reset()
           setShowModal(true)
         }else{
-          showToast('Ошибка')
-        }      
-      })
-     
+          await showToast('Ошибка')
+        }
+      } catch (e) {
+        console.log(e)
+        await showToast('Ошибка')
+      }
     } else {
       await showToast('Вы заполнили не все поля!')
     }
@@ -130,7 +137,7 @@ export const CreatingInteresting = () => {
         </div>
         <div className='creating-interesting__row'>
           <input id='cover' type='file' onChange={takePicture} />
-       {!isLoadingAvatar ?    <label
+          {!isLoadingAvatar ? <label
             htmlFor='cover'
             className='creating-interesting__cover text-blue'
           >
@@ -146,11 +153,11 @@ export const CreatingInteresting = () => {
           <div style={{ marginLeft: 20 }}>{rubricConversion(dataNews.category)}</div>
         </div>
         {tempImage && <div className='creating-interesting__row'>
-        <img
+          <img
             className='creating-interesting__cover-image'
             src={tempImage}
             alt='cover'
-          /> 
+          />
         </div>}
         <div className='creating-interesting__push'>
           <div className='custom-checkbox'>
