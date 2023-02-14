@@ -1,18 +1,15 @@
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import Header from '../../Components/Header/Header'
-import { stepsPerDaySelector } from '../../Redux/slice/appSlice'
 import { purposeSelector } from '../../Redux/slice/purposeSlice'
 import PurposeService from '../../services/PurposeService'
 import { showToast } from '../../utils/common-functions'
-import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
+import { useAppSelector } from '../../utils/hooks/redux-hooks'
 import './new-target-page.scss'
 
 export const NewTargetPage = () => {
-  const dispatch = useAppDispatch()
 
-  const purpose = useAppSelector(purposeSelector)
-  const steps = useAppSelector(stepsPerDaySelector)  
-  const noFinished = steps.statistic.find(item=>item.date===new Date().setHours(0,0,0,0)/1000 && item.finished === null)
+  const purpose = useAppSelector(purposeSelector) 
+  const [noFinished,setNoFinished] = useState<boolean>(false)
   const range = function (start: number, stop: number, step: number) {
     if (stop === null) {
       stop = start || 0
@@ -48,6 +45,16 @@ export const NewTargetPage = () => {
       await showToast('Ошибка!')
     }
   }
+
+  useEffect(() => {     
+      (async () => {
+        const isCompletedPurposeResponse = await PurposeService.isCompletedPurpose()
+        if(!isCompletedPurposeResponse.data.data.length){       
+          setNoFinished(true)
+        }
+      })()  
+  }, [])
+  
 
   return (
     <div className={'new-target-page'}>

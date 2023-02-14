@@ -51,6 +51,8 @@ import {
 import { nFormatter, showToast, sklonenie } from '../../utils/common-functions'
 import { isGoogleFitSelector } from '../../Redux/slice/settingsSlice'
 import { visitPagesSelector } from '../../Redux/slice/authSlice'
+import PurposeService from '../../services/PurposeService'
+import { ModalSuccess } from '../../Components/Modals/Modal-success'
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
@@ -247,16 +249,17 @@ const Graphs = () => {
   const dispatch = useAppDispatch()
   const [currentValueTab, setCurrentValueTab] = useState<number>(0)
   const namesTabsDynamics = ['Дни', 'Недели', 'Месяцы']
+  const [showModal, setShowModal] = useState<boolean>(false)
   const currentStepsCount = useAppSelector(currentStepsCountSelector)
   const steps = useAppSelector(stepsPerDaySelector)
   const months = useAppSelector(monthsSelector)
   const weeks = useAppSelector(weeksSelector)
   const purpose = useAppSelector(purposeSelector)
-
-  const percent = purpose
+  const indexWeek = new Date().getDay() === 0 ? 6 : new Date().getDay() - 1
+  const percent = purpose && steps.statistic
   ? steps.statistic[new Date().getDay() === 0 ? 6 : new Date().getDay() - 1]?.finished
     ? 100
-    : ((currentStepsCount * 100) / purpose?.quantity).toFixed(2)
+    : ((steps.statistic[indexWeek]?.quantity * 100) / purpose?.quantity).toFixed(2)
   : 0
 
   const dataDay = {
@@ -323,9 +326,8 @@ const Graphs = () => {
       start_date: startDateMonth.toLocaleDateString(),
       type: 2
     }
-
-    async function asyncQuery() {   
    
+    async function asyncQuery() {   
       await dispatch(getStepsPerDay(data))
       await dispatch(getStepsPerMonth(dataMonth))
       await dispatch(getStepsPerWeek(dataWeek))       
@@ -334,6 +336,23 @@ const Graphs = () => {
     }
     asyncQuery()
   }, [currentStepsCount])
+
+  useEffect(()=>{
+    (async()=>{    
+      const isCompletedPurposeResponse = await PurposeService.isCompletedPurpose()
+     if(!isCompletedPurposeResponse.data.data.length && purpose && steps.statistic[indexWeek]?.quantity>=purpose.quantity){
+        const response = await PurposeService.completePersonalPurpose(purpose?.id)        
+        if (response.data.success) {
+          setShowModal(true)
+        } 
+      }
+  })()   
+  }, [steps])
+
+  if (showModal) {
+    return <ModalSuccess updateActive={true} 
+    setShowModal={setShowModal} showModal={showModal} subTitle='Ваша награда' reward={purpose?.reward} title={'Личная цель на сегодня выполнена'} />
+  }
  
   return (
     <div className='activity-page__dynamics dynamics'>
@@ -349,13 +368,13 @@ const Graphs = () => {
         </div>
         <div className={'dynamics__info'}>
           <div className='dynamics__value'>
-            {nFormatter(currentStepsCount, 1)} <br />{' '}
+            {nFormatter(steps.statistic[indexWeek]?.quantity, 2)} <br />{' '}
             <span>
-              {sklonenie(currentStepsCount, ['шаг', 'шага', 'шагов'])}
+              {sklonenie(steps.statistic[indexWeek]?.quantity, ['шаг', 'шага', 'шагов'])}
             </span>
           </div>
-          <div className='dynamics__value'>
-            {nFormatter(+((currentStepsCount * 0.7) / 1000).toFixed(2), 1)}{' '}
+          <div className='dynamics__value'>            
+            {((steps.statistic[indexWeek]?.quantity*0.7) / 1000).toFixed(2)}
             <br /> <span>км</span>
           </div>
           <div className='dynamics__value'>

@@ -3,7 +3,6 @@ import arrowDanger from '../../assets/image/Arrow.svg'
 import arrowSuccess from '../../assets/image/Arrow-success.png'
 import { useAppSelector } from '../../utils/hooks/redux-hooks'
 import {
-  currentStepsCountSelector,
   stepsPerDaySelector
 } from '../../Redux/slice/appSlice'
 import { purposeSelector } from '../../Redux/slice/purposeSlice'
@@ -12,15 +11,13 @@ import { sklonenie } from '../../utils/common-functions'
 export const StepsData = () => {
   const purpose = useAppSelector(purposeSelector)
   const steps = useAppSelector(stepsPerDaySelector)
-  const currentStepsCount = useAppSelector(currentStepsCountSelector)
 
   const indexWeek = new Date().getDay() === 0 ? 6 : new Date().getDay() - 1
-
 
   let currentProgressPurpose = purpose && steps
     ? steps.statistic[indexWeek]?.finished
       ? 100
-      : ((currentStepsCount * 100) / purpose?.quantity).toFixed(2)
+      : ((steps.statistic[indexWeek]?.quantity * 100) / purpose?.quantity).toFixed(2)
     : 0
 
 
@@ -50,7 +47,7 @@ export const StepsData = () => {
             <div className='steps-data__text'>
               {'на '}{' '}
               <span>
-                {steps.difference < 0 ? Math.abs(steps.difference) : 0}
+                {Math.abs(steps.difference)}
                 {sklonenie(Math.abs(steps.difference), [' шаг', ' шага', ' шагов'])}
                 {steps.difference > 0 ? ' больше' : ' меньше'}
                 ,

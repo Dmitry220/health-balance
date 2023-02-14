@@ -22,15 +22,15 @@ const DayStatistic: FC<IDayStatistic> = ({ date }) => {
       <div className="day-statistic-wrapper__title">{date}</div>
       <div className="day-statistic-wrapper__stat">
         <div style={{ color: "#00A62E" }}>
-          <img src={icon_dream} alt="" />{wake_up ? sklonenie(8,['час','часа','часов']) : 'менее 8 часов'}
+          <img src={icon_dream} alt="" />{wake_up ? 8+' '+ sklonenie(8,['час','часа','часов']) : 'менее 8 часов'}
         </div>
         <div style={{ color: "#00A62E" }}>
           <img src={icon_water} alt="" />
-          {water.length * 10}%
+          {(water.length * 10).toFixed()}%
         </div>
         <div style={{ color: "#F4C119" }}>
           <img src={icon_fruit} alt="" />
-          {tracks.fruitTrack.length ? fruits.length*100/tracks.fruitTrack.length: 0}%
+          {tracks.fruitTrack.length ? (fruits.length*100/tracks.fruitTrack.length).toFixed(): 0}%
         </div>
       </div>
     </div>

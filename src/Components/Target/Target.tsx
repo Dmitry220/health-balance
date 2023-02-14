@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect } from 'react'
 import './target.scss'
 import icon_status_full from '../../assets/image/icon_purpose__status_full.svg'
 import { Link } from 'react-router-dom'
@@ -11,8 +11,7 @@ import {
 import { IPurpose } from '../../models/IPurpose'
 import { IStepsPerDay } from '../../models/IApp'
 import { stepsPerDaySelector } from '../../Redux/slice/appSlice'
-import PurposeService from '../../services/PurposeService'
-import { ModalSuccess } from '../Modals/Modal-success'
+
 
 interface ITarget {
   purpose?: IPurpose | null,
@@ -46,8 +45,7 @@ export const Target: FC<ITarget> = () => {
             purpose && Object.values(steps.statistic).map(
               (item, i) =>
                 <CircleDays key={i}
-                  id={purpose.id} item={item}
-                  reward={purpose.reward}
+                   item={item}                 
                   percent={(item.quantity * 100 / purpose.quantity) >= 100 ? 100 : item.quantity * 100 / purpose.quantity}
                 />)
           }
@@ -59,32 +57,12 @@ export const Target: FC<ITarget> = () => {
 
 interface IDays {
   percent: number,
-  id: number,
-  reward: number,
   item: IStepsPerDay
 }
 
-export const CircleDays: FC<IDays> = ({ percent, item, id, reward }) => {
+export const CircleDays: FC<IDays> = ({ percent, item }) => {
 
   const circleOutlineLength: number = 295
-  const [showModal, setShowModal] = useState<boolean>(false)
-
-
-  useEffect(() => {
-    (async () => {
-      if (percent >= 100 && item.finished===false && new Date().setHours(0, 0, 0, 0) / 1000 === item.date) {
-        const response = await PurposeService.completePersonalPurpose(id)
-        if (response.data.success) {
-          setShowModal(true)
-        }  
-      }
-    })()
-  }, [percent])
-
-  if (showModal) {
-    return <ModalSuccess updateActive={true} 
-    setShowModal={setShowModal} showModal={showModal} subTitle='Ваша награда' reward={reward} title={'Личная цель на сегодня выполнена'} />
-  }
 
   return (
     <div className='target__days days'>

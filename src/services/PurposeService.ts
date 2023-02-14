@@ -40,4 +40,15 @@ export default class PurposeService {
       `/v2/purposes/${id}/complete?token=${localStorage.getItem('token')}`
     )
   }
+
+  static async isCompletedPurpose():Promise<AxiosResponse<{data: 
+    {
+        id: number,
+        finished: number,
+        date: number
+    }[]}>> {
+    return await $api.get(
+      `/v2/purpose_progress?token=${localStorage.getItem('token')}`
+    )
+  }
 }

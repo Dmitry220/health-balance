@@ -4,7 +4,7 @@ import icon from '../../assets/image/icon_purpose__status_full.svg'
 import { useNavigate } from 'react-router-dom'
 import { RewardCount } from '../Reward/Reward-count'
 import { useAppDispatch } from '../../utils/hooks/redux-hooks'
-import { getBalance, getStepsPerDay } from '../../Redux/slice/appSlice'
+import { getBalance } from '../../Redux/slice/appSlice'
 
 interface IModalSuccess {
   subTitle?: string
@@ -41,7 +41,6 @@ export const ModalSuccess: FC<IModalSuccess> = ({
           start_date: startDateDay.toLocaleDateString()
         }
         setShowModal&&setShowModal(false)
-        await dispatch(getStepsPerDay(data))
         await dispatch(getBalance())
       }    
       
