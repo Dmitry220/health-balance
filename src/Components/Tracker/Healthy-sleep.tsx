@@ -25,121 +25,169 @@ export const HealthySleep: FC<IHealthySleep> = ({ editProhibition }) => {
   const morning = tracker.wake_up_time
   const evening = (+hour - 8 < 0 ? 24 + (+hour - 8) : +hour - 8).toString().padStart(2, '0') + ':' + minutes
   const tracks = useAppSelector(tracksSelector)
-  const wake_up  = (tracks.waterTrack.length>2&&tracks.waterTrack[0].completed && tracks.waterTrack[1].completed)
-  // const aaa = [
-  //   {
-  //     "id": 123,
-  //     "type": 1,
-  //     "additional": null,
-  //     "notification_send": true,
-  //     "send_time": 1675984500,
-  //     "completed": true
-  //   },
-  //   {
-  //     "id": 124,
-  //     "type": 1,
-  //     "additional": null,
-  //     "notification_send": true,
-  //     "send_time": 1676042100,
-  //     "completed": true
-  //   },
-  //   {
-  //     "id": 125,
-  //     "type": 1,
-  //     "additional": null,
-  //     "notification_send": true,
-  //     "send_time": 1675984500,
-  //     "completed": true
-  //   },
-  //   {
-  //     "id": 126,
-  //     "type": 1,
-  //     "additional": null,
-  //     "notification_send": true,
-  //     "send_time": 1676042100,
-  //     "completed": false
-  //   },
-  //   {
-  //     "id": 127,
-  //     "type": 1,
-  //     "additional": null,
-  //     "notification_send": false,
-  //     "send_time": 1675984500,
-  //     "completed": false
-  //   },
-  //   {
-  //     "id": 128,
-  //     "type": 1,
-  //     "additional": null,
-  //     "notification_send": false,
-  //     "send_time": 1676042100,
-  //     "completed": false
-  //   },
-  //   {
-  //     "id": 129,
-  //     "type": 1,
-  //     "additional": null,
-  //     "notification_send": false,
-  //     "send_time": 1675984500,
-  //     "completed": false
-  //   },
-  //   {
-  //     "id": 130,
-  //     "type": 1,
-  //     "additional": null,
-  //     "notification_send": false,
-  //     "send_time": 1676042100,
-  //     "completed": false
-  //   },
-  //   {
-  //     "id": 131,
-  //     "type": 1,
-  //     "additional": null,
-  //     "notification_send": false,
-  //     "send_time": 1675984500,
-  //     "completed": false
-  //   },
-  //   {
-  //     "id": 132,
-  //     "type": 1,
-  //     "additional": null,
-  //     "notification_send": false,
-  //     "send_time": 1676042100,
-  //     "completed": false
-  //   },
-  //   {
-  //     "id": 133,
-  //     "type": 1,
-  //     "additional": null,
-  //     "notification_send": false,
-  //     "send_time": 1675984500,
-  //     "completed": false
-  //   },
-  //   {
-  //     "id": 134,
-  //     "type": 1,
-  //     "additional": null,
-  //     "notification_send": false,
-  //     "send_time": 1676042100,
-  //     "completed": false
-  //   },
-  //   {
-  //     "id": 135,
-  //     "type": 1,
-  //     "additional": 'Вс',
-  //     "notification_send": false,
-  //     "send_time": 1675984500,
-  //     "completed": false
-  //   },
-  //   {
-  //     "id": 136,
-  //     "type": 1,
-  //     "additional": 'Вс',
-  //     "notification_send": false,
-  //     "send_time": 1676042100,
-  //     "completed": false
-  //   }
-  // ]
+  const wake_up = (tracks.waterTrack.length > 2 && tracks.waterTrack[0].completed && tracks.waterTrack[1].completed)
+  const sleepDays: ITrack[] = [
+    {
+      id: 1,
+      "type": 1,
+      "additional": 'пн',
+      "notification_send": false,
+      "send_time": 0,
+      "completed": false
+    },
+    {
+      "id": 2,
+      "type": 1,
+      "additional": 'пн',
+      "notification_send": false,
+      "send_time": 0,
+      "completed": false
+    },
+    {
+      "id": 3,
+      "type": 1,
+      "additional": 'вт',
+      "notification_send": false,
+      "send_time": 0,
+      "completed": false
+    },
+    {
+      "id": 4,
+      "type": 1,
+      "additional": 'вт',
+      "notification_send": false,
+      "send_time": 0,
+      "completed": false
+    },
+    {
+      "id": 5,
+      "type": 1,
+      "additional": 'ср',
+      "notification_send": false,
+      "send_time": 0,
+      "completed": false
+    },
+    {
+      "id": 6,
+      "type": 1,
+      "additional": 'ср',
+      "notification_send": false,
+      "send_time": 0,
+      "completed": false
+    },
+    {
+      "id": 7,
+      "type": 1,
+      "additional": 'чт',
+      "notification_send": false,
+      "send_time": 0,
+      "completed": false
+    },
+    {
+      "id": 8,
+      "type": 1,
+      "additional": 'чт',
+      "notification_send": false,
+      "send_time": 0,
+      "completed": false
+    },
+    {
+      "id": 9,
+      "type": 1,
+      "additional": 'пт',
+      "notification_send": false,
+      "send_time": 0,
+      "completed": false
+    },
+    {
+      "id": 10,
+      "type": 1,
+      "additional": 'пт',
+      "notification_send": false,
+      "send_time": 0,
+      "completed": false
+    },
+    {
+      "id": 11,
+      "type": 1,
+      "additional": 'сб',
+      "notification_send": false,
+      "send_time": 0,
+      "completed": false
+    },
+    {
+      "id": 12,
+      "type": 1,
+      "additional": 'сб',
+      "notification_send": false,
+      "send_time": 0,
+      "completed": false
+    },
+    {
+      "id": 13,
+      "type": 1,
+      "additional": 'вс',
+      "notification_send": false,
+      "send_time": 0,
+      "completed": false
+    },
+    {
+      "id": 14,
+      "type": 1,
+      "additional": 'вс',
+      "notification_send": false,
+      "send_time": 0,
+      "completed": false
+    }
+  ]
+  const pushArray: ITrack[] = []
+  const [outputArray, setOutputArray] = useState<ITrack[]>([])
+
+
+  useEffect(() => {
+
+    tracks.sleepTrack.forEach((itemServer,index) => {
+      pushArray.push(
+        {
+          ...itemServer,
+          id: index+1,
+          additional: itemServer.additional,
+          completed: itemServer.completed,
+          notification_send: itemServer.notification_send,
+          send_time: itemServer.send_time,
+          type: itemServer.type
+        }
+      )
+    })
+
+    let difference = sleepDays.length - tracks.sleepTrack.length
+
+    for (let i = difference - 1; i >= 0; i--) {   
+      if (i === difference - 1 && i%2===0) {
+        pushArray.unshift({
+          id:outputArray.length-i,
+          additional: sleepDays[i].additional,
+          completed: true,
+          notification_send: true,
+          send_time: 0,
+          type: 1
+        })
+      } else {
+        pushArray.unshift({
+          id: outputArray.length-i,
+          additional: sleepDays[i].additional,
+          completed: sleepDays[i].completed,
+          notification_send: sleepDays[i].notification_send,
+          send_time: sleepDays[i].send_time,
+          type: sleepDays[i].type
+        })
+      }
+    }
+    setOutputArray(pushArray)
+ 
+  }, [tracks])
+
+  console.log(outputArray)
 
   if (isloading) {
     return <Preloader height='auto' />
@@ -166,7 +214,7 @@ export const HealthySleep: FC<IHealthySleep> = ({ editProhibition }) => {
           </div>
           <div className='healthy-sleep__border-dashed' />
           <div className='healthy-sleep__text'>
-            Вы спали <span> {wake_up ? sklonenie(8,['час','часа','часов']) : 'менее 8 часов'}</span>
+            Вы спали <span> {wake_up ? sklonenie(8, ['час', 'часа', 'часов']) : 'менее 8 часов'}</span>
           </div>
           <div className='healthy-sleep__border-dashed' />
           <div className='healthy-sleep__icon'>
@@ -175,7 +223,7 @@ export const HealthySleep: FC<IHealthySleep> = ({ editProhibition }) => {
           </div>
         </div>
         <div className='healthy-sleep__days'>
-          {tracks.sleepTrack.length ? tracks.sleepTrack.map((item, index, array) => {
+        {tracks.sleepTrack.length ? outputArray.map((item, index, array) => {
             if (index % 2 === 0) {              
               return <div className='healthy-sleep__item-day' key={item.id}>
                 {(array[index + 1].completed && array[index].completed) ? (
