@@ -20,12 +20,14 @@ import { ModalStatus } from '../../Components/Modals/Modal-status'
 import FileService from '../../services/FilesServices'
 import { rubricConversion, showToast } from '../../utils/common-functions'
 import NewsService from '../../services/NewsService'
+import { Preloader } from '../../Components/Preloader/Preloader'
 
 
 export const CreatingInteresting = () => {
 
   const [isLoadingAvatar, setIsLoadingAvatar] = useState<boolean>(false)
   const [showModal, setShowModal] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const tempImage = useAppSelector(tempImageNewsSelector)
 
   const takePicture = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -76,6 +78,7 @@ export const CreatingInteresting = () => {
         formData.append('team', dataNews.team.toString())
       formData.append('category', dataNews.category.toString())
       formData.append('push', dataNews.push.toString())
+      setIsLoading(true)
       try {
         const response = await NewsService.creatingNews(formData)
         if (response.data.news_id) {
@@ -87,6 +90,8 @@ export const CreatingInteresting = () => {
       } catch (e) {
         console.log(e)
         await showToast('Ошибка')
+      } finally{
+        setIsLoading(false)
       }
     } else {
       await showToast('Вы заполнили не все поля!')
@@ -172,10 +177,11 @@ export const CreatingInteresting = () => {
           </div>
         </div>
         <button
-          className='creating-interesting__button _button-white'
+          className={'creating-interesting__button _button-white'}
+          disabled={isLoading}
           onClick={publish}
         >
-          Опубликовать
+          {isLoading ? <span className="spinner"><i className="fa fa-spinner fa-spin"></i> Загрузка</span> : 'Опубликовать'}
         </button>
       </div>
     </div>
