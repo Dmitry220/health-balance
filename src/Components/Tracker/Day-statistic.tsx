@@ -26,7 +26,7 @@ const DayStatistic: FC<IDayStatistic> = ({ date }) => {
         </div>
         <div style={{ color: "#00A62E" }}>
           <img src={icon_water} alt="" />
-          {(water.length * 10).toFixed()}%
+          {tracks.waterTrack.length ? (water.length*100/tracks.waterTrack.length).toFixed(): 0}%
         </div>
         <div style={{ color: "#F4C119" }}>
           <img src={icon_fruit} alt="" />
