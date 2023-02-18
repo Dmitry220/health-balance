@@ -40,7 +40,7 @@ export const MakingOrder = () => {
     <div className={'making-order'}>
       <Header title={'Оформление'} />
       <div className='making-order__title main-title'>
-        Данные для доставки: почта и телефон, будут браться из вашего профиля
+      Мы отправим информацию на почту и телефон, указанные в вашем профиле.
       </div>
       {/* <form className='making-order__form form-order'>
         <label htmlFor='email' className='form-order__label'>
