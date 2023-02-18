@@ -214,7 +214,7 @@ export const HealthySleep: FC<IHealthySleep> = ({ editProhibition }) => {
           </div>
           <div className='healthy-sleep__border-dashed' />
           <div className='healthy-sleep__text'>
-            Вы спали <span> {wake_up ? sklonenie(8, ['час', 'часа', 'часов']) : 'менее 8 часов'}</span>
+            Вы спали <span> {wake_up ? '8 ' + sklonenie(8, ['час', 'часа', 'часов']) : 'менее 8 часов'}</span>
           </div>
           <div className='healthy-sleep__border-dashed' />
           <div className='healthy-sleep__icon'>
