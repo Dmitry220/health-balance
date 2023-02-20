@@ -24,19 +24,17 @@ interface FormData {
   title: string
   description: string
   question: string
-  score: number,
-  startDate: any,
-  endDate: Date,
-  videoUrl: string,
+  score: number
+  startDate: any
+  endDate: Date
+  videoUrl: string
   qrCode: string
 }
 
 export const CreatingLecture = () => {
   const END_DATE = new Date()
   END_DATE.setDate(END_DATE.getDate() + 3)
-
   const params = useParams()
-
   const challenge_id = useAppSelector(challengeIdSelector)
 
   const {
@@ -47,17 +45,17 @@ export const CreatingLecture = () => {
     watch,
     formState: { errors }
   } = useForm<FormData>({
-    mode: "onChange",
+    mode: 'onChange',
     defaultValues: { startDate: [] }
   })
   const allFiled = watch()
   const { fields, append, remove } = useFieldArray({
     control,
-    name: "answers",
-  });
+    name: 'answers'
+  })
 
   useEffect(() => {
-    append({ answer: "" })
+    append({ answer: '' })
   }, [])
 
   const [startDate, setStartDate] = useState<Date>(new Date())
@@ -75,7 +73,6 @@ export const CreatingLecture = () => {
       formData.append('image', file[0])
       try {
         const response = await FileService.addImageLesson(formData)
-        console.log(response);
         setPhotoPath(URL.createObjectURL(file[0]))
         setIsLoadingAvatar(false)
         setImage(response.data.data.avatar)
@@ -103,14 +100,37 @@ export const CreatingLecture = () => {
     setStartDate(new Date())
     setEndDate(END_DATE)
     reset()
-    append({ answer: "" })
+    append({ answer: '' })
   }
 
   const addLecture = handleSubmit(
-    async ({ answers, description, question, score, title, typeLesson, videoUrl, qrCode }) => {
-      const data = { answers, correctAnswer, description, endDate, image, question, score, startDate, title, typeLesson, videoUrl, qrCode }
+    async ({
+      answers,
+      description,
+      question,
+      score,
+      title,
+      typeLesson,
+      videoUrl,
+      qrCode
+    }) => {
+      const data = {
+        answers,
+        correctAnswer,
+        description,
+        endDate,
+        image,
+        question,
+        score,
+        startDate,
+        title,
+        typeLesson,
+        videoUrl,
+        qrCode
+      }
       const formData = new FormData()
-      const idChallenge = Number(params.id) === 0 ? challenge_id : Number(params.id)
+      const idChallenge =
+        Number(params.id) === 0 ? challenge_id : Number(params.id)
       formData.append('title', title)
       formData.append('challenge', JSON.stringify(idChallenge))
       formData.append('description', description)
@@ -162,104 +182,134 @@ export const CreatingLecture = () => {
         type='text'
         className='creating-lecture__input _field'
         placeholder={'Заголовок лекции'}
-        {...register("title", {
+        {...register('title', {
           required: true
         })}
       />
-      {errors.title?.type === 'required' && <p role="alert" className='creating-lecture__error'>Данное поле не может быть пустым</p>}
+      {errors.title?.type === 'required' && (
+        <p role='alert' className='creating-lecture__error'>
+          Данное поле не может быть пустым
+        </p>
+      )}
       <input
         className={'creating-lecture__url _field'}
         placeholder={'URL лекции'}
-        {...register("videoUrl")}
+        {...register('videoUrl')}
       />
       <input
         type='text'
         className='creating-lecture__description _field'
         placeholder={'Описание задания'}
-        {...register("description", {
+        {...register('description', {
           required: true
         })}
       />
-      {errors.description?.type === 'required' && <p role="alert" className='creating-lecture__error'>Данное поле не может быть пустым</p>}
+      {errors.description?.type === 'required' && (
+        <p role='alert' className='creating-lecture__error'>
+          Данное поле не может быть пустым
+        </p>
+      )}
       <input
         id='image'
         type='file'
         className='creating-lecture__description'
         onChange={addCover}
       />
-      {!isLoadingAvatar ? <label htmlFor='image' className='creating-lecture__image'>
-        {photoPath && <img src={photoPath} alt='' />}
-        {!photoPath && (
-          <div className={'creating-lecture__local-image'}>
-            <img src={icon_camera} alt='' /> <br />
-            <br />
-          </div>
-        )}
-      </label> : <h1 style={{ marginBottom: 20 }}>Загружается...</h1>}
+      {!isLoadingAvatar ? (
+        <label htmlFor='image' className='creating-lecture__image'>
+          {photoPath && <img src={photoPath} alt='' />}
+          {!photoPath && (
+            <div className={'creating-lecture__local-image'}>
+              <img src={icon_camera} alt='' /> <br />
+              <br />
+            </div>
+          )}
+        </label>
+      ) : (
+        <h1 style={{ marginBottom: 20 }}>Загружается...</h1>
+      )}
       <div className='creating-lecture__sub-title creating-sub-title'>
         Задание
       </div>
 
       <div className='creating-lecture__select _custom-select'>
         <select
-          {...register("typeLesson", {
-            required: "select one option"
+          {...register('typeLesson', {
+            required: 'select one option'
           })}
         >
-          <option value={""}>Тип задания</option>
+          <option value={''}>Тип задания</option>
           <option value={1}>Выбор правильного ответа</option>
           <option value={2}>Отсканировать QR Код</option>
           <option value={3}>Строка для ответа</option>
           <option value={4}>Загрузить файл</option>
         </select>
       </div>
-      {errors.typeLesson?.type === 'required' && <p role="alert" className='creating-lecture__error'>Вы не выбрали тип задания</p>}
+      {errors.typeLesson?.type === 'required' && (
+        <p role='alert' className='creating-lecture__error'>
+          Вы не выбрали тип задания
+        </p>
+      )}
       {allFiled.typeLesson === '1' && (
         <div className='choice-answer'>
           <input
             type='text'
             className='choice-answer__input _field'
-            {...register("question", {
+            {...register('question', {
               required: true
             })}
             placeholder='Вопрос'
           />
-          {errors.question?.type === 'required' && <p role="alert" className='creating-lecture__error'>Данное поле не может быть пустым</p>}
-          {
-            fields.map((item, index) => (
-              <div key={item.id}>
-                <input
-                  onClick={() => setCorrectAnswer(index)}
-                  placeholder='Ответ на вопрос'
-                  className={
-                    correctAnswer === index
-                      ? 'choice-answer__input _field + choice-answer__input_corrected'
-                      
-                      : ( correctAnswer === -1 ? 'choice-answer__input _field + choice-answer__input_corrected'
-                        :
-                        'choice-answer__input _field')
-                  }
-                  {...register(`answers.${index}.answer`, {
-                    required: true
-                  })}
-                />
-                {errors?.['answers']?.[index]?.['answer']?.type === 'required' && <p role="alert" className='creating-lecture__error'>Данное поле не может быть пустым</p>}
-              </div>
-            ))
-          }
+          {errors.question?.type === 'required' && (
+            <p role='alert' className='creating-lecture__error'>
+              Данное поле не может быть пустым
+            </p>
+          )}
+          {fields.map((item, index) => (
+            <div key={item.id}>
+              <input
+                onClick={() => setCorrectAnswer(index)}
+                placeholder='Ответ на вопрос'
+                className={
+                  correctAnswer === index
+                    ? 'choice-answer__input _field + choice-answer__input_corrected'
+                    : correctAnswer === -1
+                    ? 'choice-answer__input _field + choice-answer__input_corrected'
+                    : 'choice-answer__input _field'
+                }
+                {...register(`answers.${index}.answer`, {
+                  required: true
+                })}
+              />
+              {errors?.['answers']?.[index]?.['answer']?.type ===
+                'required' && (
+                <p role='alert' className='creating-lecture__error'>
+                  Данное поле не может быть пустым
+                </p>
+              )}
+            </div>
+          ))}
           <div className='choice-answer__buttons'>
             <button
               className='choice-answer__button'
-              type="button"
-              onClick={() => append({ answer: "" })}
+              type='button'
+              onClick={() => append({ answer: '' })}
             >
               Добавить ответ
             </button>
-            <button className='choice-answer__button choice-answer__button_del' type="button"
-              onClick={() => allFiled.answers.length > 1 && remove(allFiled.answers.length - 1)}>Удалить ответ</button>
+            <button
+              className='choice-answer__button choice-answer__button_del'
+              type='button'
+              onClick={() =>
+                allFiled.answers.length > 1 &&
+                remove(allFiled.answers.length - 1)
+              }
+            >
+              Удалить ответ
+            </button>
             <button
               className='choice-answer__button choice-answer__button_suc'
-              type="button"
+              type='button'
               onClick={() => setCorrectAnswer(-1)}
             >
               Все правильные
@@ -273,11 +323,15 @@ export const CreatingLecture = () => {
             type='text'
             className='qr-code__input _field'
             placeholder={'Информация для QR кода'}
-            {...register("qrCode", {
+            {...register('qrCode', {
               required: true
             })}
           />
-          {errors.qrCode?.type === 'required' && <p role="alert" className='creating-lecture__error'>Данное поле не может быть пустым</p>}
+          {errors.qrCode?.type === 'required' && (
+            <p role='alert' className='creating-lecture__error'>
+              Данное поле не может быть пустым
+            </p>
+          )}
         </div>
       )}
       {allFiled.typeLesson === '3' && (
@@ -286,11 +340,15 @@ export const CreatingLecture = () => {
             type='text'
             className='string-answer__input _field'
             placeholder={'Вопрос'}
-            {...register("question", {
+            {...register('question', {
               required: true
             })}
           />
-          {errors.question?.type === 'required' && <p role="alert" className='creating-lecture__error'>Данное поле не может быть пустым</p>}
+          {errors.question?.type === 'required' && (
+            <p role='alert' className='creating-lecture__error'>
+              Данное поле не может быть пустым
+            </p>
+          )}
         </div>
       )}
       {allFiled.typeLesson === '4' && <div className='dowload-file'></div>}
@@ -308,7 +366,11 @@ export const CreatingLecture = () => {
           customInput={<ExampleCustomInput />}
         />
       </div>
-      {errors.startDate?.type === 'required' && <p role="alert" className='creating-lecture__error'>Выберите начало и конец периода</p>}
+      {errors.startDate?.type === 'required' && (
+        <p role='alert' className='creating-lecture__error'>
+          Выберите начало и конец периода
+        </p>
+      )}
       <div className='creating-lecture__score'>
         <div className='creating-lecture__sub-title creating-sub-title'>
           Награда за выполненное задания
@@ -316,13 +378,17 @@ export const CreatingLecture = () => {
         <input
           type='number'
           className='_field'
-          {...register("score", {
+          {...register('score', {
             required: true,
             valueAsNumber: true
           })}
         />
       </div>
-      {errors.score?.type === 'required' && <p role="alert" className='creating-lecture__error'>Данное поле не может быть пустым</p>}
+      {errors.score?.type === 'required' && (
+        <p role='alert' className='creating-lecture__error'>
+          Данное поле не может быть пустым
+        </p>
+      )}
       <div className='creating-lecture__buttons'>
         <Link
           to={CHALLENGE_ROUTE}
