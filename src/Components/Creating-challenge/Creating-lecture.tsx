@@ -65,6 +65,7 @@ export const CreatingLecture = () => {
   const [image, setImage] = useState<any>('')
   const [photoPath, setPhotoPath] = useState<any | null>(null)
   const [isLoadingAvatar, setIsLoadingAvatar] = useState<boolean>(false)
+  const [isLoadingCreateNews, setIsLoadingCreateNews] = useState<boolean>(false)
 
   const addCover = async () => {
 
@@ -132,6 +133,7 @@ export const CreatingLecture = () => {
       videoUrl,
       qrCode
     }) => {
+      setIsLoadingCreateNews(true)
       const data = {
         answers,
         correctAnswer,
@@ -185,6 +187,8 @@ export const CreatingLecture = () => {
         }
       } catch (error) {
         showToast('Произошла ошибка!')
+      }finally{
+        setIsLoadingCreateNews(false)
       }
     }
   )
@@ -402,10 +406,11 @@ export const CreatingLecture = () => {
           Завершить
         </Link>
         <button
+        disabled={isLoadingCreateNews}
           className='creating-lecture__button _button-white'
           onClick={addLecture}
         >
-          Добавить лекцию
+          {isLoadingCreateNews ? <span className="spinner"><i className="fa fa-spinner fa-spin"></i> Загрузка</span> : 'Добавить лекцию '}
         </button>
       </div>
     </form>
