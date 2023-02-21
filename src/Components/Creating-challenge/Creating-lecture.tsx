@@ -12,6 +12,7 @@ import { CHALLENGE_ROUTE } from '../../provider/constants-route'
 import icon_camera from '../../assets/image/icon-camera-add.svg'
 import Header from '../Header/Header'
 import { useFieldArray, useForm } from 'react-hook-form'
+import { Camera, CameraResultType } from '@capacitor/camera'
 registerLocale('ru', ru)
 
 interface IAnswer {
@@ -67,24 +68,40 @@ export const CreatingLecture = () => {
   const [photoPath, setPhotoPath] = useState<any | null>(null)
   const [isLoadingAvatar, setIsLoadingAvatar] = useState<boolean>(false)
 
-  const addCover = async (e: ChangeEvent<HTMLInputElement>) => {
+  const addCover = async () => {
+
+    const image = await Camera.getPhoto({
+      quality: 50,
+      allowEditing: true,
+      resultType: CameraResultType.Uri,
+      promptLabelPhoto: "Выбрать фото из галерии",
+      promptLabelPicture:"Сделать фотографию",
+      promptLabelHeader:"Фото"
+    })
+
+    let imageUrl = image.webPath || ''
+
+    let blob = await fetch(imageUrl).then((r) => r.blob())
     setIsLoadingAvatar(true)
-    const formData = new FormData()
-    const file: any = e.target.files
-    if (file[0]) {
-      formData.append('image', file[0])
+
+    if (blob) {
+      const formData = new FormData()
+      formData.append('image', blob)
       try {
         const response = await FileService.addImageLesson(formData)
-        console.log(response);
-        setPhotoPath(URL.createObjectURL(file[0]))
+        if(response.data.data.avatar){
+          setPhotoPath(imageUrl)
+          setImage(response.data.data.avatar)
+        } 
         setIsLoadingAvatar(false)
-        setImage(response.data.data.avatar)
       } catch (error) {
         setIsLoadingAvatar(false)
         setPhotoPath('')
         setImage('')
         await showToast('Изображение слишком много весит')
       }
+    } else {
+      await showToast('Изображения нет')
     }
   }
 
@@ -181,13 +198,8 @@ export const CreatingLecture = () => {
         })}
       />
       {errors.description?.type === 'required' && <p role="alert" className='creating-lecture__error'>Данное поле не может быть пустым</p>}
-      <input
-        id='image'
-        type='file'
-        className='creating-lecture__description'
-        onChange={addCover}
-      />
-      {!isLoadingAvatar ? <label htmlFor='image' className='creating-lecture__image'>
+   
+      {!isLoadingAvatar ? <div onClick={addCover} className='creating-lecture__image'>
         {photoPath && <img src={photoPath} alt='' />}
         {!photoPath && (
           <div className={'creating-lecture__local-image'}>
@@ -195,7 +207,7 @@ export const CreatingLecture = () => {
             <br />
           </div>
         )}
-      </label> : <h1 style={{ marginBottom: 20 }}>Загружается...</h1>}
+      </div> : <h1 style={{ marginBottom: 20 }}>Загружается...</h1>}
       <div className='creating-lecture__sub-title creating-sub-title'>
         Задание
       </div>

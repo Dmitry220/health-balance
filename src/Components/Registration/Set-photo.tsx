@@ -34,7 +34,8 @@ export const SetPhoto = () => {
       allowEditing: true,
       resultType: CameraResultType.Uri,
       promptLabelPhoto: "Выбрать фото из галерии",
-      promptLabelPicture:"Сделать фотографию"
+      promptLabelPicture:"Сделать фотографию",
+      promptLabelHeader:"Фото"
       
     })
 

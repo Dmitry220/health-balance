@@ -36,6 +36,7 @@ import {
   setTypePurpose
 } from '../../Redux/slice/purposeSlice'
 import { Link } from 'react-router-dom'
+import { Camera, CameraResultType } from '@capacitor/camera'
 
 registerLocale('ru', ru)
 
@@ -55,16 +56,31 @@ export const FinalVariant = () => {
 
   const dispatch = useAppDispatch()
 
-  const addCover = async (e: ChangeEvent<HTMLInputElement>) => {
+  const addCover = async () => {
+
+    const image = await Camera.getPhoto({
+      quality: 50,
+      allowEditing: true,
+      resultType: CameraResultType.Uri,
+      promptLabelPhoto: "Выбрать фото из галерии",
+      promptLabelPicture:"Сделать фотографию",
+      promptLabelHeader:"Фото"
+    })
+
+    let imageUrl = image.webPath || ''
+
+    let blob = await fetch(imageUrl).then((r) => r.blob())
     setIsLoadingAvatar(true)
-    const formData = new FormData()
-    const file: any = e.target.files
-    if (file[0]) {
+
+    if (blob) {
+      const formData = new FormData()
+      formData.append('image', blob)
       try {
-        formData.append('image', file[0])
         const response = await FileService.addImageChallenge(formData)
-        setPhotoPath(URL.createObjectURL(file[0]))
-        dispatch(setImageChallenge(response.data.data.avatar))
+        if(response.data.data.avatar){
+          setPhotoPath(imageUrl)
+          dispatch(setImageChallenge(response.data.data.avatar))
+        } 
         setIsLoadingAvatar(false)
       } catch (error) {
         setIsLoadingAvatar(false)
@@ -72,6 +88,8 @@ export const FinalVariant = () => {
         setPhotoPath('')
         dispatch(setImageChallenge(''))
       }
+    } else {
+      await showToast('Изображения нет')
     }
   }
 
@@ -83,8 +101,7 @@ export const FinalVariant = () => {
 
   return (
     <div className={'final-variant'}>
-      <input type={'file'} onChange={addCover} id='file' />
-      {!isLoadingAvatar ? <label htmlFor='file' className='final-variant__image'>
+      {!isLoadingAvatar ? <div onClick={addCover} className='final-variant__image'>
         {photoPath && (
           <img className={'final-variant__image-main'} src={photoPath} alt='' />
         )}
@@ -94,10 +111,9 @@ export const FinalVariant = () => {
             <span>Загрузите обложку</span>
           </div>
         )}
-      </label> : <h1 className='final-variant__image'>Загружается...</h1>}
+      </div> : <h1 className='final-variant__image'>Загружается...</h1>}
       <div className='final-variant__header'>
-        <input type={'file'} onChange={addCover} id='iconFile' />
-        {!isLoadingAvatar ? <label htmlFor='iconFile' className='final-variant__icon'>
+        {!isLoadingAvatar ? <div onClick={addCover} className='final-variant__icon'>
           {photoPath && <img src={photoPath} alt='' />}
           {!photoPath && (
             <div className={'final-variant__text'}>
@@ -106,7 +122,7 @@ export const FinalVariant = () => {
               <span>icon</span>
             </div>
           )}
-        </label> : <h1 className='final-variant__icon'>...</h1>}
+        </div> : <h1 className='final-variant__icon'>...</h1>}
         <div className='final-variant__header__info'>
           <div>
             <select

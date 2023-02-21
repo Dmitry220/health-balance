@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './creating-challenge.scss'
 import icon_reward from '../../assets/image/icon_reward.svg'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
@@ -8,7 +8,7 @@ import {
   setRewardPurpose,
   setTypePurpose
 } from '../../Redux/slice/purposeSlice'
-import { typeCreatingChallengeSelector } from '../../Redux/slice/challengeSlice'
+import { setDisabledButton, typeCreatingChallengeSelector } from '../../Redux/slice/challengeSlice'
 import { nFormatter, sklonenie } from '../../utils/common-functions'
 
 export const CreatingTargets = () => {
@@ -35,6 +35,14 @@ export const CreatingTargets = () => {
   }
 
   const creatingPurpose = useAppSelector(creatingPurposeSelector)
+
+  useEffect(() => {    
+    if (creatingPurpose.reward && creatingPurpose.quantity) {
+      dispatch(setDisabledButton(false))    
+    }else{
+      dispatch(setDisabledButton(true))
+    }
+  }, [creatingPurpose.quantity, creatingPurpose.reward])
 
   return (
     <div className={'targets'}>

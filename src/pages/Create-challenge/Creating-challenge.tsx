@@ -8,6 +8,7 @@ import {
   creatingChallenge,
   disableButtonChallengeSelector,
   errorCreatingChallengeSelector,
+  isLoadingSelector,
   setDisabledButton,
   typeCreatingChallengeSelector
 } from '../../Redux/slice/challengeSlice'
@@ -19,6 +20,7 @@ export const CreatingChallengePage = () => {
   const [order, setOrder] = useState<number>(0)
   const disabledButton = useAppSelector(disableButtonChallengeSelector)
   const error = useAppSelector(errorCreatingChallengeSelector)
+  const isLoading = useAppSelector(isLoadingSelector)
   const type = useAppSelector(typeCreatingChallengeSelector)
   const dispatch = useAppDispatch()
 
@@ -34,9 +36,10 @@ export const CreatingChallengePage = () => {
       await showToast('Ошибка')
     }
  
+
   
   }
-
+  console.log('render');
   const renderCreatingChallengeItems = () => {
     switch (order) {
       case 0:
@@ -95,8 +98,9 @@ export const CreatingChallengePage = () => {
           <button
             className='creating-challenge-page__button _button-white'
             onClick={saveChallenge}
+            disabled={isLoading}
           >
-            Сохранить
+             {isLoading ? <span className="spinner"><i className="fa fa-spinner fa-spin"></i> Загрузка</span> : 'Сохранить'}
           </button>
         )}
         {order < 7 && (
