@@ -22,6 +22,7 @@ export enum stageRegistration {
   tracker = 'tracker'
 }
 export enum stageCreatingChallenge {
+  customers = 'customers',
   platform = 'platform',
   type = 'typeChallenge',
   target = 'target',

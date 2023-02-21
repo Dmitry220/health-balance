@@ -3,6 +3,7 @@ import { RootState } from "../store";
 import {
   IChallengeCard,
   ICommandList,
+  IListCustomersPersonalChallenge,
   IMembersCommandList,
 } from "../../models/IChallenge";
 import ChallengeService from "../../services/ChallengeService";
@@ -22,6 +23,7 @@ export interface IChallenge {
     endDate: Date;
     team_amount: number;
     max_peoples: number;
+    customers: number[];
   };
   disabledButton?: boolean;
   activeChallenges: IChallengeCard[] | [];
@@ -31,7 +33,8 @@ export interface IChallenge {
   challenge: IChallengeCard | null;
   commandList: ICommandList[];
   membersCommandList: IMembersCommandList;
-  error:boolean
+  customers: IListCustomersPersonalChallenge[];
+  error: boolean;
 }
 
 const initialState: IChallenge = {
@@ -45,6 +48,7 @@ const initialState: IChallenge = {
     endDate: END_DATE,
     team_amount: 0,
     max_peoples: 0,
+    customers: [],
   },
   disabledButton: true,
   activeChallenges: [],
@@ -54,7 +58,8 @@ const initialState: IChallenge = {
   challenge: null,
   commandList: [],
   membersCommandList: { customers: [], title: "" },
-  error:false
+  customers: [],
+  error: false,
 };
 
 export const creatingChallenge = createAsyncThunk<unknown>(
@@ -86,28 +91,39 @@ export const creatingChallenge = createAsyncThunk<unknown>(
       "max_peoples",
       state.challenges.creatingChallenge.max_peoples
     );
+     
+    state.challenges.creatingChallenge.type === 3 &&
+      formData.append(
+        "customers",JSON.stringify(state.challenges.creatingChallenge.customers)
+        
+      );
     try {
       const response = await ChallengeService.creatingChallenge(formData);
 
-      if(response.data.challenge_id){
+      if (response.data.challenge_id) {
         const formDataPurpose = new FormData();
-        formDataPurpose.append("quantity",state.purposes.creatingPurpose.quantity);
+        formDataPurpose.append(
+          "quantity",
+          state.purposes.creatingPurpose.quantity
+        );
         formDataPurpose.append("type", state.purposes.creatingPurpose.type);
         formDataPurpose.append("reward", state.purposes.creatingPurpose.reward);
         formDataPurpose.append("challenge", response.data.challenge_id);
-  
-        const purposeResponse = await ChallengeService.creatingPurpose(formDataPurpose);
-        if(purposeResponse.data.purpose_id){
+
+        const purposeResponse = await ChallengeService.creatingPurpose(
+          formDataPurpose
+        );
+        if (purposeResponse.data.purpose_id) {
           return await response.data.challenge_id;
-        }else{
-          await showToast("Ошибка создания цели")
-        }        
-      }else{
-        await showToast("Ошибка создания")
+        } else {
+          await showToast("Ошибка создания цели");
+        }
+      } else {
+        await showToast("Ошибка создания");
       }
     } catch (e) {
       console.log(e);
-      await showToast("Ошибка создания")
+      await showToast("Ошибка создания");
     }
   }
 );
@@ -137,6 +153,14 @@ export const getMembersCommandList = createAsyncThunk(
   "getMembersCommandList",
   async (id: number) => {
     const response = await ChallengeService.getMembersCommand(id);
+    return response.data.data;
+  }
+);
+
+export const getCustomersPersonalChallenge = createAsyncThunk(
+  "getCustomersPersonalChallenge",
+  async () => {
+    const response = await ChallengeService.customersPersonalChallenge();
     return response.data.data;
   }
 );
@@ -177,8 +201,26 @@ export const challengeSlice = createSlice({
     setDisabledButton: (state, action) => {
       state.disabledButton = action.payload;
     },
+    setCustomersPersonalChallenge: (state, action: PayloadAction<number>) => {
+      if (action.payload === 0) {
+        state.creatingChallenge.customers = [];
+      } else {
+        if (state.creatingChallenge.customers.includes(action.payload)) {
+          state.creatingChallenge.customers =
+            state.creatingChallenge.customers.filter(
+              (item) => item != action.payload
+            );
+        } else {
+          state.creatingChallenge.customers = [
+            ...state.creatingChallenge.customers,
+            action.payload,
+          ];
+        }
+      }
+    },
   },
   extraReducers: (builder) => {
+    //Получение списка всех челелнджей
     builder.addCase(
       getListChallenges.fulfilled,
       (state, action: PayloadAction<IChallengeCard[]>) => {
@@ -192,16 +234,20 @@ export const challengeSlice = createSlice({
         state.isLoading = false;
       }
     );
+    //Включение прелоадера в получении челленджей
     builder.addCase(getListChallenges.pending, (state) => {
       state.isLoading = true;
     });
+    //Обработка ошибок в получение списка всех челленджей
     builder.addCase(getListChallenges.rejected, (state) => {
       state.isLoading = false;
       state.activeChallenges = [];
     });
+    //Включение прелоадера в создании челленджа
     builder.addCase(creatingChallenge.pending, (state) => {
       state.isLoading = true;
     });
+    //Обнуление полей после успешного создания челенджа
     builder.addCase(
       creatingChallenge.fulfilled,
       (state, action: PayloadAction<any>) => {
@@ -219,16 +265,16 @@ export const challengeSlice = createSlice({
           endDate: END_DATE,
           team_amount: 0,
           max_peoples: 0,
+          customers: [],
         };
       }
     );
-    builder.addCase(
-      creatingChallenge.rejected,
-      (state) => {
-        state.error = true;
-        state.isLoading = false;
-      }
-    );
+    //Обработка ошибок в создании челленджа
+    builder.addCase(creatingChallenge.rejected, (state) => {
+      state.error = true;
+      state.isLoading = false;
+    });
+    //Включение прелоадера в получении челленджа по id
     builder.addCase(getChallengeById.pending, (state) => {
       state.isLoading = true;
     });
@@ -239,22 +285,34 @@ export const challengeSlice = createSlice({
         state.isLoading = false;
       }
     );
+    //Получение списка доступных команд
     builder.addCase(
       getCommandList.fulfilled,
       (state, action: PayloadAction<ICommandList[]>) => {
         state.commandList = action.payload;
       }
     );
-    builder.addCase(
-      getMembersCommandList.pending,
-      (state) => {
-        state.isLoading = true;
-      }
-    );
+    //Включение прелоадера при получение участников команд
+    builder.addCase(getMembersCommandList.pending, (state) => {
+      state.isLoading = true;
+    });
+    //Получение списка участников команды
     builder.addCase(
       getMembersCommandList.fulfilled,
       (state, action: PayloadAction<IMembersCommandList>) => {
         state.membersCommandList = action.payload;
+        state.isLoading = false;
+      }
+    );
+    //Включение прелоадера при получении участников личного челенджа
+    builder.addCase(getCustomersPersonalChallenge.pending, (state) => {
+      state.isLoading = true;
+    });
+    //Получении участников личного челенджа
+    builder.addCase(
+      getCustomersPersonalChallenge.fulfilled,
+      (state, action: PayloadAction<IListCustomersPersonalChallenge[]>) => {
+        state.customers = action.payload;
         state.isLoading = false;
       }
     );
@@ -272,6 +330,7 @@ export const {
   setTitleChallenge,
   setTypeChallenge,
   setImageChallenge,
+  setCustomersPersonalChallenge,
 } = challengeSlice.actions;
 
 export const platformCreatingChallengeSelector = (state: RootState) =>
@@ -312,6 +371,10 @@ export const commandListSelector = (state: RootState) =>
   state.challenges.commandList;
 export const membersCommandListSelector = (state: RootState) =>
   state.challenges.membersCommandList;
-  export const errorCreatingChallengeSelector = (state: RootState) =>
+export const customersPersonalChallengeSelector = (state: RootState) =>
+  state.challenges.customers;
+export const customersCreatingChellengeSelector = (state: RootState) =>
+  state.challenges.creatingChallenge.customers;
+export const errorCreatingChallengeSelector = (state: RootState) =>
   state.challenges.error;
 export default challengeSlice.reducer;

@@ -492,3 +492,41 @@
     }
    }
  }
+
+ .customers-list{
+  &__title{
+    margin: 0 0 20px 0;
+    font-size: 18px;
+  }
+  &__checkbox{
+    width: 100%;
+    label{
+      flex-direction: row-reverse;
+      justify-content: space-between;
+    }
+    input:checked + label:after {
+      right: 17px;
+      left: auto;
+    } 
+  }
+  &__info{
+   display: flex;
+   align-items: center;
+   gap: 10px;
+   flex: 1 1 auto;
+  flex-wrap: wrap;
+  }
+  &__text{
+    word-break: break-all;
+  }
+  &__img{
+    flex: 0 0 35px;
+    height: 35px;
+    img{
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+  }
+ }

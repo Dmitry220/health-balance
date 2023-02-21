@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './creating-challenge.scss'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
 import {
+  setCustomersPersonalChallenge,
   setTypeChallenge,
   typeCreatingChallengeSelector
 } from '../../Redux/slice/challengeSlice'
@@ -20,6 +21,7 @@ export const TypeChallenge = () => {
     if (resetTarget) {
       dispatch(setRewardPurpose(0))
       dispatch(setQuantityPurpose(0))
+      dispatch(setCustomersPersonalChallenge(0))
     }
 
   }, [type])

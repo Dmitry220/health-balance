@@ -43,3 +43,10 @@ export interface IMembersCommandList {
   }[]
   title: string
 }
+
+export interface IListCustomersPersonalChallenge {
+  id: number;
+  name: string;
+  avatar: string;
+  surname: string
+}

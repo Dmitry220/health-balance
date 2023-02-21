@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios'
 import { $api } from '../http'
-import { ICommandList, IMembersCommandList } from '../models/IChallenge'
+import { ICommandList, IListCustomersPersonalChallenge, IMembersCommandList } from '../models/IChallenge'
 import { IPurposeResponse } from '../models/IPurpose'
 
 export default class ChallengeService {
@@ -74,6 +74,12 @@ export default class ChallengeService {
   static async completeChallenge(id: number) {
     return $api.post(
       `/v2/challenges/${id}/complete/?token=${localStorage.getItem('token')}`
+    )
+  }
+
+  static async customersPersonalChallenge():Promise<AxiosResponse<{data:IListCustomersPersonalChallenge[]}>> {
+    return $api.get(
+      `/v2/customers?token=${localStorage.getItem('token')}&curator_teams=1`
     )
   }
 }

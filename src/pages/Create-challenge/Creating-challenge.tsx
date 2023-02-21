@@ -26,20 +26,17 @@ export const CreatingChallengePage = () => {
 
   const saveChallenge = async () => {
     try {
-    await dispatch(creatingChallenge()).then(e=>{
-      if(e.payload){
-        setOrder((prev) => prev + 1)
-      }      
-    })
+      await dispatch(creatingChallenge()).then(e => {
+        if (e.payload) {
+          setOrder((prev) => prev + 1)
+        }
+      })
     } catch (error) {
       console.log(error);
       await showToast('Ошибка')
     }
- 
-
-  
   }
-  console.log('render');
+
   const renderCreatingChallengeItems = () => {
     switch (order) {
       case 0:
@@ -47,21 +44,22 @@ export const CreatingChallengePage = () => {
       case 1:
         return <CreatingChallengeItem stage={stageCreatingChallenge.type} />
       case 2:
-        return <CreatingChallengeItem stage={stageCreatingChallenge.target} />
+        return <CreatingChallengeItem stage={stageCreatingChallenge.customers} />
       case 3:
-        return <CreatingChallengeItem stage={stageCreatingChallenge.data} />
+        return <CreatingChallengeItem stage={stageCreatingChallenge.target} />
       case 4:
-        return <CreatingChallengeItem stage={stageCreatingChallenge.title} />
+        return <CreatingChallengeItem stage={stageCreatingChallenge.data} />
       case 5:
+        return <CreatingChallengeItem stage={stageCreatingChallenge.title} />
+      case 6:
         return (
           <CreatingChallengeItem stage={stageCreatingChallenge.description} />
         )
-
-      case 6:
-        return <CreatingChallengeItem stage={stageCreatingChallenge.teams} />
       case 7:
-        return <CreatingChallengeItem stage={stageCreatingChallenge.finally} />
+        return <CreatingChallengeItem stage={stageCreatingChallenge.teams} />
       case 8:
+        return <CreatingChallengeItem stage={stageCreatingChallenge.finally} />
+      case 9:
         return (
           <ModalStatus
             subTitle='Челлендж появится после проверки модератором'
@@ -77,7 +75,7 @@ export const CreatingChallengePage = () => {
       <Header title={'Создание челленджа'} />
       {renderCreatingChallengeItems()}
       <div className='creating-challenge-page__buttons'>
-        {order > 0 && order <= 7 && (
+        {/* {order > 0 && order <= 7 && (
           <button
             className='creating-challenge-page__button _button-white'
             onClick={() => {
@@ -93,17 +91,17 @@ export const CreatingChallengePage = () => {
           >
             Назад
           </button>
-        )}
-        {order === 7 && (
+        )} */}
+        {order === 8 && (
           <button
             className='creating-challenge-page__button _button-white'
             onClick={saveChallenge}
             disabled={isLoading}
           >
-             {isLoading ? <span className="spinner"><i className="fa fa-spinner fa-spin"></i> Загрузка</span> : 'Сохранить'}
+            {isLoading ? <span className="spinner"><i className="fa fa-spinner fa-spin"></i> Загрузка</span> : 'Сохранить'}
           </button>
         )}
-        {order < 7 && (
+        {order < 8 && (
           <button
             className={
               'creating-challenge-page__button _button-white' +
@@ -111,12 +109,14 @@ export const CreatingChallengePage = () => {
             }
             disabled={disabledButton}
             onClick={() => {
-              if (type === 3 && order === 5) {
+              if (type === 3 && order === 6) {
                 setOrder((prev) => prev + 2)
-              } else {
+              } else if(type===2 && order === 1){
+                setOrder((prev) => prev + 2)
+              }else{
                 setOrder((prev) => prev + 1)
               }
-              if (order === 3 || order === 4 || order === 5) {
+              if (order === 4 || order === 5 || order === 6) {
                 dispatch(setDisabledButton(true))
               }
             }}

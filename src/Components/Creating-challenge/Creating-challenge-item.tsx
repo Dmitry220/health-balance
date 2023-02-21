@@ -9,6 +9,7 @@ import { CreatingDescriptionChallenge } from './Creating-description-challenge'
 import { CreatingCommandsChallenge } from './Creating-commands-challenge'
 import './creating-challenge.scss'
 import { FinalVariant } from './Final-variant'
+import { CustomersList } from './Customers-list'
 
 interface ICreatingChallengeItem {
   stage: stageCreatingChallenge
@@ -19,6 +20,8 @@ export const CreatingChallengeItem: FC<ICreatingChallengeItem> = ({
 }) => {
   const renderField = () => {
     switch (stage) {
+      case stageCreatingChallenge.customers:
+        return <CustomersList />
       case stageCreatingChallenge.platform:
         return <SelectPlatform />
       case stageCreatingChallenge.type:

@@ -25,6 +25,8 @@ export const SelectPlatform = () => {
       setListPlatforms(response.data.data)
       if(platform){
         dispatch(setDisabledButton(false))
+      }else{
+        dispatch(setDisabledButton(true))
       }
     }
     getListPlatform()
