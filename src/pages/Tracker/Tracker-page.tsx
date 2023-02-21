@@ -15,11 +15,12 @@ import {
 } from '../../utils/common-functions'
 import { TrackerHabitsPage } from '../Tracker-habits/Tracker-habits-page'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
-import {
-  trackerVisitSelector
-} from '../../Redux/slice/visitedPageSlice'
+import { trackerVisitSelector } from '../../Redux/slice/visitedPageSlice'
 import TrackerService from '../../services/TrackerService'
-import { setVisitedTrackerPage, visitPagesSelector } from '../../Redux/slice/authSlice'
+import {
+  setVisitedTrackerPage,
+  visitPagesSelector
+} from '../../Redux/slice/authSlice'
 
 export const TrackerPage = () => {
   const trackerVisitCount = useAppSelector(visitPagesSelector)
@@ -47,7 +48,6 @@ export const TrackerPage = () => {
 
   const changeHour = (value: string) => setHour(value)
   const changeMinutes = (value: string) => setMinutes(value)
-
 
   if (trackerVisitCount.tracker === 1) {
     return <TrackerHabitsPage />
@@ -114,7 +114,10 @@ export const TrackerPage = () => {
             <div className='tracker__recommendation small-text'>
               Оптимальное время засыпания:{' '}
               <span className='text-blue'>
-                {(+hour - 8 < 0 ? 24 + (+hour - 8) : +hour - 8).toString().padStart(2, '0')} :{minutes.padStart(2, '0')}
+                {(+hour - 8 < 0 ? 24 + (+hour - 8) : +hour - 8)
+                  .toString()
+                  .padStart(2, '0')}{' '}
+                :{minutes.padStart(2, '0')}
               </span>
             </div>
           </div>
@@ -203,7 +206,6 @@ const SlideNextButton: FC<ISwiperNextButton> = ({
   const next = async () => {
     switch (swiper.activeIndex) {
       case 3:
-        console.log(wake_up_time);        
         const formData = new FormData()
         formData.append('wake_up_time', wake_up_time)
         formData.append('weight', weight)

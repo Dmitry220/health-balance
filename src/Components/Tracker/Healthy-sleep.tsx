@@ -7,7 +7,13 @@ import { Link } from 'react-router-dom'
 import { GOAL_SLEEP__ROUTE } from '../../provider/constants-route'
 import TrackerService from '../../services/TrackerService'
 import { ITrack } from '../../models/ITracker'
-import { datesSleepSelector, isLoadingSelector, setDateSleep, trackerSelector, tracksSelector } from '../../Redux/slice/trackerSlice'
+import {
+  datesSleepSelector,
+  isLoadingSelector,
+  setDateSleep,
+  trackerSelector,
+  tracksSelector
+} from '../../Redux/slice/trackerSlice'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
 import { Preloader } from '../Preloader/Preloader'
 import { sklonenie } from '../../utils/common-functions'
@@ -16,156 +22,157 @@ interface IHealthySleep {
   editProhibition?: boolean
 }
 export const HealthySleep: FC<IHealthySleep> = ({ editProhibition }) => {
-
   const dispacth = useAppDispatch()
   const tracker = useAppSelector(trackerSelector)
   const isloading = useAppSelector(isLoadingSelector)
   let hour = tracker.wake_up_time.split(':')[0]
   let minutes = tracker.wake_up_time.split(':')[1]
   const morning = tracker.wake_up_time
-  const evening = (+hour - 8 < 0 ? 24 + (+hour - 8) : +hour - 8).toString().padStart(2, '0') + ':' + minutes
+  const evening =
+    (+hour - 8 < 0 ? 24 + (+hour - 8) : +hour - 8).toString().padStart(2, '0') +
+    ':' +
+    minutes
   const tracks = useAppSelector(tracksSelector)
-  const wake_up = (tracks.waterTrack.length > 2 && tracks.waterTrack[0].completed && tracks.waterTrack[1].completed)
+  const wake_up =
+    tracks.waterTrack.length > 2 &&
+    tracks.waterTrack[0].completed &&
+    tracks.waterTrack[1].completed
   const sleepDays: ITrack[] = [
     {
       id: 1,
-      "type": 1,
-      "additional": 'пн',
-      "notification_send": false,
-      "send_time": 0,
-      "completed": false
+      type: 1,
+      additional: 'пн',
+      notification_send: false,
+      send_time: 0,
+      completed: false
     },
     {
-      "id": 2,
-      "type": 1,
-      "additional": 'пн',
-      "notification_send": false,
-      "send_time": 0,
-      "completed": false
+      id: 2,
+      type: 1,
+      additional: 'пн',
+      notification_send: false,
+      send_time: 0,
+      completed: false
     },
     {
-      "id": 3,
-      "type": 1,
-      "additional": 'вт',
-      "notification_send": false,
-      "send_time": 0,
-      "completed": false
+      id: 3,
+      type: 1,
+      additional: 'вт',
+      notification_send: false,
+      send_time: 0,
+      completed: false
     },
     {
-      "id": 4,
-      "type": 1,
-      "additional": 'вт',
-      "notification_send": false,
-      "send_time": 0,
-      "completed": false
+      id: 4,
+      type: 1,
+      additional: 'вт',
+      notification_send: false,
+      send_time: 0,
+      completed: false
     },
     {
-      "id": 5,
-      "type": 1,
-      "additional": 'ср',
-      "notification_send": false,
-      "send_time": 0,
-      "completed": false
+      id: 5,
+      type: 1,
+      additional: 'ср',
+      notification_send: false,
+      send_time: 0,
+      completed: false
     },
     {
-      "id": 6,
-      "type": 1,
-      "additional": 'ср',
-      "notification_send": false,
-      "send_time": 0,
-      "completed": false
+      id: 6,
+      type: 1,
+      additional: 'ср',
+      notification_send: false,
+      send_time: 0,
+      completed: false
     },
     {
-      "id": 7,
-      "type": 1,
-      "additional": 'чт',
-      "notification_send": false,
-      "send_time": 0,
-      "completed": false
+      id: 7,
+      type: 1,
+      additional: 'чт',
+      notification_send: false,
+      send_time: 0,
+      completed: false
     },
     {
-      "id": 8,
-      "type": 1,
-      "additional": 'чт',
-      "notification_send": false,
-      "send_time": 0,
-      "completed": false
+      id: 8,
+      type: 1,
+      additional: 'чт',
+      notification_send: false,
+      send_time: 0,
+      completed: false
     },
     {
-      "id": 9,
-      "type": 1,
-      "additional": 'пт',
-      "notification_send": false,
-      "send_time": 0,
-      "completed": false
+      id: 9,
+      type: 1,
+      additional: 'пт',
+      notification_send: false,
+      send_time: 0,
+      completed: false
     },
     {
-      "id": 10,
-      "type": 1,
-      "additional": 'пт',
-      "notification_send": false,
-      "send_time": 0,
-      "completed": false
+      id: 10,
+      type: 1,
+      additional: 'пт',
+      notification_send: false,
+      send_time: 0,
+      completed: false
     },
     {
-      "id": 11,
-      "type": 1,
-      "additional": 'сб',
-      "notification_send": false,
-      "send_time": 0,
-      "completed": false
+      id: 11,
+      type: 1,
+      additional: 'сб',
+      notification_send: false,
+      send_time: 0,
+      completed: false
     },
     {
-      "id": 12,
-      "type": 1,
-      "additional": 'сб',
-      "notification_send": false,
-      "send_time": 0,
-      "completed": false
+      id: 12,
+      type: 1,
+      additional: 'сб',
+      notification_send: false,
+      send_time: 0,
+      completed: false
     },
     {
-      "id": 13,
-      "type": 1,
-      "additional": 'вс',
-      "notification_send": false,
-      "send_time": 0,
-      "completed": false
+      id: 13,
+      type: 1,
+      additional: 'вс',
+      notification_send: false,
+      send_time: 0,
+      completed: false
     },
     {
-      "id": 14,
-      "type": 1,
-      "additional": 'вс',
-      "notification_send": false,
-      "send_time": 0,
-      "completed": false
+      id: 14,
+      type: 1,
+      additional: 'вс',
+      notification_send: false,
+      send_time: 0,
+      completed: false
     }
   ]
   const pushArray: ITrack[] = []
   const [outputArray, setOutputArray] = useState<ITrack[]>([])
 
-
   useEffect(() => {
-
-    tracks.sleepTrack.forEach((itemServer,index) => {
-      pushArray.push(
-        {
-          ...itemServer,
-          id: index+1,
-          additional: itemServer.additional,
-          completed: itemServer.completed,
-          notification_send: itemServer.notification_send,
-          send_time: itemServer.send_time,
-          type: itemServer.type
-        }
-      )
+    tracks.sleepTrack.forEach((itemServer, index) => {
+      pushArray.push({
+        ...itemServer,
+        id: index + 1,
+        additional: itemServer.additional,
+        completed: itemServer.completed,
+        notification_send: itemServer.notification_send,
+        send_time: itemServer.send_time,
+        type: itemServer.type
+      })
     })
 
     let difference = sleepDays.length - tracks.sleepTrack.length
 
-    for (let i = difference - 1; i >= 0; i--) {   
-      if (i === difference - 1 && i%2===0) {
+    for (let i = difference - 1; i >= 0; i--) {
+      if (i === difference - 1 && i % 2 === 0) {
         pushArray.unshift({
-          id:outputArray.length-i,
+          id: outputArray.length - i,
           additional: sleepDays[i].additional,
           completed: true,
           notification_send: true,
@@ -174,7 +181,7 @@ export const HealthySleep: FC<IHealthySleep> = ({ editProhibition }) => {
         })
       } else {
         pushArray.unshift({
-          id: outputArray.length-i,
+          id: outputArray.length - i,
           additional: sleepDays[i].additional,
           completed: sleepDays[i].completed,
           notification_send: sleepDays[i].notification_send,
@@ -184,10 +191,7 @@ export const HealthySleep: FC<IHealthySleep> = ({ editProhibition }) => {
       }
     }
     setOutputArray(pushArray)
- 
   }, [tracks])
-
-  console.log(outputArray)
 
   if (isloading) {
     return <Preloader height='auto' />
@@ -214,7 +218,13 @@ export const HealthySleep: FC<IHealthySleep> = ({ editProhibition }) => {
           </div>
           <div className='healthy-sleep__border-dashed' />
           <div className='healthy-sleep__text'>
-            Вы спали <span> {wake_up ? '8 ' + sklonenie(8, ['час', 'часа', 'часов']) : 'менее 8 часов'}</span>
+            Вы спали{' '}
+            <span>
+              {' '}
+              {wake_up
+                ? '8 ' + sklonenie(8, ['час', 'часа', 'часов'])
+                : 'менее 8 часов'}
+            </span>
           </div>
           <div className='healthy-sleep__border-dashed' />
           <div className='healthy-sleep__icon'>
@@ -223,23 +233,30 @@ export const HealthySleep: FC<IHealthySleep> = ({ editProhibition }) => {
           </div>
         </div>
         <div className='healthy-sleep__days'>
-        {tracks.sleepTrack.length ? outputArray.map((item, index, array) => {
-            if (index % 2 === 0) {              
-              return <div className='healthy-sleep__item-day' key={item.id}>
-                {(array[index + 1].completed && array[index].completed) ? (
-                  <img
-                    className='healthy-sleep__icon-full'
-                    src={status_full}
-                    alt='status_full'
-                  />
-                ) : (
-                  <div className='healthy-sleep__circle' />
-                )}
-                <div className='healthy-sleep__day-text'>{item.additional}</div>
-              </div>
-            }
-          }
-          ) : <h1>Данных нет</h1>}
+          {tracks.sleepTrack.length ? (
+            outputArray.map((item, index, array) => {
+              if (index % 2 === 0) {
+                return (
+                  <div className='healthy-sleep__item-day' key={item.id}>
+                    {array[index + 1].completed && array[index].completed ? (
+                      <img
+                        className='healthy-sleep__icon-full'
+                        src={status_full}
+                        alt='status_full'
+                      />
+                    ) : (
+                      <div className='healthy-sleep__circle' />
+                    )}
+                    <div className='healthy-sleep__day-text'>
+                      {item.additional}
+                    </div>
+                  </div>
+                )
+              }
+            })
+          ) : (
+            <h1>Данных нет</h1>
+          )}
         </div>
       </div>
     </div>
