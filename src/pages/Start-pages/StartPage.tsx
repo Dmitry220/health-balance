@@ -22,6 +22,7 @@ import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
 import { dataUserSelector } from '../../Redux/slice/profileSlice'
 import { setPurposeSteps } from '../../Redux/slice/purposeSlice'
 import { setVisitedActivityPage } from '../../Redux/slice/authSlice'
+import { Capacitor } from '@capacitor/core'
 
 interface ISwiperNextButton {
   customClass: string
@@ -163,7 +164,9 @@ export const SlideNextButton: FC<ISwiperNextButton> = ({
     if (swiper.activeIndex === 4) {
       dispatch(setVisitedActivityPage(1))
       await dispatch(setPurposeSteps({ quantity, type }))
-      await Pedometer.requestPermission()
+      if(Capacitor.getPlatform()!='ios'){
+         await Pedometer.requestPermission()
+      }     
     }
     swiper.slideNext()
   }
