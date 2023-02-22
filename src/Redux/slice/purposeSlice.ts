@@ -61,6 +61,10 @@ export const purposesSlice = createSlice({
     },
     setTypePurpose: (state, action) => {
       state.creatingPurpose.type = action.payload
+    },
+    resetPurposeChallenge: (state) => {
+      state.creatingPurpose.reward = 0
+      state.creatingPurpose.quantity = 0
     }
   },
   extraReducers: (builder) => {
@@ -87,7 +91,7 @@ export const purposesSlice = createSlice({
   }
 })
 
-export const { setQuantityPurpose, setRewardPurpose, setTypePurpose } =
+export const { setQuantityPurpose, setRewardPurpose, setTypePurpose,resetPurposeChallenge } =
   purposesSlice.actions
 
 export const purposeSelector = (state: RootState) => state.purposes.purpose

@@ -15,6 +15,7 @@ import {
 import { ModalStatus } from '../../Components/Modals/Modal-status'
 import { CREATING_LECTURE_ROUTE } from '../../provider/constants-route'
 import { showToast } from '../../utils/common-functions'
+import { resetPurposeChallenge } from '../../Redux/slice/purposeSlice'
 
 export const CreatingChallengePage = () => {
   const [order, setOrder] = useState<number>(0)
@@ -27,8 +28,9 @@ export const CreatingChallengePage = () => {
   const saveChallenge = async () => {
     try {
       await dispatch(creatingChallenge()).then(e => {
-        if (e.payload) {
+        if (e.payload) {        
           setOrder((prev) => prev + 1)
+          dispatch(resetPurposeChallenge())
         }
       })
     } catch (error) {
