@@ -4,12 +4,15 @@ import { MotivationCard } from '../../Components/Motivation/Motivation-card'
 import { Post } from '../../Components/Motivation/Post'
 import { CommentForm } from '../../Components/Comment/Comment-form'
 import { ListComments } from '../../Components/Comment/List-comments'
-import { newsByIdSelector } from '../../Redux/slice/newsSlice'
-import { useAppSelector } from '../../utils/hooks/redux-hooks'
+import { getNewsById, newsByIdSelector } from '../../Redux/slice/newsSlice'
+import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
+import { useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 
 export const MotivationPage = () => {
   const news = useAppSelector(newsByIdSelector)
-
+  const dispatch = useAppDispatch()
+  const params = useParams()
   const conversionCategory = (category: number) => {
     switch (category) {
       case 1:
@@ -24,20 +27,29 @@ export const MotivationPage = () => {
         return 'Новость'
     }
   }
+
+  console.log(news);
+  useEffect(() => {
+    dispatch(getNewsById(Number(params.id)))
+  }, [])
+
   return (
     <div className={'motivation-page'}>
-      <Header title={conversionCategory(news?.category||0)} />
-      <div className='motivation-page__card'>
-        <MotivationCard />
-      </div>
-      <div className='motivation-page__hr' />
-      {/*<Post />*/}
-      <div className='motivation-page__comments'>
-        <CommentForm parentId={0} />
-        <br />
-        <br />
-        <ListComments />
-      </div>
+      <Header title={conversionCategory(news?.category || 0)} />
+      {news ? <>
+        <div className='motivation-page__card'>
+          <MotivationCard />
+        </div>
+        <div className='motivation-page__hr' />
+        <div className='motivation-page__comments'>
+          <CommentForm parentId={0} />
+          <br />
+          <br />
+          <ListComments />
+        </div>
+      </>
+        : <h1>Новость была удалена или ее не существует!</h1>
+      }
     </div>
   )
 }

@@ -31,7 +31,9 @@ export const ListComments = () => {
 
   useEffect(() => {
     dispatch(getComments(newsId))
-    dispatch(getNewsById(Number(params.id)))
+    if (idNewComment) {
+      dispatch(getNewsById(Number(params.id)))
+    }
   }, [idNewComment])
 
   return (
