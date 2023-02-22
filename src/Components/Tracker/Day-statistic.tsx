@@ -14,7 +14,8 @@ const DayStatistic: FC<IDayStatistic> = ({ date }) => {
 
   const tracks = useAppSelector(tracksSelector)
   const water  = tracks.waterTrack.filter(item => item.completed)
-  const wake_up  = (tracks.waterTrack.length>2&&tracks.waterTrack[0].completed && tracks.waterTrack[1].completed)
+  const sameDays =  tracks.waterTrack.length>=2?(tracks.waterTrack[0].additional === tracks.waterTrack[1].additional):false
+  const wake_up  = sameDays  ? (tracks.waterTrack[0]?.completed && tracks.waterTrack[1]?.completed) : tracks.waterTrack[0]?.completed
   const fruits  = tracks.fruitTrack.filter(item => item.completed)
 
   return (

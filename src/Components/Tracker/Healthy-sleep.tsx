@@ -27,16 +27,14 @@ export const HealthySleep: FC<IHealthySleep> = ({ editProhibition }) => {
   const isloading = useAppSelector(isLoadingSelector)
   let hour = tracker.wake_up_time.split(':')[0]
   let minutes = tracker.wake_up_time.split(':')[1]
+  const indexWeek = new Date().getDay() === 0 ? 6 : new Date().getDay() - 1
   const morning = tracker.wake_up_time
   const evening =
     (+hour - 8 < 0 ? 24 + (+hour - 8) : +hour - 8).toString().padStart(2, '0') +
     ':' +
     minutes
   const tracks = useAppSelector(tracksSelector)
-  const wake_up =
-    tracks.waterTrack.length > 2 &&
-    tracks.waterTrack[0].completed &&
-    tracks.waterTrack[1].completed
+
   const sleepDays: ITrack[] = [
     {
       id: 1,
@@ -151,8 +149,11 @@ export const HealthySleep: FC<IHealthySleep> = ({ editProhibition }) => {
       completed: false
     }
   ]
+  
   const pushArray: ITrack[] = []
   const [outputArray, setOutputArray] = useState<ITrack[]>([])
+  const sameDays =  tracks.waterTrack.length>=2&&(tracks.waterTrack[0].additional === tracks.waterTrack[1].additional)
+  const wake_up  = sameDays ? (tracks.waterTrack[0]?.completed && tracks.waterTrack[1]?.completed) : tracks.waterTrack[0]?.completed
 
   useEffect(() => {
     tracks.sleepTrack.forEach((itemServer, index) => {
@@ -166,6 +167,7 @@ export const HealthySleep: FC<IHealthySleep> = ({ editProhibition }) => {
         type: itemServer.type
       })
     })
+    
 
     let difference = sleepDays.length - tracks.sleepTrack.length
 
