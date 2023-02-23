@@ -63,17 +63,15 @@ export const ActivityPage: FC = () => {
 
   const interval: { current: NodeJS.Timer | null } = useRef(null)
 
-
   const purpose = useAppSelector(purposeSelector)
   const currentStepsCount = useAppSelector(currentStepsCountSelector)
   const isGoogleFit = useAppSelector(isGoogleFitSelector)
-  
 
   useEffect(() => {
     if (Capacitor.getPlatform() === 'android') {
-      if (isGoogleFit===2) {
+      if (isGoogleFit === 2) {
         authGoogleFit()
-      } else {       
+      } else {
         startPlugin()
       }
     } else if (Capacitor.getPlatform() === 'ios') {
@@ -82,11 +80,7 @@ export const ActivityPage: FC = () => {
 
     window.addEventListener('scroll', function () {
       let scroll = window.pageYOffset
-      // let step: any = document.querySelector('#step')
-      // step.style.transform =
-      //   'translate3d(0,' + scroll / 5 + '%,0) scale(' + (1 - scroll / 250) + ')'
       if (scroll >= 200) {
-        //step.style.transform = 'translate3d(0, 42.2222%,0) scale(0.24)'
         setTransparentHeader(false)
       } else {
         setTransparentHeader(true)
@@ -98,7 +92,6 @@ export const ActivityPage: FC = () => {
       clearInterval(interval.current as NodeJS.Timeout)
     }
   }, [])
-
 
   const authGoogleFit = async () => {
     // запрос на авторизацию для отправки шагов
@@ -116,9 +109,8 @@ export const ActivityPage: FC = () => {
       })
       .catch((error) => console.error(error))
   }
- 
+
   const startPlugin = async () => {
-    Pedometer.start()
     let endDate = new Date().toLocaleDateString()
     let savedData = await Pedometer.getSavedData()
     let steps = savedData['numberOfSteps'] || '0'
@@ -184,7 +176,10 @@ export const ActivityPage: FC = () => {
       })
         .then((res: any) => {
           let steps = res.map((item: any) => {
-            return { date: item.startDate.toLocaleDateString(), steps: item.value.toFixed() }
+            return {
+              date: item.startDate.toLocaleDateString(),
+              steps: item.value.toFixed()
+            }
           })
 
           updateStepsPeriod(steps)
@@ -253,11 +248,16 @@ const Graphs = () => {
   const weeks = useAppSelector(weeksSelector)
   const purpose = useAppSelector(purposeSelector)
   const indexWeek = new Date().getDay() === 0 ? 6 : new Date().getDay() - 1
-  const percent = purpose && steps.statistic
-  ? steps.statistic[new Date().getDay() === 0 ? 6 : new Date().getDay() - 1]?.finished
-    ? 100
-    : ((steps.statistic[indexWeek]?.quantity * 100) / purpose?.quantity).toFixed(2)
-  : 0
+  const percent =
+    purpose && steps.statistic
+      ? steps.statistic[new Date().getDay() === 0 ? 6 : new Date().getDay() - 1]
+          ?.finished
+        ? 100
+        : (
+            (steps.statistic[indexWeek]?.quantity * 100) /
+            purpose?.quantity
+          ).toFixed(2)
+      : 0
 
   const dataDay = {
     labels: steps ? steps.statistic.map((item) => item.day) : [],
@@ -323,34 +323,49 @@ const Graphs = () => {
       start_date: startDateMonth.toLocaleDateString(),
       type: 2
     }
-   
-    async function asyncQuery() {   
+
+    async function asyncQuery() {
       await dispatch(getStepsPerDay(data))
       await dispatch(getStepsPerMonth(dataMonth))
-      await dispatch(getStepsPerWeek(dataWeek))       
+      await dispatch(getStepsPerWeek(dataWeek))
       dispatch(setMonths())
       dispatch(setWeeks())
     }
     asyncQuery()
   }, [currentStepsCount])
 
-  useEffect(()=>{
-    (async()=>{    
-      const isCompletedPurposeResponse = await PurposeService.isCompletedPurpose()
-     if(!isCompletedPurposeResponse.data.data.length && purpose && steps.statistic[indexWeek]?.quantity>=purpose.quantity){
-        const response = await PurposeService.completePersonalPurpose(purpose?.id)        
+  useEffect(() => {
+    ;(async () => {
+      const isCompletedPurposeResponse =
+        await PurposeService.isCompletedPurpose()
+      if (
+        !isCompletedPurposeResponse.data.data.length &&
+        purpose &&
+        steps.statistic[indexWeek]?.quantity >= purpose.quantity
+      ) {
+        const response = await PurposeService.completePersonalPurpose(
+          purpose?.id
+        )
         if (response.data.success) {
           setShowModal(true)
-        } 
+        }
       }
-  })()   
+    })()
   }, [steps])
 
   if (showModal) {
-    return <ModalSuccess updateActive={true} 
-    setShowModal={setShowModal} showModal={showModal} subTitle='Ваша награда' reward={purpose?.reward} title={'Личная цель на сегодня выполнена'} />
+    return (
+      <ModalSuccess
+        updateActive={true}
+        setShowModal={setShowModal}
+        showModal={showModal}
+        subTitle='Ваша награда'
+        reward={purpose?.reward}
+        title={'Личная цель на сегодня выполнена'}
+      />
+    )
   }
- 
+
   return (
     <div className='activity-page__dynamics dynamics'>
       <div className='dynamics__title'>Динамика</div>
@@ -367,15 +382,19 @@ const Graphs = () => {
           <div className='dynamics__value'>
             {nFormatter(steps.statistic[indexWeek]?.quantity, 2)} <br />{' '}
             <span>
-              {sklonenie(steps.statistic[indexWeek]?.quantity, ['шаг', 'шага', 'шагов'])}
+              {sklonenie(steps.statistic[indexWeek]?.quantity, [
+                'шаг',
+                'шага',
+                'шагов'
+              ])}
             </span>
           </div>
-          <div className='dynamics__value'>            
-            {((steps.statistic[indexWeek]?.quantity*0.7) / 1000).toFixed(2)}
+          <div className='dynamics__value'>
+            {((steps.statistic[indexWeek]?.quantity * 0.7) / 1000).toFixed(2)}
             <br /> <span>км</span>
           </div>
           <div className='dynamics__value'>
-          {percent}
+            {percent}
             %<br /> <span>от цели</span>
           </div>
         </div>

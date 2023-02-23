@@ -20,57 +20,61 @@ export const SyncingPage = () => {
   const dispatch = useAppDispatch()
 
   const togleGoogleFit = (e: ChangeEvent<HTMLInputElement>) => {
-    dispatch(setGoogleFit(+e.target.value));
+    dispatch(setGoogleFit(+e.target.value))
   }
 
   return (
     <div className={'sync-page'}>
       <Header title={'Синхронизация'} />
-      {(Capacitor.getPlatform() === 'android' || Capacitor.getPlatform() === 'web') && <> <div className='sync-page__item'>
-        <div className="custom-checkbox sync-page__radio">
-          <div>
-            <input
-              checked={isGoogleFit === 1}
-              value={1}
-              type="radio"
-              name={"radio"}
-              className={"custom-checkbox__checkbox"}
-              id={'1'}
-              onChange={togleGoogleFit}
-            />
-            <label htmlFor={'1'}>
-              <div className='sync-page__column'>
-                <div className='sync-page__icon'>
-                  <img src={plug} alt='google' />
-                </div>
-                <div className='sync-page__title'>Встроенный шагомер</div>
+      {(Capacitor.getPlatform() === 'android' ||
+        Capacitor.getPlatform() === 'web') && (
+        <>
+          <div className='sync-page__item'>
+            <div className='custom-checkbox sync-page__radio'>
+              <div>
+                <input
+                  checked={isGoogleFit === 1}
+                  value={1}
+                  type='radio'
+                  name={'radio'}
+                  className={'custom-checkbox__checkbox'}
+                  id={'1'}
+                  onChange={togleGoogleFit}
+                />
+                <label htmlFor={'1'}>
+                  <div className='sync-page__column'>
+                    <div className='sync-page__icon'>
+                      <img src={plug} alt='google' />
+                    </div>
+                    <div className='sync-page__title'>Встроенный шагомер</div>
+                  </div>
+                </label>
               </div>
-            </label>
+            </div>
           </div>
-        </div>
-      </div>
-        <div className='sync-page__item'>
-          <div className="custom-checkbox sync-page__radio">
-            <input
-              checked={isGoogleFit === 2}
-              value={2}
-              type="radio"
-              name={"radio"}
-              className={"custom-checkbox__checkbox"}
-              id={'2'}
-              onChange={togleGoogleFit}
-            />
-            <label htmlFor={'2'}>
-              <div className='sync-page__column'>
-                <div className='sync-page__icon'>
-                  <img src={google} alt='google' />
+          <div className='sync-page__item'>
+            <div className='custom-checkbox sync-page__radio'>
+              <input
+                checked={isGoogleFit === 2}
+                value={2}
+                type='radio'
+                name={'radio'}
+                className={'custom-checkbox__checkbox'}
+                id={'2'}
+                onChange={togleGoogleFit}
+              />
+              <label htmlFor={'2'}>
+                <div className='sync-page__column'>
+                  <div className='sync-page__icon'>
+                    <img src={google} alt='google' />
+                  </div>
+                  <div className='sync-page__title'>Google fit</div>
                 </div>
-                <div className='sync-page__title'>Google fit</div>
-              </div>
-            </label>
+              </label>
+            </div>
           </div>
-        </div>
-      </>}
+        </>
+      )}
 
       {/* <div className='sync-page__item'>
         <div className='sync-page__column'>

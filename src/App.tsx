@@ -1,17 +1,21 @@
 import { Capacitor } from '@capacitor/core'
 import OneSignal from 'onesignal-cordova-plugin'
-import {useEffect } from 'react'
+import Pedometer from './plugins/pedometer'
+import { useEffect } from 'react'
 import './assets/style/global.scss'
 import AppRouter from './provider/app-router'
 import { App as CapacitorApp } from '@capacitor/app'
 import TrackerService from './services/TrackerService'
 import { showToast } from './utils/common-functions'
-import { useNavigate } from "react-router-dom"
-import { MOTIVATION_ROUTE, TRACKER_HABITS_ROUTE } from './provider/constants-route'
-
+import { useNavigate } from 'react-router-dom'
+import {
+  MOTIVATION_ROUTE,
+  TRACKER_HABITS_ROUTE
+} from './provider/constants-route'
 
 function App() {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
+
   if (Capacitor.getPlatform() !== 'web') {
     OneSignal.setNotificationOpenedHandler(async (openedEvent) => {
       console.log('OneSignal: notification opened:', openedEvent)
@@ -31,6 +35,8 @@ function App() {
   }
 
   useEffect(() => {
+    Pedometer.start()
+
     CapacitorApp.addListener('backButton', ({ canGoBack }: any) => {
       if (!canGoBack) {
         CapacitorApp.exitApp()

@@ -18,18 +18,20 @@ export const Settings = () => {
     <div className={'settings'}>
       <Header title={'Настройки'} />
       <div className='settings__container'>
-        {Capacitor.getPlatform() != 'ios' && <div className='settings__block'>
-          <div className='settings__title'>Синхронизация</div>
-          <div className='settings__row'>
-            <div className='settings__notification-title'>Приложения</div>
-            <Link
-              to={SYNCING_ROUTE}
-              className='settings__notification-title settings__notification-title_blue'
-            >
-              Настроить
-            </Link>
+        {Capacitor.getPlatform() !== 'ios' && (
+          <div className='settings__block'>
+            <div className='settings__title'>Синхронизация</div>
+            <div className='settings__row'>
+              <div className='settings__notification-title'>Приложения</div>
+              <Link
+                to={SYNCING_ROUTE}
+                className='settings__notification-title settings__notification-title_blue'
+              >
+                Настроить
+              </Link>
+            </div>
           </div>
-        </div>}
+        )}
         {/* <div className='settings__block'>
           <div className='settings__title'>Уведомления</div>
           <div className='settings__items-notifications'>
