@@ -54,13 +54,15 @@ export const CreatingInteresting = () => {
         if(response.data.data.avatar){
           dispatch(setTempImageNews(imageUrl))
           dispatch(setImageNews(response.data.data.avatar))
-        } 
+        } else{
+          await showToast('Максимальный вес изображения 3 мб')
+        }
         setIsLoadingAvatar(false)
       } catch (error) {
         setIsLoadingAvatar(false)
         dispatch(setTempImageNews(''))
         dispatch(setImageNews(''))
-        await showToast('Изображение слишком много весит')
+        await showToast('Максимальный вес изображения 3 мб')
       }
     } else {
       await showToast('Изображения нет')

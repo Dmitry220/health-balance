@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { Pagination, A11y } from 'swiper'
 import { Swiper, SwiperSlide, useSwiper } from 'swiper/react'
 
@@ -21,8 +21,11 @@ import { getItemsStep } from '../../utils/common-functions'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
 import { dataUserSelector } from '../../Redux/slice/profileSlice'
 import { setPurposeSteps } from '../../Redux/slice/purposeSlice'
-import { setVisitedActivityPage } from '../../Redux/slice/authSlice'
+import { setVisitedActivityPage, visitPagesSelector } from '../../Redux/slice/authSlice'
 import { Capacitor } from '@capacitor/core'
+import { ActivityPage } from '../Activity-page/Activity-page'
+import PurposeService from '../../services/PurposeService'
+import { Navigate } from 'react-router-dom'
 
 interface ISwiperNextButton {
   customClass: string
@@ -39,6 +42,13 @@ export const StartPage = () => {
   )
   const dataUser = useAppSelector(dataUserSelector)
   const changeStep = (value: string) => setStepValue(value)
+  const activityVisitCount = useAppSelector(visitPagesSelector)
+
+
+  if (activityVisitCount.activity === 1) {
+    return <Navigate to={ACTIVITY_ROUTE} />
+  }
+
 
   return (
     <div className='preview'>
@@ -161,14 +171,14 @@ export const SlideNextButton: FC<ISwiperNextButton> = ({
   })
 
   const next = async () => {
-    if (swiper.activeIndex === 4) {
+    if (swiper.activeIndex === 4) {     
+      const isCompletedPurposeResponse = await PurposeService.isCompletedPurpose()
+      if (!isCompletedPurposeResponse.data.data.length) {
+        await dispatch(setPurposeSteps({ quantity, type }))
+      }
       dispatch(setVisitedActivityPage(1))
-      await dispatch(setPurposeSteps({ quantity, type }))
-      if(Capacitor.getPlatform()!='ios'){
-         await Pedometer.requestPermission()
-      }     
     }
-    swiper.slideNext()
+     swiper.slideNext()
   }
 
   return (

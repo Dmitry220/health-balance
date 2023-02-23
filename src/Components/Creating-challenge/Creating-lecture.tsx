@@ -91,13 +91,15 @@ export const CreatingLecture = () => {
         if(response.data.data.avatar){
           setPhotoPath(imageUrl)
           setImage(response.data.data.avatar)
-        } 
+        } else{
+          await showToast('Максимальный вес изображения 3 мб')
+        }
         setIsLoadingAvatar(false)
       } catch (error) {
         setIsLoadingAvatar(false)
         setPhotoPath('')
         setImage('')
-        await showToast('Изображение слишком много весит')
+        await showToast('Максимальный вес изображения 3 мб')
       }
     } else {
       await showToast('Изображения нет')

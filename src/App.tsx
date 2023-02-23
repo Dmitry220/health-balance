@@ -7,7 +7,7 @@ import { App as CapacitorApp } from '@capacitor/app'
 import TrackerService from './services/TrackerService'
 import { showToast } from './utils/common-functions'
 import { useNavigate } from "react-router-dom"
-import { MOTIVATION_ROUTE } from './provider/constants-route'
+import { MOTIVATION_ROUTE, TRACKER_HABITS_ROUTE } from './provider/constants-route'
 
 
 function App() {
@@ -24,11 +24,11 @@ function App() {
         notification.additionalData.track_id
       )
       if (response.data.success) {
+        navigate(TRACKER_HABITS_ROUTE)
         await showToast('Цель ' + notification.body + ' выполнена')
       }
     })
   }
-  console.log('app');
 
   useEffect(() => {
     CapacitorApp.addListener('backButton', ({ canGoBack }: any) => {

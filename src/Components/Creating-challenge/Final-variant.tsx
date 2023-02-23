@@ -80,11 +80,13 @@ export const FinalVariant = () => {
         if(response.data.data.avatar){
           setPhotoPath(imageUrl)
           dispatch(setImageChallenge(response.data.data.avatar))
-        } 
+        } else{
+          await showToast('Максимальный вес изображения 3 мб')
+        }
         setIsLoadingAvatar(false)
       } catch (error) {
         setIsLoadingAvatar(false)
-        await showToast('Изображение слишком много весит')
+        await showToast('Максимальный вес изображения 3 мб')
         setPhotoPath('')
         dispatch(setImageChallenge(''))
       }

@@ -63,7 +63,7 @@ export const ActivityPage: FC = () => {
 
   const interval: { current: NodeJS.Timer | null } = useRef(null)
 
-  const activityVisitCount = useAppSelector(visitPagesSelector)
+
   const purpose = useAppSelector(purposeSelector)
   const currentStepsCount = useAppSelector(currentStepsCountSelector)
   const isGoogleFit = useAppSelector(isGoogleFitSelector)
@@ -73,7 +73,7 @@ export const ActivityPage: FC = () => {
     if (Capacitor.getPlatform() === 'android') {
       if (isGoogleFit===2) {
         authGoogleFit()
-      } else {
+      } else {       
         startPlugin()
       }
     } else if (Capacitor.getPlatform() === 'ios') {
@@ -99,6 +99,7 @@ export const ActivityPage: FC = () => {
     }
   }, [])
 
+
   const authGoogleFit = async () => {
     // запрос на авторизацию для отправки шагов
     Health.isAvailable()
@@ -115,7 +116,7 @@ export const ActivityPage: FC = () => {
       })
       .catch((error) => console.error(error))
   }
-
+ 
   const startPlugin = async () => {
     Pedometer.start()
     let endDate = new Date().toLocaleDateString()
@@ -197,10 +198,6 @@ export const ActivityPage: FC = () => {
   const subtractMonths = (numOfMonths: number, date = new Date()) => {
     date.setMonth(date.getMonth() - numOfMonths)
     return date
-  }
-
-  if (activityVisitCount.activity === 0) {
-    return <StartPage />
   }
 
   return (

@@ -6,6 +6,7 @@ import {
   ACCESS_RECOVERY__ROUTE,
   ACTIVITY_ROUTE,
   REGISTRATION_ROUTE,
+  START_ROUTE,
 } from '../../provider/constants-route'
 import { useAppDispatch } from '../../utils/hooks/redux-hooks'
 import { resetFieldRegistration, sendLogin } from '../../Redux/slice/authSlice'
@@ -37,7 +38,7 @@ export const Auth = () => {
     await dispatch(sendLogin({ email, password, device_token,timezone}))
     dispatch(resetFieldRegistration())
     OneSignalInit()    
-    navigate(ACTIVITY_ROUTE)
+    navigate(START_ROUTE)
   }
 
   async function OneSignalInit () {    

@@ -49,14 +49,18 @@ export const SetPhoto = () => {
       formData.append('image', blob)
       try {
         const response = await FileService.uploadFile(formData)
-        setPhotoPath(imageUrl)
-        dispatch(setAvatarRegistartion(response.data.data.avatar))
+        if(response.data.data.avatar){
+          setPhotoPath(imageUrl)
+          dispatch(setAvatarRegistartion(response.data.data.avatar))
+        } else{
+          await showToast('Максимальный вес изображения 3 мб')
+        }   
         setIsLoadingAvatar(false)
         dispatch(setDisabledButton(false))
       } catch (error) {
         setIsLoadingAvatar(false)
         dispatch(setDisabledButton(true))
-        await showToast('Изображение слишком много весит')
+        await showToast('Максимальный вес изображения 3 мб')
         setPhotoPath('')
       }
     } else {

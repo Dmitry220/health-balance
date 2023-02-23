@@ -85,12 +85,16 @@ export const Editing = () => {
       formData.append('image', blob)
       try {
         const response = await FileService.uploadFile(formData)
-        setPhotoPath(imageUrl)
-        setAvatar(response.data.data.avatar)
+        if(response.data.data.avatar){
+          setPhotoPath(imageUrl)
+          setAvatar(response.data.data.avatar)
+        }else{
+          await showToast('Максимальный вес изображения 3 мб')
+        }       
         setIsLoadingAvatar(false)
       } catch (error) {
         setIsLoadingAvatar(false)
-        await showToast('Изображение слишком много весит')
+        await showToast('Максимальный вес изображения 3 мб')
         setPhotoPath('')
       }
     } else {
