@@ -112,6 +112,14 @@ export const CreatingLecture = () => {
     setEndDate(end)
   }
 
+  const youtube_parser = (url:string) =>{
+    var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+    var match = url.match(regExp);
+    return (match&&match[7].length==11)? match[7] : false;
+}
+
+  const convertVideo = (str:string) => 'https://www.youtube.com/embed/' + youtube_parser(str);
+
   const resetField = () => {
     const END_DATE = new Date()
     END_DATE.setDate(END_DATE.getDate() + 3)
@@ -157,7 +165,7 @@ export const CreatingLecture = () => {
       formData.append('challenge', JSON.stringify(idChallenge))
       formData.append('description', description)
       formData.append('type', typeLesson)
-      videoUrl && formData.append('video', videoUrl)
+      videoUrl && formData.append('video', convertVideo(videoUrl))
       formData.append('start_date', startDate.toLocaleDateString())
       formData.append('end_date', endDate.toLocaleDateString())
       formData.append('score', score + '')
