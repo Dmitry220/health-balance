@@ -11,6 +11,7 @@ import {
 } from '../Redux/slice/authSlice'
 import { setUserData } from '../Redux/slice/profileSlice'
 import { Preloader } from '../Components/Preloader/Preloader'
+import { StartPage } from '../pages/Start-pages/StartPage'
 
 const AppRouter = () => {
   const user = localStorage.getItem('token')
@@ -20,7 +21,7 @@ const AppRouter = () => {
 
   const idUser = Number(localStorage.getItem('id'))
 
-  useEffect(() => {
+  useEffect(() => {   
     if (isAuth && !isLoading) {
       dispatch(setUserData(idUser))
     } else {
@@ -37,7 +38,7 @@ const AppRouter = () => {
       {privateRoutes.map(({ path, Component }, index) => (
         <Route path={path} key={index} element={<Component />} />
       ))}
-      <Route path={'*'} element={<ActivityPage />} />
+      <Route path={'*'} element={<StartPage />} />
     </Routes>
   ) : (
     <Routes>

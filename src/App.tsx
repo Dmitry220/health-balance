@@ -35,15 +35,14 @@ function App() {
         await showToast('Цель ' + notification.body + ' выполнена')
       }
     })
-  }
-
-  
+  } 
 
   useEffect(() => {
-    Pedometer.start()
+    if(Capacitor.getPlatform()==='android'){
+       Pedometer.start()
+    }   
     SafeArea.getStatusBarHeight().then(({statusBarHeight}) => {
-      setStatusBarHeight(statusBarHeight)
-      console.log(statusBarHeight, 'statusbarHeight');
+      setStatusBarHeight(statusBarHeight)      
     })
     CapacitorApp.addListener('backButton', ({ canGoBack }: any) => {
       if (!canGoBack) {

@@ -18,6 +18,8 @@ import settingsIcon from "../../assets/image/icon_option.svg";
 import { balanceSelector } from '../../Redux/slice/appSlice'
 import avatar from '../../assets/image/avatar.jpeg'
 import { ModalExit } from '../../Components/Modals/Modal-exit'
+import Pedometer from '../../plugins/pedometer'
+import { Capacitor } from '@capacitor/core'
 
 
 export const Profile = () => {
@@ -40,7 +42,12 @@ export const Profile = () => {
   }, [])
 
   if(isLogoutModal){
-     return <ModalExit actionCallback={()=>dispatch(logout())} closeCallback={setLogoutModal}/>
+     return <ModalExit actionCallback={()=>{
+      if(Capacitor.getPlatform() === 'android'){
+        Pedometer.reset()
+      }     
+      dispatch(logout())
+    }} closeCallback={setLogoutModal}/>
   }
 
   const ads = {

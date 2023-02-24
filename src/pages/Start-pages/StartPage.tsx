@@ -12,7 +12,6 @@ import 'swiper/scss/scrollbar'
 import './start-page.scss'
 
 import { Steps } from '../../Components/Steps/Steps'
-import { Target } from '../../Components/Target/Target'
 import { StepsData } from '../../Components/Steps-data/Steps-data'
 import iconChat from '../../assets/image/icon_chat.svg'
 import { ScrollPicker } from '../../Components/Scroll-picker/Scroll-picker'
@@ -23,9 +22,9 @@ import { dataUserSelector } from '../../Redux/slice/profileSlice'
 import { setPurposeSteps } from '../../Redux/slice/purposeSlice'
 import { setVisitedActivityPage, visitPagesSelector } from '../../Redux/slice/authSlice'
 import { Capacitor } from '@capacitor/core'
-import { ActivityPage } from '../Activity-page/Activity-page'
 import PurposeService from '../../services/PurposeService'
 import { Navigate } from 'react-router-dom'
+import AppService from '../../services/AppService'
 
 interface ISwiperNextButton {
   customClass: string
@@ -44,6 +43,20 @@ export const StartPage = () => {
   const changeStep = (value: string) => setStepValue(value)
   const activityVisitCount = useAppSelector(visitPagesSelector)
 
+  useEffect(() => {
+   
+    (async () => {   
+      if (Capacitor.getPlatform() === 'android') {
+        const indexWeek = new Date().getDay() === 0 ? 7 : new Date().getDay()
+        const startDateDay = new Date()
+        startDateDay.setDate(startDateDay.getDate() - 7)       
+        const response = await AppService.getStepsPerDay(startDateDay.toLocaleDateString(), new Date().toLocaleDateString())
+        if (response.data.data.statistic) {
+          await Pedometer.setData({ "numberOfSteps": response.data.data.statistic[indexWeek].quantity })
+        }
+      }
+    })()
+  }, [])
 
   if (activityVisitCount.activity === 1) {
     return <Navigate to={ACTIVITY_ROUTE} />
@@ -171,14 +184,14 @@ export const SlideNextButton: FC<ISwiperNextButton> = ({
   })
 
   const next = async () => {
-    if (swiper.activeIndex === 4) {     
+    if (swiper.activeIndex === 4) {
       const isCompletedPurposeResponse = await PurposeService.isCompletedPurpose()
       if (!isCompletedPurposeResponse.data.data.length) {
         await dispatch(setPurposeSteps({ quantity, type }))
       }
       dispatch(setVisitedActivityPage(1))
     }
-     swiper.slideNext()
+    swiper.slideNext()
   }
 
   return (
