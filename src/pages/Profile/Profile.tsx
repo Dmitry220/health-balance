@@ -12,7 +12,7 @@ import {
   setUserData,
   updateProfile
 } from '../../Redux/slice/profileSlice'
-import { logout } from '../../Redux/slice/authSlice'
+import { clearResults, logout } from '../../Redux/slice/authSlice'
 import { IMAGE_URL } from '../../http'
 import settingsIcon from "../../assets/image/icon_option.svg";
 import { balanceSelector } from '../../Redux/slice/appSlice'
@@ -42,17 +42,14 @@ export const Profile = () => {
   }, [])
 
   if(isLogoutModal){
-     return <ModalExit actionCallback={()=>{
+     return <ModalExit actionCallback={async()=>{
       if(Capacitor.getPlatform() === 'android'){
         Pedometer.reset()
-      }     
+      }  
+      await dispatch(clearResults())
       dispatch(logout())
+     
     }} closeCallback={setLogoutModal}/>
-  }
-
-  const ads = {
-    naem: "sdf",
-    f: null
   }
 
   return (

@@ -139,6 +139,10 @@ export const authSlice = createSlice({
       state.visitPages.tracker = 0;
       state.visitPages.challenge = 0;
     },
+    clearResults() {
+      // Note that this should be left intentionally empty.
+			// Clearing redux state and localForage happens in rootReducer.ts.
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(
@@ -181,7 +185,8 @@ export const {
   setVisitedActivityPage,
   setVisitedChallengePage,
   setVisitedTrackerPage,
-  resetFieldRegistration
+  resetFieldRegistration,
+  clearResults
 } = authSlice.actions;
 
 export const emailSelector = (state: RootState) =>

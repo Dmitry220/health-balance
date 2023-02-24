@@ -52,8 +52,16 @@ const reducer = combineReducers({
 
 const persistedReducer = persistReducer(persistConfig, reducer)
 
+const rootReducer = (state:any, action:any) => {
+  if (action.type === 'auth/clearResults') {
+    state = undefined;
+  }
+  return persistedReducer(state, action);
+};
+
+
 export const store = configureStore({
-  reducer: persistedReducer,
+  reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false
