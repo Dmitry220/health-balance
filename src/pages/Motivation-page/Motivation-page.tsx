@@ -28,7 +28,6 @@ export const MotivationPage = () => {
     }
   }
 
-  console.log(news);
   useEffect(() => {
     dispatch(getNewsById(Number(params.id)))
   }, [])
@@ -36,20 +35,22 @@ export const MotivationPage = () => {
   return (
     <div className={'motivation-page'}>
       <Header title={conversionCategory(news?.category || 0)} />
-      {news ? <>
-        <div className='motivation-page__card'>
-          <MotivationCard />
-        </div>
-        <div className='motivation-page__hr' />
-        <div className='motivation-page__comments'>
-          <CommentForm parentId={0} />
-          <br />
-          <br />
-          <ListComments />
-        </div>
-      </>
-        : <h1>Новость была удалена или ее не существует!</h1>
-      }
+      {news ? (
+        <>
+          <div className='motivation-page__card'>
+            <MotivationCard />
+          </div>
+          <div className='motivation-page__hr' />
+          <div className='motivation-page__comments'>
+            <CommentForm parentId={0} />
+            <br />
+            <br />
+            <ListComments />
+          </div>
+        </>
+      ) : (
+        <h1>Новость была удалена или ее не существует!</h1>
+      )}
     </div>
   )
 }
