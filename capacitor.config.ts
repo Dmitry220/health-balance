@@ -6,7 +6,8 @@ const config: CapacitorConfig = {
   webDir: "build",
   bundledWebRuntime: false,
   ios: {
-    contentInset: "always"
+    contentInset: "always",
+    backgroundColor: "#121212"
 }
 };
 
