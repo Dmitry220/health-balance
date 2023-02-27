@@ -100,7 +100,7 @@ export const PersonalChat = () => {
           ></button>
         </div>
       </div>
-      <div className='line'></div>
+      <div className='line' style={{position:'fixed'}}></div>
     </div>
   )
 }
