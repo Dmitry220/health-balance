@@ -1,14 +1,13 @@
-import { CapacitorConfig } from "@capacitor/cli";
+import { CapacitorConfig } from '@capacitor/cli'
 
 const config: CapacitorConfig = {
-  appId: "com.academia.health",
-  appName: "HealthBalance",
-  webDir: "build",
+  appId: 'com.academia.health',
+  appName: 'HealthBalance',
+  webDir: 'build',
   bundledWebRuntime: false,
   ios: {
-    contentInset: "always",
-    backgroundColor: "#121212"
+    backgroundColor: '#121212'
+  }
 }
-};
 
-export default config;
+export default config

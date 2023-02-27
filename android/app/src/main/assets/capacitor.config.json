@@ -2,5 +2,8 @@
 	"appId": "com.academia.health",
 	"appName": "HealthBalance",
 	"webDir": "build",
-	"bundledWebRuntime": false
+	"bundledWebRuntime": false,
+	"ios": {
+		"backgroundColor": "#121212"
+	}
 }

@@ -14,49 +14,42 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 let persistor = persistStore(store)
 
 class ErrorBoundary extends React.Component {
-  constructor(props:any) {
-    super(props);
-    this.state = { hasError: false };
+  constructor(props: any) {
+    super(props)
+    this.state = { hasError: false }
   }
 
-  static getDerivedStateFromError(error:any) {
+  static getDerivedStateFromError(error: any) {
     // Update state so the next render will show the fallback UI.
-    return { hasError: true };
+    return { hasError: true }
   }
 
-  componentDidCatch(error:any, errorInfo:any) {
+  componentDidCatch(error: any, errorInfo: any) {
     // You can also log the error to an error reporting service
     //@ts-ignore
-    logErrorToMyService(error, errorInfo);
+    logErrorToMyService(error, errorInfo)
   }
 
   render() {
     //@ts-ignore
     if (this.state.hasError) {
       // You can render any custom fallback UI
-      return <h1>Something went wrong.</h1>;
+      return <h1>Something went wrong.</h1>
     }
-//@ts-ignore
-    return this.props.children; 
+    //@ts-ignore
+    return this.props.children
   }
 }
-
 
 root.render(
   <ErrorBoundary>
     <BrowserRouter>
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <App />
-      </PersistGate>
-    </Provider>
-  </BrowserRouter>
-</ErrorBoundary>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <App />
+        </PersistGate>
+      </Provider>
+    </BrowserRouter>
+  </ErrorBoundary>
 )
 defineCustomElements(window)
-// root.render(
-//  <h1>Запустилось!</h1>
-// )
-// defineCustomElements(window)
-
-

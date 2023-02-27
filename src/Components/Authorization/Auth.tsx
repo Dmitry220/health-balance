@@ -6,14 +6,13 @@ import {
   ACCESS_RECOVERY__ROUTE,
   ACTIVITY_ROUTE,
   REGISTRATION_ROUTE,
-  START_ROUTE,
+  START_ROUTE
 } from '../../provider/constants-route'
 import { useAppDispatch } from '../../utils/hooks/redux-hooks'
 import { resetFieldRegistration, sendLogin } from '../../Redux/slice/authSlice'
 import { Device } from '@capacitor/device'
 import { Capacitor } from '@capacitor/core'
 import OneSignal from 'onesignal-cordova-plugin'
-
 
 export const Auth = () => {
   const [email, setEmail] = useState<string>('')
@@ -30,22 +29,21 @@ export const Auth = () => {
   let navigate = useNavigate()
 
   const submit = async (e: any) => {
-    e.preventDefault()    
-    const uuid = await Device.getId()   
+    e.preventDefault()
+    const uuid = await Device.getId()
     const device_token = uuid.uuid
-    const timezone = -new Date().getTimezoneOffset()/60
-        
-    await dispatch(sendLogin({ email, password, device_token,timezone}))
+    const timezone = -new Date().getTimezoneOffset() / 60
+
+    await dispatch(sendLogin({ email, password, device_token, timezone }))
     dispatch(resetFieldRegistration())
-    OneSignalInit()    
+    OneSignalInit()
     navigate(START_ROUTE)
   }
 
-  async function OneSignalInit () {    
-    if (Capacitor.getPlatform() !== 'web') {  
-      let externalUserId = localStorage.getItem("id")     
+  async function OneSignalInit() {
+    if (Capacitor.getPlatform() !== 'web') {
+      let externalUserId = localStorage.getItem('id')
 
-      console.log('uuid device token ', externalUserId);
       OneSignal.setAppId('6c585b11-b33a-44f5-8c7b-3ffac2059d19')
       OneSignal.setNotificationOpenedHandler(function (jsonData) {
         console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData))
@@ -54,28 +52,36 @@ export const Auth = () => {
         console.log('User accepted notifications: ' + accepted)
       })
 
-      OneSignal.setExternalUserId(externalUserId, (results:any) => {
+      OneSignal.setExternalUserId(externalUserId, (results: any) => {
         // The results will contain push and email success statuses
-        console.log('Results of setting external user id ', JSON.stringify(results));
-               
+        console.log(
+          'Results of setting external user id ',
+          JSON.stringify(results)
+        )
+
         // Push can be expected in almost every situation with a success status, but
         // as a pre-caution its good to verify it exists
         if (results.push && results.push.success) {
-          console.log('Results of setting external user id push status: ',results.push.success);       
+          console.log(
+            'Results of setting external user id push status: ',
+            results.push.success
+          )
         }
-        
+
         // Verify the email is set or check that the results have an email success status
         if (results.email && results.email.success) {
-          console.log('Results of setting external user id email status: ',results.email.success);        
+          console.log(
+            'Results of setting external user id email status: ',
+            results.email.success
+          )
         }
-      
+
         // Verify the number is set or check that the results have an sms success status
         if (results.sms && results.sms.success) {
-          console.log('Results of setting external user id sms status:');
-          console.log(results.sms.success);
+          console.log('Results of setting external user id sms status:')
+          console.log(results.sms.success)
         }
-      });
-     
+      })
     }
   }
 

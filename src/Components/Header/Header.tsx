@@ -1,7 +1,5 @@
-import { Capacitor } from '@capacitor/core'
-import { FC, useEffect, useState } from 'react'
+import { FC } from 'react'
 import './header.scss'
-import { SafeArea } from 'capacitor-plugin-safe-area'
 
 interface HeaderProps {
   title: string
@@ -16,23 +14,12 @@ export const Header: FC<HeaderProps> = ({
   additionalComponent,
   additionalOnClick
 }) => {
-  const [statusBarHeight, setStatusBarHeight] = useState<number>(0)
-
   const back = () => {
     window.history.back()
   }
 
-  useEffect(() => {
-    SafeArea.getStatusBarHeight().then(({ statusBarHeight }) => {
-      setStatusBarHeight(statusBarHeight)
-    })
-  }, [])
-
   return (
-    <header
-      className={'header ' + customClass}
-      // style={{ top: Capacitor.getPlatform() === 'ios' ? statusBarHeight : 0 }}
-    >
+    <header className={'header ' + customClass}>
       <div className='header__container'>
         <div className='header__back icon-icon_back' onClick={back} />
         <div className='header__title'>{title}</div>

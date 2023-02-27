@@ -1,7 +1,7 @@
 import { Capacitor } from '@capacitor/core'
 import OneSignal from 'onesignal-cordova-plugin'
 import Pedometer from './plugins/pedometer'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import './assets/style/global.scss'
 import AppRouter from './provider/app-router'
 import { App as CapacitorApp } from '@capacitor/app'
@@ -12,12 +12,9 @@ import {
   MOTIVATION_ROUTE,
   TRACKER_HABITS_ROUTE
 } from './provider/constants-route'
-import { SafeArea } from 'capacitor-plugin-safe-area'
 
 function App() {
   const navigate = useNavigate()
-  // const [insetsHeight, setInsetsHeight] = useState<number>(0)
-  // const [statusBarHeight, setStatusBarHeight] = useState<number>(0)
 
   if (Capacitor.getPlatform() !== 'web') {
     OneSignal.setNotificationOpenedHandler(async (openedEvent) => {
@@ -41,12 +38,6 @@ function App() {
     if (Capacitor.getPlatform() === 'android') {
       Pedometer.start()
     }
-    // SafeArea.getSafeAreaInsets().then((data) => {
-    //   setInsetsHeight(data.insets.top)
-    // })
-    // SafeArea.getStatusBarHeight().then(({ statusBarHeight }) => {
-    //   setStatusBarHeight(statusBarHeight)
-    // })
     CapacitorApp.addListener('backButton', ({ canGoBack }: any) => {
       if (!canGoBack) {
         CapacitorApp.exitApp()
@@ -58,12 +49,6 @@ function App() {
 
   return (
     <div className={'_container'}>
-      {/* {Capacitor.getPlatform() === 'ios' && (
-        <div
-          className='band-black'
-          style={{ height: insetsHeight + statusBarHeight }}
-        />
-      )} */}
       <AppRouter />
     </div>
   )
