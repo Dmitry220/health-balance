@@ -31,7 +31,7 @@ export const Header: FC<HeaderProps> = ({
   return (
     <header
       className={'header ' + customClass}
-      style={{ top: Capacitor.getPlatform() === 'ios' ? statusBarHeight : 0 }}
+      // style={{ top: Capacitor.getPlatform() === 'ios' ? statusBarHeight : 0 }}
     >
       <div className='header__container'>
         <div className='header__back icon-icon_back' onClick={back} />

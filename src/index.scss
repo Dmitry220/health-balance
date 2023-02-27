@@ -1,12 +1,10 @@
 @import 'src/assets/style/fonts.scss';
 @import 'src/assets/style/variables';
 
-@supports(padding:max(0px)) {
-  body, header, footer {
-      padding-left: min(0vmin, env(safe-area-inset-left));
-      padding-right: min(0vmin, env(safe-area-inset-right));
-      padding-bottom: min(0vmin, env(safe-area-inset-bottom));
-      padding-top: min(0vmin, env(safe-area-inset-top));
+@supports(padding: max(0px)) {
+  ._container {
+      padding-left: max(16px, env(safe-area-inset-left)) !important;
+      padding-right: max(16px, env(safe-area-inset-right)) !important;
   }
 }
 /* Обнуление */

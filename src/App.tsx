@@ -16,8 +16,8 @@ import { SafeArea } from 'capacitor-plugin-safe-area'
 
 function App() {
   const navigate = useNavigate()
-  const [insetsHeight, setInsetsHeight] = useState<number>(0)
-  const [statusBarHeight, setStatusBarHeight] = useState<number>(0)
+  // const [insetsHeight, setInsetsHeight] = useState<number>(0)
+  // const [statusBarHeight, setStatusBarHeight] = useState<number>(0)
 
   if (Capacitor.getPlatform() !== 'web') {
     OneSignal.setNotificationOpenedHandler(async (openedEvent) => {
@@ -41,12 +41,12 @@ function App() {
     if (Capacitor.getPlatform() === 'android') {
       Pedometer.start()
     }
-    SafeArea.getSafeAreaInsets().then((data) => {
-      setInsetsHeight(data.insets.top)
-    })
-    SafeArea.getStatusBarHeight().then(({ statusBarHeight }) => {
-      setStatusBarHeight(statusBarHeight)
-    })
+    // SafeArea.getSafeAreaInsets().then((data) => {
+    //   setInsetsHeight(data.insets.top)
+    // })
+    // SafeArea.getStatusBarHeight().then(({ statusBarHeight }) => {
+    //   setStatusBarHeight(statusBarHeight)
+    // })
     CapacitorApp.addListener('backButton', ({ canGoBack }: any) => {
       if (!canGoBack) {
         CapacitorApp.exitApp()
@@ -58,12 +58,12 @@ function App() {
 
   return (
     <div className={'_container'}>
-      {Capacitor.getPlatform() === 'ios' && (
+      {/* {Capacitor.getPlatform() === 'ios' && (
         <div
           className='band-black'
           style={{ height: insetsHeight + statusBarHeight }}
         />
-      )}
+      )} */}
       <AppRouter />
     </div>
   )
