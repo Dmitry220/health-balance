@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react'
+import { FC, useEffect, useState } from 'react'
 import './header-active.scss'
 import icon from '../../assets/image/icon_reward.svg'
 import { RewardCount } from '../Reward/Reward-count'
@@ -11,6 +11,8 @@ import { dataUserSelector } from '../../Redux/slice/profileSlice'
 import { IMAGE_URL } from '../../http'
 import { balanceSelector, getBalance } from '../../Redux/slice/appSlice'
 import avatar from '../../assets/image/avatar.jpeg'
+import { SafeArea } from 'capacitor-plugin-safe-area'
+import { Capacitor } from '@capacitor/core'
 
 
 interface IHeaderActive {
@@ -20,17 +22,27 @@ interface IHeaderActive {
 const HeaderActive: FC<IHeaderActive> = ({ transparent }) => {
   const dataUser = useAppSelector(dataUserSelector)
   const balance = useAppSelector(balanceSelector)
-
+  const [insetsHeight, setInsetsHeight] = useState<number>(0)
+  const [statusBarHeight, setStatusBarHeight] = useState<number>(0)
   const dispatch = useAppDispatch()
 
   useEffect(() => {
     dispatch(getBalance())
+    SafeArea.getSafeAreaInsets().then((data) => {   
+      setInsetsHeight(data.insets.top)
+    })
+    SafeArea.getStatusBarHeight().then(({ statusBarHeight }) => {   
+      setStatusBarHeight(statusBarHeight)
+    })
   }, [balance])
 
   return (
     <div
       className={'header-active'}
-      style={{ background: transparent ? 'transparent' : '#121212' }}
+      style={{ background: transparent ? 'transparent' : '#121212', 
+      top:Capacitor.getPlatform() === 'ios' ? 0 : 'auto',
+      padding: Capacitor.getPlatform() === 'ios' ? `${insetsHeight + statusBarHeight}px 16px 16px 16px` : '16px 16px 16px 16px'
+    }}
     >
       <div className='header-active__container'>
         <Link to={PROFILE_ROUTE} className='header-active__column'>

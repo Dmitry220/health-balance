@@ -1,4 +1,6 @@
-import { FC } from 'react'
+import { Capacitor } from '@capacitor/core'
+import { SafeArea } from 'capacitor-plugin-safe-area'
+import { FC, useEffect, useState } from 'react'
 import './header.scss'
 
 interface HeaderProps {
@@ -14,14 +16,33 @@ export const Header: FC<HeaderProps> = ({
   additionalComponent,
   additionalOnClick
 }) => {
+
+  const [insetsHeight, setInsetsHeight] = useState<number>(0)
+  const [statusBarHeight, setStatusBarHeight] = useState<number>(0)
+
   const back = () => {
     window.history.back()
   }
 
+  useEffect(() => {  
+    SafeArea.getSafeAreaInsets().then((data) => {
+      setInsetsHeight(data.insets.top)
+    })
+    SafeArea.getStatusBarHeight().then(({ statusBarHeight }) => {
+      setStatusBarHeight(statusBarHeight)
+    })
+  }, [])
+
+
   return (
-    <header className={'header ' + customClass}>
+    <header className={'header ' + customClass} 
+    style={{ padding: Capacitor.getPlatform() === 'ios' ? `${(insetsHeight + statusBarHeight) / 2}px 16px 0 16px` : '0 16px',
+    height: Capacitor.getPlatform() === 'ios' ? insetsHeight + statusBarHeight : 53
+   }}
+    >
       <div className='header__container'>
-        <div className='header__back icon-icon_back' onClick={back} />
+        <div className='header__back icon-icon_back' onClick={back} 
+         style={{ top: Capacitor.getPlatform() === 'ios' ? '50%' : 21, transform:Capacitor.getPlatform() === 'ios' ? 'translateY(-50%)' : 'translateY(0)'}}/>
         <div className='header__title'>{title}</div>
         {additionalComponent && (
           <div onClick={additionalOnClick}>{additionalComponent}</div>
