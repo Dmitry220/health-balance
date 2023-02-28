@@ -114,6 +114,7 @@ export const Editing = () => {
     }} 
     closeCallback={setLogoutModal}
     text={"Вы действительно хотите удалить аккаунт?"}
+    textButton={"Удалить"}
     />
  }
 
