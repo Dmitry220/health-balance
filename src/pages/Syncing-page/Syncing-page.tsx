@@ -1,47 +1,29 @@
 import './syncing-page.scss'
 
-import apple from '../../assets/image/syncing/Apple-health.png'
-import samsung from '../../assets/image/syncing/Samsung-Health.png'
-import huawei from '../../assets/image/syncing/Huawei-Health.png'
 import google from '../../assets/image/syncing/google.svg'
-import mi from '../../assets/image/syncing/Mi-Fit.png'
-import plug from '../../assets/image/plug.png'
 import Header from '../../Components/Header/Header'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
 import {
   isGoogleFitSelector,
   setGoogleFit
 } from '../../Redux/slice/settingsSlice'
-import { ChangeEvent } from 'react'
-import { Capacitor } from '@capacitor/core'
-import { Health } from '@awesome-cordova-plugins/health'
+import { ChangeEvent, useState } from 'react'
+import { ModalFit } from '../../Components/Modals/Modal-fit'
 
 export const SyncingPage = () => {
   const isGoogleFit = useAppSelector(isGoogleFitSelector)
   const dispatch = useAppDispatch()
 
+  const [activeModal, setActiveModal] = useState<boolean>(false)
+
   const togleGoogleFit = (e: ChangeEvent<HTMLInputElement>) => {
     if (isGoogleFit === 1) {
-      dispatch(setGoogleFit(2))
-      Health.isAvailable()
-      .then((available) => {
-        if (available) {
-          Health.requestAuthorization([{ read: ['steps'] }])
-            .then(() => {
-              Health.promptInstallFit().then(() => {
-               
-              })
-            })
-            .catch((error) => console.error(error))
-        }
-      })
-      .catch((error) => console.error(error))
-    } else {
-      
+      setActiveModal(true)
+      dispatch(setGoogleFit(2))     
+    } else {      
       dispatch(setGoogleFit(1))
     }
-
-  }
+  }  
 
   return (
     <div className={'sync-page'}>
@@ -123,6 +105,15 @@ export const SyncingPage = () => {
       <div className="sync-page__note">
       * Вы можете отключиться от Google Fit в любое время
       </div>
+      {
+  activeModal &&
+    <ModalFit active={activeModal} setActive={setActiveModal}>
+      Приложение будет использовать https://www.googleapis.com/auth/fitness.activity.read для отображения 
+      данных шагов из Google Fit пользователя на странице активности приложения, 
+      чтобы пользователи могли просматривать пройденное количество шагов через приложение и синхронизировать изменения с Google Fit.
+    </ModalFit>
+
+}
 
       {/* <div className='sync-page__item'>
         <div className='sync-page__column'>

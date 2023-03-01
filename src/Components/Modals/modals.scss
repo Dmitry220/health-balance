@@ -183,3 +183,44 @@
     }
   }
 }
+
+.modal-fit{
+	height: 100vh;
+	width: 100vw;
+	position: fixed;
+	top: 0;
+	left: 0;
+	background: rgba(0, 0, 0, 0.8);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	opacity: 0;
+	pointer-events: none;
+	transition: 0.5s;
+	z-index: 100;
+  &.active{
+    opacity: 1;
+    pointer-events: all;
+  }
+  &__content{
+    width: 95%;
+    border-radius: 10px;    
+    transform: scale(0.5);
+    transition: 0.4s all;
+    max-width: 1000px;
+    margin: 10px auto;
+    padding: 16px;
+    color: #ababab;
+    font-size: 15px;
+    line-height: 120%;
+    height: auto;
+    background: $backgroundBlock;
+    &.active{
+      transform: scale(1);
+    }
+  }
+  &__close{
+    text-align: right;
+    margin: 0 0 10px 0;
+  }
+}
