@@ -120,6 +120,9 @@ export const SyncingPage = () => {
           </div>
         </div>
       </div>
+      <div className="sync-page__note">
+      * Вы можете отключиться от Google Fit в любое время
+      </div>
 
       {/* <div className='sync-page__item'>
         <div className='sync-page__column'>
