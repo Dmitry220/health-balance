@@ -22,7 +22,7 @@ const AppRouter = () => {
   const idUser = Number(localStorage.getItem('id'))
 
   useEffect(() => {   
-    if (isAuth && !isLoading) {
+    if (isAuth) {
       dispatch(setUserData(idUser))
     } else {
       dispatch(checkAuth())

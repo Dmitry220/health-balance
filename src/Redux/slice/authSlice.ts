@@ -45,24 +45,6 @@ const initialState: IAuth = {
   },
 };
 
-
-export const sendLogin = createAsyncThunk("login", async (data: ILogin) => {
-  const { email, password, device_token,timezone } = data;
-
-  try {
-    const response = await AuthService.login(email, password, device_token,timezone);
-
-    localStorage.setItem("token", response.data.data.token);
-    localStorage.setItem("id", response.data.data.id + "");
-  } catch (e: any) {
-    if (e.code != "ERR_NETWORK") {
-      await showToast("Неверный email или пароль!");
-    } else {
-      await showToast("Нет подключения к интернету!");
-    }
-  }
-});
-
 export const getPlatforms = createAsyncThunk("platforms", async () => {
   const response = await PlatformService.getPlatfotms();
   return await response.data.data;
@@ -139,6 +121,9 @@ export const authSlice = createSlice({
       state.visitPages.tracker = 0;
       state.visitPages.challenge = 0;
     },
+    setAuth:(state)=>{
+      state.isAuth = true
+    },
     clearResults() {
       // Note that this should be left intentionally empty.
 			// Clearing redux state and localForage happens in rootReducer.ts.
@@ -151,21 +136,7 @@ export const authSlice = createSlice({
         state.listPlatforms = action.payload;
         state.error = false;
       }
-    );
-    builder.addCase(sendLogin.fulfilled, (state, action) => {          
-      state.isAuth = true;
-      state.error = false;
-      state.isLoading = false;
-    });
-    builder.addCase(sendLogin.rejected, (state, action) => {
-      state.error = true;
-      state.isLoading = false;
-      state.isAuth = false;
-    });
-    builder.addCase(sendLogin.pending, (state, action) => {
-      state.isLoading = true;
-      state.isAuth = false;
-    });
+    );    
   },
 });
 
@@ -186,7 +157,8 @@ export const {
   setVisitedChallengePage,
   setVisitedTrackerPage,
   resetFieldRegistration,
-  clearResults
+  clearResults,
+  setAuth
 } = authSlice.actions;
 
 export const emailSelector = (state: RootState) =>

@@ -62,6 +62,7 @@ export const StartPage = () => {
     return <Navigate to={ACTIVITY_ROUTE} />
   }
 
+console.log('ds');
 
   return (
     <div className='preview'>

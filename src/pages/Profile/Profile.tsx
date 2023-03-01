@@ -41,29 +41,28 @@ export const Profile = () => {
     dispatch(setUserData(idUser))
   }, [])
 
-  if(isLogoutModal){
-     return <ModalExit actionCallback={async()=>{
-      if(Capacitor.getPlatform() === 'android'){
+  if (isLogoutModal) {
+    return <ModalExit actionCallback={async () => {
+      if (Capacitor.getPlatform() === 'android') {
         Pedometer.reset()
-      }  
-      await dispatch(clearResults())
+      }
       dispatch(logout())
-     
-    }} closeCallback={setLogoutModal}/>
+      await dispatch(clearResults())
+    }} closeCallback={setLogoutModal} />
   }
 
   return (
     <div className={'profile'}>
-      <Header 
-      title={'Мой профиль'} 
-      additionalComponent={additionalHeaderComponent}
+      <Header
+        title={'Мой профиль'}
+        additionalComponent={additionalHeaderComponent}
         additionalOnClick={additionalHeaderComponentClick}
       />
       <div className='profile__block'>
         <div className='profile__header'>
           <div className='profile__avatar'>
             {dataUser.avatar && <img src={IMAGE_URL + 'avatars/' + dataUser.avatar} alt='avatar' />}
-            {!dataUser.avatar&&<img src={avatar} alt='avatar' />}
+            {!dataUser.avatar && <img src={avatar} alt='avatar' />}
           </div>
           <div className='profile__user-info'>
             <div className='profile__user-name'>{dataUser.name + ' ' + (dataUser.surname != null ? dataUser.surname : '')}</div>
@@ -83,7 +82,7 @@ export const Profile = () => {
         <ProfileSteps steps={dataUser.steps} kilometer={+((dataUser.steps * 0.7) / 1000).toFixed(2)} />
       </div>
       <div className='profile__block'>
-      <ProfileChallenge challenges={dataUser.challenges} completed_challenges={dataUser.completed_challenges}/>
+        <ProfileChallenge challenges={dataUser.challenges} completed_challenges={dataUser.completed_challenges} />
       </div>
       <div className='profile__block'>
         <div className='profile__out' onClick={() => setLogoutModal(true)}>
