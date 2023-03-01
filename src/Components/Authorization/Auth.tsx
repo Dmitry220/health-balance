@@ -37,32 +37,32 @@ export const Auth = () => {
     const timezone = -new Date().getTimezoneOffset() / 60
 
     try {
-      const response = await AuthService.login(email, password, device_token, timezone);
+      const response = await AuthService.login(
+        email,
+        password,
+        device_token,
+        timezone
+      )
       if (response.data.data) {
-        localStorage.setItem("token", response.data.data.token);
-        localStorage.setItem("id", response.data.data.id + "");
-        dispatch(setAuth()) 
+        localStorage.setItem('token', response.data.data.token)
+        localStorage.setItem('id', response.data.data.id + '')
+        dispatch(setAuth())
         dispatch(resetFieldRegistration())
-        OneSignalInit()         
-        navigate(START_ROUTE)       
+        OneSignalInit()
+        navigate(START_ROUTE)
       }
     } catch (e: any) {
-      if (e.code != "ERR_NETWORK") {
-        await showToast("Неверный email или пароль!");
+      if (e.code != 'ERR_NETWORK') {
+        await showToast('Неверный email или пароль!')
       } else {
-        await showToast("Нет подключения к интернету!");
+        await showToast('Нет подключения к интернету!')
       }
-    } finally{
+    } finally {
       setisLoading(false)
-    } 
+    }
   }
 
-  console.log('sdf');
-  
-
   async function OneSignalInit() {
-    console.log('sdf');
-    
     if (Capacitor.getPlatform() !== 'web') {
       let externalUserId = localStorage.getItem('id')
 
@@ -133,8 +133,18 @@ export const Auth = () => {
             />
           </div>
           <div className='form-auth__buttons'>
-            <button className='form-auth__button' onClick={submit} disabled={isLoading}>
-                {isLoading ? <span className="spinner"><i className="fa fa-spinner fa-spin"></i> Загрузка</span> : 'Войти'}
+            <button
+              className='form-auth__button'
+              onClick={submit}
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <span className='spinner'>
+                  <i className='fa fa-spinner fa-spin'></i> Загрузка
+                </span>
+              ) : (
+                'Войти'
+              )}
             </button>
             {/* <button className='form-auth__button transparent'>
               <img src={appleIcon} alt='apple' />
