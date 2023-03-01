@@ -89,7 +89,7 @@ export const SyncingPage = () => {
               <img src={google} alt="google" />
             </div>
             <div className='handler-sync__title'>
-              Google Fit синхронизация
+              Активировать Google Fit
             </div>
             <label className={'handler-sync__switch switch'}>
               <input type="checkbox" onChange={togleGoogleFit} checked={isGoogleFit === 2} />
@@ -98,7 +98,7 @@ export const SyncingPage = () => {
           </div>
 
           <div className="handler-sync__text">
-            Синхронизируйте Healthe Balance с Google Fit. Подключение к Google Fit позволяет просматривать данные о шагах за последние 3 месяца
+            Синхронизируйте Health Balance с Google Fit. Подключение к Google Fit позволяет просматривать данные о шагах за последние 3 месяца
           </div>
         </div>
       </div>
