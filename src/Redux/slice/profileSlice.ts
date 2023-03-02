@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../store'
-import { IUser } from '../../models/IUsers'
+import { IUpdateUser, IUser } from '../../models/IUsers'
 import UserService from '../../services/UserServices'
 import { showToast } from '../../utils/common-functions'
 
@@ -35,20 +35,11 @@ export const setUserData = createAsyncThunk('dataUser', async (id: number) => {
 
 export const updateProfile = createAsyncThunk(
   'updateProfile',
-  async (data: any) => {
-    const params = new URLSearchParams()
-    data.surname && params.append('surname', data.surname)
-    data.gender && params.append('gender', data.gender + '')
-    data.name && params.append('name', data.name)
-    data.birthday && params.append('birthday', data.birthday + '')
-    data.phone && params.append('phone', data.phone)
-    data.email && params.append('email', data.email)
-    data.avatar && params.append('avatar', data.avatar)
-
+  async (data: IUpdateUser) => {
     try {
-     const response = await UserService.editingProfile(params)     
+     const response = await UserService.editingProfile(data)     
      if(response.data.success){
-        await showToast('Данные успешно сохранены!')
+      await showToast('Данные успешно сохранены!')
      }else{
       await showToast('Ошибка!')
      }    

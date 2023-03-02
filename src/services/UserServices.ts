@@ -1,24 +1,18 @@
-import { AxiosResponse } from 'axios'
-import { $api } from '../http'
-import { IUser } from '../models/IUsers'
+import { AxiosResponse } from "axios";
+import { $api } from "../http";
+import { IUpdateUser, IUser } from "../models/IUsers";
 
 export default class UserService {
   static async getUserDataOnId(
     id: number
   ): Promise<AxiosResponse<{ data: IUser }>> {
-    return $api.get(`/v2/customers/${id}`)
+    return $api.get(`/v2/customers/${id}`);
   }
 
-  static async editingProfile(params: URLSearchParams) {
+  static async editingProfile(data: IUpdateUser) {
     return $api.patch(
-      `/v2/customers/?token=${localStorage.getItem('token')}`,
-      params,
-      {
-        headers: {
-          accept: 'application/json',
-          'Content-Type': 'application/x-www-form-urlencoded'
-        }
-      }
-    )
+      `/v2/customers/?token=${localStorage.getItem("token")}`,
+      data
+    );
   }
 }

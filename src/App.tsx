@@ -7,14 +7,14 @@ import AppRouter from './provider/app-router'
 import { App as CapacitorApp } from '@capacitor/app'
 import TrackerService from './services/TrackerService'
 import { showToast } from './utils/common-functions'
-import { Params, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import {
   MOTIVATION_ROUTE,
   TRACKER_ROUTE
 } from './provider/constants-route'
 import { SafeArea } from 'capacitor-plugin-safe-area'
-import { useAppDispatch } from './utils/hooks/redux-hooks'
-import { updateProfile } from './Redux/slice/profileSlice'
+import { IUpdateUser } from './models/IUsers'
+import UserService from './services/UserServices'
 
 
 function App() {
@@ -22,13 +22,13 @@ function App() {
   const [insetsHeight, setInsetsHeight] = useState<number>(0)
   const [statusBarHeight, setStatusBarHeight] = useState<number>(0)
 
-  const dispatch = useAppDispatch()
-
   useEffect(() => {
     //Изменение timezone при входе в приложение
-    // const timezone = -new Date().getTimezoneOffset() / 60
-    // const data = { timezone }
-    // dispatch(updateProfile(data))
+    (async () => {
+      const timezone = -new Date().getTimezoneOffset() / 60
+      const data: IUpdateUser = { timezone }
+      await UserService.editingProfile(data)
+    })()
 
     //Обработка пушей
     if (Capacitor.getPlatform() !== 'web') {
