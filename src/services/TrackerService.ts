@@ -98,6 +98,7 @@ export default class TrackerService {
       `/v2/tracks/?date=${date}&token=${localStorage.getItem("token")}`
     );
   }
+
   static async updateTrack(data: {
     id: number;
     type?: 1 | 2 | 3;
@@ -117,5 +118,9 @@ export default class TrackerService {
         },
       }
     );
+  }
+
+  static async deleteTracker(): Promise<AxiosResponse<{ success: boolean }>> {
+    return $api.delete(`/v2/tracker?token=${localStorage.getItem("token")}`);
   }
 }

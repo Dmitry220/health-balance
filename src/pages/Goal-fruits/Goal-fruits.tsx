@@ -22,7 +22,7 @@ export const GoalFruits = () => {
   const save = async () => {
     try {
       await TrackerService.updateTracker(tracker.id, 'fruits', countFruits + '')
-      await showToast('Изменено успешно!')
+      await showToast('Изменения вступят со следующего дня!')
     } catch (error) {
       await showToast('Ошибка!')
     }

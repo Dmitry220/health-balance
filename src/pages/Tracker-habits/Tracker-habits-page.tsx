@@ -4,7 +4,7 @@ import { FruitTarget } from '../../Components/Tracker/Fruit-target'
 import './tracker-habits_page.scss'
 import icon_fruit from '../../assets/image/tracker/icon-fruit.svg'
 import icon_water from '../../assets/image/tracker/icon-water.svg'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import {
   GOAL_FRUITS__ROUTE,
   GOAL_WATER__ROUTE,
@@ -22,17 +22,33 @@ import {
   getTracks,
   trackerSelector
 } from '../../Redux/slice/trackerSlice'
-import { sklonenie } from '../../utils/common-functions'
+import { showToast, sklonenie } from '../../utils/common-functions'
+import { setVisitedTrackerPage } from '../../Redux/slice/authSlice'
+import TrackerService from '../../services/TrackerService'
 
 export const TrackerHabitsPage = () => {
   const dispatch = useAppDispatch()
   const tracker = useAppSelector(trackerSelector)
   const countWater = useAppSelector(countWaterSelector)
+  const location = useLocation()
+  const deleteTracker = async () => {
+    try {
+      const response = await TrackerService.deleteTracker()
+      if (response?.data?.success) {
+        await showToast('Трекер успешно удален')
+        dispatch(setVisitedTrackerPage(0))
+      } else {
+        await showToast('Произошла ошибка')
+      }     
+    } catch (error) {
+      await showToast('Произошла ошибка')
+    }
+  }
 
   useEffect(() => {
     dispatch(getTracker())
     dispatch(getTracks(new Date().toLocaleDateString()))
-  }, [])
+  }, [location.key])
 
   return (
     <div className={'tracker-habits-page'}>
@@ -81,6 +97,15 @@ export const TrackerHabitsPage = () => {
       </div>
       <div className='tracker-habits-page__target'>
         <FruitTarget />
+      </div>
+      <div className='tracker-habits-page__statistical-btn-wrapper'>
+        <button
+          style={{ color: '#fff' }}
+          onClick={deleteTracker}
+          className='_button-dark'
+        >
+          Очистить трекер
+        </button>
       </div>
     </div>
   )
