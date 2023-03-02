@@ -20,7 +20,10 @@ import { getItemsStep } from '../../utils/common-functions'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
 import { dataUserSelector } from '../../Redux/slice/profileSlice'
 import { setPurposeSteps } from '../../Redux/slice/purposeSlice'
-import { setVisitedActivityPage, visitPagesSelector } from '../../Redux/slice/authSlice'
+import {
+  setVisitedActivityPage,
+  visitPagesSelector
+} from '../../Redux/slice/authSlice'
 import { Capacitor } from '@capacitor/core'
 import PurposeService from '../../services/PurposeService'
 import { Navigate } from 'react-router-dom'
@@ -44,15 +47,19 @@ export const StartPage = () => {
   const activityVisitCount = useAppSelector(visitPagesSelector)
 
   useEffect(() => {
-   
-    (async () => {   
+    ;(async () => {
       if (Capacitor.getPlatform() === 'android') {
         const indexWeek = new Date().getDay() === 0 ? 7 : new Date().getDay()
         const startDateDay = new Date()
-        startDateDay.setDate(startDateDay.getDate() - 7)       
-        const response = await AppService.getStepsPerDay(startDateDay.toLocaleDateString(), new Date().toLocaleDateString())
+        startDateDay.setDate(startDateDay.getDate() - 7)
+        const response = await AppService.getStepsPerDay(
+          startDateDay.toLocaleDateString(),
+          new Date().toLocaleDateString()
+        )
         if (response.data.data.statistic) {
-          await Pedometer.setData({ "numberOfSteps": response.data.data.statistic[indexWeek].quantity })
+          await Pedometer.setData({
+            numberOfSteps: response.data.data.statistic[indexWeek].quantity
+          })
         }
       }
     })()
@@ -61,8 +68,6 @@ export const StartPage = () => {
   if (activityVisitCount.activity === 1) {
     return <Navigate to={ACTIVITY_ROUTE} />
   }
-
-console.log('ds');
 
   return (
     <div className='preview'>
@@ -186,7 +191,8 @@ export const SlideNextButton: FC<ISwiperNextButton> = ({
 
   const next = async () => {
     if (swiper.activeIndex === 4) {
-      const isCompletedPurposeResponse = await PurposeService.isCompletedPurpose()
+      const isCompletedPurposeResponse =
+        await PurposeService.isCompletedPurpose()
       if (!isCompletedPurposeResponse.data.data.length) {
         await dispatch(setPurposeSteps({ quantity, type }))
       }
