@@ -20,6 +20,7 @@ import avatar from '../../assets/image/avatar.jpeg'
 import { ModalExit } from '../../Components/Modals/Modal-exit'
 import Pedometer from '../../plugins/pedometer'
 import { Capacitor } from '@capacitor/core'
+import { persistor } from '../..'
 
 
 export const Profile = () => {
@@ -46,8 +47,9 @@ export const Profile = () => {
       if (Capacitor.getPlatform() === 'android') {
         Pedometer.reset()
       }
-      dispatch(logout())
+      await persistor.purge()     
       await dispatch(clearResults())
+      await  dispatch(logout())    
     }} closeCallback={setLogoutModal} />
   }
 

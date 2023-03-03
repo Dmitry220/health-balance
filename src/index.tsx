@@ -11,7 +11,7 @@ import React from 'react'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 
-let persistor = persistStore(store)
+export let persistor = persistStore(store)
 
 class ErrorBoundary extends React.Component {
   constructor(props: any) {

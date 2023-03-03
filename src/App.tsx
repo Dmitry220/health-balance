@@ -25,9 +25,11 @@ function App() {
   useEffect(() => {
     //Изменение timezone при входе в приложение
     (async () => {
-      const timezone = -new Date().getTimezoneOffset() / 60
-      const data: IUpdateUser = { timezone }
-      await UserService.editingProfile(data)
+      if (localStorage.getItem("token")) {
+        const timezone = -new Date().getTimezoneOffset() / 60
+        const data: IUpdateUser = { timezone }
+        await UserService.editingProfile(data)
+      }
     })()
 
     //Обработка пушей
