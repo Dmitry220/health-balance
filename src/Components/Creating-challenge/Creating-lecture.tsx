@@ -88,7 +88,7 @@ export const CreatingLecture = () => {
       formData.append('image', blob)
       try {
         const response = await FileService.addImageLesson(formData)
-        if(response.data.data.avatar){
+        if(response?.data?.data?.avatar){
           setPhotoPath(imageUrl)
           setImage(response.data.data.avatar)
         } else{

@@ -51,7 +51,7 @@ export const CreatingInteresting = () => {
       formData.append('image', blob)
       try {
         const response = await FileService.addImageNews(formData)
-        if(response.data.data.avatar){
+        if(response?.data?.data?.avatar){
           dispatch(setTempImageNews(imageUrl))
           dispatch(setImageNews(response.data.data.avatar))
         } else{

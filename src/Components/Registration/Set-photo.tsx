@@ -49,7 +49,7 @@ export const SetPhoto = () => {
       formData.append('image', blob)
       try {
         const response = await FileService.uploadFile(formData)
-        if(response.data.data.avatar){
+        if(response?.data?.data?.avatar){
           setPhotoPath(imageUrl)
           dispatch(setAvatarRegistartion(response.data.data.avatar))
         } else{

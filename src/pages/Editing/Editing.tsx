@@ -85,7 +85,7 @@ export const Editing = () => {
       formData.append('image', blob)
       try {
         const response = await FileService.uploadFile(formData)
-        if(response.data.data.avatar){
+        if(response?.data?.data?.avatar){
           setPhotoPath(imageUrl)
           setAvatar(response.data.data.avatar)
         }else{

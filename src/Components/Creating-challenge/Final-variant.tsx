@@ -77,7 +77,7 @@ export const FinalVariant = () => {
       formData.append('image', blob)
       try {
         const response = await FileService.addImageChallenge(formData)
-        if(response.data.data.avatar){
+        if(response?.data?.data?.avatar){
           setPhotoPath(imageUrl)
           dispatch(setImageChallenge(response.data.data.avatar))
         } else{
