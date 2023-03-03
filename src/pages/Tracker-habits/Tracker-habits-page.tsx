@@ -4,8 +4,9 @@ import { FruitTarget } from '../../Components/Tracker/Fruit-target'
 import './tracker-habits_page.scss'
 import icon_fruit from '../../assets/image/tracker/icon-fruit.svg'
 import icon_water from '../../assets/image/tracker/icon-water.svg'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import {
+  ACTIVITY_ROUTE,
   GOAL_FRUITS__ROUTE,
   GOAL_WATER__ROUTE,
   STATISTICS_TRACKER__ROUTE
@@ -31,12 +32,16 @@ export const TrackerHabitsPage = () => {
   const tracker = useAppSelector(trackerSelector)
   const countWater = useAppSelector(countWaterSelector)
   const location = useLocation()
+  const navigate = useNavigate()
+
   const deleteTracker = async () => {
     try {
       const response = await TrackerService.deleteTracker()
       if (response?.data?.success) {
         await showToast('Трекер успешно удален')
         dispatch(setVisitedTrackerPage(0))
+        navigate(ACTIVITY_ROUTE)
+        
       } else {
         await showToast('Произошла ошибка')
       }     
