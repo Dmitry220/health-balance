@@ -21,6 +21,7 @@ import { ModalExit } from '../../Components/Modals/Modal-exit'
 import Pedometer from '../../plugins/pedometer'
 import { Capacitor } from '@capacitor/core'
 import { persistor } from '../..'
+import TrackerService from '../../services/TrackerService'
 
 export const Profile = () => {
   const dataUser = useAppSelector(dataUserSelector)
@@ -47,9 +48,11 @@ export const Profile = () => {
           if (Capacitor.getPlatform() === 'android') {
             Pedometer.reset()
           }
+          await TrackerService.deleteTracker()
           await persistor.purge()
           await dispatch(clearResults())
           await dispatch(logout())
+        
         }}
         closeCallback={setLogoutModal}
       />
