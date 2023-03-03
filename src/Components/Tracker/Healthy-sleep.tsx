@@ -152,9 +152,8 @@ export const HealthySleep: FC<IHealthySleep> = ({ editProhibition }) => {
   
   const pushArray: ITrack[] = []
   const [outputArray, setOutputArray] = useState<ITrack[]>([])
-  const sameDays =  tracks.waterTrack.length>=2&&(tracks.waterTrack[0].additional === tracks.waterTrack[1].additional)
-  const wake_up  = sameDays ? (tracks.waterTrack[0]?.completed && tracks.waterTrack[1]?.completed) : tracks.waterTrack[0]?.completed
-
+  const sameDays =  tracks.sleepTrack.length>=2&&(tracks.sleepTrack[0].additional === tracks.sleepTrack[1].additional)  
+  const wake_up  = sameDays ? (tracks.sleepTrack[0]?.completed && tracks.sleepTrack[1]?.completed) : tracks.sleepTrack[0]?.completed
   useEffect(() => {
     tracks.sleepTrack.forEach((itemServer, index) => {
       pushArray.push({
