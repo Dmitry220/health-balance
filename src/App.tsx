@@ -22,17 +22,7 @@ function App() {
   const [insetsHeight, setInsetsHeight] = useState<number>(0)
   const [statusBarHeight, setStatusBarHeight] = useState<number>(0)
 
-  useEffect(() => {
-    //Изменение timezone при входе в приложение
-    (async () => {
-      if (localStorage.getItem("token")) {
-        const timezone = -new Date().getTimezoneOffset() / 60
-        const data: IUpdateUser = { timezone }
-        await UserService.editingProfile(data)
-      }
-    })()
-
-    //Обработка пушей
+  const handlerPush = () => {
     if (Capacitor.getPlatform() !== 'web') {
       OneSignal.setNotificationOpenedHandler(async (openedEvent) => {
         const { action, notification }: any = openedEvent
@@ -50,6 +40,30 @@ function App() {
         }
       })
     }
+  }
+
+  const changeTimezone = async () => {
+    if (localStorage.getItem("token")) {
+      const timezone = -new Date().getTimezoneOffset() / 60
+      const data: IUpdateUser = { timezone }
+      await UserService.editingProfile(data)
+    }
+  }
+
+  useEffect(() => {
+    //Изменение timezone при входе в приложение
+    changeTimezone()
+    //Обработка пушей
+    handlerPush()
+    //Обработчик сворачиваемого приложения
+    CapacitorApp.addListener('appStateChange', ({ isActive }) => {
+      console.log('App state changed. Is active?', isActive);
+      //Изменение timezone при входе в приложение
+      changeTimezone()
+      //Обработка пушей
+      handlerPush()
+    });
+
     //Старт шагомера и предоставления разрешений
     if (Capacitor.getPlatform() === 'android') {
       Pedometer.start()
