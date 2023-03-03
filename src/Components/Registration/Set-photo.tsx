@@ -15,56 +15,47 @@ export const SetPhoto = () => {
   const dispatch = useAppDispatch()
   const [isLoadingAvatar, setIsLoadingAvatar] = useState<boolean>(false)
 
-  // const dowloadPicture = async (e: ChangeEvent<HTMLInputElement>) => {
-  //   const formData = new FormData()
-  //   const file: any = e.target.files
-
-  //   if (file[0]) {
-  //     setPhotoPath(URL.createObjectURL(file[0]))
-  //     formData.append('image', file[0])
-  //     dispatch(setDisabledButton(false))
-  //     const response = await FileService.uploadFile(formData)
-  //     dispatch(setAvatarRegistartion(response.data.data.avatar))
-  //   }
-  // }
-
   const dowloadPicture = async () => {
-    const image = await Camera.getPhoto({
-      quality: 50,
-      allowEditing: true,
-      resultType: CameraResultType.Uri,
-      promptLabelPhoto: "Выбрать фото из галерии",
-      promptLabelPicture:"Сделать фотографию",
-      promptLabelHeader:"Фото"
-      
-    })
+    try {
+      const image = await Camera.getPhoto({
+        quality: 50,
+        allowEditing: true,
+        resultType: CameraResultType.Uri,
+        promptLabelPhoto: 'Выбрать фото из галерии',
+        promptLabelPicture: 'Сделать фотографию',
+        promptLabelHeader: 'Фото'
+      })
 
-    let imageUrl = image.webPath || ''
+      let imageUrl = image.webPath || ''
 
-    let blob = await fetch(imageUrl).then((r) => r.blob())
-    setIsLoadingAvatar(true)
-    dispatch(setDisabledButton(true))
-    if (blob) {
-      const formData = new FormData()
-      formData.append('image', blob)
-      try {
-        const response = await FileService.uploadFile(formData)
-        if(response?.data?.data?.avatar){
-          setPhotoPath(imageUrl)
-          dispatch(setAvatarRegistartion(response.data.data.avatar))
-        } else{
+      let blob = await fetch(imageUrl).then((r) => r.blob())
+
+      setIsLoadingAvatar(true)
+      dispatch(setDisabledButton(true))
+      if (blob) {
+        const formData = new FormData()
+        formData.append('image', blob)
+        try {
+          const response = await FileService.uploadFile(formData)
+          if (response?.data?.data?.avatar) {
+            setPhotoPath(imageUrl)
+            dispatch(setAvatarRegistartion(response.data.data.avatar))
+          } else {
+            await showToast('Максимальный вес изображения 3 мб')
+          }
+          setIsLoadingAvatar(false)
+          dispatch(setDisabledButton(false))
+        } catch (error) {
+          setIsLoadingAvatar(false)
+          dispatch(setDisabledButton(true))
           await showToast('Максимальный вес изображения 3 мб')
-        }   
-        setIsLoadingAvatar(false)
-        dispatch(setDisabledButton(false))
-      } catch (error) {
-        setIsLoadingAvatar(false)
-        dispatch(setDisabledButton(true))
-        await showToast('Максимальный вес изображения 3 мб')
-        setPhotoPath('')
+          setPhotoPath('')
+        }
+      } else {
+        await showToast('Изображения нет')
       }
-    } else {
-      await showToast('Изображения нет')
+    } catch (error) {
+      await showToast('Максимальный вес изображения 3 мб')
     }
   }
 

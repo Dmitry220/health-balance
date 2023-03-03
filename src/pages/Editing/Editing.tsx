@@ -3,11 +3,7 @@ import Header from '../../Components/Header/Header'
 import './editing.scss'
 import { Camera, CameraResultType } from '@capacitor/camera'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
-import {
-  dataUserSelector,
-  isSuccesfullRequestSelector,
-  updateProfile
-} from '../../Redux/slice/profileSlice'
+import { dataUserSelector, updateProfile } from '../../Redux/slice/profileSlice'
 import InputMask from 'react-input-mask'
 import { useForm, Controller } from 'react-hook-form'
 import { Toast } from '@capacitor/toast'
@@ -18,7 +14,6 @@ import photo from '../../assets/image/icon-camera-add.svg'
 import FileService from '../../services/FilesServices'
 import { IMAGE_URL } from '../../http'
 import { ModalExit } from '../../Components/Modals/Modal-exit'
-import { useNavigate } from 'react-router-dom'
 import { logout } from '../../Redux/slice/authSlice'
 import AuthService from '../../services/AuthService'
 
@@ -48,7 +43,6 @@ export const Editing = () => {
   const [photoPath, setPhotoPath] = useState<any | null>(null)
   const [isLoadingAvatar, setIsLoadingAvatar] = useState<boolean>(false)
   const dispatch = useAppDispatch()
-  const navigate = useNavigate()
 
   const showToast = async (text: string) => {
     await Toast.show({
@@ -66,57 +60,64 @@ export const Editing = () => {
   )
 
   const dowloadPicture = async () => {
-    const image = await Camera.getPhoto({
-      quality: 50,
-      allowEditing: true,
-      resultType: CameraResultType.Uri,
-      promptLabelPhoto: "Выбрать фото из галерии",
-      promptLabelPicture:"Сделать фотографию",
-      promptLabelHeader:"Фото"
-    })
+    try {
+      const image = await Camera.getPhoto({
+        quality: 50,
+        allowEditing: true,
+        resultType: CameraResultType.Uri,
+        promptLabelPhoto: 'Выбрать фото из галерии',
+        promptLabelPicture: 'Сделать фотографию',
+        promptLabelHeader: 'Фото'
+      })
 
-    let imageUrl = image.webPath || ''
+      let imageUrl = image.webPath || ''
 
-    let blob = await fetch(imageUrl).then((r) => r.blob())
-    setIsLoadingAvatar(true)
+      let blob = await fetch(imageUrl).then((r) => r.blob())
+      setIsLoadingAvatar(true)
 
-    if (blob) {
-      const formData = new FormData()
-      formData.append('image', blob)
-      try {
-        const response = await FileService.uploadFile(formData)
-        if(response?.data?.data?.avatar){
-          setPhotoPath(imageUrl)
-          setAvatar(response.data.data.avatar)
-        }else{
+      if (blob) {
+        const formData = new FormData()
+        formData.append('image', blob)
+        try {
+          const response = await FileService.uploadFile(formData)
+          if (response?.data?.data?.avatar) {
+            setPhotoPath(imageUrl)
+            setAvatar(response.data.data.avatar)
+          } else {
+            await showToast('Максимальный вес изображения 3 мб')
+          }
+          setIsLoadingAvatar(false)
+        } catch (error) {
+          setIsLoadingAvatar(false)
           await showToast('Максимальный вес изображения 3 мб')
-        }       
-        setIsLoadingAvatar(false)
-      } catch (error) {
-        setIsLoadingAvatar(false)
-        await showToast('Максимальный вес изображения 3 мб')
-        setPhotoPath('')
+          setPhotoPath('')
+        }
+      } else {
+        await showToast('Изображения нет')
       }
-    } else {
-      await showToast('Изображения нет')
+    } catch (error) {
+      await showToast('Максимальный вес изображения 3 мб')
     }
   }
 
-  if(isLogoutModal){
-    return <ModalExit actionCallback={async ()=>{
-      const response = await AuthService.deleteCustomerAccount()
-      if(response.data.success){
-        dispatch(logout())
-        await showToast('Ваш аккаунт успешно удален!')
-      }else{
-        await showToast('Ошибка')
-      }     
-    }} 
-    closeCallback={setLogoutModal}
-    text={"Вы действительно хотите удалить аккаунт?"}
-    textButton={"Удалить"}
-    />
- }
+  if (isLogoutModal) {
+    return (
+      <ModalExit
+        actionCallback={async () => {
+          const response = await AuthService.deleteCustomerAccount()
+          if (response.data.success) {
+            dispatch(logout())
+            await showToast('Ваш аккаунт успешно удален!')
+          } else {
+            await showToast('Ошибка')
+          }
+        }}
+        closeCallback={setLogoutModal}
+        text={'Вы действительно хотите удалить аккаунт?'}
+        textButton={'Удалить'}
+      />
+    )
+  }
 
   return (
     <form className={'editing'} onSubmit={onSubmit}>
@@ -155,16 +156,28 @@ export const Editing = () => {
               className='editing__input'
               style={{ marginBottom: 15, padding: '5px 0' }}
               defaultValue={dataUser.name}
-              {...register("name", {
+              {...register('name', {
                 required: true,
                 minLength: 2,
                 maxLength: 20
               })}
-              aria-invalid={errors.name ? "true" : "false"}
+              aria-invalid={errors.name ? 'true' : 'false'}
             />
-            {errors.name?.type === 'required' && <p role="alert" className='editing__error'>Данное поле не может быть пустым</p>}
-            {errors.name?.type === 'maxLength' && <p role="alert" className='editing__error'>Длина имени должна быть от 2 до 20 символов</p>}
-            {errors.name?.type === 'minLength' && <p role="alert" className='editing__error'>Длина имени должна быть от 2 до 20 символов</p>}
+            {errors.name?.type === 'required' && (
+              <p role='alert' className='editing__error'>
+                Данное поле не может быть пустым
+              </p>
+            )}
+            {errors.name?.type === 'maxLength' && (
+              <p role='alert' className='editing__error'>
+                Длина имени должна быть от 2 до 20 символов
+              </p>
+            )}
+            {errors.name?.type === 'minLength' && (
+              <p role='alert' className='editing__error'>
+                Длина имени должна быть от 2 до 20 символов
+              </p>
+            )}
             <div className='editing__caption' style={{ margin: 0 }}>
               Фамилия
             </div>
@@ -178,9 +191,21 @@ export const Editing = () => {
                 maxLength: 20
               })}
             />
-            {errors.surname?.type === 'required' && <p role="alert" className='editing__error'>Данное поле не может быть пустым</p>}
-            {errors.surname?.type === 'maxLength' && <p role="alert" className='editing__error'>Длина фамилии должна быть от 2 до 20 символов</p>}
-            {errors.surname?.type === 'minLength' && <p role="alert" className='editing__error'>Длина фамилии должна быть от 2 до 20 символов</p>}
+            {errors.surname?.type === 'required' && (
+              <p role='alert' className='editing__error'>
+                Данное поле не может быть пустым
+              </p>
+            )}
+            {errors.surname?.type === 'maxLength' && (
+              <p role='alert' className='editing__error'>
+                Длина фамилии должна быть от 2 до 20 символов
+              </p>
+            )}
+            {errors.surname?.type === 'minLength' && (
+              <p role='alert' className='editing__error'>
+                Длина фамилии должна быть от 2 до 20 символов
+              </p>
+            )}
           </div>
         </div>
         <div className={'editing__gender select-gender'}>
@@ -208,10 +233,15 @@ export const Editing = () => {
           className='editing__input'
           defaultValue={dataUser.email}
           {...register('email', {
-            pattern: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
+            pattern:
+              /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
           })}
         />
-        {errors.email?.type === 'pattern' && <p role="alert" className='editing__error'>Не валидный email</p>}
+        {errors.email?.type === 'pattern' && (
+          <p role='alert' className='editing__error'>
+            Не валидный email
+          </p>
+        )}
         <div className='editing__caption'>Телефон</div>
         <Controller
           control={control}
@@ -227,7 +257,11 @@ export const Editing = () => {
             />
           )}
         />
-        {errors.phone?.type === 'pattern' && <p role="alert" className='editing__error'>Не корректный номер телефона</p>}
+        {errors.phone?.type === 'pattern' && (
+          <p role='alert' className='editing__error'>
+            Не корректный номер телефона
+          </p>
+        )}
         <div className='editing__caption'>Дата рождения</div>
         <Controller
           control={control}
@@ -250,7 +284,7 @@ export const Editing = () => {
         />
       </div>
       <div className='editing__row'>
-        <div className='editing__delete'onClick={() => setLogoutModal(true)}>
+        <div className='editing__delete' onClick={() => setLogoutModal(true)}>
           Удалить аккаунт
         </div>
       </div>

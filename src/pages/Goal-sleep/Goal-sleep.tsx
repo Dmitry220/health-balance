@@ -8,17 +8,25 @@ import Header from '../../Components/Header/Header'
 import { ScrollPicker } from '../../Components/Scroll-picker/Scroll-picker'
 import './goal-sleep.scss'
 import TrackerService from '../../services/TrackerService'
-import { getTracker, setChangeTrack, setDateSleep, trackerSelector } from '../../Redux/slice/trackerSlice'
+import {
+  getTracker,
+  setChangeTrack,
+  setDateSleep,
+  trackerSelector
+} from '../../Redux/slice/trackerSlice'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
 
 export const GoalSleep = () => {
-
   const dispatch = useAppDispatch()
   const tracker = useAppSelector(trackerSelector)
   const itemsHour = getItemsHour()
   const itemsMinutes = getItemsMinutes()
-  const [hour, setHour] = useState<string>((+tracker.wake_up_time.split(':')[0]).toString())
-  const [minutes, setMinutes] = useState<string>((+tracker.wake_up_time.split(':')[1]).toString())
+  const [hour, setHour] = useState<string>(
+    (+tracker.wake_up_time.split(':')[0]).toString()
+  )
+  const [minutes, setMinutes] = useState<string>(
+    (+tracker.wake_up_time.split(':')[1]).toString()
+  )
 
   const changeHour = (value: string) => setHour(value)
   const changeMinutes = (value: string) => setMinutes(value)
@@ -32,7 +40,7 @@ export const GoalSleep = () => {
         'wake_up_time',
         hour.padStart(2, '0') + ':' + minutes.padStart(2, '0')
       )
-      await showToast('Изменения вступят со следующей недели!')
+      await showToast('Изменения вступят в силу со следующей недели!')
     } catch (error) {
       await showToast('Ошибка!')
     }
@@ -75,8 +83,8 @@ export const GoalSleep = () => {
       <div className='goal-sleep__recommendation small-text'>
         Оптимальное время засыпания:{' '}
         <span className='text-blue'>
-          {outputHour.toLocaleString().padStart(2, '0')}
-          :{minutes.padStart(2, '0')}
+          {outputHour.toLocaleString().padStart(2, '0')}:
+          {minutes.padStart(2, '0')}
         </span>
       </div>
       <button className='goal-sleep__button _button-white' onClick={save}>

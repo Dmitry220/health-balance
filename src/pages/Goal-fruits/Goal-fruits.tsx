@@ -7,7 +7,6 @@ import { useAppSelector } from '../../utils/hooks/redux-hooks'
 import './goal-fruits.scss'
 
 export const GoalFruits = () => {
-
   const tracker = useAppSelector(trackerSelector)
 
   const [countFruits, setCountFruits] = useState<number>(tracker.fruits)
@@ -22,7 +21,7 @@ export const GoalFruits = () => {
   const save = async () => {
     try {
       await TrackerService.updateTracker(tracker.id, 'fruits', countFruits + '')
-      await showToast('Изменения вступят со следующего дня!')
+      await showToast('Изменения вступят в силу с завтрашнего дня!')
     } catch (error) {
       await showToast('Ошибка!')
     }
@@ -41,7 +40,9 @@ export const GoalFruits = () => {
         </div>
         <div onClick={addCountFruits}>+</div>
       </div>
-      <button className='goal-fruits__button _button-white' onClick={save}>Установить</button>
+      <button className='goal-fruits__button _button-white' onClick={save}>
+        Установить
+      </button>
     </div>
   )
 }

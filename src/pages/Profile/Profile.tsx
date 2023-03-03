@@ -3,18 +3,18 @@ import './profile.scss'
 import Header from '../../Components/Header/Header'
 import icon_reward from '../../assets/image/icon_reward.svg'
 import { Link, useNavigate } from 'react-router-dom'
-import { EDITING_ROUTE, SETTINGS_ROUTE, SHOP_ROUTE } from '../../provider/constants-route'
+import {
+  EDITING_ROUTE,
+  SETTINGS_ROUTE,
+  SHOP_ROUTE
+} from '../../provider/constants-route'
 import { ProfileSteps } from '../../Components/Profile/Profile-steps'
 import { ProfileChallenge } from '../../Components/Profile/Profile-challenge'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
-import {
-  dataUserSelector,
-  setUserData,
-  updateProfile
-} from '../../Redux/slice/profileSlice'
+import { dataUserSelector, setUserData } from '../../Redux/slice/profileSlice'
 import { clearResults, logout } from '../../Redux/slice/authSlice'
 import { IMAGE_URL } from '../../http'
-import settingsIcon from "../../assets/image/icon_option.svg";
+import settingsIcon from '../../assets/image/icon_option.svg'
 import { balanceSelector } from '../../Redux/slice/appSlice'
 import avatar from '../../assets/image/avatar.jpeg'
 import { ModalExit } from '../../Components/Modals/Modal-exit'
@@ -22,35 +22,38 @@ import Pedometer from '../../plugins/pedometer'
 import { Capacitor } from '@capacitor/core'
 import { persistor } from '../..'
 
-
 export const Profile = () => {
-
   const dataUser = useAppSelector(dataUserSelector)
   const ballance = useAppSelector(balanceSelector)
-  const navigation = useNavigate();
+  const navigation = useNavigate()
   const dispatch = useAppDispatch()
   const [isLogoutModal, setLogoutModal] = useState<boolean>(false)
   const idUser = Number(localStorage.getItem('id'))
 
-  const additionalHeaderComponent = <img src={settingsIcon} />;
+  const additionalHeaderComponent = <img src={settingsIcon} />
 
   const additionalHeaderComponentClick = () => {
-    navigation(SETTINGS_ROUTE);
-  };
+    navigation(SETTINGS_ROUTE)
+  }
 
   useEffect(() => {
     dispatch(setUserData(idUser))
   }, [])
 
   if (isLogoutModal) {
-    return <ModalExit actionCallback={async () => {
-      if (Capacitor.getPlatform() === 'android') {
-        Pedometer.reset()
-      }
-      await persistor.purge()     
-      await dispatch(clearResults())
-      await  dispatch(logout())    
-    }} closeCallback={setLogoutModal} />
+    return (
+      <ModalExit
+        actionCallback={async () => {
+          if (Capacitor.getPlatform() === 'android') {
+            Pedometer.reset()
+          }
+          await persistor.purge()
+          await dispatch(clearResults())
+          await dispatch(logout())
+        }}
+        closeCallback={setLogoutModal}
+      />
+    )
   }
 
   return (
@@ -63,11 +66,20 @@ export const Profile = () => {
       <div className='profile__block'>
         <div className='profile__header'>
           <div className='profile__avatar'>
-            {dataUser.avatar && <img src={IMAGE_URL + 'avatars/' + dataUser.avatar} alt='avatar' />}
+            {dataUser.avatar && (
+              <img
+                src={IMAGE_URL + 'avatars/' + dataUser.avatar}
+                alt='avatar'
+              />
+            )}
             {!dataUser.avatar && <img src={avatar} alt='avatar' />}
           </div>
           <div className='profile__user-info'>
-            <div className='profile__user-name'>{dataUser.name + ' ' + (dataUser.surname != null ? dataUser.surname : '')}</div>
+            <div className='profile__user-name'>
+              {dataUser.name +
+                ' ' +
+                (dataUser.surname != null ? dataUser.surname : '')}
+            </div>
             <Link to={EDITING_ROUTE} className='profile__link text-blue'>
               Редактировать
             </Link>
@@ -77,14 +89,22 @@ export const Profile = () => {
           <button className='profile__button-balance'>
             Баланс: {ballance} <img src={icon_reward} alt='reward' />
           </button>
-          <Link to={SHOP_ROUTE} className='_button-white'>Обменять</Link>
+          <Link to={SHOP_ROUTE} className='_button-white'>
+            Обменять
+          </Link>
         </div>
       </div>
       <div className='profile__block'>
-        <ProfileSteps steps={dataUser.steps} kilometer={+((dataUser.steps * 0.7) / 1000).toFixed(2)} />
+        <ProfileSteps
+          steps={dataUser.steps}
+          kilometer={+((dataUser.steps * 0.7) / 1000).toFixed(2)}
+        />
       </div>
       <div className='profile__block'>
-        <ProfileChallenge challenges={dataUser.challenges} completed_challenges={dataUser.completed_challenges} />
+        <ProfileChallenge
+          challenges={dataUser.challenges}
+          completed_challenges={dataUser.completed_challenges}
+        />
       </div>
       <div className='profile__block'>
         <div className='profile__out' onClick={() => setLogoutModal(true)}>

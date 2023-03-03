@@ -8,14 +8,10 @@ import { App as CapacitorApp } from '@capacitor/app'
 import TrackerService from './services/TrackerService'
 import { showToast } from './utils/common-functions'
 import { useNavigate } from 'react-router-dom'
-import {
-  MOTIVATION_ROUTE,
-  TRACKER_ROUTE
-} from './provider/constants-route'
+import { MOTIVATION_ROUTE, TRACKER_ROUTE } from './provider/constants-route'
 import { SafeArea } from 'capacitor-plugin-safe-area'
 import { IUpdateUser } from './models/IUsers'
 import UserService from './services/UserServices'
-
 
 function App() {
   const navigate = useNavigate()
@@ -43,7 +39,7 @@ function App() {
   }
 
   const changeTimezone = async () => {
-    if (localStorage.getItem("token")) {
+    if (localStorage.getItem('token')) {
       const timezone = -new Date().getTimezoneOffset() / 60
       const data: IUpdateUser = { timezone }
       await UserService.editingProfile(data)
@@ -57,12 +53,11 @@ function App() {
     handlerPush()
     //Обработчик сворачиваемого приложения
     CapacitorApp.addListener('appStateChange', ({ isActive }) => {
-      console.log('App state changed. Is active?', isActive);
       //Изменение timezone при входе в приложение
       changeTimezone()
       //Обработка пушей
       handlerPush()
-    });
+    })
 
     //Старт шагомера и предоставления разрешений
     if (Capacitor.getPlatform() === 'android') {
@@ -86,7 +81,15 @@ function App() {
   }, [])
 
   return (
-    <div className={'_container'} style={{ paddingTop: Capacitor.getPlatform() === 'ios' ? insetsHeight + statusBarHeight : 16 }}>
+    <div
+      className={'_container'}
+      style={{
+        paddingTop:
+          Capacitor.getPlatform() === 'ios'
+            ? insetsHeight + statusBarHeight
+            : 16
+      }}
+    >
       <AppRouter />
     </div>
   )

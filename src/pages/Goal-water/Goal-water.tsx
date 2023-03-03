@@ -13,19 +13,18 @@ export const GoalWater = () => {
   const tracker = useAppSelector(trackerSelector)
   const itemsWeight = getItemsWeight(startValueWeight, endValueWeight, 'кг')
 
-  const [weightUser, setWeightUser] = useState<string>(tracker.weight+'')
+  const [weightUser, setWeightUser] = useState<string>(tracker.weight + '')
 
   const changeWeight = (value: string) => setWeightUser(value)
 
-  const save = async () => {  
+  const save = async () => {
     try {
       await TrackerService.updateTracker(tracker.id, 'weight', weightUser)
-      await showToast('Изменения вступят со следующего дня!')
+      await showToast('Изменения вступят в силу с завтрашнего дня!')
     } catch (error) {
       await showToast('Ошибка!')
     }
   }
-
 
   return (
     <div className={'goal-water'}>
@@ -39,9 +38,14 @@ export const GoalWater = () => {
         />
       </div>
       <div className='goal-water__recommendation small-text'>
-        Количество воды в день: <span className='text-blue'>{(+weightUser*35/1000).toFixed(1)} литра</span>
+        Количество воды в день:{' '}
+        <span className='text-blue'>
+          {((+weightUser * 35) / 1000).toFixed(1)} литра
+        </span>
       </div>
-      <button className='goal-water__button _button-white' onClick={save}>Установить</button>
+      <button className='goal-water__button _button-white' onClick={save}>
+        Установить
+      </button>
     </div>
   )
 }
