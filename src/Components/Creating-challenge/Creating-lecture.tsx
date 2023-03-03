@@ -68,41 +68,44 @@ export const CreatingLecture = () => {
   const [isLoadingCreateNews, setIsLoadingCreateNews] = useState<boolean>(false)
 
   const addCover = async () => {
+    try {
+      const image = await Camera.getPhoto({
+        quality: 50,
+        allowEditing: true,
+        resultType: CameraResultType.Uri,
+        promptLabelPhoto: "Выбрать фото из галерии",
+        promptLabelPicture: "Сделать фотографию",
+        promptLabelHeader: "Фото"
+      })
 
-    const image = await Camera.getPhoto({
-      quality: 50,
-      allowEditing: true,
-      resultType: CameraResultType.Uri,
-      promptLabelPhoto: "Выбрать фото из галерии",
-      promptLabelPicture:"Сделать фотографию",
-      promptLabelHeader:"Фото"
-    })
+      let imageUrl = image.webPath || ''
 
-    let imageUrl = image.webPath || ''
+      let blob = await fetch(imageUrl).then((r) => r.blob())
+      setIsLoadingAvatar(true)
 
-    let blob = await fetch(imageUrl).then((r) => r.blob())
-    setIsLoadingAvatar(true)
-
-    if (blob) {
-      const formData = new FormData()
-      formData.append('image', blob)
-      try {
-        const response = await FileService.addImageLesson(formData)
-        if(response?.data?.data?.avatar){
-          setPhotoPath(imageUrl)
-          setImage(response.data.data.avatar)
-        } else{
+      if (blob) {
+        const formData = new FormData()
+        formData.append('image', blob)
+        try {
+          const response = await FileService.addImageLesson(formData)
+          if (response?.data?.data?.avatar) {
+            setPhotoPath(imageUrl)
+            setImage(response.data.data.avatar)
+          } else {
+            await showToast('Максимальный вес изображения 3 мб')
+          }
+          setIsLoadingAvatar(false)
+        } catch (error) {
+          setIsLoadingAvatar(false)
+          setPhotoPath('')
+          setImage('')
           await showToast('Максимальный вес изображения 3 мб')
         }
-        setIsLoadingAvatar(false)
-      } catch (error) {
-        setIsLoadingAvatar(false)
-        setPhotoPath('')
-        setImage('')
-        await showToast('Максимальный вес изображения 3 мб')
+      } else {
+        await showToast('Изображения нет')
       }
-    } else {
-      await showToast('Изображения нет')
+    } catch (error) {
+      await showToast('Максимальный вес изображения 3 мб')
     }
   }
 
@@ -112,13 +115,13 @@ export const CreatingLecture = () => {
     setEndDate(end)
   }
 
-  const youtube_parser = (url:string) =>{
+  const youtube_parser = (url: string) => {
     var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
     var match = url.match(regExp);
-    return (match&&match[7].length==11)? match[7] : false;
-}
+    return (match && match[7].length == 11) ? match[7] : false;
+  }
 
-  const convertVideo = (str:string) => 'https://www.youtube.com/embed/' + youtube_parser(str);
+  const convertVideo = (str: string) => 'https://www.youtube.com/embed/' + youtube_parser(str);
 
   const resetField = () => {
     const END_DATE = new Date()
@@ -197,7 +200,7 @@ export const CreatingLecture = () => {
         }
       } catch (error) {
         showToast('Произошла ошибка!')
-      }finally{
+      } finally {
         setIsLoadingCreateNews(false)
       }
     }
@@ -237,7 +240,7 @@ export const CreatingLecture = () => {
         })}
       />
       {errors.description?.type === 'required' && <p role="alert" className='creating-lecture__error'>Данное поле не может быть пустым</p>}
-   
+
       {!isLoadingAvatar ? <div onClick={addCover} className='creating-lecture__image'>
         {photoPath && <img src={photoPath} alt='' />}
         {!photoPath && (
@@ -293,8 +296,8 @@ export const CreatingLecture = () => {
                   correctAnswer === index
                     ? 'choice-answer__input _field + choice-answer__input_corrected'
                     : correctAnswer === -1
-                    ? 'choice-answer__input _field + choice-answer__input_corrected'
-                    : 'choice-answer__input _field'
+                      ? 'choice-answer__input _field + choice-answer__input_corrected'
+                      : 'choice-answer__input _field'
                 }
                 {...register(`answers.${index}.answer`, {
                   required: true
@@ -302,10 +305,10 @@ export const CreatingLecture = () => {
               />
               {errors?.['answers']?.[index]?.['answer']?.type ===
                 'required' && (
-                <p role='alert' className='creating-lecture__error'>
-                  Данное поле не может быть пустым
-                </p>
-              )}
+                  <p role='alert' className='creating-lecture__error'>
+                    Данное поле не может быть пустым
+                  </p>
+                )}
             </div>
           ))}
           <div className='choice-answer__buttons'>
@@ -416,7 +419,7 @@ export const CreatingLecture = () => {
           Завершить
         </Link>
         <button
-        disabled={isLoadingCreateNews}
+          disabled={isLoadingCreateNews}
           className='creating-lecture__button _button-white'
           onClick={addLecture}
         >

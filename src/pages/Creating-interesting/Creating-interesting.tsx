@@ -31,41 +31,44 @@ export const CreatingInteresting = () => {
   const tempImage = useAppSelector(tempImageNewsSelector)
 
   const takePicture = async () => {
+    try {
+      const image = await Camera.getPhoto({
+        quality: 50,
+        allowEditing: true,
+        resultType: CameraResultType.Uri,
+        promptLabelPhoto: "Выбрать фото из галерии",
+        promptLabelPicture: "Сделать фотографию",
+        promptLabelHeader: "Фото"
+      })
 
-    const image = await Camera.getPhoto({
-      quality: 50,
-      allowEditing: true,
-      resultType: CameraResultType.Uri,
-      promptLabelPhoto: "Выбрать фото из галерии",
-      promptLabelPicture:"Сделать фотографию",
-      promptLabelHeader:"Фото"
-    })
+      let imageUrl = image.webPath || ''
 
-    let imageUrl = image.webPath || ''
+      let blob = await fetch(imageUrl).then((r) => r.blob())
+      setIsLoadingAvatar(true)
 
-    let blob = await fetch(imageUrl).then((r) => r.blob())
-    setIsLoadingAvatar(true)
-
-    if (blob) {
-      const formData = new FormData()
-      formData.append('image', blob)
-      try {
-        const response = await FileService.addImageNews(formData)
-        if(response?.data?.data?.avatar){
-          dispatch(setTempImageNews(imageUrl))
-          dispatch(setImageNews(response.data.data.avatar))
-        } else{
+      if (blob) {
+        const formData = new FormData()
+        formData.append('image', blob)
+        try {
+          const response = await FileService.addImageNews(formData)
+          if (response?.data?.data?.avatar) {
+            dispatch(setTempImageNews(imageUrl))
+            dispatch(setImageNews(response.data.data.avatar))
+          } else {
+            await showToast('Максимальный вес изображения 3 мб')
+          }
+          setIsLoadingAvatar(false)
+        } catch (error) {
+          setIsLoadingAvatar(false)
+          dispatch(setTempImageNews(''))
+          dispatch(setImageNews(''))
           await showToast('Максимальный вес изображения 3 мб')
         }
-        setIsLoadingAvatar(false)
-      } catch (error) {
-        setIsLoadingAvatar(false)
-        dispatch(setTempImageNews(''))
-        dispatch(setImageNews(''))
-        await showToast('Максимальный вес изображения 3 мб')
+      } else {
+        await showToast('Изображения нет')
       }
-    } else {
-      await showToast('Изображения нет')
+    } catch (error) {
+      await showToast('Максимальный вес изображения 3 мб')
     }
   }
 
@@ -103,13 +106,13 @@ export const CreatingInteresting = () => {
         if (response.data.news_id) {
           reset()
           setShowModal(true)
-        }else{
+        } else {
           await showToast('Ошибка')
         }
       } catch (e) {
         console.log(e)
         await showToast('Ошибка')
-      } finally{
+      } finally {
         setIsLoading(false)
       }
     } else {

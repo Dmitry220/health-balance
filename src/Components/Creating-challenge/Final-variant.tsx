@@ -57,41 +57,44 @@ export const FinalVariant = () => {
   const dispatch = useAppDispatch()
 
   const addCover = async () => {
+    try {
+      const image = await Camera.getPhoto({
+        quality: 50,
+        allowEditing: true,
+        resultType: CameraResultType.Uri,
+        promptLabelPhoto: "Выбрать фото из галерии",
+        promptLabelPicture: "Сделать фотографию",
+        promptLabelHeader: "Фото"
+      })
 
-    const image = await Camera.getPhoto({
-      quality: 50,
-      allowEditing: true,
-      resultType: CameraResultType.Uri,
-      promptLabelPhoto: "Выбрать фото из галерии",
-      promptLabelPicture:"Сделать фотографию",
-      promptLabelHeader:"Фото"
-    })
+      let imageUrl = image.webPath || ''
 
-    let imageUrl = image.webPath || ''
+      let blob = await fetch(imageUrl).then((r) => r.blob())
+      setIsLoadingAvatar(true)
 
-    let blob = await fetch(imageUrl).then((r) => r.blob())
-    setIsLoadingAvatar(true)
-
-    if (blob) {
-      const formData = new FormData()
-      formData.append('image', blob)
-      try {
-        const response = await FileService.addImageChallenge(formData)
-        if(response?.data?.data?.avatar){
-          setPhotoPath(imageUrl)
-          dispatch(setImageChallenge(response.data.data.avatar))
-        } else{
+      if (blob) {
+        const formData = new FormData()
+        formData.append('image', blob)
+        try {
+          const response = await FileService.addImageChallenge(formData)
+          if (response?.data?.data?.avatar) {
+            setPhotoPath(imageUrl)
+            dispatch(setImageChallenge(response.data.data.avatar))
+          } else {
+            await showToast('Максимальный вес изображения 3 мб')
+          }
+          setIsLoadingAvatar(false)
+        } catch (error) {
+          setIsLoadingAvatar(false)
           await showToast('Максимальный вес изображения 3 мб')
+          setPhotoPath('')
+          dispatch(setImageChallenge(''))
         }
-        setIsLoadingAvatar(false)
-      } catch (error) {
-        setIsLoadingAvatar(false)
-        await showToast('Максимальный вес изображения 3 мб')
-        setPhotoPath('')
-        dispatch(setImageChallenge(''))
+      } else {
+        await showToast('Изображения нет')
       }
-    } else {
-      await showToast('Изображения нет')
+    } catch (error) {
+      await showToast('Максимальный вес изображения 3 мб')
     }
   }
 
