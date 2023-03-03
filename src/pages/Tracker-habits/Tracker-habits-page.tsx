@@ -104,7 +104,7 @@ export const TrackerHabitsPage = () => {
           onClick={deleteTracker}
           className='_button-dark'
         >
-          Очистить трекер
+          Отключить трекер
         </button>
       </div>
     </div>
