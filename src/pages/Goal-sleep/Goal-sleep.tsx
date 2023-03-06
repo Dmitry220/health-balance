@@ -40,7 +40,7 @@ export const GoalSleep = () => {
         'wake_up_time',
         hour.padStart(2, '0') + ':' + minutes.padStart(2, '0')
       )
-      await showToast('Изменения вступят в силу со следующей недели!')
+      await showToast('Изменено успешно!')
     } catch (error) {
       await showToast('Ошибка!')
     }
