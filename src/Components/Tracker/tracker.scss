@@ -7,10 +7,10 @@
 
   &__container {
     padding: 20px;
+    margin: 0px -15px -30px;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    @include adaptive-value("gap", 31, 15, 1);
   }
 
   &__item{}
@@ -22,10 +22,10 @@
 
   &__container {
     padding: 20px;
+    margin: 0px -15px -30px;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    @include adaptive-value("gap", 31, 15, 1);
   }
 
 }
@@ -33,7 +33,15 @@
 .habits-tracker-item {
 
   font-size: 10px;
-
+  @include adaptive-value("padding-left", 15, 10, 1);
+  @include adaptive-value("padding-right", 15, 10, 1);
+  padding-top: 0;
+  padding-bottom: 0;
+  @include adaptive-value("margin-bottom", 30, 20, 1);
+  flex: 0 1 20%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   color: #999999;
 
   &__data {
