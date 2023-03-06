@@ -41,7 +41,7 @@ const HeaderActive: FC<IHeaderActive> = ({ transparent }) => {
       className={'header-active'}
       style={{ background: transparent ? 'transparent' : '#121212', 
       top:Capacitor.getPlatform() === 'ios' ? 0 : 'auto',
-      padding: Capacitor.getPlatform() === 'ios' ? `${insetsHeight + statusBarHeight}px 16px 16px 16px` : '16px 16px 16px 16px'
+      padding: Capacitor.getPlatform() === 'ios' ? `${insetsHeight + statusBarHeight + 20}px 16px 16px 16px` : '16px 16px 16px 16px'
     }}
     >
       <div className='header-active__container'>
