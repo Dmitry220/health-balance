@@ -128,7 +128,7 @@ export const trackerSlice = createSlice({
         const evening =
           (+hour - 8 < 0 ? 24 + (+hour - 8) : +hour - 8) + ':' + minutes
         state.datesSleep = state.datesSleep.map((item) => {
-          if (weekNow != 0) {
+          if (weekNow !== 0) {
             if (weekNow <= item.id) {
               return {
                 ...item,
@@ -201,7 +201,7 @@ export const trackerSlice = createSlice({
       getTracks.fulfilled,
       (state, action: PayloadAction<ITrack[]>) => {
         state.tracks.fruitTrack = action.payload.filter(
-          (item) => item.type === 3 
+          (item) => item.type === 3
         )
         state.tracks.waterTrack = action.payload.filter(
           (item) => item.type === 2

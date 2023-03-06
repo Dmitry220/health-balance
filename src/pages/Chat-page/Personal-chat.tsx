@@ -52,7 +52,7 @@ export const PersonalChat = () => {
               style={{ marginLeft: id === mess.author.id ? 'auto' : 0 }}
               id={'qw' + i}
             >
-              {id != mess.author.id && (
+              {id !== mess.author.id && (
                 <div className='message-item__avatar'>
                   {' '}
                   <img
@@ -68,7 +68,7 @@ export const PersonalChat = () => {
               )}
 
               <div className='message-item__container'>
-                {id != mess.author.id && (
+                {id !== mess.author.id && (
                   <div className='message-item__name text-blue'>
                     {mess.author.name}
                   </div>
@@ -100,7 +100,7 @@ export const PersonalChat = () => {
           ></button>
         </div>
       </div>
-      <div className='line' style={{position:'fixed'}}></div>
+      <div className='line' style={{ position: 'fixed' }}></div>
     </div>
   )
 }

@@ -24,10 +24,10 @@ export const CreatingCommandsChallenge = () => {
     //dispatch(setDisabledButton(false))
   }
 
-  useEffect(() => {    
-    if (maxPeoples != 0 && teamAmount != 0) {
+  useEffect(() => {
+    if (maxPeoples !== 0 && teamAmount !== 0) {
       dispatch(setDisabledButton(false))
-    }else{
+    } else {
       dispatch(setDisabledButton(true))
     }
   }, [maxPeoples, teamAmount])
@@ -41,14 +41,23 @@ export const CreatingCommandsChallenge = () => {
         <h1 className='creating-commands-challenge__title'>
           Количество команд
         </h1>
-        <input type="number" className='_field' onChange={handlerTeamAmount} value={teamAmount} />
-
+        <input
+          type='number'
+          className='_field'
+          onChange={handlerTeamAmount}
+          value={teamAmount}
+        />
       </div>
       <div className='creating-commands-challenge__block'>
         <h1 className='creating-commands-challenge__title'>
           Участников на команду
         </h1>
-        <input type="number" className='_field' onChange={handleraMaxPeoples} value={maxPeoples} />
+        <input
+          type='number'
+          className='_field'
+          onChange={handleraMaxPeoples}
+          value={maxPeoples}
+        />
       </div>
     </div>
   )

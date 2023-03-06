@@ -1,4 +1,4 @@
-import { ChangeEvent, forwardRef, useEffect, useState } from 'react'
+import { forwardRef, useEffect, useState } from 'react'
 import DatePicker, { registerLocale } from 'react-datepicker'
 import ru from 'date-fns/locale/ru'
 import './creating-challenge.scss'
@@ -73,9 +73,9 @@ export const CreatingLecture = () => {
         quality: 50,
         allowEditing: true,
         resultType: CameraResultType.Uri,
-        promptLabelPhoto: "Выбрать фото из галерии",
-        promptLabelPicture: "Сделать фотографию",
-        promptLabelHeader: "Фото"
+        promptLabelPhoto: 'Выбрать фото из галерии',
+        promptLabelPicture: 'Сделать фотографию',
+        promptLabelHeader: 'Фото'
       })
 
       let imageUrl = image.webPath || ''
@@ -116,12 +116,14 @@ export const CreatingLecture = () => {
   }
 
   const youtube_parser = (url: string) => {
-    var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
-    var match = url.match(regExp);
-    return (match && match[7].length == 11) ? match[7] : false;
+    var regExp =
+      /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/
+    var match = url.match(regExp)
+    return match && match[7].length === 11 ? match[7] : false
   }
 
-  const convertVideo = (str: string) => 'https://www.youtube.com/embed/' + youtube_parser(str);
+  const convertVideo = (str: string) =>
+    'https://www.youtube.com/embed/' + youtube_parser(str)
 
   const resetField = () => {
     const END_DATE = new Date()
@@ -147,20 +149,6 @@ export const CreatingLecture = () => {
       qrCode
     }) => {
       setIsLoadingCreateNews(true)
-      const data = {
-        answers,
-        correctAnswer,
-        description,
-        endDate,
-        image,
-        question,
-        score,
-        startDate,
-        title,
-        typeLesson,
-        videoUrl,
-        qrCode
-      }
       const formData = new FormData()
       const idChallenge =
         Number(params.id) === 0 ? challenge_id : Number(params.id)
@@ -239,17 +227,25 @@ export const CreatingLecture = () => {
           required: true
         })}
       />
-      {errors.description?.type === 'required' && <p role="alert" className='creating-lecture__error'>Данное поле не может быть пустым</p>}
+      {errors.description?.type === 'required' && (
+        <p role='alert' className='creating-lecture__error'>
+          Данное поле не может быть пустым
+        </p>
+      )}
 
-      {!isLoadingAvatar ? <div onClick={addCover} className='creating-lecture__image'>
-        {photoPath && <img src={photoPath} alt='' />}
-        {!photoPath && (
-          <div className={'creating-lecture__local-image'}>
-            <img src={icon_camera} alt='' /> <br />
-            <br />
-          </div>
-        )}
-      </div> : <h1 style={{ marginBottom: 20 }}>Загружается...</h1>}
+      {!isLoadingAvatar ? (
+        <div onClick={addCover} className='creating-lecture__image'>
+          {photoPath && <img src={photoPath} alt='' />}
+          {!photoPath && (
+            <div className={'creating-lecture__local-image'}>
+              <img src={icon_camera} alt='' /> <br />
+              <br />
+            </div>
+          )}
+        </div>
+      ) : (
+        <h1 style={{ marginBottom: 20 }}>Загружается...</h1>
+      )}
       <div className='creating-lecture__sub-title creating-sub-title'>
         Задание
       </div>
@@ -296,8 +292,8 @@ export const CreatingLecture = () => {
                   correctAnswer === index
                     ? 'choice-answer__input _field + choice-answer__input_corrected'
                     : correctAnswer === -1
-                      ? 'choice-answer__input _field + choice-answer__input_corrected'
-                      : 'choice-answer__input _field'
+                    ? 'choice-answer__input _field + choice-answer__input_corrected'
+                    : 'choice-answer__input _field'
                 }
                 {...register(`answers.${index}.answer`, {
                   required: true
@@ -305,10 +301,10 @@ export const CreatingLecture = () => {
               />
               {errors?.['answers']?.[index]?.['answer']?.type ===
                 'required' && (
-                  <p role='alert' className='creating-lecture__error'>
-                    Данное поле не может быть пустым
-                  </p>
-                )}
+                <p role='alert' className='creating-lecture__error'>
+                  Данное поле не может быть пустым
+                </p>
+              )}
             </div>
           ))}
           <div className='choice-answer__buttons'>
@@ -423,7 +419,13 @@ export const CreatingLecture = () => {
           className='creating-lecture__button _button-white'
           onClick={addLecture}
         >
-          {isLoadingCreateNews ? <span className="spinner"><i className="fa fa-spinner fa-spin"></i> Загрузка</span> : 'Добавить лекцию '}
+          {isLoadingCreateNews ? (
+            <span className='spinner'>
+              <i className='fa fa-spinner fa-spin'></i> Загрузка
+            </span>
+          ) : (
+            'Добавить лекцию '
+          )}
         </button>
       </div>
     </form>

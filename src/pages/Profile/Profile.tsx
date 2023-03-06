@@ -31,7 +31,7 @@ export const Profile = () => {
   const [isLogoutModal, setLogoutModal] = useState<boolean>(false)
   const idUser = Number(localStorage.getItem('id'))
 
-  const additionalHeaderComponent = <img src={settingsIcon} />
+  const additionalHeaderComponent = <img src={settingsIcon} alt={'icon'} />
 
   const additionalHeaderComponentClick = () => {
     navigation(SETTINGS_ROUTE)
@@ -52,7 +52,6 @@ export const Profile = () => {
           await persistor.purge()
           await dispatch(clearResults())
           await dispatch(logout())
-        
         }}
         closeCallback={setLogoutModal}
       />
@@ -81,7 +80,7 @@ export const Profile = () => {
             <div className='profile__user-name'>
               {dataUser.name +
                 ' ' +
-                (dataUser.surname != null ? dataUser.surname : '')}
+                (dataUser.surname !== null ? dataUser.surname : '')}
             </div>
             <Link to={EDITING_ROUTE} className='profile__link text-blue'>
               Редактировать

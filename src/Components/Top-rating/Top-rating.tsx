@@ -53,7 +53,7 @@ export const TopRating = () => {
                       <span
                         className={
                           'personal__place personal__place' +
-                          (leaderDisplayOrder + 1 != 1 &&
+                          (leaderDisplayOrder + 1 !== 1 &&
                             '_' + (leaderDisplayOrder + 1))
                         }
                       >
@@ -75,7 +75,12 @@ export const TopRating = () => {
                       {topToday[leaderDisplayOrder].surname}
                     </div>
                     <div className='personal__count-steps'>
-                     {topToday[leaderDisplayOrder].total_quantity} {sklonenie(topToday[leaderDisplayOrder].total_quantity,['шаг', 'шага', 'шагов'])}
+                      {topToday[leaderDisplayOrder].total_quantity}{' '}
+                      {sklonenie(topToday[leaderDisplayOrder].total_quantity, [
+                        'шаг',
+                        'шага',
+                        'шагов'
+                      ])}
                     </div>
                   </Link>
                 )
@@ -107,13 +112,14 @@ export const TopRating = () => {
                   {item.name} <br /> {item.surname}
                 </div>
                 <div className='personal__count-steps'>
-                  {item.total_quantity} {sklonenie(item.total_quantity,['шаг', 'шага', 'шагов'])}
+                  {item.total_quantity}{' '}
+                  {sklonenie(item.total_quantity, ['шаг', 'шага', 'шагов'])}
                 </div>
               </Link>
             ))
           )
         ) : (
-          <h1 style={{marginLeft:10}}>Данных за сегодня нет</h1>
+          <h1 style={{ marginLeft: 10 }}>Данных за сегодня нет</h1>
         )}
       </div>
       <div className='top-rating__list list-participant'>
@@ -141,7 +147,8 @@ export const TopRating = () => {
                 </div>
                 <div className='list-participant__column'>
                   <div className='list-participant__count-steps'>
-                    {item.total_quantity} {sklonenie(item.total_quantity,['шаг', 'шага', 'шагов'])}
+                    {item.total_quantity}{' '}
+                    {sklonenie(item.total_quantity, ['шаг', 'шага', 'шагов'])}
                   </div>
                 </div>
               </Link>

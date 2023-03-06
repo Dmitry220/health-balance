@@ -1,11 +1,4 @@
-import {
-  ChangeEvent,
-  Dispatch,
-  FC,
-  SetStateAction,
-  useState,
-  forwardRef
-} from 'react'
+import { ChangeEvent, useState, forwardRef } from 'react'
 import './creating-challenge.scss'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
 import {
@@ -31,11 +24,8 @@ import ReactDatePicker, { registerLocale } from 'react-datepicker'
 import ru from 'date-fns/locale/ru'
 import {
   creatingPurposeSelector,
-  setQuantityPurpose,
-  setRewardPurpose,
-  setTypePurpose
+  setRewardPurpose
 } from '../../Redux/slice/purposeSlice'
-import { Link } from 'react-router-dom'
 import { Camera, CameraResultType } from '@capacitor/camera'
 
 registerLocale('ru', ru)
@@ -47,7 +37,6 @@ export const FinalVariant = () => {
   const startDate = useAppSelector(startDateCreatingChallengeSelector)
   const endDate = useAppSelector(endDateCreatingChallengeSelector)
   const creatingPurpose = useAppSelector(creatingPurposeSelector)
-  const icon = false
   const [isLoadingAvatar, setIsLoadingAvatar] = useState<boolean>(false)
   const [photoPath, setPhotoPath] = useState<any | null>(null)
   const [isEditReward, setIsEditReward] = useState<boolean>(false)
@@ -62,9 +51,9 @@ export const FinalVariant = () => {
         quality: 50,
         allowEditing: true,
         resultType: CameraResultType.Uri,
-        promptLabelPhoto: "Выбрать фото из галерии",
-        promptLabelPicture: "Сделать фотографию",
-        promptLabelHeader: "Фото"
+        promptLabelPhoto: 'Выбрать фото из галерии',
+        promptLabelPicture: 'Сделать фотографию',
+        promptLabelHeader: 'Фото'
       })
 
       let imageUrl = image.webPath || ''
@@ -106,28 +95,40 @@ export const FinalVariant = () => {
 
   return (
     <div className={'final-variant'}>
-      {!isLoadingAvatar ? <div onClick={addCover} className='final-variant__image'>
-        {photoPath && (
-          <img className={'final-variant__image-main'} src={photoPath} alt='' />
-        )}
-        {!photoPath && (
-          <div className={'final-variant__text'}>
-            <img src={icon_camera} alt='' />
-            <span>Загрузите обложку</span>
-          </div>
-        )}
-      </div> : <h1 className='final-variant__image'>Загружается...</h1>}
-      <div className='final-variant__header'>
-        {!isLoadingAvatar ? <div onClick={addCover} className='final-variant__icon'>
-          {photoPath && <img src={photoPath} alt='' />}
+      {!isLoadingAvatar ? (
+        <div onClick={addCover} className='final-variant__image'>
+          {photoPath && (
+            <img
+              className={'final-variant__image-main'}
+              src={photoPath}
+              alt=''
+            />
+          )}
           {!photoPath && (
             <div className={'final-variant__text'}>
-              <img src={icon_camera} alt='' /> <br />
-              <br />
-              <span>icon</span>
+              <img src={icon_camera} alt='' />
+              <span>Загрузите обложку</span>
             </div>
           )}
-        </div> : <h1 className='final-variant__icon'>...</h1>}
+        </div>
+      ) : (
+        <h1 className='final-variant__image'>Загружается...</h1>
+      )}
+      <div className='final-variant__header'>
+        {!isLoadingAvatar ? (
+          <div onClick={addCover} className='final-variant__icon'>
+            {photoPath && <img src={photoPath} alt='' />}
+            {!photoPath && (
+              <div className={'final-variant__text'}>
+                <img src={icon_camera} alt='' /> <br />
+                <br />
+                <span>icon</span>
+              </div>
+            )}
+          </div>
+        ) : (
+          <h1 className='final-variant__icon'>...</h1>
+        )}
         <div className='final-variant__header__info'>
           <div>
             <select

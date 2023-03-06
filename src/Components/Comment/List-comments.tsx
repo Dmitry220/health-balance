@@ -1,6 +1,6 @@
 import './commnet.scss'
 import { CommentAnswer } from './Comment-answer'
-import { FC, useEffect, useLayoutEffect, useMemo, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
 import {
   commentsSelector,
@@ -125,7 +125,7 @@ export const ItemComment: FC<ICommentItem> = ({
           </div>
           <div className='item-comment__data small-text-comment'>
             {formatDate(comment.created_at) || '12.12.21 в 12:32'}
-            {comment.customer_id != idProfile && (
+            {comment.customer_id !== idProfile && (
               <span onClick={() => openForm(comment.id, comment.customer_name)}>
                 Ответить
               </span>
@@ -134,7 +134,7 @@ export const ItemComment: FC<ICommentItem> = ({
         </div>
       </div>
       <div className='item-comment__answer'>
-        {comment.childrens.length != 0 &&
+        {comment.childrens.length !== 0 &&
           comment.childrens.map((item) => (
             <CommentAnswer
               key={comment.id}

@@ -20,11 +20,9 @@ import { ModalStatus } from '../../Components/Modals/Modal-status'
 import FileService from '../../services/FilesServices'
 import { rubricConversion, showToast } from '../../utils/common-functions'
 import NewsService from '../../services/NewsService'
-import { Preloader } from '../../Components/Preloader/Preloader'
 import { Camera, CameraResultType } from '@capacitor/camera'
 
 export const CreatingInteresting = () => {
-
   const [isLoadingAvatar, setIsLoadingAvatar] = useState<boolean>(false)
   const [showModal, setShowModal] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -36,9 +34,9 @@ export const CreatingInteresting = () => {
         quality: 50,
         allowEditing: true,
         resultType: CameraResultType.Uri,
-        promptLabelPhoto: "Выбрать фото из галерии",
-        promptLabelPicture: "Сделать фотографию",
-        promptLabelHeader: "Фото"
+        promptLabelPhoto: 'Выбрать фото из галерии',
+        promptLabelPicture: 'Сделать фотографию',
+        promptLabelHeader: 'Фото'
       })
 
       let imageUrl = image.webPath || ''
@@ -90,14 +88,18 @@ export const CreatingInteresting = () => {
     dispatch(setPushNews(+e.target.checked))
 
   const publish = async () => {
-    if (dataNews.title && dataNews.annotation && dataNews.category && dataNews.content) {
+    if (
+      dataNews.title &&
+      dataNews.annotation &&
+      dataNews.category &&
+      dataNews.content
+    ) {
       const formData = new FormData()
       formData.append('title', dataNews.title)
       formData.append('annotation', dataNews.annotation)
       formData.append('content', dataNews.content)
       formData.append('image', dataNews.image)
-      dataNews.team != 0 &&
-        formData.append('team', dataNews.team.toString())
+      dataNews.team !== 0 && formData.append('team', dataNews.team.toString())
       formData.append('category', dataNews.category.toString())
       formData.append('push', dataNews.push.toString())
       setIsLoading(true)
@@ -163,28 +165,36 @@ export const CreatingInteresting = () => {
           />
         </div>
         <div className='creating-interesting__row'>
-          {!isLoadingAvatar ? <div
-            onClick={takePicture}
-            className='creating-interesting__cover text-blue'
-          >
-            <img src={paper_clip} alt='' />
-            Загрузить обложку
-          </div> : <h1 className='creating-interesting__cover'>Загружается...</h1>}
+          {!isLoadingAvatar ? (
+            <div
+              onClick={takePicture}
+              className='creating-interesting__cover text-blue'
+            >
+              <img src={paper_clip} alt='' />
+              Загрузить обложку
+            </div>
+          ) : (
+            <h1 className='creating-interesting__cover'>Загружается...</h1>
+          )}
           <Link
             to={RUBRIC_ROUTE}
             className='creating-interesting__category text-blue'
           >
             Рубрика
           </Link>
-          <div style={{ marginLeft: 20 }}>{rubricConversion(dataNews.category)}</div>
+          <div style={{ marginLeft: 20 }}>
+            {rubricConversion(dataNews.category)}
+          </div>
         </div>
-        {tempImage && <div className='creating-interesting__row'>
-          <img
-            className='creating-interesting__cover-image'
-            src={tempImage}
-            alt='cover'
-          />
-        </div>}
+        {tempImage && (
+          <div className='creating-interesting__row'>
+            <img
+              className='creating-interesting__cover-image'
+              src={tempImage}
+              alt='cover'
+            />
+          </div>
+        )}
         <div className='creating-interesting__push'>
           <div className='custom-checkbox'>
             <input
@@ -202,7 +212,13 @@ export const CreatingInteresting = () => {
           disabled={isLoading}
           onClick={publish}
         >
-          {isLoading ? <span className="spinner"><i className="fa fa-spinner fa-spin"></i> Загрузка</span> : 'Опубликовать'}
+          {isLoading ? (
+            <span className='spinner'>
+              <i className='fa fa-spinner fa-spin'></i> Загрузка
+            </span>
+          ) : (
+            'Опубликовать'
+          )}
         </button>
       </div>
     </div>

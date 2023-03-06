@@ -18,7 +18,10 @@ export const ProfileMemberHead = () => {
   const navigate = useNavigate()
 
   const goChat = async () => {
-    const response = await ChatService.newChannel(infoUser.name + ' ' + infoUser.surname, [infoUser.id])
+    const response = await ChatService.newChannel(
+      infoUser.name + ' ' + infoUser.surname,
+      [infoUser.id]
+    )
     navigate(DIALOG__ROUTE + '/' + response.data.data[0].id)
   }
 
@@ -31,25 +34,43 @@ export const ProfileMemberHead = () => {
       <div className='profile-member-head__row'>
         <div className='profile-member-head__column profile-member-head__column_col-1'>
           <div className='profile-member-head__avatar'>
-            {infoUser.avatar && <img src={IMAGE_URL + 'avatars/' + infoUser.avatar} alt='avatar' />}
+            {infoUser.avatar && (
+              <img
+                src={IMAGE_URL + 'avatars/' + infoUser.avatar}
+                alt='avatar'
+              />
+            )}
             {!infoUser.avatar && <img src={avatar} alt='avatar' />}
           </div>
           <div className='profile-member-head__user-name title'>
             {infoUser.name}
           </div>
         </div>
-        {profile.id != infoUser.id && <div className='profile-member-head__column'>
-          <div onClick={goChat}>
-            <img src={icon_chat} alt='chat' />
+        {profile.id !== infoUser.id && (
+          <div className='profile-member-head__column'>
+            <div onClick={goChat}>
+              <img src={icon_chat} alt='chat' />
+            </div>
           </div>
-        </div>}
+        )}
       </div>
-      {profile.role === 1 && <div className='profile-member-head__row'>
-        <button className='profile-member-head__button _button-dark-yellow' onClick={generateGeneralChat}>
-          Добавить в общий чат
-        </button>
-      </div>}
-      {modalChat && <ModalChat active={modalChat} setActive={setModalChat} idUser={infoUser.id} />}
+      {profile.role === 1 && (
+        <div className='profile-member-head__row'>
+          <button
+            className='profile-member-head__button _button-dark-yellow'
+            onClick={generateGeneralChat}
+          >
+            Добавить в общий чат
+          </button>
+        </div>
+      )}
+      {modalChat && (
+        <ModalChat
+          active={modalChat}
+          setActive={setModalChat}
+          idUser={infoUser.id}
+        />
+      )}
     </div>
   )
 }

@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Header from '../../Components/Header/Header'
 import { CREATING_INTERESTING_ROUTE } from '../../provider/constants-route'
@@ -8,11 +8,6 @@ import {
 } from '../../Redux/slice/newsSlice'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
 import './rubric-page.scss'
-
-interface IRubric {
-  id: number
-  title?: string
-}
 
 const rubrics = [
   {
@@ -38,7 +33,7 @@ export const RubricPage = () => {
   const navigate = useNavigate()
 
   const saveRubric = () => {
-    if (news.category != 0) {
+    if (news.category !== 0) {
       navigate(CREATING_INTERESTING_ROUTE)
     }
   }

@@ -25,7 +25,7 @@ export const AnswerToQuestion = () => {
   const isLoading = useAppSelector(isLoadingSuccessSelector)
 
   const complete = async () => {
-    if (value != '' && lesson?.id) {
+    if (value !== '' && lesson?.id) {
       const params = new FormData()
       params.append('answer', value)
       try {

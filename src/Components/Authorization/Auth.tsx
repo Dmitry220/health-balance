@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 import './auth.scss'
 import { Link, useNavigate } from 'react-router-dom'
 import logo from '../../assets/image/Logo.svg'
@@ -52,7 +52,7 @@ export const Auth = () => {
         navigate(START_ROUTE)
       }
     } catch (e: any) {
-      if (e.code != 'ERR_NETWORK') {
+      if (e.code !== 'ERR_NETWORK') {
         await showToast('Неверный email или пароль!')
       } else {
         await showToast('Нет подключения к интернету!')
