@@ -18,7 +18,7 @@ export const Settings = () => {
     <div className={'settings'}>
       <Header title={'Настройки'} />
       <div className='settings__container'>
-        {Capacitor.getPlatform() !== 'ios' && (
+        {Capacitor.getPlatform() === 'android' && (
           <div className='settings__block'>
             <div className='settings__title'>Синхронизация</div>
             <div className='settings__row'>
