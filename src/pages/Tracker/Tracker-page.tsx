@@ -15,7 +15,6 @@ import {
 } from '../../utils/common-functions'
 import { TrackerHabitsPage } from '../Tracker-habits/Tracker-habits-page'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
-import { trackerVisitSelector } from '../../Redux/slice/visitedPageSlice'
 import TrackerService from '../../services/TrackerService'
 import {
   setVisitedTrackerPage,
@@ -24,7 +23,6 @@ import {
 
 export const TrackerPage = () => {
   const trackerVisitCount = useAppSelector(visitPagesSelector)
-  const dispatch = useAppDispatch()
 
   const startValueWeight = 40
   const endValueWeight = 200

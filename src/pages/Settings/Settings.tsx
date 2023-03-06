@@ -1,4 +1,4 @@
-import { useState } from 'react'
+// import { useState } from 'react'
 import './settings.scss'
 import Header from '../../Components/Header/Header'
 import { Link } from 'react-router-dom'
@@ -7,12 +7,12 @@ import { DOC_URL } from '../../http'
 import { Capacitor } from '@capacitor/core'
 
 export const Settings = () => {
-  const [notificationNews, setNotificationNews] = useState<boolean>(true)
-  const [notificationQuiz, setNotificationQuiz] = useState<boolean>(true)
-  const [notificationChallenge, setNotificationChallenge] =
-    useState<boolean>(true)
-  const [notificationPedometer, setNotificationPedometer] =
-    useState<boolean>(true)
+  // const [notificationNews, setNotificationNews] = useState<boolean>(true)
+  // const [notificationQuiz, setNotificationQuiz] = useState<boolean>(true)
+  // const [notificationChallenge, setNotificationChallenge] =
+  //   useState<boolean>(true)
+  // const [notificationPedometer, setNotificationPedometer] =
+  //   useState<boolean>(true)
 
   return (
     <div className={'settings'}>

@@ -111,7 +111,7 @@ export const typeConversion = (type: number) => {
     case 3:
       return 'Личный'
     default:
-        return 'Общий'
+      return 'Общий'
   }
 }
 export const rubricConversion = (type: number) => {
@@ -135,32 +135,41 @@ export const showToast = async (text: string) => {
 }
 
 export function getWeek(d: any) {
-  d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+  d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()))
 
-  d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
-  let yearStart: any = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-  var weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
-  return [d.getUTCFullYear(), weekNo];
+  d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7))
+  let yearStart: any = new Date(Date.UTC(d.getUTCFullYear(), 0, 1))
+  var weekNo = Math.ceil(((d - yearStart) / 86400000 + 1) / 7)
+  return [d.getUTCFullYear(), weekNo]
 }
 
-export function nFormatter(num:number, digits:number) {
+export function nFormatter(num: number, digits: number) {
   const lookup = [
-    { value: 1, symbol: "" },
-    { value: 1e3, symbol: "k" },
-    { value: 1e6, symbol: "M" },
-    { value: 1e9, symbol: "G" },
-    { value: 1e12, symbol: "T" },
-    { value: 1e15, symbol: "P" },
-    { value: 1e18, symbol: "E" }
-  ];
-  const rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
-  var item = lookup.slice().reverse().find(function(item) {
-    return num >= item.value;
-  });
-  return item ? (num / item.value).toFixed(digits).replace(rx, "$1") + item.symbol : "0";
+    { value: 1, symbol: '' },
+    { value: 1e3, symbol: 'k' },
+    { value: 1e6, symbol: 'M' },
+    { value: 1e9, symbol: 'G' },
+    { value: 1e12, symbol: 'T' },
+    { value: 1e15, symbol: 'P' },
+    { value: 1e18, symbol: 'E' }
+  ]
+  const rx = /\.0+$|(\.[0-9]*[1-9])0+$/
+  var item = lookup
+    .slice()
+    .reverse()
+    .find(function (item) {
+      return num >= item.value
+    })
+  return item
+    ? (num / item.value).toFixed(digits).replace(rx, '$1') + item.symbol
+    : '0'
 }
 
-export function sklonenie(number:number, txt:string[]) {
-  var cases = [2, 0, 1, 1, 1, 2];
-  return txt[(number % 100 > 4 && number % 100 < 20) ? 2 : cases[(number % 10 < 5) ? number % 10 : 5]];
+export function sklonenie(number: number, txt: string[]) {
+  var cases = [2, 0, 1, 1, 1, 2]
+  return txt[
+    number % 100 > 4 && number % 100 < 20
+      ? 2
+      : cases[number % 10 < 5 ? number % 10 : 5]
+  ]
 }

@@ -8,16 +8,10 @@ import Header from '../../Components/Header/Header'
 import { ScrollPicker } from '../../Components/Scroll-picker/Scroll-picker'
 import './goal-sleep.scss'
 import TrackerService from '../../services/TrackerService'
-import {
-  getTracker,
-  setChangeTrack,
-  setDateSleep,
-  trackerSelector
-} from '../../Redux/slice/trackerSlice'
-import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
+import { trackerSelector } from '../../Redux/slice/trackerSlice'
+import { useAppSelector } from '../../utils/hooks/redux-hooks'
 
 export const GoalSleep = () => {
-  const dispatch = useAppDispatch()
   const tracker = useAppSelector(trackerSelector)
   const itemsHour = getItemsHour()
   const itemsMinutes = getItemsMinutes()

@@ -11,20 +11,58 @@ interface IWaterTargetItem {
 export const HabitsTargetItem: FC<IWaterTargetItem> = ({ track }) => {
   return (
     <div className='habits-tracker-item'>
-      {
-        (track.notification_send && track.completed) && <img src={succesfully} alt="succesfully" style={{ marginBottom: 3 }} width={34} height={34} />
-      }
-      {
-        (track.notification_send && !track.completed) && <img src={missed} alt="missed" style={{ marginBottom: 3 }} width={34} height={34} />
-      }
-     {(!track.notification_send && !track.completed)&& <div className='habits-tracker-item__data'>
-        {new Date(track.send_time * 1000).getHours().toString().padStart(2, '0') +
-          ':' +
-          new Date(track.send_time * 1000).getMinutes().toString().padStart(2, '0')}
-      </div>}
-     {(!track.notification_send && !track.completed)&& <div className={'habits-tracker-item__value'}>{track.additional}</div>}
-      {(track.notification_send && track.completed) && <div className={'habits-tracker-item__value habits-tracker-item__value_green'}>{track.additional}</div>}
-      { (track.notification_send && !track.completed) && <div className={'habits-tracker-item__value habits-tracker-item__value_yellow'}>{track.additional}</div>}
+      {track.notification_send && track.completed && (
+        <img
+          src={succesfully}
+          alt='succesfully'
+          style={{ marginBottom: 3 }}
+          width={34}
+          height={34}
+        />
+      )}
+      {track.notification_send && !track.completed && (
+        <img
+          src={missed}
+          alt='missed'
+          style={{ marginBottom: 3 }}
+          width={34}
+          height={34}
+        />
+      )}
+      {!track.notification_send && !track.completed && (
+        <div className='habits-tracker-item__data'>
+          {new Date(track.send_time * 1000)
+            .getHours()
+            .toString()
+            .padStart(2, '0') +
+            ':' +
+            new Date(track.send_time * 1000)
+              .getMinutes()
+              .toString()
+              .padStart(2, '0')}
+        </div>
+      )}
+      {!track.notification_send && !track.completed && (
+        <div className={'habits-tracker-item__value'}>{track.additional}</div>
+      )}
+      {track.notification_send && track.completed && (
+        <div
+          className={
+            'habits-tracker-item__value habits-tracker-item__value_green'
+          }
+        >
+          {track.additional}
+        </div>
+      )}
+      {track.notification_send && !track.completed && (
+        <div
+          className={
+            'habits-tracker-item__value habits-tracker-item__value_yellow'
+          }
+        >
+          {track.additional}
+        </div>
+      )}
     </div>
   )
 }

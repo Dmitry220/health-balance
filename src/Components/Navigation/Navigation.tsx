@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import '../../assets/style/icon-font.scss'
 import './navigation.scss'
-import { Link, NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import {
   ACTIVITY_ROUTE,
   CHALLENGE_ROUTE,
@@ -9,7 +9,6 @@ import {
   INTERESTING_ROUTE,
   TRACKER_ROUTE
 } from '../../provider/constants-route'
-import icon from '../../assets/image/simple-line-icons_energy_active.svg'
 
 export interface IRoutesNavigation {
   path: string
@@ -77,16 +76,19 @@ export const Navigation: FC<INavigation> = ({ routes }) => {
           Интересное
         </NavLink>
 
-        {/* {routes.map((nav,i)=>(
-                    <NavLink to={nav.path}
-                    key={i}
-                             className={({isActive}) =>
-                                 isActive ? 'navigation__link active ' + nav.iconActive
-                                     :
-                                     'navigation__link ' + nav.icon
-                             }
-                    >{nav.title}</NavLink>
-                ))} */}
+        {/* {routes.map((nav, i) => (
+          <NavLink
+            to={nav.path}
+            key={i}
+            className={({ isActive }) =>
+              isActive
+                ? 'navigation__link active ' + nav.iconActive
+                : 'navigation__link ' + nav.icon
+            }
+          >
+            {nav.title}
+          </NavLink>
+        ))} */}
       </div>
     </div>
   )

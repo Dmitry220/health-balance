@@ -2,7 +2,6 @@ import { useEffect } from 'react'
 import { privateRoutes, publicRoutes } from './routes'
 import { Routes, Route } from 'react-router-dom'
 import { AuthPage } from '../pages/Authorization/Auth-page'
-import { ActivityPage } from '../pages/Activity-page/Activity-page'
 import { useAppDispatch, useAppSelector } from '../utils/hooks/redux-hooks'
 import {
   checkAuth,
@@ -21,7 +20,7 @@ const AppRouter = () => {
 
   const idUser = Number(localStorage.getItem('id'))
 
-  useEffect(() => {   
+  useEffect(() => {
     if (isAuth) {
       dispatch(setUserData(idUser))
     } else {

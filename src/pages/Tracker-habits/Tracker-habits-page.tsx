@@ -43,13 +43,12 @@ export const TrackerHabitsPage = () => {
         await showToast('Трекер успешно удален')
         dispatch(setVisitedTrackerPage(0))
         navigate(ACTIVITY_ROUTE)
-        
       } else {
         await showToast('Произошла ошибка')
-      }     
+      }
     } catch (error) {
       await showToast('Произошла ошибка')
-    }finally{
+    } finally {
       setIsLoading(false)
     }
   }
@@ -114,7 +113,13 @@ export const TrackerHabitsPage = () => {
           onClick={deleteTracker}
           className='_button-dark'
         >
-          {isLoading ? <span className="spinner"><i className="fa fa-spinner fa-spin"></i> Загрузка</span> : 'Отключить трекер'}
+          {isLoading ? (
+            <span className='spinner'>
+              <i className='fa fa-spinner fa-spin'></i> Загрузка
+            </span>
+          ) : (
+            'Отключить трекер'
+          )}
         </button>
       </div>
     </div>
