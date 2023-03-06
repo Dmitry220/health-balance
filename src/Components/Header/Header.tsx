@@ -36,7 +36,7 @@ export const Header: FC<HeaderProps> = ({
 
   return (
     <header className={'header ' + customClass} 
-    style={{ padding: Capacitor.getPlatform() === 'ios' ? `${(insetsHeight + statusBarHeight)}px 16px 0 16px` : '0 16px',
+    style={{ padding: Capacitor.getPlatform() === 'ios' ? `${(insetsHeight + statusBarHeight + 20)}px 16px 0 16px` : '0 16px',
     height: Capacitor.getPlatform() === 'ios' ? insetsHeight + statusBarHeight : 53
    }}
     >
