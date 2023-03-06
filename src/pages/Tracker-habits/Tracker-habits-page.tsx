@@ -16,7 +16,7 @@ import { HealthySleep } from '../../Components/Tracker/Healthy-sleep'
 import { routesNavigationTracker } from '../../utils/globalConstants'
 import { NavLink } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import {
   countWaterSelector,
   getTracker,
@@ -30,12 +30,14 @@ import TrackerService from '../../services/TrackerService'
 export const TrackerHabitsPage = () => {
   const dispatch = useAppDispatch()
   const tracker = useAppSelector(trackerSelector)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const countWater = useAppSelector(countWaterSelector)
   const location = useLocation()
   const navigate = useNavigate()
 
   const deleteTracker = async () => {
     try {
+      setIsLoading(true)
       const response = await TrackerService.deleteTracker()
       if (response?.data?.success) {
         await showToast('Трекер успешно удален')
@@ -47,6 +49,8 @@ export const TrackerHabitsPage = () => {
       }     
     } catch (error) {
       await showToast('Произошла ошибка')
+    }finally{
+      setIsLoading(false)
     }
   }
 
@@ -106,10 +110,11 @@ export const TrackerHabitsPage = () => {
       <div className='tracker-habits-page__statistical-btn-wrapper'>
         <button
           style={{ color: '#fff' }}
+          disabled={isLoading}
           onClick={deleteTracker}
           className='_button-dark'
         >
-          Отключить трекер
+          {isLoading ? <span className="spinner"><i className="fa fa-spinner fa-spin"></i> Загрузка</span> : 'Отключить трекер'}
         </button>
       </div>
     </div>

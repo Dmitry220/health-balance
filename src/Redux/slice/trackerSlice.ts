@@ -201,13 +201,13 @@ export const trackerSlice = createSlice({
       getTracks.fulfilled,
       (state, action: PayloadAction<ITrack[]>) => {
         state.tracks.fruitTrack = action.payload.filter(
-          (item) => item.type === 3
+          (item) => item.type === 3 
         )
         state.tracks.waterTrack = action.payload.filter(
           (item) => item.type === 2
         )
         state.tracks.sleepTrack = action.payload.filter(
-          (item) => item.type === 1
+          (item) => item.type === 1 || item.type === 4
         )
         state.isLoading = false
       }
