@@ -63,10 +63,6 @@ function App() {
       handlerPush()
     })
 
-    //Старт шагомера и предоставления разрешений
-    if (Capacitor.getPlatform() === 'android') {
-      Pedometer.start()
-    }
     //Получение высоты статус бара для платформы IOS
     SafeArea.getSafeAreaInsets().then((data) => {
       setInsetsHeight(data.insets.top)
