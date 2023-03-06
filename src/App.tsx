@@ -20,6 +20,7 @@ function App() {
 
   const handlerPush = () => {
     if (Capacitor.getPlatform() !== 'web') {
+      OneSignal.setAppId('6c585b11-b33a-44f5-8c7b-3ffac2059d19')
       OneSignal.setNotificationOpenedHandler(async (openedEvent) => {
         const { action, notification }: any = openedEvent
         if (notification.additionalData?.type === 'news') {
@@ -34,6 +35,9 @@ function App() {
             navigate(TRACKER_ROUTE)
           }
         }
+      })
+      OneSignal.promptForPushNotificationsWithUserResponse(function (accepted) {
+        console.log('User accepted notifications: ' + accepted)
       })
     }
   }
