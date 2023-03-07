@@ -16,14 +16,14 @@ export const SyncingPage = () => {
 
   const [activeModal, setActiveModal] = useState<boolean>(false)
 
-  const togleGoogleFit = (e: ChangeEvent<HTMLInputElement>) => {
+  const togleGoogleFit = () => {
     if (isGoogleFit === 1) {
       setActiveModal(true)
-      dispatch(setGoogleFit(2))     
-    } else {      
+      dispatch(setGoogleFit(2))
+    } else {
       dispatch(setGoogleFit(1))
     }
-  }  
+  }
 
   return (
     <div className={'sync-page'}>
@@ -83,37 +83,31 @@ export const SyncingPage = () => {
         Google Fit — это открытая платформа, которая позволяет вам контролировать свои данные о фитнесе из нескольких приложений и устройств
       </div>
       <div className="sync-page__row handler-sync">
-        <div className="handler-sync__column">
-          <div className="handler-sync__body">
-            <div className="handler-sync__icon">
-              <img src={google} alt="google" />
+        <div className="handler-sync__column">  
+          <button className='button-google-fit' onClick={togleGoogleFit}>
+            <img className='button-google-fit__logo' src={google} alt="google" />
+            <div className='button-google-fit__title'>
+              {isGoogleFit === 1 ? 'Активировать' : 'Отключить'} Google Fit
             </div>
-            <div className='handler-sync__title'>
-              Активировать Google Fit
-            </div>
-            <label className={'handler-sync__switch switch'}>
-              <input type="checkbox" onChange={togleGoogleFit} checked={isGoogleFit === 2} />
-              <span className={'switch__slider round'}></span>
-            </label>
-          </div>
-
+          </button>
           <div className="handler-sync__text">
             Синхронизируйте Health Balance с Google Fit. Подключение к Google Fit позволяет просматривать данные о шагах за последние 3 месяца
           </div>
         </div>
       </div>
+
       <div className="sync-page__note">
-      * Вы можете отключиться от Google Fit в любое время
+        * Вы можете отключиться от Google Fit в любое время
       </div>
       {
-  activeModal &&
-    <ModalFit active={activeModal} setActive={setActiveModal}>
-      Приложение будет использовать https://www.googleapis.com/auth/fitness.activity.read для отображения 
-      данных шагов из Google Fit пользователя на странице активности приложения, 
-      чтобы пользователи могли просматривать пройденное количество шагов через приложение и синхронизировать изменения с Google Fit.
-    </ModalFit>
+        activeModal &&
+        <ModalFit active={activeModal} setActive={setActiveModal}>
+          Приложение будет использовать https://www.googleapis.com/auth/fitness.activity.read для отображения
+          данных шагов из Google Fit пользователя на странице активности приложения,
+          чтобы пользователи могли просматривать пройденное количество шагов через приложение и синхронизировать изменения с Google Fit.
+        </ModalFit>
 
-}
+      }
 
       {/* <div className='sync-page__item'>
         <div className='sync-page__column'>
