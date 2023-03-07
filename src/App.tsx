@@ -1,6 +1,5 @@
 import { Capacitor } from '@capacitor/core'
 import OneSignal from 'onesignal-cordova-plugin'
-import Pedometer from './plugins/pedometer'
 import { useEffect, useState } from 'react'
 import './assets/style/global.scss'
 import AppRouter from './provider/app-router'
@@ -27,7 +26,7 @@ function App() {
           navigate(MOTIVATION_ROUTE + '/' + notification.additionalData?.id)
         }
         if (notification.additionalData?.track_id) {
-          const response = await TrackerService.complteteTrack(
+          const response = await TrackerService.completeTrack(
             notification.additionalData.track_id
           )
           if (response?.data?.success) {
