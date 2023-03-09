@@ -17,7 +17,7 @@ import iconChat from '../../assets/image/icon_chat.svg'
 import { ScrollPicker } from '../../Components/Scroll-picker/Scroll-picker'
 import { ACTIVITY_ROUTE } from '../../provider/constants-route'
 import { getItemsStep } from '../../utils/common-functions'
-import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import { dataUserSelector } from '../../Redux/slice/profileSlice'
 import { setPurposeSteps } from '../../Redux/slice/purposeSlice'
 import {

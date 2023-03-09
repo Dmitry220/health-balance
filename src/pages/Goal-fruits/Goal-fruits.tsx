@@ -3,7 +3,7 @@ import Header from '../../Components/Header/Header'
 import { trackerSelector } from '../../Redux/slice/trackerSlice'
 import TrackerService from '../../services/TrackerService'
 import { showToast } from '../../utils/common-functions'
-import { useAppSelector } from '../../utils/hooks/redux-hooks'
+import { useAppSelector } from '../../hooks/redux-hooks'
 import './goal-fruits.scss'
 
 export const GoalFruits = () => {

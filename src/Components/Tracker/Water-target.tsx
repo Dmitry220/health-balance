@@ -1,6 +1,6 @@
 import './tracker.scss'
 import { HabitsTargetItem } from './Habits-tracker-item'
-import { useAppSelector } from '../../utils/hooks/redux-hooks'
+import { useAppSelector } from '../../hooks/redux-hooks'
 import {
   isLoadingSelector,
   tracksSelector

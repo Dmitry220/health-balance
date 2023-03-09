@@ -6,7 +6,7 @@ import {
   setPlatformChallenge
 } from '../../Redux/slice/challengeSlice'
 import PlatformService from '../../services/PlatformService'
-import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import './creating-challenge.scss'
 
 export const SelectPlatform = () => {

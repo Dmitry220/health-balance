@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './creating-challenge.scss'
-import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import {
   setCustomersPersonalChallenge,
   setTypeChallenge,

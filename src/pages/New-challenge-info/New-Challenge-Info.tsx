@@ -2,8 +2,6 @@ import { useEffect } from 'react'
 import './new-challenge-info.scss'
 import Header from '../../Components/Header/Header'
 import { HeaderChallenge } from '../../Components/Challenge/Header-challenge'
-import { ProgressBar } from '../../Components/Progress-bar/Progress-bar'
-import { roles, typesChallenge } from '../../types/enums'
 import icon_clock from '../../assets/image/Interesting/clock.svg'
 import { TaskChallenge } from '../../Components/Challenge/Task-challenge'
 import { RewardCount } from '../../Components/Reward/Reward-count'
@@ -12,7 +10,7 @@ import {
   CHALLENGE_ROUTE,
   TEAM_SELECTION_ROUTE
 } from '../../provider/constants-route'
-import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import {
   challengeSelector,
   getChallengeById
@@ -114,16 +112,7 @@ export const NewChallengeInfo = () => {
             >
               Принять участие
             </div>
-          )}
-          {challenge.type === 3 && (
-            <>
-              {/* {' '}
-              <div className='new-challenge-info__title-block block-title'>
-                Лидеры челленджа
-              </div>
-              <ListLeadersChallenge items={itemsLeaders} role={roles.members} /> */}
-            </>
-          )}
+          )}          
         </>
       ) : (
         <Preloader />

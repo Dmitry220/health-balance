@@ -12,7 +12,7 @@ import {
   getCommandList
 } from '../../Redux/slice/challengeSlice'
 import ChallengeService from '../../services/ChallengeService'
-import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import './team-selection.scss'
 import plug from '../../assets/image/plug.png'
 import { showToast } from '../../utils/common-functions'

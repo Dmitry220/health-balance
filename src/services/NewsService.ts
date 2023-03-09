@@ -1,12 +1,12 @@
 import { AxiosResponse } from 'axios'
 import { $api } from '../http'
-import { IComment, INews } from '../models/INews'
+import { IComment, ICreatingComment, ICreatingNews, INews } from '../models/INews'
 
 export default class NewsService {
-  static async creatingNews(params: FormData) {
+  static async creatingNews(data:ICreatingNews) {
     return $api.post(
       `/v2/news/?token=${localStorage.getItem('token')}`,
-      params,
+      data,
       {
         headers: {
           accept: 'application/json',
@@ -27,10 +27,10 @@ export default class NewsService {
     return $api.get(`/v2/news/${id}?token=${localStorage.getItem('token')}`)
   }
 
-  static async addCommentsNews(params: FormData) {
+  static async addCommentsNews(data: ICreatingComment) {
     return $api.post(
       `/v2/news-comments/?token=${localStorage.getItem('token')}`,
-      params,
+      data,
       {
         headers: {
           accept: 'application/json',

@@ -7,7 +7,7 @@ import 'swiper/scss'
 import 'swiper/scss/navigation'
 import 'swiper/scss/pagination'
 import 'swiper/scss/scrollbar'
-import { useAppDispatch } from '../../utils/hooks/redux-hooks'
+import { useAppDispatch } from '../../hooks/redux-hooks'
 
 import inst0 from '../../assets/image/instruction-challenges/Инструкция челленджи 0.png'
 import inst1 from '../../assets/image/instruction-challenges/Инструкция челленджи 1.png'

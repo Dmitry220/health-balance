@@ -4,7 +4,7 @@ import { ScrollPicker } from '../../Components/Scroll-picker/Scroll-picker'
 import { getItemsWeight, showToast } from '../../utils/common-functions'
 import Header from '../../Components/Header/Header'
 import TrackerService from '../../services/TrackerService'
-import { useAppSelector } from '../../utils/hooks/redux-hooks'
+import { useAppSelector } from '../../hooks/redux-hooks'
 import { trackerSelector } from '../../Redux/slice/trackerSlice'
 
 export const GoalWater = () => {

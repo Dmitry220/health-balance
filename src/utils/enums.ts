@@ -1,8 +1,3 @@
-export enum roles {
-  members = 'Участники',
-  commands = 'Команды'
-}
-
 export enum typesChallenge {
   personal = 3,
   command = 2,

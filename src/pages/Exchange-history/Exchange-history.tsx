@@ -2,7 +2,7 @@ import './exchange-history.scss'
 import Header from '../../Components/Header/Header'
 import { BasketCard } from '../../Components/Basket/Basket-card'
 import { useEffect } from 'react'
-import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import { getOrders, isLoadingSelector, ordersSelector } from '../../Redux/slice/shopSlice'
 import { Preloader } from '../../Components/Preloader/Preloader'
 

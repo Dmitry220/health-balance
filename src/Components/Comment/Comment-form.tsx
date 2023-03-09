@@ -2,8 +2,9 @@ import { ChangeEvent, FC, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { setIdNewComment } from '../../Redux/slice/newsSlice'
 import NewsService from '../../services/NewsService'
-import { useAppDispatch } from '../../utils/hooks/redux-hooks'
+import { useAppDispatch } from '../../hooks/redux-hooks'
 import './commnet.scss'
+import { ICreatingComment } from '../../models/INews'
 
 interface ICommentForm {
   parentId: number
@@ -29,11 +30,12 @@ export const CommentForm: FC<ICommentForm> = ({
     setMessage(e.target.value)
 
   const submit = async () => {
-    const formData = new FormData()
-    formData.append('news_id', JSON.stringify(idNews))
-    formData.append('comment', message)
-    formData.append('parent_id', JSON.stringify(parentId))
-    const response = await NewsService.addCommentsNews(formData)
+    const data:ICreatingComment = {
+      comment:message,
+      news_id: idNews,
+      parent_id: parentId
+    }    
+    const response = await NewsService.addCommentsNews(data)
     dispatch(setIdNewComment(response.data.comment_id))
     setShowForm && setShowForm(false)
     setMessage('')

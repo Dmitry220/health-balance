@@ -1,7 +1,7 @@
 import { FC, useEffect } from 'react'
 import './list-leaders-challenge.scss'
 import icon from '../../assets/image/icon_reward.svg'
-import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import {
   getLeaderboardChallenge,
   getLeaderboardTeamsChallenge,

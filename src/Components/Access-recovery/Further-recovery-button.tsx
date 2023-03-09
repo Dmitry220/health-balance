@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { IFurtherButton } from '../Registration/FurtherButton'
-import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import {
   codeRecoverySelector,
   disableButtonSelector,

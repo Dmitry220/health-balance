@@ -7,7 +7,7 @@ import { WaterTarget } from '../../Components/Tracker/Water-target'
 import { FruitTarget } from '../../Components/Tracker/Fruit-target'
 import DayStatistic from '../../Components/Tracker/Day-statistic'
 import ReactDatePicker from 'react-datepicker'
-import { useAppDispatch } from '../../utils/hooks/redux-hooks'
+import { useAppDispatch } from '../../hooks/redux-hooks'
 import { getTracks } from '../../Redux/slice/trackerSlice'
 import ru from 'date-fns/locale/ru'
 

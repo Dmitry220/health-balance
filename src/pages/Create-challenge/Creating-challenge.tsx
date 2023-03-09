@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import Header from '../../Components/Header/Header'
-import { stageCreatingChallenge } from '../../types/enums'
+import { stageCreatingChallenge } from '../../utils/enums'
 import { CreatingChallengeItem } from '../../Components/Creating-challenge/Creating-challenge-item'
 import './creating-challenge.scss'
-import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import {
   creatingChallenge,
   disableButtonChallengeSelector,

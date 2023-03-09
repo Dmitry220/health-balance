@@ -3,7 +3,7 @@ import Header from '../../Components/Header/Header'
 import { purposeSelector } from '../../Redux/slice/purposeSlice'
 import PurposeService from '../../services/PurposeService'
 import { showToast } from '../../utils/common-functions'
-import { useAppSelector } from '../../utils/hooks/redux-hooks'
+import { useAppSelector } from '../../hooks/redux-hooks'
 import './new-target-page.scss'
 
 export const NewTargetPage = () => {

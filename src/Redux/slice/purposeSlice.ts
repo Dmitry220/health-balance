@@ -24,12 +24,9 @@ const initialState: IPurposes = {
 export const setPurposeSteps = createAsyncThunk(
   'setPurposeSteps',
   async (data: IPersonalPurposeParams) => {
-    const { type, quantity } = data
-    const formData = new FormData()
-    formData.append('quantity', quantity)
-    formData.append('type', JSON.stringify(type))
+    const { type, quantity } = data 
 
-    await PurposeService.creatingPersonalPurpose(formData)
+    await PurposeService.creatingPersonalPurpose(data)
   }
 )
 

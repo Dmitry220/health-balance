@@ -1,6 +1,6 @@
-import { AxiosResponse } from "axios";
-import { $api } from "../http";
-import { IAuthResponse } from "../models/IAuth";
+import {AxiosResponse} from "axios";
+import {$api} from "../http";
+import {IAuthResponse} from "../models/IAuth";
 
 export default class AuthService {
   static async registration(
@@ -31,15 +31,10 @@ export default class AuthService {
     device_token: string,
     timezone: number
   ): Promise<AxiosResponse<IAuthResponse>> {
-    const formData = new FormData();
-    formData.append("email", email);
-    formData.append("password", password);
-    formData.append("device_token", device_token);
-    formData.append("timezone", timezone+'');
-    return $api.post("/v2/login", formData, {
+    return $api.post("/v2/login", {email,password,device_token,timezone}, {
       headers: {
         accept: "application/json",
-        "Content-Type": `application/x-www-form-urlencoded`,
+        "Content-Type": `multipart/form-data`
       },
     });
   }

@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import './lecures-page.scss'
 import CardLecture from '../../Components/Card-lecture/Card-lecture'
 import Header from '../../Components/Header/Header'
-import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import {
   getLessons,
   isLoadingSelector,

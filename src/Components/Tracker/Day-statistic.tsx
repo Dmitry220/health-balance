@@ -4,7 +4,7 @@ import icon_fruit from "../../assets/image/tracker/icon-fruit.svg";
 import icon_water from "../../assets/image/tracker/icon-water.svg";
 import { tracksSelector } from "../../Redux/slice/trackerSlice";
 import { sklonenie } from "../../utils/common-functions";
-import { useAppSelector } from "../../utils/hooks/redux-hooks";
+import { useAppSelector } from "../../hooks/redux-hooks";
 
 interface IDayStatistic {
   date: string;

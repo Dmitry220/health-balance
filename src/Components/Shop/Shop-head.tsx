@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { BASKET_ROUTE, EXCHANGE_HISTORY_ROUTE } from '../../provider/constants-route'
 import basketImg from '../../assets/image/icon_cart.svg'
 import './shop.scss'
-import { useAppSelector } from '../../utils/hooks/redux-hooks'
+import { useAppSelector } from '../../hooks/redux-hooks'
 import { balanceSelector } from '../../Redux/slice/appSlice'
 import { basketSelector } from '../../Redux/slice/shopSlice'
 

@@ -1,6 +1,6 @@
-import React, { FC, useState } from 'react'
+import React from 'react'
 import './access-recovery.scss'
-import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
+import {useAppDispatch, useAppSelector} from '../../hooks/redux-hooks'
 import {
   emailRecoverySelector,
   errorRecoverySelector,
@@ -13,7 +13,6 @@ export const RecoveryEmail = () => {
   const error = useAppSelector(errorRecoverySelector)
   const email = useAppSelector(emailRecoverySelector)
   const dispatch = useAppDispatch()
-
   
   const handlerEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setError(false))
@@ -26,8 +25,6 @@ export const RecoveryEmail = () => {
       : dispatch(setDisabledButton(true))
    
   }
-
-
 
   return (
     <div className={'recovery-email'}>

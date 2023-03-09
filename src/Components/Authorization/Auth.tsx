@@ -7,7 +7,7 @@ import {
   REGISTRATION_ROUTE,
   START_ROUTE
 } from '../../provider/constants-route'
-import { useAppDispatch } from '../../utils/hooks/redux-hooks'
+import { useAppDispatch } from '../../hooks/redux-hooks'
 import { resetFieldRegistration, setAuth } from '../../Redux/slice/authSlice'
 import { Device } from '@capacitor/device'
 import { Capacitor } from '@capacitor/core'

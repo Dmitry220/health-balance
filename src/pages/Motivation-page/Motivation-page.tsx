@@ -1,11 +1,10 @@
 import './motivation.scss'
 import Header from '../../Components/Header/Header'
-import { MotivationCard } from '../../Components/Motivation/Motivation-card'
-import { Post } from '../../Components/Motivation/Post'
+import { PostInteresting } from '../../Components/Interesting/Post-interesting'
 import { CommentForm } from '../../Components/Comment/Comment-form'
 import { ListComments } from '../../Components/Comment/List-comments'
 import { getNewsById, newsByIdSelector } from '../../Redux/slice/newsSlice'
-import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
@@ -38,7 +37,7 @@ export const MotivationPage = () => {
       {news ? (
         <>
           <div className='motivation-page__card'>
-            <MotivationCard />
+            <PostInteresting />
           </div>
           <div className='motivation-page__hr' />
           <div className='motivation-page__comments'>

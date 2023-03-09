@@ -4,7 +4,7 @@ import { ShopCards } from '../../Components/Shop/Shop-card'
 import './shop-page.scss'
 import { TabContent, Tabs } from '../../Components/Tabs/Tabs'
 import { ShopHead } from '../../Components/Shop/Shop-head'
-import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import { getShopCategories, shopCategoriesSelector } from '../../Redux/slice/shopSlice'
 
 export const ShopPage = () => {

@@ -9,7 +9,7 @@ import { ScrollPicker } from '../../Components/Scroll-picker/Scroll-picker'
 import './goal-sleep.scss'
 import TrackerService from '../../services/TrackerService'
 import { trackerSelector } from '../../Redux/slice/trackerSlice'
-import { useAppSelector } from '../../utils/hooks/redux-hooks'
+import { useAppSelector } from '../../hooks/redux-hooks'
 
 export const GoalSleep = () => {
   const tracker = useAppSelector(trackerSelector)

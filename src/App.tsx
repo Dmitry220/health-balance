@@ -1,5 +1,6 @@
 import { Capacitor } from '@capacitor/core'
 import OneSignal from 'onesignal-cordova-plugin'
+import Pedometer from './plugins/pedometer'
 import { useEffect, useState } from 'react'
 import './assets/style/global.scss'
 import AppRouter from './provider/app-router'
@@ -7,7 +8,7 @@ import { App as CapacitorApp } from '@capacitor/app'
 import TrackerService from './services/TrackerService'
 import { showToast } from './utils/common-functions'
 import { useNavigate } from 'react-router-dom'
-import { MOTIVATION_ROUTE, TRACKER_ROUTE } from './provider/constants-route'
+import { POST_INTERESTING_ROUTE, TRACKER_ROUTE } from './provider/constants-route'
 import { SafeArea } from 'capacitor-plugin-safe-area'
 import { IUpdateUser } from './models/IUsers'
 import UserService from './services/UserServices'
@@ -23,10 +24,10 @@ function App() {
       OneSignal.setNotificationOpenedHandler(async (openedEvent) => {
         const { notification }: any = openedEvent
         if (notification.additionalData?.type === 'news') {
-          navigate(MOTIVATION_ROUTE + '/' + notification.additionalData?.id)
+          navigate(POST_INTERESTING_ROUTE + '/' + notification.additionalData?.id)
         }
         if (notification.additionalData?.track_id) {
-          const response = await TrackerService.completeTrack(
+          const response = await TrackerService.complteteTrack(
             notification.additionalData.track_id
           )
           if (response?.data?.success) {

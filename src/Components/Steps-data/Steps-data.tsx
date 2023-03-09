@@ -1,7 +1,7 @@
 import './steps-data.scss'
 import arrowDanger from '../../assets/image/Arrow.svg'
 import arrowSuccess from '../../assets/image/Arrow-success.png'
-import { useAppSelector } from '../../utils/hooks/redux-hooks'
+import { useAppSelector } from '../../hooks/redux-hooks'
 import { stepsPerDaySelector } from '../../Redux/slice/appSlice'
 import { purposeSelector } from '../../Redux/slice/purposeSlice'
 import { sklonenie } from '../../utils/common-functions'

@@ -1,6 +1,6 @@
 import { Dispatch, FC, SetStateAction } from 'react'
 import './registration.scss'
-import { stageRegistration } from '../../types/enums'
+import { stageRegistration } from '../../utils/enums'
 import { FurtherButton } from './FurtherButton'
 import { Platform } from './Platform'
 import { SurName } from './SurName'

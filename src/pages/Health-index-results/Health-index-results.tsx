@@ -10,8 +10,7 @@ import {
   INDIVIDUAL_REPORT_ROUTE
 } from '../../provider/constants-route'
 import { HeaderTwo } from '../../Components/Header-two/Header-two'
-import { routesNavigationIndexResult } from '../../utils/globalConstants'
-import { useAppSelector } from '../../utils/hooks/redux-hooks'
+import { useAppSelector } from '../../hooks/redux-hooks'
 import {
   dynamicsSelector,
   isLoadingSelector
@@ -29,7 +28,7 @@ export const HealthIndexResults = () => {
 
   return (
     <div className={'health-index-results-page'}>
-      <Navigation routes={routesNavigationIndexResult} />
+      <Navigation  />
       <HeaderTwo title={'Индексы здоровья'} marginBottom={42} />
       {new Date(lastDynamic.date * 1000).getMonth() !==
         new Date().getMonth() && (

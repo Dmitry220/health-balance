@@ -6,7 +6,7 @@ import {
   setTeamAmountChallenge,
   teamAmountCreatingChallengeSelector
 } from '../../Redux/slice/challengeSlice'
-import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import './creating-challenge.scss'
 
 export const CreatingCommandsChallenge = () => {

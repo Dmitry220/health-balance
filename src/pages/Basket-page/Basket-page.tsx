@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { MAKING_ORDER_ROUTE } from '../../provider/constants-route'
 import { ShopButton } from '../../Components/Shop/Shop-button'
 import { basketSelector } from '../../Redux/slice/shopSlice'
-import { useAppSelector } from '../../utils/hooks/redux-hooks'
+import { useAppSelector } from '../../hooks/redux-hooks'
 import { balanceSelector } from '../../Redux/slice/appSlice'
 import { showToast } from '../../utils/common-functions'
 

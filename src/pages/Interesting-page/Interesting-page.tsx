@@ -1,17 +1,12 @@
-import React, { useEffect } from 'react'
-import { Navigation } from '../../Components/Navigation/Navigation'
-import { Tabs, TabContent } from '../../Components/Tabs/Tabs'
-import { CardInteresting } from '../../Components/Interesting/Card-interesting'
+import React, {useEffect} from 'react'
+import {Navigation} from '../../Components/Navigation/Navigation'
+import {TabContent, Tabs} from '../../Components/Tabs/Tabs'
+import {CardInteresting} from '../../Components/Interesting/Card-interesting'
 import './interesting-page.scss'
-import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
-import { CardActual } from '../../Components/Card-actual/Card-actual'
-import { HeaderTwo } from '../../Components/Header-two/Header-two'
-import { routesNavigation } from '../../utils/globalConstants'
-import {
-  CREATING_INTERESTING_ROUTE,
-  MOTIVATION_ROUTE
-} from '../../provider/constants-route'
-import { NavLink } from 'react-router-dom'
+import {useAppDispatch, useAppSelector} from '../../hooks/redux-hooks'
+import {HeaderTwo} from '../../Components/Header-two/Header-two'
+import {CREATING_INTERESTING_ROUTE} from '../../provider/constants-route'
+import {NavLink} from 'react-router-dom'
 import {
   getNews,
   instructionNewsSelector,
@@ -20,8 +15,8 @@ import {
   newsSelector,
   psyholgySelector
 } from '../../Redux/slice/newsSlice'
-import { dataUserSelector } from '../../Redux/slice/profileSlice'
-import { Preloader } from '../../Components/Preloader/Preloader'
+import {dataUserSelector} from '../../Redux/slice/profileSlice'
+import {Preloader} from '../../Components/Preloader/Preloader'
 
 export const InterestingPage = () => {
   const dispatch = useAppDispatch()
@@ -125,7 +120,7 @@ export const InterestingPage = () => {
           )): <div className='active-plug'>Новостей нет</div>}
         </TabContent>
       </div>
-      <Navigation routes={routesNavigation} />
+      <Navigation />
     </div>
   )
 }

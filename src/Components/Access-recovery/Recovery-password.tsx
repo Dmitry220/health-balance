@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useState } from 'react'
 import { passwordRecoverySelector, setCode, setDisabledButton, setRecoveryPassword } from '../../Redux/slice/accessRecoverySlice'
-import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import './access-recovery.scss'
 
 export const RecoveryPassword = () => {
@@ -8,32 +8,18 @@ export const RecoveryPassword = () => {
   const password = useAppSelector(passwordRecoverySelector)
   const dispatch = useAppDispatch()
 
-  const [repeatPassword, setRepeatPassword] = useState<string | number>('')
-  // const [error, setError] = useState<string>('')
+  const [repeatPassword, setRepeatPassword] = useState<string | number>('')  
 
-  const handlerCode = (e: ChangeEvent<HTMLInputElement>) => {
-    dispatch(setCode(+e.target.value.replace(/\D/, '')))
-  }
+  const handlerCode = (e: ChangeEvent<HTMLInputElement>) => dispatch(setCode(+e.target.value.replace(/\D/, '')))  
 
-  const handlerPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setRecoveryPassword(e.target.value))
-    // if(+e.target.value.length<8 && +e.target.value.length>0){
-    //   setError('Неверная длина пароля!!!')
-    // }else{
-    //   setError('')
-    // }
-    
-  }
+  const handlerPassword = (e: React.ChangeEvent<HTMLInputElement>) => dispatch(setRecoveryPassword(e.target.value))    
+  
   const handlerRepeatPassword = (e: React.ChangeEvent<HTMLInputElement>) => setRepeatPassword(e.target.value)
 
   useEffect(() => {
     if ((repeatPassword === password) && password.length >= 8) {
       dispatch(setDisabledButton(false))
-      // setError('')
     } else {
-      // if (repeatPassword > 0 && password.length>=8) {
-      //   setError('Пароли не совпадают')
-      // }
       dispatch(setDisabledButton(true))
     }
   }, [repeatPassword, password])
@@ -62,9 +48,6 @@ export const RecoveryPassword = () => {
         className='recovery-password__field _field'
         onChange={handlerRepeatPassword}
       />
-      {/* <span className={'recovery-password__error'}>
-        {error}
-      </span> */}
     </div>
   )
 }

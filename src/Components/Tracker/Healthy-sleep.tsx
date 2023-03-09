@@ -14,7 +14,7 @@ import {
   trackerSelector,
   tracksSelector
 } from '../../Redux/slice/trackerSlice'
-import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import { Preloader } from '../Preloader/Preloader'
 import { sklonenie } from '../../utils/common-functions'
 

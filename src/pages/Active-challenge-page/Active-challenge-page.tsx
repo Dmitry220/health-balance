@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import Header from '../../Components/Header/Header'
 import { HeaderChallenge } from '../../Components/Challenge/Header-challenge'
 import { ListLeadersChallenge } from '../../Components/List-leaders-challenge/List-leaders-challenge'
-import { roles, typesChallenge } from '../../types/enums'
 import './active-challenge-page.scss'
 import { TaskChallenge } from '../../Components/Challenge/Task-challenge'
 import { ProgressBar } from '../../Components/Progress-bar/Progress-bar'
@@ -10,7 +9,7 @@ import { RewardCount } from '../../Components/Reward/Reward-count'
 import { Link, useParams } from 'react-router-dom'
 import { LECTURES_ROUTE } from '../../provider/constants-route'
 import icon_clock from '../../assets/image/Interesting/clock.svg'
-import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import {
   challengeSelector,
   getChallengeById

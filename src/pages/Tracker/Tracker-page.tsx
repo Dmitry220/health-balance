@@ -14,12 +14,13 @@ import {
   getItemsWeight
 } from '../../utils/common-functions'
 import { TrackerHabitsPage } from '../Tracker-habits/Tracker-habits-page'
-import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import TrackerService from '../../services/TrackerService'
 import {
   setVisitedTrackerPage,
   visitPagesSelector
 } from '../../Redux/slice/authSlice'
+import { ICreatingTracker } from '../../models/ITracker'
 
 export const TrackerPage = () => {
   const trackerVisitCount = useAppSelector(visitPagesSelector)
@@ -204,11 +205,12 @@ const SlideNextButton: FC<ISwiperNextButton> = ({
   const next = async () => {
     switch (swiper.activeIndex) {
       case 3:
-        const formData = new FormData()
-        formData.append('wake_up_time', wake_up_time)
-        formData.append('weight', weight)
-        formData.append('fruits', fruits)
-        await TrackerService.creatingTracker(formData)
+        const data:ICreatingTracker ={
+          fruits: +fruits,
+          wake_up_time,
+          weight: +weight
+        }        
+        await TrackerService.creatingTracker(data)
         dispatch(setVisitedTrackerPage(1))
         break
       default:

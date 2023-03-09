@@ -13,9 +13,8 @@ import {
 } from '../../provider/constants-route'
 import { HeaderTwo } from '../../Components/Header-two/Header-two'
 import { HealthySleep } from '../../Components/Tracker/Healthy-sleep'
-import { routesNavigationTracker } from '../../utils/globalConstants'
 import { NavLink } from 'react-router-dom'
-import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import { useEffect, useState } from 'react'
 import {
   countWaterSelector,
@@ -60,7 +59,7 @@ export const TrackerHabitsPage = () => {
 
   return (
     <div className={'tracker-habits-page'}>
-      <Navigation routes={routesNavigationTracker} />
+      <Navigation />
       <HeaderTwo title={'Трекер привычек'} marginBottom={20} />
       <div className='tracker-habits-page__statistical-btn-wrapper'>
         <NavLink

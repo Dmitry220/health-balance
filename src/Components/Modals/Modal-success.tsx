@@ -3,7 +3,7 @@ import './modals.scss'
 import icon from '../../assets/image/icon_purpose__status_full.svg'
 import { useNavigate } from 'react-router-dom'
 import { RewardCount } from '../Reward/Reward-count'
-import { useAppDispatch } from '../../utils/hooks/redux-hooks'
+import { useAppDispatch } from '../../hooks/redux-hooks'
 import { getBalance } from '../../Redux/slice/appSlice'
 
 interface IModalSuccess {

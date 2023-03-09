@@ -74,17 +74,6 @@ const initialState: ITracker = {
   }
 }
 
-export const creatingTracker = createAsyncThunk<unknown>(
-  'creatingTracker',
-  async (arg, { getState }) => {
-    const state: any = getState()
-    const formData = new FormData()
-    formData.append('wake_up_time', state.tracker.creatingTracker.wake_up_time)
-    formData.append('weight', state.tracker.creatingTracker.weight)
-    formData.append('fruits', state.tracker.creatingTracker.fruits)
-    await TrackerService.creatingTracker(formData)
-  }
-)
 
 export const getTracker = createAsyncThunk('getTracker', async () => {
   const response = await TrackerService.getTracker()

@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { stageCreatingChallenge } from '../../types/enums'
+import { stageCreatingChallenge } from '../../utils/enums'
 import { SelectPlatform } from './Select-platform'
 import { TypeChallenge } from './Type-challenge'
 import { CreatingTargets } from './Creating-targets'

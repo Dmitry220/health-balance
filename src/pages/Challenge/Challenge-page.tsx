@@ -1,24 +1,23 @@
-import React, { useEffect, useState } from 'react'
-import { Navigation } from '../../Components/Navigation/Navigation'
-import { CardChallenge } from '../../Components/Challenge/Card-challenge'
-import { NewChallengeCard } from '../../Components/Challenge/New-challenge-card'
+import React, {useEffect} from 'react'
+import {Navigation} from '../../Components/Navigation/Navigation'
+import {CardChallenge} from '../../Components/Challenge/Card-challenge'
+import {NewChallengeCard} from '../../Components/Challenge/New-challenge-card'
 import './challenge-page.scss'
-import { HeaderTwo } from '../../Components/Header-two/Header-two'
-import { TabContent, Tabs } from '../../Components/Tabs/Tabs'
-import { routesNavigation } from '../../utils/globalConstants'
-import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
+import {HeaderTwo} from '../../Components/Header-two/Header-two'
+import {TabContent, Tabs} from '../../Components/Tabs/Tabs'
+import {useAppDispatch, useAppSelector} from '../../hooks/redux-hooks'
 import {
   activeChallengesSelector,
   getListChallenges,
   isLoadingSelector,
   newChallengesSelector
 } from '../../Redux/slice/challengeSlice'
-import { Link } from 'react-router-dom'
-import { CREATING_CHALLENGE_ROUTE } from '../../provider/constants-route'
-import { dataUserSelector } from '../../Redux/slice/profileSlice'
-import { InstructionsChallenge } from '../../Components/Challenge/Instruction-challenge'
-import { Preloader } from '../../Components/Preloader/Preloader'
-import { visitPagesSelector } from '../../Redux/slice/authSlice'
+import {Link} from 'react-router-dom'
+import {CREATING_CHALLENGE_ROUTE} from '../../provider/constants-route'
+import {dataUserSelector} from '../../Redux/slice/profileSlice'
+import {InstructionsChallenge} from '../../Components/Challenge/Instruction-challenge'
+import {Preloader} from '../../Components/Preloader/Preloader'
+import {visitPagesSelector} from '../../Redux/slice/authSlice'
 
 export const ChallengePage = () => {
   const [valueTab, setValueTab] = React.useState<number>(0)
@@ -60,7 +59,7 @@ export const ChallengePage = () => {
 
   return (
     <div className={'challenge-page'}>
-      <Navigation routes={routesNavigation} />
+      <Navigation />
       <HeaderTwo title={'Челленджи'} marginBottom={40} />
       {dataUser.role === 1 &&
         <Link
