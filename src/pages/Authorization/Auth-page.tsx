@@ -13,7 +13,7 @@ export const AuthPage: FC = () => {
   }, [])
 
   return (
-    <div className={'auth-page'} style={{ margin: -16 }}>
+    <div className={'auth-page'}>
       <Auth />
     </div>
   )
