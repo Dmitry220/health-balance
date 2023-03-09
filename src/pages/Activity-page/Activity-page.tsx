@@ -47,9 +47,8 @@ import {
   stepsPerDaySelector,
   weeksSelector
 } from '../../Redux/slice/appSlice'
-import { nFormatter, showToast, sklonenie } from '../../utils/common-functions'
+import { nFormatter, sklonenie } from '../../utils/common-functions'
 import { isGoogleFitSelector } from '../../Redux/slice/settingsSlice'
-import { visitPagesSelector } from '../../Redux/slice/authSlice'
 import PurposeService from '../../services/PurposeService'
 import { ModalSuccess } from '../../Components/Modals/Modal-success'
 

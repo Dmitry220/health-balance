@@ -1,14 +1,12 @@
-@import "src/assets/style/variables";
+@import 'src/assets/style/variables';
 
-.shop-cards{
+.shop-cards {
   display: flex;
   margin: 0 -5px -20px;
   flex-wrap: wrap;
 }
 
 .shop-card {
-
-
   display: block;
   color: $colorMain;
   flex: 0 1 50%;
@@ -63,7 +61,7 @@
   &__count-reward {
     font-size: 15px;
 
-    color: #F5F5F5;
+    color: #f5f5f5;
   }
 
   &__count-product {
@@ -82,10 +80,10 @@
     align-items: center;
     justify-content: center;
     transition: 1s all ease;
-    img{
+    img {
       width: 14px;
-    height: 14px;
-    transition: 0.3s all ease;
+      height: 14px;
+      transition: 0.3s all ease;
     }
     // &::after, &::before {
     //   position: absolute;
@@ -126,14 +124,14 @@
     position: relative;
   }
 
-  &__img-before{
+  &__img-before {
     position: absolute;
     top: -2px;
     right: -3px;
     width: 7px;
     height: 7px;
     display: inline-block;
-    background: #CACACA;
+    background: #cacaca;
     border-radius: 50%;
 
     &.active {
@@ -147,7 +145,7 @@
   }
 }
 
-.shop-button{
+.shop-button {
   height: 58px;
   display: flex;
   flex-direction: column;

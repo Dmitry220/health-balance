@@ -1,6 +1,6 @@
-@import "src/assets/style/variables";
+@import 'src/assets/style/variables';
 
-.health-index{
+.health-index {
   position: relative;
   height: 88vh;
   display: flex;
@@ -8,40 +8,39 @@
   justify-content: center;
   flex-direction: column;
 
-  &__body{
-
+  &__body {
   }
-  &__image{
+
+  &__image {
     margin: 0 auto 33px auto;
     max-width: 214px;
     display: block;
-    img{
-
+    img {
     }
   }
-  &__title{
+  &__title {
     margin: 0 0 8px 0;
     text-align: center;
   }
-  &__text{
+  &__text {
     font-size: 13px;
     text-align: center;
 
-    color: #ABABAB;
+    color: #ababab;
   }
 
-  &__button{
+  &__button {
     position: absolute;
-    bottom: 22px;
+    bottom: 70px;
   }
 }
-.continue-questionaire{
-  &__title{
+.continue-questionaire {
+  &__title {
     margin: 0 0 15px 0;
   }
-  &__text{
+  &__text {
     margin: 0 0 40px 0;
     font-size: 13px;
-    color: #ABABAB;
+    color: #ababab;
   }
 }
