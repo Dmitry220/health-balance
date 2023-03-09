@@ -1,38 +1,37 @@
-@import "src/assets/style/variables";
-@import "src/assets/style/mixins";
+@import 'src/assets/style/variables';
+@import 'src/assets/style/mixins';
 
-
-.preview{
+.preview {
   height: 100vh;
   position: relative;
   overflow: hidden;
   display: flex;
   padding: 16px;
   margin: -16px;
-  &__swiper{
+  &__swiper {
     margin: -16px;
     padding: 16px;
   }
 
-  &__title{
+  &__title {
     font-weight: 700;
     font-size: 35px;
     text-align: center;
 
     color: $colorMain;
     margin-bottom: 16px;
-    @include adaptive-value("margin-top", 223, 100, 1);
-    &_above-92{
-     @include adaptive-value("margin-top", 92, 36, 1);
+    @include adaptive-value('margin-top', 223, 100, 1);
+    &_above-92 {
+      @include adaptive-value('margin-top', 92, 36, 1);
     }
-    &_above-75{
+    &_above-75 {
       margin-top: 75px;
-     @media (max-height: 777px) {
-       margin-top: 25px;
-     }
+      @media (max-height: 777px) {
+        margin-top: 25px;
+      }
     }
   }
-  &__sub-title{
+  &__sub-title {
     font-weight: 700;
     font-size: 15px;
 
@@ -47,26 +46,25 @@
     }
   }
 
-
-  &__text{
+  &__text {
     font-weight: 400;
     font-size: 17px;
     line-height: 120%;
     text-align: center;
 
-    color: #ABABAB;
+    color: #ababab;
     margin-bottom: 26px;
 
-    &.small{
+    &.small {
       font-size: 13px;
     }
 
-    img{
+    img {
       margin: 0 0 0 9px;
     }
   }
 
-  &__button{
+  &__button {
     position: absolute;
     bottom: 50px;
     left: 16px;
@@ -76,17 +74,17 @@
       bottom: 0;
     }
   }
-  &__scroll-picker-steps{
+  &__scroll-picker-steps {
     max-width: 224px;
     margin: 0 auto 35px auto;
   }
-  &__target{
+  &__target {
     box-shadow: 0px 0px 48px rgba(242, 153, 74, 0.31);
-   // max-width: 253px;
+    // max-width: 253px;
     transform: scale(0.605);
     margin: 35px auto 0 auto;
   }
-  &__steps{
+  &__steps {
     margin: 0 0 -30px 0;
     transform: scale(0.594);
     @media (max-height: 715px) {
@@ -97,9 +95,8 @@
       transform: scale(0.394);
       margin: 0 0 -60px 0;
     }
-
   }
-  &__steps-data{
+  &__steps-data {
     margin: 0 auto 40px auto;
     transform: scale(0.62);
     @media (max-height: 715px) {
@@ -107,4 +104,3 @@
     }
   }
 }
-

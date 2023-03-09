@@ -27,14 +27,14 @@ export const CreatingChallengePage = () => {
 
   const saveChallenge = async () => {
     try {
-      await dispatch(creatingChallenge()).then(e => {
-        if (e.payload) {        
+      await dispatch(creatingChallenge()).then((e) => {
+        if (e.payload) {
           setOrder((prev) => prev + 1)
           dispatch(resetPurposeChallenge())
         }
       })
     } catch (error) {
-      console.log(error);
+      console.log(error)
       await showToast('Ошибка')
     }
   }
@@ -46,7 +46,9 @@ export const CreatingChallengePage = () => {
       case 1:
         return <CreatingChallengeItem stage={stageCreatingChallenge.type} />
       case 2:
-        return <CreatingChallengeItem stage={stageCreatingChallenge.customers} />
+        return (
+          <CreatingChallengeItem stage={stageCreatingChallenge.customers} />
+        )
       case 3:
         return <CreatingChallengeItem stage={stageCreatingChallenge.target} />
       case 4:
@@ -100,7 +102,13 @@ export const CreatingChallengePage = () => {
             onClick={saveChallenge}
             disabled={isLoading}
           >
-            {isLoading ? <span className="spinner"><i className="fa fa-spinner fa-spin"></i> Загрузка</span> : 'Сохранить'}
+            {isLoading ? (
+              <span className='spinner'>
+                <i className='fa fa-spinner fa-spin'></i> Загрузка
+              </span>
+            ) : (
+              'Сохранить'
+            )}
           </button>
         )}
         {order < 8 && (
@@ -113,9 +121,9 @@ export const CreatingChallengePage = () => {
             onClick={() => {
               if (type === 3 && order === 6) {
                 setOrder((prev) => prev + 2)
-              } else if(type===2 && order === 1){
+              } else if (type === 2 && order === 1) {
                 setOrder((prev) => prev + 2)
-              }else{
+              } else {
                 setOrder((prev) => prev + 1)
               }
               if (order === 4 || order === 5 || order === 6) {

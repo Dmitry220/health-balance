@@ -1,43 +1,42 @@
-@import "src/assets/style/variables";
+@import 'src/assets/style/variables';
 
-.settings{
+.settings {
   padding-top: 50px;
-  &__block{
+  &__block {
     border-bottom: 1px solid #202020;
     padding: 15px 0 21px 0;
   }
 
-  &__row{
+  &__row {
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
 
-  &__items-notifications{
+  &__items-notifications {
     display: flex;
     flex-direction: column;
     gap: 21px;
   }
 
-  &__title{
+  &__title {
     font-weight: 700;
     font-size: 17px;
 
     margin: 0 0 23px 0;
   }
 
-  &__notification-title{
+  &__notification-title {
     font-weight: 500;
     font-size: 14px;
 
-
-    &_blue{
+    &_blue {
       color: $blueColor;
       font-weight: 400;
     }
   }
 
-  &__block-links{
+  &__block-links {
     display: flex;
     flex-direction: column;
     gap: 18px;
@@ -52,7 +51,7 @@
   z-index: 4;
 
   &__slider {
-    position: absolute;    
+    position: absolute;
     top: 0;
     left: 0;
     right: 0;
@@ -63,7 +62,7 @@
 
     &::before {
       position: absolute;
-      content: "";
+      content: '';
       height: 16px;
       width: 16px;
       left: 2px;
@@ -85,14 +84,12 @@
   input:checked + &__slider {
     background-color: #4caf50;
   }
-  input:focus +  &__slider {
+  input:focus + &__slider {
     box-shadow: 0 0 1px #4caf50;
   }
-  input:checked +  &__slider:before {
+  input:checked + &__slider:before {
     -webkit-transform: translateX(14px);
     -ms-transform: translateX(14px);
     transform: translateX(14px);
   }
 }
-
-

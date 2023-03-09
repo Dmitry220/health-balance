@@ -1,7 +1,5 @@
 import { FC } from 'react'
 import './shop.scss'
-import { Link } from 'react-router-dom'
-import { MAKING_ORDER_ROUTE } from '../../provider/constants-route'
 import { RewardCount } from '../Reward/Reward-count'
 
 interface IShopButton {

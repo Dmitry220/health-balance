@@ -7,9 +7,8 @@ import { useAppSelector } from '../../utils/hooks/redux-hooks'
 import './new-target-page.scss'
 
 export const NewTargetPage = () => {
-
-  const purpose = useAppSelector(purposeSelector) 
-  const [noFinished,setNoFinished] = useState<boolean>(false)
+  const purpose = useAppSelector(purposeSelector)
+  const [noFinished, setNoFinished] = useState<boolean>(false)
   const range = function (start: number, stop: number, step: number) {
     if (stop === null) {
       stop = start || 0
@@ -38,7 +37,7 @@ export const NewTargetPage = () => {
       if (purpose?.id && noFinished) {
         await PurposeService.changePersonalPurpose(purpose.id, +valueStep)
         await showToast('Цель успешно изменена')
-      }else{
+      } else {
         await showToast('На сегодня цель выполнена!')
       }
     } catch (error) {
@@ -46,15 +45,15 @@ export const NewTargetPage = () => {
     }
   }
 
-  useEffect(() => {     
-      (async () => {
-        const isCompletedPurposeResponse = await PurposeService.isCompletedPurpose()
-        if(!isCompletedPurposeResponse.data.data.length){       
-          setNoFinished(true)
-        }
-      })()  
+  useEffect(() => {
+    ;(async () => {
+      const isCompletedPurposeResponse =
+        await PurposeService.isCompletedPurpose()
+      if (!isCompletedPurposeResponse.data.data.length) {
+        setNoFinished(true)
+      }
+    })()
   }, [])
-  
 
   return (
     <div className={'new-target-page'}>

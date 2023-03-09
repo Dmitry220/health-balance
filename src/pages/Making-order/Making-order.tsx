@@ -40,7 +40,7 @@ export const MakingOrder = () => {
     <div className={'making-order'}>
       <Header title={'Оформление'} />
       <div className='making-order__title main-title'>
-      Мы отправим информацию на почту и телефон, указанные в вашем профиле.
+        Мы отправим информацию на почту и телефон, указанные в вашем профиле.
       </div>
       {/* <form className='making-order__form form-order'>
         <label htmlFor='email' className='form-order__label'>

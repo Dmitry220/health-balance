@@ -8,15 +8,16 @@ interface HeaderProps {
   customClass?: string
   additionalComponent?: any
   additionalOnClick?: any
+  transparent?: boolean
 }
 
 export const Header: FC<HeaderProps> = ({
   title,
   customClass,
   additionalComponent,
-  additionalOnClick
+  additionalOnClick,
+  transparent
 }) => {
-
   const [insetsHeight, setInsetsHeight] = useState<number>(0)
   const [statusBarHeight, setStatusBarHeight] = useState<number>(0)
 
@@ -24,7 +25,7 @@ export const Header: FC<HeaderProps> = ({
     window.history.back()
   }
 
-  useEffect(() => {  
+  useEffect(() => {
     SafeArea.getSafeAreaInsets().then((data) => {
       setInsetsHeight(data.insets.top)
     })
@@ -33,16 +34,33 @@ export const Header: FC<HeaderProps> = ({
     })
   }, [])
 
-
   return (
-    <header className={'header ' + customClass} 
-    style={{ padding: Capacitor.getPlatform() === 'ios' ? `${(insetsHeight + statusBarHeight + 20)}px 16px 0 16px` : '0 16px',
-    height: Capacitor.getPlatform() === 'ios' ? insetsHeight + statusBarHeight : 53
-   }}
+    <header
+      className={'header ' + customClass}
+      style={{
+        background: transparent ? 'transparent' : '#121212',
+        padding:
+          Capacitor.getPlatform() === 'ios'
+            ? `${insetsHeight + statusBarHeight + 20}px 16px 0 16px`
+            : '0 16px',
+        height:
+          Capacitor.getPlatform() === 'ios'
+            ? insetsHeight + statusBarHeight
+            : 53
+      }}
     >
       <div className='header__container'>
-        <div className='header__back icon-icon_back' onClick={back} 
-         style={{ top: Capacitor.getPlatform() === 'ios' ? '50%' : 21, transform:Capacitor.getPlatform() === 'ios' ? 'translateY(-50%)' : 'translateY(0)'}}/>
+        <div
+          className='header__back icon-icon_back'
+          onClick={back}
+          style={{
+            top: Capacitor.getPlatform() === 'ios' ? '50%' : 21,
+            transform:
+              Capacitor.getPlatform() === 'ios'
+                ? 'translateY(-50%)'
+                : 'translateY(0)'
+          }}
+        />
         <div className='header__title'>{title}</div>
         {additionalComponent && (
           <div onClick={additionalOnClick}>{additionalComponent}</div>

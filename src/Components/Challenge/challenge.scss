@@ -1,5 +1,5 @@
-@import "../../assets/style/variables";
-@import "src/assets/style/mixins";
+@import '../../assets/style/variables';
+@import 'src/assets/style/mixins';
 
 .card-challenge {
   background: $backgroundBlock;
@@ -59,7 +59,7 @@
     font-weight: 700;
     font-size: 17px;
     word-break: break-all;
-    color: #E1E1E1;
+    color: #e1e1e1;
   }
 
   &__sub-title {
@@ -102,7 +102,7 @@
     font-weight: 700;
     font-size: 17px;
 
-    color: #8A8989;
+    color: #8a8989;
     display: flex;
     flex-direction: column;
     row-gap: 7px;
@@ -115,8 +115,8 @@
 }
 
 .new-board {
- // &:not(:last-child) {
-    //margin: 0 0 25px 0;
+  // &:not(:last-child) {
+  //margin: 0 0 25px 0;
   //}
   display: block;
 
@@ -132,13 +132,18 @@
     }
 
     &::after {
-      content: "";
+      content: '';
       position: absolute;
       left: 0;
       bottom: 0;
       height: 100px;
       width: 100%;
-      background: linear-gradient(180deg, rgba(18, 18, 18, 0) 0%, rgba(18, 18, 18, 0.9) 51.04%, #121212 91.67%);
+      background: linear-gradient(
+        180deg,
+        rgba(18, 18, 18, 0) 0%,
+        rgba(18, 18, 18, 0.9) 51.04%,
+        #121212 91.67%
+      );
     }
   }
 
@@ -179,7 +184,7 @@
     font-weight: 700;
     font-size: 17px;
 
-    color: #E1E1E1;
+    color: #e1e1e1;
     margin: 0 0 5px 0;
   }
 
@@ -191,15 +196,15 @@
   }
 }
 
-.task-challenge{
-  &__title{
+.task-challenge {
+  &__title {
     font-weight: 700;
     font-size: 20px;
 
     color: $colorMain;
     margin: 0 0 20px 0;
   }
-  &__body{
+  &__body {
     display: flex;
     gap: 9px;
     overflow: scroll;
@@ -215,7 +220,7 @@
   background: $backgroundBlock;
   flex: 0 0 138px;
   border-radius: 10px;
-  &:not(:last-child){
+  &:not(:last-child) {
     margin: 0 10px 0 0;
   }
 
@@ -251,13 +256,13 @@
     &_command {
       color: $blueColor;
     }
-    span{
+    span {
       color: $colorMain;
     }
   }
 }
 
-.challenge-instruction{
+.challenge-instruction {
   height: 100vh;
   position: relative;
   overflow: hidden;
@@ -265,12 +270,12 @@
   padding: 16px;
   margin: -16px;
 
-  &__swiper{
+  &__swiper {
     margin: -16px;
     padding: 16px;
   }
 
-  &__title{
+  &__title {
     position: absolute;
     z-index: 2;
     top: 72px;
@@ -280,15 +285,15 @@
     // @include adaptive-value("margin-top", -50, 80, 1);
   }
 
-  &__image{
+  &__image {
     width: 100%;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    img{
+    img {
       width: 67%;
-      @include adaptive-value("height", 512, 352, 1);
+      @include adaptive-value('height', 512, 352, 1);
       object-fit: contain;
       @media (max-height: 792px) {
         height: 60%;
@@ -298,5 +303,4 @@
       }
     }
   }
-
 }

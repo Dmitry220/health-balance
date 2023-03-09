@@ -33,7 +33,6 @@ import {
 } from '../../Components/Charts/Chart-options'
 import { routesNavigation } from '../../utils/globalConstants'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
-import { StartPage } from '../Start-pages/StartPage'
 import AppService from '../../services/AppService'
 import { purposeSelector } from '../../Redux/slice/purposeSlice'
 import {

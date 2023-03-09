@@ -63,7 +63,7 @@ export const ActiveChallengePage = () => {
     <div className={'active-challenge-page'}>
       <Header
         title={'Челлендж'}
-        customClass={transparentHeader?'active-challenge-page__header':""}
+        customClass={transparentHeader ? 'active-challenge-page__header' : ''}
       />
       <div className='active-challenge-page__main'>
         <HeaderChallenge

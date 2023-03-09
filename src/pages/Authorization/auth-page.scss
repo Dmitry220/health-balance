@@ -1,11 +1,12 @@
-.auth-page{
-  background: url("../../assets/image/auth/background-image.jpg") center center no-repeat;
+.auth-page {
+  background: url('../../assets/image/auth/background-image.jpg') center center
+    no-repeat;
   background-size: cover;
   margin: -16px;
   height: 100vh;
   position: relative;
   &::before {
-    content: "";
+    content: '';
     display: block;
     position: absolute;
     top: 0;
