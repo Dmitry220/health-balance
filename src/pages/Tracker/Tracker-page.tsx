@@ -218,7 +218,7 @@ const SlideNextButton: FC<ISwiperNextButton> = ({
   }
 
   return (
-    <button className={customClass} onClick={next}>
+    <button className={customClass} onClick={next} style={{ bottom: 70 }}>
       Дальше
     </button>
   )
