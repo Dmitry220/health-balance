@@ -17,7 +17,6 @@ import HeaderActive from '../../Components/Header-active/Header-active'
 import {Target} from '../../Components/Target/Target'
 import {TopRating} from '../../Components/Top-rating/Top-rating'
 import {useAppDispatch, useAppSelector} from '../../hooks/redux-hooks'
-import AppService from '../../services/AppService'
 import {purposeSelector} from '../../Redux/slice/purposeSlice'
 import {currentStepsCountSelector, setCurrentStepsCount} from '../../Redux/slice/appSlice'
 import {isGoogleFitSelector} from '../../Redux/slice/settingsSlice'
@@ -79,43 +78,20 @@ export const ActivityPage: FC = () => {
   }
 
   const startPlugin = async () => {
-    let endDate = new Date().toLocaleDateString()
     let savedData = await Pedometer.getSavedData()
     let steps = savedData['numberOfSteps'] || '0'
 
     dispatch(setCurrentStepsCount(steps))
 
-    const params = new FormData()
-
-    params.append('data', JSON.stringify([{ date: endDate, steps: steps }]))
-
-    await AppService.updateSteps(params)
 
     window.addEventListener('stepEvent', updateSteps)
   }
 
   const updateSteps = async (event: any) => {
-    let endDate = new Date().toLocaleDateString()
-
-    const params = new FormData()
-
-    params.append(
-      'data',
-      JSON.stringify([{ date: endDate, steps: event.numberOfSteps }])
-    )
-
-    await AppService.updateSteps(params)
-
     dispatch(setCurrentStepsCount(parseInt(event.numberOfSteps)))
   }
 
   const updateStepsPeriod = async (data: any) => {
-    const params = new FormData()
-
-    params.append('data', JSON.stringify(data))
-
-    await AppService.updateSteps(params)
-
     dispatch(setCurrentStepsCount(parseInt(data[data.length - 1].steps)))
   }
 

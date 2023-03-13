@@ -1,159 +1,43 @@
-import { FC, useCallback, useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import './tracker.scss'
 import moon from '../../assets/image/tracker/akar-icons_moon-fill.png'
 import sun from '../../assets/image/tracker/akar-icons_sun-fill.png'
 import status_full from '../../assets/image/purpose__status_full_green.svg'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { GOAL_SLEEP__ROUTE } from '../../provider/constants-route'
-import TrackerService from '../../services/TrackerService'
 import { ITrack } from '../../models/ITracker'
 import {
-  datesSleepSelector,
   isLoadingSelector,
-  setDateSleep,
   trackerSelector,
   tracksSelector
 } from '../../Redux/slice/trackerSlice'
-import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
+import { useAppSelector } from '../../hooks/redux-hooks'
 import { Preloader } from '../Preloader/Preloader'
 import { sklonenie } from '../../utils/common-functions'
+import { confirmAlert } from 'react-confirm-alert'
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 
 interface IHealthySleep {
-  editProhibition?: boolean
+  editProhibition?: boolean,
+  date?: string
 }
-export const HealthySleep: FC<IHealthySleep> = ({ editProhibition }) => {
-  const dispacth = useAppDispatch()
+export const HealthySleep: FC<IHealthySleep> = ({ editProhibition,date=new Date().toLocaleDateString() }) => {
+
   const tracker = useAppSelector(trackerSelector)
+  const tracks = useAppSelector(tracksSelector)
   const isloading = useAppSelector(isLoadingSelector)
   let hour = tracker.wake_up_time.split(':')[0]
   let minutes = tracker.wake_up_time.split(':')[1]
-  const indexWeek = new Date().getDay() === 0 ? 6 : new Date().getDay() - 1
+  const indexWeek = new Date(date.replace( /(\d{2}).(\d{2}).(\d{4})/, "$2/$1/$3")).getDay() === 0 ? 6 : new Date(date.replace( /(\d{2}).(\d{2}).(\d{4})/, "$2/$1/$3")).getDay() - 1
+  const daysAdditional = ['пн', 'пн', 'вт', 'вт', 'ср', 'ср', 'чт', 'чт', 'пт', 'пт', 'сб', 'сб', 'вс', 'вс']
+  const daysWeek = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс']
+  const [currentDay, setCurrentDay] = useState<ITrack>()
   const morning = tracker.wake_up_time
-  const evening =
-    (+hour - 8 < 0 ? 24 + (+hour - 8) : +hour - 8).toString().padStart(2, '0') +
-    ':' +
-    minutes
-  const tracks = useAppSelector(tracksSelector)
-
-  const sleepDays: ITrack[] = [
-    {
-      id: 1,
-      type: 1,
-      additional: 'пн',
-      notification_send: false,
-      send_time: 0,
-      completed: false
-    },
-    {
-      id: 2,
-      type: 1,
-      additional: 'пн',
-      notification_send: false,
-      send_time: 0,
-      completed: false
-    },
-    {
-      id: 3,
-      type: 1,
-      additional: 'вт',
-      notification_send: false,
-      send_time: 0,
-      completed: false
-    },
-    {
-      id: 4,
-      type: 1,
-      additional: 'вт',
-      notification_send: false,
-      send_time: 0,
-      completed: false
-    },
-    {
-      id: 5,
-      type: 1,
-      additional: 'ср',
-      notification_send: false,
-      send_time: 0,
-      completed: false
-    },
-    {
-      id: 6,
-      type: 1,
-      additional: 'ср',
-      notification_send: false,
-      send_time: 0,
-      completed: false
-    },
-    {
-      id: 7,
-      type: 1,
-      additional: 'чт',
-      notification_send: false,
-      send_time: 0,
-      completed: false
-    },
-    {
-      id: 8,
-      type: 1,
-      additional: 'чт',
-      notification_send: false,
-      send_time: 0,
-      completed: false
-    },
-    {
-      id: 9,
-      type: 1,
-      additional: 'пт',
-      notification_send: false,
-      send_time: 0,
-      completed: false
-    },
-    {
-      id: 10,
-      type: 1,
-      additional: 'пт',
-      notification_send: false,
-      send_time: 0,
-      completed: false
-    },
-    {
-      id: 11,
-      type: 1,
-      additional: 'сб',
-      notification_send: false,
-      send_time: 0,
-      completed: false
-    },
-    {
-      id: 12,
-      type: 1,
-      additional: 'сб',
-      notification_send: false,
-      send_time: 0,
-      completed: false
-    },
-    {
-      id: 13,
-      type: 1,
-      additional: 'вс',
-      notification_send: false,
-      send_time: 0,
-      completed: false
-    },
-    {
-      id: 14,
-      type: 1,
-      additional: 'вс',
-      notification_send: false,
-      send_time: 0,
-      completed: false
-    }
-  ]
-  
+  const evening =(+hour - 8 < 0 ? 24 + (+hour - 8) : +hour - 8).toString().padStart(2, '0') +':' +minutes
   const pushArray: ITrack[] = []
   const [outputArray, setOutputArray] = useState<ITrack[]>([])
-  const sameDays =  tracks.sleepTrack.length>=2&&(tracks.sleepTrack[0].additional === tracks.sleepTrack[1].additional)  
-  const wake_up  = sameDays ? (tracks.sleepTrack[0]?.completed && tracks.sleepTrack[1]?.completed) : tracks.sleepTrack[0]?.completed
+  const navigate = useNavigate()
+
   useEffect(() => {
     tracks.sleepTrack.forEach((itemServer, index) => {
       pushArray.push({
@@ -166,49 +50,54 @@ export const HealthySleep: FC<IHealthySleep> = ({ editProhibition }) => {
         type: itemServer.type
       })
     })
-    
 
-    let difference = sleepDays.length - tracks.sleepTrack.length
+    let difference = daysAdditional.length - tracks.sleepTrack.length
 
-    for (let i = difference - 1; i >= 0; i--) {
-      if (i === difference - 1 && i % 2 === 0) {
+    for (let i = difference - 1; i >= 0; i--) {  
         pushArray.unshift({
           id: outputArray.length - i,
-          additional: sleepDays[i].additional,
-          completed: true,
-          notification_send: true,
+          additional: daysAdditional[i],
+          completed: i === difference - 1 && i % 2 === 0,
+          notification_send: i === difference - 1 && i % 2 === 0,
           send_time: 0,
           type: 1
-        })
-      } else {
-        pushArray.unshift({
-          id: outputArray.length - i,
-          additional: sleepDays[i].additional,
-          completed: sleepDays[i].completed,
-          notification_send: sleepDays[i].notification_send,
-          send_time: sleepDays[i].send_time,
-          type: sleepDays[i].type
-        })
-      }
+        })      
     }
     setOutputArray(pushArray)
+    setCurrentDay(tracks.sleepTrack.find(item => item.additional === daysWeek[indexWeek]))
   }, [tracks])
+
+  const redirectToChangeTrack = () => {
+    confirmAlert({
+      title: 'Вы уверены что хотите изменить цель?  Будет создан новый трекер и старые выполненные цели будут аннулированы!',
+      buttons: [
+        {
+          label: 'Да',
+          onClick: () => navigate(GOAL_SLEEP__ROUTE)
+        },
+        {
+          label: 'Нет',
+        }
+      ]
+    });
+  }
 
   if (isloading) {
     return <Preloader height='auto' />
   }
+
 
   return (
     <div className={'healthy-sleep'}>
       <div className='healthy-sleep__head'>
         <div className='healthy-sleep__title title-17'>Здоровый сон</div>
         {!editProhibition && (
-          <Link
-            to={GOAL_SLEEP__ROUTE}
+          <div
             className='healthy-sleep__link text-blue'
+            onClick={redirectToChangeTrack}
           >
             изменить цель
-          </Link>
+          </div>
         )}
       </div>
       <div className='healthy-sleep__body'>
@@ -220,10 +109,10 @@ export const HealthySleep: FC<IHealthySleep> = ({ editProhibition }) => {
           <div className='healthy-sleep__border-dashed' />
           <div className='healthy-sleep__text'>
             Вы спали{' '}
-            <span>
+            <span style={{color: (currentDay?.type === 1 && currentDay?.sleep_time! >= 8)?'#00A62E':'#F4C119'}}>
               {' '}
-              {wake_up
-                ? '8 ' + sklonenie(8, ['час', 'часа', 'часов'])
+              {(currentDay?.type === 1 && currentDay?.sleep_time! >= 8)
+                ? currentDay?.sleep_time + sklonenie(currentDay?.sleep_time!, [' час', ' часа', ' часов'])
                 : 'менее 8 часов'}
             </span>
           </div>
@@ -239,7 +128,7 @@ export const HealthySleep: FC<IHealthySleep> = ({ editProhibition }) => {
               if (index % 2 === 0) {
                 return (
                   <div className='healthy-sleep__item-day' key={item.id}>
-                    {array[index + 1].completed && array[index].completed ? (
+                    {array[index]?.sleep_time! >= 8 ? (
                       <img
                         className='healthy-sleep__icon-full'
                         src={status_full}

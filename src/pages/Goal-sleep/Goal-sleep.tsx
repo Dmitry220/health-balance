@@ -29,12 +29,16 @@ export const GoalSleep = () => {
 
   const save = async () => {
     try {
-      await TrackerService.updateTracker(
+      const response = await TrackerService.updateTracker(
         tracker.id,
         'wake_up_time',
         hour.padStart(2, '0') + ':' + minutes.padStart(2, '0')
       )
-      await showToast('Изменено успешно!')
+      if(response?.data?.tracker_id){
+        await showToast('Изменено успешно!')
+      }else{
+        await showToast('Ошибка!') 
+      } 
     } catch (error) {
       await showToast('Ошибка!')
     }

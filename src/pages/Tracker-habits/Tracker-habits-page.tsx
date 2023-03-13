@@ -25,6 +25,7 @@ import {
 import { showToast, sklonenie } from '../../utils/common-functions'
 import { setVisitedTrackerPage } from '../../Redux/slice/authSlice'
 import TrackerService from '../../services/TrackerService'
+import { confirmAlert } from 'react-confirm-alert'
 
 export const TrackerHabitsPage = () => {
   const dispatch = useAppDispatch()
@@ -50,6 +51,21 @@ export const TrackerHabitsPage = () => {
     } finally {
       setIsLoading(false)
     }
+  }
+
+  const redirectToChangeTrack = (path:string) => {
+    confirmAlert({
+      title: 'Вы уверены что хотите изменить цель?  Будет создан новый трекер и старые выполненные цели будут аннулированы!',
+      buttons: [
+        {
+          label: 'Да',
+          onClick: () => navigate(path)
+        },
+        {
+          label: 'Нет',          
+        }
+      ]
+    });
   }
 
   useEffect(() => {
@@ -81,9 +97,9 @@ export const TrackerHabitsPage = () => {
           воды сегодня
         </div>
         <div className='tracker-habits-page__task-column'>
-          <Link to={GOAL_WATER__ROUTE} className='text-blue'>
+          <div onClick={()=>redirectToChangeTrack(GOAL_WATER__ROUTE)} className='text-blue'>
             изменить цель
-          </Link>
+          </div>
         </div>
       </div>
       <div className='tracker-habits-page__target'>
@@ -97,9 +113,9 @@ export const TrackerHabitsPage = () => {
           {sklonenie(tracker?.fruits, ['овощ', 'овоща', 'овощей'])}
         </div>
         <div className='tracker-habits-page__task-column'>
-          <Link to={GOAL_FRUITS__ROUTE} className='text-blue'>
+          <div onClick={()=>redirectToChangeTrack(GOAL_FRUITS__ROUTE)} className='text-blue'>
             изменить цель
-          </Link>
+          </div>
         </div>
       </div>
       <div className='tracker-habits-page__target'>

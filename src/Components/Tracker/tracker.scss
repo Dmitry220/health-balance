@@ -162,6 +162,9 @@
     }
     div {
       @include adaptive-value("margin-right", 24, 5, 1);
+      display: flex;
+      flex-wrap: nowrap;
+      white-space: nowrap;
     }
   }
 }

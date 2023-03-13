@@ -19,8 +19,12 @@ export const GoalWater = () => {
 
   const save = async () => {
     try {
-      await TrackerService.updateTracker(tracker.id, 'weight', weightUser)
-      await showToast('Изменено успешно!')
+      const response = await TrackerService.updateTracker(tracker.id, 'weight', weightUser)
+      if(response?.data?.tracker_id){
+        await showToast('Изменено успешно!')
+      }else{
+        await showToast('Ошибка!') 
+      } 
     } catch (error) {
       await showToast('Ошибка!')
     }

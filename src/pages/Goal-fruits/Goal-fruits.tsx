@@ -5,6 +5,7 @@ import TrackerService from '../../services/TrackerService'
 import { showToast } from '../../utils/common-functions'
 import { useAppSelector } from '../../hooks/redux-hooks'
 import './goal-fruits.scss'
+import { ICreatingTracker } from '../../models/ITracker'
 
 export const GoalFruits = () => {
   const tracker = useAppSelector(trackerSelector)
@@ -20,8 +21,12 @@ export const GoalFruits = () => {
 
   const save = async () => {
     try {
-      await TrackerService.updateTracker(tracker.id, 'fruits', countFruits + '')
-      await showToast('Изменения вступят в силу с завтрашнего дня!')
+      const response = await TrackerService.updateTracker(tracker.id, 'fruits', countFruits + '')
+      if(response?.data?.tracker_id){
+        await showToast('Изменено успешно!')
+      }else{
+        await showToast('Ошибка!') 
+      }      
     } catch (error) {
       await showToast('Ошибка!')
     }
