@@ -1,17 +1,16 @@
 import { AxiosResponse } from 'axios'
 import { $api } from '../http'
-import { IBalance } from '../models/IApp'
-import { IPurpose } from '../models/IPurpose'
+import {  IPersonalPurposeParams, IPurpose } from '../models/IPurpose'
 
 export default class PurposeService {
-  static async creatingPersonalPurpose(params: FormData) {
+  static async creatingPersonalPurpose(data: IPersonalPurposeParams) {
     return $api.post(
       `/v2/purposes/?token=${localStorage.getItem('token')}`,
-      params,
+      data,
       {
         headers: {
           accept: 'application/json',
-          'Content-Type': `application/x-www-form-urlencoded`
+          "Content-Type": `multipart/form-data`,
         }
       }
     )

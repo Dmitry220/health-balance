@@ -10,18 +10,9 @@ import {
   TRACKER_ROUTE
 } from '../../provider/constants-route'
 
-export interface IRoutesNavigation {
-  path: string
-  title: string
-  icon: string
-  iconActive: string
-}
 
-export interface INavigation {
-  routes?: IRoutesNavigation[]
-}
 
-export const Navigation: FC<INavigation> = ({ routes }) => {
+export const Navigation: FC = () => {
   return (
     <div className={'navigation'}>
       <div className='navigation__body'>
@@ -75,20 +66,6 @@ export const Navigation: FC<INavigation> = ({ routes }) => {
         >
           Интересное
         </NavLink>
-
-        {/* {routes.map((nav, i) => (
-          <NavLink
-            to={nav.path}
-            key={i}
-            className={({ isActive }) =>
-              isActive
-                ? 'navigation__link active ' + nav.iconActive
-                : 'navigation__link ' + nav.icon
-            }
-          >
-            {nav.title}
-          </NavLink>
-        ))} */}
       </div>
     </div>
   )

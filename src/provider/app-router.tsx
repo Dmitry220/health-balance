@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { privateRoutes, publicRoutes } from './routes'
 import { Routes, Route } from 'react-router-dom'
 import { AuthPage } from '../pages/Authorization/Auth-page'
-import { useAppDispatch, useAppSelector } from '../utils/hooks/redux-hooks'
+import { useAppDispatch, useAppSelector } from '../hooks/redux-hooks'
 import {
   checkAuth,
   isAuthSelector,

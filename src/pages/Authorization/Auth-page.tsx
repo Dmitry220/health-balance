@@ -1,19 +1,26 @@
 import { Capacitor } from '@capacitor/core'
-import { FC, useEffect } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { Auth } from '../../Components/Authorization/Auth'
 import Pedometer from '../../plugins/pedometer'
 import './auth-page.scss'
 
 export const AuthPage: FC = () => {
   useEffect(() => {
-    // Старт шагомера и предоставления разрешений
+    //Старт шагомера и предоставления разрешений
     if (Capacitor.getPlatform() === 'android') {
       Pedometer.start()
     }
   }, [])
 
+
   return (
-    <div className={'auth-page'}>
+    <div className={'auth-page'} style={{
+      margin: Capacitor.getPlatform() === 'ios' ? 0 : '-16px',
+      position: Capacitor.getPlatform() === 'ios' ? 'absolute' : 'relative',
+      top: 0,
+      left: 0,
+      width: Capacitor.getPlatform() === 'ios' ? '100%' : 'auto',
+    }}>
       <Auth />
     </div>
   )

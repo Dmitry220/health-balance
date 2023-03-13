@@ -15,7 +15,7 @@ import {
   LECTURES_ROUTE,
   LOGIN_ROUTE,
   MAKING_ORDER_ROUTE,
-  MOTIVATION_ROUTE,
+  POST_INTERESTING_ROUTE,
   NEW_TARGET_ROUTE,
   ACCESS_RECOVERY__ROUTE,
   PROFILE_ROUTE,
@@ -37,7 +37,6 @@ import {
   CREATING_INTERESTING_ROUTE,
   SYNCING_ROUTE,
   PRODUCT_SCREEN_ROUTE,
-  SURVEY_ACTUAL_ROUTE,
   TEAM_MEMBER_ROUTE,
   PROFILE_MEMBER_ROUTE,
   RUBRIC_ROUTE,
@@ -84,7 +83,6 @@ import { NewChallengeInfo } from '../pages/New-challenge-info/New-Challenge-Info
 import { CreatingInteresting } from '../pages/Creating-interesting/Creating-interesting'
 import { SyncingPage } from '../pages/Syncing-page/Syncing-page'
 import { ProductScreen } from '../pages/Product-screen/Product-screen'
-import { SurveyActualPage } from '../pages/Survey-actual-page/Survey-actual-page'
 import { TeamMembersPage } from '../pages/Team-members-page/Team-members-page'
 import { ProfileMemberPage } from '../pages/Profile-member-page/Profile-member-page'
 import { RubricPage } from '../pages/Rubric-page/Rubric-page'
@@ -210,7 +208,7 @@ export const privateRoutes = [
     Component: ReportPage
   },
   {
-    path: MOTIVATION_ROUTE + '/:id',
+    path: POST_INTERESTING_ROUTE + '/:id',
     Component: MotivationPage
   },
   {
@@ -256,11 +254,7 @@ export const privateRoutes = [
   {
     path: PRODUCT_SCREEN_ROUTE + '/:id',
     Component: ProductScreen
-  },
-  {
-    path: SURVEY_ACTUAL_ROUTE,
-    Component: SurveyActualPage
-  },
+  }, 
   {
     path: TEAM_MEMBER_ROUTE+'/:id',
     Component: TeamMembersPage

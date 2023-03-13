@@ -1,6 +1,6 @@
 import { Toast } from '@capacitor/toast'
 import Picker from 'rmc-picker'
-import { typesChallenge } from '../types/enums'
+import { typesChallenge } from './enums'
 
 export const definitionColor = (type: number, className: string) => {
   switch (type) {

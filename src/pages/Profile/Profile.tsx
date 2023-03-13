@@ -10,7 +10,7 @@ import {
 } from '../../provider/constants-route'
 import { ProfileSteps } from '../../Components/Profile/Profile-steps'
 import { ProfileChallenge } from '../../Components/Profile/Profile-challenge'
-import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import { dataUserSelector, setUserData } from '../../Redux/slice/profileSlice'
 import { clearResults, logout } from '../../Redux/slice/authSlice'
 import { IMAGE_URL } from '../../http'

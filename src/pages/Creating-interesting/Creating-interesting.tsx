@@ -2,7 +2,7 @@ import { useState, ChangeEvent } from 'react'
 import './creating-interesting.scss'
 import Header from '../../Components/Header/Header'
 import paper_clip from '../../assets/image/icon-paper-clip.svg'
-import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import {
   creatingNewsSelector,
   setAnnotationNews,
@@ -21,6 +21,7 @@ import FileService from '../../services/FilesServices'
 import { rubricConversion, showToast } from '../../utils/common-functions'
 import NewsService from '../../services/NewsService'
 import { Camera, CameraResultType } from '@capacitor/camera'
+import { ICreatingNews } from '../../models/INews'
 
 export const CreatingInteresting = () => {
   const [isLoadingAvatar, setIsLoadingAvatar] = useState<boolean>(false)
@@ -77,9 +78,9 @@ export const CreatingInteresting = () => {
   const handlerTitle = (e: ChangeEvent<HTMLInputElement>) =>
     dispatch(setTitleNews(e.target.value))
 
-  const handlerContent = (e: ChangeEvent<HTMLTextAreaElement>) => {
+  const handlerContent = (e: ChangeEvent<HTMLTextAreaElement>) => 
     dispatch(setContentNews(e.target.value))
-  }
+  
 
   const handlerAnnotation = (e: ChangeEvent<HTMLInputElement>) =>
     dispatch(setAnnotationNews(e.target.value))
@@ -93,18 +94,18 @@ export const CreatingInteresting = () => {
       dataNews.annotation &&
       dataNews.category &&
       dataNews.content
-    ) {
-      const formData = new FormData()
-      formData.append('title', dataNews.title)
-      formData.append('annotation', dataNews.annotation)
-      formData.append('content', dataNews.content)
-      formData.append('image', dataNews.image)
-      dataNews.team !== 0 && formData.append('team', dataNews.team.toString())
-      formData.append('category', dataNews.category.toString())
-      formData.append('push', dataNews.push.toString())
+    ) {      
+      const data: ICreatingNews = {
+        title: dataNews.title,
+        annotation: dataNews.annotation,
+        content: dataNews.content,
+        image: dataNews.image,       
+        category: dataNews.category,
+        push: dataNews.push
+      }      
       setIsLoading(true)
       try {
-        const response = await NewsService.creatingNews(formData)
+        const response = await NewsService.creatingNews(data)
         if (response.data.news_id) {
           reset()
           setShowModal(true)

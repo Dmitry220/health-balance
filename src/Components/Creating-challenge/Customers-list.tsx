@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useEffect,useCallback } from 'react'
 import { customersCreatingChellengeSelector, customersPersonalChallengeSelector, disableButtonChallengeSelector, getCustomersPersonalChallenge, isLoadingSelector, setCustomersPersonalChallenge, setDisabledButton } from '../../Redux/slice/challengeSlice'
-import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import avatar from '../../assets/image/avatar.jpeg'
 import './creating-challenge.scss'
 import { IMAGE_URL } from '../../http'

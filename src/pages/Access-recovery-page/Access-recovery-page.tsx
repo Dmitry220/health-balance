@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Header from '../../Components/Header/Header'
 import { AccessRecoveryItem } from '../../Components/Access-recovery/Access-recovery-item'
-import { stageAccessRecovery } from '../../types/enums'
+import { stageAccessRecovery } from '../../utils/enums'
 
 export const AccessRecoveryPage = () => {
   const [order, setOrder] = useState<number>(0)

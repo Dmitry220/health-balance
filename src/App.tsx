@@ -1,5 +1,6 @@
 import { Capacitor } from '@capacitor/core'
 import OneSignal from 'onesignal-cordova-plugin'
+import Pedometer from './plugins/pedometer'
 import { useEffect, useState } from 'react'
 import './assets/style/global.scss'
 import AppRouter from './provider/app-router'
@@ -7,15 +8,15 @@ import { App as CapacitorApp } from '@capacitor/app'
 import TrackerService from './services/TrackerService'
 import { showToast } from './utils/common-functions'
 import { useNavigate } from 'react-router-dom'
-import { MOTIVATION_ROUTE, TRACKER_ROUTE } from './provider/constants-route'
+import { POST_INTERESTING_ROUTE, TRACKER_ROUTE } from './provider/constants-route'
 import { SafeArea } from 'capacitor-plugin-safe-area'
 import { IUpdateUser } from './models/IUsers'
 import UserService from './services/UserServices'
+import { useStatusBar } from './hooks/useStatusBar'
 
 function App() {
   const navigate = useNavigate()
-  const [insetsHeight, setInsetsHeight] = useState<number>(0)
-  const [statusBarHeight, setStatusBarHeight] = useState<number>(0)
+  const statusBar = useStatusBar()  
 
   const handlerPush = () => {
     if (Capacitor.getPlatform() !== 'web') {
@@ -23,10 +24,10 @@ function App() {
       OneSignal.setNotificationOpenedHandler(async (openedEvent) => {
         const { notification }: any = openedEvent
         if (notification.additionalData?.type === 'news') {
-          navigate(MOTIVATION_ROUTE + '/' + notification.additionalData?.id)
+          navigate(POST_INTERESTING_ROUTE + '/' + notification.additionalData?.id)
         }
         if (notification.additionalData?.track_id) {
-          const response = await TrackerService.completeTrack(
+          const response = await TrackerService.complteteTrack(
             notification.additionalData.track_id
           )
           if (response?.data?.success) {
@@ -61,14 +62,7 @@ function App() {
       //Обработка пушей
       handlerPush()
     })
-
-    //Получение высоты статус бара для платформы IOS
-    SafeArea.getSafeAreaInsets().then((data) => {
-      setInsetsHeight(data.insets.top)
-    })
-    SafeArea.getStatusBarHeight().then(({ statusBarHeight }) => {
-      setStatusBarHeight(statusBarHeight)
-    })
+    
     //Обработчик событий для переход "назад"
     CapacitorApp.addListener('backButton', ({ canGoBack }: any) => {
       if (!canGoBack) {
@@ -85,7 +79,7 @@ function App() {
       style={{
         paddingTop:
           Capacitor.getPlatform() === 'ios'
-            ? insetsHeight + statusBarHeight + 20
+            ? statusBar + 20
             : 16
       }}
     >

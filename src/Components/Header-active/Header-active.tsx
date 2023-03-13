@@ -5,13 +5,14 @@ import { RewardCount } from '../Reward/Reward-count'
 import icon_chat from '../../assets/image/icon_chat.svg'
 import { Link } from 'react-router-dom'
 import { CHAT__ROUTE, PROFILE_ROUTE } from '../../provider/constants-route'
-import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import { dataUserSelector } from '../../Redux/slice/profileSlice'
 import { IMAGE_URL } from '../../http'
 import { balanceSelector, getBalance } from '../../Redux/slice/appSlice'
 import avatar from '../../assets/image/avatar.jpeg'
 import { SafeArea } from 'capacitor-plugin-safe-area'
 import { Capacitor } from '@capacitor/core'
+import { useStatusBar } from '../../hooks/useStatusBar'
 
 interface IHeaderActive {
   transparent: boolean
@@ -20,18 +21,11 @@ interface IHeaderActive {
 const HeaderActive: FC<IHeaderActive> = ({ transparent }) => {
   const dataUser = useAppSelector(dataUserSelector)
   const balance = useAppSelector(balanceSelector)
-  const [insetsHeight, setInsetsHeight] = useState<number>(0)
-  const [statusBarHeight, setStatusBarHeight] = useState<number>(0)
+  const statusBar = useStatusBar()  
   const dispatch = useAppDispatch()
 
   useEffect(() => {
     dispatch(getBalance())
-    SafeArea.getSafeAreaInsets().then((data) => {
-      setInsetsHeight(data.insets.top)
-    })
-    SafeArea.getStatusBarHeight().then(({ statusBarHeight }) => {
-      setStatusBarHeight(statusBarHeight)
-    })
   }, [balance])
 
   return (
@@ -42,7 +36,7 @@ const HeaderActive: FC<IHeaderActive> = ({ transparent }) => {
         top: Capacitor.getPlatform() === 'ios' ? 0 : 'auto',
         padding:
           Capacitor.getPlatform() === 'ios'
-            ? `${insetsHeight + statusBarHeight + 20}px 16px 16px 16px`
+            ? `${statusBar + 20}px 16px 16px 16px`
             : '16px 16px 16px 16px'
       }}
     >

@@ -14,7 +14,7 @@ import axios from 'axios'
 import 'react-datepicker/dist/react-datepicker.css'
 import MultiPicker from 'rmc-picker/lib/MultiPicker'
 import Picker from 'rmc-picker/lib/Picker'
-import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import {
   endDateCreatingChallengeSelector,
   setEndDateChallenge,

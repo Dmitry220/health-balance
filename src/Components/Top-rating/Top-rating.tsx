@@ -6,7 +6,7 @@ import {
   leaderboard,
   topTodaySelector
 } from '../../Redux/slice/leaderBoardSlice'
-import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import './top-rating.scss'
 import avatar from '../../assets/image/avatar.jpeg'
 import { sklonenie } from '../../utils/common-functions'

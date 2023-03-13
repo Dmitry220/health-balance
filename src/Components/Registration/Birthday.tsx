@@ -4,7 +4,7 @@ import {
   getItemsMonth,
   getItemsYear
 } from '../../utils/common-functions'
-import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import MultiPicker from 'rmc-picker/lib/MultiPicker'
 import Picker from 'rmc-picker/lib/Picker'
 import { birthdaySelector, setBirthday, setDisabledButton } from '../../Redux/slice/authSlice'

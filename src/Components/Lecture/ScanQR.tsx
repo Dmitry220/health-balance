@@ -8,7 +8,7 @@ import {
   lessonSelector,
   successSelector
 } from '../../Redux/slice/lessonsSlice'
-import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import { ModalSuccess } from '../Modals/Modal-success'
 import { LECTURES_ROUTE } from '../../provider/constants-route'
 import { challengeSelector } from '../../Redux/slice/challengeSlice'

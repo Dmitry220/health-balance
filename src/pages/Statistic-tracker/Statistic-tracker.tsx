@@ -7,7 +7,7 @@ import { WaterTarget } from '../../Components/Tracker/Water-target'
 import { FruitTarget } from '../../Components/Tracker/Fruit-target'
 import DayStatistic from '../../Components/Tracker/Day-statistic'
 import ReactDatePicker from 'react-datepicker'
-import { useAppDispatch } from '../../utils/hooks/redux-hooks'
+import { useAppDispatch } from '../../hooks/redux-hooks'
 import { getTracks } from '../../Redux/slice/trackerSlice'
 import ru from 'date-fns/locale/ru'
 
@@ -39,7 +39,7 @@ export const StatisticTracker = () => {
       />
       <div style={{ height: '25px' }}></div>
       <TabContent index={0} value={currentValueTab}>
-        <HealthySleep editProhibition />
+        <HealthySleep editProhibition date={startDate.toLocaleDateString()}/>
       </TabContent>
       <TabContent index={1} value={currentValueTab}>
         <WaterTarget />

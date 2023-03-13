@@ -5,7 +5,7 @@ import {
 } from '../../provider/constants-route'
 import icon_chat from '../../assets/image/icon_chat.svg'
 import './team-member-list.scss'
-import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import {
   getMembersCommandList,
   isLoadingSelector,

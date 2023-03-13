@@ -6,7 +6,7 @@ import {
   creatingNewsSelector,
   setRubricNews
 } from '../../Redux/slice/newsSlice'
-import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import './rubric-page.scss'
 
 const rubrics = [

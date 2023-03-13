@@ -1,20 +1,17 @@
-import { useEffect, useState } from 'react'
-import './motivation.scss'
+import {useState} from 'react'
+import './interesting.scss'
 import iconClock from '../../assets/image/Interesting/clock.svg'
 import plug from '../../assets/image/plug.png'
 import iconComments from '../../assets/image/icon-comments-fill.svg'
-import { useParams } from 'react-router-dom'
-import { useAppSelector } from '../../utils/hooks/redux-hooks'
-import {
-  isLoadingSelector,
-  newsByIdSelector
-} from '../../Redux/slice/newsSlice'
-import { IMAGE_URL } from '../../http'
+import {useParams} from 'react-router-dom'
+import {useAppSelector} from '../../hooks/redux-hooks'
+import {isLoadingSelector, newsByIdSelector} from '../../Redux/slice/newsSlice'
+import {IMAGE_URL} from '../../http'
 import NewsService from '../../services/NewsService'
-import { showToast } from '../../utils/common-functions'
-import { Preloader } from '../Preloader/Preloader'
+import {showToast} from '../../utils/common-functions'
+import {Preloader} from '../Preloader/Preloader'
 
-export const MotivationCard = () => {
+export const PostInteresting = () => {
   const params = useParams()
   const news = useAppSelector(newsByIdSelector)
   const isLoading = useAppSelector(isLoadingSelector)
@@ -29,10 +26,6 @@ export const MotivationCard = () => {
     }
   }
 
-  useEffect(() => {
-    // dispatch(getNewsById(Number(params.id)))
-  }, [])
-
   if (isLoading) {
     return <Preloader />
   }
@@ -40,8 +33,8 @@ export const MotivationCard = () => {
   return (
     <>
       {news && (
-        <div className={'motivation-card'}>
-          <div className='motivation-card__image'>
+        <div className={'post-interesting'}>
+          <div className='post-interesting__image'>
             {news.image && (
               <img
                 src={IMAGE_URL + 'news/' + news.image}
@@ -50,18 +43,18 @@ export const MotivationCard = () => {
             )}
             {!news.image && <img src={plug} alt={'news/'} />}
           </div>
-          <div className='motivation-card__body'>
-            <div className='motivation-card__text'>
+          <div className='post-interesting__body'>
+            <div className='post-interesting__text'>
               <img src={iconClock} alt='' />
               <span>
                 {new Date(news.created_at * 1000).toLocaleDateString()}
               </span>
               <span>{news.author}</span>
             </div>
-            <div className='motivation-card__title block-title'>
+            <div className='post-interesting__title block-title'>
               {news.title}
             </div>
-            <div className='motivation__feed-back feed-back'>
+            <div className='post-interesting__feed-back feed-back'>
               <div className='feed-back__favourite' onClick={like}>
                 {news.likes + (isLike ? 1 : 0)}{' '}
                 <span style={{ color: 'white', fontSize: 18 }}>❤</span>
@@ -71,7 +64,7 @@ export const MotivationCard = () => {
                 {news.comments}
               </div>
             </div>
-            <div className='motivation-card__content' dangerouslySetInnerHTML={{ __html: news.content }}></div>
+            <div className='post-interesting__content' dangerouslySetInnerHTML={{ __html: news.content }}></div>
           </div>
         </div>
       )}

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import './registration.scss'
 import photo from '../../assets/image/icon-camera-add.svg'
 import { Camera, CameraResultType } from '@capacitor/camera'
-import { useAppDispatch } from '../../utils/hooks/redux-hooks'
+import { useAppDispatch } from '../../hooks/redux-hooks'
 import {
   setAvatarRegistartion,
   setDisabledButton

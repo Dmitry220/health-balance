@@ -10,7 +10,7 @@ import {
   CHALLENGE_ROUTE,
   TEAM_SELECTION_ROUTE
 } from '../../provider/constants-route'
-import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import {
   challengeSelector,
   getChallengeById
@@ -112,16 +112,7 @@ export const NewChallengeInfo = () => {
             >
               Принять участие
             </div>
-          )}
-          {challenge.type === 3 && (
-            <>
-              {/* {' '}
-              <div className='new-challenge-info__title-block block-title'>
-                Лидеры челленджа
-              </div>
-              <ListLeadersChallenge items={itemsLeaders} role={roles.members} /> */}
-            </>
-          )}
+          )}          
         </>
       ) : (
         <Preloader />

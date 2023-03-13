@@ -1,7 +1,7 @@
 export interface ICreatingTracker{
-	wake_up_time: string,
-	weight: number,
-	fruits: number
+	wake_up_time?: string,
+	weight?: number,
+	fruits?: number
 }
 export interface IGetTracker{
 	id: number,
@@ -15,5 +15,6 @@ export interface ITrack{
 	additional: string,
 	send_time: number,
 	completed: boolean,
-	notification_send: boolean
+	notification_send: boolean,
+	sleep_time?: number
 }

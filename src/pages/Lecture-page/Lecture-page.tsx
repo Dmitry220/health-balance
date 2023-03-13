@@ -4,7 +4,7 @@ import Header from '../../Components/Header/Header'
 import { LectureTask } from '../../Components/Lecture/Lecture-task'
 import { Video } from '../../Components/Lecture/Video'
 import { LectureHead } from '../../Components/Lecture/Lecture-head'
-import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import {
   getLessonById,
   isLoadingSelector,

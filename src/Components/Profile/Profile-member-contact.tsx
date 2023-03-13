@@ -1,5 +1,5 @@
 import { infoUserSelector } from '../../Redux/slice/userSlice'
-import { useAppSelector } from '../../utils/hooks/redux-hooks'
+import { useAppSelector } from '../../hooks/redux-hooks'
 import './profile.scss'
 
 export const ProfileMemberContact = () => {

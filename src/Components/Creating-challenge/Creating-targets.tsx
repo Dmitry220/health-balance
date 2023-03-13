@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import './creating-challenge.scss'
 import icon_reward from '../../assets/image/icon_reward.svg'
-import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import {
   creatingPurposeSelector,
   setQuantityPurpose,

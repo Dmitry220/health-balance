@@ -1,7 +1,7 @@
 import './dynamics-page.scss'
 import { CardIndex } from '../../Components/Health-index-result/Card-index'
 import Header from '../../Components/Header/Header'
-import { useAppSelector } from '../../utils/hooks/redux-hooks'
+import { useAppSelector } from '../../hooks/redux-hooks'
 import { dynamicsSelector } from '../../Redux/slice/healthIndexSlice'
 import { Bar } from 'react-chartjs-2'
 import {

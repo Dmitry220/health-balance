@@ -4,7 +4,7 @@ import iconClock from '../../assets/image/Interesting/clock.svg'
 import { rubricConversion } from '../../utils/common-functions'
 import { INews } from '../../models/INews'
 import { Link } from 'react-router-dom'
-import { MOTIVATION_ROUTE } from '../../provider/constants-route'
+import { POST_INTERESTING_ROUTE } from '../../provider/constants-route'
 import { IMAGE_URL } from '../../http'
 import plug from '../../assets/image/plug.png'
 
@@ -17,7 +17,7 @@ export const CardInteresting: FC<ICardInteresting> = ({ dataNews }) => {
 
   return (
     <Link
-      to={MOTIVATION_ROUTE + '/' + dataNews.id}
+      to={POST_INTERESTING_ROUTE + '/' + dataNews.id}
       className='card-interesting'
     >
       <div className='card-interesting__container'>

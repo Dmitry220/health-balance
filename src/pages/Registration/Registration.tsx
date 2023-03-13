@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Header from '../../Components/Header/Header'
 import { RegistrationItem } from '../../Components/Registration/RegistrationItem'
-import { stageRegistration } from '../../types/enums'
+import { stageRegistration } from '../../utils/enums'
 
 export const RegistrationPage = () => {
   const [order, setOrder] = useState<number>(0)

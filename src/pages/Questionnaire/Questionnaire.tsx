@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './questionnaire.scss'
 import Header from '../../Components/Header/Header'
-import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import {
   answersQuestionnaireSelector,
   generateResultsPoll,
@@ -13,7 +13,7 @@ import {
   resetQuestionnaire
 } from '../../Redux/slice/healthIndexSlice'
 import { ProgressBar } from '../../Components/Progress-bar/Progress-bar'
-import { typesChallenge } from '../../types/enums'
+import { typesChallenge } from '../../utils/enums'
 import { HEALTH_INDEX_ROUTE } from '../../provider/constants-route'
 import TextQuiz from '../../Components/Quiz/TextQuiz'
 import {

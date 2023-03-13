@@ -8,7 +8,7 @@ import {
   deleteBasket,
   isLoadingSelector
 } from '../../Redux/slice/shopSlice'
-import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux-hooks'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import './shop.scss'
 import plug from '../../assets/image/plug.png'
 import plus from '../../assets/image/plus.svg'
