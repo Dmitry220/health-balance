@@ -28,14 +28,19 @@ import inst15 from '../../assets/image/instruction-challenges/Инструкци
 import inst16 from '../../assets/image/instruction-challenges/Инструкция челленджи 16.png'
 import inst17 from '../../assets/image/instruction-challenges/Инструкция челленджи 17.png'
 import { setVisitedChallengePage } from '../../Redux/slice/authSlice'
+import { useStatusBar } from '../../hooks/useStatusBar'
+import { Capacitor } from '@capacitor/core'
 
 interface ISwiperNextButton {
   customClass: string
 }
 
 export const InstructionsChallenge = () => {
+  const statusBar = useStatusBar()  
   return (
-    <div className='challenge-instruction'>
+    <div className='challenge-instruction' style={{
+      margin: Capacitor.getPlatform() === 'ios' ? `${-statusBar} -16px -16px -16px` : '-16px',      
+    }}>
       <Swiper
         modules={[Pagination, A11y]}
         slidesPerView={1}

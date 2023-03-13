@@ -21,6 +21,8 @@ import {
   visitPagesSelector
 } from '../../Redux/slice/authSlice'
 import { ICreatingTracker } from '../../models/ITracker'
+import { useStatusBar } from '../../hooks/useStatusBar'
+import { Capacitor } from '@capacitor/core'
 
 export const TrackerPage = () => {
   const trackerVisitCount = useAppSelector(visitPagesSelector)
@@ -44,6 +46,7 @@ export const TrackerPage = () => {
   const itemsMinutes = getItemsMinutes()
   const [hour, setHour] = useState<string>(12 + '')
   const [minutes, setMinutes] = useState<string>(30 + '')
+  const statusBar = useStatusBar()  
 
   const changeHour = (value: string) => setHour(value)
   const changeMinutes = (value: string) => setMinutes(value)
@@ -53,7 +56,9 @@ export const TrackerPage = () => {
   }
 
   return (
-    <div className={'tracker'}>
+    <div className={'tracker'} style={{
+      margin: Capacitor.getPlatform() === 'ios' ? `${-statusBar} -16px -16px -16px` : '-16px',   
+    }}>
       <Swiper
         modules={[Pagination, A11y]}
         className={'preview__swiper'}

@@ -9,6 +9,7 @@ import {
 } from '../../Redux/slice/settingsSlice'
 import { ChangeEvent, useState } from 'react'
 import { ModalFit } from '../../Components/Modals/Modal-fit'
+import Pedometer from '../../plugins/pedometer'
 
 export const SyncingPage = () => {
   const isGoogleFit = useAppSelector(isGoogleFitSelector)
@@ -20,8 +21,10 @@ export const SyncingPage = () => {
     if (isGoogleFit === 1) {
       setActiveModal(true)
       dispatch(setGoogleFit(2))
+      Pedometer.stop()
     } else {
       dispatch(setGoogleFit(1))
+      Pedometer.start()
     }
   }
 

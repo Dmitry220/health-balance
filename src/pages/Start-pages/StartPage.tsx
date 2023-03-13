@@ -28,6 +28,8 @@ import { Capacitor } from '@capacitor/core'
 import PurposeService from '../../services/PurposeService'
 import { Navigate } from 'react-router-dom'
 import AppService from '../../services/AppService'
+import { Target } from '../../Components/Target/Target'
+import { useStatusBar } from '../../hooks/useStatusBar'
 
 interface ISwiperNextButton {
   customClass: string
@@ -45,9 +47,10 @@ export const StartPage = () => {
   const dataUser = useAppSelector(dataUserSelector)
   const changeStep = (value: string) => setStepValue(value)
   const activityVisitCount = useAppSelector(visitPagesSelector)
+  const statusBar = useStatusBar()  
 
   useEffect(() => {
-    ;(async () => {
+    (async () => {
       if (Capacitor.getPlatform() === 'android') {
         const indexWeek = new Date().getDay() === 0 ? 7 : new Date().getDay()
         const startDateDay = new Date()
@@ -70,7 +73,9 @@ export const StartPage = () => {
   }
 
   return (
-    <div className='preview'>
+    <div className='preview' style={{
+      margin: Capacitor.getPlatform() === 'ios' ? `${-statusBar} -16px -16px -16px` : '-16px',      
+    }}>
       <Swiper
         modules={[Pagination, A11y]}
         className={'preview__swiper'}
@@ -131,7 +136,7 @@ export const StartPage = () => {
               <StepsData />
             </div>
             <div className='preview__sub-title'>Выполнением цели</div>
-            <div className='preview__target'>{/* <Target /> */}</div>
+            <div className='preview__target'><Target /></div>
           </div>
         </SwiperSlide>
         <SwiperSlide>

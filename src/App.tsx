@@ -12,11 +12,11 @@ import { POST_INTERESTING_ROUTE, TRACKER_ROUTE } from './provider/constants-rout
 import { SafeArea } from 'capacitor-plugin-safe-area'
 import { IUpdateUser } from './models/IUsers'
 import UserService from './services/UserServices'
+import { useStatusBar } from './hooks/useStatusBar'
 
 function App() {
   const navigate = useNavigate()
-  const [insetsHeight, setInsetsHeight] = useState<number>(0)
-  const [statusBarHeight, setStatusBarHeight] = useState<number>(0)
+  const statusBar = useStatusBar()  
 
   const handlerPush = () => {
     if (Capacitor.getPlatform() !== 'web') {
@@ -62,14 +62,7 @@ function App() {
       //Обработка пушей
       handlerPush()
     })
-
-    //Получение высоты статус бара для платформы IOS
-    SafeArea.getSafeAreaInsets().then((data) => {
-      setInsetsHeight(data.insets.top)
-    })
-    SafeArea.getStatusBarHeight().then(({ statusBarHeight }) => {
-      setStatusBarHeight(statusBarHeight)
-    })
+    
     //Обработчик событий для переход "назад"
     CapacitorApp.addListener('backButton', ({ canGoBack }: any) => {
       if (!canGoBack) {
@@ -86,7 +79,7 @@ function App() {
       style={{
         paddingTop:
           Capacitor.getPlatform() === 'ios'
-            ? insetsHeight + statusBarHeight + 20
+            ? statusBar + 20
             : 16
       }}
     >

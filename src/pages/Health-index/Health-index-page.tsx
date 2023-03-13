@@ -11,6 +11,8 @@ import { Questionnaire } from '../Questionnaire/Questionnaire'
 import { FC, useEffect, useState } from 'react'
 import HealthIndexService from '../../services/HealthIndexService'
 import { Preloader } from '../../Components/Preloader/Preloader'
+import { useStatusBar } from '../../hooks/useStatusBar'
+import { Capacitor } from '@capacitor/core'
 
 export const HealthIndexPage = () => {
 
@@ -18,7 +20,6 @@ export const HealthIndexPage = () => {
   const progressPoll = useAppSelector(progressPollSelector)
   const dynamics = useAppSelector(dynamicsSelector)
   const isLoading = useAppSelector(isLoadingSelector)
-
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -54,7 +55,7 @@ export const HealthIndexPage = () => {
 }
 
 export const StartQuestionaire: FC = () => {
-
+  const statusBar = useStatusBar() 
   const navigate = useNavigate()
 
   const startTesting = () => {
@@ -62,7 +63,9 @@ export const StartQuestionaire: FC = () => {
   }
 
   return (
-    <div className={'health-index'}>
+    <div className={'health-index'} style={{
+      margin: Capacitor.getPlatform() === 'ios' ? `${-statusBar} 0 0 0` : 0,      
+    }}>
       <Navigation />
       <div className='health-index__body'>
         <Link to={QUESTIONNAIRE_ROUTE} className='health-index__image'>

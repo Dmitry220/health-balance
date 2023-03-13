@@ -1,6 +1,7 @@
 import { Capacitor } from '@capacitor/core'
 import { SafeArea } from 'capacitor-plugin-safe-area'
 import { FC, useEffect, useState } from 'react'
+import { useStatusBar } from '../../hooks/useStatusBar'
 import './header.scss'
 
 interface HeaderProps {
@@ -17,27 +18,16 @@ export const Header: FC<HeaderProps> = ({
   additionalOnClick
 }) => {
 
-  const [insetsHeight, setInsetsHeight] = useState<number>(0)
-  const [statusBarHeight, setStatusBarHeight] = useState<number>(0)
+  const statusBar = useStatusBar()  
 
   const back = () => {
     window.history.back()
   }
 
-  useEffect(() => {  
-    SafeArea.getSafeAreaInsets().then((data) => {
-      setInsetsHeight(data.insets.top)
-    })
-    SafeArea.getStatusBarHeight().then(({ statusBarHeight }) => {
-      setStatusBarHeight(statusBarHeight)
-    })
-  }, [])
-
-
   return (
     <header className={'header ' + customClass} 
-    style={{ padding: Capacitor.getPlatform() === 'ios' ? `${(insetsHeight + statusBarHeight + 20)}px 16px 0 16px` : '0 16px',
-    height: Capacitor.getPlatform() === 'ios' ? insetsHeight + statusBarHeight : 53
+    style={{ padding: Capacitor.getPlatform() === 'ios' ? `${(statusBar + 20)}px 16px 0 16px` : '0 16px',
+    height: Capacitor.getPlatform() === 'ios' ? statusBar : 53
    }}
     >
       <div className='header__container'>
