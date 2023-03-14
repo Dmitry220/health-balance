@@ -10,6 +10,9 @@ public class DateHelper {
     public static final DateFormat dateFormat = new SimpleDateFormat(
             "ddMMyyy", Locale.US);
 
+    public static final DateFormat normalDateFormat = new SimpleDateFormat(
+            "dd.MM.yyyy", Locale.US);
+
     public DateHelper() {
     }
 

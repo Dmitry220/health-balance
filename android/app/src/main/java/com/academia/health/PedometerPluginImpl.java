@@ -9,6 +9,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.util.Log;
 
 import com.academia.health.api.StepPublisher;
 import com.academia.health.utils.DateHelper;
@@ -149,7 +150,8 @@ public class PedometerPluginImpl implements SensorEventListener {
         steps = (steps - this.startSteps) + lastNumberOfSteps;
 
         String token = sharedPrefManager.getToken();
-        String currentDate = DateHelper.dateFormat.format(new Date());
+        String currentDate = DateHelper.normalDateFormat.format(new Date());
+        Log.e("testtest", currentDate);
         stepPublisher.send(token, steps, currentDate);
         this.win(getStepsJSON(steps));
     }
