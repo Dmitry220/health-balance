@@ -24,7 +24,7 @@ export const SyncingPage = () => {
       Pedometer.stop()
     } else {
       dispatch(setGoogleFit(1))
-      Pedometer.start()
+      Pedometer.start(localStorage.getItem("token"))
     }
   }
 
