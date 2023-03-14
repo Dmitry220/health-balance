@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
+import android.util.Log;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -48,6 +49,7 @@ public class PedometerPlugin extends Plugin {
     private Boolean isDialogPresent = false;
     private Boolean isStartInvoked = false;
     private SharedPrefManager sharedPrefManager;
+    private static final String TAG = PedometerPlugin.class.getName();
 
     @Override
     public void load() {
@@ -132,6 +134,7 @@ public class PedometerPlugin extends Plugin {
 
     @PluginMethod
     public void start(PluginCall call) {
+        sharedPrefManager.setToken(call.getString("token"));
         isStartInvoked = true;
         askBatteryOptPermission();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

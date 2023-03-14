@@ -53,7 +53,7 @@ export const StartPage = () => {
     (async () => {
       if (Capacitor.getPlatform() === 'android') {
         //Старт шагомера и предоставления разрешений
-        await Pedometer.start(localStorage.getItem("token"))
+        await Pedometer.start({ token: localStorage.getItem("token")})
 
         //Установка значения с которого будет работать шагомер
         const indexWeek = new Date().getDay() === 0 ? 7 : new Date().getDay()

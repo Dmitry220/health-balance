@@ -16,6 +16,7 @@ public class SharedPrefManager {
     private static final String STE_KEY = "last_step_data_key";
     //    private static final String STE_COUNT_KEY = "last_step_count_data_key";
     private static final String BATTERY_OPTIMIZATION_DISABLED = "battery_opt_disabled";
+    private static final String TOKEN = "steps_token"; // Caution: easy to get access to this token
 
     private final Context context;
 
@@ -77,6 +78,18 @@ public class SharedPrefManager {
         //TODO: sometimes "currentDate" doesn't come in shared preferences, need to investigate later
         return Objects.requireNonNullElseGet(resultString, () -> DateHelper.dateFormat.format(new Date()));
 
+    }
+
+    public void setToken(String token) {
+        SharedPreferences settings = context.getSharedPreferences("prefs", 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString(TOKEN, token);
+        editor.apply();
+    }
+
+    public String getToken() {
+        SharedPreferences settings = context.getSharedPreferences("prefs", 0);
+        return settings.getString(TOKEN, "defaultData");
     }
 
     public void save(String data) {
