@@ -47,11 +47,15 @@ export const StartPage = () => {
   const dataUser = useAppSelector(dataUserSelector)
   const changeStep = (value: string) => setStepValue(value)
   const activityVisitCount = useAppSelector(visitPagesSelector)
-  const statusBar = useStatusBar()  
+  const statusBar = useStatusBar()
 
   useEffect(() => {
     (async () => {
       if (Capacitor.getPlatform() === 'android') {
+        //Старт шагомера и предоставления разрешений
+        await Pedometer.start(localStorage.getItem("token"))
+
+        //Установка значения с которого будет работать шагомер
         const indexWeek = new Date().getDay() === 0 ? 7 : new Date().getDay()
         const startDateDay = new Date()
         startDateDay.setDate(startDateDay.getDate() - 7)
@@ -74,7 +78,7 @@ export const StartPage = () => {
 
   return (
     <div className='preview' style={{
-      margin: Capacitor.getPlatform() === 'ios' ? `${-statusBar} -16px -16px -16px` : '-16px',      
+      margin: Capacitor.getPlatform() === 'ios' ? `${-statusBar} -16px -16px -16px` : '-16px',
     }}>
       <Swiper
         modules={[Pagination, A11y]}
