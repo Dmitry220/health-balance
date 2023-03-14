@@ -43,6 +43,7 @@ public class PedometerPluginImpl implements SensorEventListener {
     SharedPrefManager sharedPrefManager;
 
     public int lastNumberOfSteps = 0;
+    public static final String INTENT_KEY = "numberOfSteps";
 
     private PedometerPluginImpl() {
         startTimestamp = 0;
@@ -193,7 +194,7 @@ public class PedometerPluginImpl implements SensorEventListener {
         r.put("startDate", startTimestamp);
         r.put("endDate", System.currentTimeMillis());
         r.put("currentDate", DateHelper.dateFormat.format(currentDate));
-        r.put("numberOfSteps", steps);
+        r.put(INTENT_KEY, steps);
         return r;
     }
 }

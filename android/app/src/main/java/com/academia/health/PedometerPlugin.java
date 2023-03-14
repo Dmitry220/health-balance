@@ -1,5 +1,7 @@
 package com.academia.health;
 
+import static com.academia.health.PedometerPluginImpl.INTENT_KEY;
+
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -120,7 +122,7 @@ public class PedometerPlugin extends Plugin {
 
     @PluginMethod
     public void setData(PluginCall call) {
-        int stepsFromIonic = call.getInt("numberOfSteps", 0);
+        int stepsFromIonic = call.getInt(INTENT_KEY, 0);
 
         sharedPrefManager.save(String.valueOf(PedometerPluginImpl.getStepsJSON(stepsFromIonic)));
         plugin.lastNumberOfSteps = stepsFromIonic;

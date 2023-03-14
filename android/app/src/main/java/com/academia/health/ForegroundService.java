@@ -1,5 +1,7 @@
 package com.academia.health;
 
+import static com.academia.health.PedometerPluginImpl.INTENT_KEY;
+
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -65,7 +67,7 @@ public class ForegroundService extends Service {
 
             int steps = 0;
             try {
-                steps = data.getInt("numberOfSteps");
+                steps = data.getInt(INTENT_KEY);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -85,7 +87,7 @@ public class ForegroundService extends Service {
         }
 
         Intent intent = new Intent(context, ForegroundService.class);
-        intent.putExtra("numberOfSteps", message);
+        intent.putExtra(INTENT_KEY, message);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             ContextCompat.startForegroundService(context, intent);
         } else {
@@ -105,7 +107,7 @@ public class ForegroundService extends Service {
         startWakeLock();
         String input = "Предоставьте разрешение на физическую активность и снова откройте приложение!";
         if (intent != null) {
-            input = intent.getStringExtra("numberOfSteps");
+            input = intent.getStringExtra(INTENT_KEY);
         }
 
         createNotificationChannel();
