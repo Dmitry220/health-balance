@@ -187,7 +187,8 @@ export const SlideNextButton: FC<ISwiperNextButton> = ({
       )
       if (response.data.data.statistic) {
         await Pedometer.setData({
-          numberOfSteps: response.data.data.statistic[indexWeek].quantity
+          numberOfSteps: response.data.data.statistic[indexWeek].quantity,
+          token: localStorage.getItem('token')
         })
       }
     }

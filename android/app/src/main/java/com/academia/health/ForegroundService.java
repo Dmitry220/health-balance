@@ -74,13 +74,16 @@ public class ForegroundService extends Service {
 
             sharedPrefManager.save(String.valueOf(data));
             updateContent(String.valueOf(steps));
-
         };
 
         registerReceiver(m_timeChangedReceiver, DayChangedBroadcastReceiver.getIntentFilter());
     }
 
     public static void startService(Context context, String message) {
+        if (context == null) {
+            return;
+        }
+
         if (isServiceRunning) {
             updateContent(message);
             return;
@@ -145,6 +148,10 @@ public class ForegroundService extends Service {
     }
 
     private static void updateContent(String message) {
+        if (mContext == null) {
+            return;
+        }
+
         PendingIntent pendingIntent = PendingIntent.getActivity(mContext,
                 0, new Intent(mContext, MainActivity.class),
                 PendingIntent.FLAG_IMMUTABLE);
