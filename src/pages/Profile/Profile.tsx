@@ -46,7 +46,8 @@ export const Profile = () => {
       <ModalExit
         actionCallback={async () => {
           if (Capacitor.getPlatform() === 'android') {
-            Pedometer.reset()
+            await Pedometer.reset()
+            await Pedometer.stop()
           }
           await TrackerService.deleteTracker()
           await persistor.purge()

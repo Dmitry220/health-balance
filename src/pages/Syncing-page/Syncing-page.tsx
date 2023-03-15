@@ -7,7 +7,7 @@ import {
   isGoogleFitSelector,
   setGoogleFit
 } from '../../Redux/slice/settingsSlice'
-import { ChangeEvent, useState } from 'react'
+import { useState } from 'react'
 import { ModalFit } from '../../Components/Modals/Modal-fit'
 import Pedometer from '../../plugins/pedometer'
 
@@ -17,16 +17,15 @@ export const SyncingPage = () => {
 
   const [activeModal, setActiveModal] = useState<boolean>(false)
 
-  const togleGoogleFit = () => {
+  const toggleGoogleFit = async () => {
     if (isGoogleFit === 1) {
       setActiveModal(true)
       dispatch(setGoogleFit(2))
-      Pedometer.stop()
+      await Pedometer.reset()
+      await Pedometer.stop()
     } else {
       dispatch(setGoogleFit(1))
-      Pedometer.start({
-        token: localStorage.getItem("token")
-      })
+      await Pedometer.start({ token: localStorage.getItem('token') })
     }
   }
 
@@ -46,7 +45,7 @@ export const SyncingPage = () => {
                   name={'radio'}
                   className={'custom-checkbox__checkbox'}
                   id={'1'}
-                  onChange={togleGoogleFit}
+                  onChange={toggleGoogleFit}
                 />
                 <label htmlFor={'1'}>
                   <div className='sync-page__column'>
@@ -68,7 +67,7 @@ export const SyncingPage = () => {
                 name={'radio'}
                 className={'custom-checkbox__checkbox'}
                 id={'2'}
-                onChange={togleGoogleFit}
+                onChange={toggleGoogleFit}
               />
               <label htmlFor={'2'}>
                 <div className='sync-page__column'>
@@ -84,35 +83,43 @@ export const SyncingPage = () => {
       )} */}
 
       <h1 className='sync-page__head'>Google Fit Синхронизация</h1>
-      <div className="sync-page__text">
-        Google Fit — это открытая платформа, которая позволяет вам контролировать свои данные о фитнесе из нескольких приложений и устройств
+      <div className='sync-page__text'>
+        Google Fit — это открытая платформа, которая позволяет вам
+        контролировать свои данные о фитнесе из нескольких приложений и
+        устройств
       </div>
-      <div className="sync-page__row handler-sync">
-        <div className="handler-sync__column">  
-          <button className='button-google-fit' onClick={togleGoogleFit}>
-            <img className='button-google-fit__logo' src={google} alt="google" />
+      <div className='sync-page__row handler-sync'>
+        <div className='handler-sync__column'>
+          <button className='button-google-fit' onClick={toggleGoogleFit}>
+            <img
+              className='button-google-fit__logo'
+              src={google}
+              alt='google'
+            />
             <div className='button-google-fit__title'>
               {isGoogleFit === 1 ? 'Активировать' : 'Отключить'} Google Fit
             </div>
           </button>
-          <div className="handler-sync__text">
-            Синхронизируйте Health Balance с Google Fit. Подключение к Google Fit позволяет просматривать данные о шагах за последние 3 месяца
+          <div className='handler-sync__text'>
+            Синхронизируйте Health Balance с Google Fit. Подключение к Google
+            Fit позволяет просматривать данные о шагах за последние 3 месяца
           </div>
         </div>
       </div>
 
-      <div className="sync-page__note">
+      <div className='sync-page__note'>
         * Вы можете отключиться от Google Fit в любое время
       </div>
-      {
-        activeModal &&
+      {activeModal && (
         <ModalFit active={activeModal} setActive={setActiveModal}>
-          Приложение будет использовать https://www.googleapis.com/auth/fitness.activity.read для отображения
-          данных шагов из Google Fit пользователя на странице активности приложения,
-          чтобы пользователи могли просматривать пройденное количество шагов через приложение и синхронизировать изменения с Google Fit.
+          Приложение будет использовать
+          https://www.googleapis.com/auth/fitness.activity.read для отображения
+          данных шагов из Google Fit пользователя на странице активности
+          приложения, чтобы пользователи могли просматривать пройденное
+          количество шагов через приложение и синхронизировать изменения с
+          Google Fit.
         </ModalFit>
-
-      }
+      )}
 
       {/* <div className='sync-page__item'>
         <div className='sync-page__column'>

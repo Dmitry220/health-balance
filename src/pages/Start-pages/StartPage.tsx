@@ -50,36 +50,30 @@ export const StartPage = () => {
   const statusBar = useStatusBar()
 
   useEffect(() => {
-    (async () => {
-      if (Capacitor.getPlatform() === 'android') {
-        //Старт шагомера и предоставления разрешений
-        await Pedometer.start({ token: localStorage.getItem("token")})
-
-        //Установка значения с которого будет работать шагомер
-        const indexWeek = new Date().getDay() === 0 ? 7 : new Date().getDay()
-        const startDateDay = new Date()
-        startDateDay.setDate(startDateDay.getDate() - 7)
-        const response = await AppService.getStepsPerDay(
-          startDateDay.toLocaleDateString(),
-          new Date().toLocaleDateString()
-        )
-        if (response.data.data.statistic) {
-          await Pedometer.setData({
-            numberOfSteps: response.data.data.statistic[indexWeek].quantity
-          })
-        }
-      }
-    })()
+    startPlugin()
   }, [])
+
+  async function startPlugin() {
+    if (Capacitor.getPlatform() === 'android') {
+      // Старт шагомера и предоставления разрешений
+      await Pedometer.start({ token: localStorage.getItem('token') })
+    }
+  }
 
   if (activityVisitCount.activity === 1) {
     return <Navigate to={ACTIVITY_ROUTE} />
   }
 
   return (
-    <div className='preview' style={{
-      margin: Capacitor.getPlatform() === 'ios' ? `${-statusBar} -16px -16px -16px` : '-16px',
-    }}>
+    <div
+      className='preview'
+      style={{
+        margin:
+          Capacitor.getPlatform() === 'ios'
+            ? `${-statusBar} -16px -16px -16px`
+            : '-16px'
+      }}
+    >
       <Swiper
         modules={[Pagination, A11y]}
         className={'preview__swiper'}
@@ -140,7 +134,9 @@ export const StartPage = () => {
               <StepsData />
             </div>
             <div className='preview__sub-title'>Выполнением цели</div>
-            <div className='preview__target'><Target /></div>
+            <div className='preview__target'>
+              <Target />
+            </div>
           </div>
         </SwiperSlide>
         <SwiperSlide>
@@ -175,23 +171,34 @@ export const SlideNextButton: FC<ISwiperNextButton> = ({
   quantity
 }) => {
   const swiper = useSwiper()
-  const [title, setTitle] = useState<string>('Я в деле!')
+  const [title, setTitle] = useState<string>('Далее')
   const type = 1
   const dispatch = useAppDispatch()
+
+  async function syncSteps() {
+    if (Capacitor.getPlatform() === 'android') {
+      // Установка значения с которого будет работать шагомер
+      const indexWeek = new Date().getDay() === 0 ? 7 : new Date().getDay()
+      const startDateDay = new Date()
+      startDateDay.setDate(startDateDay.getDate() - 7)
+      const response = await AppService.getStepsPerDay(
+        startDateDay.toLocaleDateString(),
+        new Date().toLocaleDateString()
+      )
+      if (response.data.data.statistic) {
+        await Pedometer.setData({
+          numberOfSteps: response.data.data.statistic[indexWeek].quantity
+        })
+      }
+    }
+  }
 
   swiper.on('slideChange', function () {
     switch (swiper.activeIndex) {
       case 1:
-        setTitle('Просто!')
-        break
       case 2:
-        setTitle('Дальше')
-        break
       case 3:
-        setTitle('Дальше')
-        break
-      case 4:
-        setTitle('Наслаждайся!')
+        setTitle('Далее')
         break
       default:
         break
@@ -199,7 +206,10 @@ export const SlideNextButton: FC<ISwiperNextButton> = ({
   })
 
   const next = async () => {
-    if (swiper.activeIndex === 4) {
+    if (swiper.activeIndex === 2) {
+      await syncSteps()
+    }
+    if (swiper.activeIndex === 3) {
       const isCompletedPurposeResponse =
         await PurposeService.isCompletedPurpose()
       if (!isCompletedPurposeResponse.data.data.length) {
