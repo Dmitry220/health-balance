@@ -206,10 +206,10 @@ export const SlideNextButton: FC<ISwiperNextButton> = ({
   })
 
   const next = async () => {
-    if (swiper.activeIndex === 2) {
+    if (swiper.activeIndex === 3) {
       await syncSteps()
     }
-    if (swiper.activeIndex === 3) {
+    if (swiper.activeIndex === 4) {
       const isCompletedPurposeResponse =
         await PurposeService.isCompletedPurpose()
       if (!isCompletedPurposeResponse.data.data.length) {
