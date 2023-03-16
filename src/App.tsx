@@ -77,7 +77,7 @@ function App() {
       style={{
         paddingTop:
           Capacitor.getPlatform() === 'ios'
-            ? statusBar + 20
+            ? +statusBar + 20
             : 16
       }}
     >

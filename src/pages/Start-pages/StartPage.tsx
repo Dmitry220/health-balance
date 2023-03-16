@@ -70,7 +70,7 @@ export const StartPage = () => {
       style={{
         margin:
           Capacitor.getPlatform() === 'ios'
-            ? `${-statusBar} -16px -16px -16px`
+            ? `-${statusBar} -16px -16px -16px`
             : '-16px'
       }}
     >
