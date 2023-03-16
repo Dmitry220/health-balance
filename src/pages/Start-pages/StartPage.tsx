@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useCallback, useEffect, useMemo, useState } from 'react'
 import { Pagination, A11y } from 'swiper'
 import { Swiper, SwiperSlide, useSwiper } from 'swiper/react'
 
@@ -171,11 +171,11 @@ export const SlideNextButton: FC<ISwiperNextButton> = ({
   quantity
 }) => {
   const swiper = useSwiper()
-  const [title, setTitle] = useState<string>('Далее')
   const type = 1
   const dispatch = useAppDispatch()
 
   async function syncSteps() {
+    console.log('async');
     if (Capacitor.getPlatform() === 'android') {
       // Установка значения с которого будет работать шагомер
       const indexWeek = new Date().getDay() === 0 ? 7 : new Date().getDay()
@@ -194,23 +194,18 @@ export const SlideNextButton: FC<ISwiperNextButton> = ({
     }
   }
 
-  swiper.on('slideChange', function () {
-    switch (swiper.activeIndex) {
-      case 1:
-      case 2:
-      case 3:
-        setTitle('Далее')
-        break
-      default:
-        break
-    }
-  })
-
-  const next = async () => {
-    if (swiper.activeIndex === 3) {
+  const slideChange = useCallback(async () => {
+    if (swiper.activeIndex === 4) {
       await syncSteps()
     }
+  }, [swiper.activeIndex]);
+
+  swiper.on('slideChange', slideChange)
+
+  const next = async () => {
     if (swiper.activeIndex === 4) {
+      console.log('popal');
+
       const isCompletedPurposeResponse =
         await PurposeService.isCompletedPurpose()
       if (!isCompletedPurposeResponse.data.data.length) {
@@ -223,7 +218,7 @@ export const SlideNextButton: FC<ISwiperNextButton> = ({
 
   return (
     <button className={customClass} onClick={next}>
-      {title}
+      Далее
     </button>
   )
 }
