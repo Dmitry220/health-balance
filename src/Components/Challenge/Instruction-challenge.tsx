@@ -39,7 +39,7 @@ export const InstructionsChallenge = () => {
   const statusBar = useStatusBar()  
   return (
     <div className='challenge-instruction' style={{
-      margin: Capacitor.getPlatform() === 'ios' ? `${-statusBar} -16px -16px -16px` : '-16px',      
+      margin: Capacitor.getPlatform() === 'ios' ? `-${statusBar} -16px -16px -16px` : '-16px',      
     }}>
       <Swiper
         modules={[Pagination, A11y]}
@@ -172,7 +172,7 @@ export const SlideNextButton: FC<ISwiperNextButton> = ({ customClass }) => {
   }
 
   return (
-    <button className={customClass} onClick={next} style={{ bottom: 70 }}>
+    <button className={customClass} onClick={next} >
       {title}
     </button>
   )

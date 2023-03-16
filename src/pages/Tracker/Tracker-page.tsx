@@ -57,7 +57,7 @@ export const TrackerPage = () => {
 
   return (
     <div className={'tracker'} style={{
-      margin: Capacitor.getPlatform() === 'ios' ? `${-statusBar} -16px -16px -16px` : '-16px',   
+      margin: Capacitor.getPlatform() === 'ios' ? `-${statusBar} -16px -16px -16px` : '-16px',   
     }}>
       <Swiper
         modules={[Pagination, A11y]}
@@ -225,7 +225,7 @@ const SlideNextButton: FC<ISwiperNextButton> = ({
   }
 
   return (
-    <button className={customClass} onClick={next} style={{ bottom: 70 }}>
+    <button className={customClass} onClick={next}>
       Дальше
     </button>
   )

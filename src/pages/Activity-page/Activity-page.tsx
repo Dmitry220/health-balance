@@ -1,7 +1,7 @@
-import {FC, useEffect, useRef, useState} from 'react'
-import {Capacitor} from '@capacitor/core'
+import { FC, useEffect, useRef, useState } from 'react'
+import { Capacitor } from '@capacitor/core'
 
-import {Health} from '@awesome-cordova-plugins/health'
+import { Health } from '@awesome-cordova-plugins/health'
 import Pedometer from '../../plugins/pedometer'
 
 import 'swiper/scss'
@@ -9,19 +9,21 @@ import 'swiper/scss/navigation'
 import 'swiper/scss/pagination'
 import 'swiper/scss/scrollbar'
 
-import {Steps} from '../../Components/Steps/Steps'
-import {Navigation} from '../../Components/Navigation/Navigation'
+import { Steps } from '../../Components/Steps/Steps'
+import { Navigation } from '../../Components/Navigation/Navigation'
 import './activity-page.scss'
-import {StepsData} from '../../Components/Steps-data/Steps-data'
+import { StepsData } from '../../Components/Steps-data/Steps-data'
 import HeaderActive from '../../Components/Header-active/Header-active'
-import {Target} from '../../Components/Target/Target'
-import {TopRating} from '../../Components/Top-rating/Top-rating'
-import {useAppDispatch, useAppSelector} from '../../hooks/redux-hooks'
-import {purposeSelector} from '../../Redux/slice/purposeSlice'
-import {currentStepsCountSelector, setCurrentStepsCount} from '../../Redux/slice/appSlice'
-import {isGoogleFitSelector} from '../../Redux/slice/settingsSlice'
-import {Charts} from "../../Components/Charts/Charts";
-
+import { Target } from '../../Components/Target/Target'
+import { TopRating } from '../../Components/Top-rating/Top-rating'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
+import { purposeSelector } from '../../Redux/slice/purposeSlice'
+import {
+  currentStepsCountSelector,
+  setCurrentStepsCount
+} from '../../Redux/slice/appSlice'
+import { isGoogleFitSelector } from '../../Redux/slice/settingsSlice'
+import { Charts } from '../../Components/Charts/Charts'
 
 export const ActivityPage: FC = () => {
   const dispatch = useAppDispatch()
@@ -82,7 +84,6 @@ export const ActivityPage: FC = () => {
     let steps = savedData['numberOfSteps'] || '0'
 
     dispatch(setCurrentStepsCount(steps))
-
 
     window.addEventListener('stepEvent', updateSteps)
   }
@@ -173,5 +174,3 @@ export const ActivityPage: FC = () => {
     </div>
   )
 }
-
-

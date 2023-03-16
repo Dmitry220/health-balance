@@ -64,7 +64,7 @@ export const StartQuestionaire: FC = () => {
 
   return (
     <div className={'health-index'} style={{
-      margin: Capacitor.getPlatform() === 'ios' ? `${-statusBar} 0 0 0` : 0,      
+      margin: Capacitor.getPlatform() === 'ios' ? `-${statusBar} 0 0 0` : 0,      
     }}>
       <Navigation />
       <div className='health-index__body'>

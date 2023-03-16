@@ -188,7 +188,7 @@ public class PedometerPlugin extends Plugin {
             startExecution();
             return;
         }
-        if(ContextCompat.checkSelfPermission(getActivity(),
+        if (ContextCompat.checkSelfPermission(getActivity(),
                 android.Manifest.permission.ACTIVITY_RECOGNITION) ==
                 PackageManager.PERMISSION_GRANTED) {
             startExecution();
