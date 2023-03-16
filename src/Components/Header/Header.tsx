@@ -28,7 +28,7 @@ export const Header: FC<HeaderProps> = ({
 
   return (
     <header className={'header ' + customClass} 
-    style={{ padding: Capacitor.getPlatform() === 'ios' ? `${(+statusBar + 20)}px 16px 0 16px` : '0 16px',
+    style={{ padding: Capacitor.getPlatform() === 'ios' ? `${(+statusBar + 20)}px 16px 24px 16px` : '0 16px',
     height: Capacitor.getPlatform() === 'ios' ? statusBar : 53
    }}
     >
@@ -37,11 +37,8 @@ export const Header: FC<HeaderProps> = ({
           className='header__back icon-icon_back'
           onClick={back}
           style={{
-            top: Capacitor.getPlatform() === 'ios' ? '50%' : 21,
-            transform:
-              Capacitor.getPlatform() === 'ios'
-                ? 'translateY(-50%)'
-                : 'translateY(0)'
+            top: '50%',
+            transform:'translateY(-50%)'             
           }}
         />
         <div className='header__title'>{title}</div>
