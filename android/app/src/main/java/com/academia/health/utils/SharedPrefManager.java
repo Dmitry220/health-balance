@@ -24,9 +24,10 @@ public class SharedPrefManager {
         this.context = context;
     }
 
-    public void clearAll() {
+    public void clearStepsData() {
         SharedPreferences settings = context.getSharedPreferences("prefs", 0);
-        settings.edit().clear().apply();
+        settings.edit().remove(STE_KEY).apply();
+        settings.edit().remove(BATTERY_OPTIMIZATION_DISABLED).apply();
     }
 
     public boolean isNotSameDay() {
@@ -48,7 +49,7 @@ public class SharedPrefManager {
         try {
             Date savedDate = DateHelper.dateFormat.parse(getLastDate());
             if (!DateHelper.isSameDay(savedDate)) {
-                clearAll();
+                clearStepsData();
                 return 0;
             }
         } catch (ParseException e) {

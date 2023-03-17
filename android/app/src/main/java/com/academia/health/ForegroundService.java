@@ -12,16 +12,21 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.IBinder;
 import android.os.PowerManager;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
 import androidx.core.content.ContextCompat;
 
+import com.academia.health.api.StepPublisher;
+import com.academia.health.utils.DateHelper;
 import com.academia.health.utils.DayChangedBroadcastReceiver;
 import com.academia.health.utils.PedometerWorker;
 import com.academia.health.utils.SharedPrefManager;
 
 import org.json.JSONException;
+
+import java.util.Date;
 
 public class ForegroundService extends Service {
     private static final String CHANNEL_ID = "com.pedometer.weedoweb";
@@ -44,6 +49,8 @@ public class ForegroundService extends Service {
     private final String TAG = ForegroundService.class.toString();
 
     private static Boolean isServiceRunning = false;
+    private final StepPublisher stepPublisher = new StepPublisher();
+    private SharedPrefManager sharedPrefManager;
 
     @Override
     public void onCreate() {
@@ -53,7 +60,7 @@ public class ForegroundService extends Service {
 
         mContext = this;
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        SharedPrefManager sharedPrefManager = new SharedPrefManager(this);
+        sharedPrefManager = new SharedPrefManager(this);
 
         plugin = PedometerPluginImpl.getInstance();
         plugin.initialize(this);
@@ -74,6 +81,11 @@ public class ForegroundService extends Service {
 
             sharedPrefManager.save(String.valueOf(data));
             updateContent(String.valueOf(steps));
+
+
+            String token = sharedPrefManager.getToken();
+            String currentDate = DateHelper.normalDateFormat.format(new Date());
+            stepPublisher.send(token, steps, currentDate);
         };
 
         registerReceiver(m_timeChangedReceiver, DayChangedBroadcastReceiver.getIntentFilter());

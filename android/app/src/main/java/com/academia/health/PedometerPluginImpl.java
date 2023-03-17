@@ -46,7 +46,6 @@ public class PedometerPluginImpl implements SensorEventListener {
 
     public int lastNumberOfSteps = 0;
     public static final String INTENT_KEY = "numberOfSteps";
-    private final StepPublisher stepPublisher = new StepPublisher();
 
     private PedometerPluginImpl() {
         startTimestamp = 0;
@@ -149,17 +148,13 @@ public class PedometerPluginImpl implements SensorEventListener {
 
         steps = (steps - this.startSteps) + lastNumberOfSteps;
 
-        String token = sharedPrefManager.getToken();
-        String currentDate = DateHelper.normalDateFormat.format(new Date());
-        Log.e("testtest", currentDate);
-        stepPublisher.send(token, steps, currentDate);
         this.win(getStepsJSON(steps));
     }
 
     public void reset() {
         this.startSteps = 0;
         this.lastNumberOfSteps = 0;
-        this.sharedPrefManager.clearAll();
+        this.sharedPrefManager.clearStepsData();
         if (this.listener != null) {
             this.listener.onReceived(getStepsJSON(0));
         }
@@ -167,12 +162,6 @@ public class PedometerPluginImpl implements SensorEventListener {
         if (this.listenerForService != null) {
             this.listenerForService.onReceived(getStepsJSON(0));
         }
-
-        // Duplicate code - refactor later
-        String token = sharedPrefManager.getToken();
-        String currentDate = DateHelper.normalDateFormat.format(new Date());
-        Log.e("testtest", currentDate);
-        stepPublisher.send(token, 0, currentDate);
     }
 
     // Sends an error back to JS
