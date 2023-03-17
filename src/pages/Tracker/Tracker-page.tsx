@@ -46,7 +46,7 @@ export const TrackerPage = () => {
   const itemsMinutes = getItemsMinutes()
   const [hour, setHour] = useState<string>(12 + '')
   const [minutes, setMinutes] = useState<string>(30 + '')
-  const statusBar = useStatusBar()  
+  const statusBar = useStatusBar()
 
   const changeHour = (value: string) => setHour(value)
   const changeMinutes = (value: string) => setMinutes(value)
@@ -56,9 +56,15 @@ export const TrackerPage = () => {
   }
 
   return (
-    <div className={'tracker'} style={{
-      margin: Capacitor.getPlatform() === 'ios' ? `-${statusBar} -16px -16px -16px` : '-16px',   
-    }}>
+    <div
+      className={'tracker'}
+      style={{
+        margin:
+          Capacitor.getPlatform() === 'ios'
+            ? `-${statusBar} -16px -16px -16px`
+            : '-16px'
+      }}
+    >
       <Swiper
         modules={[Pagination, A11y]}
         className={'preview__swiper'}
@@ -210,11 +216,11 @@ const SlideNextButton: FC<ISwiperNextButton> = ({
   const next = async () => {
     switch (swiper.activeIndex) {
       case 3:
-        const data:ICreatingTracker ={
+        const data: ICreatingTracker = {
           fruits: +fruits,
           wake_up_time,
           weight: +weight
-        }        
+        }
         await TrackerService.creatingTracker(data)
         dispatch(setVisitedTrackerPage(1))
         break
@@ -225,7 +231,9 @@ const SlideNextButton: FC<ISwiperNextButton> = ({
   }
 
   return (
-    <button className={customClass} onClick={next}>
+    <button className={customClass} onClick={next} style={{
+      bottom:  Capacitor.getPlatform() === 'ios' ? 80 : 50
+    }}>
       Дальше
     </button>
   )

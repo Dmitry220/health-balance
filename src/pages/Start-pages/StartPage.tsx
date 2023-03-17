@@ -175,7 +175,6 @@ export const SlideNextButton: FC<ISwiperNextButton> = ({
   const dispatch = useAppDispatch()
 
   async function syncSteps() {
-    console.log('async');
     if (Capacitor.getPlatform() === 'android') {
       // Установка значения с которого будет работать шагомер
       const indexWeek = new Date().getDay() === 0 ? 7 : new Date().getDay()
@@ -198,14 +197,12 @@ export const SlideNextButton: FC<ISwiperNextButton> = ({
     if (swiper.activeIndex === 4) {
       await syncSteps()
     }
-  }, [swiper.activeIndex]);
+  }, [swiper.activeIndex])
 
   swiper.on('slideChange', slideChange)
 
   const next = async () => {
     if (swiper.activeIndex === 4) {
-      console.log('popal');
-
       const isCompletedPurposeResponse =
         await PurposeService.isCompletedPurpose()
       if (!isCompletedPurposeResponse.data.data.length) {
@@ -217,7 +214,9 @@ export const SlideNextButton: FC<ISwiperNextButton> = ({
   }
 
   return (
-    <button className={customClass} onClick={next}>
+    <button className={customClass} onClick={next} style={{
+      bottom:  Capacitor.getPlatform() === 'ios' ? 80 : 50
+    }}>
       Далее
     </button>
   )
