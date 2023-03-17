@@ -405,7 +405,7 @@ export const DynamicsPage = () => {
         spaceBetween={16}
         slidesPerView={1.1}
         pagination={{
-          clickable: false,
+          clickable: true,
           bulletClass: 'dynamic-bullet',
           bulletActiveClass: 'dynamic-bullet_active',
           modifierClass: 'mod'

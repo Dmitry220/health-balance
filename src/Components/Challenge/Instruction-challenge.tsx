@@ -50,7 +50,7 @@ export const InstructionsChallenge = () => {
       <Swiper
         modules={[Pagination, A11y]}
         slidesPerView={1}
-        pagination={{ clickable: false }}
+        pagination={{ clickable: true }}
         spaceBetween={50}
         className={'challenge-instruction__swiper'}
       >
@@ -178,7 +178,9 @@ export const SlideNextButton: FC<ISwiperNextButton> = ({ customClass }) => {
   }
 
   return (
-    <button className={customClass} onClick={next}>
+    <button className={customClass} onClick={next} style={{
+      bottom:  Capacitor.getPlatform() === 'ios' ? 80 : 50
+    }}>
       {title}
     </button>
   )

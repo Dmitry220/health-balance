@@ -69,7 +69,7 @@ export const TrackerPage = () => {
         modules={[Pagination, A11y]}
         className={'preview__swiper'}
         slidesPerView={1}
-        pagination={{ clickable: false }}
+        pagination={{ clickable: true }}
         spaceBetween={50}
       >
         <SwiperSlide>
@@ -231,7 +231,9 @@ const SlideNextButton: FC<ISwiperNextButton> = ({
   }
 
   return (
-    <button className={customClass} onClick={next}>
+    <button className={customClass} onClick={next} style={{
+      bottom:  Capacitor.getPlatform() === 'ios' ? 80 : 50
+    }}>
       Дальше
     </button>
   )
