@@ -54,9 +54,10 @@ export const HealthySleep: FC<IHealthySleep> = ({ editProhibition,date=new Date(
     let difference = daysAdditional.length - tracks.sleepTrack.length
 
     for (let i = difference - 1; i >= 0; i--) {  
+      let indexType = (i === difference - 1 && (tracks.sleepTrack[0]?.additional != tracks.sleepTrack[1]?.additional)) ? (tracks.sleepTrack[0]?.type === 4 ? 1 : 4) : (i%2 === 0 ? 4:1)
         pushArray.unshift({
           id: outputArray.length - i,
-          type: i === difference - 1 ? (tracks.sleepTrack[0]?.type === 4 ? 1 : 4) : (i%2 === 0 ? 4:1),
+          type: indexType,
           additional: daysAdditional[i],
           completed: i === difference - 1 && i % 2 === 0,
           notification_send: i === difference - 1 && i % 2 === 0,
@@ -66,6 +67,9 @@ export const HealthySleep: FC<IHealthySleep> = ({ editProhibition,date=new Date(
     setOutputArray(pushArray)
     setCurrentDay(tracks.sleepTrack.find(item => item.additional === daysWeek[indexWeek] && item.type === 1))
   }, [tracks])
+
+  console.log(outputArray);
+  
 
   const redirectToChangeTrack = () => {
     confirmAlert({
