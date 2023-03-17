@@ -78,7 +78,7 @@ export const StartPage = () => {
         modules={[Pagination, A11y]}
         className={'preview__swiper'}
         slidesPerView={1}
-        pagination={{ clickable: true }}
+        pagination={{ clickable: false }}
         spaceBetween={50}
       >
         <SwiperSlide>
@@ -175,7 +175,6 @@ export const SlideNextButton: FC<ISwiperNextButton> = ({
   const dispatch = useAppDispatch()
 
   async function syncSteps() {
-    console.log('async');
     if (Capacitor.getPlatform() === 'android') {
       // Установка значения с которого будет работать шагомер
       const indexWeek = new Date().getDay() === 0 ? 7 : new Date().getDay()
@@ -198,14 +197,12 @@ export const SlideNextButton: FC<ISwiperNextButton> = ({
     if (swiper.activeIndex === 4) {
       await syncSteps()
     }
-  }, [swiper.activeIndex]);
+  }, [swiper.activeIndex])
 
   swiper.on('slideChange', slideChange)
 
   const next = async () => {
     if (swiper.activeIndex === 4) {
-      console.log('popal');
-
       const isCompletedPurposeResponse =
         await PurposeService.isCompletedPurpose()
       if (!isCompletedPurposeResponse.data.data.length) {

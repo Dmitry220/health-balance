@@ -15,25 +15,49 @@ import { useAppSelector } from '../../hooks/redux-hooks'
 import { Preloader } from '../Preloader/Preloader'
 import { sklonenie } from '../../utils/common-functions'
 import { confirmAlert } from 'react-confirm-alert'
-import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+import 'react-confirm-alert/src/react-confirm-alert.css' // Import css
 
 interface IHealthySleep {
-  editProhibition?: boolean,
+  editProhibition?: boolean
   date?: string
 }
-export const HealthySleep: FC<IHealthySleep> = ({ editProhibition,date=new Date().toLocaleDateString() }) => {
-
+export const HealthySleep: FC<IHealthySleep> = ({
+  editProhibition,
+  date = new Date().toLocaleDateString()
+}) => {
   const tracker = useAppSelector(trackerSelector)
   const tracks = useAppSelector(tracksSelector)
   const isloading = useAppSelector(isLoadingSelector)
   let hour = tracker.wake_up_time.split(':')[0]
   let minutes = tracker.wake_up_time.split(':')[1]
-  const indexWeek = new Date(date.replace( /(\d{2}).(\d{2}).(\d{4})/, "$2/$1/$3")).getDay() === 0 ? 6 : new Date(date.replace( /(\d{2}).(\d{2}).(\d{4})/, "$2/$1/$3")).getDay() - 1
-  const daysAdditional = ['пн', 'пн', 'вт', 'вт', 'ср', 'ср', 'чт', 'чт', 'пт', 'пт', 'сб', 'сб', 'вс', 'вс']
+  const indexWeek =
+    new Date(date.replace(/(\d{2}).(\d{2}).(\d{4})/, '$2/$1/$3')).getDay() === 0
+      ? 6
+      : new Date(date.replace(/(\d{2}).(\d{2}).(\d{4})/, '$2/$1/$3')).getDay() -
+        1
+  const daysAdditional = [
+    'пн',
+    'пн',
+    'вт',
+    'вт',
+    'ср',
+    'ср',
+    'чт',
+    'чт',
+    'пт',
+    'пт',
+    'сб',
+    'сб',
+    'вс',
+    'вс'
+  ]
   const daysWeek = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс']
   const [currentDay, setCurrentDay] = useState<ITrack>()
   const morning = tracker.wake_up_time
-  const evening =(+hour - 8 < 0 ? 24 + (+hour - 8) : +hour - 8).toString().padStart(2, '0') +':' +minutes
+  const evening =
+    (+hour - 8 < 0 ? 24 + (+hour - 8) : +hour - 8).toString().padStart(2, '0') +
+    ':' +
+    minutes
   const pushArray: ITrack[] = []
   const [outputArray, setOutputArray] = useState<ITrack[]>([])
   const navigate = useNavigate()
@@ -53,43 +77,52 @@ export const HealthySleep: FC<IHealthySleep> = ({ editProhibition,date=new Date(
 
     let difference = daysAdditional.length - tracks.sleepTrack.length
 
-    for (let i = difference - 1; i >= 0; i--) {  
-      let indexType = (i === difference - 1 && (tracks.sleepTrack[0]?.additional != tracks.sleepTrack[1]?.additional)) ? (tracks.sleepTrack[0]?.type === 4 ? 1 : 4) : (i%2 === 0 ? 4:1)
-        pushArray.unshift({
-          id: outputArray.length - i,
-          type: indexType,
-          additional: daysAdditional[i],
-          completed: i === difference - 1 && i % 2 === 0,
-          notification_send: i === difference - 1 && i % 2 === 0,
-          send_time: 0         
-        })      
+    for (let i = difference - 1; i >= 0; i--) {
+      let indexType =
+        i === difference - 1 &&
+        tracks.sleepTrack[0]?.additional != tracks.sleepTrack[1]?.additional
+          ? tracks.sleepTrack[0]?.type === 4
+            ? 1
+            : 4
+          : i % 2 === 0
+          ? 4
+          : 1
+      pushArray.unshift({
+        id: outputArray.length - i,
+        type: indexType,
+        additional: daysAdditional[i],
+        completed: i === difference - 1 && i % 2 === 0,
+        notification_send: i === difference - 1 && i % 2 === 0,
+        send_time: 0
+      })
     }
     setOutputArray(pushArray)
-    setCurrentDay(tracks.sleepTrack.find(item => item.additional === daysWeek[indexWeek] && item.type === 1))
+    setCurrentDay(
+      tracks.sleepTrack.find(
+        (item) => item.additional === daysWeek[indexWeek] && item.type === 1
+      )
+    )
   }, [tracks])
-
-  console.log(outputArray);
-  
 
   const redirectToChangeTrack = () => {
     confirmAlert({
-      title: 'Вы уверены что хотите изменить цель?  Будет создан новый трекер и старые выполненные цели будут аннулированы!',
+      title:
+        'Вы уверены что хотите изменить цель?  Будет создан новый трекер и старые выполненные цели будут аннулированы!',
       buttons: [
         {
           label: 'Да',
           onClick: () => navigate(GOAL_SLEEP__ROUTE)
         },
         {
-          label: 'Нет',
+          label: 'Нет'
         }
       ]
-    });
+    })
   }
 
   if (isloading) {
     return <Preloader height='auto' />
   }
-
 
   return (
     <div className={'healthy-sleep'}>
@@ -113,10 +146,19 @@ export const HealthySleep: FC<IHealthySleep> = ({ editProhibition,date=new Date(
           <div className='healthy-sleep__border-dashed' />
           <div className='healthy-sleep__text'>
             Вы спали{' '}
-            <span style={{color: (currentDay?.sleep_time! >= 8)?'#00A62E':'#F4C119'}}>
+            <span
+              style={{
+                color: currentDay?.sleep_time! >= 8 ? '#00A62E' : '#F4C119'
+              }}
+            >
               {' '}
-              {(currentDay?.sleep_time! >= 8)
-                ? currentDay?.sleep_time + sklonenie(currentDay?.sleep_time!, [' час', ' часа', ' часов'])
+              {currentDay?.sleep_time! >= 8
+                ? currentDay?.sleep_time +
+                  sklonenie(currentDay?.sleep_time!, [
+                    ' час',
+                    ' часа',
+                    ' часов'
+                  ])
                 : 'менее 8 часов'}
             </span>
           </div>

@@ -36,15 +36,21 @@ interface ISwiperNextButton {
 }
 
 export const InstructionsChallenge = () => {
-  const statusBar = useStatusBar()  
+  const statusBar = useStatusBar()
   return (
-    <div className='challenge-instruction' style={{
-      margin: Capacitor.getPlatform() === 'ios' ? `-${statusBar} -16px -16px -16px` : '-16px',      
-    }}>
+    <div
+      className='challenge-instruction'
+      style={{
+        margin:
+          Capacitor.getPlatform() === 'ios'
+            ? `-${statusBar} -16px -16px -16px`
+            : '-16px'
+      }}
+    >
       <Swiper
         modules={[Pagination, A11y]}
         slidesPerView={1}
-        pagination={{ clickable: true }}
+        pagination={{ clickable: false }}
         spaceBetween={50}
         className={'challenge-instruction__swiper'}
       >
@@ -172,7 +178,7 @@ export const SlideNextButton: FC<ISwiperNextButton> = ({ customClass }) => {
   }
 
   return (
-    <button className={customClass} onClick={next} >
+    <button className={customClass} onClick={next}>
       {title}
     </button>
   )
