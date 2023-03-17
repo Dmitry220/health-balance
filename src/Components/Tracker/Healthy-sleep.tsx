@@ -56,15 +56,15 @@ export const HealthySleep: FC<IHealthySleep> = ({ editProhibition,date=new Date(
     for (let i = difference - 1; i >= 0; i--) {  
         pushArray.unshift({
           id: outputArray.length - i,
+          type: i === difference - 1 ? (tracks.sleepTrack[0]?.type === 4 ? 1 : 4) : (i%2 === 0 ? 4:1),
           additional: daysAdditional[i],
           completed: i === difference - 1 && i % 2 === 0,
           notification_send: i === difference - 1 && i % 2 === 0,
-          send_time: 0,
-          type: 1
+          send_time: 0         
         })      
     }
     setOutputArray(pushArray)
-    setCurrentDay(tracks.sleepTrack.find(item => item.additional === daysWeek[indexWeek]))
+    setCurrentDay(tracks.sleepTrack.find(item => item.additional === daysWeek[indexWeek] && item.type === 1))
   }, [tracks])
 
   const redirectToChangeTrack = () => {
@@ -109,9 +109,9 @@ export const HealthySleep: FC<IHealthySleep> = ({ editProhibition,date=new Date(
           <div className='healthy-sleep__border-dashed' />
           <div className='healthy-sleep__text'>
             Вы спали{' '}
-            <span style={{color: (currentDay?.type === 1 && currentDay?.sleep_time! >= 8)?'#00A62E':'#F4C119'}}>
+            <span style={{color: (currentDay?.sleep_time! >= 8)?'#00A62E':'#F4C119'}}>
               {' '}
-              {(currentDay?.type === 1 && currentDay?.sleep_time! >= 8)
+              {(currentDay?.sleep_time! >= 8)
                 ? currentDay?.sleep_time + sklonenie(currentDay?.sleep_time!, [' час', ' часа', ' часов'])
                 : 'менее 8 часов'}
             </span>
@@ -125,7 +125,7 @@ export const HealthySleep: FC<IHealthySleep> = ({ editProhibition,date=new Date(
         <div className='healthy-sleep__days'>
           {tracks.sleepTrack.length ? (
             outputArray.map((item, index, array) => {
-              if (index % 2 === 0) {
+              if (item.type === 1) {
                 return (
                   <div className='healthy-sleep__item-day' key={item.id}>
                     {array[index]?.sleep_time! >= 8 ? (

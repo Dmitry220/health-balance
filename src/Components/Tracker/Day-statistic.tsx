@@ -21,15 +21,15 @@ const DayStatistic: FC<IDayStatistic> = ({ date }) => {
   const [currentDay, setCurrentDay] = useState<ITrack>()
 
   useEffect(()=>{
-    setCurrentDay(tracks.sleepTrack.find(item => item.additional === daysWeek[indexWeek]))
+    setCurrentDay(tracks.sleepTrack.find(item => item.additional === daysWeek[indexWeek] && item.type === 1))
   }, [tracks.sleepTrack])
 
   return (
     <div className="day-statistic-wrapper">
       <div className="day-statistic-wrapper__title">{date}</div>
       <div className="day-statistic-wrapper__stat">
-        <div  style={{color: (currentDay?.type === 1 && currentDay?.sleep_time! >= 8)?'#00A62E':'#F4C119'}}>
-          <img src={icon_dream} alt="" /> {(currentDay?.type === 1 && currentDay?.sleep_time! >= 8)
+        <div  style={{color: (currentDay?.sleep_time! >= 8)?'#00A62E':'#F4C119'}}>
+          <img src={icon_dream} alt="" /> {(currentDay?.sleep_time! >= 8)
                 ? currentDay?.sleep_time + sklonenie(currentDay?.sleep_time!, [' час', ' часа', ' часов'])
                 : 'менее 8 часов'}
         </div>
