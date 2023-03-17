@@ -167,6 +167,12 @@ public class PedometerPluginImpl implements SensorEventListener {
         if (this.listenerForService != null) {
             this.listenerForService.onReceived(getStepsJSON(0));
         }
+
+        // Duplicate code - refactor later
+        String token = sharedPrefManager.getToken();
+        String currentDate = DateHelper.normalDateFormat.format(new Date());
+        Log.e("testtest", currentDate);
+        stepPublisher.send(token, 0, currentDate);
     }
 
     // Sends an error back to JS
