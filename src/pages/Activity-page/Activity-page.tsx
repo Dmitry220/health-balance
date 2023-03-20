@@ -24,6 +24,7 @@ import {
 } from '../../Redux/slice/appSlice'
 import { isGoogleFitSelector } from '../../Redux/slice/settingsSlice'
 import { Charts } from '../../Components/Charts/Charts'
+import AppService from '../../services/AppService'
 
 export const ActivityPage: FC = () => {
   const dispatch = useAppDispatch()
@@ -93,6 +94,11 @@ export const ActivityPage: FC = () => {
   }
 
   const updateStepsPeriod = async (data: any) => {
+    const params = new FormData()
+
+    params.append('data', JSON.stringify(data))
+
+    await AppService.updateSteps(params)
     dispatch(setCurrentStepsCount(parseInt(data[data.length - 1].steps)))
   }
 
