@@ -23,9 +23,11 @@ import Pedometer from '../../plugins/pedometer'
 import { Capacitor } from '@capacitor/core'
 import { persistor } from '../..'
 import TrackerService from '../../services/TrackerService'
+import { isGoogleFitSelector } from '../../Redux/slice/settingsSlice'
 
 export const Profile = () => {
   const dataUser = useAppSelector(dataUserSelector)
+  const isGoogleFit = useAppSelector(isGoogleFitSelector)
   const ballance = useAppSelector(balanceSelector)
   const navigation = useNavigate()
   const dispatch = useAppDispatch()
@@ -43,7 +45,7 @@ export const Profile = () => {
   }, [])
 
   const logout = async () => {
-    if (Capacitor.getPlatform() === 'android') {
+    if (Capacitor.getPlatform() === 'android' && isGoogleFit === 1) {
       await Pedometer.reset()
       await Pedometer.stop()
     }
