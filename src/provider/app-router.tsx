@@ -23,9 +23,10 @@ const AppRouter = () => {
   useEffect(() => {
     if (isAuth) {
       dispatch(setUserData(idUser))
-    } else {
-      dispatch(checkAuth())
-    }
+    } 
+    // else {
+    //   dispatch(checkAuth())
+    // }
   }, [isAuth])
 
   if (isLoading) {

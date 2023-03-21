@@ -49,6 +49,9 @@ export const StartPage = () => {
   const activityVisitCount = useAppSelector(visitPagesSelector)
   const statusBar = useStatusBar()
 
+  console.log('statusBar =', `-${statusBar}px -16px -16px -16px`);
+  
+
   useEffect(() => {
     startPlugin()
   }, [])
@@ -70,7 +73,7 @@ export const StartPage = () => {
       style={{
         margin:
           Capacitor.getPlatform() === 'ios'
-            ? `-${statusBar} -16px -16px -16px`
+            ? `-${statusBar}px -16px -16px -16px`
             : '-16px'
       }}
     >
@@ -214,9 +217,11 @@ export const SlideNextButton: FC<ISwiperNextButton> = ({
   }
 
   return (
-    <button className={customClass} onClick={next} style={{
-      bottom:  Capacitor.getPlatform() === 'ios' ? 80 : 50
-    }}>
+    <button className={customClass} onClick={next} 
+    // style={{
+    //   bottom:  Capacitor.getPlatform() === 'ios' ? 80 : 50
+    // }}
+    >
       Далее
     </button>
   )

@@ -25,7 +25,7 @@ import { persistor } from '../..'
 import TrackerService from '../../services/TrackerService'
 import { isGoogleFitSelector } from '../../Redux/slice/settingsSlice'
 
-export const Profile = () => {
+export const Profile = () => {  
   const dataUser = useAppSelector(dataUserSelector)
   const isGoogleFit = useAppSelector(isGoogleFitSelector)
   const ballance = useAppSelector(balanceSelector)
@@ -51,10 +51,10 @@ export const Profile = () => {
     }
     await TrackerService.deleteTracker()   
     localStorage.removeItem('token')
-    localStorage.removeItem('id')    
-    window.location.reload()  
-    await persistor.purge()    
-    await dispatch(clearResults())    
+    localStorage.removeItem('id') 
+    await dispatch(clearResults())
+    await persistor.purge()
+    await window.location.replace(LOGIN_ROUTE)
   }
 
   if (isLogoutModal) {

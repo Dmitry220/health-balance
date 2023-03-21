@@ -61,7 +61,7 @@ export const TrackerPage = () => {
       style={{
         margin:
           Capacitor.getPlatform() === 'ios'
-            ? `-${statusBar} -16px -16px -16px`
+            ? `-${statusBar}px -16px -16px -16px`
             : '-16px'
       }}
     >
@@ -231,9 +231,11 @@ const SlideNextButton: FC<ISwiperNextButton> = ({
   }
 
   return (
-    <button className={customClass} onClick={next} style={{
-      bottom:  Capacitor.getPlatform() === 'ios' ? 80 : 50
-    }}>
+    <button className={customClass} onClick={next} 
+    // style={{
+    //   bottom:  Capacitor.getPlatform() === 'ios' ? 80 : 50
+    // }}
+    >
       Дальше
     </button>
   )

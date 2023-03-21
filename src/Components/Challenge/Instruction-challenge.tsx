@@ -43,7 +43,7 @@ export const InstructionsChallenge = () => {
       style={{
         margin:
           Capacitor.getPlatform() === 'ios'
-            ? `-${statusBar} -16px -16px -16px`
+            ? `-${statusBar}px -16px -16px -16px`
             : '-16px'
       }}
     >
@@ -178,9 +178,11 @@ export const SlideNextButton: FC<ISwiperNextButton> = ({ customClass }) => {
   }
 
   return (
-    <button className={customClass} onClick={next} style={{
-      bottom:  Capacitor.getPlatform() === 'ios' ? 80 : 50
-    }}>
+    <button className={customClass} onClick={next} 
+    // style={{
+    //   bottom:  Capacitor.getPlatform() === 'ios' ? 80 : 50
+    // }}
+    >
       {title}
     </button>
   )

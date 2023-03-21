@@ -12,9 +12,9 @@
     margin: -16px;
     padding: 16px;
   }
-  &__body {
-    height: 80vh;
-  }
+  // &__body {
+  //   height: 80vh;
+  // }
   &__title {
     font-weight: 700;
     font-size: 35px;
@@ -68,7 +68,7 @@
 
   &__button {
     position: absolute;
-    bottom: 80px;
+    bottom: 50px;
     width: 90%;
     margin-left: auto;
     margin-right: auto;
