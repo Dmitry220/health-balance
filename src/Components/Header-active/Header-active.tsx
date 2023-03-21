@@ -10,7 +10,6 @@ import { dataUserSelector } from '../../Redux/slice/profileSlice'
 import { IMAGE_URL } from '../../http'
 import { balanceSelector, getBalance } from '../../Redux/slice/appSlice'
 import avatar from '../../assets/image/avatar.jpeg'
-import { SafeArea } from 'capacitor-plugin-safe-area'
 import { Capacitor } from '@capacitor/core'
 import { useStatusBar } from '../../hooks/useStatusBar'
 
@@ -21,7 +20,7 @@ interface IHeaderActive {
 const HeaderActive: FC<IHeaderActive> = ({ transparent }) => {
   const dataUser = useAppSelector(dataUserSelector)
   const balance = useAppSelector(balanceSelector)
-  const statusBar = useStatusBar()  
+  const statusBar = useStatusBar()
   const dispatch = useAppDispatch()
 
   useEffect(() => {

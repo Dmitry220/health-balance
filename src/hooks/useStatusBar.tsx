@@ -1,5 +1,5 @@
 import { SafeArea } from 'capacitor-plugin-safe-area'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export const useStatusBar = () => {
   const [insetsHeight, setInsetsHeight] = useState<number>(0)
