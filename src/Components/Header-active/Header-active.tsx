@@ -36,7 +36,7 @@ const HeaderActive: FC<IHeaderActive> = ({ transparent }) => {
         top: Capacitor.getPlatform() === 'ios' ? 0 : 'auto',
         padding:
           Capacitor.getPlatform() === 'ios'
-            ? `${+statusBar + 20}px 16px 16px 16px`
+            ? `${+statusBar}px 16px 16px 16px`
             : '16px 16px 16px 16px'
       }}
     >

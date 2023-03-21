@@ -14,5 +14,5 @@ export const useStatusBar = () => {
     })
   }, [])
 
-  return insetsHeight + statusBarHeight
+  return insetsHeight + statusBarHeight + 20
 }

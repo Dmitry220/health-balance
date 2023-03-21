@@ -25,12 +25,12 @@ export const Header: FC<HeaderProps> = ({
   const back = () => {
     window.history.back()
   }
-  console.log('status bar header = ', `${(+statusBar + 20)}px 16px 24px 16px`);
+  console.log('status bar header = ', `${(+statusBar)}px 16px 24px 16px`);
   
 
   return (
     <header className={'header ' + customClass} 
-    style={{ padding: Capacitor.getPlatform() === 'ios' ? `${(+statusBar + 20)}px 16px 24px 16px` : '0 16px',
+    style={{ padding: Capacitor.getPlatform() === 'ios' ? `${(+statusBar)}px 16px 24px 16px` : '0 16px',
     height: Capacitor.getPlatform() === 'ios' ? statusBar : 53
    }}
     >
