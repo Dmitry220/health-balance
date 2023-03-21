@@ -37,6 +37,7 @@ interface ISwiperNextButton {
 
 export const InstructionsChallenge = () => {
   const statusBar = useStatusBar()
+  console.log('statusBar challenge = ', statusBar);
   return (
     <div
       className='challenge-instruction'

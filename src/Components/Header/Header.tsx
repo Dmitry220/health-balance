@@ -25,6 +25,8 @@ export const Header: FC<HeaderProps> = ({
   const back = () => {
     window.history.back()
   }
+  console.log('status bar header = ', `${(+statusBar + 20)}px 16px 24px 16px`);
+  
 
   return (
     <header className={'header ' + customClass} 
