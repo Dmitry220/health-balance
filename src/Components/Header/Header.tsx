@@ -1,6 +1,5 @@
 import { Capacitor } from '@capacitor/core'
-import { SafeArea } from 'capacitor-plugin-safe-area'
-import { FC, useEffect, useState } from 'react'
+import { FC } from 'react'
 import { useStatusBar } from '../../hooks/useStatusBar'
 import './header.scss'
 
@@ -19,20 +18,22 @@ export const Header: FC<HeaderProps> = ({
   additionalOnClick,
   transparent
 }) => {
-
-  const statusBar = useStatusBar()  
+  const statusBar = useStatusBar()
 
   const back = () => {
     window.history.back()
   }
-  console.log('status bar header = ', `${(+statusBar)}px 16px 24px 16px`);
-  
 
   return (
-    <header className={'header ' + customClass} 
-    style={{ padding: Capacitor.getPlatform() === 'ios' ? `${(+statusBar)}px 16px 24px 16px` : '0 16px',
-    height: Capacitor.getPlatform() === 'ios' ? statusBar : 53
-   }}
+    <header
+      className={'header ' + customClass}
+      style={{
+        padding:
+          Capacitor.getPlatform() === 'ios'
+            ? `${+statusBar}px 16px 24px 16px`
+            : '0 16px',
+        height: Capacitor.getPlatform() === 'ios' ? statusBar : 53
+      }}
     >
       <div className='header__container'>
         <div
@@ -40,7 +41,7 @@ export const Header: FC<HeaderProps> = ({
           onClick={back}
           style={{
             top: '50%',
-            transform:'translateY(-50%)'             
+            transform: 'translateY(-50%)'
           }}
         />
         <div className='header__title'>{title}</div>
