@@ -14,3 +14,19 @@ export interface ILesson {
   image: string,
   completed: boolean
 }
+
+export interface ICreatingLecture{
+  challenge: number,
+  title: string,
+  description: string,
+  type: string,
+  start_date: string,
+  end_date: string,
+  score: number,
+  qr_code?:string,
+  question?:string,
+  correct_answer?: number,
+  answers?: string,
+  image?: string,
+  video?:string
+}

@@ -32,3 +32,10 @@ export enum stageAccessRecovery {
   email = 'email',
   password = 'password'
 }
+
+export enum typeImage {
+  avatars = 'avatars',
+  challenges = 'challenges',
+  lessons = 'lessons',
+  news = 'news'
+}

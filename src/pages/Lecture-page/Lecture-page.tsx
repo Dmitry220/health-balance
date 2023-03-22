@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import './lecture-pages.scss'
 import Header from '../../Components/Header/Header'
 import { LectureTask } from '../../Components/Lecture/Lecture-task'
-import { Video } from '../../Components/Lecture/Video'
+import { Video } from '../../Components/Lessons/Video'
 import { LectureHead } from '../../Components/Lecture/Lecture-head'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import {

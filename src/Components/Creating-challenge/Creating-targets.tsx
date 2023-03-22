@@ -14,7 +14,6 @@ import { nFormatter, sklonenie } from '../../utils/common-functions'
 export const CreatingTargets = () => {
 
   const type = useAppSelector(typeCreatingChallengeSelector)
-
   const minReward = 0
   const maxReward = type === 3 ? 200 : 500
   const minDistance = 0
@@ -28,10 +27,6 @@ export const CreatingTargets = () => {
 
   const handlerRewardRange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setRewardPurpose(+e.target.value))
-  }
-
-  const handlerTypePurpose = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setTypePurpose(+e.target.value))
   }
 
   const creatingPurpose = useAppSelector(creatingPurposeSelector)
@@ -48,29 +43,6 @@ export const CreatingTargets = () => {
     <div className={'targets'}>
       <div className='targets__top-block'>
         <div className='targets__title creating-title'>Цели</div>
-        {/* <div className='targets__sub-title creating-sub-title'>Тип цели</div>
-        <div
-          className='targets__checkbox custom-checkbox'
-          onChange={handlerTypePurpose}
-        >
-          <input
-            type='radio'
-            name='typeReward'
-            className={'custom-checkbox__checkbox'}
-            id={'1'}
-            defaultChecked
-            value={1}
-          />
-          <label htmlFor='1'>Бег</label>
-          <input
-            type='radio'
-            name='typeReward'
-            className={'custom-checkbox__checkbox'}
-            id={'2'}
-            value={2}
-          />
-          <label htmlFor='2'>Ходьба</label>
-        </div> */}
       </div>
       <div className='targets__block'>
         <div className='targets__choice choice-target'>

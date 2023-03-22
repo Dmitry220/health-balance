@@ -1,18 +1,19 @@
 import { forwardRef, useEffect, useState } from 'react'
 import DatePicker, { registerLocale } from 'react-datepicker'
 import ru from 'date-fns/locale/ru'
-import './creating-challenge.scss'
+import '../Creating-challenge/creating-challenge.scss'
 import LessonService from '../../services/LessonsService'
 import { useAppSelector } from '../../hooks/redux-hooks'
 import { challengeIdSelector } from '../../Redux/slice/challengeSlice'
-import FileService from '../../services/FilesServices'
 import { showToast } from '../../utils/common-functions'
 import { Link, useParams } from 'react-router-dom'
 import { CHALLENGE_ROUTE } from '../../provider/constants-route'
 import icon_camera from '../../assets/image/icon-camera-add.svg'
 import Header from '../Header/Header'
 import { useFieldArray, useForm } from 'react-hook-form'
-import { Camera, CameraResultType } from '@capacitor/camera'
+import { useLoadImage } from '../../hooks/useLoadImage'
+import { typeImage } from '../../utils/enums'
+import { ICreatingLecture } from '../../models/ILessons'
 registerLocale('ru', ru)
 
 interface IAnswer {
@@ -26,8 +27,6 @@ interface FormData {
   description: string
   question: string
   score: number
-  startDate: any
-  endDate: Date
   videoUrl: string
   qrCode: string
 }
@@ -47,7 +46,6 @@ export const CreatingLecture = () => {
     formState: { errors }
   } = useForm<FormData>({
     mode: 'onChange',
-    defaultValues: { startDate: [] }
   })
   const allFiled = watch()
   const { fields, append, remove } = useFieldArray({
@@ -62,51 +60,11 @@ export const CreatingLecture = () => {
   const [startDate, setStartDate] = useState<Date>(new Date())
   const [endDate, setEndDate] = useState<Date>(END_DATE)
   const [correctAnswer, setCorrectAnswer] = useState<number>(0)
-  const [image, setImage] = useState<any>('')
-  const [photoPath, setPhotoPath] = useState<any | null>(null)
-  const [isLoadingAvatar, setIsLoadingAvatar] = useState<boolean>(false)
+  const [image, photoPath, isLoadingAvatar, clearImages, uploadImage] = useLoadImage()
   const [isLoadingCreateNews, setIsLoadingCreateNews] = useState<boolean>(false)
 
   const addCover = async () => {
-    try {
-      const image = await Camera.getPhoto({
-        quality: 50,
-        allowEditing: true,
-        resultType: CameraResultType.Uri,
-        promptLabelPhoto: 'Выбрать фото из галерии',
-        promptLabelPicture: 'Сделать фотографию',
-        promptLabelHeader: 'Фото'
-      })
-
-      let imageUrl = image.webPath || ''
-
-      let blob = await fetch(imageUrl).then((r) => r.blob())
-      setIsLoadingAvatar(true)
-
-      if (blob) {
-        const formData = new FormData()
-        formData.append('image', blob)
-        try {
-          const response = await FileService.addImageLesson(formData)
-          if (response?.data?.data?.avatar) {
-            setPhotoPath(imageUrl)
-            setImage(response.data.data.avatar)
-          } else {
-            await showToast('Максимальный вес изображения 3 мб')
-          }
-          setIsLoadingAvatar(false)
-        } catch (error) {
-          setIsLoadingAvatar(false)
-          setPhotoPath('')
-          setImage('')
-          await showToast('Максимальный вес изображения 3 мб')
-        }
-      } else {
-        await showToast('Изображения нет')
-      }
-    } catch (error) {
-      await showToast('Максимальный вес изображения 3 мб')
-    }
+    uploadImage(typeImage.lessons)
   }
 
   const changePeriod = (dates: any) => {
@@ -128,9 +86,8 @@ export const CreatingLecture = () => {
   const resetField = () => {
     const END_DATE = new Date()
     END_DATE.setDate(END_DATE.getDate() + 3)
-    setPhotoPath('')
+    clearImages()
     setCorrectAnswer(0)
-    setImage('')
     setStartDate(new Date())
     setEndDate(END_DATE)
     reset()
@@ -140,46 +97,44 @@ export const CreatingLecture = () => {
   const addLecture = handleSubmit(
     async ({
       answers,
-      description,
-      question,
-      score,
-      title,
-      typeLesson,
-      videoUrl,
-      qrCode
+      description, qrCode, question, score, title, typeLesson, videoUrl
     }) => {
-      setIsLoadingCreateNews(true)
-      const formData = new FormData()
-      const idChallenge =
-        Number(params.id) === 0 ? challenge_id : Number(params.id)
-      formData.append('title', title)
-      formData.append('challenge', JSON.stringify(idChallenge))
-      formData.append('description', description)
-      formData.append('type', typeLesson)
-      videoUrl && formData.append('video', convertVideo(videoUrl))
-      formData.append('start_date', startDate.toLocaleDateString())
-      formData.append('end_date', endDate.toLocaleDateString())
-      formData.append('score', score + '')
-      image && formData.append('image', image)
+      const idChallenge = Number(params.id) === 0 ? challenge_id : Number(params.id)
+      const data: ICreatingLecture = {
+        challenge: idChallenge,
+        title: title,
+        description: description,
+        type: typeLesson,
+        start_date: startDate.toLocaleDateString(),
+        end_date: endDate.toLocaleDateString(),
+        score: score        
+      }
+      if(image){
+        data.image = image
+      }
+      if(videoUrl){
+        data.video = convertVideo(videoUrl)
+      }      
       switch (typeLesson) {
         case '1':
-          formData.append('answers', JSON.stringify(answers))
-          formData.append('correct_answer', correctAnswer + '')
-          formData.append('question', question)
-          break
+          data.answers = JSON.stringify(answers)
+          data.correct_answer = correctAnswer
+          data.question = question
+          break;
         case '2':
-          formData.append('qr_code', qrCode)
-          break
+          data.qr_code = qrCode
+          break;
         case '3':
-          formData.append('question', question)
-          break
-        case '4':
-          break
+          data.question = question
+          break;
         default:
-          break
+          break;
       }
+      console.log(data);     
+     
       try {
-        const response = await LessonService.createLesson(formData)
+        setIsLoadingCreateNews(true)
+        const response = await LessonService.createLesson(data)
         if (response.data.success) {
           showToast('Лекция успешно добавлена!')
           resetField()
@@ -292,8 +247,8 @@ export const CreatingLecture = () => {
                   correctAnswer === index
                     ? 'choice-answer__input _field + choice-answer__input_corrected'
                     : correctAnswer === -1
-                    ? 'choice-answer__input _field + choice-answer__input_corrected'
-                    : 'choice-answer__input _field'
+                      ? 'choice-answer__input _field + choice-answer__input_corrected'
+                      : 'choice-answer__input _field'
                 }
                 {...register(`answers.${index}.answer`, {
                   required: true
@@ -301,10 +256,10 @@ export const CreatingLecture = () => {
               />
               {errors?.['answers']?.[index]?.['answer']?.type ===
                 'required' && (
-                <p role='alert' className='creating-lecture__error'>
-                  Данное поле не может быть пустым
-                </p>
-              )}
+                  <p role='alert' className='creating-lecture__error'>
+                    Данное поле не может быть пустым
+                  </p>
+                )}
             </div>
           ))}
           <div className='choice-answer__buttons'>
@@ -384,11 +339,6 @@ export const CreatingLecture = () => {
           customInput={<ExampleCustomInput />}
         />
       </div>
-      {errors.startDate?.type === 'required' && (
-        <p role='alert' className='creating-lecture__error'>
-          Выберите начало и конец периода
-        </p>
-      )}
       <div className='creating-lecture__score'>
         <div className='creating-lecture__sub-title creating-sub-title'>
           Награда за выполненное задания

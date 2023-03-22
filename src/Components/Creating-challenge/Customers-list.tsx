@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useEffect,useCallback } from 'react'
-import { customersCreatingChellengeSelector, customersPersonalChallengeSelector, disableButtonChallengeSelector, getCustomersPersonalChallenge, isLoadingSelector, setCustomersPersonalChallenge, setDisabledButton } from '../../Redux/slice/challengeSlice'
+import { customersCreatingChellengeSelector, customersPersonalChallengeSelector, getCustomersPersonalChallenge, isLoadingSelector, setCustomersPersonalChallenge, setDisabledButton } from '../../Redux/slice/challengeSlice'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import avatar from '../../assets/image/avatar.jpeg'
 import './creating-challenge.scss'
@@ -10,7 +10,6 @@ export const CustomersList = () => {
 
 	const dispatch = useAppDispatch()
 
-	const disabledButton = useAppSelector(disableButtonChallengeSelector)
 	const isLoading = useAppSelector(isLoadingSelector)
 	const customers = useAppSelector(customersPersonalChallengeSelector)
 	const checkedCustomers = useAppSelector(customersCreatingChellengeSelector)

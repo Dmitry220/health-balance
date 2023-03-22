@@ -5,7 +5,8 @@ import HealthIndexService from '../../services/HealthIndexService'
 import {
   IDynamics,
   IGetProgressAndIDPolls,
-  IQuestionnaire
+  IQuestionnaire,
+  ISaveCurrentResult
 } from '../../models/IHealthIndex'
 
 interface IHealthIndex {
@@ -56,9 +57,10 @@ export const saveCurrentResult = createAsyncThunk(
   async (id: number, { getState }) => {
     const state: any = getState()
     const answers = Object.assign({}, ...state.healthIndex.answers)
-    const formData = new FormData()
-    formData.append('answers', JSON.stringify(answers))
-    const response = await HealthIndexService.saveCurrentResult(id, formData)
+    const data:ISaveCurrentResult = {
+      answers: JSON.stringify(answers)
+    }
+    const response = await HealthIndexService.saveCurrentResult(id, data)
     return response.data.data
   }
 )

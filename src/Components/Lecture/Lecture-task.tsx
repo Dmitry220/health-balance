@@ -1,9 +1,9 @@
 import { FC } from 'react'
 import './lecture.scss'
-import { DownloadFile } from './DowloadFile'
-import { AnswerToQuestion } from './AnswerToQuestion'
-import { ScanQR } from './ScanQR'
-import { AnswerOptions } from './AnswerOptions'
+import { DownloadFile } from '../Lessons/DowloadFile'
+import { AnswerToQuestion } from '../Lessons/AnswerToQuestion'
+import { ScanQR } from '../Lessons/ScanQR'
+import { AnswerOptions } from '../Lessons/AnswerOptions'
 
 interface ILectureTask {
   typeTask: number

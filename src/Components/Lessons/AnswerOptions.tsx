@@ -12,7 +12,7 @@ import { showToast } from '../../utils/common-functions'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import { ModalSuccess } from '../Modals/Modal-success'
 import { Preloader } from '../Preloader/Preloader'
-import './lecture.scss'
+import '../Lecture/lecture.scss'
 
 export const AnswerOptions = () => {
   const dispacth = useAppDispatch()
@@ -27,10 +27,11 @@ export const AnswerOptions = () => {
   const [showModal, setShowModal] = useState<boolean>(false)
 
   const sendAnswer = async (lessonId: number) => {
-    const params = new FormData()
-    params.append('answer', value)
+    const dataTaskToCompleted = {
+      answer: value
+    }
     try {
-      await LessonService.complete(params, lessonId)
+      await LessonService.complete(dataTaskToCompleted, lessonId)
       setShowModal(true)
     } catch (error) {
       await showToast('Ошибка')

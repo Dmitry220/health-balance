@@ -46,3 +46,7 @@ export interface IListReport {
   date: number;
   id:number
 }
+
+export interface ISaveCurrentResult{
+  answers: string
+}

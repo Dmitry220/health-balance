@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { QrReader } from 'react-qr-reader'
 
-import './lecture.scss'
+import '../Lecture/lecture.scss'
 import {
   checkTask,
   isLoadingSuccessSelector,
@@ -35,9 +35,10 @@ export const ScanQR = () => {
 
   const checkQRCode = async () => {
     if (data === lesson?.qr_code && lesson?.id) {
-      const params = new FormData()
-      params.append('answer', data)
-      const response = await LessonService.complete(params, lesson.id)
+      const dataTaskToCompleted = {
+        answer: data
+      }
+      const response = await LessonService.complete(dataTaskToCompleted, lesson.id)
       if (response.data.success) {
         setShowModal(true)
         setData('')
@@ -46,36 +47,6 @@ export const ScanQR = () => {
       await showToast('Сканированный код не соответствует требуемому')
     }
   }
-
-  // const startScan = async () => {
-  // const status = await BarcodeScanner.checkPermission({ force: true })
-
-  // if (status.granted) {
-  //   BarcodeScanner.hideBackground()
-
-  //   const result = await BarcodeScanner.startScan({
-  //     targetedFormats: [SupportedFormat.QR_CODE]
-  //   })
-
-  //   if (
-  //     result.hasContent &&
-  //     result.content === lesson?.qr_code &&
-  //     lesson?.id &&
-  //     result.content
-  //   ) {
-  //     const params = new FormData()
-  //     params.append('answer', result.content)
-  //     const response = await LessonService.complete(params, lesson.id)
-  //     if (response.data.success) {
-  //       setShowModal(true)
-  //     }
-  //   } else {
-  //     await showToast('Сканированный код не соответствует требуемому')
-  //   }
-  // }
-
-  // return false
-  // }
 
   useEffect(() => {
     lesson?.id && dispacth(checkTask(lesson.id))

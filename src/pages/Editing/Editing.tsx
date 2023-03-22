@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import Header from '../../Components/Header/Header'
 import './editing.scss'
-import { Camera, CameraResultType } from '@capacitor/camera'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import { dataUserSelector, updateProfile } from '../../Redux/slice/profileSlice'
 import InputMask from 'react-input-mask'
@@ -11,11 +10,12 @@ import 'react-datepicker/dist/react-datepicker.css'
 import ReactDatePicker, { registerLocale } from 'react-datepicker'
 import ru from 'date-fns/locale/ru'
 import photo from '../../assets/image/icon-camera-add.svg'
-import FileService from '../../services/FilesServices'
 import { IMAGE_URL } from '../../http'
 import { ModalExit } from '../../Components/Modals/Modal-exit'
 import { logout } from '../../Redux/slice/authSlice'
 import AuthService from '../../services/AuthService'
+import { useLoadImage } from '../../hooks/useLoadImage'
+import { typeImage } from '../../utils/enums'
 
 registerLocale('ru', ru)
 
@@ -39,9 +39,7 @@ export const Editing = () => {
   const dataUser = useAppSelector(dataUserSelector)
   const [isLogoutModal, setLogoutModal] = useState<boolean>(false)
   const id = Number(localStorage.getItem('id'))
-  const [avatar, setAvatar] = useState<any>()
-  const [photoPath, setPhotoPath] = useState<any | null>(null)
-  const [isLoadingAvatar, setIsLoadingAvatar] = useState<boolean>(false)
+  const [avatar, photoPath, isLoadingAvatar, clearImages, uploadImage] = useLoadImage()
   const dispatch = useAppDispatch()
 
   const showToast = async (text: string) => {
@@ -60,44 +58,7 @@ export const Editing = () => {
   )
 
   const dowloadPicture = async () => {
-    try {
-      const image = await Camera.getPhoto({
-        quality: 50,
-        allowEditing: true,
-        resultType: CameraResultType.Uri,
-        promptLabelPhoto: 'Выбрать фото из галерии',
-        promptLabelPicture: 'Сделать фотографию',
-        promptLabelHeader: 'Фото'
-      })
-
-      let imageUrl = image.webPath || ''
-
-      let blob = await fetch(imageUrl).then((r) => r.blob())
-      setIsLoadingAvatar(true)
-
-      if (blob) {
-        const formData = new FormData()
-        formData.append('image', blob)
-        try {
-          const response = await FileService.uploadFile(formData)
-          if (response?.data?.data?.avatar) {
-            setPhotoPath(imageUrl)
-            setAvatar(response.data.data.avatar)
-          } else {
-            await showToast('Максимальный вес изображения 3 мб')
-          }
-          setIsLoadingAvatar(false)
-        } catch (error) {
-          setIsLoadingAvatar(false)
-          await showToast('Максимальный вес изображения 3 мб')
-          setPhotoPath('')
-        }
-      } else {
-        await showToast('Изображения нет')
-      }
-    } catch (error) {
-      await showToast('Максимальный вес изображения 3 мб')
-    }
+    uploadImage(typeImage.avatars)
   }
 
   if (isLogoutModal) {

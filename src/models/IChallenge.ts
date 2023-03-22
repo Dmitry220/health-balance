@@ -50,3 +50,16 @@ export interface IListCustomersPersonalChallenge {
   avatar: string;
   surname: string
 }
+
+export interface ICreatingChallenge{
+  title: string;
+  description: string;
+  type: 1 | 2 | 3;
+  image: string;
+  start_date: number | Date;
+  end_date: number | Date;
+  team_amount?: number;
+  max_peoples?: number;
+  customers?: string
+  platform: number
+}

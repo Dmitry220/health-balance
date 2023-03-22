@@ -1,4 +1,4 @@
-import { useState, ChangeEvent } from 'react'
+import { useState, ChangeEvent, useEffect } from 'react'
 import './creating-interesting.scss'
 import Header from '../../Components/Header/Header'
 import paper_clip from '../../assets/image/icon-paper-clip.svg'
@@ -17,70 +17,31 @@ import {
 import { Link } from 'react-router-dom'
 import { INTERESTING_ROUTE, RUBRIC_ROUTE } from '../../provider/constants-route'
 import { ModalStatus } from '../../Components/Modals/Modal-status'
-import FileService from '../../services/FilesServices'
 import { rubricConversion, showToast } from '../../utils/common-functions'
 import NewsService from '../../services/NewsService'
-import { Camera, CameraResultType } from '@capacitor/camera'
 import { ICreatingNews } from '../../models/INews'
+import { useLoadImage } from '../../hooks/useLoadImage'
+import { typeImage } from '../../utils/enums'
 
 export const CreatingInteresting = () => {
-  const [isLoadingAvatar, setIsLoadingAvatar] = useState<boolean>(false)
   const [showModal, setShowModal] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const tempImage = useAppSelector(tempImageNewsSelector)
+  const dataNews = useAppSelector(creatingNewsSelector)
+  const [image, photoPath, isLoadingAvatar, clearImages, uploadImage] = useLoadImage()
 
   const takePicture = async () => {
-    try {
-      const image = await Camera.getPhoto({
-        quality: 50,
-        allowEditing: true,
-        resultType: CameraResultType.Uri,
-        promptLabelPhoto: 'Выбрать фото из галерии',
-        promptLabelPicture: 'Сделать фотографию',
-        promptLabelHeader: 'Фото'
-      })
-
-      let imageUrl = image.webPath || ''
-
-      let blob = await fetch(imageUrl).then((r) => r.blob())
-      setIsLoadingAvatar(true)
-
-      if (blob) {
-        const formData = new FormData()
-        formData.append('image', blob)
-        try {
-          const response = await FileService.addImageNews(formData)
-          if (response?.data?.data?.avatar) {
-            dispatch(setTempImageNews(imageUrl))
-            dispatch(setImageNews(response.data.data.avatar))
-          } else {
-            await showToast('Максимальный вес изображения 3 мб')
-          }
-          setIsLoadingAvatar(false)
-        } catch (error) {
-          setIsLoadingAvatar(false)
-          dispatch(setTempImageNews(''))
-          dispatch(setImageNews(''))
-          await showToast('Максимальный вес изображения 3 мб')
-        }
-      } else {
-        await showToast('Изображения нет')
-      }
-    } catch (error) {
-      await showToast('Максимальный вес изображения 3 мб')
-    }
+    await uploadImage(typeImage.news)
   }
 
   const dispatch = useAppDispatch()
 
-  const dataNews = useAppSelector(creatingNewsSelector)
-
   const handlerTitle = (e: ChangeEvent<HTMLInputElement>) =>
     dispatch(setTitleNews(e.target.value))
 
-  const handlerContent = (e: ChangeEvent<HTMLTextAreaElement>) => 
+  const handlerContent = (e: ChangeEvent<HTMLTextAreaElement>) =>
     dispatch(setContentNews(e.target.value))
-  
+
 
   const handlerAnnotation = (e: ChangeEvent<HTMLInputElement>) =>
     dispatch(setAnnotationNews(e.target.value))
@@ -94,20 +55,21 @@ export const CreatingInteresting = () => {
       dataNews.annotation &&
       dataNews.category &&
       dataNews.content
-    ) {      
+    ) {
       const data: ICreatingNews = {
         title: dataNews.title,
         annotation: dataNews.annotation,
         content: dataNews.content,
-        image: dataNews.image,       
+        image: dataNews.image,
         category: dataNews.category,
         push: dataNews.push
-      }      
+      }
       setIsLoading(true)
       try {
         const response = await NewsService.creatingNews(data)
         if (response.data.news_id) {
           reset()
+          clearImages()
           setShowModal(true)
         } else {
           await showToast('Ошибка')
@@ -132,6 +94,14 @@ export const CreatingInteresting = () => {
     dispatch(setTempImageNews(''))
     dispatch(setRubricNews(0))
   }
+
+  useEffect(() => {
+    if (image) {
+      dispatch(setTempImageNews(photoPath))
+      dispatch(setImageNews(image))
+    }
+  }, [image])
+
 
   if (showModal) {
     return <ModalStatus route={INTERESTING_ROUTE} />

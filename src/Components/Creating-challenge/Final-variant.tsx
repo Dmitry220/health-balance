@@ -1,4 +1,4 @@
-import { ChangeEvent, useState, forwardRef } from 'react'
+import { ChangeEvent, useState, forwardRef, useEffect } from 'react'
 import './creating-challenge.scss'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import {
@@ -19,14 +19,14 @@ import icon_camera from '../../assets/image/icon-camera-add.svg'
 import icon_clock from '../../assets/image/Interesting/clock.svg'
 import { definitionColor, showToast } from '../../utils/common-functions'
 import { RewardCount } from '../Reward/Reward-count'
-import FileService from '../../services/FilesServices'
 import ReactDatePicker, { registerLocale } from 'react-datepicker'
 import ru from 'date-fns/locale/ru'
 import {
   creatingPurposeSelector,
   setRewardPurpose
 } from '../../Redux/slice/purposeSlice'
-import { Camera, CameraResultType } from '@capacitor/camera'
+import { useLoadImage } from '../../hooks/useLoadImage'
+import { typeImage } from '../../utils/enums'
 
 registerLocale('ru', ru)
 
@@ -37,55 +37,21 @@ export const FinalVariant = () => {
   const startDate = useAppSelector(startDateCreatingChallengeSelector)
   const endDate = useAppSelector(endDateCreatingChallengeSelector)
   const creatingPurpose = useAppSelector(creatingPurposeSelector)
-  const [isLoadingAvatar, setIsLoadingAvatar] = useState<boolean>(false)
-  const [photoPath, setPhotoPath] = useState<any | null>(null)
   const [isEditReward, setIsEditReward] = useState<boolean>(false)
   const [isEditTitle, setIsEditTitle] = useState<boolean>(false)
   const [isEditDescription, setIsEditDescription] = useState<boolean>(false)
-
+  const [image, photoPath, isLoadingAvatar, clearImages, uploadImage] = useLoadImage()
   const dispatch = useAppDispatch()
 
   const addCover = async () => {
-    try {
-      const image = await Camera.getPhoto({
-        quality: 50,
-        allowEditing: true,
-        resultType: CameraResultType.Uri,
-        promptLabelPhoto: 'Выбрать фото из галерии',
-        promptLabelPicture: 'Сделать фотографию',
-        promptLabelHeader: 'Фото'
-      })
-
-      let imageUrl = image.webPath || ''
-
-      let blob = await fetch(imageUrl).then((r) => r.blob())
-      setIsLoadingAvatar(true)
-
-      if (blob) {
-        const formData = new FormData()
-        formData.append('image', blob)
-        try {
-          const response = await FileService.addImageChallenge(formData)
-          if (response?.data?.data?.avatar) {
-            setPhotoPath(imageUrl)
-            dispatch(setImageChallenge(response.data.data.avatar))
-          } else {
-            await showToast('Максимальный вес изображения 3 мб')
-          }
-          setIsLoadingAvatar(false)
-        } catch (error) {
-          setIsLoadingAvatar(false)
-          await showToast('Максимальный вес изображения 3 мб')
-          setPhotoPath('')
-          dispatch(setImageChallenge(''))
-        }
-      } else {
-        await showToast('Изображения нет')
-      }
-    } catch (error) {
-      await showToast('Максимальный вес изображения 3 мб')
-    }
+    await uploadImage(typeImage.challenges)    
   }
+
+  useEffect(() => {  
+    if(image){
+      dispatch(setImageChallenge(image))
+    }    
+  }, [image])  
 
   const changeDate = (dates: any) => {
     const [start, end] = dates
@@ -209,32 +175,6 @@ export const FinalVariant = () => {
           />
         </div>
       </div>
-      {/* <div className='final-variant__tasks'>
-        <article className='task-challenge__card-task card-task'>
-          <div className='card-task__container'>
-            <div className='card-task__title'>Шагов пройдено</div>
-            <div className={definitionColor(type, 'card-task__count')}>
-              {0 + '/' + creatingPurpose.quantity + (type===3 ? ' шагов': ' км')}
-            </div>
-          </div>
-        </article>
-        <article className='task-challenge__card-task card-task'>
-          <div className='card-task__container'>
-            <div className='card-task__title'>Обучающий материал</div>
-            <div className={definitionColor(type, 'card-task__count')}>
-              {0 + '/' + 0 + ' лекции'}
-            </div>
-          </div>
-        </article>
-        <article className='task-challenge__card-task card-task'>
-          <div className='card-task__container'>
-            <div className='card-task__title'>Домашние задания</div>
-            <div className={definitionColor(type, 'card-task__count')}>
-              {0 + '/' + 0 + ' ДЗ'}
-            </div>
-          </div>
-        </article>
-      </div> */}
     </div>
   )
 }

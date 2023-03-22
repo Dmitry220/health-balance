@@ -89,7 +89,7 @@ import { RubricPage } from '../pages/Rubric-page/Rubric-page'
 import { CuratorInteresting } from '../pages/Curator-interesting/Curator-interesting'
 import { PersonalChat } from '../pages/Chat-page/Personal-chat'
 import { InterviewPage } from '../pages/Interview-page/Interview-page'
-import { CreatingLecture } from '../Components/Creating-challenge/Creating-lecture'
+import { CreatingLecture } from '../Components/Lecture/Creating-lecture'
 
 export const publicRoutes = [
   {

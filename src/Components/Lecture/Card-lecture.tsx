@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import './card-lecture.scss'
+import './lecture.scss'
 import icon from '../../assets/image/icon_reward.svg'
 import { NavLink } from 'react-router-dom'
 import { LECTURE_ROUTE } from '../../provider/constants-route'

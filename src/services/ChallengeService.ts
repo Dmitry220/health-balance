@@ -1,15 +1,15 @@
 import { AxiosResponse } from 'axios'
 import { $api } from '../http'
-import { ICommandList, IListCustomersPersonalChallenge, IMembersCommandList } from '../models/IChallenge'
-import { IPurposeResponse } from '../models/IPurpose'
+import { ICommandList, ICreatingChallenge, IListCustomersPersonalChallenge, IMembersCommandList } from '../models/IChallenge'
+import { ICreatingPurpose, IPurposeResponse } from '../models/IPurpose'
 
 export default class ChallengeService {
   static async creatingPurpose(
-    params: FormData
+    data: ICreatingPurpose
   ): Promise<AxiosResponse<IPurposeResponse>> {
     return $api.post(
       `/v2/purposes/?token=${localStorage.getItem('token')}`,
-      params,
+      data,
       {
         headers: {
           accept: 'application/json',
@@ -19,10 +19,10 @@ export default class ChallengeService {
     )
   }
 
-  static async creatingChallenge(params: FormData) {
+  static async creatingChallenge(data: ICreatingChallenge) {
     return $api.post(
       `/v2/challenges/?token=${localStorage.getItem('token')}`,
-      params,
+      data,
       {
         headers: {
           accept: 'application/json',

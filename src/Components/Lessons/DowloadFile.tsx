@@ -12,7 +12,7 @@ import { showToast } from '../../utils/common-functions'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import { ModalSuccess } from '../Modals/Modal-success'
 import { Preloader } from '../Preloader/Preloader'
-import './lecture.scss'
+import '../Lecture/lecture.scss'
 
 export const DownloadFile = () => {
   const lesson = useAppSelector(lessonSelector)
@@ -33,10 +33,11 @@ export const DownloadFile = () => {
 
   const complete = async () => {
     if (downloadFile && lesson) {
-      const params = new FormData()
-      params.append('answer', downloadFile)
+      const dataTaskToCompleted = {
+        answer: downloadFile
+      }
       try {
-        await LessonService.complete(params, lesson.id)
+        await LessonService.complete(dataTaskToCompleted, lesson.id)
         setShowModal(true)
       } catch (error) {
         await showToast('Произошла ошибка!')

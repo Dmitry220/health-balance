@@ -1,11 +1,11 @@
 import { AxiosResponse } from "axios";
 import { $api } from "../http";
-import { IDynamics, IGetProgressAndIDPolls, IListReport, IQuestionnaire } from "../models/IHealthIndex";
+import { IDynamics, IGetProgressAndIDPolls, IListReport, IQuestionnaire, ISaveCurrentResult } from "../models/IHealthIndex";
 
 export default class HealthIndexService {
   static async saveCurrentResult(
     id: number,
-    params: FormData
+    params: ISaveCurrentResult
   ): Promise<AxiosResponse<{ data: { progress: number } }>> {
     return $api.post(
       `/v2/polls/${id}/answers?token=${localStorage.getItem("token")}`,
@@ -13,7 +13,7 @@ export default class HealthIndexService {
       {
         headers: {
           accept: "application/json",
-          "Content-Type": `application/x-www-form-urlencoded`,
+          "Content-Type": `multipart/form-data`,
         },
       }
     );

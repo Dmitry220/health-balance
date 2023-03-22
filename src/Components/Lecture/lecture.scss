@@ -67,3 +67,141 @@
     display: inline-flex;
   }
 }
+
+.card-lecture {
+  position: relative;
+  color: #fff;
+  &:not(:last-child) {
+    margin: 0 0 26px 0;
+  }
+  display: flex;
+  // justify-content: space-between;
+  gap: 14px;
+
+  &__plug{
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    background: #191919;
+    font-size: 10px;
+    color: #8B8B8B;
+    padding: 4px 8px;
+    z-index: 2;
+    border-radius: 3px;
+  }
+
+  &__image{
+    flex: 0 0 166px;
+    height: 98px;
+    img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__info{
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__title{
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 120%;
+    flex: 1 1 auto;
+    margin: 0 0 15px 0;
+  }
+  &__date{
+    font-weight: 400;
+    font-size: 13px;
+    margin: 0 0 8px 0;
+    color: #919191;
+  }
+}
+.reward{
+  font-weight: 500;
+  font-size: 13px;
+
+  color: #909090;
+  display: flex;
+  gap: 7px;
+  align-items: center;
+
+  &__icon{
+    width: 13px;
+    height: 13px;
+  }
+  &__count{
+    font-weight: 400;
+  }
+}
+
+.creating-lecture {
+  padding-top: 50px;
+  &__title {
+    margin: 0 0 40px 0;
+  }
+
+  &__sub-title {
+    margin: 0 0 20px 0;
+  }
+
+  &__input {
+    margin: 0 0 20px 0;
+  }
+
+  &__buttons {
+    max-width: 280px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__url {
+    margin: 0 0 20px 0;
+  }
+  &__description{
+    margin: 0 0 20px 0;
+  }
+
+  &__select {
+    margin: 0 0 20px 0;
+  }
+  &__date{
+    margin: 0 0 20px 0;
+  }
+  &__score{
+    margin: 0 0 20px 0;
+  }
+  input[type="file"] {
+    display:none;
+  }
+  input[type="file"] + label {
+    display: inline-flex;
+  }
+  &__image{
+    width: 100%;
+    margin: 0 0 20px 0;
+    img{
+      width: 100%;
+      height: 166px;
+      object-fit: cover;
+    }
+  }
+  &__local-image{
+    width: 100%;
+    img{
+      width: 100%;
+      height: 100px;
+      object-fit: inherit;
+    }
+  }
+  &__error{
+    margin: -15px 0 10px 0;
+    color: red;
+    font-size: 13px;
+  }
+
+}

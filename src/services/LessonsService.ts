@@ -1,10 +1,11 @@
 import { $api } from '../http'
+import { ICreatingLecture } from '../models/ILessons'
 
 export default class LessonService {
-  static async createLesson(params: FormData) {
+  static async createLesson(data: ICreatingLecture) {
     return $api.post(
       `/v2/lessons/?token=${localStorage.getItem('token')}`,
-      params,
+      data,
       {
         headers: {
           accept: 'application/json',
@@ -14,10 +15,10 @@ export default class LessonService {
     )
   }
 
-  static async complete(params: FormData, id: number) {
+  static async complete(dataTaskToCompleted: {answer: any}, id: number) {
     return $api.post(
       `/v2/lessons/${id}/complete/?token=${localStorage.getItem('token')}`,
-      params,
+      dataTaskToCompleted,
       {
         headers: {
           accept: 'application/json',
