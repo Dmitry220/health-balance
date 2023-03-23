@@ -42,48 +42,6 @@ export const InterestingPage = () => {
   return (
     <div className={'interesting-page'}>
       <HeaderTwo title={'Интересное'} marginBottom={20} />
-      {/* <div className='interesting-page__actual'>
-        <div className='interesting-page__actual-item'>
-          <CardActual
-            title={'Как начать сегодня!'}
-            path={MOTIVATION_ROUTE}
-            image={'https://www.cruisetips.ru/upload/upload1331487961917_1.jpg'}
-            type={'Мотивация'}
-          />
-        </div>
-        <div className='interesting-page__actual-item'>
-          <CardActual
-            title={'Челлендж'}
-            path={MOTIVATION_ROUTE}
-            image={'https://www.cruisetips.ru/upload/upload1331487961917_1.jpg'}
-            type={'Мотивация'}
-          />
-        </div>
-        <div className='interesting-page__actual-item'>
-          <CardActual
-            title={'Челлендж'}
-            path={MOTIVATION_ROUTE}
-            image={'https://www.cruisetips.ru/upload/upload1331487961917_1.jpg'}
-            type={'Мотивация'}
-          />
-        </div>
-        <div className='interesting-page__actual-item'>
-          <CardActual
-            title={'Челлендж'}
-            path={MOTIVATION_ROUTE}
-            image={'https://www.cruisetips.ru/upload/upload1331487961917_1.jpg'}
-            type={'Мотивация'}
-          />
-        </div>
-        <div className='interesting-page__actual-item'>
-          <CardActual
-            title={'Челлендж'}
-            path={MOTIVATION_ROUTE}
-            image={'https://www.cruisetips.ru/upload/upload1331487961917_1.jpg'}
-            type={'Мотивация'}
-          />
-        </div>
-      </div> */}
       {dataUser.role === 1 && (
         <div style={{ marginTop: '20px', marginBottom: '20px' }}>
           <NavLink to={CREATING_INTERESTING_ROUTE} className='_button-yellow'>

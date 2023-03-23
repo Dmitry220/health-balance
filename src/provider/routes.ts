@@ -40,7 +40,6 @@ import {
   TEAM_MEMBER_ROUTE,
   PROFILE_MEMBER_ROUTE,
   RUBRIC_ROUTE,
-  CURATOR_INTERESTING,
   DIALOG__ROUTE,
   INTERVIEW_PAGE,
   CREATING_LECTURE_ROUTE
@@ -86,7 +85,6 @@ import { ProductScreen } from '../pages/Product-screen/Product-screen'
 import { TeamMembersPage } from '../pages/Team-members-page/Team-members-page'
 import { ProfileMemberPage } from '../pages/Profile-member-page/Profile-member-page'
 import { RubricPage } from '../pages/Rubric-page/Rubric-page'
-import { CuratorInteresting } from '../pages/Curator-interesting/Curator-interesting'
 import { PersonalChat } from '../pages/Chat-page/Personal-chat'
 import { InterviewPage } from '../pages/Interview-page/Interview-page'
 import { CreatingLecture } from '../Components/Lecture/Creating-lecture'
@@ -266,10 +264,6 @@ export const privateRoutes = [
   {
     path: RUBRIC_ROUTE,
     Component: RubricPage
-  },
-  {
-    path: CURATOR_INTERESTING,
-    Component: CuratorInteresting
   },
   {
     path: INTERVIEW_PAGE,

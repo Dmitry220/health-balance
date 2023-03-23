@@ -1,6 +1,5 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect } from 'react'
 import './header-active.scss'
-// import icon from '../../assets/image/icon_reward.svg'
 import { RewardCount } from '../Reward/Reward-count'
 import icon_chat from '../../assets/image/icon_chat.svg'
 import { Link } from 'react-router-dom'
@@ -55,10 +54,6 @@ const HeaderActive: FC<IHeaderActive> = ({ transparent }) => {
           </div>
         </Link>
         <div className='header-active__column'>
-          {/* <div className='header-active__icon-reward'>
-            <img src={icon} alt='' />
-          </div>
-          <div className='header-active__value'>365</div> */}
           {transparent ? (
             <RewardCount count={balance} />
           ) : (

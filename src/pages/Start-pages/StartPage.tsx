@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useMemo, useState } from 'react'
+import { FC, useCallback, useEffect, useState } from 'react'
 import { Pagination, A11y } from 'swiper'
 import { Swiper, SwiperSlide, useSwiper } from 'swiper/react'
 

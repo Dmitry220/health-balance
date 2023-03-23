@@ -95,7 +95,7 @@ export const topTodaySelector = (state: RootState) => state.leaderboard.topToday
 export const topMonthSelector = (state: RootState) => state.leaderboard.topMonth
 export const topYearSelector = (state: RootState) => state.leaderboard.topYear
 export const leaderboardChallengeSelector = (state: RootState) => state.leaderboard.leaderboardChallenge
-export const leaderboardTeamsChallengeChallengeSelector = (state: RootState) => state.leaderboard.leaderboardTeamsChallenge
+export const leaderboardTeamsChallengeSelector = (state: RootState) => state.leaderboard.leaderboardTeamsChallenge
 export const isLoadingSelector = (state: RootState) => state.leaderboard.isLoading
 
 

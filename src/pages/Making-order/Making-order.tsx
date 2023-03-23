@@ -42,16 +42,6 @@ export const MakingOrder = () => {
       <div className='making-order__title main-title'>
         Мы отправим информацию на почту и телефон, указанные в вашем профиле.
       </div>
-      {/* <form className='making-order__form form-order'>
-        <label htmlFor='email' className='form-order__label'>
-          Эл. почта
-        </label>
-        <input type='text' className='form-order__field _field' />
-        <label htmlFor='email' className='form-order__label'>
-          Телефон
-        </label>
-        <input type='text' className='form-order__field _field' />
-      </form> */}
       <button
         className='making-order__button _button-white'
         onClick={sendOrder}

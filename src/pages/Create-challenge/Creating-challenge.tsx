@@ -79,23 +79,6 @@ export const CreatingChallengePage = () => {
       <Header title={'Создание челленджа'} />
       {renderCreatingChallengeItems()}
       <div className='creating-challenge-page__buttons'>
-        {/* {order > 0 && order <= 7 && (
-          <button
-            className='creating-challenge-page__button _button-white'
-            onClick={() => {
-              if (type === 3 && order === 7) {
-                setOrder((prev) => prev - 2)
-              } else {
-                setOrder((prev) => prev - 1)
-              }
-              if (order === 4) {
-                dispatch(setDisabledButton(false))
-              }
-            }}
-          >
-            Назад
-          </button>
-        )} */}
         {order === 8 && (
           <button
             className='creating-challenge-page__button _button-white'

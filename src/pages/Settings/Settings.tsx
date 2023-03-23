@@ -1,4 +1,3 @@
-// import { useState } from 'react'
 import './settings.scss'
 import Header from '../../Components/Header/Header'
 import { Link } from 'react-router-dom'
@@ -7,12 +6,6 @@ import { DOC_URL } from '../../http'
 import { Capacitor } from '@capacitor/core'
 
 export const Settings = () => {
-  // const [notificationNews, setNotificationNews] = useState<boolean>(true)
-  // const [notificationQuiz, setNotificationQuiz] = useState<boolean>(true)
-  // const [notificationChallenge, setNotificationChallenge] =
-  //   useState<boolean>(true)
-  // const [notificationPedometer, setNotificationPedometer] =
-  //   useState<boolean>(true)
 
   return (
     <div className={'settings'}>
@@ -32,76 +25,6 @@ export const Settings = () => {
             </div>
           </div>
         )}
-        {/* <div className='settings__block'>
-          <div className='settings__title'>Уведомления</div>
-          <div className='settings__items-notifications'>
-            <div className='settings__row'>
-              <label htmlFor={'news'} className='settings__notification-title'>
-                Новости приложения
-              </label>
-              <label className='settings__switch switch'>
-                <input
-                  id={'news'}
-                  type='checkbox'
-                  checked={notificationNews}
-                  onChange={() => setNotificationNews((prev) => !prev)}
-                />
-                <span className='switch__slider round' />
-              </label>
-            </div>
-            <div className='settings__row'>
-              <label
-                htmlFor={'notificationQuiz'}
-                className='settings__notification-title'
-              >
-                Опросы
-              </label>
-              <label className='settings__switch switch'>
-                <input
-                  id={'notificationQuiz'}
-                  type='checkbox'
-                  checked={notificationQuiz}
-                  onChange={() => setNotificationQuiz((prev) => !prev)}
-                />
-                <span className='switch__slider round' />
-              </label>
-            </div>
-            <div className='settings__row'>
-              <label
-                htmlFor={'notificationChallenge'}
-                className='settings__notification-title'
-              >
-                Уведомления челленджей
-              </label>
-              <label className='settings__switch switch'>
-                <input
-                  id={'notificationChallenge'}
-                  type='checkbox'
-                  checked={notificationChallenge}
-                  onChange={() => setNotificationChallenge((prev) => !prev)}
-                />
-                <span className='switch__slider round' />
-              </label>
-            </div>
-            <div className='settings__row'>
-              <label
-                htmlFor={'notificationPedometer'}
-                className='settings__notification-title'
-              >
-                Уведомления шагометра
-              </label>
-              <label className='settings__switch switch'>
-                <input
-                  id={'notificationPedometer'}
-                  type='checkbox'
-                  checked={notificationPedometer}
-                  onChange={() => setNotificationPedometer((prev) => !prev)}
-                />
-                <span className='switch__slider round' />
-              </label>
-            </div>
-          </div>
-        </div> */}
         <div className='settings__block'>
           <div className='settings__block-links'>
             <a

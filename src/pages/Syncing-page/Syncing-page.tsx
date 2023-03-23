@@ -32,56 +32,6 @@ export const SyncingPage = () => {
   return (
     <div className={'sync-page'}>
       <Header title={'Синхронизация'} />
-      {/* {(Capacitor.getPlatform() === 'android' ||
-        Capacitor.getPlatform() === 'web') && (
-        <>
-          <div className='sync-page__item'>
-            <div className='custom-checkbox sync-page__radio'>
-              <div>
-                <input
-                  checked={isGoogleFit === 1}
-                  value={1}
-                  type='radio'
-                  name={'radio'}
-                  className={'custom-checkbox__checkbox'}
-                  id={'1'}
-                  onChange={toggleGoogleFit}
-                />
-                <label htmlFor={'1'}>
-                  <div className='sync-page__column'>
-                    <div className='sync-page__icon'>
-                      <img src={plug} alt='google' />
-                    </div>
-                    <div className='sync-page__title'>Встроенный шагомер</div>
-                  </div>
-                </label>
-              </div>
-            </div>
-          </div>
-          <div className='sync-page__item'>
-            <div className='custom-checkbox sync-page__radio'>
-              <input
-                checked={isGoogleFit === 2}
-                value={2}
-                type='radio'
-                name={'radio'}
-                className={'custom-checkbox__checkbox'}
-                id={'2'}
-                onChange={toggleGoogleFit}
-              />
-              <label htmlFor={'2'}>
-                <div className='sync-page__column'>
-                  <div className='sync-page__icon'>
-                    <img src={google} alt='google' />
-                  </div>
-                  <div className='sync-page__title'>Google fit</div>
-                </div>
-              </label>
-            </div>
-          </div>
-        </>
-      )} */}
-
       <h1 className='sync-page__head'>Google Fit Синхронизация</h1>
       <div className='sync-page__text'>
         Google Fit — это открытая платформа, которая позволяет вам
@@ -120,43 +70,6 @@ export const SyncingPage = () => {
           Google Fit.
         </ModalFit>
       )}
-
-      {/* <div className='sync-page__item'>
-        <div className='sync-page__column'>
-          <div className='sync-page__icon'>
-            <img src={apple} alt='apple' />
-          </div>
-          <div className='sync-page__title'>Apple Health</div>
-        </div>
-        <div className='sync-page__action text-blue'>Подключить</div>
-      </div>
-      <div className='sync-page__item'>
-        <div className='sync-page__column'>
-          <div className='sync-page__icon'>
-            <img src={samsung} alt='samsung' />
-          </div>
-          <div className='sync-page__title'>Samsung Health</div>
-        </div>
-        <div className='sync-page__action text-blue'>Подключить</div>
-      </div>
-      <div className='sync-page__item'>
-        <div className='sync-page__column'>
-          <div className='sync-page__icon'>
-            <img src={huawei} alt='huawei' />
-          </div>
-          <div className='sync-page__title'>Huawei Health</div>
-        </div>
-        <div className='sync-page__action text-blue'>Подключить</div>
-      </div>
-      <div className='sync-page__item'>
-        <div className='sync-page__column'>
-          <div className='sync-page__icon'>
-            <img src={mi} alt='mi' />
-          </div>
-          <div className='sync-page__title'>Mi Fit</div>
-        </div>
-        <div className='sync-page__action text-blue'>Подключить</div>
-      </div> */}
     </div>
   )
 }

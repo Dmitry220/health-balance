@@ -6,7 +6,6 @@ import UserService from "../../services/UserServices";
 
 export interface IUserInfo {
   dataUser: IUser;
-  // isSuccesfullRequest: boolean
 }
 
 const initialState: IUserInfo = {
@@ -40,18 +39,13 @@ export const userSlice = createSlice({
       setUserInfo.fulfilled,
       (state, action: PayloadAction<IUser>) => {
         state.dataUser = action.payload;
-        //state.isSuccesfullRequest = true
       }
     );
-    //   builder.addCase(setUserData.rejected, (state) => {
-    //       state.isSuccesfullRequest = false
-    //   })
   },
 });
 
 export const {} = userSlice.actions;
 
 export const infoUserSelector = (state: RootState) => state.user.dataUser;
-//export const isSuccesfullRequestSelector = (state: RootState) => state.profile.isSuccesfullRequest
 
 export default userSlice.reducer;

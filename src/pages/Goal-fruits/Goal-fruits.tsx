@@ -5,7 +5,6 @@ import TrackerService from '../../services/TrackerService'
 import { showToast } from '../../utils/common-functions'
 import { useAppSelector } from '../../hooks/redux-hooks'
 import './goal-fruits.scss'
-import { ICreatingTracker } from '../../models/ITracker'
 
 export const GoalFruits = () => {
   const tracker = useAppSelector(trackerSelector)
