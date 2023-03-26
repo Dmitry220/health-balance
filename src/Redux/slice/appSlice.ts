@@ -154,9 +154,8 @@ export const getBalance = createAsyncThunk("balance", async () => {
 
 export const getStepsPerDay = createAsyncThunk(
   "getStepsPerDay",
-  async (data: any) => {
-    const { start_date, end_date } = data;
-    const response = await AppService.getStepsPerDay(start_date, end_date);
+  async () => {
+    const response = await AppService.getStepsPerDay();
     return response.data.data;
   }
 );

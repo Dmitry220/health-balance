@@ -49,9 +49,6 @@ export const StartPage = () => {
   const activityVisitCount = useAppSelector(visitPagesSelector)
   const statusBar = useStatusBar()
 
-  console.log('statusBar =', `-${statusBar}px -16px -16px -16px`);
-  
-
   useEffect(() => {
     startPlugin()
   }, [])
@@ -181,12 +178,7 @@ export const SlideNextButton: FC<ISwiperNextButton> = ({
     if (Capacitor.getPlatform() === 'android') {
       // Установка значения с которого будет работать шагомер
       const indexWeek = new Date().getDay() === 0 ? 7 : new Date().getDay()
-      const startDateDay = new Date()
-      startDateDay.setDate(startDateDay.getDate() - 7)
-      const response = await AppService.getStepsPerDay(
-        startDateDay.toLocaleDateString(),
-        new Date().toLocaleDateString()
-      )
+      const response = await AppService.getStepsPerDay()
       if (response.data.data.statistic) {
         await Pedometer.setData({
           numberOfSteps: response.data.data.statistic[indexWeek].quantity,

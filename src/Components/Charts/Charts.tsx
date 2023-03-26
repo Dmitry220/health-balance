@@ -1,25 +1,22 @@
-import {useAppDispatch, useAppSelector} from "../../hooks/redux-hooks";
-import {useEffect, useState} from "react";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux-hooks";
+import { useEffect, useState } from "react";
 import {
     currentStepsCountSelector, getStepsPerDay, getStepsPerMonth, getStepsPerWeek,
     monthsSelector, setMonths, setWeeks,
     stepsPerDaySelector,
     weeksSelector
 } from "../../Redux/slice/appSlice";
-import {purposeSelector} from "../../Redux/slice/purposeSlice";
-import {getGradient, optionsChartBar} from "./Chart-options";
-import PurposeService from "../../services/PurposeService";
-import {ModalSuccess} from "../Modals/Modal-success";
-import {TabContent, Tabs} from "../Tabs/Tabs";
-import {Bar} from "react-chartjs-2";
-import {nFormatter, sklonenie} from "../../utils/common-functions";
-import {BarElement, CategoryScale, Chart as ChartJS, Legend, LinearScale, Title, Tooltip} from "chart.js";
+import { purposeSelector } from "../../Redux/slice/purposeSlice";
+import { getGradient, optionsChartBar } from "./Chart-options";
+import { TabContent, Tabs } from "../Tabs/Tabs";
+import { Bar } from "react-chartjs-2";
+import { nFormatter, sklonenie } from "../../utils/common-functions";
+import { BarElement, CategoryScale, Chart as ChartJS, Legend, LinearScale, Title, Tooltip } from "chart.js";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 export const Charts = () => {
-    const startDateDay = new Date()
-    startDateDay.setDate(startDateDay.getDate() - 7)
+
     const startDateWeek = new Date()
     startDateWeek.setDate(startDateWeek.getDate() - 7 * 7)
     const startDateMonth = new Date()
@@ -28,7 +25,6 @@ export const Charts = () => {
     const dispatch = useAppDispatch()
     const [currentValueTab, setCurrentValueTab] = useState<number>(0)
     const namesTabsDynamics = ['Дни', 'Недели', 'Месяцы']
-    const [showModal, setShowModal] = useState<boolean>(false)
     const currentStepsCount = useAppSelector(currentStepsCountSelector)
     const steps = useAppSelector(stepsPerDaySelector)
     const months = useAppSelector(monthsSelector)
@@ -39,11 +35,11 @@ export const Charts = () => {
         purpose && steps.statistic
             ? steps.statistic[new Date().getDay() === 0 ? 6 : new Date().getDay() - 1]
                 ?.finished
-            ? 100
-            : (
-                (steps.statistic[indexWeek]?.quantity * 100) /
-                purpose?.quantity
-            ).toFixed(2)
+                ? 100
+                : (
+                    (steps.statistic[indexWeek]?.quantity * 100) /
+                    purpose?.quantity
+                ).toFixed(2)
             : 0
 
     const dataDay = {
@@ -96,10 +92,6 @@ export const Charts = () => {
     }
 
     useEffect(() => {
-        const data = {
-            end_date: new Date().toLocaleDateString(),
-            start_date: startDateDay.toLocaleDateString()
-        }
         const dataWeek = {
             end_date: new Date().toLocaleDateString(),
             start_date: startDateWeek.toLocaleDateString(),
@@ -112,7 +104,7 @@ export const Charts = () => {
         }
 
         async function asyncQuery() {
-            await dispatch(getStepsPerDay(data))
+            await dispatch(getStepsPerDay())
             await dispatch(getStepsPerMonth(dataMonth))
             await dispatch(getStepsPerWeek(dataWeek))
             dispatch(setMonths())
@@ -121,37 +113,6 @@ export const Charts = () => {
         asyncQuery()
     }, [currentStepsCount])
 
-    useEffect(() => {
-        (async () => {
-            const isCompletedPurposeResponse =
-                await PurposeService.isCompletedPurpose()
-            if (
-                !isCompletedPurposeResponse.data.data.length &&
-                purpose &&
-                steps.statistic[indexWeek]?.quantity >= purpose.quantity
-            ) {
-                const response = await PurposeService.completePersonalPurpose(
-                    purpose?.id
-                )
-                if (response.data.success) {
-                    setShowModal(true)
-                }
-            }
-        })()
-    }, [steps])
-
-    if (showModal) {
-        return (
-            <ModalSuccess
-                updateActive={true}
-                setShowModal={setShowModal}
-                showModal={showModal}
-                subTitle='Ваша награда'
-                reward={purpose?.reward}
-                title={'Личная цель на сегодня выполнена'}
-            />
-        )
-    }
 
     return (
         <div className='activity-page__dynamics dynamics'>
@@ -169,12 +130,12 @@ export const Charts = () => {
                     <div className='dynamics__value'>
                         {nFormatter(steps.statistic[indexWeek]?.quantity, 2)} <br />{' '}
                         <span>
-              {sklonenie(steps.statistic[indexWeek]?.quantity, [
-                  'шаг',
-                  'шага',
-                  'шагов'
-              ])}
-            </span>
+                            {sklonenie(steps.statistic[indexWeek]?.quantity, [
+                                'шаг',
+                                'шага',
+                                'шагов'
+                            ])}
+                        </span>
                     </div>
                     <div className='dynamics__value'>
                         {((steps.statistic[indexWeek]?.quantity * 0.7) / 1000).toFixed(2)}
@@ -213,12 +174,12 @@ export const Charts = () => {
                     <div className='dynamics__value'>
                         {nFormatter(months[new Date().getMonth()].count, 1)} <br />{' '}
                         <span>
-              {sklonenie(months[new Date().getMonth()].count, [
-                  'шаг',
-                  'шага',
-                  'шагов'
-              ])}
-            </span>
+                            {sklonenie(months[new Date().getMonth()].count, [
+                                'шаг',
+                                'шага',
+                                'шагов'
+                            ])}
+                        </span>
                     </div>
                     <div className='dynamics__value'>
                         {nFormatter(

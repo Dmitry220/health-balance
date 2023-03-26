@@ -2,28 +2,13 @@ import { ChangeEvent, useEffect, useState } from 'react'
 import Header from '../../Components/Header/Header'
 import { purposeSelector } from '../../Redux/slice/purposeSlice'
 import PurposeService from '../../services/PurposeService'
-import { showToast } from '../../utils/common-functions'
+import { range, showToast } from '../../utils/common-functions'
 import { useAppSelector } from '../../hooks/redux-hooks'
 import './new-target-page.scss'
 
 export const NewTargetPage = () => {
   const purpose = useAppSelector(purposeSelector)
   const [noFinished, setNoFinished] = useState<boolean>(false)
-  const range = function (start: number, stop: number, step: number) {
-    if (stop === null) {
-      stop = start || 0
-      start = 0
-    }
-    step = step || 1
-
-    let length = Math.max(Math.ceil((stop - start) / step), 0)
-    let range = Array(length)
-
-    for (let idx = 0; idx <= length; idx++, start += step) {
-      range[idx] = start
-    }
-    return range
-  }
 
   const [valueStep, setValueStep] = useState<string>('')
 
@@ -45,14 +30,15 @@ export const NewTargetPage = () => {
     }
   }
 
+  const isCompletedPurpose = async () => {
+    const isCompletedPurposeResponse = await PurposeService.isCompletedPurpose()
+    if (!isCompletedPurposeResponse.data.data.length) {
+      setNoFinished(true)
+    }
+  }
+
   useEffect(() => {
-    ;(async () => {
-      const isCompletedPurposeResponse =
-        await PurposeService.isCompletedPurpose()
-      if (!isCompletedPurposeResponse.data.data.length) {
-        setNoFinished(true)
-      }
-    })()
+    isCompletedPurpose()
   }, [])
 
   return (

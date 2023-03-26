@@ -173,3 +173,19 @@ export function sklonenie(number: number, txt: string[]) {
       : cases[number % 10 < 5 ? number % 10 : 5]
   ]
 }
+
+export const range = function (start: number, stop: number, step: number) {
+  if (stop === null) {
+    stop = start || 0
+    start = 0
+  }
+  step = step || 1
+
+  let length = Math.max(Math.ceil((stop - start) / step), 0)
+  let range = Array(length)
+
+  for (let idx = 0; idx <= length; idx++, start += step) {
+    range[idx] = start
+  }
+  return range
+}

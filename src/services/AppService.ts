@@ -20,8 +20,8 @@ export default class AppService {
     );
   }
 
-  static getStepsPerDay(start_date:string, end_date:string): Promise<AxiosResponse<{ data: {statistic:IStepsPerDay[],difference:number} }>> {
-    return $api.get(`/v2/steps?end_date=${end_date}&start_date=${start_date}&token=${localStorage.getItem("token")}`);
+  static getStepsPerDay(): Promise<AxiosResponse<{ data: {statistic:IStepsPerDay[],difference:number} }>> {
+    return $api.get(`/v2/steps?token=${localStorage.getItem("token")}`);
   }
 
   static getStepsPerWeekAndMonth(start_date:string, end_date:string, type:1|2){
