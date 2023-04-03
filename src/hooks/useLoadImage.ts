@@ -16,7 +16,6 @@ export const useLoadImage = () => {
   };
 
   const uploadImage = async (type: typeImage) => {
-    try {
       const image = await Camera.getPhoto({
         quality: 50,
         allowEditing: true,
@@ -47,10 +46,6 @@ export const useLoadImage = () => {
       } else {
         await showToast("Изображения нет");
       }
-    } catch (error) {
-      clearImages();
-      await showToast("Максимальный вес изображения 3 мб");
-    }
   };
 
   return [image, photoPath, isLoadingAvatar, clearImages, uploadImage] as const;
