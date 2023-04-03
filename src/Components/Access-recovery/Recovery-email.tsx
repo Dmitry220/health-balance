@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './access-recovery.scss'
-import {useAppDispatch, useAppSelector} from '../../hooks/redux-hooks'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import {
   emailRecoverySelector,
   errorRecoverySelector,
@@ -13,18 +13,21 @@ export const RecoveryEmail = () => {
   const error = useAppSelector(errorRecoverySelector)
   const email = useAppSelector(emailRecoverySelector)
   const dispatch = useAppDispatch()
-  
+  const validRegex =
+    /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
+
   const handlerEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setError(false))
-    const validRegex =
-      /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
     const value = e.target.value
     dispatch(setRecoveryEmail(e.target.value))
     value.match(validRegex)
       ? dispatch(setDisabledButton(false))
       : dispatch(setDisabledButton(true))
-   
   }
+
+  useEffect(() => {    
+    email.match(validRegex) ? dispatch(setDisabledButton(false)) : dispatch(setDisabledButton(true))
+  }, [])
 
   return (
     <div className={'recovery-email'}>
