@@ -16,36 +16,35 @@ export const useLoadImage = () => {
   };
 
   const uploadImage = async (type: typeImage) => {
-      const image = await Camera.getPhoto({
-        quality: 50,
-        allowEditing: true,
-        resultType: CameraResultType.Uri,
-        promptLabelPhoto: "Выбрать фото из галерии",
-        promptLabelPicture: "Сделать фотографию",
-        promptLabelHeader: "Фото",
-      });
-
+    const image = await Camera.getPhoto({
+      quality: 50,
+      allowEditing: true,
+      resultType: CameraResultType.Uri,
+      promptLabelPhoto: "Выбрать фото из галерии",
+      promptLabelPicture: "Сделать фотографию",
+      promptLabelHeader: "Фото",
+    });
+    setIsLoadingAvatar(true);
+    try {
       let imageUrl = image.webPath || "";
       let blob = await fetch(imageUrl).then((r) => r.blob());
-      setIsLoadingAvatar(true);
-
-      if (blob) { 
-        try {
-          const response = await FileService.uploadImage(blob,type);
-          if (response?.data?.data?.avatar) {
-            setPhotoPath(imageUrl);
-            setImage(response.data.data.avatar);
-          } else {
-            await showToast("Максимальный вес изображения 3 мб");
-          }
-          setIsLoadingAvatar(false);
-        } catch (error) {
-          clearImages();
+      if (blob) {
+        const response = await FileService.uploadImage(blob, type);
+        if (response?.data?.data?.avatar) {
+          setPhotoPath(imageUrl);
+          setImage(response.data.data.avatar);
+        } else {
           await showToast("Максимальный вес изображения 3 мб");
         }
       } else {
         await showToast("Изображения нет");
       }
+    } catch (error) {
+      clearImages();
+      await showToast("Максимальный вес изображения 3 мб");
+    } finally {
+      setIsLoadingAvatar(false);
+    }
   };
 
   return [image, photoPath, isLoadingAvatar, clearImages, uploadImage] as const;
