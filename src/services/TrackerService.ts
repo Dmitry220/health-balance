@@ -5,7 +5,7 @@ import { ICreatingTracker, IGetTracker, ITrack } from "../models/ITracker";
 export default class TrackerService {
   static async creatingTracker(data: ICreatingTracker) {
     return $api.post(
-      `/v2/tracker/?token=${localStorage.getItem("token")}`,
+      `tracker/?token=${localStorage.getItem("token")}`,
       data,
       {
         headers: {
@@ -17,7 +17,7 @@ export default class TrackerService {
   }
 
   static async getTracker(): Promise<AxiosResponse<{ data: IGetTracker }>> {
-    return $api.get(`/v2/tracker/?token=${localStorage.getItem("token")}`);
+    return $api.get(`tracker/?token=${localStorage.getItem("token")}`);
   }
 
   static async updateTracker(
@@ -28,7 +28,7 @@ export default class TrackerService {
     const body = type + "=" + value;
     return (
       $api.patch(
-        `/v2/tracker/${id}/update?token=${localStorage.getItem("token")}`,
+        `tracker/${id}/update?token=${localStorage.getItem("token")}`,
         body,{
           headers: {
             "Content-Type": "text/plain",
@@ -45,7 +45,7 @@ export default class TrackerService {
     additional?: string
   ) {
     return (
-      $api.post(`/v2/tracks?token=${localStorage.getItem("token")}`, {
+      $api.post(`tracks?token=${localStorage.getItem("token")}`, {
         type,
         time,
         additional,
@@ -63,7 +63,7 @@ export default class TrackerService {
   static async complteteTrack(id: number) {
     return (
       $api.post(
-        `/v2/tracks/${id}/complete?token=${localStorage.getItem("token")}`,{},  {
+        `tracks/${id}/complete?token=${localStorage.getItem("token")}`,{},  {
           headers: {
             accept: "application/json",
             "Content-Type": `multipart/form-data`,
@@ -76,7 +76,7 @@ export default class TrackerService {
 
   static async createTrack(type: 1 | 2 | 3, time: string, additional: string) {
     return (
-      $api.post(`/v2/tracks?token=${localStorage.getItem("token")}`, {
+      $api.post(`tracks?token=${localStorage.getItem("token")}`, {
         type,
         time,
         additional,
@@ -94,7 +94,7 @@ export default class TrackerService {
     date: string
   ): Promise<AxiosResponse<{ data: ITrack[] }>> {
     return $api.get(
-      `/v2/tracks/?date=${date}&token=${localStorage.getItem("token")}`
+      `tracks/?date=${date}&token=${localStorage.getItem("token")}`
     );
   }
 
@@ -108,7 +108,7 @@ export default class TrackerService {
 
     return (
       $api.patch(
-        `/v2/tracks/${data.id}?token=${localStorage.getItem("token")}`,data
+        `tracks/${data.id}?token=${localStorage.getItem("token")}`,data
       ),
       {
         headers: {
@@ -120,6 +120,6 @@ export default class TrackerService {
   }
 
   static async deleteTracker(): Promise<AxiosResponse<{ success: boolean }>> {
-    return $api.delete(`/v2/tracker?token=${localStorage.getItem("token")}`);
+    return $api.delete(`tracker?token=${localStorage.getItem("token")}`);
   }
 }

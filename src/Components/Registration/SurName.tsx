@@ -9,7 +9,7 @@ import {
 export const SurName = () => {
   const surName = useAppSelector(surNameSelector)
   const dispatch = useAppDispatch()
-  const validationRegex = surName.length >= 2 && surName.length <= 20 && surName.match("^[a-zA-Z0-9]*$")
+  const validationRegex = surName.length >= 2 && surName.length <= 20 && surName.match("^[а-яА-ЯёЁa-zA-Z0-9]+$")
   useEffect(() => {
     validationRegex ? dispatch(setDisabledButton(false)) : dispatch(setDisabledButton(true))
   }, [surName])

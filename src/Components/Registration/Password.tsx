@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import {
+  emailSelector,
   passwordSelector,
   setDisabledButton,
   setPassword
@@ -8,10 +9,11 @@ import {
 
 export const Password = () => {
   const password = useAppSelector(passwordSelector)
+  const email = useAppSelector(emailSelector)
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    password.length >= 8 ? dispatch(setDisabledButton(false)) : dispatch(setDisabledButton(true))
+    (password.length >= 8 && password != email) ? dispatch(setDisabledButton(false)) : dispatch(setDisabledButton(true))
   }, [password])
 
   const validatePassword = (e: React.ChangeEvent<HTMLInputElement>) => {

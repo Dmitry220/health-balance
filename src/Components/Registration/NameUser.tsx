@@ -9,7 +9,7 @@ import {
 export const NameUser = () => {
   const nameUser = useAppSelector(nameUserSelector)
   const dispatch = useAppDispatch()
-  const validationRegex = nameUser.length >= 2 && nameUser.length <= 20 && nameUser.match("^[a-zA-Z0-9]*$")
+  const validationRegex = nameUser.length >= 2 && nameUser.length <= 20 && nameUser.match("^[а-яА-ЯёЁa-zA-Z0-9]+$")
 
   useEffect(() => {
     if( validationRegex){

@@ -6,12 +6,12 @@ export default class UserService {
   static async getUserDataOnId(
     id: number
   ): Promise<AxiosResponse<{ data: IUser }>> {
-    return $api.get(`/v2/customers/${id}`);
+    return $api.get(`customers/${id}`);
   }
 
   static async editingProfile(data: IUpdateUser) {
     return $api.patch(
-      `/v2/customers/?token=${localStorage.getItem("token")}`,
+      `customers/?token=${localStorage.getItem("token")}`,
       data
     );
   }

@@ -7,7 +7,7 @@ export default class FileService {
 
   static async uploadImage(image:Blob, type: typeImage ): Promise<AxiosResponse<IFileAvatar>> {
     return $api.post(
-      `/v2/images/?type=${type}&token=${localStorage.getItem('token')}`,
+      `images/?type=${type}&token=${localStorage.getItem('token')}`,
       {'image': image},
       {
         headers: {
