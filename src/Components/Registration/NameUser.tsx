@@ -21,7 +21,7 @@ export const NameUser = () => {
 
   const validateUserName = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
-    dispatch(setNameUser(value))
+    dispatch(setNameUser(value.trim()))
   }
   return (
     <div style={{ position: 'relative' }}>
