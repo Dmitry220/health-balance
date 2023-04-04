@@ -9,21 +9,14 @@ import {
 export const SurName = () => {
   const surName = useAppSelector(surNameSelector)
   const dispatch = useAppDispatch()
-
+  const validationRegex = surName.length >= 2 && surName.length <= 20 && surName.match("^[a-zA-Z0-9]*$")
   useEffect(() => {
-    if (surName.length >= 2 && surName.length <=20) {
-      dispatch(setDisabledButton(false))
-    }else{
-      dispatch(setDisabledButton(true))
-    }
+    validationRegex ? dispatch(setDisabledButton(false)) : dispatch(setDisabledButton(true))
   }, [surName])
 
   const validateSurname = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     dispatch(setSurname(value))
-    value.length < 2 && value.length >= 20
-      ? dispatch(setDisabledButton(true))
-      : dispatch(setDisabledButton(false))
   }
   return (
     <div style={{ position: 'relative' }}>

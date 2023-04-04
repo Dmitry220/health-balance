@@ -11,19 +11,12 @@ export const Password = () => {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    if (password.length >= 8) {
-      dispatch(setDisabledButton(false))
-    }else{
-      dispatch(setDisabledButton(true))
-    }
-  }, [])
+    password.length >= 8 ? dispatch(setDisabledButton(false)) : dispatch(setDisabledButton(true))
+  }, [password])
 
   const validatePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
-    dispatch(setPassword(value))
-    value.length < 8
-      ? dispatch(setDisabledButton(true))
-      : dispatch(setDisabledButton(false))
+    dispatch(setPassword(value.trim()))
   }
   return (
     <div style={{ position: 'relative' }}>
