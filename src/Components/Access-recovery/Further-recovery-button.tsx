@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { IFurtherButton } from '../Registration/FurtherButton'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import {
@@ -25,28 +25,39 @@ export const FurtherRecoveryButton: FC<IFurtherButton> = ({
   const email = useAppSelector(emailRecoverySelector)
   const password = useAppSelector(passwordRecoverySelector)
   const code = useAppSelector(codeRecoverySelector)
+  const [isLoading, setIsLoading] = useState(false)
 
   const changePassword = async () => {
+
     if (order === 0) {
+      setIsLoading(true)
       try {
-        await AuthService.restorePassword(email)
-        await showToast('Письмо с кодом отправлено на почту!')
-        if (order < 1) {
+        const response = await AuthService.restorePassword(email)
+        if (response.data.success) {
+          await showToast('Письмо с кодом отправлено на почту!')
           setOrder((prev) => prev + 1)
           dispatch(setDisabledButton(true))
           dispatch(setError(false))
         }
+
       } catch (error) {
         dispatch(setError(true))
+      } finally {
+        setIsLoading(false)
       }
     }
     if (order === 1) {
       try {
-        await AuthService.updatePassword(email, code, password)
-        await showToast('Ваш пароль восстановлен!')
-        navigate(LOGIN_ROUTE)
+        setIsLoading(true)      
+        const response = await AuthService.updatePassword(email, code, password)
+        if(response.data.success){
+         await showToast('Ваш пароль восстановлен!')
+         navigate(LOGIN_ROUTE) 
+        }      
       } catch (error) {
-        await showToast('Ошибка! ' + error)
+        await showToast('Не верный код из письма!')
+      } finally {
+        setIsLoading(false)
       }
     }
   }
@@ -55,12 +66,16 @@ export const FurtherRecoveryButton: FC<IFurtherButton> = ({
     <button
       className={
         'access-recovery__button _button-white' +
-        (disabledButton ? ' disabled' : '')
+        ((disabledButton) ? ' disabled' : '')
       }
-      disabled={disabledButton}
+      disabled={disabledButton || isLoading}
       onClick={changePassword}
     >
-      {order === 1 ? 'Изменить пароль' : 'Далее'}
+      {isLoading ? (
+        <span className='spinner'>
+          <i className='fa fa-spinner fa-spin'></i> Загрузка
+        </span>
+      ) : order === 1 ? 'Изменить пароль' : 'Далее'}
     </button>
   )
 }

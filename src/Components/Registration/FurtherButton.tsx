@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction } from 'react'
+import { Dispatch, FC, SetStateAction, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import {
   avatarSelector,
@@ -54,7 +54,7 @@ export const FurtherButton: FC<IFurtherButton> = ({ order, setOrder }) => {
 const ButtonSubmit: FC<IFurtherButton> = ({ order, setOrder }) => {
   const dispatch = useAppDispatch()
   let navigate = useNavigate()
-
+  const [isLoading, setIsLoading] = useState(false)
   const disabledButton = useAppSelector(disableButtonSelector)
   const email = useAppSelector(emailSelector)
   const password = useAppSelector(passwordSelector)
@@ -68,7 +68,7 @@ const ButtonSubmit: FC<IFurtherButton> = ({ order, setOrder }) => {
 
   const submitRegistration = async () => {
     dispatch(setDisabledButton(true))
-
+    setIsLoading(true)
     const uuid = await Device.getId()
 
     const device_token = uuid.uuid
@@ -102,6 +102,8 @@ const ButtonSubmit: FC<IFurtherButton> = ({ order, setOrder }) => {
       } else {
         await showToast('Ошибка!')
       }
+    }finally{
+      setIsLoading(false)
     }
   }
   return (
@@ -114,13 +116,21 @@ const ButtonSubmit: FC<IFurtherButton> = ({ order, setOrder }) => {
         disabled={disabledButton}
         onClick={submitRegistration}
       >
-        Сохранить
+        {isLoading ? (
+          <span className='spinner'>
+            <i className='fa fa-spinner fa-spin'></i> Загрузка
+          </span>
+        ) : 'Сохранить'}
       </button>
       <span
         className='registration__link text-yellow'
         onClick={submitRegistration}
       >
-        Пропустить
+        {isLoading ? (
+          <span className='spinner'>
+            <i className='fa fa-spinner fa-spin'></i> Загрузка
+          </span>
+        ) : 'Пропустить'}
       </span>
     </div>
   )
