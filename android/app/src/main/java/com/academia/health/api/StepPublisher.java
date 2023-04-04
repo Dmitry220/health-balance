@@ -15,7 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class StepPublisher implements Callback<StepResult> {
 
-    static final String BASE_URL = "https://test-1.symedia.ru/";
+    static final String BASE_URL = "https://health-balance.ru/";
     private final Gson gson;
     private final Retrofit retrofit;
     private final StepService stepServiceApi;
