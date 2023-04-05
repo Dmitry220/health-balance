@@ -1,8 +1,8 @@
-import { useState } from 'react'
+import { forwardRef, useState } from 'react'
 import Header from '../../Components/Header/Header'
 import './editing.scss'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
-import { dataUserSelector, updateProfile } from '../../Redux/slice/profileSlice'
+import { dataUserSelector, isLoadingSelector, updateProfile } from '../../Redux/slice/profileSlice'
 import InputMask from 'react-input-mask'
 import { useForm, Controller } from 'react-hook-form'
 import { Toast } from '@capacitor/toast'
@@ -36,6 +36,7 @@ export const Editing = () => {
     formState: { errors }
   } = useForm<FormData>()
 
+  const isLoading = useAppSelector(isLoadingSelector)
   const dataUser = useAppSelector(dataUserSelector)
   const [isLogoutModal, setLogoutModal] = useState<boolean>(false)
   const id = Number(localStorage.getItem('id'))
@@ -79,10 +80,17 @@ export const Editing = () => {
       />
     )
   }
+console.log(isLoading);
 
   return (
     <form className={'editing'} onSubmit={onSubmit}>
-      <input type='submit' className='editing__submit' value={'Готово'} />
+      <button type='submit' className='editing__submit' disabled={isLoading}>
+          {isLoading ? (
+          <span className='spinner'>
+            <i className='fa fa-spinner fa-spin'></i>
+          </span>
+        ) : 'Готово'}
+        </button>
       <Header title={'Редактирование'} />
       <div className='editing__row'>
         <div className='editing__wrapper-header'>
@@ -232,7 +240,8 @@ export const Editing = () => {
           render={({ field: { value, ...fieldProps } }) => (
             <ReactDatePicker
               {...fieldProps}
-              className='editing__input'
+              customInput={<ExampleCustomInput />}
+            
               selected={value}
               peekNextMonth
               showMonthDropdown
@@ -252,3 +261,9 @@ export const Editing = () => {
     </form>
   )
 }
+
+const ExampleCustomInput = forwardRef(({ value, onClick }: any, ref: any) => {
+  return (
+    <button type='button' className='editing__input' ref={ref} onClick={onClick} >{value}</button> 
+  )
+})

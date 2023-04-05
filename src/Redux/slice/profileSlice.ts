@@ -7,7 +7,8 @@ import { showToast } from '../../utils/common-functions'
 
 export interface IProfile {
   dataUser: IUser
-  isSuccesfullRequest: boolean
+  isSuccesfullRequest: boolean,
+  isLoading: boolean
 }
 
 const initialState: IProfile = {
@@ -25,7 +26,8 @@ const initialState: IProfile = {
     role: 0,
     steps: 0
   },
-  isSuccesfullRequest: false
+  isSuccesfullRequest: false,
+  isLoading: false
 }
 
 export const setUserData = createAsyncThunk('dataUser', async (id: number) => {
@@ -63,7 +65,13 @@ export const profileSlice = createSlice({
       }
     )
     builder.addCase(setUserData.rejected, (state) => {
-      state.isSuccesfullRequest = false
+      state.isSuccesfullRequest = false      
+    })
+    builder.addCase(updateProfile.pending, (state) => {
+      state.isLoading = true
+    })
+    builder.addCase(updateProfile.fulfilled, (state) => {
+      state.isLoading = false
     })
   }
 })
@@ -71,6 +79,7 @@ export const profileSlice = createSlice({
 export const {} = profileSlice.actions
 
 export const dataUserSelector = (state: RootState) => state.profile.dataUser
+export const isLoadingSelector = (state: RootState) => state.profile.isLoading
 export const isSuccesfullRequestSelector = (state: RootState) =>
   state.profile.isSuccesfullRequest
 
