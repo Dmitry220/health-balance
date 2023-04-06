@@ -2,7 +2,11 @@ import { forwardRef, useState } from 'react'
 import Header from '../../Components/Header/Header'
 import './editing.scss'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
-import { dataUserSelector, isLoadingSelector, updateProfile } from '../../Redux/slice/profileSlice'
+import {
+  dataUserSelector,
+  isLoadingSelector,
+  updateProfile
+} from '../../Redux/slice/profileSlice'
 import InputMask from 'react-input-mask'
 import { useForm, Controller } from 'react-hook-form'
 import { Toast } from '@capacitor/toast'
@@ -40,7 +44,8 @@ export const Editing = () => {
   const dataUser = useAppSelector(dataUserSelector)
   const [isLogoutModal, setLogoutModal] = useState<boolean>(false)
   const id = Number(localStorage.getItem('id'))
-  const [avatar, photoPath, isLoadingAvatar, clearImages, uploadImage] = useLoadImage()
+  const [avatar, photoPath, isLoadingAvatar, clearImages, uploadImage] =
+    useLoadImage()
   const dispatch = useAppDispatch()
 
   const showToast = async (text: string) => {
@@ -80,17 +85,18 @@ export const Editing = () => {
       />
     )
   }
-console.log(isLoading);
 
   return (
     <form className={'editing'} onSubmit={onSubmit}>
       <button type='submit' className='editing__submit' disabled={isLoading}>
-          {isLoading ? (
+        {isLoading ? (
           <span className='spinner'>
             <i className='fa fa-spinner fa-spin'></i>
           </span>
-        ) : 'Готово'}
-        </button>
+        ) : (
+          'Готово'
+        )}
+      </button>
       <Header title={'Редактирование'} />
       <div className='editing__row'>
         <div className='editing__wrapper-header'>
@@ -241,7 +247,6 @@ console.log(isLoading);
             <ReactDatePicker
               {...fieldProps}
               customInput={<ExampleCustomInput />}
-            
               selected={value}
               peekNextMonth
               showMonthDropdown
@@ -264,6 +269,13 @@ console.log(isLoading);
 
 const ExampleCustomInput = forwardRef(({ value, onClick }: any, ref: any) => {
   return (
-    <button type='button' className='editing__input' ref={ref} onClick={onClick} >{value}</button> 
+    <button
+      type='button'
+      className='editing__input'
+      ref={ref}
+      onClick={onClick}
+    >
+      {value}
+    </button>
   )
 })

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import {
   nameUserSelector,
@@ -9,10 +9,13 @@ import {
 export const NameUser = () => {
   const nameUser = useAppSelector(nameUserSelector)
   const dispatch = useAppDispatch()
-  const validationRegex = nameUser.length >= 2 && nameUser.length <= 20 && nameUser.match("^[а-яА-ЯёЁa-zA-Z0-9]+$")
+  const validationRegex =
+    nameUser.length >= 2 &&
+    nameUser.length <= 20 &&
+    nameUser.match('^[а-яА-ЯёЁa-zA-Z0-9]+$')
 
   useEffect(() => {
-    if( validationRegex){
+    if (validationRegex) {
       dispatch(setDisabledButton(false))
       return
     }

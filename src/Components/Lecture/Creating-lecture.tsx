@@ -45,7 +45,7 @@ export const CreatingLecture = () => {
     watch,
     formState: { errors }
   } = useForm<FormData>({
-    mode: 'onChange',
+    mode: 'onChange'
   })
   const allFiled = watch()
   const { fields, append, remove } = useFieldArray({
@@ -60,7 +60,8 @@ export const CreatingLecture = () => {
   const [startDate, setStartDate] = useState<Date>(new Date())
   const [endDate, setEndDate] = useState<Date>(END_DATE)
   const [correctAnswer, setCorrectAnswer] = useState<number>(0)
-  const [image, photoPath, isLoadingAvatar, clearImages, uploadImage] = useLoadImage()
+  const [image, photoPath, isLoadingAvatar, clearImages, uploadImage] =
+    useLoadImage()
   const [isLoadingCreateNews, setIsLoadingCreateNews] = useState<boolean>(false)
 
   const addCover = async () => {
@@ -97,9 +98,16 @@ export const CreatingLecture = () => {
   const addLecture = handleSubmit(
     async ({
       answers,
-      description, qrCode, question, score, title, typeLesson, videoUrl
+      description,
+      qrCode,
+      question,
+      score,
+      title,
+      typeLesson,
+      videoUrl
     }) => {
-      const idChallenge = Number(params.id) === 0 ? challenge_id : Number(params.id)
+      const idChallenge =
+        Number(params.id) === 0 ? challenge_id : Number(params.id)
       const data: ICreatingLecture = {
         challenge: idChallenge,
         title: title,
@@ -107,31 +115,30 @@ export const CreatingLecture = () => {
         type: typeLesson,
         start_date: startDate.toLocaleDateString(),
         end_date: endDate.toLocaleDateString(),
-        score: score        
+        score: score
       }
-      if(image){
+      if (image) {
         data.image = image
       }
-      if(videoUrl){
+      if (videoUrl) {
         data.video = convertVideo(videoUrl)
-      }      
+      }
       switch (typeLesson) {
         case '1':
           data.answers = JSON.stringify(answers)
           data.correct_answer = correctAnswer
           data.question = question
-          break;
+          break
         case '2':
           data.qr_code = qrCode
-          break;
+          break
         case '3':
           data.question = question
-          break;
+          break
         default:
-          break;
+          break
       }
-      console.log(data);     
-     
+
       try {
         setIsLoadingCreateNews(true)
         const response = await LessonService.createLesson(data)
@@ -247,8 +254,8 @@ export const CreatingLecture = () => {
                   correctAnswer === index
                     ? 'choice-answer__input _field + choice-answer__input_corrected'
                     : correctAnswer === -1
-                      ? 'choice-answer__input _field + choice-answer__input_corrected'
-                      : 'choice-answer__input _field'
+                    ? 'choice-answer__input _field + choice-answer__input_corrected'
+                    : 'choice-answer__input _field'
                 }
                 {...register(`answers.${index}.answer`, {
                   required: true
@@ -256,10 +263,10 @@ export const CreatingLecture = () => {
               />
               {errors?.['answers']?.[index]?.['answer']?.type ===
                 'required' && (
-                  <p role='alert' className='creating-lecture__error'>
-                    Данное поле не может быть пустым
-                  </p>
-                )}
+                <p role='alert' className='creating-lecture__error'>
+                  Данное поле не может быть пустым
+                </p>
+              )}
             </div>
           ))}
           <div className='choice-answer__buttons'>

@@ -18,7 +18,7 @@ import { showToast } from '../../utils/common-functions'
 export const Auth = () => {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
-  const [isLoading, setisLoading] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const dispatch = useAppDispatch()
 
   const handlerLogin = (e: ChangeEvent<HTMLInputElement>) =>
@@ -31,7 +31,7 @@ export const Auth = () => {
 
   const submit = async (e: any) => {
     e.preventDefault()
-    setisLoading(true)
+    setIsLoading(true)
     const uuid = await Device.getId()
     const device_token = uuid.uuid
     const timezone = -new Date().getTimezoneOffset() / 60
@@ -58,7 +58,7 @@ export const Auth = () => {
         await showToast('Нет подключения к интернету!')
       }
     } finally {
-      setisLoading(false)
+      setIsLoading(false)
     }
   }
 
