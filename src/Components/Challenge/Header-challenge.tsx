@@ -6,7 +6,8 @@ import { typesChallenge } from '../../utils/enums'
 import demoImage from '../../assets/image/demo-challenge.jpg'
 import { IMAGE_URL } from '../../http'
 import plug from '../../assets/image/plug.png'
-
+import { Capacitor } from '@capacitor/core'
+import { useStatusBar } from '../../hooks/useStatusBar'
 
 interface IHeaderChallenge {
   image: string
@@ -21,11 +22,13 @@ export const HeaderChallenge: FC<IHeaderChallenge> = ({
   type,
   newChallengeCategory = false
 }) => {
+  const statusBar = useStatusBar()
   return (
     <div className={'header-challenge'}>
       <div
         className={'header-challenge__image banner'}
         style={{
+          top: Capacitor.getPlatform() === 'ios' ? statusBar : 0,
           backgroundImage: `url("${image? IMAGE_URL + 'challenges/' + image:plug}")`
         }}
       />
