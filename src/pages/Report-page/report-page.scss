@@ -1,13 +1,14 @@
 @import 'src/assets/style/variables';
 
 .report-page {
-  padding: 50px 0 50px 0;
-  height: 90vh;
+  padding: 50px 0 0px 0;
+
   overflow: auto;
   &__content {
     width: 100%;
     color: #000000;
     background: #fff;
+    margin: 0 0 40px 0;
   }
   &__button {
     background: linear-gradient(180deg, #00a62e 0%, #074d1b 100%);
@@ -16,10 +17,7 @@
     text-align: center;
     color: #000000;
     display: block;
-    width: 90%;
+    width: 100%;
     padding: 12px 0;
-    position: absolute;
-    bottom: 0;
-    left: 5%;
   }
 }
