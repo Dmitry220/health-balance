@@ -23,10 +23,12 @@ interface AppState {
   }[];
   monthData: {};
   weekData: {};
+  heightStatusBar: number
 }
 
 const initialState: AppState = {
   balance: 0,
+  heightStatusBar: 0,
   currentStepsCount: 0,
   steps: {difference:0,statistic:[]},
   months: [
@@ -238,6 +240,9 @@ export const appSlice = createSlice({
           });
         });
     },
+    setHeightStatusBar:(state, action:PayloadAction<number>)=>{
+      state.heightStatusBar = action.payload
+    }
   },
 
   extraReducers: (builder) => {
@@ -267,12 +272,14 @@ export const {
   setMonths,
   setWeeks,
   setCurrentStepsCount,
+  setHeightStatusBar
 } = appSlice.actions;
 
 export const balanceSelector = (state: RootState) => state.app.balance;
 export const stepsPerDaySelector = (state: RootState) => state.app.steps;
 export const monthsSelector = (state: RootState) => state.app.months;
 export const weeksSelector = (state: RootState) => state.app.weeks;
+export const heightStatusBarSelector = (state: RootState) => state.app.heightStatusBar;
 export const currentStepsCountSelector = (state: RootState) =>
   state.app.currentStepsCount;
 

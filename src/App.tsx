@@ -10,11 +10,13 @@ import { useNavigate } from 'react-router-dom'
 import { POST_INTERESTING_ROUTE, TRACKER_ROUTE } from './provider/constants-route'
 import { IUpdateUser } from './models/IUsers'
 import UserService from './services/UserServices'
+import { heightStatusBarSelector } from './Redux/slice/appSlice'
+import { useAppDispatch, useAppSelector } from './hooks/redux-hooks'
 import { useStatusBar } from './hooks/useStatusBar'
 
 function App() {
   const navigate = useNavigate()
-  const statusBar = useStatusBar()  
+  const statusBar = useStatusBar()
 
   const handlerPush = () => {
     if (Capacitor.getPlatform() !== 'web') {
@@ -60,6 +62,8 @@ function App() {
       //Обработка пушей
       handlerPush()
     })
+
+
     
     //Обработчик событий для переход "назад"
     CapacitorApp.addListener('backButton', ({ canGoBack }: any) => {

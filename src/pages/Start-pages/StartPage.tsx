@@ -29,7 +29,7 @@ import PurposeService from '../../services/PurposeService'
 import { Navigate } from 'react-router-dom'
 import AppService from '../../services/AppService'
 import { Target } from '../../Components/Target/Target'
-import { useStatusBar } from '../../hooks/useStatusBar'
+import { heightStatusBarSelector } from '../../Redux/slice/appSlice'
 
 interface ISwiperNextButton {
   customClass: string
@@ -47,7 +47,7 @@ export const StartPage = () => {
   const dataUser = useAppSelector(dataUserSelector)
   const changeStep = (value: string) => setStepValue(value)
   const activityVisitCount = useAppSelector(visitPagesSelector)
-  const statusBar = useStatusBar()
+  const statusBar = useAppSelector(heightStatusBarSelector)
 
   useEffect(() => {
     startPlugin()

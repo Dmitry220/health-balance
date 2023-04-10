@@ -21,8 +21,8 @@ import {
   visitPagesSelector
 } from '../../Redux/slice/authSlice'
 import { ICreatingTracker } from '../../models/ITracker'
-import { useStatusBar } from '../../hooks/useStatusBar'
 import { Capacitor } from '@capacitor/core'
+import { heightStatusBarSelector } from '../../Redux/slice/appSlice'
 
 export const TrackerPage = () => {
   const trackerVisitCount = useAppSelector(visitPagesSelector)
@@ -46,7 +46,7 @@ export const TrackerPage = () => {
   const itemsMinutes = getItemsMinutes()
   const [hour, setHour] = useState<string>(12 + '')
   const [minutes, setMinutes] = useState<string>(30 + '')
-  const statusBar = useStatusBar()
+  const statusBar = useAppSelector(heightStatusBarSelector)
 
   const changeHour = (value: string) => setHour(value)
   const changeMinutes = (value: string) => setMinutes(value)

@@ -7,10 +7,10 @@ import { CHAT__ROUTE, PROFILE_ROUTE } from '../../provider/constants-route'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import { dataUserSelector } from '../../Redux/slice/profileSlice'
 import { IMAGE_URL } from '../../http'
-import { balanceSelector, getBalance } from '../../Redux/slice/appSlice'
+import { balanceSelector, getBalance, heightStatusBarSelector } from '../../Redux/slice/appSlice'
 import avatar from '../../assets/image/avatar.jpeg'
 import { Capacitor } from '@capacitor/core'
-import { useStatusBar } from '../../hooks/useStatusBar'
+
 
 interface IHeaderActive {
   transparent: boolean
@@ -19,7 +19,7 @@ interface IHeaderActive {
 const HeaderActive: FC<IHeaderActive> = ({ transparent }) => {
   const dataUser = useAppSelector(dataUserSelector)
   const balance = useAppSelector(balanceSelector)
-  const statusBar = useStatusBar()
+  const statusBar = useAppSelector(heightStatusBarSelector)
   const dispatch = useAppDispatch()
 
   useEffect(() => {

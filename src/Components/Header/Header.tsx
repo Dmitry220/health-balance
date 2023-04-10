@@ -1,7 +1,8 @@
 import { Capacitor } from '@capacitor/core'
 import { FC } from 'react'
-import { useStatusBar } from '../../hooks/useStatusBar'
 import './header.scss'
+import { heightStatusBarSelector } from '../../Redux/slice/appSlice'
+import { useAppSelector } from '../../hooks/redux-hooks'
 
 interface HeaderProps {
   title: string
@@ -18,7 +19,7 @@ export const Header: FC<HeaderProps> = ({
   additionalOnClick,
   transparent
 }) => {
-  const statusBar = useStatusBar()
+  const statusBar = useAppSelector(heightStatusBarSelector)
 
   const back = () => {
     window.history.back()

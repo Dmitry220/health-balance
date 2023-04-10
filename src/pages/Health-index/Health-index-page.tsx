@@ -3,16 +3,13 @@ import './health-index.scss'
 import { Link, useNavigate } from 'react-router-dom'
 import { QUESTIONNAIRE_ROUTE } from '../../provider/constants-route'
 import chart from '../../assets/image/Static-chart.png'
-import { useSelector } from 'react-redux'
 import { HealthIndexResults } from '../Health-index-results/Health-index-results'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import { dynamicsSelector, getDynamics, getProgressAndIdPolls, idPolleSelector, interruptPoll, isLoadingSelector, progressPollSelector } from '../../Redux/slice/healthIndexSlice'
-import { Questionnaire } from '../Questionnaire/Questionnaire'
 import { FC, useEffect, useState } from 'react'
-import HealthIndexService from '../../services/HealthIndexService'
 import { Preloader } from '../../Components/Preloader/Preloader'
-import { useStatusBar } from '../../hooks/useStatusBar'
 import { Capacitor } from '@capacitor/core'
+import { heightStatusBarSelector } from '../../Redux/slice/appSlice'
 
 export const HealthIndexPage = () => {
 
@@ -55,7 +52,7 @@ export const HealthIndexPage = () => {
 }
 
 export const StartQuestionaire: FC = () => {
-  const statusBar = useStatusBar() 
+  const statusBar = useAppSelector(heightStatusBarSelector)
   const navigate = useNavigate()
 
   const startTesting = () => {

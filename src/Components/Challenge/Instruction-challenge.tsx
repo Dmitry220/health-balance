@@ -7,7 +7,7 @@ import 'swiper/scss'
 import 'swiper/scss/navigation'
 import 'swiper/scss/pagination'
 import 'swiper/scss/scrollbar'
-import { useAppDispatch } from '../../hooks/redux-hooks'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 
 import inst0 from '../../assets/image/instruction-challenges/Инструкция челленджи 0.png'
 import inst1 from '../../assets/image/instruction-challenges/Инструкция челленджи 1.png'
@@ -28,15 +28,15 @@ import inst15 from '../../assets/image/instruction-challenges/Инструкци
 import inst16 from '../../assets/image/instruction-challenges/Инструкция челленджи 16.png'
 import inst17 from '../../assets/image/instruction-challenges/Инструкция челленджи 17.png'
 import { setVisitedChallengePage } from '../../Redux/slice/authSlice'
-import { useStatusBar } from '../../hooks/useStatusBar'
 import { Capacitor } from '@capacitor/core'
+import { heightStatusBarSelector } from '../../Redux/slice/appSlice'
 
 interface ISwiperNextButton {
   customClass: string
 }
 
 export const InstructionsChallenge = () => {
-  const statusBar = useStatusBar()
+  const statusBar = useAppSelector(heightStatusBarSelector)
   
   return (
     <div

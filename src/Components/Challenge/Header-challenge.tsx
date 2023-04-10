@@ -1,13 +1,11 @@
 import { FC, useEffect } from 'react'
 import './header-challenge.scss'
 import { definitionColor, typeConversion } from '../../utils/common-functions'
-import logo from '../../assets/image/Logo-dark.svg'
-import { typesChallenge } from '../../utils/enums'
-import demoImage from '../../assets/image/demo-challenge.jpg'
 import { IMAGE_URL } from '../../http'
 import plug from '../../assets/image/plug.png'
 import { Capacitor } from '@capacitor/core'
-import { useStatusBar } from '../../hooks/useStatusBar'
+import { heightStatusBarSelector } from '../../Redux/slice/appSlice'
+import { useAppSelector } from '../../hooks/redux-hooks'
 
 interface IHeaderChallenge {
   image: string
@@ -22,7 +20,7 @@ export const HeaderChallenge: FC<IHeaderChallenge> = ({
   type,
   newChallengeCategory = false
 }) => {
-  const statusBar = useStatusBar()
+  const statusBar = useAppSelector(heightStatusBarSelector)
   return (
     <div className={'header-challenge'}>
       <div
