@@ -46,6 +46,7 @@ export const TrackerPage = () => {
   const itemsMinutes = getItemsMinutes()
   const [hour, setHour] = useState<string>(12 + '')
   const [minutes, setMinutes] = useState<string>(30 + '')
+
   const statusBar = useAppSelector(heightStatusBarSelector)
 
   const changeHour = (value: string) => setHour(value)
@@ -231,10 +232,12 @@ const SlideNextButton: FC<ISwiperNextButton> = ({
   }
 
   return (
-    <button className={customClass} onClick={next} 
-    // style={{
-    //   bottom:  Capacitor.getPlatform() === 'ios' ? 80 : 50
-    // }}
+    <button
+      className={customClass}
+      onClick={next}
+      // style={{
+      //   bottom:  Capacitor.getPlatform() === 'ios' ? 80 : 50
+      // }}
     >
       Дальше
     </button>
