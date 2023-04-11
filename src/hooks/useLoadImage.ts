@@ -16,8 +16,9 @@ export const useLoadImage = () => {
   }
 
   const uploadImage = async (type: typeImage) => {
+    let image 
     try {
-      const image = await Camera.getPhoto({
+      image = await Camera.getPhoto({
         quality: 50,
         allowEditing: true,
         resultType: CameraResultType.Uri,
@@ -28,6 +29,7 @@ export const useLoadImage = () => {
       })
     } catch (error) {
       console.log(error)
+      return
     }
     setIsLoadingAvatar(true)
     try {
