@@ -15,7 +15,7 @@ export const useStatusBar = () => {
       setStatusBarHeight(statusBarHeight)
     })
     dispatch(setHeightStatusBar(insetsHeight + statusBarHeight + 20))
-  }, [])
+  }, [insetsHeight,statusBarHeight])  
 
   return insetsHeight + statusBarHeight + 20
 }
