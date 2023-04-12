@@ -39,7 +39,7 @@ export const useLoadImage = () => {
       }
     } catch (error: any) {
       if (axios.isAxiosError(error)) {
-        await showToast('Произошла ошибка при загрузке изображения')
+        await showToast('Максимальный вес изображения  3 мб')
       }
       if (error.errorMessage === 'Error loading image') {
         await showToast('Максимальный вес изображения  3 мб')

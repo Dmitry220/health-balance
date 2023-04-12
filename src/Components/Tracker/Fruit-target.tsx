@@ -1,11 +1,18 @@
 import './tracker.scss'
 import { HabitsTargetItem } from './Habits-tracker-item'
 import { useAppSelector } from '../../hooks/redux-hooks'
-import { tracksSelector } from '../../Redux/slice/trackerSlice'
+import { tracksSelector,isLoadingSelector } from '../../Redux/slice/trackerSlice'
+import { Preloader } from '../Preloader/Preloader'
 
 export const FruitTarget = () => {
 
   const tracks = useAppSelector(tracksSelector)
+  const isLoading = useAppSelector(isLoadingSelector)
+  
+
+  if (isLoading) {
+    return <Preloader height='auto' />
+  }
 
   return (
     <div className={'fruit-target'}>

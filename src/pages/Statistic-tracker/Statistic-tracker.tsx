@@ -23,6 +23,7 @@ export const StatisticTracker = () => {
       <div className='statistic-tracker__calendar'>
         <ReactDatePicker
           selected={startDate}
+          maxDate={new Date()}
           onChange={(date: Date) => {
             setStartDate(date)
             dispatch(getTracks(date.toLocaleDateString()))
