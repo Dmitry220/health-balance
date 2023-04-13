@@ -17,9 +17,9 @@ export const FruitTarget = () => {
   return (
     <div className={'fruit-target'}>
       <div className='fruit-target__container'>
-        {tracks.fruitTrack.length ? tracks.fruitTrack.map((item) => (
+        {tracks.fruitTrack.length ? tracks.fruitTrack.map((item,index) => (
           <HabitsTargetItem
-            key={item.id}
+            key={index}
             track={item}         
           />
         )) : <h1>Данных нет</h1>}
