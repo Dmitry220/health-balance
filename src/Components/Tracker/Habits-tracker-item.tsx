@@ -10,10 +10,8 @@ interface IWaterTargetItem {
 
 export const HabitsTargetItem: FC<IWaterTargetItem> = ({ track }) => {
   const timeZone = -new Date().getTimezoneOffset() / 60
-  const send_time = -new Date().getTimezoneOffset() / 60 >= 3 ? (track.send_time-((timeZone -3)*3600)) : (track.send_time+((Math.abs(timeZone) -3)*3600))
-
- // new Date((track.send_time-((-new Date().getTimezoneOffset() / 60 - 3)*3600))*1000)
-  
+  const send_time = -new Date().getTimezoneOffset() / 60 >= 3 ? (track.send_time-((timeZone -3)*2*3600)) : (track.send_time+((Math.abs(timeZone) -3)*2*23600))
+ 
   return (
     <div className='habits-tracker-item'>
       {track.notification_send && track.completed && (
