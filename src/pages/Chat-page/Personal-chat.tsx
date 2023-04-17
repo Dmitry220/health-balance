@@ -27,7 +27,7 @@ export const PersonalChat = () => {
   }
 
   useEffect(() => {
-    ;(async () => {
+    (async () => {
       const allMessages = await ChatService.listMessages(idChannel)
       setMessages(allMessages.data.data)
     })()
@@ -39,26 +39,27 @@ export const PersonalChat = () => {
 
     return () => clearInterval(interval)
   }, [])
+ 
 
   return (
     <div className='personal-chat'>
       <Header title={'Диалог #' + idChannel} />
       <div className='personal-chat__container'>
         <div className='personal-chat__messages'>
-          {messages.map((mess, i) => (
+          {messages?.map((mess, i) => (
             <div
               className='personal-chat__message message-item'
               key={i}
-              style={{ marginLeft: id === mess.author.id ? 'auto' : 0 }}
+              style={{ marginLeft: id === mess?.author?.id ? 'auto' : 0 }}
               id={'qw' + i}
             >
-              {id !== mess.author.id && (
+              {id !== mess?.author?.id && (
                 <div className='message-item__avatar'>
                   {' '}
                   <img
                     src={
-                      mess.author.avatar
-                        ? IMAGE_URL + 'avatars/' + mess.author.avatar
+                      mess?.author?.avatar
+                        ? IMAGE_URL + 'avatars/' + mess?.author?.avatar
                         : avatar
                     }
                     alt=''
@@ -68,14 +69,14 @@ export const PersonalChat = () => {
               )}
 
               <div className='message-item__container'>
-                {id !== mess.author.id && (
+                {id !== mess?.author?.id && (
                   <div className='message-item__name text-blue'>
-                    {mess.author.name}
+                    {mess?.author?.name}
                   </div>
                 )}
-                <div className='message-item__text'>{mess.content}</div>
+                <div className='message-item__text'>{mess?.content}</div>
                 <div className='message-item__time'>
-                  {mess.createdAt.date.slice(10, -10)}
+                  {mess?.createdAt?.date.slice(10, -10)}
                 </div>
               </div>
             </div>
