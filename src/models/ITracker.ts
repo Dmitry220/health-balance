@@ -18,3 +18,9 @@ export interface ITrack{
 	notification_send: boolean,
 	sleep_time?: number
 }
+
+export interface ITrackAdditional {
+	amount?: number;
+	time: string;
+	unit: string
+}
