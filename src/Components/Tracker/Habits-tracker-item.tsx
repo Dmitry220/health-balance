@@ -1,20 +1,36 @@
-import { FC } from 'react'
+import { useState, memo } from 'react'
 import './tracker.scss'
 import succesfully from '../../assets/image/tracker/successfully.svg'
 import missed from '../../assets/image/tracker/missed.svg'
 import { ITrack, ITrackAdditional } from '../../models/ITracker'
+import React from 'react'
 
 interface IWaterTargetItem {
   track: ITrack
 }
 
-export const HabitsTargetItem: FC<IWaterTargetItem> = ({ track }) => {
-  
- const additional:ITrackAdditional = JSON.parse(track.additional)
+const HabitsTargetItem = memo<IWaterTargetItem>(({ track }) => {
 
- const valueTrack = track.type === 3 ? additional.unit : additional.amount + ' ' + additional.unit
- 
- 
+  let additional = isJsonString(track.additional)
+
+  function isJsonString(str: string): string | string[] {
+    try {
+      const jsonParse: ITrackAdditional = JSON.parse(str)      
+      if (track.type === 3) {
+        return [jsonParse?.unit,jsonParse.time];
+      }
+      if (track.type === 2) {
+         return [jsonParse.amount + ' ' + jsonParse?.unit,jsonParse.time];
+      }
+      return [str];
+    } catch (e) {     
+      return [str];
+    }
+  }
+
+  console.log(additional);
+  
+
   return (
     <div className='habits-tracker-item'>
       {track.notification_send && track.completed && (
@@ -37,11 +53,11 @@ export const HabitsTargetItem: FC<IWaterTargetItem> = ({ track }) => {
       )}
       {!track.notification_send && !track.completed && (
         <div className='habits-tracker-item__data'>
-          {additional.time}
+          {additional[1]}
         </div>
       )}
       {!track.notification_send && !track.completed && (
-        <div className={'habits-tracker-item__value'}>{valueTrack}</div>
+        <div className={'habits-tracker-item__value'}>{additional[0]}</div>
       )}
       {track.notification_send && track.completed && (
         <div
@@ -49,7 +65,7 @@ export const HabitsTargetItem: FC<IWaterTargetItem> = ({ track }) => {
             'habits-tracker-item__value habits-tracker-item__value_green'
           }
         >
-          {valueTrack}
+          {additional[0]}
         </div>
       )}
       {track.notification_send && !track.completed && (
@@ -58,9 +74,14 @@ export const HabitsTargetItem: FC<IWaterTargetItem> = ({ track }) => {
             'habits-tracker-item__value habits-tracker-item__value_yellow'
           }
         >
-          {valueTrack}
+          {additional[0]}
         </div>
       )}
     </div>
   )
-}
+})
+
+export default HabitsTargetItem
+
+
+

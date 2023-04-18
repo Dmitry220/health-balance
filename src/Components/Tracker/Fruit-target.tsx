@@ -1,8 +1,10 @@
 import './tracker.scss'
-import { HabitsTargetItem } from './Habits-tracker-item'
+
 import { useAppSelector } from '../../hooks/redux-hooks'
 import { tracksSelector,isLoadingSelector } from '../../Redux/slice/trackerSlice'
 import { Preloader } from '../Preloader/Preloader'
+import HabitsTargetItem from './Habits-tracker-item'
+
 
 export const FruitTarget = () => {
 

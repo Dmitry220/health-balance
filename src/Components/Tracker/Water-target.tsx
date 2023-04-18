@@ -1,11 +1,12 @@
 import './tracker.scss'
-import { HabitsTargetItem } from './Habits-tracker-item'
+
 import { useAppSelector } from '../../hooks/redux-hooks'
 import {
   isLoadingSelector,
   tracksSelector
 } from '../../Redux/slice/trackerSlice'
 import { Preloader } from '../Preloader/Preloader'
+import HabitsTargetItem from './Habits-tracker-item'
 
 export const WaterTarget = () => {
   const isLoading = useAppSelector(isLoadingSelector)
