@@ -127,7 +127,7 @@ export const trackerSlice = createSlice({
           (item) => item.type === 2
         )
         state.tracks.sleepTrack = action.payload.filter(
-          (item) => item.type === 1 || item.type === 4
+          (item) => item.type === 1
         )
         state.isLoading = false
       }

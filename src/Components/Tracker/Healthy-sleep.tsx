@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, memo, useEffect, useState } from 'react'
 import './tracker.scss'
 import moon from '../../assets/image/tracker/akar-icons_moon-fill.png'
 import sun from '../../assets/image/tracker/akar-icons_sun-fill.png'
@@ -21,7 +21,7 @@ interface IHealthySleep {
   editProhibition?: boolean
   date?: string
 }
-export const HealthySleep: FC<IHealthySleep> = ({
+const HealthySleep = memo<IHealthySleep>(({
   editProhibition,
   date = new Date().toLocaleDateString()
 }) => {
@@ -34,23 +34,8 @@ export const HealthySleep: FC<IHealthySleep> = ({
     new Date(date.replace(/(\d{2}).(\d{2}).(\d{4})/, '$2/$1/$3')).getDay() === 0
       ? 6
       : new Date(date.replace(/(\d{2}).(\d{2}).(\d{4})/, '$2/$1/$3')).getDay() -
-        1
-  const daysAdditional = [
-    'пн',
-    'пн',
-    'вт',
-    'вт',
-    'ср',
-    'ср',
-    'чт',
-    'чт',
-    'пт',
-    'пт',
-    'сб',
-    'сб',
-    'вс',
-    'вс'
-  ]
+      1
+
   const daysWeek = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс']
   const [currentDay, setCurrentDay] = useState<ITrack>()
   const morning = tracker.wake_up_time
@@ -63,46 +48,40 @@ export const HealthySleep: FC<IHealthySleep> = ({
   const navigate = useNavigate()
 
   useEffect(() => {
-    tracks.sleepTrack.forEach((itemServer, index) => {
-      pushArray.push({
-        ...itemServer,
-        id: index + 1,
-        additional: itemServer.additional,
-        completed: itemServer.completed,
-        notification_send: itemServer.notification_send,
-        send_time: itemServer.send_time,
-        type: itemServer.type
+    if (pushArray.length < 7) {
+      tracks.sleepTrack.forEach((itemServer, index) => {
+        pushArray.push({
+          ...itemServer,
+          id: index + 1,
+          additional: itemServer.additional,
+          completed: itemServer.completed,
+          notification_send: itemServer.notification_send,
+          send_time: itemServer.send_time,
+          type: itemServer.type
+        })
       })
-    })
-
-    let difference = daysAdditional.length - tracks.sleepTrack.length
-
-    for (let i = difference - 1; i >= 0; i--) {
-      let indexType =
-        i === difference - 1 &&
-        tracks.sleepTrack[0]?.additional != tracks.sleepTrack[1]?.additional
-          ? tracks.sleepTrack[0]?.type === 4
-            ? 1
-            : 4
-          : i % 2 === 0
-          ? 4
-          : 1
-      pushArray.unshift({
-        id: outputArray.length - i,
-        type: indexType,
-        additional: daysAdditional[i],
-        completed: i === difference - 1 && i % 2 === 0,
-        notification_send: i === difference - 1 && i % 2 === 0,
-        send_time: 0
-      })
-    }
-    setOutputArray(pushArray)
-    setCurrentDay(
-      tracks.sleepTrack.find(
-        (item) => item.additional === daysWeek[indexWeek] && item.type === 1
+      let difference = daysWeek.length - tracks.sleepTrack.length
+      for (let i = difference - 1; i >= 0; i--) {
+        pushArray.unshift({
+          id: outputArray.length - i,
+          type: 1,
+          additional: daysWeek[i],
+          completed: false,
+          notification_send: false,
+          send_time: 0,
+          sleep_time: 0
+        })
+      }
+      setCurrentDay(
+        tracks.sleepTrack.find(
+          (item) => item.additional === daysWeek[indexWeek] && item.type === 1
+        )
       )
-    )
+      setOutputArray(pushArray)
+    }
+
   }, [tracks])
+
 
   const redirectToChangeTrack = () => {
     confirmAlert({
@@ -154,11 +133,11 @@ export const HealthySleep: FC<IHealthySleep> = ({
               {' '}
               {currentDay?.sleep_time! >= 8
                 ? currentDay?.sleep_time +
-                  sklonenie(currentDay?.sleep_time!, [
-                    ' час',
-                    ' часа',
-                    ' часов'
-                  ])
+                sklonenie(currentDay?.sleep_time!, [
+                  ' час',
+                  ' часа',
+                  ' часов'
+                ])
                 : 'менее 8 часов'}
             </span>
           </div>
@@ -171,7 +150,7 @@ export const HealthySleep: FC<IHealthySleep> = ({
         <div className='healthy-sleep__days'>
           {tracks.sleepTrack.length ? (
             outputArray.map((item, index, array) => {
-              if (item.type === 1) {
+              if (item.type === 1 || item.type === 5) {
                 return (
                   <div className='healthy-sleep__item-day' key={item.id}>
                     {array[index]?.sleep_time! >= 8 ? (
@@ -197,4 +176,6 @@ export const HealthySleep: FC<IHealthySleep> = ({
       </div>
     </div>
   )
-}
+})
+
+export default HealthySleep

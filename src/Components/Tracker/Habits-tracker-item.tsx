@@ -13,23 +13,20 @@ const HabitsTargetItem = memo<IWaterTargetItem>(({ track }) => {
 
   let additional = isJsonString(track.additional)
 
-  function isJsonString(str: string): string | string[] {
+  function isJsonString(str: string): string {
     try {
       const jsonParse: ITrackAdditional = JSON.parse(str)      
       if (track.type === 3) {
-        return [jsonParse?.unit,jsonParse.time];
+        return jsonParse?.unit;
       }
       if (track.type === 2) {
-         return [jsonParse.amount + ' ' + jsonParse?.unit,jsonParse.time];
+         return jsonParse.amount + ' ' + jsonParse?.unit
       }
-      return [str];
+      return str;
     } catch (e) {     
-      return [str];
+      return str;
     }
   }
-
-  console.log(additional);
-  
 
   return (
     <div className='habits-tracker-item'>
@@ -53,11 +50,20 @@ const HabitsTargetItem = memo<IWaterTargetItem>(({ track }) => {
       )}
       {!track.notification_send && !track.completed && (
         <div className='habits-tracker-item__data'>
-          {additional[1]}
+         {new Date(track.send_time*1000)
+            .getHours()
+            .toString()
+            .padStart(2, '0') +
+            ':' +
+            new Date(track.send_time * 1000)
+              .getMinutes()
+              .toString()
+              .padStart(2, '0')}
+          {/* {track.additional} */}
         </div>
       )}
       {!track.notification_send && !track.completed && (
-        <div className={'habits-tracker-item__value'}>{additional[0]}</div>
+        <div className={'habits-tracker-item__value'}>{additional}</div>
       )}
       {track.notification_send && track.completed && (
         <div
@@ -65,7 +71,7 @@ const HabitsTargetItem = memo<IWaterTargetItem>(({ track }) => {
             'habits-tracker-item__value habits-tracker-item__value_green'
           }
         >
-          {additional[0]}
+          {additional}
         </div>
       )}
       {track.notification_send && !track.completed && (
@@ -74,7 +80,7 @@ const HabitsTargetItem = memo<IWaterTargetItem>(({ track }) => {
             'habits-tracker-item__value habits-tracker-item__value_yellow'
           }
         >
-          {additional[0]}
+          {additional}
         </div>
       )}
     </div>

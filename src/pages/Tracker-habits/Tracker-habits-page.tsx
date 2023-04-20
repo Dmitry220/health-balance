@@ -12,7 +12,7 @@ import {
   STATISTICS_TRACKER__ROUTE
 } from '../../provider/constants-route'
 import { HeaderTwo } from '../../Components/Header-two/Header-two'
-import { HealthySleep } from '../../Components/Tracker/Healthy-sleep'
+
 import { NavLink } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import { useEffect, useState } from 'react'
@@ -26,6 +26,7 @@ import { showToast, sklonenie } from '../../utils/common-functions'
 import { setVisitedTrackerPage } from '../../Redux/slice/authSlice'
 import TrackerService from '../../services/TrackerService'
 import { confirmAlert } from 'react-confirm-alert'
+import HealthySleep from '../../Components/Tracker/Healthy-sleep'
 
 export const TrackerHabitsPage = () => {
   const dispatch = useAppDispatch()
