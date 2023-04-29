@@ -17,7 +17,7 @@ import {
 import icon_edit from '../../assets/image/icon-edit.svg'
 import icon_camera from '../../assets/image/icon-camera-add.svg'
 import icon_clock from '../../assets/image/Interesting/clock.svg'
-import { definitionColor, showToast } from '../../utils/common-functions'
+import { definitionColor, extractContent, showToast } from '../../utils/common-functions'
 import { RewardCount } from '../Reward/Reward-count'
 import ReactDatePicker, { registerLocale } from 'react-datepicker'
 import ru from 'date-fns/locale/ru'
@@ -27,6 +27,8 @@ import {
 } from '../../Redux/slice/purposeSlice'
 import { useLoadImage } from '../../hooks/useLoadImage'
 import { typeImage } from '../../utils/enums'
+import ReactQuill from 'react-quill'
+import { toolbarOptions } from '../../utils/globalConstants'
 
 registerLocale('ru', ru)
 
@@ -127,23 +129,24 @@ export const FinalVariant = () => {
           </div>
         </div>
       </div>
-      <div className='final-variant__description'>
-        {!isEditDescription && description}
-        {isEditDescription && (
-          <input
-            type='text'
-            value={description}
-            onBlur={() => setIsEditDescription(false)}
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              dispatch(setDescriptionChallenge(e.target.value))
-            }
-          />
-        )}
-        <img
+      <div className='final-variant__description' >
+        {!isEditDescription &&<div style={{display:'flex',alignItems:'center'}}><div dangerouslySetInnerHTML={{ __html: description }}></div>   <img
           src={icon_edit}
           alt=''
           onClick={() => setIsEditDescription(true)}
+        /></div> }
+        {isEditDescription && (         
+          <ReactQuill
+          style={{ marginBottom: 15 }}
+          theme="snow"
+          placeholder='Описание'
+          value={description}        
+          onChange={(text:string)=>extractContent(text).length < 180 && dispatch(setDescriptionChallenge(text))}
+          modules={{ toolbar: toolbarOptions }}
         />
+        )}
+      
+      
       </div>
       <div className='final-variant__row'>
         <ReactDatePicker

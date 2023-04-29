@@ -67,9 +67,7 @@ export const NewChallengeInfo = () => {
               type={challenge.type}
             />
           </div>
-          <div className='new-challenge-info__description'>
-            {challenge?.description}
-          </div>
+          <div className='new-challenge-info__description' dangerouslySetInnerHTML={{ __html: challenge?.description }}></div>
           <div className='new-challenge-info__row'>
             <div
               className={definitionColor(

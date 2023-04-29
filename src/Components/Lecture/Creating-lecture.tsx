@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useState } from 'react'
+import { forwardRef, useEffect, useRef, useState } from 'react'
 import DatePicker, { registerLocale } from 'react-datepicker'
 import ru from 'date-fns/locale/ru'
 import '../Creating-challenge/creating-challenge.scss'
@@ -14,6 +14,9 @@ import { useFieldArray, useForm } from 'react-hook-form'
 import { useLoadImage } from '../../hooks/useLoadImage'
 import { typeImage } from '../../utils/enums'
 import { ICreatingLecture } from '../../models/ILessons'
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import { toolbarOptions } from '../../utils/globalConstants'
 registerLocale('ru', ru)
 
 interface IAnswer {
@@ -24,7 +27,6 @@ interface FormData {
   typeLesson: string
   answers: IAnswer[]
   title: string
-  description: string
   question: string
   score: number
   videoUrl: string
@@ -36,6 +38,7 @@ export const CreatingLecture = () => {
   END_DATE.setDate(END_DATE.getDate() + 3)
   const params = useParams()
   const challenge_id = useAppSelector(challengeIdSelector)
+  const [description, setDescription] = useState('');
 
   const {
     register,
@@ -93,12 +96,13 @@ export const CreatingLecture = () => {
     setEndDate(END_DATE)
     reset()
     append({ answer: '' })
+    setDescription('')
   }
+  console.log(description);
 
   const addLecture = handleSubmit(
     async ({
       answers,
-      description,
       qrCode,
       question,
       score,
@@ -181,19 +185,15 @@ export const CreatingLecture = () => {
         placeholder={'URL лекции'}
         {...register('videoUrl')}
       />
-      <input
-        type='text'
-        className='creating-lecture__description _field'
-        placeholder={'Описание задания'}
-        {...register('description', {
-          required: true
-        })}
-      />
-      {errors.description?.type === 'required' && (
-        <p role='alert' className='creating-lecture__error'>
-          Данное поле не может быть пустым
-        </p>
-      )}
+    
+      <ReactQuill 
+      style={{marginBottom: 15}}
+      theme="snow" 
+      placeholder='Описание'
+      value={description} 
+      onChange={setDescription} 
+      modules={{ toolbar: toolbarOptions }} 
+      />   
 
       {!isLoadingAvatar ? (
         <div onClick={addCover} className='creating-lecture__image'>
@@ -254,8 +254,8 @@ export const CreatingLecture = () => {
                   correctAnswer === index
                     ? 'choice-answer__input _field + choice-answer__input_corrected'
                     : correctAnswer === -1
-                    ? 'choice-answer__input _field + choice-answer__input_corrected'
-                    : 'choice-answer__input _field'
+                      ? 'choice-answer__input _field + choice-answer__input_corrected'
+                      : 'choice-answer__input _field'
                 }
                 {...register(`answers.${index}.answer`, {
                   required: true
@@ -263,10 +263,10 @@ export const CreatingLecture = () => {
               />
               {errors?.['answers']?.[index]?.['answer']?.type ===
                 'required' && (
-                <p role='alert' className='creating-lecture__error'>
-                  Данное поле не может быть пустым
-                </p>
-              )}
+                  <p role='alert' className='creating-lecture__error'>
+                    Данное поле не может быть пустым
+                  </p>
+                )}
             </div>
           ))}
           <div className='choice-answer__buttons'>

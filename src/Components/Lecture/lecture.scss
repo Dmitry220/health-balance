@@ -36,13 +36,14 @@
   }
   &__title{
     margin: 0 0 12px 0;
+    word-break: break-word;
   }
   &__text{
     font-size: 13px;
     line-height: 130%;
-
+    white-space: pre-line;
     color: #919191;
-
+    word-break: break-word;
   }
   &__body{
     padding: 20px 15px 25px 15px;
@@ -111,6 +112,12 @@
     line-height: 120%;
     flex: 1 1 auto;
     margin: 0 0 15px 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    word-break: break-word;
   }
   &__date{
     font-weight: 400;
@@ -142,6 +149,9 @@
   &__title {
     margin: 0 0 40px 0;
   }
+  &__description{
+    margin: 0 0 15px 0;
+  }
 
   &__sub-title {
     margin: 0 0 20px 0;
@@ -161,10 +171,7 @@
 
   &__url {
     margin: 0 0 20px 0;
-  }
-  &__description{
-    margin: 0 0 20px 0;
-  }
+  } 
 
   &__select {
     margin: 0 0 20px 0;

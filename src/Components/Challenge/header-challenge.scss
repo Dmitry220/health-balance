@@ -58,7 +58,15 @@
   }
   &__title {
     font-weight: 700;
+    word-wrap: break-word;
     font-size: 20px;
+    white-space: pre-line;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
   }
   &__type {
     font-size: 13px;

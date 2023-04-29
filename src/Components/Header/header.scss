@@ -24,7 +24,14 @@
   }
   &__title{
     text-align: center;
-    flex: 1 1 auto;
-    color: $colorMain;
+    flex: 0 1 75%;
+    color: #fff;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    margin: 0 auto;
+    word-break: break-word;
   }
 }

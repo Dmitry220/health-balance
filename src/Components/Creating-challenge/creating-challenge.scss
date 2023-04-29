@@ -290,7 +290,8 @@
   &__title{
     font-weight: 700;
     font-size: 20px;
-
+    word-break: break-word;
+    white-space: pre-line;
     img{
       margin: 0 0 0 7px;
       vertical-align: middle;
@@ -301,7 +302,8 @@
     margin: 0 0 32px 0;
     font-size: 13px;
     line-height: 130%;
-
+    white-space: pre-line;
+    word-break: break-word;
     color: #919191;
     img{
       margin: 0 0 0 6px;

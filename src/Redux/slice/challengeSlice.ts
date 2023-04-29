@@ -168,8 +168,7 @@ export const challengeSlice = createSlice({
         state.creatingChallenge.title = action.payload;
     },
     setDescriptionChallenge: (state, action) => {
-      if (action.payload.length <= 180)
-        state.creatingChallenge.description = action.payload;
+      state.creatingChallenge.description = action.payload;
     },
     setMaxPeoplesChallenge: (state, action) => {
       state.creatingChallenge.max_peoples = action.payload;

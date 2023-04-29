@@ -1,5 +1,5 @@
-@import '../../assets/style/variables';
-@import 'src/assets/style/mixins';
+@import "../../assets/style/variables";
+@import "src/assets/style/mixins";
 
 .card-challenge {
   background: $backgroundBlock;
@@ -60,6 +60,11 @@
     font-size: 17px;
     word-break: break-all;
     color: #e1e1e1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
   }
 
   &__sub-title {
@@ -132,7 +137,7 @@
     }
 
     &::after {
-      content: '';
+      content: "";
       position: absolute;
       left: 0;
       bottom: 0;
@@ -183,9 +188,23 @@
   &__title {
     font-weight: 700;
     font-size: 17px;
-
-    color: #e1e1e1;
     margin: 0 0 5px 0;
+    color: #e1e1e1;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  &__description {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
   }
 
   &__text {
@@ -290,11 +309,11 @@
     height: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;    
+    justify-content: center;
     img {
       width: 67%;
       margin-top: -50px;
-      @include adaptive-value('height', 512, 352, 1);
+      @include adaptive-value("height", 512, 352, 1);
       object-fit: contain;
       @media (max-height: 792px) {
         height: 60%;

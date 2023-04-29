@@ -50,7 +50,7 @@ export const NewChallengeCard: FC<INewChallengeCard> = ({
         </div>
         <div className='new-board__description'>
           <div className='new-board__title'>{title}</div>
-          <div className='new-board__text'>{description}</div>
+          <div className='new-board__text' dangerouslySetInnerHTML={{ __html: description }}></div>
         </div>
       </div>
     </Link>
