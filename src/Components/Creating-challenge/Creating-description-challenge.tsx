@@ -14,12 +14,10 @@ export const CreatingDescriptionChallenge = () => {
   const dispatch = useAppDispatch()
   const description = useAppSelector(descriptionCreatingChallengeSelector)
 
-  console.log(description);
-
   const handlerDescription = (text: string) => {
       dispatch(setDescriptionChallenge(text))    
   }
-  
+
   useEffect(() => {
     if (extractContent(description).length >= 3 && extractContent(description).length <= 180) {
       dispatch(setDisabledButton(false))
