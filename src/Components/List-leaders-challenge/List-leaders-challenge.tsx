@@ -41,7 +41,7 @@ export const ListLeadersChallenge: FC<IListLeadersChallenge> = ({
     <div className={'leader-challenge'}>
       <div className='leader-challenge__header'>
         <div className='leader-challenge__title'>
-          {type === 3 ? 'Участники' : 'Команды'}
+          {(type === 1 || type === 3) ? 'Участники' : 'Команды'}
         </div>
         <div className='leader-challenge__title'>Прогресс</div>
       </div>
