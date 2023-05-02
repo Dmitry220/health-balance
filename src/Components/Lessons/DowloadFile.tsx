@@ -22,19 +22,19 @@ export const DownloadFile = () => {
 
   const success = useAppSelector(successSelector)
   const isLoading = useAppSelector(isLoadingSuccessSelector)
-  const [downloadFile, setDownloadFile] = useState<any | null>(null)
+  const [downloadFile, setDownloadFile] = useState<Blob | null>(null)
 
   const download = (e: ChangeEvent<HTMLInputElement>) => {
     const file: any = e.target.files
     if (file[0]) {
-      setDownloadFile(URL.createObjectURL(file[0]))
+      setDownloadFile(file[0])
     }
   }
 
   const complete = async () => {
     if (downloadFile && lesson) {
       const dataTaskToCompleted = {
-        answer: downloadFile
+        file: downloadFile
       }
       try {
         await LessonService.complete(dataTaskToCompleted, lesson.id)

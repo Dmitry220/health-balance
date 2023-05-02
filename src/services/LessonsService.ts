@@ -15,7 +15,7 @@ export default class LessonService {
     )
   }
 
-  static async complete(dataTaskToCompleted: {answer: any}, id: number) {
+  static async complete(dataTaskToCompleted: {answer?: any, file?:Blob}, id: number) {
     return $api.post(
       `lessons/${id}/complete/?token=${localStorage.getItem('token')}`,
       dataTaskToCompleted,

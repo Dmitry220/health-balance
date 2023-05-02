@@ -98,8 +98,7 @@ export const CreatingLecture = () => {
     append({ answer: '' })
     setDescription('')
   }
-  console.log(description);
-
+  
   const addLecture = handleSubmit(
     async ({
       answers,
