@@ -94,7 +94,7 @@ export const DownloadFile = () => {
         disabled={isLoadingComplete}
         onClick={complete}
       >
-        {isLoading ? (
+        {isLoadingComplete ? (
           <span className='spinner'>
             <i className='fa fa-spinner fa-spin'></i> Загрузка
           </span>

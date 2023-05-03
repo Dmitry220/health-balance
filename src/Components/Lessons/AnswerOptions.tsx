@@ -62,9 +62,9 @@ export const AnswerOptions = () => {
     lesson?.id && dispacth(checkTask(lesson.id))
   }, [showModal])
 
-  if (isLoading) {
-    return <Preloader height='auto' />
-  }
+  // if (isLoading) {
+  //   return <Preloader height='auto' />
+  // }
 
   if (showModal) {
     return (
@@ -109,7 +109,7 @@ export const AnswerOptions = () => {
         disabled={isLoadingComplete}
         onClick={complete}
       >
-        {isLoading ? (
+        {isLoadingComplete ? (
           <span className='spinner'>
             <i className='fa fa-spinner fa-spin'></i> Загрузка
           </span>

@@ -104,7 +104,7 @@ export const ScanQR = () => {
        onClick={() => setStartScan(true)}
         disabled={isLoadingComplete}
       >
-        {isLoading ? (
+        {isLoadingComplete ? (
           <span className='spinner'>
             <i className='fa fa-spinner fa-spin'></i> Загрузка
           </span>
