@@ -19,7 +19,7 @@ export const DownloadFile = () => {
   const challengeId = useAppSelector(challengeSelector)
   const dispacth = useAppDispatch()
   const [showModal, setShowModal] = useState<boolean>(false)
-
+  const [isLoadingComplete, setIsLoadingComplete] = useState(false)
   const success = useAppSelector(successSelector)
   const isLoading = useAppSelector(isLoadingSuccessSelector)
   const [downloadFile, setDownloadFile] = useState<Blob | null>(null)
@@ -33,14 +33,17 @@ export const DownloadFile = () => {
 
   const complete = async () => {
     if (downloadFile && lesson) {
-      const dataTaskToCompleted = {
-        file: downloadFile
-      }
       try {
+        setIsLoadingComplete(true)
+        const dataTaskToCompleted = {
+          file: downloadFile
+        }
         await LessonService.complete(dataTaskToCompleted, lesson.id)
         setShowModal(true)
       } catch (error) {
         await showToast('Произошла ошибка!')
+      }finally{
+        setIsLoadingComplete(false)
       }
     } else {
       await showToast('Вы неправильно выполнили задание')
@@ -49,23 +52,26 @@ export const DownloadFile = () => {
 
   useEffect(() => {
     lesson?.id && dispacth(checkTask(lesson.id))
-  }, [])
+  }, [showModal])
 
   if (isLoading) {
-    return <Preloader />
-  }
-
-  if (success) {
-    return <h1 style={{ textAlign: 'center', color: 'red' }}>Выполнено</h1>
+    return <Preloader height='auto' />
   }
 
   if (showModal) {
     return (
       <ModalSuccess
-        route={LECTURES_ROUTE + '/' + challengeId?.id}
+        // route={LECTURES_ROUTE + '/' + challengeId?.id}        
+        setShowModal={setShowModal}
+        showModal={showModal}
+        updateActive={true}
         reward={lesson?.score}
       />
     )
+  }
+
+  if (success) {
+    return <h1 style={{ textAlign: 'center', color: 'red' }}>Выполнено</h1>
   }
 
   return (
@@ -85,9 +91,16 @@ export const DownloadFile = () => {
       </label>
       <button
         className='task-lecture__button-execute _button-white'
+        disabled={isLoadingComplete}
         onClick={complete}
       >
-        Выполнить
+        {isLoading ? (
+          <span className='spinner'>
+            <i className='fa fa-spinner fa-spin'></i> Загрузка
+          </span>
+        ) : (
+          'Выполнить'
+        )}
       </button>
     </>
   )

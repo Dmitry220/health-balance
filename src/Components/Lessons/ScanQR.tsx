@@ -23,7 +23,7 @@ export const ScanQR = () => {
   const [showModal, setShowModal] = useState<boolean>(false)
   const [startScan, setStartScan] = useState<boolean>(false)
   const [data, setData] = useState<string>('')
-
+  const [isLoadingComplete, setIsLoadingComplete] = useState(false)
   const success = useAppSelector(successSelector)
   const isLoading = useAppSelector(isLoadingSuccessSelector)
 
@@ -35,14 +35,21 @@ export const ScanQR = () => {
 
   const checkQRCode = async () => {
     if (data === lesson?.qr_code && lesson?.id) {
-      const dataTaskToCompleted = {
-        answer: data
+      try {
+        setIsLoadingComplete(true)
+        const dataTaskToCompleted = {
+          answer: data
+        }
+        const response = await LessonService.complete(dataTaskToCompleted, lesson.id)
+        if (response.data.success) {
+          setShowModal(true)
+          setData('')
+        }
+      } catch (error) {
+      }finally{
+        setIsLoadingComplete(false)
       }
-      const response = await LessonService.complete(dataTaskToCompleted, lesson.id)
-      if (response.data.success) {
-        setShowModal(true)
-        setData('')
-      }
+
     } else {
       await showToast('Сканированный код не соответствует требуемому')
     }
@@ -50,23 +57,26 @@ export const ScanQR = () => {
 
   useEffect(() => {
     lesson?.id && dispacth(checkTask(lesson.id))
-  }, [])
+  }, [showModal])
 
   if (isLoading) {
-    return <Preloader />
-  }
-
-  if (success) {
-    return <h1 style={{ textAlign: 'center', color: 'red' }}>Выполнено</h1>
+    return <Preloader height='auto' />
   }
 
   if (showModal) {
     return (
       <ModalSuccess
-        route={LECTURES_ROUTE + '/' + challengeId?.id}
+        //route={LECTURES_ROUTE + '/' + challengeId?.id}        
+        setShowModal={setShowModal}
+        showModal={showModal}
+        updateActive={true}
         reward={lesson?.score}
       />
     )
+  }
+
+  if (success) {
+    return <h1 style={{ textAlign: 'center', color: 'red' }}>Выполнено</h1>
   }
 
   if (startScan) {
@@ -89,11 +99,18 @@ export const ScanQR = () => {
 
   return (
     <>
-      <button
-        className='task-lecture__button-execute _button-white'
-        onClick={() => setStartScan(true)}
+    <button
+       className='task-lecture__button-execute _button-white'
+       onClick={() => setStartScan(true)}
+        disabled={isLoadingComplete}
       >
-        Сканировать QR
+        {isLoading ? (
+          <span className='spinner'>
+            <i className='fa fa-spinner fa-spin'></i> Загрузка
+          </span>
+        ) : (
+          'Сканировать QR'
+        )}
       </button>
     </>
   )

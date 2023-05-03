@@ -23,54 +23,67 @@ export const AnswerOptions = () => {
   const challengeId = useAppSelector(challengeSelector)
   const success = useAppSelector(successSelector)
   const isLoading = useAppSelector(isLoadingSuccessSelector)
-
+  const [title, setTitle] = useState('Задание выполнено')
+  const [showReward, setShowReward] = useState(true)
   const [showModal, setShowModal] = useState<boolean>(false)
+  const [isLoadingComplete, setIsLoadingComplete] = useState(false)
 
   const sendAnswer = async (lessonId: number) => {
-    const dataTaskToCompleted = {
-      answer: value
-    }
     try {
-      await LessonService.complete(dataTaskToCompleted, lessonId)
-      setShowModal(true)
+      setIsLoadingComplete(true)
+      const dataTaskToCompleted = {
+        answer: value
+      }
+      const response = await LessonService.complete(dataTaskToCompleted, lessonId)
+      if (response.status === 203) {
+        setShowReward(false)
+        setTitle('К сожалению, вы не правильно ответили на вопрос')
+      }
     } catch (error) {
-      await showToast('Ошибка')
-     }
+      console.log(error);
+      setShowReward(false)
+      setTitle('К сожалению, вы не правильно ответили на вопрос')
+    }
+    finally {
+      setShowModal(true)
+      setIsLoadingComplete(false)
+    }
   }
 
   const complete = async () => {
- 
-    if (lesson?.correct_answer === -1 && value) {
-      await sendAnswer(lesson.id)
+    if (value) {
+      await sendAnswer(lesson?.id!)
     } else {
-      if (+value === lesson?.correct_answer) {
-        await sendAnswer(lesson.id)
-      } else {
-        await showToast('Вы неправильно ответили на вопрос')
-      }
+      await showToast('Вы не ответили на вопрос')
     }
-
   }
 
   useEffect(() => {
     lesson?.id && dispacth(checkTask(lesson.id))
-  }, [])
+  }, [showModal])
 
   if (isLoading) {
-    return <Preloader />
+    return <Preloader height='auto' />
+  }
+
+  if (showModal) {
+    return (
+      <ModalSuccess
+        //route={LECTURES_ROUTE + '/' + challengeId?.id}
+        showReward={showReward}
+        setShowModal={setShowModal}
+        showModal={showModal}
+        updateActive={true}
+        title={title}
+        reward={lesson?.score}
+      />
+    )
   }
 
   if (success) {
     return <h1 style={{ textAlign: 'center', color: 'red' }}>Выполнено</h1>
   }
-  if (showModal) {
-    return (
-      <ModalSuccess
-        route={LECTURES_ROUTE + '/' + challengeId?.id}
-        reward={lesson?.score}
-      />
-    )
-  }
+
   return (
     <>
       <div className='task-lecture__title title-17'>{lesson?.question}</div>
@@ -93,9 +106,16 @@ export const AnswerOptions = () => {
       </div>
       <button
         className='task-lecture__button-execute _button-white'
+        disabled={isLoadingComplete}
         onClick={complete}
       >
-        Выполнить
+        {isLoading ? (
+          <span className='spinner'>
+            <i className='fa fa-spinner fa-spin'></i> Загрузка
+          </span>
+        ) : (
+          'Выполнить'
+        )}
       </button>
     </>
   )

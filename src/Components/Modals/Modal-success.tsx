@@ -14,7 +14,8 @@ interface IModalSuccess {
   title?: string,
   setShowModal?:  Dispatch<SetStateAction<boolean>>
   showModal?: boolean ,
-  updateActive?:boolean
+  updateActive?:boolean,
+  showReward?:boolean
 }
 
 export const ModalSuccess: FC<IModalSuccess> = ({
@@ -24,6 +25,7 @@ export const ModalSuccess: FC<IModalSuccess> = ({
   route,
   setShowModal,
   showModal,
+  showReward=true,
   updateActive,
   title
 }) => {
@@ -58,7 +60,7 @@ export const ModalSuccess: FC<IModalSuccess> = ({
         </div>
         <div className='modal-status__title'>{title||'Задание выполнено'}</div>
         <div className='modal-status__sub-title'>
-          {subTitle || 'Ваша награда: '} <RewardCount count={reward || 0} />
+          {showReward&&(subTitle || 'Ваша награда: ')} {showReward&&<RewardCount count={reward || 0} />}
         </div>
       </div>
     </div>

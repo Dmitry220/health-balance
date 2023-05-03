@@ -20,20 +20,24 @@ export const AnswerToQuestion = () => {
   const dispacth = useAppDispatch()
   const [value, setValue] = useState<string>('')
   const [showModal, setShowModal] = useState<boolean>(false)
-
+  const [isLoadingComplete, setIsLoadingComplete] = useState(false)
   const success = useAppSelector(successSelector)
   const isLoading = useAppSelector(isLoadingSuccessSelector)
 
   const complete = async () => {
     if (value !== '' && lesson?.id) {
-      const dataTaskToCompleted = {
-        answer: value
-      }
       try {
+        setIsLoadingComplete(true)
+        const dataTaskToCompleted = {
+          answer: value
+        }
         await LessonService.complete(dataTaskToCompleted, lesson.id)
-
         setShowModal(true)
-      } catch (error) {}
+      } catch (error) { 
+
+      }finally{
+        setIsLoadingComplete(false)
+      }
     } else {
       await showToast('Произошла ошибка')
     }
@@ -41,23 +45,26 @@ export const AnswerToQuestion = () => {
 
   useEffect(() => {
     lesson?.id && dispacth(checkTask(lesson.id))
-  }, [])
+  }, [showModal])
 
   if (isLoading) {
-    return <Preloader />
-  }
-
-  if (success) {
-    return <h1 style={{ textAlign: 'center', color: 'red' }}>Выполнено</h1>
+    return <Preloader height='auto' />
   }
 
   if (showModal) {
     return (
       <ModalSuccess
-        route={LECTURES_ROUTE + '/' + challengeId?.id}
+        // route={LECTURES_ROUTE + '/' + challengeId?.id}        
+        setShowModal={setShowModal}
+        showModal={showModal}
+        updateActive={true}
         reward={lesson?.score}
       />
     )
+  }
+
+  if (success) {
+    return <h1 style={{ textAlign: 'center', color: 'red' }}>Выполнено</h1>
   }
 
   return (
@@ -72,9 +79,16 @@ export const AnswerToQuestion = () => {
       />
       <button
         className='task-lecture__button-execute _button-white'
+        disabled={isLoadingComplete}
         onClick={complete}
       >
-        Выполнить
+        {isLoading ? (
+          <span className='spinner'>
+            <i className='fa fa-spinner fa-spin'></i> Загрузка
+          </span>
+        ) : (
+          'Выполнить'
+        )}
       </button>
     </>
   )
