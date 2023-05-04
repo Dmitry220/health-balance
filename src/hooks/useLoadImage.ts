@@ -20,7 +20,7 @@ export const useLoadImage = () => {
     try {
       const image = await Camera.getPhoto({
         quality: 50,
-        allowEditing: false,
+        allowEditing: true,
         resultType: CameraResultType.Uri,
         promptLabelPhoto: 'Выбрать фото из галерии',
         promptLabelPicture: 'Сделать фотографию',
