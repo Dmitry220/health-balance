@@ -1,4 +1,4 @@
-import { Camera, CameraResultType } from '@capacitor/camera'
+import { Camera, CameraResultType,CameraPermissionType} from '@capacitor/camera'
 import { useState } from 'react'
 import FileService from '../services/FilesServices'
 import { showToast } from '../utils/common-functions'
@@ -20,7 +20,7 @@ export const useLoadImage = () => {
     try {
       const image = await Camera.getPhoto({
         quality: 50,
-        allowEditing: true,
+        allowEditing: false,
         resultType: CameraResultType.Uri,
         promptLabelPhoto: 'Выбрать фото из галерии',
         promptLabelPicture: 'Сделать фотографию',
