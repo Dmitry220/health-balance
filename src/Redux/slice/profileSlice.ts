@@ -7,7 +7,7 @@ import { showToast } from '../../utils/common-functions'
 
 export interface IProfile {
   dataUser: IUser
-  isSuccesfullRequest: boolean,
+  isSuccesfullRequest: boolean
   isLoading: boolean
 }
 
@@ -39,16 +39,16 @@ export const updateProfile = createAsyncThunk(
   'updateProfile',
   async (data: IUpdateUser) => {
     try {
-     const response = await UserService.editingProfile(data)     
-     if(response.data.success){
-      await showToast('Данные успешно сохранены!')
-     }else{
-      await showToast('Ошибка!')
-     }    
+      const response = await UserService.editingProfile(data)
+      if (response.data.success) {
+        await showToast('Данные успешно сохранены!')
+      } else {
+        await showToast('Ошибка!')
+      }
     } catch (error) {
-      console.log(error);      
+      console.log(error)
       await showToast('Ошибка!')
-    } 
+    }
   }
 )
 
@@ -65,7 +65,7 @@ export const profileSlice = createSlice({
       }
     )
     builder.addCase(setUserData.rejected, (state) => {
-      state.isSuccesfullRequest = false      
+      state.isSuccesfullRequest = false
     })
     builder.addCase(updateProfile.pending, (state) => {
       state.isLoading = true

@@ -54,19 +54,20 @@ export const TrackerHabitsPage = () => {
     }
   }
 
-  const redirectToChangeTrack = (path:string) => {
+  const redirectToChangeTrack = (path: string) => {
     confirmAlert({
-      title: 'Вы уверены что хотите изменить цель?  Будет создан новый трекер и старые выполненные цели будут аннулированы!',
+      title:
+        'Вы уверены что хотите изменить цель?  Будет создан новый трекер и старые выполненные цели будут аннулированы!',
       buttons: [
         {
           label: 'Да',
           onClick: () => navigate(path)
         },
         {
-          label: 'Нет',          
+          label: 'Нет'
         }
       ]
-    });
+    })
   }
 
   useEffect(() => {
@@ -98,7 +99,10 @@ export const TrackerHabitsPage = () => {
           воды сегодня
         </div>
         <div className='tracker-habits-page__task-column'>
-          <div onClick={()=>redirectToChangeTrack(GOAL_WATER__ROUTE)} className='text-blue'>
+          <div
+            onClick={() => redirectToChangeTrack(GOAL_WATER__ROUTE)}
+            className='text-blue'
+          >
             изменить цель
           </div>
         </div>
@@ -114,7 +118,10 @@ export const TrackerHabitsPage = () => {
           {sklonenie(tracker?.fruits, ['овощ', 'овоща', 'овощей'])}
         </div>
         <div className='tracker-habits-page__task-column'>
-          <div onClick={()=>redirectToChangeTrack(GOAL_FRUITS__ROUTE)} className='text-blue'>
+          <div
+            onClick={() => redirectToChangeTrack(GOAL_FRUITS__ROUTE)}
+            className='text-blue'
+          >
             изменить цель
           </div>
         </div>

@@ -34,17 +34,19 @@ export const AnswerOptions = () => {
       const dataTaskToCompleted = {
         answer: value
       }
-      const response = await LessonService.complete(dataTaskToCompleted, lessonId)
+      const response = await LessonService.complete(
+        dataTaskToCompleted,
+        lessonId
+      )
       if (response.status === 203) {
         setShowReward(false)
         setTitle('К сожалению, вы не правильно ответили на вопрос')
       }
     } catch (error) {
-      console.log(error);
+      console.log(error)
       setShowReward(false)
       setTitle('К сожалению, вы не правильно ответили на вопрос')
-    }
-    finally {
+    } finally {
       setShowModal(true)
       setIsLoadingComplete(false)
     }

@@ -28,7 +28,8 @@ export const CreatingInteresting = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const tempImage = useAppSelector(tempImageNewsSelector)
   const dataNews = useAppSelector(creatingNewsSelector)
-  const [image, photoPath, isLoadingAvatar, clearImages, uploadImage] = useLoadImage()
+  const [image, photoPath, isLoadingAvatar, clearImages, uploadImage] =
+    useLoadImage()
 
   const takePicture = async () => {
     await uploadImage(typeImage.news)
@@ -41,7 +42,6 @@ export const CreatingInteresting = () => {
 
   const handlerContent = (e: ChangeEvent<HTMLTextAreaElement>) =>
     dispatch(setContentNews(e.target.value))
-
 
   const handlerAnnotation = (e: ChangeEvent<HTMLInputElement>) =>
     dispatch(setAnnotationNews(e.target.value))
@@ -101,7 +101,6 @@ export const CreatingInteresting = () => {
       dispatch(setImageNews(image))
     }
   }, [image])
-
 
   if (showModal) {
     return <ModalStatus route={INTERESTING_ROUTE} />
