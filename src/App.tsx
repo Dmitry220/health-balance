@@ -7,7 +7,10 @@ import { App as CapacitorApp } from '@capacitor/app'
 import TrackerService from './services/TrackerService'
 import { showToast } from './utils/common-functions'
 import { useNavigate } from 'react-router-dom'
-import { POST_INTERESTING_ROUTE, TRACKER_ROUTE } from './provider/constants-route'
+import {
+  POST_INTERESTING_ROUTE,
+  TRACKER_ROUTE
+} from './provider/constants-route'
 import { IUpdateUser } from './models/IUsers'
 import UserService from './services/UserServices'
 import { heightStatusBarSelector } from './Redux/slice/appSlice'
@@ -24,7 +27,9 @@ function App() {
       OneSignal.setNotificationOpenedHandler(async (openedEvent) => {
         const { notification }: any = openedEvent
         if (notification.additionalData?.type === 'news') {
-          navigate(POST_INTERESTING_ROUTE + '/' + notification.additionalData?.id)
+          navigate(
+            POST_INTERESTING_ROUTE + '/' + notification.additionalData?.id
+          )
         }
         if (notification.additionalData?.track_id) {
           const response = await TrackerService.complteteTrack(
@@ -63,8 +68,6 @@ function App() {
       handlerPush()
     })
 
-
-    
     //Обработчик событий для переход "назад"
     CapacitorApp.addListener('backButton', ({ canGoBack }: any) => {
       if (!canGoBack) {
@@ -79,10 +82,7 @@ function App() {
     <div
       className={'_container'}
       style={{
-        paddingTop:
-          Capacitor.getPlatform() === 'ios'
-            ? +statusBar
-            : 16
+        paddingTop: Capacitor.getPlatform() === 'ios' ? +statusBar : 16
       }}
     >
       <AppRouter />
