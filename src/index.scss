@@ -15,9 +15,9 @@ a {
   text-decoration: none;
 }
 ul,
-ol,
-li {
+ol {
   //list-style: none;
+  padding-left: 16px;
 }
 img {
   vertical-align: top;
