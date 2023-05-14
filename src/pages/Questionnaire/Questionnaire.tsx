@@ -30,6 +30,7 @@ import { RadioWithAnswer } from '../../Components/Quiz/RadioWithAnswer'
 import { ModalStatus } from '../../Components/Modals/Modal-status'
 import { Preloader } from '../../Components/Preloader/Preloader'
 
+
 export const Questionnaire = () => {
   const dispatch = useAppDispatch()
   const questionnaire = useAppSelector(questionnaireSelector)
@@ -39,6 +40,7 @@ export const Questionnaire = () => {
   const [indexQuestion, setIndexQuestion] = useState(0)
   const [finished, setFinished] = useState<boolean>(false)
   const isLoading = useAppSelector(isLoadingSelector)
+ 
 
   const generateResult = async () => {
     await dispatch(generateResultsPoll(idPoll))
@@ -47,7 +49,6 @@ export const Questionnaire = () => {
   }
 
   useEffect(() => {
-    // dispatch(getProgressAndIdPolls())
     dispatch(getQuestionnaire())
     dispatch(resetAnswers())
   }, [])
@@ -59,28 +60,25 @@ export const Questionnaire = () => {
       if (progressPoll !== 9) {
         setIndexQuestion(0)
       }
-
       if (progressPoll === 9) {
         generateResult()
         return
       }
     }
 
-    if (
-      progressPoll + 1 === 3 &&
-      indexQuestion === 2 &&
-      !answers[1]['22'].includes(3)
-    ) {
-      dispatch(addIndexPageAnswer({ '23': null }))
+    //Проверка ответов на диабет
+    if (questionnaire[progressPoll]?.questions[indexQuestion - 1]?.tag === 'family_illness' && indexQuestion === 2
+      && (!answers[1][questionnaire[progressPoll]?.questions[indexQuestion - 1].id].includes(3))) {
+      dispatch(addIndexPageAnswer({ [questionnaire[progressPoll]?.questions[indexQuestion - 1].id + 1]: null }))
       setIndexQuestion((prev) => prev + 1)
     }
-    if (
-      progressPoll + 1 === 4 &&
-      indexQuestion === 1 &&
-      (answers[0]['61'] === 8 || answers[0]['61'] === 9)
-    ) {
-      dispatch(addIndexPageAnswer({ '62': null }))
-      dispatch(addIndexPageAnswer({ '63': null }))
+     //Проверка ответов на курение
+    if (questionnaire[progressPoll]?.questions[indexQuestion - 1]?.tag === 'smoking_type' &&
+      indexQuestion === 1
+      && (answers[0][questionnaire[progressPoll]?.questions[indexQuestion - 1].id] === 8 || answers[0][questionnaire[progressPoll]?.questions[indexQuestion - 1].id] === 9)) {
+      console.log(questionnaire[progressPoll]?.questions[indexQuestion - 1]);
+      dispatch(addIndexPageAnswer({ [questionnaire[progressPoll]?.questions[indexQuestion - 1].id + 1]: null }))
+      dispatch(addIndexPageAnswer({ [questionnaire[progressPoll]?.questions[indexQuestion - 1].id + 2]: null }))
       setIndexQuestion((prev) => prev + 2)
     }
   }, [indexQuestion])
@@ -89,6 +87,9 @@ export const Questionnaire = () => {
     dispatch(addIndexPageAnswer(answer))
     setIndexQuestion((prev) => prev + 1)
   }
+  console.log(answers);
+
+  // console.log(questionnaire);
 
   if (isLoading) {
     return <Preloader />
@@ -128,110 +129,110 @@ export const Questionnaire = () => {
                 <div>
                   {questionnaire[progressPoll]?.questions[indexQuestion]
                     ?.answer_type === 1 && (
-                    <RadioQuiz
-                      question={
-                        questionnaire[progressPoll]?.questions[indexQuestion]
-                          ?.question
-                      }
-                      answerHandler={answerHandler}
-                      answers={
-                        questionnaire[progressPoll].questions[indexQuestion]
-                          .answers
-                      }
-                      id={
-                        questionnaire[progressPoll]?.questions[indexQuestion]
-                          ?.id
-                      }
-                    />
-                  )}
+                      <RadioQuiz
+                        question={
+                          questionnaire[progressPoll]?.questions[indexQuestion]
+                            ?.question
+                        }
+                        answerHandler={answerHandler}
+                        answers={
+                          questionnaire[progressPoll].questions[indexQuestion]
+                            .answers
+                        }
+                        id={
+                          questionnaire[progressPoll]?.questions[indexQuestion]
+                            ?.id
+                        }
+                      />
+                    )}
                   {questionnaire[progressPoll]?.questions[indexQuestion]
                     ?.answer_type === 2 && (
-                    <TextQuiz
-                      answerHandler={answerHandler}
-                      question={
-                        questionnaire[progressPoll]?.questions[indexQuestion]
-                          ?.question
-                      }
-                    />
-                  )}
+                      <TextQuiz
+                        answerHandler={answerHandler}
+                        question={
+                          questionnaire[progressPoll]?.questions[indexQuestion]
+                            ?.question
+                        }
+                      />
+                    )}
                   {questionnaire[progressPoll]?.questions[indexQuestion]
                     ?.answer_type === 3 && (
-                    <NumberQuiz
-                      answerHandler={answerHandler}
-                      id={
-                        questionnaire[progressPoll]?.questions[indexQuestion]
-                          ?.id
-                      }
-                      question={
-                        questionnaire[progressPoll]?.questions[indexQuestion]
-                          ?.question
-                      }
-                    />
-                  )}
+                      <NumberQuiz
+                        answerHandler={answerHandler}
+                        id={
+                          questionnaire[progressPoll]?.questions[indexQuestion]
+                            ?.id
+                        }
+                        question={
+                          questionnaire[progressPoll]?.questions[indexQuestion]
+                            ?.question
+                        }
+                      />
+                    )}
                   {questionnaire[progressPoll]?.questions[indexQuestion]
                     ?.answer_type === 4 && (
-                    <CheckboxQuiz
-                      id={
-                        questionnaire[progressPoll]?.questions[indexQuestion]
-                          ?.id
-                      }
-                      answers={
-                        questionnaire[progressPoll]?.questions[indexQuestion]
-                          ?.answers
-                      }
-                      answerHandler={answerHandler}
-                      question={
-                        questionnaire[progressPoll]?.questions[indexQuestion]
-                          ?.question
-                      }
-                    />
-                  )}
+                      <CheckboxQuiz
+                        id={
+                          questionnaire[progressPoll]?.questions[indexQuestion]
+                            ?.id
+                        }
+                        answers={
+                          questionnaire[progressPoll]?.questions[indexQuestion]
+                            ?.answers
+                        }
+                        answerHandler={answerHandler}
+                        question={
+                          questionnaire[progressPoll]?.questions[indexQuestion]
+                            ?.question
+                        }
+                      />
+                    )}
                   {questionnaire[progressPoll]?.questions[indexQuestion]
                     ?.answer_type === 5 && (
-                    <DateQuiz
-                      answerHandler={answerHandler}
-                      question={
-                        questionnaire[progressPoll]?.questions[indexQuestion]
-                          ?.question
-                      }
-                    />
-                  )}
+                      <DateQuiz
+                        answerHandler={answerHandler}
+                        question={
+                          questionnaire[progressPoll]?.questions[indexQuestion]
+                            ?.question
+                        }
+                      />
+                    )}
                   {questionnaire[progressPoll]?.questions[indexQuestion]
                     ?.answer_type === 6 && (
-                    <RadioWithAnswer
-                      id={
-                        questionnaire[progressPoll]?.questions[indexQuestion]
-                          ?.id
-                      }
-                      answers={
-                        questionnaire[progressPoll]?.questions[indexQuestion]
-                          ?.answers
-                      }
-                      answerHandler={answerHandler}
-                      question={
-                        questionnaire[progressPoll]?.questions[indexQuestion]
-                          ?.question
-                      }
-                    />
-                  )}
+                      <RadioWithAnswer
+                        id={
+                          questionnaire[progressPoll]?.questions[indexQuestion]
+                            ?.id
+                        }
+                        answers={
+                          questionnaire[progressPoll]?.questions[indexQuestion]
+                            ?.answers
+                        }
+                        answerHandler={answerHandler}
+                        question={
+                          questionnaire[progressPoll]?.questions[indexQuestion]
+                            ?.question
+                        }
+                      />
+                    )}
                   {questionnaire[progressPoll]?.questions[indexQuestion]
                     ?.answer_type === 7 && (
-                    <CheckboxWithAnswer
-                      id={
-                        questionnaire[progressPoll]?.questions[indexQuestion]
-                          ?.id
-                      }
-                      answers={
-                        questionnaire[progressPoll]?.questions[indexQuestion]
-                          ?.answers
-                      }
-                      answerHandler={answerHandler}
-                      question={
-                        questionnaire[progressPoll]?.questions[indexQuestion]
-                          ?.question
-                      }
-                    />
-                  )}
+                      <CheckboxWithAnswer
+                        id={
+                          questionnaire[progressPoll]?.questions[indexQuestion]
+                            ?.id
+                        }
+                        answers={
+                          questionnaire[progressPoll]?.questions[indexQuestion]
+                            ?.answers
+                        }
+                        answerHandler={answerHandler}
+                        question={
+                          questionnaire[progressPoll]?.questions[indexQuestion]
+                            ?.question
+                        }
+                      />
+                    )}
                 </div>
               </div>
             </div>

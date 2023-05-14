@@ -8,6 +8,8 @@ interface ICardIndex {
 export const CardIndex: FC<ICardIndex> = ({ title, value }) => {
   const definitionRisk = (value: number) => {
     switch (value) {
+      case 0:
+        return 'Не посчитано'
       case 1:
         return 'Все в порядке'
       case 2:
@@ -21,6 +23,8 @@ export const CardIndex: FC<ICardIndex> = ({ title, value }) => {
 
   const hintRisk = (value: number) => {
     switch (value) {
+      case 0:
+        return 'Не посчитано'
       case 1:
         return 'Рисков нет'
       case 2:
