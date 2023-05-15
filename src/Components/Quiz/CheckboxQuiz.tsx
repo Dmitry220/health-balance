@@ -22,9 +22,11 @@ const CheckboxQuiz: FC<ITextQuiz> = ({
     answerHandler({[id]:value});
   };
 
-  const handleChange = (val: string) => {
+  const handleChange = (val: number) => {
+    console.log(value,val, value.includes(val));
+    
     if (value.includes(val)) {
-      setValue(value.filter((e: string) => e !== val));
+      setValue(value.filter((e: number) => e !== val));
       return false;
     }
     setValue([...value, +val]);
@@ -43,7 +45,7 @@ const CheckboxQuiz: FC<ITextQuiz> = ({
                 name={"radio" + id}
                 className={"custom-checkbox__checkbox"}
                 id={item.position + id + ''}
-                onChange={(e) => handleChange(e.target.value)}
+                onChange={(e) => handleChange(+e.target.value)}
               />
               <label htmlFor={item.position + id + ''}>{item.value}</label>
             </div>
