@@ -1,43 +1,55 @@
-import React, {useEffect} from 'react'
-import {Navigation} from '../../Components/Navigation/Navigation'
-import {TabContent, Tabs} from '../../Components/Tabs/Tabs'
-import {CardInteresting} from '../../Components/Interesting/Card-interesting'
+import React, { useEffect } from 'react'
+import { Navigation } from '../../Components/Navigation/Navigation'
+import { TabContent, Tabs } from '../../Components/Tabs/Tabs'
+import { CardsInteresting } from '../../Components/Interesting/Cards-interesting'
 import './interesting-page.scss'
-import {useAppDispatch, useAppSelector} from '../../hooks/redux-hooks'
-import {HeaderTwo} from '../../Components/Header-two/Header-two'
-import {CREATING_INTERESTING_ROUTE} from '../../provider/constants-route'
-import {NavLink} from 'react-router-dom'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
+import { HeaderTwo } from '../../Components/Header-two/Header-two'
+import { CREATING_INTERESTING_ROUTE } from '../../provider/constants-route'
+import { NavLink } from 'react-router-dom'
 import {
   getNews,
-  instructionNewsSelector,
   isLoadingSelector,
-  motivationSelector,
   newsSelector,
-  psyholgySelector
 } from '../../Redux/slice/newsSlice'
-import {dataUserSelector} from '../../Redux/slice/profileSlice'
-import {Preloader} from '../../Components/Preloader/Preloader'
+import { dataUserSelector } from '../../Redux/slice/profileSlice'
+import { Preloader } from '../../Components/Preloader/Preloader'
+
 
 export const InterestingPage = () => {
+
   const dispatch = useAppDispatch()
-  const news = useAppSelector(newsSelector)
-  const psyhologyNews = useAppSelector(psyholgySelector)
-  const motivationNews = useAppSelector(motivationSelector)
-  const instructionNews = useAppSelector(instructionNewsSelector)
   const isLoading = useAppSelector(isLoadingSelector)
   const dataUser = useAppSelector(dataUserSelector)
   const [value, setValue] = React.useState<number>(0)
 
-  const labelTabs = ['Психология', 'Инструкция', 'Мотивация', 'Новость']
+  const categoryNews = [
+    {
+      id: 0,
+      title: 'Все'
+    },
+    {
+      id: 4,
+      title: 'Новость'
+    },
+    {
+      id: 2,
+      title: 'Инструкция'
+    },
+    {
+      id: 3,
+      title: 'Мотивация'
+    },
+    {
+      id: 1,
+      title: 'Психология'
+    }   
+  ]
 
+  // useEffect(() => {
 
-  useEffect(() => {
-    dispatch(getNews())
-  }, [])
+  // }, [])
 
-  if (isLoading) {
-    return <Preloader />
-  }
 
   return (
     <div className={'interesting-page'}>
@@ -51,32 +63,19 @@ export const InterestingPage = () => {
       )}
       <div className='interesting-page__tabs'>
         <Tabs
-          labels={labelTabs}
+          labels={categoryNews.map(item => item.title)}
           onClick={setValue}
           value={value}
           customClassChildren={'scroll-tabs-labels'}
           customClassParent={'scroll-tabs'}
         />
-        <TabContent value={value} index={0}>
-          {psyhologyNews.length ? psyhologyNews?.map((item) => (
-            <CardInteresting dataNews={item} key={item.id} />
-          )): <div className='active-plug'>Новостей нет</div>}
-        </TabContent>
-        <TabContent value={value} index={1}>
-          {instructionNews.length ? instructionNews?.map((item) => (
-            <CardInteresting dataNews={item} key={item.id}/>
-          )): <div className='active-plug'>Новостей нет</div>}
-        </TabContent>
-        <TabContent value={value} index={2}>
-          {motivationNews.length ? motivationNews?.map((item) => (
-            <CardInteresting dataNews={item} key={item.id}/>
-          )) : <div className='active-plug'>Новостей нет</div>}
-        </TabContent>
-        <TabContent value={value} index={3}>
-          {news.length ? news?.map((item) => (
-            <CardInteresting dataNews={item} key={item.id}/>
-          )): <div className='active-plug'>Новостей нет</div>}
-        </TabContent>
+        {
+          categoryNews.map((label, i) => (
+            <TabContent index={i} value={value} key={i}>     
+                <CardsInteresting idCategory={label.id} key={i} />    
+            </TabContent>
+          ))
+        }
       </div>
       <Navigation />
     </div>

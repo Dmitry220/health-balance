@@ -27,6 +27,10 @@ export default class NewsService {
     return $api.get(`news/${id}?token=${localStorage.getItem('token')}`)
   }
 
+  static async getNewsByCategory (idRubric: number): Promise<AxiosResponse<{ data: INews[] }>> {
+    return $api.get(`news?token=${localStorage.getItem('token')}&category=${idRubric}`)
+  }
+
   static async addCommentsNews(data: ICreatingComment) {
     return $api.post(
       `news-comments/?token=${localStorage.getItem('token')}`,

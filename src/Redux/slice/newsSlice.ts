@@ -5,10 +5,7 @@ import NewsService from '../../services/NewsService'
 
 export interface INewsSlice {
   creatingNews: ICreatingNews
-  news: INews[] | []
-  psychologyNews: INews[] | []
-  motivationNews: INews[] | []
-  instructionNews: INews[] | []
+  news: INews[]
   newsById: INews | null
   isLoading: boolean
   imageNews?: any
@@ -28,9 +25,6 @@ const initialState: INewsSlice = {
   },
   isLoading: false,
   newsById: null,
-  instructionNews: [],
-  motivationNews: [],
-  psychologyNews: [],
   news: [],
   comments: [],
   idNewComment: 0
@@ -45,6 +39,14 @@ export const getNewsById = createAsyncThunk(
   'getNewsById',
   async (id: number) => {
     const response = await NewsService.getNewsById(id)
+    return response.data.data
+  }
+)
+
+export const getNewsByCategory = createAsyncThunk(
+  'getNewsByCategory',
+  async (idRubric: number) => {
+    const response = await NewsService.getNewsByCategory(idRubric)
     return response.data.data
   }
 )
@@ -93,16 +95,7 @@ export const newsSlice = createSlice({
     builder.addCase(
       getNews.fulfilled,
       (state, action: PayloadAction<INews[]>) => {
-        state.news = action.payload.filter((item) => item.category === 4)
-        state.motivationNews = action.payload.filter(
-          (item) => item.category === 3
-        )
-        state.instructionNews = action.payload.filter(
-          (item) => item.category === 2
-        )
-        state.psychologyNews = action.payload.filter(
-          (item) => item.category === 1
-        )
+        state.news = action.payload
         state.isLoading = false
       }
     )
@@ -127,7 +120,21 @@ export const newsSlice = createSlice({
       (state, action: PayloadAction<IComment[]>) => {
         state.comments = action.payload
       }
+    ) 
+    builder.addCase(
+      getNewsByCategory.pending,
+      (state) => {
+        state.isLoading = true
+      }
     )
+    builder.addCase(
+      getNewsByCategory.fulfilled,
+      (state, action: PayloadAction<INews[]>) => {
+        state.news = action.payload
+        state.isLoading = false
+      }
+    )
+   
   }
 })
 
@@ -145,11 +152,6 @@ export const {
 
 export const isLoadingSelector = (state: RootState) => state.news.isLoading
 export const newsSelector = (state: RootState) => state.news.news
-export const psyholgySelector = (state: RootState) => state.news.psychologyNews
-export const motivationSelector = (state: RootState) =>
-  state.news.motivationNews
-export const instructionNewsSelector = (state: RootState) =>
-  state.news.instructionNews
 export const newsByIdSelector = (state: RootState) => state.news.newsById
 export const creatingNewsSelector = (state: RootState) =>
   state.news.creatingNews
