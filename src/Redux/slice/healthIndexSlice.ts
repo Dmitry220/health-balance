@@ -109,10 +109,12 @@ export const healthIndexSlice = createSlice({
         state.questionnaire = action.payload.questionnaireKey?.map((item) => {
           item.questions = item?.questions?.filter((q) => {
             if (action.payload.genderKey === 1) {
-              return q?.tag != "waist_w";
+              return q?.tag != "waist_w" && q?.tag != 'mammography';
             }
+            
             if (action.payload.genderKey === 2) {
-              return q?.tag != "waist_m";
+              
+              return q?.tag != "waist_m" && q?.tag != 'prostate_cancer_test';
             }
           });
           return item;
