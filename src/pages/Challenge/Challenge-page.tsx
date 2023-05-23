@@ -1,27 +1,27 @@
-import React, {useEffect} from 'react'
-import {Navigation} from '../../Components/Navigation/Navigation'
-import {CardChallenge} from '../../Components/Challenge/Card-challenge'
-import {NewChallengeCard} from '../../Components/Challenge/New-challenge-card'
+import React, { useEffect } from 'react'
+import { Navigation } from '../../Components/Navigation/Navigation'
+import { CardChallenge } from '../../Components/Challenge/Card-challenge'
+import { NewChallengeCard } from '../../Components/Challenge/New-challenge-card'
 import './challenge-page.scss'
-import {HeaderTwo} from '../../Components/Header-two/Header-two'
-import {TabContent, Tabs} from '../../Components/Tabs/Tabs'
-import {useAppDispatch, useAppSelector} from '../../hooks/redux-hooks'
+import { HeaderTwo } from '../../Components/Header-two/Header-two'
+import { TabContent, Tabs } from '../../Components/Tabs/Tabs'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import {
   activeChallengesSelector,
   getListChallenges,
   isLoadingSelector,
   newChallengesSelector
 } from '../../Redux/slice/challengeSlice'
-import {Link} from 'react-router-dom'
-import {CREATING_CHALLENGE_ROUTE} from '../../provider/constants-route'
-import {dataUserSelector} from '../../Redux/slice/profileSlice'
-import {InstructionsChallenge} from '../../Components/Challenge/Instruction-challenge'
-import {Preloader} from '../../Components/Preloader/Preloader'
-import {visitPagesSelector} from '../../Redux/slice/authSlice'
+import { Link } from 'react-router-dom'
+import { CREATING_CHALLENGE_ROUTE } from '../../provider/constants-route'
+import { dataUserSelector } from '../../Redux/slice/profileSlice'
+import { InstructionsChallenge } from '../../Components/Challenge/Instruction-challenge'
+import { Preloader } from '../../Components/Preloader/Preloader'
+import { visitPagesSelector } from '../../Redux/slice/authSlice'
 
 export const ChallengePage = () => {
   const [valueTab, setValueTab] = React.useState<number>(0)
-  const labelsTabChallenge = ['Личные', 'Командные', 'Общие']
+  const labelsTabChallenge = ['Все', 'Общие', 'Командные', 'Личные']
   const dataUser = useAppSelector(dataUserSelector)
   const newChallenges = useAppSelector(newChallengesSelector)
   const activeChallenges = useAppSelector(activeChallengesSelector)
@@ -53,7 +53,7 @@ export const ChallengePage = () => {
     return <Preloader />
   }
 
-  if(visitChallenges.challenge===0){
+  if (visitChallenges.challenge === 0) {
     return <InstructionsChallenge />
   }
 
@@ -79,6 +79,36 @@ export const ChallengePage = () => {
       <TabContent index={0} value={valueTab}>
         <div className='challenge-page__title-block block-title'>Активные</div>
         <div className='challenge-page__active'>
+          {activeChallenges.length ? (
+            activeChallenges.map((item) => (
+              <CardChallenge key={item.id} challenge={item} percent={0} />
+            ))
+          ) : (
+            <div className='challenge-page__active-plug'>
+              Нет активных челленджей
+            </div>
+          )}
+        </div>
+        <div className='challenge-page__title-block block-title'>
+          Новые челленджи
+        </div>
+        {newChallenges.length ? newChallenges.map((item, i) => (
+          <div className={'challenge-page__new-challenges'} key={i}>
+            <NewChallengeCard
+              type={item.type}
+              id={item.id}
+              description={item.description}
+              image={item.image}
+              title={item.title}
+            />
+          </div>
+        )) : <div className='challenge-page__active-plug'>
+          Нет новых челленджей
+        </div>}
+      </TabContent>
+      <TabContent index={3} value={valueTab}>
+        <div className='challenge-page__title-block block-title'>Активные</div>
+        <div className='challenge-page__active'>
           {activePersonalChallenge.length ? (
             activePersonalChallenge.map((item) => (
               <CardChallenge key={item.id} challenge={item} percent={0} />
@@ -102,13 +132,13 @@ export const ChallengePage = () => {
               title={item.title}
             />
           </div>
-        )): <div className='challenge-page__active-plug'>
-        Нет новых челленджей
-      </div>}
+        )) : <div className='challenge-page__active-plug'>
+          Нет новых челленджей
+        </div>}
       </TabContent>
-      <TabContent index={1} value={valueTab}>
+      <TabContent index={2} value={valueTab}>
         <div className='challenge-page__title-block block-title'>Командные</div>
-        <div className='challenge-page__active'>         
+        <div className='challenge-page__active'>
           {activeCommandChallenge.length ? (
             activeCommandChallenge.map((item) => (
               <CardChallenge key={item.id} challenge={item} percent={0} />
@@ -132,11 +162,11 @@ export const ChallengePage = () => {
               title={item.title}
             />
           </div>
-        )): <div className='challenge-page__active-plug'>
-        Нет новых челленджей
-      </div>}
+        )) : <div className='challenge-page__active-plug'>
+          Нет новых челленджей
+        </div>}
       </TabContent>
-      <TabContent index={2} value={valueTab}>
+      <TabContent index={1} value={valueTab}>
         <div className='challenge-page__title-block block-title'>Общие</div>
         <div className='challenge-page__active'>
           {activeCommonChallenge.length ? (
@@ -162,9 +192,9 @@ export const ChallengePage = () => {
               title={item.title}
             />
           </div>
-        )): <div className='challenge-page__active-plug'>
-        Нет новых челленджей
-      </div>}
+        )) : <div className='challenge-page__active-plug'>
+          Нет новых челленджей
+        </div>}
       </TabContent>
     </div>
   )
