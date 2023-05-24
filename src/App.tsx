@@ -1,6 +1,6 @@
 import { Capacitor } from '@capacitor/core'
 import OneSignal from 'onesignal-cordova-plugin'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import './assets/style/global.scss'
 import AppRouter from './provider/app-router'
 import { App as CapacitorApp } from '@capacitor/app'
@@ -16,10 +16,12 @@ import UserService from './services/UserServices'
 import { heightStatusBarSelector } from './Redux/slice/appSlice'
 import { useAppDispatch, useAppSelector } from './hooks/redux-hooks'
 import { useStatusBar } from './hooks/useStatusBar'
+import { NoNetworkConnection } from './pages/NoNetworkConnection/NoNetworkConnection'
 
 function App() {
   const navigate = useNavigate()
   const statusBar = useStatusBar()
+  const [connect, setConnect] = useState<boolean>(true)
 
   const handlerPush = () => {
     if (Capacitor.getPlatform() !== 'web') {
@@ -76,7 +78,14 @@ function App() {
         window.history.back()
       }
     })
+    //Обработчик подключения к интернету
+    window.addEventListener('offline', () => {
+      setConnect(false)
+    });
+    window.addEventListener('online', () =>  setConnect(true));
+    setConnect(window.navigator.onLine)
   }, [])
+
 
   return (
     <div
@@ -85,7 +94,10 @@ function App() {
         paddingTop: Capacitor.getPlatform() === 'ios' ? +statusBar : 16
       }}
     >
-      <AppRouter />
+      {
+        !connect ? <NoNetworkConnection setConnect={setConnect}/> :  <AppRouter />
+      }
+     
     </div>
   )
 }
