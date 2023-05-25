@@ -1,8 +1,10 @@
-import React, { FC, Dispatch } from 'react'
+import React, { FC, Dispatch, useEffect } from 'react'
 import './NoNetworkConnection.scss'
 import { Steps } from '../../Components/Steps/Steps'
-import { useAppSelector } from '../../hooks/redux-hooks'
-import { currentStepsCountSelector } from '../../Redux/slice/appSlice'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
+import { currentStepsCountSelector, setCurrentStepsCount } from '../../Redux/slice/appSlice'
+import Pedometer from '../../plugins/pedometer'
+import { Capacitor } from '@capacitor/core'
 
 interface INoNetworkConnection {
 	setConnect: Dispatch<boolean>
@@ -11,12 +13,33 @@ interface INoNetworkConnection {
 export const NoNetworkConnection: FC<INoNetworkConnection> = ({ setConnect }) => {
 
 	const currentStepsCount = useAppSelector(currentStepsCountSelector)
+	const dispatch = useAppDispatch()
 
 	const checkNetworkConnection = () => {
 		if (window.navigator.onLine) {
 			setConnect(true)
 		}
 	}
+
+	const startPlugin = async () => {
+		let savedData = await Pedometer.getSavedData()
+		let steps = savedData['numberOfSteps'] || '0'
+		dispatch(setCurrentStepsCount(steps))
+		window.addEventListener('stepEvent', updateSteps)
+	}
+
+	const updateSteps = async (event: any) => {
+		dispatch(setCurrentStepsCount(parseInt(event.numberOfSteps)))
+	}
+
+	useEffect(() => {
+		if (Capacitor.getPlatform() === 'android') {
+			startPlugin()
+		}
+		return () => {
+			window.removeEventListener('stepEvent', updateSteps)
+		}
+	}, [])
 
 	return (
 		<div className='NoNetworkConnection'>
