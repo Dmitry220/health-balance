@@ -28,14 +28,20 @@ export const Email = () => {
       dispatch(setDisabledButton(true))
       return
     }
-    const response = await AuthService.checkEmail(email)
-    if (response.status===200) {
-      dispatch(setDisabledButton(response.data.success))
-      setError(response.data.success)
+    try {
+      const response = await AuthService.checkEmail(email)
+      if (response.status === 200) {
+        dispatch(setDisabledButton(response.data.success))
+        setError(response.data.success)
+      }
+    } catch (error) {
+      setError(true)
+      dispatch(setDisabledButton(true))
     }
   }
 
   const validateEmail = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    setError(false)
     const value = e.target.value
     dispatch(setDisabledButton(true))
     dispatch(setEmail(value))
@@ -43,7 +49,7 @@ export const Email = () => {
 
 
   return (
-    <>
+    <div style={{ position: 'relative' }}>
       <input
         autoComplete='off'
         className={
@@ -57,10 +63,10 @@ export const Email = () => {
       />
       {error && (
         <div className='registration__field-error'>
-          Невалидный email
+          Учетная запись с таким email не существует
         </div>
       )}
-    </>
+    </div>
 
   )
 }
