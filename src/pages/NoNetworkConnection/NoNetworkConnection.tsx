@@ -14,6 +14,8 @@ export const NoNetworkConnection: FC<INoNetworkConnection> = ({ setConnect }) =>
 
 	const currentStepsCount = useAppSelector(currentStepsCountSelector)
 	const dispatch = useAppDispatch()
+	const user = localStorage.getItem('token')
+
 
 	const checkNetworkConnection = () => {
 		if (window.navigator.onLine) {
@@ -43,8 +45,8 @@ export const NoNetworkConnection: FC<INoNetworkConnection> = ({ setConnect }) =>
 
 	return (
 		<div className='NoNetworkConnection'>
-			<Steps maxStepsCount={0}
-				userStepsCount={currentStepsCount} />
+			{user&&<Steps maxStepsCount={0}
+				userStepsCount={currentStepsCount} />}
 			<div className="NoNetworkConnection__text">
 				Соединение с интернетом отсутствует
 			</div>

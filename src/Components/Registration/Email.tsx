@@ -63,7 +63,7 @@ export const Email = () => {
       />
       {error && (
         <div className='registration__field-error'>
-          Учетная запись с таким email не существует
+          Учетная запись с таким email уже существует
         </div>
       )}
     </div>
