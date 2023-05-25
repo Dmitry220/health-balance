@@ -87,6 +87,9 @@ export default class AuthService {
       }
     )
   }
+  static async checkEmail(email:string):Promise<AxiosResponse<{ success: boolean }>>{
+    return $api.get(`customers/check-email?email=${email}`)
+  }
 
   static async deleteCustomerAccount() {
     return $api.delete(`customers?token=${localStorage.getItem('token')}`)
