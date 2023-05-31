@@ -42,7 +42,8 @@ import {
   RUBRIC_ROUTE,
   DIALOG__ROUTE,
   INTERVIEW_PAGE,
-  CREATING_LECTURE_ROUTE
+  CREATING_LECTURE_ROUTE,
+  CONSULTATION_ROUTE
 } from './constants-route'
 import { AuthPage } from '../pages/Authorization/Auth-page'
 import { StartPage } from '../pages/Start-pages/StartPage'
@@ -88,6 +89,7 @@ import { RubricPage } from '../pages/Rubric-page/Rubric-page'
 import { PersonalChat } from '../pages/Chat-page/Personal-chat'
 import { InterviewPage } from '../pages/Interview-page/Interview-page'
 import { CreatingLecture } from '../Components/Lecture/Creating-lecture'
+import { ConsultationPage } from '../pages/Consultation/Consultation-page'
 
 export const publicRoutes = [
   {
@@ -268,5 +270,9 @@ export const privateRoutes = [
   {
     path: INTERVIEW_PAGE,
     Component: InterviewPage
+  },
+  {
+    path: CONSULTATION_ROUTE,
+    Component: ConsultationPage
   }
 ]

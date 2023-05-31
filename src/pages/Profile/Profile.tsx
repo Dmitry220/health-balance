@@ -4,6 +4,7 @@ import Header from '../../Components/Header/Header'
 import icon_reward from '../../assets/image/icon_reward.svg'
 import { Link, useNavigate } from 'react-router-dom'
 import {
+  CONSULTATION_ROUTE,
   EDITING_ROUTE,
   LOGIN_ROUTE,
   SETTINGS_ROUTE,
@@ -25,7 +26,7 @@ import { persistor } from '../..'
 import TrackerService from '../../services/TrackerService'
 import { isGoogleFitSelector } from '../../Redux/slice/settingsSlice'
 
-export const Profile = () => {  
+export const Profile = () => {
   const dataUser = useAppSelector(dataUserSelector)
   const isGoogleFit = useAppSelector(isGoogleFitSelector)
   const ballance = useAppSelector(balanceSelector)
@@ -49,9 +50,9 @@ export const Profile = () => {
       await Pedometer.reset()
       await Pedometer.stop()
     }
-    await TrackerService.deleteTracker()   
+    await TrackerService.deleteTracker()
     localStorage.removeItem('token')
-    localStorage.removeItem('id') 
+    localStorage.removeItem('id')
     await dispatch(clearResults())
     await persistor.purge()
     await window.location.replace(LOGIN_ROUTE)
@@ -73,6 +74,7 @@ export const Profile = () => {
         additionalComponent={additionalHeaderComponent}
         additionalOnClick={additionalHeaderComponentClick}
       />
+      <Link to={CONSULTATION_ROUTE} className='profile__ _button-yellow'>Запись к психологу</Link>
       <div className='profile__block'>
         <div className='profile__header'>
           <div className='profile__avatar'>

@@ -39,3 +39,8 @@ export enum typeImage {
   lessons = 'lessons',
   news = 'news'
 }
+
+export enum formatConsultation {
+  video = 'video',
+  audio = 'audio'
+}
