@@ -25,14 +25,17 @@ import { newsSlice } from './slice/newsSlice'
 import { trackerSlice } from './slice/trackerSlice'
 import leaderBoardSlice, { leaderboardSlice } from './slice/leaderBoardSlice'
 import { settingsSlice } from './slice/settingsSlice'
+import { platformApi } from '../services/PlatformService'
+import { authApi } from '../services/AuthService'
 
 const persistConfig = {
   key: 'root',
   storage: storage,
-  whitelist: ['shop','settings', 'auth'],
+  whitelist: ['shop','settings'],
 }
 
 const reducer = combineReducers({
+  [authApi.reducerPath]: authApi.reducer,
   app: appSlice.reducer,
   auth: authSlice.reducer,
   challenges: challengeSlice.reducer,
@@ -47,7 +50,8 @@ const reducer = combineReducers({
   tracker: trackerSlice.reducer,
   healthIndex: healthIndexSlice.reducer,
   leaderboard: leaderboardSlice.reducer,
-  settings: settingsSlice.reducer
+  settings: settingsSlice.reducer,
+  [platformApi.reducerPath]: platformApi.reducer,
 })
 
 const persistedReducer = persistReducer(persistConfig, reducer)
@@ -65,7 +69,11 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false
-    }),
+    }).concat(
+      [
+        platformApi.middleware, 
+        authApi.middleware
+      ]),
   devTools: process.env.NODE_ENV !== 'production'
 })
 

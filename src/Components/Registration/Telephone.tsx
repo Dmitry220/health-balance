@@ -1,21 +1,24 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import {
-  setDisabledButton,
+  setStage,
   setTelephone,
   telephoneSelector
 } from '../../Redux/slice/authSlice'
 import InputMask from 'react-input-mask'
+import Button, { typesButton } from '../../UI-Components/Button/Button'
+import { stageRegistration } from '../../utils/enums'
 
 export const Telephone = () => {
   const telephone = useAppSelector(telephoneSelector)
   const dispatch = useAppDispatch()
+  const [disable, setDisabled] = useState<boolean>(false)
 
   useEffect(() => {
     if (telephone.length && !telephone.includes('_')) {
-      dispatch(setDisabledButton(false))
+      setDisabled(false)
     } else {
-      dispatch(setDisabledButton(true))
+      setDisabled(true)
     }
   }, [])
 
@@ -24,11 +27,12 @@ export const Telephone = () => {
     dispatch(setTelephone(value))
     const isFullTelephone = value.includes('_')
     isFullTelephone
-      ? dispatch(setDisabledButton(true))
-      : dispatch(setDisabledButton(false))
+      ? setDisabled(true)
+      : setDisabled(false)
   }
 
   return (
+    <>
     <InputMask
       className='registration__field _field'
       mask='+7 (999) 999-99-99'
@@ -37,5 +41,12 @@ export const Telephone = () => {
       onChange={validateTelephone}
       value={telephone}
     />
+    <Button
+    disabled={disable}
+    customClass='registration__button'
+    view={typesButton.white}
+    onClick={() => dispatch(setStage(stageRegistration.birthday))}
+  >Далее</Button>
+  </>
   )
 }

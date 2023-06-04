@@ -7,9 +7,11 @@ export interface IRegistration {
   birthday: number
   gender: number
   platform: number
+  privatePlatform?: number
   avatar: string
   device_token: string,
-  timezone: number
+  timezone: number,
+  typePlatform: number
 }
 
 export interface ILogin {
@@ -30,4 +32,18 @@ export interface IVisitPages {
   activity: number
   tracker: number,
   challenge: number
+}
+export interface ISubmitRegistration {
+  name: string,
+  surname: string,
+  birthday: number,
+  gender: number,
+  avatar: string,
+  phone: string,
+  email: string,
+  password: string,
+  device_token: string,
+  platform: number,
+  timezone: number,
+  platform_code: number
 }

@@ -12,14 +12,16 @@ import { resetFieldRegistration, setAuth } from '../../Redux/slice/authSlice'
 import { Device } from '@capacitor/device'
 import { Capacitor } from '@capacitor/core'
 import OneSignal from 'onesignal-cordova-plugin'
-import AuthService from '../../services/AuthService'
+import { useLoginMutation } from '../../services/AuthService'
 import { showToast } from '../../utils/common-functions'
 
+
 export const Auth = () => {
+  const dispatch = useAppDispatch()
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-  const dispatch = useAppDispatch()
+  const [submitLogin, { isLoading, error }] = useLoginMutation()
+  let navigate = useNavigate()
 
   const handlerLogin = (e: ChangeEvent<HTMLInputElement>) =>
     setEmail(e.target.value)
@@ -27,39 +29,39 @@ export const Auth = () => {
   const handlerPassword = (e: ChangeEvent<HTMLInputElement>) =>
     setPassword(e.target.value)
 
-  let navigate = useNavigate()
-
   const submit = async (e: any) => {
+
     e.preventDefault()
-    setIsLoading(true)
     const uuid = await Device.getId()
     const device_token = uuid.uuid
     const timezone = -new Date().getTimezoneOffset() / 60
 
-    try {
-      const response = await AuthService.login(
-        email,
-        password,
-        device_token,
-        timezone
-      )
-      if (response.data.data) {
-        localStorage.setItem('token', response.data.data.token)
-        localStorage.setItem('id', response.data.data.id + '')
+    await submitLogin({
+      email,
+      password,
+      device_token,
+      timezone,
+    })
+      .unwrap()
+      .then((response => {
+        localStorage.setItem('token', response.data.token)
+        localStorage.setItem('id', response.data.id + '')
         dispatch(setAuth())
         dispatch(resetFieldRegistration())
         OneSignalInit()
         navigate(START_ROUTE)
-      }
-    } catch (e: any) {
-      if (e.code !== 'ERR_NETWORK') {
-        await showToast('Неверный email или пароль!')
-      } else {
-        await showToast('Нет подключения к интернету!')
-      }
-    } finally {
-      setIsLoading(false)
-    }
+      }))
+      .catch(async (err) => {       
+        if (err.data?.errors?.email) {
+          await showToast(err.data?.errors?.email)
+          return
+        }
+        if (err.data?.errors?.password) {
+          await showToast(err.data?.errors?.password)
+          return
+        }
+        await showToast('Произошла непредвиденная ошибка')
+      })
   }
 
   async function OneSignalInit() {

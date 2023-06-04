@@ -1,36 +1,39 @@
-import React, { useEffect, useState } from 'react'
-import { IListPlatform } from '../../models/IPlatforms'
+import { useEffect,ChangeEvent } from 'react'
 import {
   platformCreatingChallengeSelector,
   setDisabledButton,
   setPlatformChallenge
 } from '../../Redux/slice/challengeSlice'
-import PlatformService from '../../services/PlatformService'
+import { useGetPlatfotmsForChallengeQuery } from '../../services/PlatformService'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import './creating-challenge.scss'
+import { Preloader } from '../Preloader/Preloader'
 
 export const SelectPlatform = () => {
   const dispatch = useAppDispatch()
   const platform = useAppSelector(platformCreatingChallengeSelector)
-  const [listPlatforms, setListPlatforms] = useState([])
+  const { data, isLoading, isError } = useGetPlatfotmsForChallengeQuery()
 
-  const handlerPlatforms = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handlerPlatforms = (e: ChangeEvent<HTMLSelectElement>) => {
     dispatch(setPlatformChallenge(+e.target.value))
     dispatch(setDisabledButton(false))
   }
 
   useEffect(() => {
-    async function getListPlatform() {
-      const response = await PlatformService.getPlatfotmsForChallenge()
-      setListPlatforms(response.data.data)
-      if(platform){
-        dispatch(setDisabledButton(false))
-      }else{
-        dispatch(setDisabledButton(true))
-      }
+    if (platform) {
+      dispatch(setDisabledButton(false))
+      return
     }
-    getListPlatform()
+    dispatch(setDisabledButton(true))
   }, [])
+
+  if (isError) {
+    return <h1>Ошибка!</h1>
+  }
+  if (isLoading) {
+    return <Preloader height='auto'/>
+  }
+  
 
   return (
     <div className={'select-platform'}>
@@ -45,7 +48,7 @@ export const SelectPlatform = () => {
           <option value={'DEFAULT'} disabled>
             Ваша платформа
           </option>
-          {listPlatforms.map((platform: IListPlatform) => (
+          {data?.data.map((platform) => (
             <option value={platform.id} key={platform.id}>
               {platform.title}
             </option>

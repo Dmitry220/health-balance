@@ -7,12 +7,13 @@ export enum typesChallenge {
 export enum stageRegistration {
   email = 'email',
   password = 'password',
-  telephone = '',
+  phone = 'phone',
   birthday = 'birthday',
   gender = 'gender',
   userName = 'userName',
   surname = 'surname',
   platform = 'platform',
+  privatePlatform = 'privatePlatform',
   photo = 'photo',
   tracker = 'tracker'
 }

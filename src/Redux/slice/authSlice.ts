@@ -1,13 +1,12 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 import { RootState } from '../store'
 import { IRegistration, IVisitPages } from '../../models/IAuth'
-import PlatformService from '../../services/PlatformService'
-import { IListPlatform } from '../../models/IPlatforms'
+import { stageRegistration } from '../../utils/enums'
+
 
 export interface IAuth {
+  stage: stageRegistration
   disabledButton?: boolean
-  listPlatforms?: IListPlatform[] | []
   isAuth: boolean
   error: boolean
   isLoading: boolean
@@ -16,8 +15,8 @@ export interface IAuth {
 }
 
 const initialState: IAuth = {
+  stage: stageRegistration.email,
   disabledButton: true,
-  listPlatforms: [],
   isAuth: false,
   error: false,
   isLoading: false,
@@ -36,6 +35,8 @@ const initialState: IAuth = {
       ) / 1000,
     gender: 1,
     platform: 0,
+    privatePlatform: 0,
+    typePlatform: 1,
     avatar: '',
     device_token: '',
     timezone: -new Date().getTimezoneOffset() / 60
@@ -47,15 +48,14 @@ const initialState: IAuth = {
   }
 }
 
-export const getPlatforms = createAsyncThunk('platforms', async () => {
-  const response = await PlatformService.getPlatfotms()
-  return await response.data.data
-})
 
 export const authSlice = createSlice({
   name: 'auth',
   initialState: initialState,
   reducers: {
+    setStage:(state, action) => {
+      state.stage = action.payload
+    },
     setEmail: (state, action) => {
       state.dataRegistration!.email = action.payload
     },
@@ -79,6 +79,12 @@ export const authSlice = createSlice({
     },
     setPlatform: (state, action) => {
       state.dataRegistration!.platform = action.payload
+    },
+    setCodePlatform: (state, action) => {
+      state.dataRegistration!.privatePlatform = action.payload
+    },
+    setTypePlatform:(state, action)=>{
+      state.dataRegistration.typePlatform = action.payload
     },
     setAvatarRegistartion: (state, action) => {
       state.dataRegistration!.avatar = action.payload
@@ -110,6 +116,7 @@ export const authSlice = createSlice({
         birthday: 1029528000,
         gender: 1,
         platform: 0,
+        typePlatform:1,
         avatar: '',
         device_token: '',
         timezone: -new Date().getTimezoneOffset() / 60
@@ -130,15 +137,6 @@ export const authSlice = createSlice({
       // Note that this should be left intentionally empty.
       // Clearing redux state and localForage happens in rootReducer.ts.
     }
-  },
-  extraReducers: (builder) => {
-    builder.addCase(
-      getPlatforms.fulfilled,
-      (state, action: PayloadAction<IListPlatform[]>) => {
-        state.listPlatforms = action.payload
-        state.error = false
-      }
-    )
   }
 })
 
@@ -160,7 +158,10 @@ export const {
   setVisitedTrackerPage,
   resetFieldRegistration,
   clearResults,
-  setAuth
+  setAuth,
+  setCodePlatform,
+  setStage,
+  setTypePlatform
 } = authSlice.actions
 
 export const emailSelector = (state: RootState) =>
@@ -181,13 +182,18 @@ export const genderSelector = (state: RootState) =>
   state.auth.dataRegistration!.gender
 export const platformSelector = (state: RootState) =>
   state.auth.dataRegistration!.platform
-export const listPlatformSelector = (state: RootState) =>
-  state.auth.listPlatforms
+  export const privatePlatformSelector = (state: RootState) =>
+  state.auth.dataRegistration!.privatePlatform
+  export const typePlatformSelector = (state: RootState) =>
+  state.auth.dataRegistration!.typePlatform
 export const avatarSelector = (state: RootState) =>
   state.auth.dataRegistration!.avatar
+  export const dataRegistrationSelector = (state: RootState) =>
+  state.auth.dataRegistration
 export const isAuthSelector = (state: RootState) => state.auth.isAuth
 export const isLoadingSelector = (state: RootState) => state.auth.isLoading
 export const errorSelector = (state: RootState) => state.auth.error
 export const visitPagesSelector = (state: RootState) => state.auth.visitPages
+export const stageRegistrationSelector = (state: RootState) => state.auth.stage
 
 export default authSlice.reducer

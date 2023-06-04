@@ -25,6 +25,7 @@ import { Capacitor } from '@capacitor/core'
 import { persistor } from '../..'
 import TrackerService from '../../services/TrackerService'
 import { isGoogleFitSelector } from '../../Redux/slice/settingsSlice'
+import { Platform } from '../../Components/Platform/Platform'
 
 export const Profile = () => {
   const dataUser = useAppSelector(dataUserSelector)
@@ -105,6 +106,9 @@ export const Profile = () => {
             Обменять
           </Link>
         </div>
+      </div>
+      <div className="profile__block">
+        <Platform />
       </div>
       <div className='profile__block'>
         <ProfileSteps

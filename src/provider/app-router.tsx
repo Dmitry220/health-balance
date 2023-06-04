@@ -24,16 +24,16 @@ const AppRouter = () => {
     if (isAuth) {
       dispatch(setUserData(idUser))
     } 
-    // else {
-    //   dispatch(checkAuth())
-    // }
+    else {      
+      dispatch(checkAuth())
+    }
   }, [isAuth])
 
   if (isLoading) {
     return <Preloader />
   }
 
-  return isAuth && user ? (
+  return user ? (
     <Routes>
       {privateRoutes.map(({ path, Component }, index) => (
         <Route path={path} key={index} element={<Component />} />

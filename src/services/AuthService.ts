@@ -1,67 +1,9 @@
 import { AxiosResponse } from 'axios'
-import { $api } from '../http'
-import { IAuthResponse } from '../models/IAuth'
-
+import { $api,API_URL } from '../http'
+import { IAuthResponse, ILogin, ISubmitRegistration } from '../models/IAuth'
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export default class AuthService {
-  static async registration(
-    name: string,
-    surname: string,
-    birthday: number,
-    gender: number,
-    avatar: string,
-    phone: string,
-    email: string,
-    password: string,
-    device_token: string,
-    platform: number,
-    timezone: number
-  ) {
-    return $api.post(
-      'customers',
-      {
-        email,
-        password,
-        name,
-        surname,
-        gender,
-        avatar,
-        birthday,
-        device_token,
-        platform,
-        phone,
-        timezone
-      },
-      {
-        headers: {
-          accept: 'application/json',
-          'Content-Type': `multipart/form-data`
-        }
-      }
-    )
-  }
-
-  static async login(
-    email: string,
-    password: string,
-    device_token: string,
-    timezone: number
-  ): Promise<AxiosResponse<IAuthResponse>> {
-    return $api.post(
-      'login',
-      { email, password, device_token, timezone },
-      {
-        headers: {
-          accept: 'application/json',
-          'Content-Type': `multipart/form-data`
-        }
-      }
-    )
-  }
-
-  static async getPlatfotms() {
-    return $api.get('platforms')
-  }
-
+  
   static async restorePassword(email: string) {
     return $api.post(
       'restore_password',
@@ -95,3 +37,33 @@ export default class AuthService {
     return $api.delete(`customers?token=${localStorage.getItem('token')}`)
   }
 }
+
+
+
+
+export const authApi = createApi({
+  reducerPath: "authApi",
+  baseQuery: fetchBaseQuery({ baseUrl: API_URL }),
+  endpoints: (builder) => ({
+    registration: builder.mutation<ISubmitRegistration, Partial<ISubmitRegistration>>({
+      query: (initialPost ) => ({
+        url: `customers`,
+        method: 'POST',
+        body: initialPost 
+      }),
+    }),
+    login: builder.mutation<IAuthResponse, Partial<ILogin>>({
+      query: (initialPost ) => ({
+        url: `login`,
+        method: 'POST',
+        body: initialPost 
+      }),
+    })
+  }),
+});
+
+// Export hooks for usage in functional components
+export const {
+useRegistrationMutation,
+useLoginMutation
+} = authApi;
