@@ -11,7 +11,6 @@ export interface IAuth {
   error: boolean
   isLoading: boolean
   dataRegistration: IRegistration
-  visitPages: IVisitPages
 }
 
 const initialState: IAuth = {
@@ -40,11 +39,6 @@ const initialState: IAuth = {
     avatar: '',
     device_token: '',
     timezone: -new Date().getTimezoneOffset() / 60
-  },
-  visitPages: {
-    activity: 0,
-    challenge: 0,
-    tracker: 0
   }
 }
 
@@ -97,15 +91,6 @@ export const authSlice = createSlice({
         state.isAuth = true
       }
     },
-    setVisitedChallengePage: (state, action) => {
-      state.visitPages.challenge = action.payload
-    },
-    setVisitedTrackerPage: (state, action) => {
-      state.visitPages.tracker = action.payload
-    },
-    setVisitedActivityPage: (state, action) => {
-      state.visitPages.activity = action.payload
-    },
     resetFieldRegistration: (state) => {
       state.dataRegistration = {
         email: '',
@@ -126,9 +111,6 @@ export const authSlice = createSlice({
       localStorage.removeItem('token')
       localStorage.removeItem('id')
       state.isAuth = false
-      state.visitPages.activity = 0
-      state.visitPages.tracker = 0
-      state.visitPages.challenge = 0
     },
     setAuth: (state) => {
       state.isAuth = true
@@ -153,9 +135,6 @@ export const {
   setBirthday,
   checkAuth,
   logout,
-  setVisitedActivityPage,
-  setVisitedChallengePage,
-  setVisitedTrackerPage,
   resetFieldRegistration,
   clearResults,
   setAuth,
@@ -193,7 +172,6 @@ export const avatarSelector = (state: RootState) =>
 export const isAuthSelector = (state: RootState) => state.auth.isAuth
 export const isLoadingSelector = (state: RootState) => state.auth.isLoading
 export const errorSelector = (state: RootState) => state.auth.error
-export const visitPagesSelector = (state: RootState) => state.auth.visitPages
 export const stageRegistrationSelector = (state: RootState) => state.auth.stage
 
 export default authSlice.reducer

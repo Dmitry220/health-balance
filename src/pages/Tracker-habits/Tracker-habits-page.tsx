@@ -23,10 +23,10 @@ import {
   trackerSelector
 } from '../../Redux/slice/trackerSlice'
 import { showToast, sklonenie } from '../../utils/common-functions'
-import { setVisitedTrackerPage } from '../../Redux/slice/authSlice'
 import TrackerService from '../../services/TrackerService'
 import { confirmAlert } from 'react-confirm-alert'
 import HealthySleep from '../../Components/Tracker/Healthy-sleep'
+import { setVisitedTrackerPage } from '../../Redux/slice/visitedPageSlice'
 
 export const TrackerHabitsPage = () => {
   const dispatch = useAppDispatch()

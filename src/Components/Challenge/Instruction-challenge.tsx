@@ -27,9 +27,9 @@ import inst14 from '../../assets/image/instruction-challenges/Инструкци
 import inst15 from '../../assets/image/instruction-challenges/Инструкция челленджи 15.png'
 import inst16 from '../../assets/image/instruction-challenges/Инструкция челленджи 16.png'
 import inst17 from '../../assets/image/instruction-challenges/Инструкция челленджи 17.png'
-import { setVisitedChallengePage } from '../../Redux/slice/authSlice'
 import { Capacitor } from '@capacitor/core'
 import { heightStatusBarSelector } from '../../Redux/slice/appSlice'
+import { setVisitedChallengePage } from '../../Redux/slice/visitedPageSlice'
 
 interface ISwiperNextButton {
   customClass: string

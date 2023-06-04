@@ -38,21 +38,21 @@ export const visitedPagesSlice = createSlice({
   name: 'visitedPages',
   initialState,
   reducers: {
-    // setVisitedChallengePage: (state, action) => {
-    //   state.challengePage.visitCount = action.payload
-    // },
-    // setVisitedTrackerPage: (state, action) => {
-    //   state.trackerPage.visitCount = action.payload
-    // },
+    setVisitedChallengePage: (state, action) => {
+      state.challengePage.visitCount = action.payload
+    },
+    setVisitedTrackerPage: (state, action) => {
+      state.trackerPage.visitCount = action.payload
+    },
     setStoreFirstChallenge: (state) => {
       state.newChallengeInfoPage.firstChallange = false
     },
     // setShowFirstChallengeInstruction: (state, action) => {
     //   state.challengePage.challengeCount = action.payload
     // },
-    // setVisitedActivityPage: (state, action) => {
-    //   state.activityPage.visitCount = action.payload
-    // },
+    setVisitedActivityPage: (state, action) => {
+      state.activityPage.visitCount = action.payload
+    },
     addIndexPageAnswer: (state, action) => {
       state.indexPage.answers = [...state.indexPage.answers, action.payload]
     },
@@ -65,7 +65,10 @@ export const visitedPagesSlice = createSlice({
 export const {
   setStoreFirstChallenge,
   addIndexPageAnswer,
-  resetIndexPageAnswer
+  resetIndexPageAnswer,
+  setVisitedActivityPage,
+  setVisitedChallengePage,
+  setVisitedTrackerPage
 } = visitedPagesSlice.actions
 
 export const trackerVisitSelector = (state: RootState) =>

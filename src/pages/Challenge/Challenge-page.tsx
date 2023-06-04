@@ -17,7 +17,7 @@ import { CREATING_CHALLENGE_ROUTE } from '../../provider/constants-route'
 import { dataUserSelector } from '../../Redux/slice/profileSlice'
 import { InstructionsChallenge } from '../../Components/Challenge/Instruction-challenge'
 import { Preloader } from '../../Components/Preloader/Preloader'
-import { visitPagesSelector } from '../../Redux/slice/authSlice'
+import { challengeVisitSelector } from '../../Redux/slice/visitedPageSlice'
 
 export const ChallengePage = () => {
   const [valueTab, setValueTab] = React.useState<number>(0)
@@ -25,7 +25,7 @@ export const ChallengePage = () => {
   const dataUser = useAppSelector(dataUserSelector)
   const newChallenges = useAppSelector(newChallengesSelector)
   const activeChallenges = useAppSelector(activeChallengesSelector)
-  const visitChallenges = useAppSelector(visitPagesSelector)
+  const visitChallenges = useAppSelector(challengeVisitSelector)
 
   const activeCommandChallenge = activeChallenges.filter((item) => item.active === 1 && item.type === 2 && item)
   const activePersonalChallenge = activeChallenges.filter((item) => item.active === 1 && item.type === 3 && item)
@@ -53,7 +53,7 @@ export const ChallengePage = () => {
     return <Preloader />
   }
 
-  if (visitChallenges.challenge === 0) {
+  if (visitChallenges === 0) {
     return <InstructionsChallenge />
   }
 

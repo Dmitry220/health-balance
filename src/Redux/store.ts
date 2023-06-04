@@ -31,7 +31,7 @@ import { authApi } from '../services/AuthService'
 const persistConfig = {
   key: 'root',
   storage: storage,
-  whitelist: ['shop','settings'],
+  whitelist: ['shop','settings','visitedPages'],
 }
 
 const reducer = combineReducers({

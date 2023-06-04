@@ -20,16 +20,13 @@ import { getItemsStep } from '../../utils/common-functions'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import { dataUserSelector } from '../../Redux/slice/profileSlice'
 import { setPurposeSteps } from '../../Redux/slice/purposeSlice'
-import {
-  setVisitedActivityPage,
-  visitPagesSelector
-} from '../../Redux/slice/authSlice'
 import { Capacitor } from '@capacitor/core'
 import PurposeService from '../../services/PurposeService'
 import { Navigate } from 'react-router-dom'
 import AppService from '../../services/AppService'
 import { Target } from '../../Components/Target/Target'
 import { heightStatusBarSelector } from '../../Redux/slice/appSlice'
+import { activityVisitSelector, setVisitedActivityPage } from '../../Redux/slice/visitedPageSlice'
 
 interface ISwiperNextButton {
   customClass: string
@@ -46,7 +43,7 @@ export const StartPage = () => {
   )
   const dataUser = useAppSelector(dataUserSelector)
   const changeStep = (value: string) => setStepValue(value)
-  const activityVisitCount = useAppSelector(visitPagesSelector)
+  const activityVisitCount = useAppSelector(activityVisitSelector)
   const statusBar = useAppSelector(heightStatusBarSelector)
 
   useEffect(() => {
@@ -60,7 +57,7 @@ export const StartPage = () => {
     }
   }
 
-  if (activityVisitCount.activity === 1) {
+  if (activityVisitCount === 1) {
     return <Navigate to={ACTIVITY_ROUTE} />
   }
 

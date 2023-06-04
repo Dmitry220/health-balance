@@ -16,16 +16,13 @@ import {
 import { TrackerHabitsPage } from '../Tracker-habits/Tracker-habits-page'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import TrackerService from '../../services/TrackerService'
-import {
-  setVisitedTrackerPage,
-  visitPagesSelector
-} from '../../Redux/slice/authSlice'
 import { ICreatingTracker } from '../../models/ITracker'
 import { Capacitor } from '@capacitor/core'
 import { heightStatusBarSelector } from '../../Redux/slice/appSlice'
+import { setVisitedTrackerPage, trackerVisitSelector } from '../../Redux/slice/visitedPageSlice'
 
 export const TrackerPage = () => {
-  const trackerVisitCount = useAppSelector(visitPagesSelector)
+  const trackerVisitCount = useAppSelector(trackerVisitSelector)
 
   const startValueWeight = 40
   const endValueWeight = 200
@@ -52,7 +49,7 @@ export const TrackerPage = () => {
   const changeHour = (value: string) => setHour(value)
   const changeMinutes = (value: string) => setMinutes(value)
 
-  if (trackerVisitCount.tracker === 1) {
+  if (trackerVisitCount === 1) {
     return <TrackerHabitsPage />
   }
 
