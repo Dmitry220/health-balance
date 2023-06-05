@@ -27,6 +27,7 @@ import leaderBoardSlice, { leaderboardSlice } from './slice/leaderBoardSlice'
 import { settingsSlice } from './slice/settingsSlice'
 import { platformApi } from '../services/PlatformService'
 import { authApi } from '../services/AuthService'
+import { consultationApi } from '../services/ConsultationService'
 
 const persistConfig = {
   key: 'root',
@@ -52,6 +53,7 @@ const reducer = combineReducers({
   leaderboard: leaderboardSlice.reducer,
   settings: settingsSlice.reducer,
   [platformApi.reducerPath]: platformApi.reducer,
+  [consultationApi.reducerPath]: consultationApi.reducer,
 })
 
 const persistedReducer = persistReducer(persistConfig, reducer)
@@ -72,7 +74,8 @@ export const store = configureStore({
     }).concat(
       [
         platformApi.middleware, 
-        authApi.middleware
+        authApi.middleware,
+        consultationApi.middleware
       ]),
   devTools: process.env.NODE_ENV !== 'production'
 })

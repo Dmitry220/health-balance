@@ -6,15 +6,10 @@ import { formatConsultation } from '../../utils/enums';
 import InputMask from "react-input-mask";
 import { ModalSuccess } from '../../Components/Modals/Modal-success';
 import { ACTIVITY_ROUTE, PROFILE_ROUTE } from '../../provider/constants-route';
+import { IConsultation } from '../../models/IConsultation';
+import { useConsultationMutation } from '../../services/ConsultationService';
+import { showToast } from '../../utils/common-functions';
 
-
-interface IFormInput {
-	name: string
-	phone: string
-	city: string
-	format: formatConsultation
-	comments: string
-}
 
 export const ConsultationPage = () => {
 
@@ -23,18 +18,25 @@ export const ConsultationPage = () => {
 		handleSubmit,
 		control,
 		formState: { errors, isValid }
-	} = useForm<IFormInput>({
+	} = useForm<IConsultation>({
 		mode: "onChange"
 	})
-	const [success, setSuccess] = useState(false)
 
-	const onSubmit: SubmitHandler<IFormInput> = data => {
-		console.log(data);
-		setSuccess(true)
+	const [submitConsultation, { isLoading, isSuccess }] = useConsultationMutation()
+
+	const onSubmit: SubmitHandler<IConsultation> = async ({ city, comment, name, phone, type }) => {
+
+		await submitConsultation({
+			city, comment, name, phone, type
+		})
+			.unwrap()
+			.catch(async (err) => {
+				await showToast('Произошла непредвиденная ошибка')
+			})
 	};
 
-	if(success){
-		return <ModalSuccess title='Заявка принята' showReward={false} route={ACTIVITY_ROUTE}/>
+	if (isSuccess) {
+		return <ModalSuccess title='Заявка принята' showReward={false} route={ACTIVITY_ROUTE} />
 	}
 
 	return (
@@ -72,7 +74,7 @@ export const ConsultationPage = () => {
 							<p role='alert' className='form-consultation__error'>
 								Данное поле не может быть пустым
 							</p>
-						)}					
+						)}
 					</div>
 					<div className="form-consultation__row">
 						<div className="form-consultation__sub-text">Город</div>
@@ -86,13 +88,13 @@ export const ConsultationPage = () => {
 					<div className="form-consultation__row">
 						<div className="form-consultation__sub-text">Выберите формат встречи</div>
 						<div className='_custom-select'>
-							<select {...register("format", { required: true })}>
+							<select {...register("type", { required: true })}>
 								<option value="Видео">Видео</option>
 								<option value="Телефон">Телефон</option>
 								<option value="Чат">Чат</option>
 							</select>
 						</div>
-						{errors.format?.type === 'required' && (
+						{errors.type?.type === 'required' && (
 							<p role='alert' className='form-consultation__error'>
 								Данное поле не может быть пустым
 							</p>
@@ -100,20 +102,26 @@ export const ConsultationPage = () => {
 					</div>
 					<div className="form-consultation__row">
 						<div className="form-consultation__sub-text">Какой запрос у вас/проблема для решения</div>
-						<input {...register("comments", { required: true })} className='form-consultation__input _field' />
-						{errors.comments?.type === 'required' && (
+						<input {...register("comment", { required: true })} className='form-consultation__input _field' />
+						{errors.comment?.type === 'required' && (
 							<p role='alert' className='form-consultation__error'>
 								Данное поле не может быть пустым
 							</p>
 						)}
 					</div>
-					<input type='submit'
+					<button type='submit'
 						className={
 							'form-consultation__submit _button-white' +
 							(!isValid ? ' disabled' : '')
 						}
-						value={'Далее'} disabled={!isValid}
-					/>
+						disabled={!isValid || isLoading}
+					>{isLoading ? (
+						<span className='spinner'>
+							<i className='fa fa-spinner fa-spin'></i> Загрузка
+						</span>
+					) : (
+						'Далее'
+					)}</button>
 				</form>
 			</div>
 		</div>
