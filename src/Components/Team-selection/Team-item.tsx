@@ -48,10 +48,10 @@ interface ITeamItem {
 			setExistTeam(true)
 			await joinToChallenge()
 		 } else {
-			await showToast('Ошибка!')
+			await showToast(response.data?.errors)
 		 }
 	  } catch (error) {
-		 await showToast('Ошибка!')
+		 await showToast('Ошибка запроса!')
 	  }
 	}
  

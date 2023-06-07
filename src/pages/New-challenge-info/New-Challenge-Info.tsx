@@ -18,6 +18,7 @@ import {
 import { definitionColor, nFormatter } from '../../utils/common-functions'
 import ChallengeService from '../../services/ChallengeService'
 import { Preloader } from '../../Components/Preloader/Preloader'
+import { ActiveChallengePage } from '../Active-challenge-page/Active-challenge-page'
 
 export const NewChallengeInfo = () => {
   const dispatch = useAppDispatch()
@@ -51,6 +52,10 @@ export const NewChallengeInfo = () => {
   useEffect(() => {
     dispatch(getChallengeById(Number(params.id)))
   }, [])
+
+  if(challenge?.active){
+    return <ActiveChallengePage />
+  }
 
   return (
     <div className={'new-challenge-info'}>
