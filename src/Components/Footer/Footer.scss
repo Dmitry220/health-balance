@@ -1,13 +1,17 @@
 .footer {
   border-top: 1px solid #202020;
-  padding: 24px 24px 8px 24px;
+  padding: 24px 0px 8px 0px;
   justify-content: center;
-  margin: 0 auto;
-  text-align: center;
+  &__body{
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+  }
   span{
 	color: #8B8787;
   }
   a {
     color: #fff;
+	 line-height: 120%;
   }
 }
