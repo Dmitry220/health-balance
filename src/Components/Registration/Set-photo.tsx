@@ -24,7 +24,7 @@ export const SetPhoto = () => {
   const [image, photoPath, isLoadingAvatar, clearImages, uploadImage] = useLoadImage()
   const [disable, setDisabled] = useState<boolean>(false)
   const navigate = useNavigate()
-  const [submitRegistration, { isLoading,error }] = useRegistrationMutation()
+  const [submitRegistration, { isLoading, error }] = useRegistrationMutation()
 
   const dowloadPicture = async () => {
     await uploadImage(typeImage.avatars)
@@ -33,9 +33,9 @@ export const SetPhoto = () => {
   const submit = async () => {
     const uuid = await Device.getId()
     const device_token = uuid.uuid
-    const timezone = -new Date().getTimezoneOffset()/60 
+    const timezone = -new Date().getTimezoneOffset() / 60
     await submitRegistration({
-      name:dataRegistration.name,
+      name: dataRegistration.name,
       surname: dataRegistration.surname,
       birthday: dataRegistration.birthday,
       gender: dataRegistration.gender,
@@ -44,12 +44,12 @@ export const SetPhoto = () => {
       email: dataRegistration.email,
       password: dataRegistration.password,
       device_token,
-      platform:  dataRegistration.platform,
+      platform: dataRegistration.platform,
       timezone,
       platform_code: dataRegistration.privatePlatform
-    }).unwrap().then(async ()=>{
-       await showToast(`Регистрация прошла успешно. Ссылка для подтверждения вашей почты отправлена на ${dataRegistration.email}`,'long')
-       dispatch(resetFieldRegistration())
+    }).unwrap().then(async () => {
+      await showToast(`Регистрация прошла успешно. Ссылка для подтверждения вашей почты отправлена на ${dataRegistration.email}`, 'long')
+      dispatch(resetFieldRegistration())
       navigate(LOGIN_ROUTE)
     }).catch(async (err) => {
       dispatch(setStage(stageRegistration.email))
@@ -62,7 +62,7 @@ export const SetPhoto = () => {
         return
       }
       await showToast('Произошла непредвиденная ошибка')
-    })  
+    })
   }
 
   useEffect(() => {
@@ -96,26 +96,20 @@ export const SetPhoto = () => {
           )}
         </div>
       </div>
-      <Button
+      {!isLoading ? <><Button
         disabled={disable}
         customClass='registration__button'
         view={typesButton.white}
         onClick={submit}
-      >{isLoading ? (
-        <span className='spinner'>
-          <i className='fa fa-spinner fa-spin'></i> Загрузка
-        </span>
-      ) : 'Сохранить'}</Button>
-       <span
-        className='registration__link text-yellow'
-        onClick={submit}
-      >
-        {isLoading ? (
-          <span className='spinner'>
-            <i className='fa fa-spinner fa-spin'></i> Загрузка
-          </span>
-        ) : 'Пропустить'}
-      </span>
+      >{'Сохранить'}</Button>
+        <span
+          className='registration__link text-yellow'
+          onClick={submit}
+        >
+          {'Пропустить'}
+        </span></> : <div className='spinner' style={{textAlign:'center'}}>
+        <i className='fa fa-spinner fa-spin'></i> Загрузка
+      </div>}
     </>
   )
 }
