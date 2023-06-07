@@ -18,6 +18,7 @@ import { dataUserSelector } from '../../Redux/slice/profileSlice'
 import { InstructionsChallenge } from '../../Components/Challenge/Instruction-challenge'
 import { Preloader } from '../../Components/Preloader/Preloader'
 import { challengeVisitSelector } from '../../Redux/slice/visitedPageSlice'
+import { Platform } from '../../Components/Platform/Platform'
 
 export const ChallengePage = () => {
   const [valueTab, setValueTab] = React.useState<number>(0)
@@ -61,6 +62,9 @@ export const ChallengePage = () => {
     <div className={'challenge-page'}>
       <Navigation />
       <HeaderTwo title={'Челленджи'} marginBottom={40} />
+      <div className="challenge-page__platform">
+        <Platform />
+      </div>
       {dataUser.role === 1 &&
         <Link
           to={CREATING_CHALLENGE_ROUTE}
@@ -68,7 +72,6 @@ export const ChallengePage = () => {
         >
           Создать челлендж
         </Link>}
-
       <Tabs
         labels={labelsTabChallenge}
         onClick={setValueTab}

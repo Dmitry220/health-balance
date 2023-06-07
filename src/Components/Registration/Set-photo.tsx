@@ -48,7 +48,7 @@ export const SetPhoto = () => {
       timezone,
       platform_code: dataRegistration.privatePlatform
     }).unwrap().then(()=>{
-       showToast('Регистрация прошла успешно!')
+       showToast(`Регистрация прошла успешно. Ссылка для подтверждения вашей почты отправлена на ${dataRegistration.email}`)
        dispatch(resetFieldRegistration())
       navigate(LOGIN_ROUTE)
     }).catch(async (err) => {

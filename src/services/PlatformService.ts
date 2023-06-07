@@ -17,8 +17,8 @@ export const platformApi = createApi({
   reducerPath: "platformApi",
   baseQuery: fetchBaseQuery({ baseUrl: API_URL }),
   endpoints: (builder) => ({
-    getCurrentPlatform: builder.query<IPlatform, void>({
-      query: () => `hjg`,
+    getCurrentPlatform: builder.query<{data:IPlatform}, void>({
+      query: () => `platforms/self?token=${localStorage.getItem("token")}`,
     }),
     getPlatfotms: builder.query<{ data: IPlatform[] }, void>({
       query: () => `platforms`,
