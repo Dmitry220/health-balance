@@ -16,7 +16,7 @@ const rubrics = [
   },
   {
     id: 2,
-    title: 'Интсрукция'
+    title: 'Инструкция'
   },
   {
     id: 3,

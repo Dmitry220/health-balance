@@ -26,6 +26,7 @@ import { persistor } from '../..'
 import TrackerService from '../../services/TrackerService'
 import { isGoogleFitSelector } from '../../Redux/slice/settingsSlice'
 import { Platform } from '../../Components/Platform/Platform'
+import { Footer } from '../../Components/Footer/Footer'
 
 export const Profile = () => {
   const dataUser = useAppSelector(dataUserSelector)
@@ -126,6 +127,9 @@ export const Profile = () => {
         <div className='profile__out' onClick={() => setLogoutModal(true)}>
           Выйти из аккаунта
         </div>
+      </div>
+      <div className='profile-block'>
+        <Footer />
       </div>
     </div>
   )
