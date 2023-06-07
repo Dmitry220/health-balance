@@ -127,10 +127,11 @@ export const rubricConversion = (type: number) => {
   }
 }
 
-export const showToast = async (text: string) => {
+export const showToast = async (text: string, duration?:'short' | 'long') => {
   await Toast.show({
     text: text,
-    position: 'center'
+    position: 'center',
+    duration: duration || 'short'
   })
 }
 

@@ -47,18 +47,18 @@ export const SetPhoto = () => {
       platform:  dataRegistration.platform,
       timezone,
       platform_code: dataRegistration.privatePlatform
-    }).unwrap().then(()=>{
-       showToast(`Регистрация прошла успешно. Ссылка для подтверждения вашей почты отправлена на ${dataRegistration.email}`)
+    }).unwrap().then(async ()=>{
+       await showToast(`Регистрация прошла успешно. Ссылка для подтверждения вашей почты отправлена на ${dataRegistration.email}`,'long')
        dispatch(resetFieldRegistration())
       navigate(LOGIN_ROUTE)
     }).catch(async (err) => {
       dispatch(setStage(stageRegistration.email))
       if (err.data?.errors?.email) {
-        await showToast(err.data?.errors?.email)
+        await showToast(err.data?.errors?.email[0])
         return
       }
       if (err.data?.errors?.platform_code) {
-        await showToast(err.data?.errors?.platform_code)
+        await showToast(err.data?.errors?.platform_code[0])
         return
       }
       await showToast('Произошла непредвиденная ошибка')

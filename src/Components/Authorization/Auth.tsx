@@ -51,13 +51,13 @@ export const Auth = () => {
         OneSignalInit()
         navigate(START_ROUTE)
       }))
-      .catch(async (err) => {       
+      .catch(async (err) => {      
         if (err.data?.errors?.email) {
-          await showToast(err.data?.errors?.email)
+          await showToast(err?.data?.errors?.email[0])
           return
         }
-        if (err.data?.errors?.password) {
-          await showToast(err.data?.errors?.password)
+        if (err?.data?.errors?.password) {
+          await showToast(err.data?.errors?.password[0])
           return
         }
         await showToast('Произошла непредвиденная ошибка')
