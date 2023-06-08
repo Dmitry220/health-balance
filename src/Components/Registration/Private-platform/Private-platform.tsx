@@ -32,9 +32,9 @@ export const Privateplatform = () => {
 		<>
 			<div style={{ position: 'relative' }}>
 				<input
-					type='text'
+					type='number'
 					className='registration__field _field'
-					value={codePlatform}
+					value={codePlatform || ''}
 					onChange={handlerCodePlatform}
 				/>
 			</div>

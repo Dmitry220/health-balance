@@ -35,12 +35,10 @@ interface ISwiperNextButton {
 
 export const StartPage = () => {
   const startValueStep = 1000
-  const endValueStep = 20000
+  const endValueStep = 25500
 
   const itemSteps = getItemsStep(startValueStep, endValueStep)
-  const [stepValue, setStepValue] = useState<string>(
-    (startValueStep + endValueStep) / 2 + ''
-  )
+  const [stepValue, setStepValue] = useState<string>('10000')
   const dataUser = useAppSelector(dataUserSelector)
   const changeStep = (value: string) => setStepValue(value)
   const activityVisitCount = useAppSelector(activityVisitSelector)
