@@ -71,7 +71,6 @@ export const TrackerHabitsPage = () => {
   }
 
   useEffect(() => {
-    dispatch(getTracker())
     dispatch(getTracks(new Date().toLocaleDateString()))
   }, [location.key])
 

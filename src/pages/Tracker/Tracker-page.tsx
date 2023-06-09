@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { Pagination, A11y } from 'swiper'
 import { Swiper, SwiperSlide, useSwiper } from 'swiper/react'
 import { ScrollPicker } from '../../Components/Scroll-picker/Scroll-picker'
@@ -11,25 +11,30 @@ import './tracker.scss'
 import {
   getItemsHour,
   getItemsMinutes,
-  getItemsWeight
+  getItemsWeight,
+  showToast
 } from '../../utils/common-functions'
 import { TrackerHabitsPage } from '../Tracker-habits/Tracker-habits-page'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import TrackerService from '../../services/TrackerService'
-import { ICreatingTracker } from '../../models/ITracker'
+import { ICreatingTracker, IGetTracker } from '../../models/ITracker'
 import { Capacitor } from '@capacitor/core'
 import { heightStatusBarSelector } from '../../Redux/slice/appSlice'
 import { setVisitedTrackerPage, trackerVisitSelector } from '../../Redux/slice/visitedPageSlice'
+import { Preloader } from '../../Components/Preloader/Preloader'
 
 export const TrackerPage = () => {
   const trackerVisitCount = useAppSelector(trackerVisitSelector)
 
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+
   const startValueWeight = 40
   const endValueWeight = 200
-
+  const dispatch = useAppDispatch()
   const itemsWeight = getItemsWeight(startValueWeight, endValueWeight, 'кг')
   const [weightUser, setWeightUser] = useState<string>('80')
   const [countFruits, setCountFruits] = useState<number>(0)
+  const [tracker, setTracker] = useState<IGetTracker|null>(null)
 
   const changeWeight = (value: string) => setWeightUser(value)
   const addCountFruits = () => setCountFruits((prev) => prev + 1)
@@ -49,7 +54,30 @@ export const TrackerPage = () => {
   const changeHour = (value: string) => setHour(value)
   const changeMinutes = (value: string) => setMinutes(value)
 
-  if (trackerVisitCount === 1) {
+  async function isTracker() {
+    setIsLoading(true)
+    try {
+      const tracker = await TrackerService.getTracker()
+      if (tracker.data?.data) {
+        setTracker(tracker.data.data)
+      }
+    } catch (error) {
+      await showToast('Ошибка запроса!')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+
+  useEffect(() => {
+    isTracker()
+  }, [trackerVisitCount])
+
+  if (isLoading) {
+    return <Preloader />
+  }
+
+  if (tracker) {
     return <TrackerHabitsPage />
   }
 
@@ -232,9 +260,9 @@ const SlideNextButton: FC<ISwiperNextButton> = ({
     <button
       className={customClass}
       onClick={next}
-      // style={{
-      //   bottom:  Capacitor.getPlatform() === 'ios' ? 80 : 50
-      // }}
+    // style={{
+    //   bottom:  Capacitor.getPlatform() === 'ios' ? 80 : 50
+    // }}
     >
       Дальше
     </button>
