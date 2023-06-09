@@ -112,6 +112,8 @@ export const trackerSlice = createSlice({
           state.tracker = action.payload;
           state.countWater = +((action.payload.weight * 35) / 1000).toFixed(1);
           state.isLoading = false;
+        }else{
+          state.tracker.id = 0;
         }
       }
     );

@@ -22,10 +22,11 @@ import { Capacitor } from '@capacitor/core'
 import { heightStatusBarSelector } from '../../Redux/slice/appSlice'
 import { setVisitedTrackerPage, trackerVisitSelector } from '../../Redux/slice/visitedPageSlice'
 import { Preloader } from '../../Components/Preloader/Preloader'
+import { getTracker, trackerSelector } from '../../Redux/slice/trackerSlice'
 
 export const TrackerPage = () => {
   const trackerVisitCount = useAppSelector(trackerVisitSelector)
-
+  const tracker = useAppSelector(trackerSelector)
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const startValueWeight = 40
@@ -34,7 +35,7 @@ export const TrackerPage = () => {
   const itemsWeight = getItemsWeight(startValueWeight, endValueWeight, 'кг')
   const [weightUser, setWeightUser] = useState<string>('80')
   const [countFruits, setCountFruits] = useState<number>(0)
-  const [tracker, setTracker] = useState<IGetTracker|null>(null)
+ // const [tracker, setTracker] = useState<IGetTracker|null>(null)
 
   const changeWeight = (value: string) => setWeightUser(value)
   const addCountFruits = () => setCountFruits((prev) => prev + 1)
@@ -55,17 +56,9 @@ export const TrackerPage = () => {
   const changeMinutes = (value: string) => setMinutes(value)
 
   async function isTracker() {
-    setIsLoading(true)
-    try {
-      const tracker = await TrackerService.getTracker()
-      if (tracker.data?.data) {
-        setTracker(tracker.data.data)
-      }
-    } catch (error) {
-      await showToast('Ошибка запроса!')
-    } finally {
-      setIsLoading(false)
-    }
+    await setIsLoading(true)
+    await dispatch(getTracker())
+    await setIsLoading(false)
   }
 
 
@@ -77,7 +70,7 @@ export const TrackerPage = () => {
     return <Preloader />
   }
 
-  if (tracker) {
+  if (tracker.id) {
     return <TrackerHabitsPage />
   }
 
