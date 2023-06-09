@@ -54,7 +54,7 @@ export const ProfileMemberHead = () => {
           </div>
         )}
       </div>
-      {(profile.role === 1 && profile.id !== infoUser.id) &&(
+      {((profile.role === 1 || profile.role === 2) && profile.id !== infoUser.id) &&(
         <div className='profile-member-head__row'>
           <button
             className='profile-member-head__button _button-dark-yellow'

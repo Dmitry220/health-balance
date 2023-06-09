@@ -54,7 +54,7 @@ export const InterestingPage = () => {
   return (
     <div className={'interesting-page'}>
       <HeaderTwo title={'Интересное'} marginBottom={20} />
-      {dataUser.role === 1 && (
+      {(dataUser.role === 1 || dataUser.role === 2) && (
         <div style={{ marginTop: '20px', marginBottom: '20px' }}>
           <NavLink to={CREATING_INTERESTING_ROUTE} className='_button-yellow'>
             Добавить интересное

@@ -37,7 +37,7 @@ export const ProfileMemberPage = () => {
           completed_challenges={infoUser.completed_challenges}
         />
       </div>
-      {profile.role === 1 && <div className='profile-member-page__block'>
+      {(profile.role === 1 || profile.role === 2) && <div className='profile-member-page__block'>
         <ProfileMemberContact />
       </div>}
     </div>

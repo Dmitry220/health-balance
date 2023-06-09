@@ -51,7 +51,7 @@ export const LecturesPages = () => {
         />
       ))}
       {!lessons.length && <h1 style={{ marginBottom: 20 }}>Лекций нет</h1>}
-     {dataUser.role === 1 && <Link
+     {(dataUser.role === 1 || dataUser.role === 2) && <Link
         to={CREATING_LECTURE_ROUTE + '/' + params.id}
         className='_button-yellow'
       >
