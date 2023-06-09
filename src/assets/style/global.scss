@@ -525,9 +525,11 @@
   margin: 0 0 20px 0;
   &::-webkit-scrollbar {
     height: 0;
+    -webkit-appearance: none;
     width: 0;
   }
   scrollbar-width: none;
+
   &-labels {
     &:not(:last-child) {
       margin: 0 20px 0 0;
