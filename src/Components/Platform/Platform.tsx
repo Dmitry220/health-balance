@@ -32,7 +32,12 @@ export const Platform = () => {
 					</div>
 				</div>
 				<div className="platform__img">
-					<img src={platform?.data.image ? (IMAGE_URL + 'platforms/' + platform?.data.image) : icon_platform} alt="image-platform" />
+					<img src={platform?.data.image ? (IMAGE_URL + 'platforms/' + platform?.data.image) : icon_platform} alt="image-platform"
+					onError={({ currentTarget }) => {
+						currentTarget.onerror = null; // prevents looping
+						currentTarget.src=icon_platform;
+					 }}
+					/>
 				</div>
 			</div>
 		</div>
