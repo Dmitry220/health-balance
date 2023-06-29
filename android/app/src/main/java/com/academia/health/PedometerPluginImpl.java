@@ -1,7 +1,11 @@
 package com.academia.health;
 
+import static com.academia.health.utils.Constants.SYNC_DATA_WORK_NAME;
+import static com.academia.health.utils.Constants.TAG_SYNC_DATA;
+
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import android.Manifest;
 import android.content.Context;
@@ -9,11 +13,22 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.AsyncTask;
 import android.util.Log;
 
+import androidx.work.BackoffPolicy;
+import androidx.work.Constraints;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.NetworkType;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
+
 import com.academia.health.api.StepPublisher;
+import com.academia.health.db.dao.StepDao;
+import com.academia.health.db.entity.Step;
 import com.academia.health.utils.DateHelper;
 import com.academia.health.utils.SharedPrefManager;
+import com.academia.health.workers.SyncDataWorker;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.annotation.CapacitorPlugin;
 import com.getcapacitor.annotation.Permission;
@@ -46,6 +61,7 @@ public class PedometerPluginImpl implements SensorEventListener {
 
     public int lastNumberOfSteps = 0;
     public static final String INTENT_KEY = "numberOfSteps";
+    private WorkManager mWorkManager;
 
     private PedometerPluginImpl() {
         startTimestamp = 0;
@@ -68,6 +84,8 @@ public class PedometerPluginImpl implements SensorEventListener {
             this.startSteps = 0;
             this.lastNumberOfSteps = sharedPrefManager.getLastNumberOfSteps();
         }
+        mWorkManager = WorkManager.getInstance(context);
+
     }
 
     /**
@@ -104,6 +122,24 @@ public class PedometerPluginImpl implements SensorEventListener {
             this.fail(PedometerPluginImpl.ERROR_NO_SENSOR_FOUND,
                     "No sensors found to register step counter listening to.");
         }
+
+        Constraints constraints = new Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .build();
+
+
+        PeriodicWorkRequest periodicSyncDataWork =
+                new PeriodicWorkRequest.Builder(SyncDataWorker.class, 15, TimeUnit.MINUTES)
+                        .addTag(TAG_SYNC_DATA)
+                        .setConstraints(constraints)
+                        // setting a backoff on case the work needs to retry
+                        .setBackoffCriteria(BackoffPolicy.LINEAR, PeriodicWorkRequest.MIN_BACKOFF_MILLIS, TimeUnit.MILLISECONDS)
+                        .build();
+        mWorkManager.enqueueUniquePeriodicWork(
+                SYNC_DATA_WORK_NAME,
+                ExistingPeriodicWorkPolicy.KEEP, //Existing Periodic Work policy
+                periodicSyncDataWork //work request
+        );
     }
 
     /**

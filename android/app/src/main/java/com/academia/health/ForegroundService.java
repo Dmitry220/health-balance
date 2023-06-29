@@ -9,6 +9,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.IBinder;
 import android.os.PowerManager;
@@ -19,6 +20,8 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
 import com.academia.health.api.StepPublisher;
+import com.academia.health.db.dao.StepDao;
+import com.academia.health.db.entity.Step;
 import com.academia.health.utils.DateHelper;
 import com.academia.health.utils.DayChangedBroadcastReceiver;
 import com.academia.health.utils.PedometerWorker;
@@ -49,15 +52,19 @@ public class ForegroundService extends Service {
     private final String TAG = ForegroundService.class.toString();
 
     private static Boolean isServiceRunning = false;
-    private final StepPublisher stepPublisher = new StepPublisher();
+
     private SharedPrefManager sharedPrefManager;
+    private StepDao stepDao;
 
     @Override
     public void onCreate() {
         super.onCreate();
+    }
 
+    public void initializePedometer() {
         isServiceRunning = true;
 
+        stepDao = App.get().getStepDao();
         mContext = this;
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         sharedPrefManager = new SharedPrefManager(this);
@@ -82,10 +89,17 @@ public class ForegroundService extends Service {
             sharedPrefManager.save(String.valueOf(data));
             updateContent(String.valueOf(steps));
 
+            String currentDate2 = DateHelper.normalDateFormat.format(new Date());
 
-            String token = sharedPrefManager.getToken();
-            String currentDate = DateHelper.normalDateFormat.format(new Date());
-            stepPublisher.send(token, steps, currentDate);
+            if (stepDao != null) {
+                int finalSteps = steps;
+                AsyncTask.execute(() -> {
+                    Step stepObj = new Step(currentDate2, finalSteps);
+                    stepDao.saveStep(stepObj);
+                    Log.d(TAG, String.valueOf(stepObj));
+                });
+
+            }
         };
 
         registerReceiver(m_timeChangedReceiver, DayChangedBroadcastReceiver.getIntentFilter());
@@ -118,9 +132,9 @@ public class ForegroundService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
+        initializePedometer();
         startWakeLock();
-        String input = "Предоставьте разрешение на физическую активность и снова откройте приложение!";
+        String input = String.valueOf(sharedPrefManager.getLastNumberOfSteps());
         if (intent != null) {
             input = intent.getStringExtra(INTENT_KEY);
         }

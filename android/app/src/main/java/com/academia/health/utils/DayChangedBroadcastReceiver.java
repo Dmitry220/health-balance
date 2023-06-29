@@ -23,7 +23,8 @@ public abstract class DayChangedBroadcastReceiver extends BroadcastReceiver {
         Date currentDate = new Date();
 
         if (action != null && !isSameDay(currentDate) &&
-                (action.equals(Intent.ACTION_DATE_CHANGED))) {
+                (action.equals(Intent.ACTION_DATE_CHANGED)) ||
+                (action.equals(Intent.ACTION_TIMEZONE_CHANGED))) {
             date = currentDate;
 
             onDayChanged();
@@ -36,6 +37,7 @@ public abstract class DayChangedBroadcastReceiver extends BroadcastReceiver {
 
     public static IntentFilter getIntentFilter() {
         IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Intent.ACTION_TIMEZONE_CHANGED);
         intentFilter.addAction(Intent.ACTION_DATE_CHANGED);
         return intentFilter;
     }
