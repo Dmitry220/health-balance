@@ -23,7 +23,7 @@ import { lessonsSlice } from './slice/lessonsSlice'
 import { purposesSlice } from './slice/purposeSlice'
 import { newsSlice } from './slice/newsSlice'
 import { trackerSlice } from './slice/trackerSlice'
-import leaderBoardSlice, { leaderboardSlice } from './slice/leaderBoardSlice'
+import { leaderboardSlice } from './slice/leaderBoardSlice'
 import { settingsSlice } from './slice/settingsSlice'
 import { platformApi } from '../services/PlatformService'
 import { authApi } from '../services/AuthService'
@@ -32,7 +32,7 @@ import { consultationApi } from '../services/ConsultationService'
 const persistConfig = {
   key: 'root',
   storage: storage,
-  whitelist: ['shop','settings','visitedPages'],
+  whitelist: ['shop', 'settings', 'visitedPages']
 }
 
 const reducer = combineReducers({
@@ -53,33 +53,30 @@ const reducer = combineReducers({
   leaderboard: leaderboardSlice.reducer,
   settings: settingsSlice.reducer,
   [platformApi.reducerPath]: platformApi.reducer,
-  [consultationApi.reducerPath]: consultationApi.reducer,
+  [consultationApi.reducerPath]: consultationApi.reducer
 })
 
 const persistedReducer = persistReducer(persistConfig, reducer)
 
-const rootReducer = (state:any, action:any) => {
+const rootReducer = (state: any, action: any) => {
   if (action.type === 'auth/clearResults') {
-    state = undefined;
+    state = undefined
   }
-  return persistedReducer(state, action);
-};
-
+  return persistedReducer(state, action)
+}
 
 export const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false
-    }).concat(
-      [
-        platformApi.middleware, 
-        authApi.middleware,
-        consultationApi.middleware
-      ]),
+    }).concat([
+      platformApi.middleware,
+      authApi.middleware,
+      consultationApi.middleware
+    ]),
   devTools: process.env.NODE_ENV !== 'production'
 })
 
 export type RootState = ReturnType<typeof store.getState>
-
 export type AppDispatch = typeof store.dispatch

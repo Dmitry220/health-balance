@@ -1,49 +1,47 @@
-import { FC, useState } from "react";
-import "./quiz.scss";
+import { FC, useState } from 'react'
+import './quiz.scss'
 interface ITextQuiz {
-  question: string;
-  answerHandler: Function;
+  question: string
+  answerHandler: Function
   answers: {
-    position: number;
-    value: string;
-  }[];
-  id: number;
+    position: number
+    value: string
+  }[]
+  id: number
 }
 
 const CheckboxQuiz: FC<ITextQuiz> = ({
   question,
   answerHandler,
   answers,
-  id,
+  id
 }) => {
-  const [value, setValue] = useState<any>([]);
+  const [value, setValue] = useState<any>([])
   const handleClick = () => {
-    setValue([]);
-    answerHandler({[id]:value});
-  };
+    setValue([])
+    answerHandler({ [id]: value })
+  }
 
   const handleChange = (val: number) => {
-    console.log(value,val, value.includes(val));
-    
     if (value.includes(val)) {
-      setValue(value.filter((e: number) => e !== val));
-      return false;
+      setValue(value.filter((e: number) => e !== val))
+      return false
     }
-    setValue([...value, +val]);
-  };
+    setValue([...value, +val])
+  }
   return (
-    <div className={"quiz"}>
-      <div className="quiz__title">{question}</div>
-      <div className="custom-checkbox" style={{ marginBottom: "10px" }}>
+    <div className={'quiz'}>
+      <div className='quiz__title'>{question}</div>
+      <div className='custom-checkbox' style={{ marginBottom: '10px' }}>
         {answers &&
           answers.map((item) => (
             <div key={item.position}>
               <input
-               // checked={value.includes(item.position+1)}
-                value={item.position+1}
-                type="checkbox"
-                name={"radio" + id}
-                className={"custom-checkbox__checkbox"}
+                // checked={value.includes(item.position+1)}
+                value={item.position + 1}
+                type='checkbox'
+                name={'radio' + id}
+                className={'custom-checkbox__checkbox'}
                 id={item.position + id + ''}
                 onChange={(e) => handleChange(+e.target.value)}
               />
@@ -55,15 +53,15 @@ const CheckboxQuiz: FC<ITextQuiz> = ({
         disabled={value.length === 0}
         className={
           value.length === 0
-            ? "questionnaire-page__button _button-white disabled"
-            : "questionnaire-page__button _button-white"
+            ? 'questionnaire-page__button _button-white disabled'
+            : 'questionnaire-page__button _button-white'
         }
         onClick={handleClick}
       >
         Далее
       </button>
     </div>
-  );
-};
+  )
+}
 
-export default CheckboxQuiz;
+export default CheckboxQuiz

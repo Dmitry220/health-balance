@@ -17,11 +17,11 @@ import { showToast } from '../../utils/common-functions'
 import { LOGIN_ROUTE } from '../../provider/constants-route'
 import { useNavigate } from 'react-router-dom'
 
-
 export const SetPhoto = () => {
   const dispatch = useAppDispatch()
   const dataRegistration = useAppSelector(dataRegistrationSelector)
-  const [image, photoPath, isLoadingAvatar, clearImages, uploadImage] = useLoadImage()
+  const [image, photoPath, isLoadingAvatar, clearImages, uploadImage] =
+    useLoadImage()
   const [disable, setDisabled] = useState<boolean>(false)
   const navigate = useNavigate()
   const [submitRegistration, { isLoading, error }] = useRegistrationMutation()
@@ -37,7 +37,7 @@ export const SetPhoto = () => {
     await submitRegistration({
       name: dataRegistration.name,
       surname: dataRegistration.surname,
-      birthday: dataRegistration.birthday,
+      birthday: 1000000, // заглушка
       gender: dataRegistration.gender,
       avatar: dataRegistration.avatar,
       phone: dataRegistration.phone,
@@ -47,22 +47,28 @@ export const SetPhoto = () => {
       platform: dataRegistration.platform,
       timezone,
       platform_code: dataRegistration.privatePlatform
-    }).unwrap().then(async () => {
-      await showToast(`Регистрация прошла успешно. Ссылка для подтверждения вашей почты отправлена на ${dataRegistration.email}`, 'long')
-      dispatch(resetFieldRegistration())
-      navigate(LOGIN_ROUTE)
-    }).catch(async (err) => {
-      dispatch(setStage(stageRegistration.email))
-      if (err.data?.errors?.email) {
-        await showToast(err.data?.errors?.email[0])
-        return
-      }
-      if (err.data?.errors?.platform_code) {
-        await showToast(err.data?.errors?.platform_code[0])
-        return
-      }
-      await showToast('Произошла непредвиденная ошибка')
     })
+      .unwrap()
+      .then(async () => {
+        await showToast(
+          `Регистрация прошла успешно. Ссылка для подтверждения вашей почты отправлена на ${dataRegistration.email}`,
+          'long'
+        )
+        dispatch(resetFieldRegistration())
+        navigate(LOGIN_ROUTE)
+      })
+      .catch(async (err) => {
+        dispatch(setStage(stageRegistration.email))
+        if (err.data?.errors?.email) {
+          await showToast(err.data?.errors?.email[0])
+          return
+        }
+        if (err.data?.errors?.platform_code) {
+          await showToast(err.data?.errors?.platform_code[0])
+          return
+        }
+        await showToast('Произошла непредвиденная ошибка')
+      })
   }
 
   useEffect(() => {
@@ -81,7 +87,11 @@ export const SetPhoto = () => {
           {!isLoadingAvatar ? (
             <div className='set-photo__label' onClick={dowloadPicture}>
               {!photoPath && (
-                <img className={'set-photo__photo-icon-add'} src={photo} alt='' />
+                <img
+                  className={'set-photo__photo-icon-add'}
+                  src={photo}
+                  alt=''
+                />
               )}
               {photoPath && (
                 <img
@@ -96,20 +106,25 @@ export const SetPhoto = () => {
           )}
         </div>
       </div>
-      {!isLoading ? <><Button
-        disabled={disable}
-        customClass='registration__button'
-        view={typesButton.white}
-        onClick={submit}
-      >{'Сохранить'}</Button>
-        <span
-          className='registration__link text-yellow'
-          onClick={submit}
-        >
-          {'Пропустить'}
-        </span></> : <div className='spinner' style={{textAlign:'center'}}>
-        <i className='fa fa-spinner fa-spin'></i> Загрузка
-      </div>}
+      {!isLoading ? (
+        <>
+          <Button
+            disabled={disable}
+            customClass='registration__button'
+            view={typesButton.white}
+            onClick={submit}
+          >
+            {'Сохранить'}
+          </Button>
+          <span className='registration__link text-yellow' onClick={submit}>
+            {'Пропустить'}
+          </span>
+        </>
+      ) : (
+        <div className='spinner' style={{ textAlign: 'center' }}>
+          <i className='fa fa-spinner fa-spin'></i> Загрузка
+        </div>
+      )}
     </>
   )
 }

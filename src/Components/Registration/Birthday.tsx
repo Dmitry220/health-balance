@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import {
   getItemsDays,
   getItemsMonth,
@@ -7,14 +7,21 @@ import {
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import MultiPicker from 'rmc-picker/lib/MultiPicker'
 import Picker from 'rmc-picker/lib/Picker'
-import { birthdaySelector, setBirthday, setStage } from '../../Redux/slice/authSlice'
+import {
+  birthdaySelector,
+  setBirthday,
+  setStage
+} from '../../Redux/slice/authSlice'
 import Button, { typesButton } from '../../UI-Components/Button/Button'
 import { stageRegistration } from '../../utils/enums'
 
 export const Birthday = () => {
   const itemDays = getItemsDays()
   const itemMonths = getItemsMonth()
-  const itemYears = getItemsYear(new Date().getFullYear() - 80, new Date().getFullYear() - 18)
+  const itemYears = getItemsYear(
+    new Date().getFullYear() - 80,
+    new Date().getFullYear() - 18
+  )
   const dispatch = useAppDispatch()
   const birhday = useAppSelector(birthdaySelector)
 
@@ -24,11 +31,9 @@ export const Birthday = () => {
 
   const onChange = (value: any) => {
     setValue(value)
-    // [value[1], value[3]] = [value[3], value[1]];
-    const formatDate =
-      Date.parse(value[1] + '.' + value[0] + '.' + value[2]) / 1000
-
-    dispatch(setBirthday(formatDate))
+    // const formatDate =
+    //   Date.parse(value[1] + '.' + value[0] + '.' + value[2]) / 1000
+    // dispatch(setBirthday(formatDate))
   }
 
   return (
@@ -83,7 +88,9 @@ export const Birthday = () => {
         customClass='registration__button'
         view={typesButton.white}
         onClick={() => dispatch(setStage(stageRegistration.gender))}
-      >Далее</Button>
+      >
+        Далее
+      </Button>
     </>
   )
 }
