@@ -2,7 +2,8 @@ import { useState } from 'react'
 import {
   getItemsDays,
   getItemsMonth,
-  getItemsYear
+  getItemsYear,
+  timeConverterUnix
 } from '../../utils/common-functions'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import MultiPicker from 'rmc-picker/lib/MultiPicker'
@@ -31,9 +32,7 @@ export const Birthday = () => {
 
   const onChange = (value: any) => {
     setValue(value)
-    const formatDate =
-      Date.parse(value[1] + '.' + value[0] + '.' + value[2]) / 1000
-    dispatch(setBirthday(formatDate))
+    dispatch(setBirthday(timeConverterUnix(value[0] + '.' + value[1] + '.' + value[2])))    
   }
 
   return (
