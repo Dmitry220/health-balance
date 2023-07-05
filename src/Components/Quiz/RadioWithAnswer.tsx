@@ -49,9 +49,9 @@ export const RadioWithAnswer: FC<IRadioWithAnswer> = ({ question, answerHandler,
         <input className="_field" type="text" value={input} onChange={(e: ChangeEvent<HTMLInputElement>) => setInput(e.target.value)} />
       </div>
       <button
-        disabled={value === null}
+        disabled={!(value || input != '')}
         className={
-          value === null
+          !(value || input != '')
             ? "questionnaire-page__button _button-white disabled"
             : "questionnaire-page__button _button-white"
         }
