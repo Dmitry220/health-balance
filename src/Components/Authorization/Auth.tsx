@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import './auth.scss'
 import { Link, useNavigate } from 'react-router-dom'
 import logo from '../../assets/image/Logo.svg'
@@ -14,6 +14,8 @@ import { Capacitor } from '@capacitor/core'
 import OneSignal from 'onesignal-cordova-plugin'
 import { useLoginMutation } from '../../services/AuthService'
 import { showToast } from '../../utils/common-functions'
+import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth'
+import google from '../../assets/image/syncing/google.svg'
 
 
 export const Auth = () => {
@@ -81,6 +83,20 @@ export const Auth = () => {
     }
   }
 
+  const googleAuth = async () => {
+    const response = await GoogleAuth.signIn();
+    console.log(response);
+    
+  }
+
+  useEffect(()=>{
+    GoogleAuth.initialize({
+      clientId: '892578456296-nmrjb7m8pn1f109psnaoff2q2es6s19f.apps.googleusercontent.com',
+      scopes: ['profile', 'email'],
+      grantOfflineAccess: true,
+    });
+  }, [])
+
   return (
     <form className={'auth'} onSubmit={submit}>
       <div className='auth__content'>
@@ -120,10 +136,16 @@ export const Auth = () => {
                 'Войти'
               )}
             </button>
-            {/* <button className='form-auth__button transparent'>
-              <img src={appleIcon} alt='apple' />
-              Войти через Apple ID
-            </button> */}
+            <button className='form-auth__button button-google-fit' onClick={googleAuth} type='button'>
+            <img
+              className='button-google-fit__logo'
+              src={google}
+              alt='google'
+            />
+            <div className='button-google-fit__title'>
+             Sign in with Google
+            </div>
+            </button>
           </div>
           <Link
             to={ACCESS_RECOVERY__ROUTE}
