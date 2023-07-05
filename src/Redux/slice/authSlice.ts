@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import { RootState } from '../store'
 import { IRegistration, IVisitPages } from '../../models/IAuth'
 import { stageRegistration } from '../../utils/enums'
+import { timeConverterUnix } from '../../utils/common-functions'
 
 
 export interface IAuth {
@@ -25,13 +26,7 @@ const initialState: IAuth = {
     password: '',
     name: '',
     surname: '',
-    birthday:
-      new Date('07.15.' + (new Date().getFullYear() - 23).toString()).setHours(
-        0,
-        0,
-        0,
-        0
-      ) / 1000,
+    birthday:timeConverterUnix('15.07.'+(new Date().getFullYear() - 23)),
     gender: 1,
     platform: 0,
     privatePlatform: 0,

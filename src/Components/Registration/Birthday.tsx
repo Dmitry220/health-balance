@@ -31,9 +31,9 @@ export const Birthday = () => {
 
   const onChange = (value: any) => {
     setValue(value)
-    // const formatDate =
-    //   Date.parse(value[1] + '.' + value[0] + '.' + value[2]) / 1000
-    // dispatch(setBirthday(formatDate))
+    const formatDate =
+      Date.parse(value[1] + '.' + value[0] + '.' + value[2]) / 1000
+    dispatch(setBirthday(formatDate))
   }
 
   return (

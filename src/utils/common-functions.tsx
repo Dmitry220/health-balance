@@ -127,7 +127,7 @@ export const rubricConversion = (type: number) => {
   }
 }
 
-export const showToast = async (text: string, duration?:'short' | 'long') => {
+export const showToast = async (text: string, duration?: 'short' | 'long') => {
   await Toast.show({
     text: text,
     position: 'center',
@@ -192,8 +192,14 @@ export const range = function (start: number, stop: number, step: number) {
 }
 
 
-export function extractContent(s:string) {
+export function extractContent(s: string) {
   var span = document.createElement('span');
   span.innerHTML = s;
   return span.textContent || span.innerText;
 };
+
+export const timeConverterUnix = (date: string) => {
+  let pattern = /(\d{2})\.(\d{2})\.(\d{4})/;
+  let dateFormatChanged: any = new Date(date.replace(pattern, '$3-$2-$1'));
+  return Math.floor(Date.parse(dateFormatChanged) / 1000)
+}
