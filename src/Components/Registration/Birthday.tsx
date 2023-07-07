@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { FC, useState } from 'react'
 import {
   getItemsDays,
   getItemsMonth,
@@ -16,7 +16,11 @@ import {
 import Button, { typesButton } from '../../UI-Components/Button/Button'
 import { stageRegistration } from '../../utils/enums'
 
-export const Birthday = () => {
+interface IBirthday{
+  googleAuth?: boolean
+}
+
+export const Birthday:FC<IBirthday> = ({googleAuth = false}) => {
   const itemDays = getItemsDays()
   const itemMonths = getItemsMonth()
   const itemYears = getItemsYear(
@@ -83,13 +87,13 @@ export const Birthday = () => {
           </Picker>
         </MultiPicker>
       </div>
-      <Button
+   {!googleAuth&&   <Button
         customClass='registration__button'
         view={typesButton.white}
         onClick={() => dispatch(setStage(stageRegistration.gender))}
       >
         Далее
-      </Button>
+      </Button>}
     </>
   )
 }

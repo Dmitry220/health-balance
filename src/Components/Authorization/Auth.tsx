@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import logo from '../../assets/image/Logo.svg'
 import {
   ACCESS_RECOVERY__ROUTE,
+  AUTH_GOOFLE_ROUTE,
   REGISTRATION_ROUTE,
   START_ROUTE
 } from '../../provider/constants-route'
@@ -12,10 +13,11 @@ import { resetFieldRegistration, setAuth } from '../../Redux/slice/authSlice'
 import { Device } from '@capacitor/device'
 import { Capacitor } from '@capacitor/core'
 import OneSignal from 'onesignal-cordova-plugin'
-import { useLoginMutation } from '../../services/AuthService'
+import { useLoginMutation, useSignInWithGoogleMutation } from '../../services/AuthService'
 import { showToast } from '../../utils/common-functions'
+import googleIcon from '../../assets/image/auth/googleIcon.svg'
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth'
-import google from '../../assets/image/syncing/google.svg'
+import { Preloader } from '../Preloader/Preloader'
 
 
 export const Auth = () => {
@@ -23,6 +25,8 @@ export const Auth = () => {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [submitLogin, { isLoading, error }] = useLoginMutation()
+  const [signInWithGoogle, { isLoading: isLoadingGoogle, error: errorGoogle }] = useSignInWithGoogleMutation()
+
   let navigate = useNavigate()
 
   const handlerLogin = (e: ChangeEvent<HTMLInputElement>) =>
@@ -83,19 +87,53 @@ export const Auth = () => {
     }
   }
 
-  const googleAuth = async () => {
-    const response = await GoogleAuth.signIn();
-    console.log(response);
-    
+  const googleAuth = async () => {		
+
+		const timezone = -new Date().getTimezoneOffset() / 60
+		const uuid = await Device.getId()
+		const device_token = uuid.uuid
+		const response = await GoogleAuth.signIn();
+
+		await signInWithGoogle({
+			timezone: timezone,
+			access_token: response.authentication.accessToken,
+			server_code: response.serverAuthCode,
+			google_token: response.authentication.idToken,
+			device_token: device_token
+		})
+			.unwrap()
+			.then(async (response) => {
+				await showToast(`Вы успешно авторизированы`)
+				localStorage.setItem('token', response.data.token)
+				localStorage.setItem('id', response.data.id + '')
+				dispatch(setAuth())
+				dispatch(resetFieldRegistration())
+				OneSignalInit()
+				navigate(START_ROUTE)
+			})
+			.catch(async (err) => {
+        if(err.data?.errors['google.reg']){         
+          await showToast(err.data?.errors['google.reg'])
+        }
+        if(err.data?.errors['google.auth']){        
+          await showToast(err.data?.errors['google.auth'])
+        }
+        navigate(AUTH_GOOFLE_ROUTE)
+			})
+	}
+
+  useEffect(() => {
+		GoogleAuth.initialize({
+			clientId: '892578456296-nmrjb7m8pn1f109psnaoff2q2es6s19f.apps.googleusercontent.com',
+			scopes: ['profile', 'email'],
+			//grantOfflineAccess: true,
+		});
+	}, [])
+
+  if(isLoadingGoogle){
+    return <Preloader />
   }
 
-  useEffect(()=>{
-    GoogleAuth.initialize({
-      clientId: '892578456296-nmrjb7m8pn1f109psnaoff2q2es6s19f.apps.googleusercontent.com',
-      scopes: ['profile', 'email'],
-      grantOfflineAccess: true,
-    });
-  }, [])
 
   return (
     <form className={'auth'} onSubmit={submit}>
@@ -136,16 +174,15 @@ export const Auth = () => {
                 'Войти'
               )}
             </button>
-            <button className='form-auth__button button-google-fit' onClick={googleAuth} type='button'>
-            <img
-              className='button-google-fit__logo'
-              src={google}
-              alt='google'
-            />
-            <div className='button-google-fit__title'>
-             Sign in with Google
-            </div>
-            </button>
+            {Capacitor.getPlatform() != 'ios' && <button type='button' className='google-sign-in-button' onClick={googleAuth}>
+              Sign in with Google
+            </button>}
+            <br />
+            {Capacitor.getPlatform() != 'ios' && <Link to={AUTH_GOOFLE_ROUTE} className='form-auth__button transparent'>
+              <img src={googleIcon} alt='google' />
+             Регистрация через Google
+            </Link>}
+
           </div>
           <Link
             to={ACCESS_RECOVERY__ROUTE}

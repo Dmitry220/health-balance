@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios'
 import { $api,API_URL } from '../http'
-import { IAuthResponse, ILogin, ISubmitRegistration } from '../models/IAuth'
+import { IAuthResponse, ILogin, ISighnInWithGoogle, ISubmitRegistration } from '../models/IAuth'
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export default class AuthService {
   
@@ -58,6 +58,13 @@ export const authApi = createApi({
         method: 'POST',
         body: initialPost 
       }),
+    }),
+    signInWithGoogle: builder.mutation<IAuthResponse, Partial<ISighnInWithGoogle>>({
+      query: (initialPost ) => ({
+        url: `reg_by_google`,
+        method: 'POST',
+        body: initialPost 
+      }),
     })
   }),
 });
@@ -65,5 +72,6 @@ export const authApi = createApi({
 // Export hooks for usage in functional components
 export const {
 useRegistrationMutation,
-useLoginMutation
+useLoginMutation,
+useSignInWithGoogleMutation
 } = authApi;

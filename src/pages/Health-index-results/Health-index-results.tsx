@@ -16,6 +16,7 @@ import {
   isLoadingSelector
 } from '../../Redux/slice/healthIndexSlice'
 import { Preloader } from '../../Components/Preloader/Preloader'
+import { timeConverterUnix } from '../../utils/common-functions'
 
 export const HealthIndexResults = () => {
   const dynamics = useAppSelector(dynamicsSelector)
@@ -25,13 +26,13 @@ export const HealthIndexResults = () => {
   if (isLoading) {
     return <Preloader />
   }
+console.log((timeConverterUnix(new Date().toLocaleDateString())-lastDynamic.date)/(24*60*60));
 
   return (
     <div className={'health-index-results-page'}>
       <Navigation  />
       <HeaderTwo title={'Индексы здоровья'} marginBottom={42} />
-      {new Date(lastDynamic.date * 1000).getMonth() !==
-        new Date().getMonth() && (
+      {(timeConverterUnix(new Date().toLocaleDateString())-lastDynamic.date)/(24*60*60) >= 180.0 && (
         <div className='health-index-results-page__retesting'>
           <Retesting />
         </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { FC, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import {
   platformSelector,
@@ -12,8 +12,11 @@ import { useGetPlatfotmsQuery } from '../../services/PlatformService'
 import Button, { typesButton } from '../../UI-Components/Button/Button'
 import { stageRegistration } from '../../utils/enums'
 
+interface IPlatform {
+  googleAuth?: boolean
+}
 
-export const Platform = () => {
+export const Platform: FC<IPlatform> = ({ googleAuth = false }) => {
   const dispatch = useAppDispatch()
 
   const { data: listPLatforms, isError } = useGetPlatfotmsQuery()
@@ -62,45 +65,50 @@ export const Platform = () => {
               ))}
           </select>
         </div>
-        <hr className={'registration__line'} />
-        <div className='registration__necessarily'>Обязательно</div>
-        <div className='registration__confidentiality confidentiality-block'>
-          <div className='confidentiality-block__row custom-radio'>
-            <input
-              type='checkbox'
-              id={'agree'}
-              className={'custom-radio__checkbox'}
-              onChange={handlerAgree}
-            />
-            <label htmlFor={'agree'} className='confidentiality-block__text'>
-              Я принимаю Условия использования и Политику <br />
-              конфиденциальности HealthBalance
-            </label>
-          </div>
-          <a
-            href={`${DOC_URL}terms.pdf`}
-            className='confidentiality-block__text yellow'
-            target='_blank'
-            rel='noreferrer'
-          >
-            Условия использования
-          </a>
-          <a
-            href={`${DOC_URL}privacy.pdf`}
-            className='confidentiality-block__text yellow'
-            target='_blank'
-            rel='noreferrer'
-          >
-            Политика конфиденциальности
-          </a>
-        </div>
+        {!googleAuth &&
+          <>
+            <hr className={'registration__line'} />
+            <div className='registration__necessarily'>Обязательно</div>
+            <div className='registration__confidentiality confidentiality-block'>
+              <div className='confidentiality-block__row custom-radio'>
+                <input
+                  type='checkbox'
+                  id={'agree'}
+                  className={'custom-radio__checkbox'}
+                  onChange={handlerAgree}
+                />
+                <label htmlFor={'agree'} className='confidentiality-block__text'>
+                  Я принимаю Условия использования и Политику <br />
+                  конфиденциальности HealthBalance
+                </label>
+              </div>
+              <a
+                href={`${DOC_URL}terms.pdf`}
+                className='confidentiality-block__text yellow'
+                target='_blank'
+                rel='noreferrer'
+              >
+                Условия использования
+              </a>
+              <a
+                href={`${DOC_URL}privacy.pdf`}
+                className='confidentiality-block__text yellow'
+                target='_blank'
+                rel='noreferrer'
+              >
+                Политика конфиденциальности
+              </a>
+            </div>
+          </>
+        }
+
       </div>
-      <Button
+      {!googleAuth && <Button
         disabled={disable}
         customClass='registration__button'
         view={typesButton.white}
         onClick={nextStage}
-      >{typePlatfotm === 2 ? 'Далее' : 'Завершить регистрацию'}</Button>
+      >{typePlatfotm === 2 ? 'Далее' : 'Завершить регистрацию'}</Button>}
     </>
   )
 }

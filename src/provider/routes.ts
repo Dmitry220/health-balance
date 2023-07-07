@@ -43,7 +43,8 @@ import {
   DIALOG__ROUTE,
   INTERVIEW_PAGE,
   CREATING_LECTURE_ROUTE,
-  CONSULTATION_ROUTE
+  CONSULTATION_ROUTE,
+  AUTH_GOOFLE_ROUTE
 } from './constants-route'
 import { AuthPage } from '../pages/Authorization/Auth-page'
 import { StartPage } from '../pages/Start-pages/StartPage'
@@ -90,6 +91,7 @@ import { PersonalChat } from '../pages/Chat-page/Personal-chat'
 import { InterviewPage } from '../pages/Interview-page/Interview-page'
 import { CreatingLecture } from '../Components/Lecture/Creating-lecture'
 import { ConsultationPage } from '../pages/Consultation/Consultation-page'
+import { AuthorizationGoogle } from '../Components/AuthorizationGoogle/AuthorizationGoogle'
 
 export const publicRoutes = [
   {
@@ -103,6 +105,10 @@ export const publicRoutes = [
   {
     path: ACCESS_RECOVERY__ROUTE,
     Component: AccessRecoveryPage
+  },
+  {
+    path: AUTH_GOOFLE_ROUTE,
+    Component: AuthorizationGoogle
   }
 ]
 

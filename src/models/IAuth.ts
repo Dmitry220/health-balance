@@ -47,3 +47,15 @@ export interface ISubmitRegistration {
   timezone: number,
   platform_code: number
 }
+
+export interface ISighnInWithGoogle {
+  birthday: number,
+  google_token: string,
+  server_code: string,
+  platform: number,
+  timezone: number,
+  platform_code:number,
+  access_token: string,
+  device_token: string,
+  phone: string,
+}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import {
   setStage,
@@ -9,7 +9,12 @@ import InputMask from 'react-input-mask'
 import Button, { typesButton } from '../../UI-Components/Button/Button'
 import { stageRegistration } from '../../utils/enums'
 
-export const Telephone = () => {
+interface IPhone{
+  googleAuth?: boolean
+}
+
+
+export const Telephone:FC<IPhone> = ({googleAuth=false}) => {
   const telephone = useAppSelector(telephoneSelector)
   const dispatch = useAppDispatch()
   const [disable, setDisabled] = useState<boolean>(false)
@@ -41,12 +46,12 @@ export const Telephone = () => {
       onChange={validateTelephone}
       value={telephone}
     />
-    <Button
+   {!googleAuth && <Button
     disabled={disable}
     customClass='registration__button'
     view={typesButton.white}
     onClick={() => dispatch(setStage(stageRegistration.birthday))}
-  >Далее</Button>
+  >Далее</Button>}
   </>
   )
 }
