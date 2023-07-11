@@ -26,13 +26,14 @@ export const HealthIndexResults = () => {
   if (isLoading) {
     return <Preloader />
   }
-console.log((timeConverterUnix(new Date().toLocaleDateString())-lastDynamic.date)/(24*60*60));
 
   return (
     <div className={'health-index-results-page'}>
-      <Navigation  />
+      <Navigation />
       <HeaderTwo title={'Индексы здоровья'} marginBottom={42} />
-      {(timeConverterUnix(new Date().toLocaleDateString())-lastDynamic.date)/(24*60*60) >= 180.0 && (
+      {(timeConverterUnix(new Date().toLocaleDateString()) - lastDynamic.date) /
+        (24 * 60 * 60) >=
+        180.0 && (
         <div className='health-index-results-page__retesting'>
           <Retesting />
         </div>

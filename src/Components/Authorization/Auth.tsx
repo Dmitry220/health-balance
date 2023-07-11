@@ -13,19 +13,22 @@ import { resetFieldRegistration, setAuth } from '../../Redux/slice/authSlice'
 import { Device } from '@capacitor/device'
 import { Capacitor } from '@capacitor/core'
 import OneSignal from 'onesignal-cordova-plugin'
-import { useLoginMutation, useSignInWithGoogleMutation } from '../../services/AuthService'
+import {
+  useLoginMutation,
+  useSignInWithGoogleMutation
+} from '../../services/AuthService'
 import { showToast } from '../../utils/common-functions'
 import googleIcon from '../../assets/image/auth/googleIcon.svg'
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth'
 import { Preloader } from '../Preloader/Preloader'
-
 
 export const Auth = () => {
   const dispatch = useAppDispatch()
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [submitLogin, { isLoading, error }] = useLoginMutation()
-  const [signInWithGoogle, { isLoading: isLoadingGoogle, error: errorGoogle }] = useSignInWithGoogleMutation()
+  const [signInWithGoogle, { isLoading: isLoadingGoogle, error: errorGoogle }] =
+    useSignInWithGoogleMutation()
 
   let navigate = useNavigate()
 
@@ -36,30 +39,33 @@ export const Auth = () => {
     setPassword(e.target.value)
 
   const submit = async (e: any) => {
-
     e.preventDefault()
     const uuid = await Device.getId()
     const device_token = uuid.uuid
     const timezone = -new Date().getTimezoneOffset() / 60
 
     await submitLogin({
-      email:email.trim(),
+      email: email.trim(),
       password,
       device_token,
-      timezone,
+      timezone
     })
       .unwrap()
-      .then((response => {
+      .then((response) => {
         localStorage.setItem('token', response.data.token)
         localStorage.setItem('id', response.data.id + '')
         dispatch(setAuth())
         dispatch(resetFieldRegistration())
         OneSignalInit()
         navigate(START_ROUTE)
-      }))
+      })
       .catch(async (err) => {
         if (err.data?.errors?.email && err?.data?.errors?.password) {
-          await showToast(err?.data?.errors?.email.join('. ') + '. ' + err.data?.errors?.password.join('. '))
+          await showToast(
+            err?.data?.errors?.email.join('. ') +
+              '. ' +
+              err.data?.errors?.password.join('. ')
+          )
           return
         }
         if (err.data?.errors?.email) {
@@ -87,53 +93,52 @@ export const Auth = () => {
     }
   }
 
-  const googleAuth = async () => {		
+  const googleAuth = async () => {
+    const timezone = -new Date().getTimezoneOffset() / 60
+    const uuid = await Device.getId()
+    const device_token = uuid.uuid
+    const response = await GoogleAuth.signIn()
 
-		const timezone = -new Date().getTimezoneOffset() / 60
-		const uuid = await Device.getId()
-		const device_token = uuid.uuid
-		const response = await GoogleAuth.signIn();
-
-		await signInWithGoogle({
-			timezone: timezone,
-			access_token: response.authentication.accessToken,
-			server_code: response.serverAuthCode,
-			google_token: response.authentication.idToken,
-			device_token: device_token
-		})
-			.unwrap()
-			.then(async (response) => {
-				await showToast(`Вы успешно авторизированы`)
-				localStorage.setItem('token', response.data.token)
-				localStorage.setItem('id', response.data.id + '')
-				dispatch(setAuth())
-				dispatch(resetFieldRegistration())
-				OneSignalInit()
-				navigate(START_ROUTE)
-			})
-			.catch(async (err) => {
-        if(err.data?.errors['google.reg']){         
+    await signInWithGoogle({
+      timezone: timezone,
+      access_token: response.authentication.accessToken,
+      server_code: response.serverAuthCode,
+      google_token: response.authentication.idToken,
+      device_token: device_token
+    })
+      .unwrap()
+      .then(async (response) => {
+        await showToast(`Вы успешно авторизированы`)
+        localStorage.setItem('token', response.data.token)
+        localStorage.setItem('id', response.data.id + '')
+        dispatch(setAuth())
+        dispatch(resetFieldRegistration())
+        OneSignalInit()
+        navigate(START_ROUTE)
+      })
+      .catch(async (err) => {
+        if (err.data?.errors['google.reg']) {
           await showToast(err.data?.errors['google.reg'])
         }
-        if(err.data?.errors['google.auth']){        
+        if (err.data?.errors['google.auth']) {
           await showToast(err.data?.errors['google.auth'])
         }
         navigate(AUTH_GOOFLE_ROUTE)
-			})
-	}
-
-  useEffect(() => {
-		GoogleAuth.initialize({
-			clientId: '892578456296-nmrjb7m8pn1f109psnaoff2q2es6s19f.apps.googleusercontent.com',
-			scopes: ['profile', 'email'],
-			//grantOfflineAccess: true,
-		});
-	}, [])
-
-  if(isLoadingGoogle){
-    return <Preloader />
+      })
   }
 
+  useEffect(() => {
+    GoogleAuth.initialize({
+      clientId:
+        '892578456296-nmrjb7m8pn1f109psnaoff2q2es6s19f.apps.googleusercontent.com',
+      scopes: ['profile', 'email']
+      // grantOfflineAccess: true,
+    })
+  }, [])
+
+  if (isLoadingGoogle) {
+    return <Preloader />
+  }
 
   return (
     <form className={'auth'} onSubmit={submit}>
@@ -174,15 +179,25 @@ export const Auth = () => {
                 'Войти'
               )}
             </button>
-            {Capacitor.getPlatform() != 'ios' && <button type='button' className='google-sign-in-button' onClick={googleAuth}>
-              Sign in with Google
-            </button>}
+            {Capacitor.getPlatform() != 'ios' && (
+              <button
+                type='button'
+                className='google-sign-in-button'
+                onClick={googleAuth}
+              >
+                Sign in with Google
+              </button>
+            )}
             <br />
-            {Capacitor.getPlatform() != 'ios' && <Link to={AUTH_GOOFLE_ROUTE} className='form-auth__button transparent'>
-              <img src={googleIcon} alt='google' />
-             Регистрация через Google
-            </Link>}
-
+            {Capacitor.getPlatform() != 'ios' && (
+              <Link
+                to={AUTH_GOOFLE_ROUTE}
+                className='form-auth__button transparent'
+              >
+                <img src={googleIcon} alt='google' />
+                Регистрация через Google
+              </Link>
+            )}
           </div>
           <Link
             to={ACCESS_RECOVERY__ROUTE}

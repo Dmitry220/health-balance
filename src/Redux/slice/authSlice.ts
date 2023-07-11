@@ -4,7 +4,6 @@ import { IRegistration, IVisitPages } from '../../models/IAuth'
 import { stageRegistration } from '../../utils/enums'
 import { timeConverterUnix } from '../../utils/common-functions'
 
-
 export interface IAuth {
   stage: stageRegistration
   disabledButton?: boolean
@@ -26,7 +25,7 @@ const initialState: IAuth = {
     password: '',
     name: '',
     surname: '',
-    birthday:timeConverterUnix('15.07.'+(new Date().getFullYear() - 23)),
+    birthday: timeConverterUnix('15.07.' + (new Date().getFullYear() - 23)),
     gender: 1,
     platform: 0,
     privatePlatform: 0,
@@ -37,12 +36,11 @@ const initialState: IAuth = {
   }
 }
 
-
 export const authSlice = createSlice({
   name: 'auth',
   initialState: initialState,
   reducers: {
-    setStage:(state, action) => {
+    setStage: (state, action) => {
       state.stage = action.payload
     },
     setEmail: (state, action) => {
@@ -72,7 +70,7 @@ export const authSlice = createSlice({
     setCodePlatform: (state, action) => {
       state.dataRegistration!.privatePlatform = action.payload
     },
-    setTypePlatform:(state, action)=>{
+    setTypePlatform: (state, action) => {
       state.dataRegistration.typePlatform = action.payload
     },
     setAvatarRegistartion: (state, action) => {
@@ -96,7 +94,7 @@ export const authSlice = createSlice({
         birthday: 1029528000,
         gender: 1,
         platform: 0,
-        typePlatform:1,
+        typePlatform: 1,
         avatar: '',
         device_token: '',
         timezone: -new Date().getTimezoneOffset() / 60
@@ -156,13 +154,13 @@ export const genderSelector = (state: RootState) =>
   state.auth.dataRegistration!.gender
 export const platformSelector = (state: RootState) =>
   state.auth.dataRegistration!.platform
-  export const privatePlatformSelector = (state: RootState) =>
+export const privatePlatformSelector = (state: RootState) =>
   state.auth.dataRegistration!.privatePlatform
-  export const typePlatformSelector = (state: RootState) =>
+export const typePlatformSelector = (state: RootState) =>
   state.auth.dataRegistration!.typePlatform
 export const avatarSelector = (state: RootState) =>
   state.auth.dataRegistration!.avatar
-  export const dataRegistrationSelector = (state: RootState) =>
+export const dataRegistrationSelector = (state: RootState) =>
   state.auth.dataRegistration
 export const isAuthSelector = (state: RootState) => state.auth.isAuth
 export const isLoadingSelector = (state: RootState) => state.auth.isLoading
