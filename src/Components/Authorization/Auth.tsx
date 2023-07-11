@@ -43,7 +43,7 @@ export const Auth = () => {
     const timezone = -new Date().getTimezoneOffset() / 60
 
     await submitLogin({
-      email,
+      email:email.trim(),
       password,
       device_token,
       timezone,
