@@ -151,9 +151,6 @@ export const Questionnaire = () => {
     )
   }
 
-console.log(answers);
-
-
   return (
     <div className='questionnaire-page'>
       {
