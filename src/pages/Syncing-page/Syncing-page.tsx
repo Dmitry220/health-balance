@@ -10,9 +10,11 @@ import {
 import { useState } from 'react'
 import { ModalFit } from '../../Components/Modals/Modal-fit'
 import Pedometer from '../../plugins/pedometer'
+import { currentStepsCountSelector } from '../../Redux/slice/appSlice'
 
 export const SyncingPage = () => {
   const isGoogleFit = useAppSelector(isGoogleFitSelector)
+  const steps = useAppSelector(currentStepsCountSelector)
   const dispatch = useAppDispatch()
 
   const [activeModal, setActiveModal] = useState<boolean>(false)
@@ -20,11 +22,12 @@ export const SyncingPage = () => {
   const toggleGoogleFit = async () => {
     if (isGoogleFit === 1) {
       setActiveModal(true)
-      dispatch(setGoogleFit(2))
-      await Pedometer.reset()
-      await Pedometer.stop()
     } else {
       dispatch(setGoogleFit(1))
+      await Pedometer.setData({
+        numberOfSteps: steps || 0,
+        token: localStorage.getItem('token')
+      })
       await Pedometer.start({ token: localStorage.getItem('token') })
     }
   }
