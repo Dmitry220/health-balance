@@ -4,4 +4,5 @@
     <string name="title_activity_main">HealthBalance</string>
     <string name="package_name">com.academia.health</string>
     <string name="custom_url_scheme">com.academia.health</string>
+    <string name="server_client_id">892578456296-nmrjb7m8pn1f109psnaoff2q2es6s19f.apps.googleusercontent.com</string>
 </resources>

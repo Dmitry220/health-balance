@@ -2,11 +2,33 @@ import { FC } from 'react'
 
 interface ICardIndex {
   value: number
-  title: string
+  title: string,
+  tag: string
 }
 
-export const CardIndex: FC<ICardIndex> = ({ title, value }) => {
+export const CardIndex: FC<ICardIndex> = ({ title, value, tag }) => {
+
+  const calculateBodyMassIndex = (value: number): string[] => {
+    if (value > 30) {
+      return ['Ожирение', 'Критично']
+    }
+    if (value > 25 && value <= 30) {
+      return ['Избыток', 'Есть рсики']
+    }
+    if (value > 18.5 && value <= 25) {
+      return ['Норма', 'Рисков нет']
+    }
+    if (value > 16 && value <= 18.5) {
+      return ['Недостаточная (дефицит) масса тела', 'Есть рсики']
+    }
+    return ['Дефицит', 'Критично']
+  }
+
+
   const definitionRisk = (value: number) => {
+    if (tag === 'body_mass_index') {
+      return calculateBodyMassIndex(value)[0]
+    }
     switch (value) {
       case 0:
         return 'Не посчитано'
@@ -22,6 +44,9 @@ export const CardIndex: FC<ICardIndex> = ({ title, value }) => {
   }
 
   const hintRisk = (value: number) => {
+    if (tag === 'body_mass_index') {
+      return calculateBodyMassIndex(value)[1]
+    }
     switch (value) {
       case 0:
         return 'Не посчитано'
@@ -31,8 +56,18 @@ export const CardIndex: FC<ICardIndex> = ({ title, value }) => {
         return 'Есть рсики'
       case 3:
         return 'Критично!'
-      default:
-        return value < 18 ? 'Дефицит' : value < 25 ? 'Рисков нет' : 'Ожирение'
+    }   
+  }
+
+  const asd = () => {
+    if(calculateBodyMassIndex(value)[1]==='Рисков нет' || value===1){
+      return 1
+    }
+    if(calculateBodyMassIndex(value)[1]==='Есть рсики' || value===2){
+      return 2
+    }
+    if(calculateBodyMassIndex(value)[1]==='Критично' || value===3){
+      return 3
     }
   }
 
@@ -40,14 +75,8 @@ export const CardIndex: FC<ICardIndex> = ({ title, value }) => {
     <div
       className={
         'card-index ' +
-        'card-index' +
-        (value <= 3
-          ? '_' + value
-          : value < 18
-          ? '_' + 2
-          : value < 25
-          ? '_' + 1
-          : '_' + 3)
+        'card-index_' +
+        asd()
       }
     >
       <div className='card-index__head'>
@@ -60,10 +89,10 @@ export const CardIndex: FC<ICardIndex> = ({ title, value }) => {
           (value <= 3
             ? '_' + value
             : value < 18
-            ? '_' + 2
-            : value < 25
-            ? '_' + 1
-            : '_' + 3)
+              ? '_' + 2
+              : value < 25
+                ? '_' + 1
+                : '_' + 3)
         }
       >
         {definitionRisk(value)}

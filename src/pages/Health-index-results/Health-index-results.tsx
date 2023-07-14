@@ -49,24 +49,28 @@ export const HealthIndexResults = () => {
           <CardIndex
             title={'Уровень глюкозы в крови'}
             value={lastDynamic?.glucose_risk}
+            tag='glucose_risk'
           />
         </div>
         <div className='health-index-results-page__index-item'>
           <CardIndex
             title='Индексмассы тела'
             value={lastDynamic?.body_mass_index}
+            tag='body_mass_index'
           />
         </div>
         <div className='health-index-results-page__index-item'>
           <CardIndex
             title={'Физическая активность'}
             value={lastDynamic?.physical_activity}
+            tag='physical_activity'
           />
         </div>
         <div className='health-index-results-page__index-item'>
           <CardIndex
             title='Правильное питание'
             value={lastDynamic?.nutrition_risk}
+            tag='nutrition_risk'
           />
         </div>
       </div>
@@ -99,6 +103,7 @@ export const HealthIndexResults = () => {
           <CardDisease
             title='Сердечно-сосудистые'
             risk={lastDynamic?.cardio_risk}
+            tag='cardio_risk'
           />
         </div>
         <div className='health-index-results-page__disease-item'>

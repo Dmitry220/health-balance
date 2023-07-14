@@ -22,6 +22,7 @@ import OneSignal from 'onesignal-cordova-plugin'
 import { Device } from '@capacitor/device'
 import { Telephone } from '../Registration/Telephone'
 import { Preloader } from '../Preloader/Preloader'
+import { WEB_CLIENT_ID } from '../../utils/globalConstants'
 
 export const AuthorizationGoogle = () => {
   const navigate = useNavigate()
@@ -81,8 +82,7 @@ export const AuthorizationGoogle = () => {
 
   useEffect(() => {
     GoogleAuth.initialize({
-      clientId:
-        '892578456296-nmrjb7m8pn1f109psnaoff2q2es6s19f.apps.googleusercontent.com',
+      clientId: WEB_CLIENT_ID,
       scopes: ['profile', 'email']
     })
   }, [])

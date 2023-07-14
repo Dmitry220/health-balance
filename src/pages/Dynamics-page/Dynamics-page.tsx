@@ -365,7 +365,7 @@ export const DynamicsPage = () => {
               <CardIndex
                 title={'Уровень глюкозы в крови'}
                 value={lastDynamic?.glucose_risk}
-              />
+                tag={'glucose_risk'} />
             }
           </div>
         )}
@@ -373,8 +373,9 @@ export const DynamicsPage = () => {
           <div className='dynamics-page__index-item'>
             {
               <CardIndex
-                title='Индексмассы тела'
+                title='Индекс массы тела'
                 value={lastDynamic?.body_mass_index}
+                tag='body_mass_index'
               />
             }
           </div>
@@ -385,6 +386,7 @@ export const DynamicsPage = () => {
               <CardIndex
                 title={'Физическая активность'}
                 value={lastDynamic?.physical_activity}
+                tag='physical_activity'
               />
             }
           </div>
@@ -395,6 +397,7 @@ export const DynamicsPage = () => {
               <CardIndex
                 title='Правильное питание'
                 value={lastDynamic?.nutrition_risk}
+                tag='nutrition_risk'
               />
             }
           </div>

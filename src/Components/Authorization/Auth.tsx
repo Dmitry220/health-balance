@@ -21,6 +21,7 @@ import { showToast } from '../../utils/common-functions'
 import googleIcon from '../../assets/image/auth/googleIcon.svg'
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth'
 import { Preloader } from '../Preloader/Preloader'
+import { WEB_CLIENT_ID } from '../../utils/globalConstants'
 
 export const Auth = () => {
   const dispatch = useAppDispatch()
@@ -63,8 +64,8 @@ export const Auth = () => {
         if (err.data?.errors?.email && err?.data?.errors?.password) {
           await showToast(
             err?.data?.errors?.email.join('. ') +
-              '. ' +
-              err.data?.errors?.password.join('. ')
+            '. ' +
+            err.data?.errors?.password.join('. ')
           )
           return
         }
@@ -94,43 +95,51 @@ export const Auth = () => {
   }
 
   const googleAuth = async () => {
-    const timezone = -new Date().getTimezoneOffset() / 60
-    const uuid = await Device.getId()
-    const device_token = uuid.uuid
-    const response = await GoogleAuth.signIn()
+    try {
+      const timezone = -new Date().getTimezoneOffset() / 60
+      const uuid = await Device.getId()
+      const device_token = uuid.uuid
 
-    await signInWithGoogle({
-      timezone: timezone,
-      access_token: response.authentication.accessToken,
-      server_code: response.serverAuthCode,
-      google_token: response.authentication.idToken,
-      device_token: device_token
-    })
-      .unwrap()
-      .then(async (response) => {
-        await showToast(`Вы успешно авторизированы`)
-        localStorage.setItem('token', response.data.token)
-        localStorage.setItem('id', response.data.id + '')
-        dispatch(setAuth())
-        dispatch(resetFieldRegistration())
-        OneSignalInit()
-        navigate(START_ROUTE)
+      const response = await GoogleAuth.signIn()
+      console.log('googleTokenn ', JSON.stringify(response));
+
+
+
+      await signInWithGoogle({
+        timezone: timezone,
+        access_token: response.authentication.accessToken,
+        server_code: response.serverAuthCode,
+        google_token: response.authentication.idToken,
+        device_token: device_token
       })
-      .catch(async (err) => {
-        if (err.data?.errors['google.reg']) {
-          await showToast(err.data?.errors['google.reg'])
-        }
-        if (err.data?.errors['google.auth']) {
-          await showToast(err.data?.errors['google.auth'])
-        }
-        navigate(AUTH_GOOFLE_ROUTE)
-      })
+        .unwrap()
+        .then(async (response) => {
+          localStorage.setItem('token', response.data.token)
+          localStorage.setItem('id', response.data.id + '')
+          dispatch(setAuth())
+          dispatch(resetFieldRegistration())
+          OneSignalInit()
+          navigate(START_ROUTE)
+          await showToast(`Вы успешно авторизированы`)
+        })
+        .catch(async (err) => {
+          if (err.data?.errors['google.reg']) {
+            await showToast(err.data?.errors['google.reg'])
+          }
+          if (err.data?.errors['google.auth']) {
+            await showToast(err.data?.errors['google.auth'])
+          }
+          navigate(AUTH_GOOFLE_ROUTE)
+        })
+    } catch (error) {
+      await showToast(JSON.stringify(error))
+    }
+
   }
 
   useEffect(() => {
     GoogleAuth.initialize({
-      clientId:
-        '892578456296-nmrjb7m8pn1f109psnaoff2q2es6s19f.apps.googleusercontent.com',
+      clientId: WEB_CLIENT_ID,
       scopes: ['profile', 'email']
       // grantOfflineAccess: true,
     })
@@ -160,7 +169,7 @@ export const Auth = () => {
               type='password'
               spellCheck={false}
               className='form-auth__field'
-              placeholder={'Пароль'}
+              placeholder={'Пароль!'}
               value={password}
               onChange={handlerPassword}
             />
