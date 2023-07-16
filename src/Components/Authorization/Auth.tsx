@@ -21,7 +21,7 @@ import { showToast } from '../../utils/common-functions'
 import googleIcon from '../../assets/image/auth/googleIcon.svg'
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth'
 import { Preloader } from '../Preloader/Preloader'
-import { WEB_CLIENT_ID } from '../../utils/globalConstants'
+
 
 export const Auth = () => {
   const dispatch = useAppDispatch()
@@ -132,17 +132,13 @@ export const Auth = () => {
           navigate(AUTH_GOOFLE_ROUTE)
         })
     } catch (error) {
-      await showToast(JSON.stringify(error))
+      console.log(error);      
     }
 
   }
 
   useEffect(() => {
-    GoogleAuth.initialize({
-      clientId: WEB_CLIENT_ID,
-      scopes: ['profile', 'email']
-      // grantOfflineAccess: true,
-    })
+    GoogleAuth.initialize()
   }, [])
 
   if (isLoadingGoogle) {
@@ -169,7 +165,7 @@ export const Auth = () => {
               type='password'
               spellCheck={false}
               className='form-auth__field'
-              placeholder={'Пароль!'}
+              placeholder={'Пароль'}
               value={password}
               onChange={handlerPassword}
             />
