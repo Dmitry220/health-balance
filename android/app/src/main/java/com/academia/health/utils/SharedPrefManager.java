@@ -17,6 +17,7 @@ public class SharedPrefManager {
     //    private static final String STE_COUNT_KEY = "last_step_count_data_key";
     private static final String BATTERY_OPTIMIZATION_DISABLED = "battery_opt_disabled";
     private static final String TOKEN = "steps_token"; // Caution: easy to get access to this token
+    private static final String LOGGED_IN = "is_logged_in";
 
     private final Context context;
 
@@ -114,6 +115,18 @@ public class SharedPrefManager {
     }
 
     public boolean isBatteryOptDisAsked() {
+        SharedPreferences settings = context.getSharedPreferences("prefs", 0);
+        return settings.getBoolean(BATTERY_OPTIMIZATION_DISABLED, false);
+    }
+
+    public void setLoggedIn(boolean value) {
+        SharedPreferences settings = context.getSharedPreferences("prefs", 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putBoolean(LOGGED_IN, value);
+        editor.apply();
+    }
+
+    public boolean isLoggedIn() {
         SharedPreferences settings = context.getSharedPreferences("prefs", 0);
         return settings.getBoolean(BATTERY_OPTIMIZATION_DISABLED, false);
     }

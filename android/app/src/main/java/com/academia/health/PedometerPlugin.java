@@ -135,6 +135,7 @@ public class PedometerPlugin extends Plugin {
     @PluginMethod
     public void start(PluginCall call) {
         sharedPrefManager.setToken(call.getString("token"));
+        sharedPrefManager.setLoggedIn(true);
         isStartInvoked = true;
         askBatteryOptPermission();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -144,6 +145,7 @@ public class PedometerPlugin extends Plugin {
 
     @PluginMethod
     public void stop(PluginCall call) {
+        sharedPrefManager.setLoggedIn(false);
         plugin.stop();
         ForegroundService.stopService(getContext());
         call.resolve();

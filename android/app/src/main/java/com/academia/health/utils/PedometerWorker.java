@@ -20,8 +20,12 @@ public class PedometerWorker extends Worker {
     @Override
     public Result doWork() {
         SharedPrefManager manager = new SharedPrefManager(context);
-        ForegroundService.startService(context, manager.getLastNumberOfSteps()+"");
-        return Result.success();
+        if (manager.isLoggedIn()) {
+            ForegroundService.startService(context, manager.getLastNumberOfSteps()+"");
+            return Result.success();
+        } else {
+            return Result.failure();
+        }
     }
 
     @Override

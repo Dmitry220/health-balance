@@ -26,6 +26,7 @@ import com.academia.health.utils.DateHelper;
 import com.academia.health.utils.DayChangedBroadcastReceiver;
 import com.academia.health.utils.PedometerWorker;
 import com.academia.health.utils.SharedPrefManager;
+import com.academia.health.workers.RestartBroadcastReceiver;
 
 import org.json.JSONException;
 
@@ -36,7 +37,6 @@ public class ForegroundService extends Service {
     private static final int FOREGROUND_ID = 945;
 
     private static NotificationManager notificationManager;
-    private static Context mContext;
 
     PedometerPluginImpl plugin;
     private final DayChangedBroadcastReceiver m_timeChangedReceiver =
@@ -47,8 +47,6 @@ public class ForegroundService extends Service {
                     plugin.reset();
                 }
             };
-
-    private PowerManager.WakeLock wakeLock;
     private final String TAG = ForegroundService.class.toString();
 
     private static Boolean isServiceRunning = false;
@@ -65,7 +63,7 @@ public class ForegroundService extends Service {
         isServiceRunning = true;
 
         stepDao = App.get().getStepDao();
-        mContext = this;
+
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         sharedPrefManager = new SharedPrefManager(this);
 
@@ -87,7 +85,7 @@ public class ForegroundService extends Service {
             }
 
             sharedPrefManager.save(String.valueOf(data));
-            updateContent(String.valueOf(steps));
+            updateContent(this, String.valueOf(steps));
 
             String currentDate2 = DateHelper.normalDateFormat.format(new Date());
 
@@ -111,7 +109,7 @@ public class ForegroundService extends Service {
         }
 
         if (isServiceRunning) {
-            updateContent(message);
+            updateContent(context, message);
             return;
         }
 
@@ -133,7 +131,7 @@ public class ForegroundService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         initializePedometer();
-        startWakeLock();
+
         String input = String.valueOf(sharedPrefManager.getLastNumberOfSteps());
         if (intent != null) {
             input = intent.getStringExtra(INTENT_KEY);
@@ -173,17 +171,13 @@ public class ForegroundService extends Service {
         }
     }
 
-    private static void updateContent(String message) {
-        if (mContext == null) {
-            return;
-        }
-
-        PendingIntent pendingIntent = PendingIntent.getActivity(mContext,
-                0, new Intent(mContext, MainActivity.class),
+    private static void updateContent(Context context, String message) {
+        PendingIntent pendingIntent = PendingIntent.getActivity(context,
+                0, new Intent(context, MainActivity.class),
                 PendingIntent.FLAG_IMMUTABLE);
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            Notification.Builder notificationBuilder = new Notification.Builder(mContext, CHANNEL_ID)
+            Notification.Builder notificationBuilder = new Notification.Builder(context, CHANNEL_ID)
                     .setContentTitle("Пройдено шагов сегодня: ")
                     .setContentText(message)
                     .setSmallIcon(R.drawable.ic_baseline_directions_walk_24)
@@ -197,32 +191,15 @@ public class ForegroundService extends Service {
         }
     }
 
-    private void startWakeLock() {
-        PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
-        wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG);
-        // you must acquire a wake lock in order to keep the service going
-        // android studio will complain that it does not like the wake lock not to have an ending time
-        // but that is exactly what we need a permanent wake lock - we are implementing a never
-        // ending service!
-        if (wakeLock != null) {
-            wakeLock.acquire();
-        }
-    }
-
     @Override
     public void onDestroy() {
-        stopForeground(true);
         isServiceRunning = false;
-        mContext = null;
-        // call MyReceiver which will restart this service via a worker
-        Intent broadcastIntent = new Intent(this, PedometerWorker.class);
-        sendBroadcast(broadcastIntent);
 
         super.onDestroy();
+        Log.i(TAG, "onDestroy: Service is destroyed :( ");
+        Intent broadcastIntent = new Intent(this, RestartBroadcastReceiver.class);
+        sendBroadcast(broadcastIntent);
         unregisterReceiver(m_timeChangedReceiver);
-        if (wakeLock != null) {
-            wakeLock.release();
-        }
     }
 
     @Nullable

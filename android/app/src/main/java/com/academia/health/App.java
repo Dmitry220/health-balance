@@ -9,6 +9,7 @@ import com.academia.health.db.StepDatabase;
 import com.academia.health.db.dao.StepDao;
 import com.academia.health.utils.AppExecutors;
 import com.academia.health.utils.SharedPrefManager;
+import com.academia.health.workers.RestartBroadcastReceiver;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -48,6 +49,7 @@ public class App extends Application {
         mStepDao = StepDatabase.getDatabase(getApplicationContext()).stepDao();
         sharedPrefManager = new SharedPrefManager(this);
 
+        RestartBroadcastReceiver.scheduleJob(getApplicationContext());
     }
 
     public StepService getStepService() {

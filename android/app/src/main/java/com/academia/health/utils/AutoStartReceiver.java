@@ -11,6 +11,8 @@ public class AutoStartReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         SharedPrefManager manager = new SharedPrefManager(context);
         String message = manager.getLastNumberOfSteps()+"";
-        ForegroundService.startService(context, message);
+        if (manager.isLoggedIn()) {
+            ForegroundService.startService(context, message);
+        }
     }
 }

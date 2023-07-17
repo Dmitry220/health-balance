@@ -118,9 +118,24 @@ public class PedometerPluginImpl implements SensorEventListener {
                         "Device sensor returned an error.");
             }
         } else {
-            this.setStatus(PedometerPluginImpl.ERROR_NO_SENSOR_FOUND);
-            this.fail(PedometerPluginImpl.ERROR_NO_SENSOR_FOUND,
-                    "No sensors found to register step counter listening to.");
+
+            Sensor stepDetector = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
+            if (stepDetector != null) {
+                if (this.sensorManager.registerListener(this, stepDetector,
+                        SensorManager.SENSOR_DELAY_FASTEST)) {
+                    this.setStatus(PedometerPluginImpl.STARTING);
+                } else {
+                    this.setStatus(PedometerPluginImpl.ERROR_FAILED_TO_START);
+                    this.fail(PedometerPluginImpl.ERROR_FAILED_TO_START,
+                            "Device sensor returned an error.");
+                }
+
+            } else {
+                this.setStatus(PedometerPluginImpl.ERROR_NO_SENSOR_FOUND);
+                this.fail(PedometerPluginImpl.ERROR_NO_SENSOR_FOUND,
+                        "No sensors found to register step counter listening to.");
+            }
+
         }
 
         Constraints constraints = new Constraints.Builder()
