@@ -10,18 +10,18 @@ export const CardIndex: FC<ICardIndex> = ({ title, value, tag }) => {
 
   const calculateBodyMassIndex = (value: number): string[] => {
     if (value > 30) {
-      return ['Ожирение', 'Критично']
+      return [value.toString(), 'Критично']
     }
     if (value > 25 && value <= 30) {
-      return ['Избыток', 'Есть рсики']
+      return [value.toString(), 'Есть рсики']
     }
     if (value > 18.5 && value <= 25) {
-      return ['Норма', 'Рисков нет']
+      return [value.toString(), 'Рисков нет']
     }
     if (value > 16 && value <= 18.5) {
-      return ['Недостаточная (дефицит) масса тела', 'Есть рсики']
+      return [value.toString(), 'Есть рсики']
     }
-    return ['Дефицит', 'Критично']
+    return [value.toString(), 'Критично']
   }
 
 
@@ -35,7 +35,7 @@ export const CardIndex: FC<ICardIndex> = ({ title, value, tag }) => {
       case 1:
         return 'Все в порядке'
       case 2:
-        return 'Средне'
+        return 'Средний показатель'
       case 3:
         return 'Опасное для здоровья'
       default:

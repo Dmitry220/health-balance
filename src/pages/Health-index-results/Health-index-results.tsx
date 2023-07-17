@@ -42,7 +42,7 @@ export const HealthIndexResults = () => {
         <CardBiologyAge age={lastDynamic?.biological_age} />
       </div>
       <div className='health-index-results-page__title title-17'>
-        Показатели вне нормы
+        Показатели
       </div>
       <div className='health-index-results-page__index'>
         <div className='health-index-results-page__index-item'>
@@ -107,7 +107,7 @@ export const HealthIndexResults = () => {
           />
         </div>
         <div className='health-index-results-page__disease-item'>
-          <CardDisease title='Хронический' risk={lastDynamic?.chronic_risk} />
+          <CardDisease title='Хронические заболевания' risk={lastDynamic?.chronic_risk} />
         </div>
         <div className='health-index-results-page__disease-item'>
           <CardDisease

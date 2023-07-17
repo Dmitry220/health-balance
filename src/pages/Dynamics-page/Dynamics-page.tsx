@@ -359,7 +359,7 @@ export const DynamicsPage = () => {
       <Header title={'Динамика'} />
       <div className='dynamics-page__title title-17'>Показатели вне нормы</div>
       <div className='dynamics-page__index'>
-        {lastDynamic?.glucose_risk === 3 && (
+        {(lastDynamic?.glucose_risk === 3 || lastDynamic?.glucose_risk === 2) && (
           <div className='dynamics-page__index-item'>
             {
               <CardIndex
@@ -369,7 +369,7 @@ export const DynamicsPage = () => {
             }
           </div>
         )}
-        {lastDynamic?.body_mass_index > 25 && (
+        {(lastDynamic?.body_mass_index > 30 || lastDynamic?.body_mass_index < 16) && (
           <div className='dynamics-page__index-item'>
             {
               <CardIndex
@@ -380,7 +380,7 @@ export const DynamicsPage = () => {
             }
           </div>
         )}
-        {lastDynamic?.physical_activity === 3 && (
+        {(lastDynamic?.physical_activity === 3 || lastDynamic?.physical_activity === 2) && (
           <div className='dynamics-page__index-item'>
             {
               <CardIndex
@@ -391,7 +391,7 @@ export const DynamicsPage = () => {
             }
           </div>
         )}
-        {lastDynamic?.nutrition_risk === 3 && (
+        {(lastDynamic?.nutrition_risk === 3 || lastDynamic?.nutrition_risk === 2) && (
           <div className='dynamics-page__index-item'>
             {
               <CardIndex
