@@ -76,7 +76,7 @@ export const Questionnaire = () => {
       dispatch(
         addIndexPageAnswer({
           [questionnaire[progressPoll]?.questions[indexQuestion - 1].id + 1]:
-            null
+            1
         })
       )
       setIndexQuestion((prev) => prev + 1)
@@ -96,17 +96,41 @@ export const Questionnaire = () => {
       dispatch(
         addIndexPageAnswer({
           [questionnaire[progressPoll]?.questions[indexQuestion - 1].id + 1]:
-            null
+            0
         })
       )
       dispatch(
         addIndexPageAnswer({
           [questionnaire[progressPoll]?.questions[indexQuestion - 1].id + 2]:
-            null
+            0
         })
       )
       setIndexQuestion((prev) => prev + 2)
     }
+    //проверка ответов на алкоголь
+    if (
+      questionnaire[progressPoll]?.questions[indexQuestion - 1]?.tag ===
+        'alcohol_use' &&
+      indexQuestion === 1 &&
+      (answers[0][
+        questionnaire[progressPoll]?.questions[indexQuestion - 1].id
+      ] === 1)
+    ) {
+      dispatch(
+        addIndexPageAnswer({
+          [questionnaire[progressPoll]?.questions[indexQuestion - 1].id + 1]:
+            1
+        })
+      )
+      dispatch(
+        addIndexPageAnswer({
+          [questionnaire[progressPoll]?.questions[indexQuestion - 1].id + 2]:
+            1
+        })
+      )
+      setIndexQuestion((prev) => prev + 2)
+    }
+    
   }, [indexQuestion])
 
   const answerHandler = (answer: any) => {

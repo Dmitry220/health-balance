@@ -1,6 +1,9 @@
 import { Health } from '@awesome-cordova-plugins/health';
 import React, { Dispatch, FC, SetStateAction } from 'react';
 import "./modals.scss"
+import Pedometer from '../../plugins/pedometer';
+import { setGoogleFit } from '../../Redux/slice/settingsSlice';
+import { useAppDispatch } from '../../hooks/redux-hooks';
 
 interface IModalFit{
 	active: boolean, 
@@ -10,6 +13,8 @@ interface IModalFit{
 
 export const ModalFit:FC<IModalFit> = ({active, setActive, children}) => {
 
+	const dispatch = useAppDispatch()
+
 	const closeModal = () => {
 		setActive(false)
 		Health.isAvailable()
@@ -17,8 +22,10 @@ export const ModalFit:FC<IModalFit> = ({active, setActive, children}) => {
         if (available) {
           Health.requestAuthorization([{ read: ['steps'] }])
             .then(() => {
-              Health.promptInstallFit().then(() => {
-               
+              Health.promptInstallFit().then(async () => {
+					dispatch(setGoogleFit(2))
+					await Pedometer.reset()
+					await Pedometer.stop()
               })
             })
             .catch((error) => console.error(error))

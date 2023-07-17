@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react'
+import { ChangeEvent, FC, useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux-hooks'
 import {
 	privatePlatformSelector,
@@ -8,8 +8,12 @@ import {
 import Button, { typesButton } from '../../../UI-Components/Button/Button'
 import { stageRegistration } from '../../../utils/enums'
 
+interface IPrivatePlatform {
+	googleAuth?: boolean
+ }
+ 
 
-export const Privateplatform = () => {
+export const Privateplatform:FC<IPrivatePlatform> = ({googleAuth = false}) => {
 
 	const dispatch = useAppDispatch()
 	const codePlatform = useAppSelector(privatePlatformSelector)
@@ -38,12 +42,12 @@ export const Privateplatform = () => {
 					onChange={handlerCodePlatform}
 				/>
 			</div>
-			<Button
+			{!googleAuth && <Button
 				disabled={disable}
 				customClass='registration__button'
 				view={typesButton.white}
 				onClick={() => dispatch(setStage(stageRegistration.photo))}
-			>Завершить регистрацию</Button>
+			>Завершить регистрацию</Button>}
 		</>
 	)
 }

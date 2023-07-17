@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { FC, useState } from 'react'
 import {
   getItemsDays,
   getItemsMonth,
@@ -16,7 +16,11 @@ import {
 import Button, { typesButton } from '../../UI-Components/Button/Button'
 import { stageRegistration } from '../../utils/enums'
 
-export const Birthday = () => {
+interface IBirthday {
+  googleAuth?: boolean
+}
+
+export const Birthday: FC<IBirthday> = ({ googleAuth = false }) => {
   const itemDays = getItemsDays()
   const itemMonths = getItemsMonth()
   const itemYears = getItemsYear(
@@ -24,15 +28,17 @@ export const Birthday = () => {
     new Date().getFullYear() - 18
   )
   const dispatch = useAppDispatch()
-  const birhday = useAppSelector(birthdaySelector)
+  const birthday = useAppSelector(birthdaySelector)
 
   const [value, setValue] = useState(
-    new Date(birhday * 1000).toLocaleDateString().split('.')
+    new Date(birthday * 1000).toLocaleDateString().split('.')
   )
 
   const onChange = (value: any) => {
     setValue(value)
-    dispatch(setBirthday(timeConverterUnix(value[0] + '.' + value[1] + '.' + value[2])))    
+    dispatch(
+      setBirthday(timeConverterUnix(value[0] + '.' + value[1] + '.' + value[2]))
+    )
   }
 
   return (
@@ -83,13 +89,15 @@ export const Birthday = () => {
           </Picker>
         </MultiPicker>
       </div>
-      <Button
-        customClass='registration__button'
-        view={typesButton.white}
-        onClick={() => dispatch(setStage(stageRegistration.gender))}
-      >
-        Далее
-      </Button>
+      {!googleAuth && (
+        <Button
+          customClass='registration__button'
+          view={typesButton.white}
+          onClick={() => dispatch(setStage(stageRegistration.gender))}
+        >
+          Далее
+        </Button>
+      )}
     </>
   )
 }

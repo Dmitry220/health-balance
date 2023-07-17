@@ -16,6 +16,7 @@ import {
   isLoadingSelector
 } from '../../Redux/slice/healthIndexSlice'
 import { Preloader } from '../../Components/Preloader/Preloader'
+import { timeConverterUnix } from '../../utils/common-functions'
 
 export const HealthIndexResults = () => {
   const dynamics = useAppSelector(dynamicsSelector)
@@ -28,10 +29,11 @@ export const HealthIndexResults = () => {
 
   return (
     <div className={'health-index-results-page'}>
-      <Navigation  />
+      <Navigation />
       <HeaderTwo title={'Индексы здоровья'} marginBottom={42} />
-      {new Date(lastDynamic.date * 1000).getMonth() !==
-        new Date().getMonth() && (
+      {(timeConverterUnix(new Date().toLocaleDateString()) - lastDynamic.date) /
+        (24 * 60 * 60) >=
+        180.0 && (
         <div className='health-index-results-page__retesting'>
           <Retesting />
         </div>
@@ -40,31 +42,35 @@ export const HealthIndexResults = () => {
         <CardBiologyAge age={lastDynamic?.biological_age} />
       </div>
       <div className='health-index-results-page__title title-17'>
-        Показатели вне нормы
+        Показатели
       </div>
       <div className='health-index-results-page__index'>
         <div className='health-index-results-page__index-item'>
           <CardIndex
             title={'Уровень глюкозы в крови'}
             value={lastDynamic?.glucose_risk}
+            tag='glucose_risk'
           />
         </div>
         <div className='health-index-results-page__index-item'>
           <CardIndex
             title='Индексмассы тела'
             value={lastDynamic?.body_mass_index}
+            tag='body_mass_index'
           />
         </div>
         <div className='health-index-results-page__index-item'>
           <CardIndex
             title={'Физическая активность'}
             value={lastDynamic?.physical_activity}
+            tag='physical_activity'
           />
         </div>
         <div className='health-index-results-page__index-item'>
           <CardIndex
             title='Правильное питание'
             value={lastDynamic?.nutrition_risk}
+            tag='nutrition_risk'
           />
         </div>
       </div>
@@ -97,10 +103,11 @@ export const HealthIndexResults = () => {
           <CardDisease
             title='Сердечно-сосудистые'
             risk={lastDynamic?.cardio_risk}
+            tag='cardio_risk'
           />
         </div>
         <div className='health-index-results-page__disease-item'>
-          <CardDisease title='Хронический' risk={lastDynamic?.chronic_risk} />
+          <CardDisease title='Хронические заболевания' risk={lastDynamic?.chronic_risk} />
         </div>
         <div className='health-index-results-page__disease-item'>
           <CardDisease

@@ -48,7 +48,7 @@ export const Email = () => {
     setError(false)
     const value = e.target.value
     setDisabled(true)
-    dispatch(setEmail(value))
+    dispatch(setEmail(value.trim()))
   }
 
 

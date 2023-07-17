@@ -27,6 +27,7 @@ import TrackerService from '../../services/TrackerService'
 import { isGoogleFitSelector } from '../../Redux/slice/settingsSlice'
 import { Platform } from '../../Components/Platform/Platform'
 import { Footer } from '../../Components/Footer/Footer'
+import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth'
 
 export const Profile = () => {
   const dataUser = useAppSelector(dataUserSelector)
@@ -48,6 +49,7 @@ export const Profile = () => {
   }, [])
 
   const logout = async () => {
+    await GoogleAuth.signOut()
     if (Capacitor.getPlatform() === 'android' && isGoogleFit === 1) {
       await Pedometer.reset()
       await Pedometer.stop()

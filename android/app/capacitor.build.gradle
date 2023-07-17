@@ -16,6 +16,7 @@ dependencies {
     implementation project(':capacitor-device')
     implementation project(':capacitor-filesystem')
     implementation project(':capacitor-toast')
+    implementation project(':codetrix-studio-capacitor-google-auth')
     implementation project(':capacitor-plugin-safe-area')
     implementation "com.google.android.gms:play-services-fitness:16.0.1"
     implementation "com.onesignal:OneSignal:4.8.2"

@@ -1,16 +1,18 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import Header from '../../Components/Header/Header'
 import { RegistrationItem } from '../../Components/Registration/RegistrationItem'
 import { stageRegistration } from '../../utils/enums'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
-import { setStage, stageRegistrationSelector } from '../../Redux/slice/authSlice'
+import {
+  setStage,
+  stageRegistrationSelector
+} from '../../Redux/slice/authSlice'
 
 export const RegistrationPage = () => {
-
   const stage = useAppSelector(stageRegistrationSelector)
   const dispatch = useAppDispatch()
 
-  const titles:any = {
+  const titles: any = {
     [stageRegistration.email]: 'Какая  у вас почта?',
     [stageRegistration.password]: 'Придумайте пароль',
     [stageRegistration.phone]: 'Ваш телефон',
@@ -27,14 +29,10 @@ export const RegistrationPage = () => {
     dispatch(setStage(stageRegistration.email))
   }, [])
 
-
   return (
     <div className={'registration-page'} style={{ paddingTop: 50 }}>
       <Header title={'Регистрация'} />
-      <RegistrationItem
-        stage={stage}
-        title={titles[stage]}
-      />
+      <RegistrationItem stage={stage} title={titles[stage]} />
     </div>
   )
 }

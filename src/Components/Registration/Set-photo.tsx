@@ -37,7 +37,7 @@ export const SetPhoto = () => {
     await submitRegistration({
       name: dataRegistration.name,
       surname: dataRegistration.surname,
-      birthday: 1000000, // заглушка
+      birthday: dataRegistration.birthday,
       gender: dataRegistration.gender,
       avatar: dataRegistration.avatar,
       phone: dataRegistration.phone,
