@@ -4,7 +4,8 @@ import './tabs.scss'
 interface ITabContentProps {
   children: React.ReactNode | JSX.Element | JSX.Element[]
   index: number
-  value: number
+  value: number,
+  customClass?: string
 }
 
 interface ITabs {
@@ -16,9 +17,9 @@ interface ITabs {
 }
 
 export function TabContent(props: ITabContentProps) {
-  const { children, value, index } = props
+  const { children, value, index,customClass } = props
 
-  return <div className={'tabs__content'}>{index === value && children}</div>
+  return <div className={customClass? customClass :'tabs__content'}>{index === value && children}</div>
 }
 
 export const Tabs: FC<ITabs> = ({

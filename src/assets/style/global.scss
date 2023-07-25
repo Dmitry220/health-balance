@@ -1,7 +1,8 @@
 @import 'src/assets/style/variables';
+@import 'src/assets/style/mixins';
 
 ._container {
-  padding: 16px;
+  @include adaptive-value("padding", 36, 16, 1);
   max-width: 100%;
   margin: 0 auto;
   position: relative;

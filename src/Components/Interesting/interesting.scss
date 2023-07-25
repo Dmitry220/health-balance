@@ -3,9 +3,12 @@
 .card-interesting{
   border-radius: 10px;
   display: block;
-  &:not(:last-child){
-    margin: 0 0 20px 0;
+  @media (max-width: 767px) {
+    &:not(:last-child){
+      margin: 0 0 20px 0;
+    }
   }
+
   background: $backgroundBlock;
   &__container{
     padding: 15px;

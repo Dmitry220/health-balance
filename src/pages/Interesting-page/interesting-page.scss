@@ -1,26 +1,33 @@
 @import "src/assets/style/variables";
 
-.interesting-page{
+.interesting-page {
   padding: 0 0 84px 0;
 
-  &__main-title{
+  &__main-title {
     margin: 0 0 20px 0;
   }
 
-  &__actual{
+  &__cards-news {
+    @media (min-width: 768px) {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 45px;
+    }
+  }
+
+  &__actual {
     display: flex;
     align-items: center;
     gap: 10px;
     overflow: scroll;
     margin: 0 0 40px 0;
 
-    &::-webkit-scrollbar{
+    &::-webkit-scrollbar {
       width: 0;
       height: 0;
     }
   }
-  &__actual-item{
+  &__actual-item {
     flex: 0 0 117px;
   }
 }
-

@@ -38,7 +38,8 @@ export const HealthIndexResults = () => {
           <Retesting />
         </div>
       )}
-      <div className='health-index-results-page__age'>
+      <div>
+         <div className='health-index-results-page__age'>
         <CardBiologyAge age={lastDynamic?.biological_age} />
       </div>
       <div className='health-index-results-page__title title-17'>
@@ -74,6 +75,8 @@ export const HealthIndexResults = () => {
           />
         </div>
       </div>
+      </div>
+     
       <Link
         to={DYNAMICS_ROUTE}
         className='health-index-results-page__link _button-dark'
