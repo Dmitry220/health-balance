@@ -16,19 +16,33 @@ import '../Lecture/lecture.scss'
 
 export const DownloadFile = () => {
   const lesson = useAppSelector(lessonSelector)
-  const challengeId = useAppSelector(challengeSelector)
   const dispacth = useAppDispatch()
   const [showModal, setShowModal] = useState<boolean>(false)
   const [isLoadingComplete, setIsLoadingComplete] = useState(false)
   const success = useAppSelector(successSelector)
   const isLoading = useAppSelector(isLoadingSuccessSelector)
   const [downloadFile, setDownloadFile] = useState<Blob | null>(null)
+  const [selectedName, setSelectedName] = useState<string>('')
+  const [imagePreview, setImagePreview] = useState<any>(null);
 
-  const download = (e: ChangeEvent<HTMLInputElement>) => {
-    const file: any = e.target.files
-    if (file[0]) {
-      setDownloadFile(file[0])
+
+  const download = (e: any) => {
+    const reader = new FileReader();
+    const selectedFile: any = e.target.files[0];
+    if (selectedFile) {
+      reader.readAsDataURL(selectedFile);
     }
+    reader.onload = (readerEvent: any) => {
+      setDownloadFile(selectedFile)
+      if (selectedFile.type.includes("image")) {
+        setImagePreview(readerEvent.target.result);
+        setSelectedName('')
+        return
+      }
+      setImagePreview('')
+      setSelectedName(selectedFile.name);
+
+    };
   }
 
   const complete = async () => {
@@ -38,11 +52,13 @@ export const DownloadFile = () => {
         const dataTaskToCompleted = {
           file: downloadFile
         }
-        await LessonService.complete(dataTaskToCompleted, lesson.id)
-        setShowModal(true)
+        const response = await LessonService.complete(dataTaskToCompleted, lesson.id)
+        if (response.data.success) {
+          setShowModal(true)
+        }
       } catch (error) {
         await showToast('Произошла ошибка!')
-      }finally{
+      } finally {
         setIsLoadingComplete(false)
       }
     } else {
@@ -89,9 +105,15 @@ export const DownloadFile = () => {
       >
         Загрузить
       </label>
+      {selectedName && <div style={{ marginBottom: 30 }}>
+        <h3> {selectedName}</h3>
+      </div>}
+      {imagePreview && <div className='task-lecture__preview-photo'>
+        <img src={imagePreview} alt="" />
+      </div>}
       <button
-        className='task-lecture__button-execute _button-white'
-        disabled={isLoadingComplete}
+        className={downloadFile ? 'task-lecture__button-execute _button-white' : 'task-lecture__button-execute _button-white disabled'}
+        disabled={(isLoadingComplete || !downloadFile)}
         onClick={complete}
       >
         {isLoadingComplete ? (
