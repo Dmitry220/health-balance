@@ -24,10 +24,26 @@ export const CardIndex: FC<ICardIndex> = ({ title, value, tag }) => {
     return [value.toString(), 'Критично']
   }
 
+  const calculatePhysicalActivity = (value: number): string[] => {
+    if (value === 1) {
+      return ['Опасное для здоровья', 'Критично']
+    }
+    if (value === 2) {
+      return ['Средний показатель', 'Есть рсики']
+    }
+    if (value === 3) {
+      return ['Все в порядке', 'Рисков нет']
+    }
+    return ['Не посчитано', 'Не посчитано']
+  }
+
 
   const definitionRisk = (value: number) => {
     if (tag === 'body_mass_index') {
       return calculateBodyMassIndex(value)[0]
+    }
+    if (tag === 'physical_activity') {
+      return calculatePhysicalActivity(value)[0]
     }
     switch (value) {
       case 0:
@@ -47,6 +63,9 @@ export const CardIndex: FC<ICardIndex> = ({ title, value, tag }) => {
     if (tag === 'body_mass_index') {
       return calculateBodyMassIndex(value)[1]
     }
+    if (tag === 'physical_activity') {
+      return calculatePhysicalActivity(value)[1]
+    }
     switch (value) {
       case 0:
         return 'Не посчитано'
@@ -56,17 +75,27 @@ export const CardIndex: FC<ICardIndex> = ({ title, value, tag }) => {
         return 'Есть рсики'
       case 3:
         return 'Критично!'
-    }   
+    }
   }
 
-  const asd = () => {
-    if(calculateBodyMassIndex(value)[1]==='Рисков нет' || value===1){
+  const prefixBackgroundClassName = () => {
+    if (tag === 'physical_activity') {
+      switch (calculatePhysicalActivity(value)[1]) {
+        case 'Рисков нет':
+          return 1
+        case 'Есть рсики':
+          return 2
+        case 'Критично':
+          return 3
+      }
+    }
+    if (calculateBodyMassIndex(value)[1] === 'Рисков нет' || value === 1) {
       return 1
     }
-    if(calculateBodyMassIndex(value)[1]==='Есть рсики' || value===2){
+    if (calculateBodyMassIndex(value)[1] === 'Есть рсики' || value === 2) {
       return 2
     }
-    if(calculateBodyMassIndex(value)[1]==='Критично' || value===3){
+    if (calculateBodyMassIndex(value)[1] === 'Критично' || value === 3) {
       return 3
     }
   }
@@ -76,7 +105,7 @@ export const CardIndex: FC<ICardIndex> = ({ title, value, tag }) => {
       className={
         'card-index ' +
         'card-index_' +
-        asd()
+        prefixBackgroundClassName()
       }
     >
       <div className='card-index__head'>
@@ -85,14 +114,8 @@ export const CardIndex: FC<ICardIndex> = ({ title, value, tag }) => {
       </div>
       <div
         className={
-          'card-index__value' +
-          (value <= 3
-            ? '_' + value
-            : value < 18
-              ? '_' + 2
-              : value < 25
-                ? '_' + 1
-                : '_' + 3)
+          'card-index__value_' +
+          prefixBackgroundClassName()
         }
       >
         {definitionRisk(value)}
