@@ -82,6 +82,7 @@ export const ScanQR = () => {
   if (startScan) {
     return (
       <QrReader
+      scanDelay={0}
         onResult={(result, error) => {
           if (!!result) {
             setData(result.getText())

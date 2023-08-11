@@ -13,6 +13,8 @@ import { showToast } from '../../utils/common-functions';
 
 export const ConsultationPage = () => {
 
+	const id = Number(localStorage.getItem("id"))
+
 	const {
 		register,
 		handleSubmit,
@@ -27,7 +29,7 @@ export const ConsultationPage = () => {
 	const onSubmit: SubmitHandler<IConsultation> = async ({ city, comment, name, phone, type }) => {
 
 		await submitConsultation({
-			city, comment, name, phone, type
+			id,city, comment, name, phone, type
 		})
 			.unwrap()
 			.catch(async (err) => {

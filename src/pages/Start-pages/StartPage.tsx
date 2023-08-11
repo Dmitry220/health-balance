@@ -134,7 +134,7 @@ export const StartPage = () => {
             </div>
           </div>
         </SwiperSlide>
-        <SwiperSlide>
+        {/* <SwiperSlide>
           <div className='preview__body'>
             <div className='preview__title'>Вопросы?</div>
             <div className='preview__text' style={{ marginBottom: 11 }}>
@@ -143,14 +143,14 @@ export const StartPage = () => {
             <div className='preview__text'>
               Это чат <img src={iconChat} alt='' />
             </div>
-            {/* <div
+            <div
               className={'preview__button _button-dark'}
               onClick={jumpToMain}
             >
               Дальше
-            </div>            */}
+            </div>           
           </div>
-        </SwiperSlide>
+        </SwiperSlide> */}
         <div className={'circle-gradient'} />
         <SlideNextButton
           customClass={'preview__button _button-dark'}
@@ -184,7 +184,7 @@ export const SlideNextButton: FC<ISwiperNextButton> = ({
   }
 
   const slideChange = useCallback(async () => {
-    if (swiper.activeIndex === 4) {
+    if (swiper.activeIndex === 3) {
       await syncSteps()
     }
   }, [swiper.activeIndex])
@@ -192,7 +192,7 @@ export const SlideNextButton: FC<ISwiperNextButton> = ({
   swiper.on('slideChange', slideChange)
 
   const next = async () => {
-    if (swiper.activeIndex === 4) {
+    if (swiper.activeIndex === 3) {
       const isCompletedPurposeResponse =
         await PurposeService.isCompletedPurpose()
       if (!isCompletedPurposeResponse.data.data.length) {
