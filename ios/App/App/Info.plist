@@ -23,7 +23,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>Для съемки фото и видео</string>
+	<string>Для съёмки фото для аватара пользователя и сканирования QR-кодов при выполнении заданий</string>
 	<key>NSHealthShareUsageDescription</key>
 	<string>Чтобы подсчитать количество шагов</string>
 	<key>NSHealthUpdateUsageDescription</key>
