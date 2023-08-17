@@ -15,6 +15,7 @@ import {
   getChallengeById
 } from '../../Redux/slice/challengeSlice'
 import { definitionColor, nFormatter } from '../../utils/common-functions'
+import PullToRefresh from 'react-simple-pull-to-refresh'
 
 export const ActiveChallengePage = () => {
   const params = useParams()
@@ -41,6 +42,11 @@ export const ActiveChallengePage = () => {
       id: 2
     }
   ]
+
+  
+  const handleRefresh = async () => {
+    await dispatch(getChallengeById(Number(params.id)))
+  }
 
   useEffect(() => {
     dispatch(getChallengeById(Number(params.id)))
@@ -72,6 +78,16 @@ export const ActiveChallengePage = () => {
           newChallengeCategory
         />
       </div>
+      <PullToRefresh
+            maxPullDownDistance={95}
+            pullDownThreshold={67}
+            fetchMoreThreshold={100}
+            pullingContent={''}
+            refreshingContent={<span id="loader"></span>}
+            onRefresh={handleRefresh}
+            className='pull-to-refresh'
+          >
+            <>
       <div className='active-challenge-page__progress'>
         <div
           className={
@@ -116,6 +132,8 @@ export const ActiveChallengePage = () => {
           idChallenge={challenge?.id}
         />
       )}
+      </>
+      </PullToRefresh>
     </div>
   )
 }

@@ -24,7 +24,7 @@ const HeaderActive: FC<IHeaderActive> = ({ transparent }) => {
 
   useEffect(() => {
     dispatch(getBalance())
-  }, [balance])
+  }, [])
 
   return (
     <div

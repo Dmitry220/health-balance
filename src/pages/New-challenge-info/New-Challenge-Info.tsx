@@ -19,6 +19,7 @@ import { definitionColor, nFormatter } from '../../utils/common-functions'
 import ChallengeService from '../../services/ChallengeService'
 import { Preloader } from '../../Components/Preloader/Preloader'
 import { ActiveChallengePage } from '../Active-challenge-page/Active-challenge-page'
+import PullToRefresh from 'react-simple-pull-to-refresh'
 
 export const NewChallengeInfo = () => {
   const dispatch = useAppDispatch()
@@ -49,11 +50,16 @@ export const NewChallengeInfo = () => {
     }
   }
 
+  const handleRefresh = async () => {
+    await dispatch(getChallengeById(Number(params.id)))
+  }
+
+
   useEffect(() => {
     dispatch(getChallengeById(Number(params.id)))
   }, [])
 
-  if(challenge?.active){
+  if (challenge?.active) {
     return <ActiveChallengePage />
   }
 
@@ -72,54 +78,70 @@ export const NewChallengeInfo = () => {
               type={challenge.type}
             />
           </div>
-          <div className='new-challenge-info__description' dangerouslySetInnerHTML={{ __html: challenge?.description }}></div>
-          <div className='new-challenge-info__row'>
-            <div
-              className={definitionColor(
-                challenge.type,
-                'new-challenge-info__data'
+          <PullToRefresh
+            maxPullDownDistance={95}
+            pullDownThreshold={67}
+            fetchMoreThreshold={100}
+            pullingContent={''}
+            refreshingContent={<span id="loader"></span>}
+            onRefresh={handleRefresh}
+            className='pull-to-refresh'
+          >
+            <>
+
+              <div className='new-challenge-info__description' dangerouslySetInnerHTML={{ __html: challenge?.description }}></div>
+              <div className='new-challenge-info__row'>
+                <div
+                  className={definitionColor(
+                    challenge.type,
+                    'new-challenge-info__data'
+                  )}
+                >
+                  <img
+                    className={'new-challenge-info__data-clock'}
+                    src={icon_clock}
+                    alt=''
+                  />
+                  {new Date(challenge.start_date * 1000).toLocaleDateString() +
+                    ' - ' +
+                    new Date(challenge?.end_date * 1000).toLocaleDateString()}
+                </div>
+                <div className='new-challenge-info__reward'>
+                  <div className='new-challenge-info__reward-text'>Награда:</div>
+                  <RewardCount count={challenge.purpose?.reward || 0} />
+                </div>
+              </div>
+              <div className='new-challenge-info__title-block block-title'>
+                Задания
+              </div>
+              <div className='new-challenge-info__tasks'>
+                <TaskChallenge type={challenge.type} tasks={itemsTask} />
+              </div>
+              {challenge.type === 2 && (
+                <Link
+                  className='new-challenge-info__button _button-white'
+                  to={TEAM_SELECTION_ROUTE + '/' + challenge.id}
+                >
+                  Принять участие
+                </Link>
               )}
-            >
-              <img
-                className={'new-challenge-info__data-clock'}
-                src={icon_clock}
-                alt=''
-              />
-              {new Date(challenge.start_date * 1000).toLocaleDateString() +
-                ' - ' +
-                new Date(challenge?.end_date * 1000).toLocaleDateString()}
-            </div>
-            <div className='new-challenge-info__reward'>
-              <div className='new-challenge-info__reward-text'>Награда:</div>
-              <RewardCount count={challenge.purpose?.reward || 0} />
-            </div>
-          </div>
-          <div className='new-challenge-info__title-block block-title'>
-            Задания
-          </div>
-          <div className='new-challenge-info__tasks'>
-            <TaskChallenge type={challenge.type} tasks={itemsTask} />
-          </div>
-          {challenge.type === 2 && (
-            <Link
-              className='new-challenge-info__button _button-white'
-              to={TEAM_SELECTION_ROUTE + '/' + challenge.id}
-            >
-              Принять участие
-            </Link>
-          )}
-          {(challenge.type === 3 || challenge.type === 1) && (
-            <div
-              className='new-challenge-info__button _button-white'
-              onClick={enterIntoChallenge}
-            >
-              Принять участие
-            </div>
-          )}          
+              {(challenge.type === 3 || challenge.type === 1) && (
+                <div
+                  className='new-challenge-info__button _button-white'
+                  onClick={enterIntoChallenge}
+                >
+                  Принять участие
+                </div>
+              )}
+            </>
+          </PullToRefresh>
         </>
-      ) : (
-        <Preloader />
-      )}
+      ) : <Preloader />
+
+      }
+
+
+
     </div>
   )
 }

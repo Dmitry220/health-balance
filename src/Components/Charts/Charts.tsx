@@ -7,7 +7,7 @@ import {
     weeksSelector
 } from "../../Redux/slice/appSlice";
 import { purposeSelector } from "../../Redux/slice/purposeSlice";
-import { getGradient, optionsChartBar } from "./Chart-options";
+import { getGradient, optionsChartBar, periodMonth, periodWeek } from "./Chart-options";
 import { TabContent, Tabs } from "../Tabs/Tabs";
 import { Bar } from "react-chartjs-2";
 import { nFormatter, sklonenie } from "../../utils/common-functions";
@@ -15,12 +15,10 @@ import { BarElement, CategoryScale, Chart as ChartJS, Legend, LinearScale, Title
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
+
 export const Charts = () => {
 
-    const startDateWeek = new Date()
-    startDateWeek.setDate(startDateWeek.getDate() - 7 * 7)
-    const startDateMonth = new Date()
-    startDateMonth.setMonth(startDateMonth.getMonth() - 12)
+
 
     const dispatch = useAppDispatch()
     const [currentValueTab, setCurrentValueTab] = useState<number>(0)
@@ -91,26 +89,16 @@ export const Charts = () => {
         ]
     }
 
-    useEffect(() => {
-        const dataWeek = {
-            end_date: new Date().toLocaleDateString(),
-            start_date: startDateWeek.toLocaleDateString(),
-            type: 1
-        }
-        const dataMonth = {
-            end_date: new Date().toLocaleDateString(),
-            start_date: startDateMonth.toLocaleDateString(),
-            type: 2
-        }
+    async function setDataToCharts() {
+        await dispatch(getStepsPerDay())
+        await dispatch(getStepsPerMonth(periodMonth))
+        await dispatch(getStepsPerWeek(periodWeek))
+        dispatch(setMonths())
+        dispatch(setWeeks())
+    }
 
-        async function asyncQuery() {
-            await dispatch(getStepsPerDay())
-            await dispatch(getStepsPerMonth(dataMonth))
-            await dispatch(getStepsPerWeek(dataWeek))
-            dispatch(setMonths())
-            dispatch(setWeeks())
-        }
-        asyncQuery()
+    useEffect(() => {           
+        setDataToCharts()
     }, [currentStepsCount])
 
 

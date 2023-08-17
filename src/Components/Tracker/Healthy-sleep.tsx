@@ -16,15 +16,22 @@ import { Preloader } from '../Preloader/Preloader'
 import { sklonenie } from '../../utils/common-functions'
 import { confirmAlert } from 'react-confirm-alert'
 import 'react-confirm-alert/src/react-confirm-alert.css' // Import css
+import { HealthySleepItem } from './Healthy-sleep-item'
+import HabitsTargetItem from './Habits-tracker-item'
+import { tracksSleepDaysWeek } from '../../utils/globalConstants'
+
 
 interface IHealthySleep {
   editProhibition?: boolean
   date?: string
 }
+
+
 const HealthySleep = memo<IHealthySleep>(({
   editProhibition,
   date = new Date().toLocaleDateString()
 }) => {
+
   const tracker = useAppSelector(trackerSelector)
   const tracks = useAppSelector(tracksSelector)
   const isloading = useAppSelector(isLoadingSelector)
@@ -36,52 +43,43 @@ const HealthySleep = memo<IHealthySleep>(({
       : new Date(date.replace(/(\d{2}).(\d{2}).(\d{4})/, '$2/$1/$3')).getDay() -
       1
 
-  const daysWeek = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс']
+
+
   const [currentDay, setCurrentDay] = useState<ITrack>()
   const morning = tracker.wake_up_time
   const evening =
     (+hour - 8 < 0 ? 24 + (+hour - 8) : +hour - 8).toString().padStart(2, '0') +
     ':' +
     minutes
-  const pushArray: ITrack[] = []
+  const pushArray: ITrack[] = [...tracks.sleepTrack]
   const [outputArray, setOutputArray] = useState<ITrack[]>([])
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (pushArray.length < 7) {
-      tracks.sleepTrack.forEach((itemServer, index) => {
-        pushArray.push({
-          ...itemServer,
-          id: index + 1,
-          additional: itemServer.additional,
-          completed: itemServer.completed,
-          notification_send: itemServer.notification_send,
-          send_time: itemServer.send_time,
-          type: itemServer.type
-        })
+    let difference = tracksSleepDaysWeek.length - tracks.sleepTrack.length
+    console.log(difference);
+
+    for (let i = difference - 1; i >= 0; i--) {
+      pushArray.unshift({
+        id: 0,
+        type: (tracks.sleepTrack[0]?.type === 1 && tracks.sleepTrack.length%2!=0) ? (!(i % 2) ? 4 : 1) : (!(i % 2) ? 1 : 4),
+        additional: tracksSleepDaysWeek[i].day,
+        completed: false,
+        notification_send: false,
+        send_time: 0,
+        sleep_time: 0
       })
-      let difference = daysWeek.length - tracks.sleepTrack.length
-      for (let i = difference - 1; i >= 0; i--) {
-        pushArray.unshift({
-          id: outputArray.length - i,
-          type: 1,
-          additional: daysWeek[i],
-          completed: false,
-          notification_send: false,
-          send_time: 0,
-          sleep_time: 0
-        })
-      }
-      setCurrentDay(
-        tracks.sleepTrack.find(
-          (item) => item.additional === daysWeek[indexWeek] && item.type === 1
-        )
-      )
-      setOutputArray(pushArray)
     }
+    setCurrentDay(
+      tracks.sleepTrack.find(
+        (item) => item.additional === tracksSleepDaysWeek[indexWeek*2].day && item.type === 1
+      )
+    )
+    setOutputArray(pushArray)
 
   }, [tracks])
 
+  console.log(outputArray);
 
   const redirectToChangeTrack = () => {
     confirmAlert({
@@ -150,24 +148,10 @@ const HealthySleep = memo<IHealthySleep>(({
         <div className='healthy-sleep__days'>
           {tracks.sleepTrack.length ? (
             outputArray.map((item, index, array) => {
-              if (item.type === 1 || item.type === 5) {
-                return (
-                  <div className='healthy-sleep__item-day' key={item.id}>
-                    {array[index]?.sleep_time! >= 8 ? (
-                      <img
-                        className='healthy-sleep__icon-full'
-                        src={status_full}
-                        alt='status_full'
-                      />
-                    ) : (
-                      <div className='healthy-sleep__circle' />
-                    )}
-                    <div className='healthy-sleep__day-text'>
-                      {item.additional}
-                    </div>
-                  </div>
-                )
-              }
+              //   if (item.type === 1 || item.type === 5) {
+              // return <HabitsTargetItem track={item} key={index} />            
+              return <HealthySleepItem setCurrentDay={setCurrentDay} hour={+hour} evening={evening} morning={morning} array={array} index={index} item={item} key={index} />
+              //   }
             })
           ) : (
             <h1>Данных нет</h1>

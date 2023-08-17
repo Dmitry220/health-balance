@@ -8,6 +8,7 @@ import 'swiper/scss'
 import 'swiper/scss/navigation'
 import 'swiper/scss/pagination'
 import 'swiper/scss/scrollbar'
+import './../../assets/style/pullToRefresh.scss'
 
 import { Steps } from '../../Components/Steps/Steps'
 import { Navigation } from '../../Components/Navigation/Navigation'
@@ -17,14 +18,26 @@ import HeaderActive from '../../Components/Header-active/Header-active'
 import { Target } from '../../Components/Target/Target'
 import { TopRating } from '../../Components/Top-rating/Top-rating'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
-import { purposeSelector } from '../../Redux/slice/purposeSlice'
+import { getPersonalPurpose, purposeSelector } from '../../Redux/slice/purposeSlice'
 import {
   currentStepsCountSelector,
-  setCurrentStepsCount
+  getBalance,
+  getStepsPerDay,
+  getStepsPerMonth,
+  getStepsPerWeek,
+  setCurrentStepsCount,
+  setMonths,
+  setWeeks
 } from '../../Redux/slice/appSlice'
 import { isGoogleFitSelector } from '../../Redux/slice/settingsSlice'
 import { Charts } from '../../Components/Charts/Charts'
 import AppService from '../../services/AppService'
+import PullToRefresh from 'react-simple-pull-to-refresh';
+import { leaderboard } from '../../Redux/slice/leaderBoardSlice'
+import { periodMonth, periodWeek } from '../../Components/Charts/Chart-options'
+import { ImportantBlock } from '../../Components/Important-block/Important-block'
+import { Banner } from '../../Components/Banner/Banner'
+
 
 export const ActivityPage: FC = () => {
   const dispatch = useAppDispatch()
@@ -38,15 +51,7 @@ export const ActivityPage: FC = () => {
   const isGoogleFit = useAppSelector(isGoogleFitSelector)
 
   useEffect(() => {
-    if (Capacitor.getPlatform() === 'android') {
-      if (isGoogleFit === 2) {
-        authGoogleFit()
-      } else {
-        startPlugin()
-      }
-    } else if (Capacitor.getPlatform() === 'ios') {
-      startHealthKit()
-    }
+    startPluginFromPlatform()
 
     window.addEventListener('scroll', function () {
       let scroll = window.pageYOffset
@@ -62,6 +67,18 @@ export const ActivityPage: FC = () => {
       clearInterval(interval.current as NodeJS.Timeout)
     }
   }, [])
+
+  const startPluginFromPlatform = () => {
+    if (Capacitor.getPlatform() === 'android') {
+      if (isGoogleFit === 2) {
+        authGoogleFit()
+      } else {
+        startPlugin()
+      }
+    } else if (Capacitor.getPlatform() === 'ios') {
+      startHealthKit()
+    }
+  }
 
   const authGoogleFit = async () => {
     // запрос на авторизацию для отправки шагов
@@ -146,36 +163,67 @@ export const ActivityPage: FC = () => {
     return date
   }
 
+  const getDataCharts = async () => {
+    await dispatch(getStepsPerDay())
+    await dispatch(getStepsPerMonth(periodWeek))
+    await dispatch(getStepsPerWeek(periodMonth))
+    dispatch(setMonths())
+    dispatch(setWeeks())
+  }
+
+  const handleRefresh = async () => {
+    await dispatch(getPersonalPurpose())
+    await dispatch(getBalance())
+    await dispatch(leaderboard())
+    await getDataCharts()
+  }
+
+
+  console.log('render active');
+
   return (
-    <div className={'activity-page'}>
+    <div className='activity-page'>
+
       <HeaderActive transparent={transparentHeader} />
       <Navigation />
-      <div
-        className='activity-page__steps'
-        id={'step'}
-        style={{ backgroundAttachment: 'fixed' }}
+      <PullToRefresh
+        maxPullDownDistance={95}
+        pullDownThreshold={67}
+        fetchMoreThreshold={100}
+        pullingContent={''}
+        refreshingContent={<span id="loader"></span>}
+        onRefresh={handleRefresh}
+        className='pull-to-refresh'
       >
-        <Steps
-          maxStepsCount={purpose?.quantity || 0}
-          userStepsCount={currentStepsCount}
-        />
-      </div>
-      <div className='activity-page__steps-data'>
-        <StepsData />
-      </div>
-      <div className='activity-page__title title'>Статистика</div>
-      <div className='activity-page__target'>
-        <Target />
-      </div>
-      <Charts />
-      {/* <div className='activity-page__important'>
-        <ImportantBlock />
-        <Banner title={'Стартовый опрос'} text={'Ответьте на 4 вопроса'} />
-      </div> */}
-      <div className='activity-page__top-rating top-rating'>
-        <div className='top-rating__title title'>ТОП сегодня</div>
-        <TopRating />
-      </div>
+        <>
+          <div
+            className='activity-page__steps'
+            id={'step'}
+            style={{ backgroundAttachment: 'fixed' }}
+          >
+            <Steps
+              maxStepsCount={purpose?.quantity || 0}
+              userStepsCount={currentStepsCount}
+            />
+          </div>
+          <div className='activity-page__steps-data'>
+            <StepsData />
+          </div>
+          <div className='activity-page__title title'>Статистика</div>
+          <div className='activity-page__target'>
+            <Target />
+          </div>
+          <Charts />
+          <div className='activity-page__important'>
+            <ImportantBlock />
+            <Banner title={'Стартовый опрос'} text={'Ответьте на 4 вопроса'} />
+          </div>
+          <div className='activity-page__top-rating top-rating'>
+            <div className='top-rating__title title'>ТОП сегодня</div>
+            <TopRating />
+          </div>
+        </>
+      </PullToRefresh>
       <div className='circle-gradient circle-gradient_top' />
     </div>
   )

@@ -1,6 +1,23 @@
 import type { ChartArea } from 'chart.js';
 import { nFormatter } from '../../utils/common-functions';
 
+const startDateWeek = new Date()
+startDateWeek.setDate(startDateWeek.getDate() - 7 * 7)
+const startDateMonth = new Date()
+startDateMonth.setMonth(startDateMonth.getMonth() - 12)
+
+
+export const periodWeek = {
+    end_date: new Date().toLocaleDateString(),
+    start_date: startDateWeek.toLocaleDateString(),
+    type: 1
+}
+export const periodMonth = {
+    end_date: new Date().toLocaleDateString(),
+    start_date: startDateMonth.toLocaleDateString(),
+    type: 2
+}
+
 
 export const optionsChartBar:any = {
     responsive: true,

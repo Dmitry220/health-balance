@@ -17,6 +17,7 @@ import { heightStatusBarSelector } from './Redux/slice/appSlice'
 import { useAppDispatch, useAppSelector } from './hooks/redux-hooks'
 import { useStatusBar } from './hooks/useStatusBar'
 import { NoNetworkConnection } from './pages/NoNetworkConnection/NoNetworkConnection'
+import { PullDownContent, PullToRefresh, RefreshContent, ReleaseContent } from 'react-js-pull-to-refresh'
 
 function App() {
   const navigate = useNavigate()
@@ -82,10 +83,16 @@ function App() {
     window.addEventListener('offline', () => {
       setConnect(false)
     });
-    window.addEventListener('online', () =>  setConnect(true));
+    window.addEventListener('online', () => setConnect(true));
     setConnect(window.navigator.onLine)
   }, [])
 
+
+  function onRefresh() {
+    return new Promise((resolve) => {
+        setTimeout(resolve, 2000);
+    });
+}
 
   return (
     <div
@@ -94,10 +101,21 @@ function App() {
         paddingTop: Capacitor.getPlatform() === 'ios' ? +statusBar : 16
       }}
     >
-      {
-        !connect ? <NoNetworkConnection setConnect={setConnect}/> :  <AppRouter />
-      }
-     
+      {/* <PullToRefresh
+        pullDownContent={<PullDownContent />}
+        releaseContent={<ReleaseContent />}
+        refreshContent={<RefreshContent />}
+        pullDownThreshold={200}
+        onRefresh={onRefresh}
+        triggerHeight={100}
+        backgroundColor="#121212"
+      > */}
+        {
+          !connect ? <NoNetworkConnection setConnect={setConnect} /> : <AppRouter />
+        }
+      {/* </PullToRefresh> */}
+
+
     </div>
   )
 }
