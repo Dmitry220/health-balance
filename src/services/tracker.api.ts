@@ -1,56 +1,17 @@
-import {AxiosResponse} from "axios";
-import {$api} from "../http";
-import {ICreatingTracker, IGetTracker, ITrack, ITracks} from "../models/ITracker";
+import {ICreatingTracker, IGetTracker, ITrack, ITracks, IUpdateTracker} from "../models/ITracker";
 import {api, ISuccessResponse} from "./api";
 
-
-export default class TrackerApi {
-
-
-    static async updateTracker(
-        id: number,
-        type: "weight" | "fruits" | "wake_up_time",
-        value: string
-    ): Promise<AxiosResponse<{ tracker_id: number }>> {
-        const body = type + "=" + value;
-        return (
-            $api.patch(
-                `tracker/${id}/update?token=${localStorage.getItem("token")}`,
-                body, {
-                    headers: {
-                        "Content-Type": "text/plain",
-                    },
-                }
-            )
-        );
-    }
-
-    static async complteteTrack(id: number) {
-        return (
-            $api.post(
-                `tracks/${id}/complete?token=${localStorage.getItem("token")}`, {}, {
-                    headers: {
-                        accept: "application/json",
-                        "Content-Type": `multipart/form-data`,
-                    },
-                }
-            )
-
-        );
-    }
-
-
-    static async deleteTracker(): Promise<AxiosResponse<{ success: boolean }>> {
-        return $api.delete(`tracker?token=${localStorage.getItem("token")}`);
-    }
-}
 
 export const trackerApi = api.injectEndpoints({
     endpoints: (build) => ({
         getTracker: build.query<IGetTracker, void>({
             query: () => `tracker/?token=${localStorage.getItem("token")}`,
             transformResponse: (response: { data: IGetTracker }): IGetTracker => response.data,
-            providesTags: () => [{type: "newTracker"}]
+            providesTags: () => [
+                {type: "newTracker"},
+                {type: "deleteTracker"},
+                {type: "updateTracker"}
+            ],
         }),
 
         getTracks: build.query<ITracks, string>({
@@ -82,15 +43,35 @@ export const trackerApi = api.injectEndpoints({
             invalidatesTags: [{type: 'newTracker'}],
         }),
 
+        updateTracker: build.mutation<{ tracker_id: number }, IUpdateTracker>({
+            query: (data) => ({
+                url: `tracker/${data.id}/update?token=${localStorage.getItem("token")}`,
+                method: 'PATCH',
+                body: data.type + "=" + data.value,
+                headers: {
+                    "Content-Type": "text/plain",
+                },
+            }),
+            invalidatesTags: [{type: 'updateTracker'}],
+        }),
+
         deleteTracker: build.mutation<ISuccessResponse, null>({
             query: () => ({
                 url: `tracker?token=${localStorage.getItem("token")}`,
                 method: "DELETE",
-            })
+            }),
+            invalidatesTags: [{type: 'deleteTracker'}],
         }),
 
     }),
 
 })
 
-export const {useGetTrackerQuery, useGetTracksQuery, useCompleteTrackMutation, useCreatingTrackerMutation, useDeleteTrackerMutation} = trackerApi
+export const {
+    useGetTrackerQuery,
+    useGetTracksQuery,
+    useCompleteTrackMutation,
+    useCreatingTrackerMutation,
+    useDeleteTrackerMutation,
+    useUpdateTrackerMutation
+} = trackerApi

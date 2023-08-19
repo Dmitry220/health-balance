@@ -1,44 +1,36 @@
-import { Capacitor } from '@capacitor/core'
+import {Capacitor} from '@capacitor/core'
 import OneSignal from 'onesignal-cordova-plugin'
-import { useEffect, useState } from 'react'
+import {useEffect, useState} from 'react'
 import './assets/style/global.scss'
 import AppRouter from './provider/app-router'
-import { App as CapacitorApp } from '@capacitor/app'
-import TrackerApi from './services/tracker.api'
-import { showToast } from './utils/common-functions'
-import { useNavigate } from 'react-router-dom'
-import {
-  POST_INTERESTING_ROUTE,
-  TRACKER_ROUTE
-} from './provider/constants-route'
-import { IUpdateUser } from './models/IUsers'
+import {App as CapacitorApp} from '@capacitor/app'
+import {useCompleteTrackMutation} from './services/tracker.api'
+import {showToast} from './utils/common-functions'
+import {useNavigate} from 'react-router-dom'
+import {POST_INTERESTING_ROUTE, TRACKER_ROUTE} from './provider/constants-route'
+import {IUpdateUser} from './models/IUsers'
 import UserService from './services/UserServices'
-import { heightStatusBarSelector } from './Redux/slice/appSlice'
-import { useAppDispatch, useAppSelector } from './hooks/redux-hooks'
-import { useStatusBar } from './hooks/useStatusBar'
-import { NoNetworkConnection } from './pages/NoNetworkConnection/NoNetworkConnection'
-import { PullDownContent, PullToRefresh, RefreshContent, ReleaseContent } from 'react-js-pull-to-refresh'
+import {useStatusBar} from './hooks/useStatusBar'
+import {NoNetworkConnection} from './pages/NoNetworkConnection/NoNetworkConnection'
 
 function App() {
   const navigate = useNavigate()
   const statusBar = useStatusBar()
   const [connect, setConnect] = useState<boolean>(true)
-
+  const [complete, {isLoading: isUpdating}] = useCompleteTrackMutation()
   const handlerPush = () => {
     if (Capacitor.getPlatform() !== 'web') {
       OneSignal.setAppId('6c585b11-b33a-44f5-8c7b-3ffac2059d19')
       OneSignal.setNotificationOpenedHandler(async (openedEvent) => {
-        const { notification }: any = openedEvent
+        const {notification}: any = openedEvent
         if (notification.additionalData?.type === 'news') {
           navigate(
-            POST_INTERESTING_ROUTE + '/' + notification.additionalData?.id
+              POST_INTERESTING_ROUTE + '/' + notification.additionalData?.id
           )
         }
         if (notification.additionalData?.track_id) {
-          const response = await TrackerApi.complteteTrack(
-            notification.additionalData.track_id
-          )
-          if (response?.data?.success) {
+          const response = await complete(notification.additionalData.track_id).unwrap();
+          if (response?.success) {
             await showToast('Цель ' + notification.body + ' выполнена')
             navigate(TRACKER_ROUTE)
           }
@@ -53,7 +45,7 @@ function App() {
   const changeTimezone = async () => {
     if (localStorage.getItem('token')) {
       const timezone = -new Date().getTimezoneOffset() / 60
-      const data: IUpdateUser = { timezone }
+      const data: IUpdateUser = {timezone}
       await UserService.editingProfile(data)
     }
   }
@@ -64,7 +56,7 @@ function App() {
     //Обработка пушей
     handlerPush()
     //Обработчик сворачиваемого приложения
-    CapacitorApp.addListener('appStateChange', ({ isActive }) => {
+    CapacitorApp.addListener('appStateChange', ({isActive}) => {
       //Изменение timezone при входе в приложение
       changeTimezone()
       //Обработка пушей
@@ -72,7 +64,7 @@ function App() {
     })
 
     //Обработчик событий для переход "назад"
-    CapacitorApp.addListener('backButton', ({ canGoBack }: any) => {
+    CapacitorApp.addListener('backButton', ({canGoBack}: any) => {
       if (!canGoBack) {
         CapacitorApp.exitApp()
       } else {
@@ -90,18 +82,18 @@ function App() {
 
   function onRefresh() {
     return new Promise((resolve) => {
-        setTimeout(resolve, 2000);
+      setTimeout(resolve, 2000);
     });
-}
+  }
 
   return (
-    <div
-      className={'_container'}
-      style={{
-        paddingTop: Capacitor.getPlatform() === 'ios' ? +statusBar : 16
-      }}
-    >
-      {/* <PullToRefresh
+      <div
+          className={'_container'}
+          style={{
+            paddingTop: Capacitor.getPlatform() === 'ios' ? +statusBar : 16
+          }}
+      >
+        {/* <PullToRefresh
         pullDownContent={<PullDownContent />}
         releaseContent={<ReleaseContent />}
         refreshContent={<RefreshContent />}
@@ -111,12 +103,12 @@ function App() {
         backgroundColor="#121212"
       > */}
         {
-          !connect ? <NoNetworkConnection setConnect={setConnect} /> : <AppRouter />
+          !connect ? <NoNetworkConnection setConnect={setConnect}/> : <AppRouter/>
         }
-      {/* </PullToRefresh> */}
+        {/* </PullToRefresh> */}
 
 
-    </div>
+      </div>
   )
 }
 

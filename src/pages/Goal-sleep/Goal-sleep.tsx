@@ -1,27 +1,24 @@
-import { useState } from 'react'
-import {
-  getItemsHour,
-  getItemsMinutes,
-  showToast
-} from '../../utils/common-functions'
+import {useState} from 'react'
+import {getItemsHour, getItemsMinutes, showToast} from '../../utils/common-functions'
 import Header from '../../Components/Header/Header'
-import { ScrollPicker } from '../../Components/Scroll-picker/Scroll-picker'
+import {ScrollPicker} from '../../Components/Scroll-picker/Scroll-picker'
 import './goal-sleep.scss'
-import TrackerApi from '../../services/tracker.api'
-import { trackerSelector } from '../../Redux/Tracker/slice'
-import { useAppSelector } from '../../hooks/redux-hooks'
+import {useGetTrackerQuery, useUpdateTrackerMutation} from '../../services/tracker.api'
+import {IUpdateTracker} from "../../models/ITracker";
 
 export const GoalSleep = () => {
-  const tracker = useAppSelector(trackerSelector)
+
+  const {data: tracker}= useGetTrackerQuery(undefined)
+
   const itemsHour = getItemsHour()
   const itemsMinutes = getItemsMinutes()
   const [hour, setHour] = useState<string>(
-    (+tracker.wake_up_time.split(':')[0]).toString()
+    (tracker ? tracker?.wake_up_time.split(':')[0] : "").toString()
   )
   const [minutes, setMinutes] = useState<string>(
-    (+tracker.wake_up_time.split(':')[1]).toString()
+    (tracker ? tracker?.wake_up_time.split(':')[1] : "").toString()
   )
-
+  const [updateTracker, {isLoading}] = useUpdateTrackerMutation()
   const changeHour = (value: string) => setHour(value)
   const changeMinutes = (value: string) => setMinutes(value)
 
@@ -29,16 +26,15 @@ export const GoalSleep = () => {
 
   const save = async () => {
     try {
-      const response = await TrackerApi.updateTracker(
-        tracker.id,
-        'wake_up_time',
-        hour.padStart(2, '0') + ':' + minutes.padStart(2, '0')
-      )
-      if(response?.data?.tracker_id){
+      const data:IUpdateTracker = {
+        id: tracker?.id || 0,
+        type: 'wake_up_time',
+        value: hour.padStart(2, '0') + ':' + minutes.padStart(2, '0')
+      }
+      const response = await updateTracker(data).unwrap()
+      if(response?.tracker_id){
         await showToast('Изменено успешно!')
-      }else{
-        await showToast('Ошибка!') 
-      } 
+      }
     } catch (error) {
       await showToast('Ошибка!')
     }
@@ -85,7 +81,7 @@ export const GoalSleep = () => {
           {minutes.padStart(2, '0')}
         </span>
       </div>
-      <button className='goal-sleep__button _button-white' onClick={save}>
+      <button disabled={isLoading} className='goal-sleep__button _button-white' onClick={save}>
         Установить
       </button>
     </div>

@@ -41,15 +41,13 @@ export const TrackerPage = () => {
     const changeHour = (value: string) => setHour(value)
     const changeMinutes = (value: string) => setMinutes(value)
 
-    const {data: tracker, isLoading} = useGetTrackerQuery(undefined, {
-        refetchOnMountOrArgChange: true
-    })
+    const {data: tracker, isLoading} = useGetTrackerQuery(undefined)
 
 
     if (isLoading) {
         return <Preloader/>
     }
-
+    console.log(tracker?.id)
     if (tracker?.id) {
         return <TrackerHabitsPage/>
     }

@@ -7,7 +7,7 @@ export interface ISuccessResponse {
 
 export const api = createApi({
     reducerPath: "api",
-    tagTypes: ['tracks', 'newTracker'],
+    tagTypes: ['tracks', 'newTracker','deleteTracker', 'updateTracker'],
     baseQuery: fetchBaseQuery({ baseUrl: API_URL }),
     endpoints: () => ({}),
 });

@@ -183,7 +183,7 @@ export const HealthySleep: FC<IHealthySleep> = ({
                     </div>
                 </div>
                 <div className='healthy-sleep__days'>
-                    {tracks && tracks?.sleepTrack.length ? (
+                    {tracks?.sleepTrack.length ?  (
                         dataSleepTracks.map((item, index) => {
                             if (item.type === 1) {
                                 return <HealthySleepItem

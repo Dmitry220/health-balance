@@ -1,14 +1,11 @@
-import { useState, memo } from 'react'
+import React, {memo} from 'react'
 import './tracker.scss'
 import succesfully from '../../assets/image/tracker/successfully.svg'
 import missed from '../../assets/image/tracker/missed.svg'
-import { ITrack, ITrackAdditional } from '../../models/ITracker'
-import React from 'react'
-import TrackerApi, {useCompleteTrackMutation, useGetTracksQuery} from '../../services/tracker.api'
-import { showToast } from '../../utils/common-functions'
-import { confirmAlert } from 'react-confirm-alert'
-import { selectedDayTrackerSelector} from "../../Redux/Tracker/slice";
-import {useAppDispatch, useAppSelector} from "../../hooks/redux-hooks";
+import {ITrack, ITrackAdditional} from '../../models/ITracker'
+import {useCompleteTrackMutation} from '../../services/tracker.api'
+import {showToast} from '../../utils/common-functions'
+import {confirmAlert} from 'react-confirm-alert'
 
 
 interface IWaterTargetItem {

@@ -12,43 +12,33 @@ import {
   STATISTICS_TRACKER__ROUTE
 } from '../../provider/constants-route'
 import {HeaderTwo} from '../../Components/Header-two/Header-two'
-import {useAppDispatch, useAppSelector} from '../../hooks/redux-hooks'
-import {useState} from 'react'
 import {showToast, sklonenie} from '../../utils/common-functions'
-import TrackerApi, {useGetTrackerQuery, useGetTracksQuery} from '../../services/tracker.api'
+import {useDeleteTrackerMutation, useGetTrackerQuery, useGetTracksQuery} from '../../services/tracker.api'
 import {confirmAlert} from 'react-confirm-alert'
-import {setVisitedTrackerPage} from '../../Redux/slice/visitedPageSlice'
 import {HealthySleep} from '../../Components/Tracker/Healthy-sleep'
 
 
 export const TrackerHabitsPage = () => {
-
+  console.log('sddsf sdf sdf sdf sdf sdff')
   const {data:tracker} = useGetTrackerQuery()
 
-  useGetTracksQuery(new Date().toLocaleDateString(),{
+  const {data} = useGetTracksQuery(new Date().toLocaleDateString(),{
    refetchOnMountOrArgChange:true
   })
 
-  const dispatch = useAppDispatch()
-  const [isLoading, setIsLoading] = useState<boolean>(false)
   const countWater = tracker&&((tracker.weight * 35) / 1000).toFixed(1);
+  const [deleteTrackers, {isLoading}] = useDeleteTrackerMutation()
   const navigate = useNavigate()
 
   const deleteTracker = async () => {
     try {
-      setIsLoading(true)
-      const response = await TrackerApi.deleteTracker()
-      if (response?.data?.success) {
+      const response = await deleteTrackers(null).unwrap()
+      if (response?.success) {
         await showToast('Трекер успешно удален')
-        dispatch(setVisitedTrackerPage(0))
         navigate(ACTIVITY_ROUTE)
-      } else {
-        await showToast('Произошла ошибка')
       }
     } catch (error) {
       await showToast('Произошла ошибка')
-    } finally {
-      setIsLoading(false)
     }
   }
 
@@ -67,9 +57,6 @@ export const TrackerHabitsPage = () => {
       ]
     })
   }
-
-
-  console.log('render')
 
 
   return (

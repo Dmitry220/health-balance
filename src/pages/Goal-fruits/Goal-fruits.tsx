@@ -1,15 +1,17 @@
-import { useState } from 'react'
+import {useState} from 'react'
 import Header from '../../Components/Header/Header'
-import { trackerSelector } from '../../Redux/Tracker/slice'
-import TrackerApi from '../../services/tracker.api'
-import { showToast } from '../../utils/common-functions'
-import { useAppSelector } from '../../hooks/redux-hooks'
+import {useGetTrackerQuery, useUpdateTrackerMutation} from '../../services/tracker.api'
+import {showToast} from '../../utils/common-functions'
 import './goal-fruits.scss'
+import {IUpdateTracker} from "../../models/ITracker";
 
 export const GoalFruits = () => {
-  const tracker = useAppSelector(trackerSelector)
 
-  const [countFruits, setCountFruits] = useState<number>(tracker.fruits)
+  const {data: tracker}= useGetTrackerQuery(undefined)
+
+  const [countFruits, setCountFruits] = useState<number>(tracker?.fruits || 0)
+
+  const [updateTracker, {isLoading}] = useUpdateTrackerMutation()
 
   const addCountFruits = () => setCountFruits((prev) => prev + 1)
   const decreaseCountFruits = () => {
@@ -20,12 +22,15 @@ export const GoalFruits = () => {
 
   const save = async () => {
     try {
-      const response = await TrackerApi.updateTracker(tracker.id, 'fruits', countFruits + '')
-      if(response?.data?.tracker_id){
+      const data:IUpdateTracker = {
+        id: tracker?.id || 0,
+        type: 'fruits',
+        value: countFruits.toString()
+      }
+      const response = await updateTracker(data).unwrap()
+      if(response?.tracker_id){
         await showToast('Изменено успешно!')
-      }else{
-        await showToast('Ошибка!') 
-      }      
+      }
     } catch (error) {
       await showToast('Ошибка!')
     }
@@ -44,7 +49,7 @@ export const GoalFruits = () => {
         </div>
         <div onClick={addCountFruits}>+</div>
       </div>
-      <button className='goal-fruits__button _button-white' onClick={save}>
+      <button disabled={isLoading} className='goal-fruits__button _button-white' onClick={save}>
         Установить
       </button>
     </div>

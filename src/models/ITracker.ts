@@ -35,3 +35,9 @@ export interface ITracks {
 	waterTrack:ITrack[],
 	sleepTrack:ITrack[],
 }
+
+export interface IUpdateTracker {
+	id: number,
+	type:"weight" | "fruits" | "wake_up_time",
+	value: string
+}
