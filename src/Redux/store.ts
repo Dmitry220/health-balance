@@ -22,12 +22,13 @@ import { visitedPagesSlice } from './slice/visitedPageSlice'
 import { lessonsSlice } from './slice/lessonsSlice'
 import { purposesSlice } from './slice/purposeSlice'
 import { newsSlice } from './slice/newsSlice'
-import { trackerSlice } from './slice/trackerSlice'
+import { slice } from './Tracker/slice'
 import { leaderboardSlice } from './slice/leaderBoardSlice'
 import { settingsSlice } from './slice/settingsSlice'
 import { platformApi } from '../services/PlatformService'
 import { authApi } from '../services/AuthService'
 import { consultationApi } from '../services/ConsultationService'
+import {api} from "../services/api";
 
 const persistConfig = {
   key: 'root',
@@ -36,6 +37,7 @@ const persistConfig = {
 }
 
 const reducer = combineReducers({
+  [api.reducerPath]:api.reducer,
   [authApi.reducerPath]: authApi.reducer,
   app: appSlice.reducer,
   auth: authSlice.reducer,
@@ -48,7 +50,7 @@ const reducer = combineReducers({
   lessons: lessonsSlice.reducer,
   purposes: purposesSlice.reducer,
   news: newsSlice.reducer,
-  tracker: trackerSlice.reducer,
+  tracker: slice.reducer,
   healthIndex: healthIndexSlice.reducer,
   leaderboard: leaderboardSlice.reducer,
   settings: settingsSlice.reducer,
@@ -73,7 +75,8 @@ export const store = configureStore({
     }).concat([
       platformApi.middleware,
       authApi.middleware,
-      consultationApi.middleware
+      consultationApi.middleware,
+        api.middleware
     ]),
   devTools: process.env.NODE_ENV !== 'production'
 })

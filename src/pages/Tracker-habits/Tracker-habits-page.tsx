@@ -1,45 +1,43 @@
-import { Navigation } from '../../Components/Navigation/Navigation'
-import { WaterTarget } from '../../Components/Tracker/Water-target'
-import { FruitTarget } from '../../Components/Tracker/Fruit-target'
+import {Navigation} from '../../Components/Navigation/Navigation'
+import {WaterTarget} from '../../Components/Tracker/Water-target'
+import {FruitTarget} from '../../Components/Tracker/Fruit-target'
 import './tracker-habits_page.scss'
 import icon_fruit from '../../assets/image/tracker/icon-fruit.svg'
 import icon_water from '../../assets/image/tracker/icon-water.svg'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import {NavLink, useNavigate} from 'react-router-dom'
 import {
   ACTIVITY_ROUTE,
   GOAL_FRUITS__ROUTE,
   GOAL_WATER__ROUTE,
   STATISTICS_TRACKER__ROUTE
 } from '../../provider/constants-route'
-import { HeaderTwo } from '../../Components/Header-two/Header-two'
+import {HeaderTwo} from '../../Components/Header-two/Header-two'
+import {useAppDispatch, useAppSelector} from '../../hooks/redux-hooks'
+import {useState} from 'react'
+import {showToast, sklonenie} from '../../utils/common-functions'
+import TrackerApi, {useGetTrackerQuery, useGetTracksQuery} from '../../services/tracker.api'
+import {confirmAlert} from 'react-confirm-alert'
+import {setVisitedTrackerPage} from '../../Redux/slice/visitedPageSlice'
+import {HealthySleep} from '../../Components/Tracker/Healthy-sleep'
 
-import { NavLink } from 'react-router-dom'
-import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
-import { useEffect, useState } from 'react'
-import {
-  countWaterSelector,
-  getTracker,
-  getTracks,
-  trackerSelector
-} from '../../Redux/slice/trackerSlice'
-import { showToast, sklonenie } from '../../utils/common-functions'
-import TrackerService from '../../services/TrackerService'
-import { confirmAlert } from 'react-confirm-alert'
-import HealthySleep from '../../Components/Tracker/Healthy-sleep'
-import { setVisitedTrackerPage } from '../../Redux/slice/visitedPageSlice'
 
 export const TrackerHabitsPage = () => {
+
+  const {data:tracker} = useGetTrackerQuery()
+
+  useGetTracksQuery(new Date().toLocaleDateString(),{
+   refetchOnMountOrArgChange:true
+  })
+
   const dispatch = useAppDispatch()
-  const tracker = useAppSelector(trackerSelector)
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const countWater = useAppSelector(countWaterSelector)
-  const location = useLocation()
+  const countWater = tracker&&((tracker.weight * 35) / 1000).toFixed(1);
   const navigate = useNavigate()
 
   const deleteTracker = async () => {
     try {
       setIsLoading(true)
-      const response = await TrackerService.deleteTracker()
+      const response = await TrackerApi.deleteTracker()
       if (response?.data?.success) {
         await showToast('Трекер успешно удален')
         dispatch(setVisitedTrackerPage(0))
@@ -70,9 +68,9 @@ export const TrackerHabitsPage = () => {
     })
   }
 
-  useEffect(() => {
-    dispatch(getTracks(new Date().toLocaleDateString()))
-  }, [location.key])
+
+  console.log('render')
+
 
   return (
     <div className={'tracker-habits-page'}>
@@ -113,8 +111,8 @@ export const TrackerHabitsPage = () => {
         <div className='tracker-habits-page__task-column'>
           <img src={icon_fruit} alt='' />
           Съесть <span>{tracker?.fruits}</span>{' '}
-          {sklonenie(tracker?.fruits, ['фрукт', 'фрукта', 'фруктов'])} /{' '}
-          {sklonenie(tracker?.fruits, ['овощ', 'овоща', 'овощей'])}
+          {tracker && sklonenie(tracker?.fruits, ['фрукт', 'фрукта', 'фруктов'])} /{' '}
+          {tracker && sklonenie(tracker?.fruits, ['овощ', 'овоща', 'овощей'])}
         </div>
         <div className='tracker-habits-page__task-column'>
           <div

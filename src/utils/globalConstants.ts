@@ -1,3 +1,5 @@
+import {ITracksSleepDaysWeek} from "../models/ITracker";
+
 export const toolbarOptions = [
 	['bold', 'italic', 'underline'] , 
 	[{ 'list': 'ordered'}, { 'list': 'bullet' }],
@@ -28,7 +30,7 @@ export const toolbarOptions = [
 	}
  ]
  
- export const tracksSleepDaysWeek = [
+ export const tracksSleepDaysWeek:ITracksSleepDaysWeek[] = [
 	{
 	  day:'пн',
 	  type:1

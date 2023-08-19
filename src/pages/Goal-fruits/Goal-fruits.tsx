@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Header from '../../Components/Header/Header'
-import { trackerSelector } from '../../Redux/slice/trackerSlice'
-import TrackerService from '../../services/TrackerService'
+import { trackerSelector } from '../../Redux/Tracker/slice'
+import TrackerApi from '../../services/tracker.api'
 import { showToast } from '../../utils/common-functions'
 import { useAppSelector } from '../../hooks/redux-hooks'
 import './goal-fruits.scss'
@@ -20,7 +20,7 @@ export const GoalFruits = () => {
 
   const save = async () => {
     try {
-      const response = await TrackerService.updateTracker(tracker.id, 'fruits', countFruits + '')
+      const response = await TrackerApi.updateTracker(tracker.id, 'fruits', countFruits + '')
       if(response?.data?.tracker_id){
         await showToast('Изменено успешно!')
       }else{

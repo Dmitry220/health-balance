@@ -144,6 +144,8 @@ export const ActivityPage: FC = () => {
       })
         .then((res: any) => {
           let steps = res.map((item: any) => {
+            console.log("item google fit: ", JSON.stringify(item));
+            
             return {
               date: item.startDate.toLocaleDateString(),
               steps: item.value.toFixed()

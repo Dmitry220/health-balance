@@ -24,3 +24,14 @@ export interface ITrackAdditional {
 	time: string;
 	unit: string
 }
+
+export interface ITracksSleepDaysWeek {
+	day:string,
+	type:1|4
+}
+
+export interface ITracks {
+	fruitTrack:ITrack[],
+	waterTrack:ITrack[],
+	sleepTrack:ITrack[],
+}

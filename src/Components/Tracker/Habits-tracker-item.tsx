@@ -4,9 +4,11 @@ import succesfully from '../../assets/image/tracker/successfully.svg'
 import missed from '../../assets/image/tracker/missed.svg'
 import { ITrack, ITrackAdditional } from '../../models/ITracker'
 import React from 'react'
-import TrackerService from '../../services/TrackerService'
+import TrackerApi, {useCompleteTrackMutation, useGetTracksQuery} from '../../services/tracker.api'
 import { showToast } from '../../utils/common-functions'
 import { confirmAlert } from 'react-confirm-alert'
+import { selectedDayTrackerSelector} from "../../Redux/Tracker/slice";
+import {useAppDispatch, useAppSelector} from "../../hooks/redux-hooks";
 
 
 interface IWaterTargetItem {
@@ -16,10 +18,13 @@ interface IWaterTargetItem {
 
 const HabitsTargetItem = memo<IWaterTargetItem>(({ track }) => {
 
-  const [trackCompleted, setTrackCompleted] = useState(track.completed)
   const time = `${new Date(track.send_time * 1000).getHours().toString().padStart(2, '0')}:${new Date(track.send_time * 1000).getMinutes().toString().padStart(2, '0')}`
-
   let additional = isJsonString(track.additional)
+
+  const [
+    complete,
+    { isLoading: isUpdating },
+  ] = useCompleteTrackMutation()
 
   const definitionTargetTrack = (type: number) => {
     switch (type) {
@@ -53,22 +58,14 @@ const HabitsTargetItem = memo<IWaterTargetItem>(({ track }) => {
       await showToast('Время не соответствует старту трекера') 
       return
     }
-    if(!trackCompleted){
+    if(!track.completed){
       confirmAlert({
         title:
           `Выполнить цель "${definitionTargetTrack(track.type)}" в ${time}?`,
         buttons: [
           {
             label: 'Да',
-            onClick: async () => {
-              try {
-                const response = await TrackerService.complteteTrack(track.id)
-                setTrackCompleted(response.data.success)
-                if (response.data.success) await showToast('Цель выполнена')
-              } catch (error) {
-                await showToast('Ошибка')
-              }
-            }
+            onClick: async () => complete(track.id).unwrap().then(()=>showToast('Цель выполнена'))
           },
           {
             label: 'Нет'
@@ -76,26 +73,24 @@ const HabitsTargetItem = memo<IWaterTargetItem>(({ track }) => {
         ]
       })
     }
-   
   }
 
 
   return (
     <div className='habits-tracker-item'>
-
       {track.notification_send ? (
         <>
           <img
-            src={trackCompleted ? succesfully : missed}
+            src={track.completed ? succesfully : missed}
             onClick={completeTrack}
-            alt={trackCompleted ? 'succesfully' : 'missed'}
+            alt={track.completed ? 'succesfully' : 'missed'}
             style={{ marginBottom: 3 }}
             width={34}
             height={34}
           />
           <div
             className={
-              `habits-tracker-item__value ${trackCompleted ?
+              `habits-tracker-item__value ${track.completed ?
                 'habits-tracker-item__value_green' :
                 'habits-tracker-item__value_yellow'}`
             }
@@ -116,7 +111,7 @@ const HabitsTargetItem = memo<IWaterTargetItem>(({ track }) => {
                 .toString()
                 .padStart(2, '0')}
           </div>
-          {!trackCompleted && (
+          {!track.completed && (
             <div className={'habits-tracker-item__value'}>{additional}</div>
           )}
         </>

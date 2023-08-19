@@ -23,7 +23,7 @@ import { ModalExit } from '../../Components/Modals/Modal-exit'
 import Pedometer from '../../plugins/pedometer'
 import { Capacitor } from '@capacitor/core'
 import { persistor } from '../..'
-import TrackerService from '../../services/TrackerService'
+import TrackerApi from '../../services/tracker.api'
 import { isGoogleFitSelector } from '../../Redux/slice/settingsSlice'
 import { Platform } from '../../Components/Platform/Platform'
 import { Footer } from '../../Components/Footer/Footer'
@@ -54,7 +54,7 @@ export const Profile = () => {
       await Pedometer.reset()
       await Pedometer.stop()
     }
-    await TrackerService.deleteTracker()
+    await TrackerApi.deleteTracker()
     localStorage.removeItem('token')
     localStorage.removeItem('id')
     await dispatch(clearResults())

@@ -1,160 +1,106 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "../store";
-import { ICreatingTracker, IGetTracker, ITrack } from "../../models/ITracker";
-import TrackerService from "../../services/TrackerService";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {RootState} from "../store";
+import {IGetTracker, ITrack, ITracks} from "../../models/ITracker";
+import {tracksSleepDaysWeek} from "../../utils/globalConstants";
 
-const END_DATE = new Date();
-END_DATE.setDate(END_DATE.getDate() + 3);
+
+interface IPayloadCurrentDay {
+    date: string,
+    tracks?: ITracks
+}
 
 export interface ITracker {
-  creatingTracker: ICreatingTracker;
-  tracker: IGetTracker;
-  isLoading: boolean;
-  countWater: number;
-  isChangeTrack: boolean;
-  datesSleep: {
-    id: number;
-    day: string;
-    date: Date;
-  }[];
-  tracks: {
-    waterTrack: ITrack[];
-    sleepTrack: ITrack[];
-    fruitTrack: ITrack[];
-  };
+    tracker: IGetTracker;
+    isLoading: boolean;
+    currentDay: ITrack | undefined;
+    dataSleep: ITrack[];
+    tracks: ITracks;
+    selectedDate: Date
 }
 
 const initialState: ITracker = {
-  creatingTracker: { fruits: 0, weight: 60, wake_up_time: "06:20" },
-  tracker: { id: 0, fruits: 0, weight: 60, wake_up_time: "06:20" },
-  isLoading: false,
-  countWater: 0,
-  isChangeTrack: true,
-  datesSleep: [
-    {
-      id: 1,
-      day: "Пн",
-      date: new Date(),
+    tracker: {id: 0, fruits: 0, weight: 60, wake_up_time: "06:20"},
+    isLoading: false,
+    dataSleep: [],
+    currentDay: undefined,
+    tracks: {
+        fruitTrack: [],
+        sleepTrack: [],
+        waterTrack: [],
     },
-    {
-      id: 2,
-      day: "Вт",
-      date: new Date(),
-    },
-    {
-      id: 3,
-      day: "Ср",
-      date: new Date(),
-    },
-    {
-      id: 4,
-      day: "Чт",
-      date: new Date(),
-    },
-    {
-      id: 5,
-      day: "Пт",
-      date: new Date(),
-    },
-    {
-      id: 6,
-      day: "Сб",
-      date: new Date(),
-    },
-    {
-      id: 7,
-      day: "Вс",
-      date: new Date(),
-    },
-  ],
-  tracks: {
-    fruitTrack: [],
-    sleepTrack: [],
-    waterTrack: [],
-  },
+    selectedDate: new Date()
 };
 
-export const getTracker = createAsyncThunk("getTracker", async () => {
-  const response = await TrackerService.getTracker();
-  return response.data.data;
-});
 
-export const getTracks = createAsyncThunk("getTracks", async (date: string) => {
-  const response = await TrackerService.getTracks(date);
-  return response.data.data;
-});
+export const slice = createSlice({
+    name: "trackerSlice",
+    initialState,
+    reducers: {
+        setFruitsCreatingTracker: (state, action) => {
+            state.tracker.fruits = action.payload;
+        },
+        setWeightCreatingTracker: (state, action) => {
+            state.tracker.weight = action.payload;
+        },
+        setWakeUpCreatingTracker: (state, action) => {
+            state.tracker.wake_up_time = action.payload;
+        },
+        updateDataSleepTrack: (state,{payload}:PayloadAction<ITracks>) => {
+            let difference:number = tracksSleepDaysWeek.length - payload.sleepTrack.length
+            let newArraySleepTrack: ITrack[] = [...payload.sleepTrack]
 
-export const trackerSlice = createSlice({
-  name: "trackerSlice",
-  initialState,
-  reducers: {
-    setFruitsCreatingTracker: (state, action) => {
-      state.tracker.fruits = action.payload;
-    },
-    setWeightCreatingTracker: (state, action) => {
-      state.tracker.weight = action.payload;
-    },
-    setWakeUpCreatingTracker: (state, action) => {
-      state.tracker.wake_up_time = action.payload;
-    },
-    setChangeTrack: (state, action: PayloadAction<boolean>) => {
-      state.isChangeTrack = action.payload;
-    },
-  },
-  extraReducers: (builder) => {
-    builder.addCase(getTracker.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(
-      getTracker.fulfilled,
-      (state, action: PayloadAction<IGetTracker>) => {
-        if (action.payload) {
-          state.tracker = action.payload;
-          state.countWater = +((action.payload.weight * 35) / 1000).toFixed(1);
-          state.isLoading = false;
-        }else{
-          state.tracker.id = 0;
+            for (let i = 0; i < difference; i++) {
+                console.log(difference, payload)
+                const element = payload.sleepTrack[i]?.type
+                newArraySleepTrack.unshift({
+                    id: -i-1,
+                    type: element === 4 ? 1 : 4,
+                    additional: tracksSleepDaysWeek[difference-i-1].day,
+                    completed: false,
+                    notification_send: false,
+                    send_time: 0,
+                    sleep_time: 0
+                })
+            }
+            state.dataSleep = newArraySleepTrack
+        },
+        setCurrentDay: (state, {payload}: PayloadAction<IPayloadCurrentDay>) => {
+            const indexWeek =
+                new Date(payload.date.replace(/(\d{2}).(\d{2}).(\d{4})/, '$2/$1/$3')).getDay() === 0
+                    ? 6
+                    : new Date(payload.date.replace(/(\d{2}).(\d{2}).(\d{4})/, '$2/$1/$3')).getDay() -
+                    1
+            if(payload.tracks){
+                state.currentDay = payload.tracks.sleepTrack.find(
+                    (item) => item.additional === tracksSleepDaysWeek[indexWeek * 2].day && item.type === 1
+                )
+            }
+        },
+        setSelectedDateTracker:(state,action:PayloadAction<Date>)=>{
+            state.selectedDate = action.payload
         }
-      }
-    );
-    builder.addCase(getTracks.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(
-      getTracks.fulfilled,
-      (state, action: PayloadAction<ITrack[]>) => {
-        state.tracks.fruitTrack = action.payload.filter(
-          (item) => item.type === 3
-        );
-        state.tracks.waterTrack = action.payload.filter(
-          (item) => item.type === 2
-        );
-        state.tracks.sleepTrack = action.payload.filter(
-          (item) => item.type === 1 || item.type === 4
-        );
-        state.isLoading = false;
-      }
-    );
-  },
+    },
+    extraReducers: (builder) => {},
 });
 
 export const {
-  setFruitsCreatingTracker,
-  setWakeUpCreatingTracker,
-  setWeightCreatingTracker,
-  setChangeTrack,
-} = trackerSlice.actions;
+    setFruitsCreatingTracker,
+    setWakeUpCreatingTracker,
+    setWeightCreatingTracker,
+    updateDataSleepTrack,
+    setCurrentDay,
+    setSelectedDateTracker
+} = slice.actions;
 
-export const creatingTrackerSelector = (state: RootState) =>
-  state.tracker.creatingTracker;
+
 export const trackerSelector = (state: RootState) => state.tracker.tracker;
-export const countWaterSelector = (state: RootState) =>
-  state.tracker.countWater;
-export const isLoadingSelector = (state: RootState) => state.tracker.isLoading;
-export const isChangeTrackSelector = (state: RootState) =>
-  state.tracker.isChangeTrack;
-export const datesSleepSelector = (state: RootState) =>
-  state.tracker.datesSleep;
-export const tracksSelector = (state: RootState) => state.tracker.tracks;
 
-export default trackerSlice.reducer;
+export const isLoadingSelector = (state: RootState) => state.tracker.isLoading;
+
+export const dataSleepSelector = (state: RootState) =>
+    state.tracker.dataSleep;
+export const tracksSelector = (state: RootState) => state.tracker.tracks;
+export const currentDaySelector = (state: RootState) => state.tracker.currentDay;
+export const selectedDayTrackerSelector = (state: RootState) => state.tracker.selectedDate;
+
+export default slice.reducer;

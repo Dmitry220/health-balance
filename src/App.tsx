@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import './assets/style/global.scss'
 import AppRouter from './provider/app-router'
 import { App as CapacitorApp } from '@capacitor/app'
-import TrackerService from './services/TrackerService'
+import TrackerApi from './services/tracker.api'
 import { showToast } from './utils/common-functions'
 import { useNavigate } from 'react-router-dom'
 import {
@@ -35,7 +35,7 @@ function App() {
           )
         }
         if (notification.additionalData?.track_id) {
-          const response = await TrackerService.complteteTrack(
+          const response = await TrackerApi.complteteTrack(
             notification.additionalData.track_id
           )
           if (response?.data?.success) {

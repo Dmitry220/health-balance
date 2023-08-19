@@ -7,8 +7,8 @@ import {
 import Header from '../../Components/Header/Header'
 import { ScrollPicker } from '../../Components/Scroll-picker/Scroll-picker'
 import './goal-sleep.scss'
-import TrackerService from '../../services/TrackerService'
-import { trackerSelector } from '../../Redux/slice/trackerSlice'
+import TrackerApi from '../../services/tracker.api'
+import { trackerSelector } from '../../Redux/Tracker/slice'
 import { useAppSelector } from '../../hooks/redux-hooks'
 
 export const GoalSleep = () => {
@@ -29,7 +29,7 @@ export const GoalSleep = () => {
 
   const save = async () => {
     try {
-      const response = await TrackerService.updateTracker(
+      const response = await TrackerApi.updateTracker(
         tracker.id,
         'wake_up_time',
         hour.padStart(2, '0') + ':' + minutes.padStart(2, '0')

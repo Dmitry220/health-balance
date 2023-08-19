@@ -3,9 +3,9 @@ import './goal-water.scss'
 import { ScrollPicker } from '../../Components/Scroll-picker/Scroll-picker'
 import { getItemsWeight, showToast } from '../../utils/common-functions'
 import Header from '../../Components/Header/Header'
-import TrackerService from '../../services/TrackerService'
+import TrackerApi from '../../services/tracker.api'
 import { useAppSelector } from '../../hooks/redux-hooks'
-import { trackerSelector } from '../../Redux/slice/trackerSlice'
+import { trackerSelector } from '../../Redux/Tracker/slice'
 
 export const GoalWater = () => {
   const startValueWeight = 40
@@ -19,7 +19,7 @@ export const GoalWater = () => {
 
   const save = async () => {
     try {
-      const response = await TrackerService.updateTracker(tracker.id, 'weight', weightUser)
+      const response = await TrackerApi.updateTracker(tracker.id, 'weight', weightUser)
       if(response?.data?.tracker_id){
         await showToast('Изменено успешно!')
       }else{
