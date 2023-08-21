@@ -39,9 +39,9 @@
 	<key>NSMotionUsageDescription</key>
 	<string>Мы используем датчик движения, чтобы отслеживать количество ваших шагов</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Для сохранения фотографий с камеры в библиотеку</string>
+	<string>Для доступа к галерее чтобы сохранить аватар пользователя</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Чтобы выбрать фотографии из библиотеки</string>
+	<string>Для доступа к галерее чтобы установить аватар пользователя</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
