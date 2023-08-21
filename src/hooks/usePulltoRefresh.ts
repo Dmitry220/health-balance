@@ -49,7 +49,7 @@ export function usePullToRefresh(
 
                 const pullIndicator = document.createElement("div");
                 pullIndicator.className = "pull-indicator";
-                pullIndicator.innerHTML = "<span id='loader'></span>";
+                pullIndicator.innerHTML = "<span id='loader'/>";
                 if (top) pullIndicator.style.top = top + "px"
                 el.appendChild(pullIndicator);
             }
@@ -77,7 +77,7 @@ export function usePullToRefresh(
 
                 // get the difference
                 const dy = currentY - initialY;
-
+                if (dy < 0) return;
                 const parentEl = el.parentNode as HTMLDivElement;
                 if (dy > TRIGGER_THRESHOLD) {
                     flipArrow(parentEl);
@@ -86,7 +86,7 @@ export function usePullToRefresh(
                 } else {
                     removePullIndicator(parentEl);
                 }
-                console.log(dy)
+
 
                 // update the element's transform
                 el.style.transform = `translateY(${appr(dy)}px)`;
