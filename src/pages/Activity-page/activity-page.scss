@@ -8,9 +8,13 @@
 .activity-page {
   padding: 0 0 84px 0;
 
+  &__pull-to-refresh{
+    position: relative;
+    padding: 92px 0 0 0;
+  }
+
   &__steps {
     margin: 0 0 48px 0;
-    padding: 92px 0 0 0;
   }
   &__steps-data {
     margin: 0 0 38px 0;

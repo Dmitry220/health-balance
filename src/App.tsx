@@ -93,21 +93,9 @@ function App() {
             paddingTop: Capacitor.getPlatform() === 'ios' ? +statusBar : 16
           }}
       >
-        {/* <PullToRefresh
-        pullDownContent={<PullDownContent />}
-        releaseContent={<ReleaseContent />}
-        refreshContent={<RefreshContent />}
-        pullDownThreshold={200}
-        onRefresh={onRefresh}
-        triggerHeight={100}
-        backgroundColor="#121212"
-      > */}
         {
           !connect ? <NoNetworkConnection setConnect={setConnect}/> : <AppRouter/>
         }
-        {/* </PullToRefresh> */}
-
-
       </div>
   )
 }

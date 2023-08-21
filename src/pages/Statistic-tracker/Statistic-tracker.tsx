@@ -1,5 +1,5 @@
 import {TabContent, Tabs} from '../../Components/Tabs/Tabs'
-import React, {useState} from 'react'
+import React, {useRef, useState} from 'react'
 import Header from '../../Components/Header/Header'
 import './statistic-tracker.scss'
 import {WaterTarget} from '../../Components/Tracker/Water-target'
@@ -9,46 +9,58 @@ import ReactDatePicker from 'react-datepicker'
 import ru from 'date-fns/locale/ru'
 import {HealthySleep} from "../../Components/Tracker/Healthy-sleep";
 import {useGetTracksQuery} from "../../services/tracker.api";
+import {usePullToRefresh} from "../../hooks/usePulltoRefresh";
 
 
 export const StatisticTracker = () => {
 
+    const pullToRefresh = useRef(null)
     const namesTabsDynamics = ['Сон', 'Вода', 'Фрукты']
     const [currentValueTab, setCurrentValueTab] = useState<number>(0)
     const [startDate, setStartDate] = useState<Date>(new Date())
 
-    useGetTracksQuery(startDate.toLocaleDateString())
+    const {refetch}=useGetTracksQuery(startDate.toLocaleDateString())
+
+    const handleRefresh = async () => {
+        refetch()
+    }
+
+    usePullToRefresh(pullToRefresh, handleRefresh)
 
     return (
         <div className='statistic-tracker'>
             <Header title='Статистика трекера'/>
-            <div className='statistic-tracker__calendar'>
-                <ReactDatePicker
-                    selected={startDate}
-                    maxDate={new Date()}
-                    onChange={(date: Date) => {
-                         setStartDate(date)
-                    }}
-                    locale={ru}
-                    inline
-                />
+            <div style={{position: "relative"}}>
+                <div ref={pullToRefresh}>
+                    <div className='statistic-tracker__calendar'>
+                        <ReactDatePicker
+                            selected={startDate}
+                            maxDate={new Date()}
+                            onChange={(date: Date) => {
+                                setStartDate(date)
+                            }}
+                            locale={ru}
+                            inline
+                        />
+                    </div>
+                    <DayStatistic date={startDate.toLocaleDateString()}/>
+                    <Tabs
+                        labels={namesTabsDynamics}
+                        onClick={setCurrentValueTab}
+                        value={currentValueTab}
+                    />
+                    <div style={{height: '25px'}}/>
+                    <TabContent index={0} value={currentValueTab}>
+                        <HealthySleep editProhibition date={startDate.toLocaleDateString()}/>
+                    </TabContent>
+                    <TabContent index={1} value={currentValueTab}>
+                        <WaterTarget date={startDate.toLocaleDateString()}/>
+                    </TabContent>
+                    <TabContent index={2} value={currentValueTab}>
+                        <FruitTarget date={startDate.toLocaleDateString()}/>
+                    </TabContent>
+                    </div>
             </div>
-            <DayStatistic date={startDate.toLocaleDateString()}/>
-            <Tabs
-                labels={namesTabsDynamics}
-                onClick={setCurrentValueTab}
-                value={currentValueTab}
-            />
-            <div style={{height: '25px'}}/>
-            <TabContent index={0} value={currentValueTab}>
-                <HealthySleep editProhibition date={startDate.toLocaleDateString()}/>
-            </TabContent>
-            <TabContent index={1} value={currentValueTab}>
-                <WaterTarget date={startDate.toLocaleDateString()}/>
-            </TabContent>
-            <TabContent index={2} value={currentValueTab}>
-                <FruitTarget date={startDate.toLocaleDateString()}/>
-            </TabContent>
         </div>
-    )
+)
 }

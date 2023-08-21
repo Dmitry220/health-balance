@@ -1,10 +1,36 @@
 @import 'src/assets/style/variables';
 
 
-
-.ptr__pull-down {
-	top: 30px !important;
+.pull-to-refresh{
+	&_active{
+		.ptr__pull-down {
+			top: 50px !important;
+		}
+	}
 }
+
+.pull-indicator {
+	position: absolute;
+	top: 0px;
+	left: 0;
+	width: 100%;
+	background-color: transparent;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--color-text-lighter);
+	transition: transform 0.2s ease-in-out;
+	z-index: 2;
+}
+
+.pull-indicator span {
+	transition: transform 0.2s ease-in-out;
+}
+
+.pull-indicator.flip span {
+	transform: rotate(180deg);
+}
+
 
 #loader {
 	width: 30px;
@@ -15,14 +41,4 @@
 	position: relative;
 	z-index: 9;
 	box-sizing: border-box;
-	animation: rotation 2s linear infinite;
  }
- 
- @keyframes rotation {
-	0% {
-	  transform: rotate(0deg);
-	}
-	100% {
-	  transform: rotate(360deg);
-	}
- } 

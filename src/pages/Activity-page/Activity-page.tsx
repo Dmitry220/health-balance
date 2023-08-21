@@ -32,11 +32,11 @@ import {
 import { isGoogleFitSelector } from '../../Redux/slice/settingsSlice'
 import { Charts } from '../../Components/Charts/Charts'
 import AppService from '../../services/AppService'
-import PullToRefresh from 'react-simple-pull-to-refresh';
 import { leaderboard } from '../../Redux/slice/leaderBoardSlice'
 import { periodMonth, periodWeek } from '../../Components/Charts/Chart-options'
 import { ImportantBlock } from '../../Components/Important-block/Important-block'
 import { Banner } from '../../Components/Banner/Banner'
+import {usePullToRefresh} from "../../hooks/usePulltoRefresh";
 
 
 export const ActivityPage: FC = () => {
@@ -49,6 +49,8 @@ export const ActivityPage: FC = () => {
   const purpose = useAppSelector(purposeSelector)
   const currentStepsCount = useAppSelector(currentStepsCountSelector)
   const isGoogleFit = useAppSelector(isGoogleFitSelector)
+
+  const pullToRefresh = useRef(null)
 
   useEffect(() => {
     startPluginFromPlatform()
@@ -180,24 +182,15 @@ export const ActivityPage: FC = () => {
     await getDataCharts()
   }
 
-
-  console.log('render active');
+  usePullToRefresh(pullToRefresh, handleRefresh,50)
 
   return (
     <div className='activity-page'>
 
       <HeaderActive transparent={transparentHeader} />
       <Navigation />
-      <PullToRefresh
-        maxPullDownDistance={95}
-        pullDownThreshold={67}
-        fetchMoreThreshold={100}
-        pullingContent={''}
-        refreshingContent={<span id="loader"></span>}
-        onRefresh={handleRefresh}
-        className='pull-to-refresh'
-      >
-        <>
+      <div className={'activity-page__pull-to-refresh'}>
+        <div ref={pullToRefresh}>
           <div
             className='activity-page__steps'
             id={'step'}
@@ -216,16 +209,16 @@ export const ActivityPage: FC = () => {
             <Target />
           </div>
           <Charts />
-          <div className='activity-page__important'>
-            <ImportantBlock />
-            <Banner title={'Стартовый опрос'} text={'Ответьте на 4 вопроса'} />
-          </div>
+          {/*<div className='activity-page__important'>*/}
+          {/*  <ImportantBlock />*/}
+          {/*  <Banner title={'Стартовый опрос'} text={'Ответьте на 4 вопроса'} />*/}
+          {/*</div>*/}
           <div className='activity-page__top-rating top-rating'>
             <div className='top-rating__title title'>ТОП сегодня</div>
             <TopRating />
           </div>
-        </>
-      </PullToRefresh>
+        </div>
+     </div>
       <div className='circle-gradient circle-gradient_top' />
     </div>
   )
