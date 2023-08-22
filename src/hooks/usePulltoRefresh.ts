@@ -9,7 +9,7 @@ function appr(x: number) {
 }
 
 const TRIGGER_THRESHOLD = 100
-const SHOW_INDICATOR_THRESHOLD = 50
+const SHOW_INDICATOR_THRESHOLD = 80
 
 
 export function usePullToRefresh(
@@ -74,19 +74,19 @@ export function usePullToRefresh(
 
                 // get the current Y position
                 const currentY = moveEvent.touches[0].clientY;
-
                 // get the difference
                 const dy = currentY - initialY;
                 if (dy < 0) return;
-                const parentEl = el.parentNode as HTMLDivElement;
-                if (dy > TRIGGER_THRESHOLD) {
-                    flipArrow(parentEl);
-                } else if (dy > SHOW_INDICATOR_THRESHOLD) {
-                    addPullIndicator(parentEl);
-                } else {
-                    removePullIndicator(parentEl);
+                if(window.pageYOffset <= 0){
+                    const parentEl = el.parentNode as HTMLDivElement;
+                    if (dy > TRIGGER_THRESHOLD) {
+                        flipArrow(parentEl);
+                    } else if (dy > SHOW_INDICATOR_THRESHOLD) {
+                        addPullIndicator(parentEl);
+                    } else {
+                        removePullIndicator(parentEl);
+                    }
                 }
-
 
                 // update the element's transform
                 el.style.transform = `translateY(${appr(dy)}px)`;
@@ -106,7 +106,7 @@ export function usePullToRefresh(
                 // run the callback
                 const y = endEvent.changedTouches[0].clientY;
                 const dy = y - initialY;
-                if (dy > TRIGGER_THRESHOLD) {
+                if (dy > TRIGGER_THRESHOLD && window.pageYOffset <= 0) {
                     onTrigger();
                 }
 
