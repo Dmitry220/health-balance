@@ -21,6 +21,8 @@ export interface IGetProgressAndIDPolls {
   created_at: number;
 }
 
+
+
 export interface IDynamics {
   id: number;
   poll_id: number;
@@ -41,6 +43,8 @@ export interface IDynamics {
   date:number,
   diabetes_risk:number
 }
+
+export type KeysDynamics = keyof IDynamics;
 
 export interface IListReport {
   date: number;

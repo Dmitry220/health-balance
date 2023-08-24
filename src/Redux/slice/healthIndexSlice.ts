@@ -148,7 +148,7 @@ export const healthIndexSlice = createSlice({
     builder.addCase(
       getDynamics.fulfilled,
       (state, action: PayloadAction<IDynamics[]>) => {
-        state.dynamics = action.payload;
+        state.dynamics = action.payload.slice(Math.max(action.payload.length - 12, 0));
         state.isLoading = false;
       }
     );
