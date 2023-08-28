@@ -38,7 +38,6 @@ const persistConfig = {
 
 const reducer = combineReducers({
   [api.reducerPath]:api.reducer,
-  [authApi.reducerPath]: authApi.reducer,
   app: appSlice.reducer,
   auth: authSlice.reducer,
   challenges: challengeSlice.reducer,
@@ -53,9 +52,7 @@ const reducer = combineReducers({
   tracker: slice.reducer,
   healthIndex: healthIndexSlice.reducer,
   leaderboard: leaderboardSlice.reducer,
-  settings: settingsSlice.reducer,
-  [platformApi.reducerPath]: platformApi.reducer,
-  [consultationApi.reducerPath]: consultationApi.reducer
+  settings: settingsSlice.reducer
 })
 
 const persistedReducer = persistReducer(persistConfig, reducer)
@@ -72,12 +69,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false
-    }).concat([
-      platformApi.middleware,
-      authApi.middleware,
-      consultationApi.middleware,
-        api.middleware
-    ]),
+    }).concat(api.middleware),
   devTools: process.env.NODE_ENV !== 'production'
 })
 

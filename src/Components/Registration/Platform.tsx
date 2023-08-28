@@ -8,7 +8,7 @@ import {
   setTypePlatform
 } from '../../Redux/slice/authSlice'
 import { DOC_URL } from '../../http'
-import { useGetPlatfotmsQuery } from '../../services/PlatformService'
+import { useGetPlatformsQuery } from '../../services/PlatformService'
 import Button, { typesButton } from '../../UI-Components/Button/Button'
 import { stageRegistration } from '../../utils/enums'
 
@@ -19,7 +19,7 @@ interface IPlatform {
 export const Platform: FC<IPlatform> = ({ googleAuth = false }) => {
   const dispatch = useAppDispatch()
 
-  const { data: listPLatforms, isError } = useGetPlatfotmsQuery()
+  const { data: listPLatforms, isError } = useGetPlatformsQuery()
   const platform = useAppSelector(platformSelector)
   const [agree, setAgree] = useState(false)
   const [disable, setDisabled] = useState<boolean>(true)

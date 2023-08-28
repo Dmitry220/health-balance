@@ -4,7 +4,7 @@ import {
   setDisabledButton,
   setPlatformChallenge
 } from '../../Redux/slice/challengeSlice'
-import { useGetPlatfotmsForChallengeQuery } from '../../services/PlatformService'
+import { useGetPlatformsForChallengeQuery } from '../../services/PlatformService'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import './creating-challenge.scss'
 import { Preloader } from '../Preloader/Preloader'
@@ -12,7 +12,7 @@ import { Preloader } from '../Preloader/Preloader'
 export const SelectPlatform = () => {
   const dispatch = useAppDispatch()
   const platform = useAppSelector(platformCreatingChallengeSelector)
-  const { data, isLoading, isError } = useGetPlatfotmsForChallengeQuery()
+  const { data, isLoading, isError } = useGetPlatformsForChallengeQuery()
 
   const handlerPlatforms = (e: ChangeEvent<HTMLSelectElement>) => {
     dispatch(setPlatformChallenge(+e.target.value))

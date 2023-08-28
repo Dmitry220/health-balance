@@ -1,7 +1,8 @@
-import { AxiosResponse } from 'axios'
-import { $api,API_URL } from '../http'
-import { IAuthResponse, ILogin, ISighnInWithGoogle, ISubmitRegistration } from '../models/IAuth'
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import {AxiosResponse} from 'axios'
+import {$api} from '../http'
+import {IAuthResponse, ILogin, ISighnInWithGoogle, ISubmitRegistration} from '../models/IAuth'
+import {api} from "./api";
+
 export default class AuthService {
   
   static async restorePassword(email: string) {
@@ -41,9 +42,7 @@ export default class AuthService {
 
 
 
-export const authApi = createApi({
-  reducerPath: "authApi",
-  baseQuery: fetchBaseQuery({ baseUrl: API_URL }),
+export const authApi = api.injectEndpoints({
   endpoints: (builder) => ({
     registration: builder.mutation<ISubmitRegistration, Partial<ISubmitRegistration>>({
       query: (initialPost ) => ({
