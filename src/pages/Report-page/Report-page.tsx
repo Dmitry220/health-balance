@@ -1,30 +1,21 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import Header from '../../Components/Header/Header'
-import HealthIndexService from '../../services/HealthIndexService'
+import {useGetReportQuery} from '../../services/HealthIndexService'
 import './report-page.scss'
-import { useParams, useLocation } from 'react-router-dom'
-import { PDFGenerator } from '@awesome-cordova-plugins/pdf-generator'
-import { Filesystem, Directory } from '@capacitor/filesystem'
-import { FileOpener } from '@capacitor-community/file-opener'
+import {useLocation, useParams} from 'react-router-dom'
+import {PDFGenerator} from '@awesome-cordova-plugins/pdf-generator'
+import {Directory, Filesystem} from '@capacitor/filesystem'
+import {FileOpener} from '@capacitor-community/file-opener'
+import {Preloader} from "../../Components/Preloader/Preloader";
+import {showToast} from "../../utils/common-functions";
 
 type LocationProps = {
-  state: {
-    date: String
-  }
+    state: {
+        date: String
+    }
 }
 
-export const ReportPage = () => {
-  const reportTemplateRef: any = useRef(null)
-
-  const params = useParams()
-  const location = useLocation() as unknown as LocationProps
-
-  const [htmlReport, setHtmlReport] = useState<string>('')
-
-  useEffect(() => {
-    async function getReport() {
-      const response = await HealthIndexService.getReport(Number(params.id))
-      let style = `
+let style = `
         <style>
           h1 {
             font-size: 15px;
@@ -59,58 +50,74 @@ export const ReportPage = () => {
           }
         </style>
       `
-      setHtmlReport(style + response.data)
+
+export const ReportPage = () => {
+    const reportTemplateRef: React.RefObject<HTMLDivElement> = useRef(null)
+
+    const params = useParams()
+
+    const location = useLocation() as unknown as LocationProps
+
+    const {data: reportData, isLoading, isError, error} = useGetReportQuery(Number(params.id))
+
+    const [htmlReport, setHtmlReport] = useState<string>('')
+
+    useEffect(() => {
+        setHtmlReport(style + reportData)
+    }, [reportData])
+
+
+    async function writeFile(fileName: string, fileData: string) {
+        Filesystem.writeFile({
+            path: fileName,
+            data: fileData,
+            directory: Directory.Documents
+        }).then(() => {
+            Filesystem.getUri({
+                directory: Directory.Documents,
+                path: fileName
+            }).then(
+                (getUriResult) => {
+                    const path = getUriResult.uri
+                    FileOpener.open({filePath: path, contentType: 'application/pdf'})
+                        .then(() => console.log('File is opened'))
+                        .catch((error) => console.log('Error openening file', error))
+                },
+                (error) => {
+                    console.log(error)
+                }
+            )
+        })
     }
 
-    getReport()
-  }, [])
+    async function downloadReport() {
+        // генерируем PDF из отчёта
+        PDFGenerator.fromData(htmlReport, {documentSize: 'A4'})
+            .then((base64) => {
+                // скачиваем PDF на телефон
+                writeFile(`report${location.state.date}.pdf`, base64)
+            })
+            .catch((err) => console.log(err))
+    }
 
-  async function writeFile(fileName: string, fileData: any) {
-    Filesystem.writeFile({
-      path: fileName,
-      data: fileData,
-      directory: Directory.Documents
-    }).then(() => {
-      Filesystem.getUri({
-        directory: Directory.Documents,
-        path: fileName
-      }).then(
-        (getUriResult) => {
-          const path = getUriResult.uri
-          FileOpener.open({ filePath: path, contentType: 'application/pdf' })
-            .then(() => console.log('File is opened'))
-            .catch((error) => console.log('Error openening file', error))
-        },
-        (error) => {
-          console.log(error)
-        }
-      )
-    })
-  }
+    if (isError) showToast("Ошибка")
 
-  async function downloadReport() {
-    // генерируем PDF из отчёта
-    PDFGenerator.fromData(htmlReport, { documentSize: 'A4' })
-      .then((base64) => {
-        // скачиваем PDF на телефон
-        writeFile(`report${location.state.date}.pdf`, base64)
-      })
-      .catch((err) => console.log(err))
-  }
-
-  return (
-    <div className={'report-page'}>
-      <Header title={'Отчет'} />
-
-      <div
-        ref={reportTemplateRef}
-        className='report-page__content'
-        dangerouslySetInnerHTML={{ __html: htmlReport }}
-      />
-
-      <div onClick={() => downloadReport()} className={'report-page__button'}>
-        Скачать отчет
-      </div>
-    </div>
-  )
+    return (
+        <div className={'report-page'}>
+            <Header title={'Отчет'}/>
+            {
+                isLoading ? <Preloader height={'auto'}/> :
+                    <>
+                        <div
+                            ref={reportTemplateRef}
+                            className='report-page__content'
+                            dangerouslySetInnerHTML={{__html: htmlReport}}
+                        />
+                        <div onClick={() => downloadReport()} className={'report-page__button'}>
+                            Скачать отчет
+                        </div>
+                    </>
+            }
+        </div>
+    )
 }

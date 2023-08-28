@@ -1,76 +1,92 @@
-import { AxiosResponse } from "axios";
-import { $api } from "../http";
-import { IDynamics, IGetProgressAndIDPolls, IListReport, IQuestionnaire, ISaveCurrentResult } from "../models/IHealthIndex";
+import {
+    IDynamics,
+    IGetProgressAndIDPolls,
+    IListReport,
+    IQuestionnaire,
+    ISaveCurrentResult
+} from "../models/IHealthIndex";
+import {api, ISuccessResponse} from "./api";
 
-export default class HealthIndexService {
-  static async saveCurrentResult(
-    id: number,
-    params: ISaveCurrentResult
-  ): Promise<AxiosResponse<{ data: { progress: number } }>> {
-    return $api.post(
-      `polls/${id}/answers?token=${localStorage.getItem("token")}`,
-      params,
-      {
-        headers: {
-          accept: "application/json",
-          "Content-Type": `multipart/form-data`,
-        },
-      }
-    );
-  }
 
-  static async getProgressAndIdPolls(): Promise<
-    AxiosResponse<{ data: IGetProgressAndIDPolls }>
-  > {
-    return $api.post(`polls/?token=${localStorage.getItem("token")}`, {
-      headers: {
-        accept: "application/json",
-        "Content-Type": `multipart/form-data`,
-      },
-    });
-  }
+export const healthIndexApi = api.injectEndpoints({
+    endpoints: (build) => ({
 
-  static async interruptPoll(
-    id: number
-  ): Promise<AxiosResponse<{ data: { success: boolean } }>> {
-    return $api.patch(
-      `polls/${id}/interrupt?token=${localStorage.getItem("token")}`,
-      {
-        headers: {
-          accept: "application/json",
-          "Content-Type": `application/x-www-form-urlencoded`,
-        },
-      }
-    );
-  }
+        saveCurrentResult: build.mutation<{ data: { progress: number } }, ISaveCurrentResult>({
+            query: (data) => ({
+                url: `polls/${data.id}/answers?token=${localStorage.getItem("token")}`,
+                method: 'POST',
+                body: {
+                    answers:data.answers
+                },
+            }),
+        }),
 
-  static async generateResultsPoll(
-    id: number
-  ): Promise<AxiosResponse<{ data: { success: boolean } }>> {
-    return $api.post(
-      `polls/${id}/generate-result?token=${localStorage.getItem("token")}`,
-      {
-        headers: {
-          accept: "application/json",
-          "Content-Type": `application/x-www-form-urlencoded`,
-        },
-      }
-    );
-  }
+        getProgressAndIdPolls: build.mutation<IGetProgressAndIDPolls, null>({
+            query: (id) => ({
+                url: `polls/?token=${localStorage.getItem("token")}`,
+                method: 'POST',
+            }),
+            transformResponse: (response: { data: IGetProgressAndIDPolls }): IGetProgressAndIDPolls => response.data,
+        }),
 
-  static async getQuestionnaire(): Promise<AxiosResponse<{data:IQuestionnaire[]}>> {
-    return $api.get(`questions/?token=${localStorage.getItem("token")}`);
-  }
+        interruptPoll: build.mutation<ISuccessResponse, number>({
+            query: (id) => ({
+                url: `polls/${id}/interrupt?token=${localStorage.getItem("token")}`,
+                method: 'POST',
+            }),
+        }),
 
-  static async getDynamics(): Promise<AxiosResponse<{data:IDynamics[]}>> {
-    return $api.get(`dynamics/?token=${localStorage.getItem("token")}`);
-  }
+        generateResultsPoll: build.mutation<ISuccessResponse, number>({
+            query: (id) => ({
+                url: `polls/${id}/generate-result?token=${localStorage.getItem("token")}`,
+                method: 'POST',
+            }),
+        }),
 
-  static async getListReports(): Promise<AxiosResponse<{data:IListReport[]}>> {
-    return $api.get(`indexes/?token=${localStorage.getItem("token")}`);
-  }
+        getQuestionnaire: build.query<IQuestionnaire[], number>({
+            query: () => `questions/?token=${localStorage.getItem("token")}`,
+            transformResponse: (response: { data: IQuestionnaire[] },meta,gender): IQuestionnaire[] => {
+                return response.data?.map((item) => {
+                    item.questions = item?.questions?.filter((q) => {
+                        if (gender === 1) {
+                            return q?.tag != "waist_w" && q?.tag != 'mammography';
+                        }
+                        if (gender === 2) {
+                            return q?.tag != "waist_m" && q?.tag != 'prostate_cancer_test';
+                        }
+                    });
+                    return item;
+                })
+            },
+        }),
 
-  static async getReport(idIndex:number){
-    return $api.get(`indexes/${idIndex}?token=${localStorage.getItem("token")}`);
-  }
-}
+        getDynamics: build.query<IDynamics[], null>({
+            query: () => `dynamics/?token=${localStorage.getItem("token")}`,
+            transformResponse: (response: { data: IDynamics[] }): IDynamics[] => response.data.slice(Math.max(response.data.length - 12, 0))
+        }),
+
+        getListReports: build.query<IListReport[], null>({
+            query: () => `indexes/?token=${localStorage.getItem("token")}`,
+            transformResponse: (response: { data: IListReport[] }): IListReport[] => response.data,
+        }),
+
+        getReport: build.query<string, number>({
+            query: (idIndex) => ({
+                url: `indexes/${idIndex}?token=${localStorage.getItem("token")}`,
+                responseHandler: (response) => response.text(),
+            }),
+        }),
+    }),
+
+})
+
+export const {
+    useGenerateResultsPollMutation,
+    useGetDynamicsQuery,
+    useGetListReportsQuery,
+    useGetProgressAndIdPollsMutation,
+    useGetReportQuery,
+    useGetQuestionnaireQuery,
+    useInterruptPollMutation,
+    useSaveCurrentResultMutation,
+} = healthIndexApi

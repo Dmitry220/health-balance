@@ -1,25 +1,21 @@
 import Header from '../../Components/Header/Header'
-import { Link } from 'react-router-dom'
-import { REPORT_ROUTE } from '../../provider/constants-route'
-import { useEffect, useState } from 'react'
-import { IListReport } from '../../models/IHealthIndex'
-import HealthIndexService from '../../services/HealthIndexService'
+import {Link} from 'react-router-dom'
+import {REPORT_ROUTE} from '../../provider/constants-route'
+import React from 'react'
+import {useGetListReportsQuery} from '../../services/HealthIndexService'
 import './individual-report-page.scss'
+import {Preloader} from "../../Components/Preloader/Preloader";
 
 export const IndividualReportPage = () => {
-  const [reports, setReports] = useState<IListReport[]>([])
 
-  useEffect(() => {
-    ;(async () => {
-      const response = await HealthIndexService.getListReports()
-      setReports(response.data.data)
-    })()
-  }, [])
+  const {data: reports, isLoading} = useGetListReportsQuery(null)
+
+  console.log('reports page')
 
   return (
     <div className={'individual-report-page'}>
       <Header title={'Индивидуальный отчет'} />
-      {reports.map((report) => (
+      {!isLoading ? reports&&reports.map((report) => (
         <div className='individual-report-page__item' key={report.id}>
           <div className='individual-report-page__title main-title'>
             Отчет за {new Date(report.date * 1000).toLocaleDateString()}
@@ -32,7 +28,7 @@ export const IndividualReportPage = () => {
             Открыть
           </Link>
         </div>
-      ))}
+      )) : <Preloader height={'auto'}/>}
     </div>
   )
 }
