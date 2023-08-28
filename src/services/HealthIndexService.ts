@@ -32,7 +32,11 @@ export const healthIndexApi = api.injectEndpoints({
         interruptPoll: build.mutation<ISuccessResponse, number>({
             query: (id) => ({
                 url: `polls/${id}/interrupt?token=${localStorage.getItem("token")}`,
-                method: 'POST',
+                method: 'PATCH',
+                headers: {
+                    accept: "application/json",
+                    "Content-Type": `application/x-www-form-urlencoded`,
+                },
             }),
         }),
 
