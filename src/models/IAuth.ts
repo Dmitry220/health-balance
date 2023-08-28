@@ -59,3 +59,9 @@ export interface ISighnInWithGoogle {
   device_token: string,
   phone: string,
 }
+
+export interface IParamsUpdatePassword {
+  email: string,
+  code: number,
+  password: string
+}

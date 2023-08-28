@@ -8,7 +8,7 @@ export interface IAccessRecovery {
   repeatPassword: string
   disabledButton?: boolean,
   code: number,
-  error: boolean
+  error: string
 }
 
 const initialState: IAccessRecovery = {
@@ -17,7 +17,7 @@ const initialState: IAccessRecovery = {
   repeatPassword: '',
   disabledButton: true,
   code:0,
-  error:false
+  error:''
 }
 
 export const accessRecoverySlice = createSlice({

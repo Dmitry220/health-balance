@@ -17,7 +17,7 @@ export const RecoveryEmail = () => {
     /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
 
   const handlerEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setError(false))
+    dispatch(setError(''))
     const value = e.target.value
     dispatch(setRecoveryEmail(e.target.value))
     value.match(validRegex)
@@ -44,7 +44,7 @@ export const RecoveryEmail = () => {
       />
       {error && (
         <div className='recovery-email__error'>
-          Учетная запись с таким email не существует
+          {error}
         </div>
       )}
     </div>
