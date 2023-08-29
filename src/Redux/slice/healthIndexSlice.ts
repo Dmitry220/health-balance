@@ -1,6 +1,6 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {RootState} from "../store";
-import {healthIndexApi} from "../../services/HealthIndexService";
+import {healthIndexApi} from "../../services/healthIndex.api";
 import {IDynamics, IIndicators, IQuestionnaire,} from "../../models/IHealthIndex";
 
 interface IHealthIndex {

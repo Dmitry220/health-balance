@@ -15,7 +15,7 @@ import avatar from '../../assets/image/avatar.jpeg'
 import {ModalExit} from '../../Components/Modals/Modal-exit'
 import {Platform} from '../../Components/Platform/Platform'
 import {Footer} from '../../Components/Footer/Footer'
-import {useLogout} from "../../Components/Logout/Logout";
+import {useLogout} from "../../hooks/useLogout";
 
 export const Profile = () => {
     const dataUser = useAppSelector(dataUserSelector)

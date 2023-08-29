@@ -1,7 +1,7 @@
 import React from 'react'
 import icon_platform from '../../assets/image/plug.png'
 import './Platform.scss'
-import { useGetCurrentPlatformQuery } from '../../services/PlatformService'
+import { useGetCurrentPlatformQuery } from '../../services/platform.api'
 import { Preloader } from '../Preloader/Preloader'
 import { IMAGE_URL } from '../../http'
 

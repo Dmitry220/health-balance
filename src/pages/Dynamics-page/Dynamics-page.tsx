@@ -6,7 +6,7 @@ import {currentResultIndexSelector, indicatorsSelector} from '../../Redux/slice/
 import {Swiper, SwiperSlide} from 'swiper/react'
 import {Pagination} from 'swiper'
 import {KeysDynamics} from "../../models/IHealthIndex";
-import {useGetDynamicsQuery} from "../../services/HealthIndexService";
+import {useGetDynamicsQuery} from "../../services/healthIndex.api";
 import React from "react";
 import {Preloader} from "../../Components/Preloader/Preloader";
 import {ChartIndex} from "../../Components/Health-index-result/Chart-index";

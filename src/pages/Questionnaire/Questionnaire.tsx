@@ -26,7 +26,7 @@ import {
   useGenerateResultsPollMutation,
   useGetQuestionnaireQuery,
   useSaveCurrentResultMutation
-} from "../../services/HealthIndexService";
+} from "../../services/healthIndex.api";
 import {showToast} from "../../utils/common-functions";
 import {ISaveCurrentResult} from "../../models/IHealthIndex";
 import {dataUserSelector} from "../../Redux/slice/profileSlice";

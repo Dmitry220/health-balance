@@ -14,7 +14,7 @@ import {useStatusBar} from './hooks/useStatusBar'
 import {NoNetworkConnection} from './pages/NoNetworkConnection/NoNetworkConnection'
 import {api} from './services/api'
 import {useAppDispatch} from "./hooks/redux-hooks";
-import {useLogout} from './Components/Logout/Logout'
+import {useLogout} from './hooks/useLogout'
 
 function App() {
   const navigate = useNavigate()

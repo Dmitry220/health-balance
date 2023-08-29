@@ -12,7 +12,7 @@ import {
 import './access-recovery.scss'
 import {useNavigate} from 'react-router-dom'
 import {LOGIN_ROUTE} from '../../provider/constants-route'
-import {useRestorePasswordMutation, useUpdatePasswordMutation} from '../../services/AuthService'
+import {useRestorePasswordMutation, useUpdatePasswordMutation} from '../../services/auth.api'
 import {showToast} from '../../utils/common-functions'
 
 export const FurtherRecoveryButton: FC<IFurtherButton> = ({

@@ -4,7 +4,7 @@ import {HealthIndexResults} from '../Health-index-results/Health-index-results'
 import {useAppSelector} from '../../hooks/redux-hooks'
 import {idPolleSelector, progressPollSelector} from '../../Redux/slice/healthIndexSlice'
 import {Preloader} from '../../Components/Preloader/Preloader'
-import {useGetDynamicsQuery, useGetProgressAndIdPollsMutation} from "../../services/HealthIndexService";
+import {useGetDynamicsQuery, useGetProgressAndIdPollsMutation} from "../../services/healthIndex.api";
 import {showToast} from "../../utils/common-functions";
 import {ContinueQuestionnaire} from '../../Components/Health-index/ContinueQuestionnaire'
 import {StartQuestionnaire} from '../../Components/Health-index/StartQuestionnaire'

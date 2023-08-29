@@ -2,7 +2,7 @@ import Header from '../../Components/Header/Header'
 import {Link} from 'react-router-dom'
 import {REPORT_ROUTE} from '../../provider/constants-route'
 import React from 'react'
-import {useGetListReportsQuery} from '../../services/HealthIndexService'
+import {useGetListReportsQuery} from '../../services/healthIndex.api'
 import './individual-report-page.scss'
 import {Preloader} from "../../Components/Preloader/Preloader";
 

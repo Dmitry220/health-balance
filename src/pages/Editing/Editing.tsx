@@ -13,11 +13,11 @@ import photo from '../../assets/image/icon-camera-add.svg'
 import {IMAGE_URL} from '../../http'
 import {ModalExit} from '../../Components/Modals/Modal-exit'
 import {logout} from '../../Redux/slice/authSlice'
-import {useDeleteCustomerAccountMutation} from '../../services/AuthService'
+import {useDeleteCustomerAccountMutation} from '../../services/auth.api'
 import {useLoadImage} from '../../hooks/useLoadImage'
 import {typeImage} from '../../utils/enums'
 import {errorHandler} from "../../utils/errorsHandler";
-import {useLogout} from "../../Components/Logout/Logout";
+import {useLogout} from "../../hooks/useLogout";
 
 registerLocale('ru', ru)
 

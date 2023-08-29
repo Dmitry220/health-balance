@@ -4,7 +4,7 @@ import {idPolleSelector} from "../../Redux/slice/healthIndexSlice";
 import {useNavigate} from "react-router-dom";
 import {QUESTIONNAIRE_ROUTE} from "../../provider/constants-route";
 import {Navigation} from "../Navigation/Navigation";
-import {useGetProgressAndIdPollsMutation, useInterruptPollMutation} from "../../services/HealthIndexService";
+import {useGetProgressAndIdPollsMutation, useInterruptPollMutation} from "../../services/healthIndex.api";
 import {showToast} from "../../utils/common-functions";
 
 export const ContinueQuestionnaire: FC = () => {

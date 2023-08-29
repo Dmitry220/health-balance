@@ -16,7 +16,7 @@ import OneSignal from 'onesignal-cordova-plugin'
 import {
   useLoginMutation,
   useSignInWithGoogleMutation
-} from '../../services/AuthService'
+} from '../../services/auth.api'
 import { showToast } from '../../utils/common-functions'
 import googleIcon from '../../assets/image/auth/googleIcon.svg'
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth'

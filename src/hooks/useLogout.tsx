@@ -1,13 +1,13 @@
-import {clearResults} from "../../Redux/slice/authSlice";
-import {persistor} from "../../index";
-import {LOGIN_ROUTE} from "../../provider/constants-route";
-import {useAppDispatch, useAppSelector} from "../../hooks/redux-hooks";
+import {clearResults} from "../Redux/slice/authSlice";
+import {persistor} from "../index";
+import {LOGIN_ROUTE} from "../provider/constants-route";
+import {useAppDispatch, useAppSelector} from "./redux-hooks";
 import { Capacitor } from "@capacitor/core";
-import Pedometer from "../../plugins/pedometer";
+import Pedometer from "../plugins/pedometer";
 import { GoogleAuth } from "@codetrix-studio/capacitor-google-auth";
-import {isGoogleFitSelector} from "../../Redux/slice/settingsSlice";
-import { showToast } from "../../utils/common-functions";
-import { useDeleteTrackerMutation } from "../../services/tracker.api";
+import {isGoogleFitSelector} from "../Redux/slice/settingsSlice";
+import { showToast } from "../utils/common-functions";
+import { useDeleteTrackerMutation } from "../services/tracker.api";
 
 
 export const useLogout = (isToken:boolean=false) => {

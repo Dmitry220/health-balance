@@ -8,7 +8,7 @@ import {
   setTypePlatform
 } from '../../Redux/slice/authSlice'
 import { DOC_URL } from '../../http'
-import { useGetPlatformsQuery } from '../../services/PlatformService'
+import { useGetPlatformsQuery } from '../../services/platform.api'
 import Button, { typesButton } from '../../UI-Components/Button/Button'
 import { stageRegistration } from '../../utils/enums'
 

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {useAppDispatch, useAppSelector} from '../../hooks/redux-hooks'
 import {emailSelector, setEmail, setStage} from '../../Redux/slice/authSlice'
-import {authApi} from '../../services/AuthService'
+import {authApi} from '../../services/auth.api'
 import Button, {typesButton} from '../../UI-Components/Button/Button'
 import {stageRegistration} from '../../utils/enums'
 

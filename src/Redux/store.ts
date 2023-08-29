@@ -25,9 +25,9 @@ import { newsSlice } from './slice/newsSlice'
 import { slice } from './Tracker/slice'
 import { leaderboardSlice } from './slice/leaderBoardSlice'
 import { settingsSlice } from './slice/settingsSlice'
-import { platformApi } from '../services/PlatformService'
-import { authApi } from '../services/AuthService'
-import { consultationApi } from '../services/ConsultationService'
+import { platformApi } from '../services/platform.api'
+import { authApi } from '../services/auth.api'
+import { consultationApi } from '../services/consultation.api'
 import {api} from "../services/api";
 
 const persistConfig = {

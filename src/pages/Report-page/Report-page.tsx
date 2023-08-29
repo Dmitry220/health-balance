@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react'
 import Header from '../../Components/Header/Header'
-import {useGetReportQuery} from '../../services/HealthIndexService'
+import {useGetReportQuery} from '../../services/healthIndex.api'
 import './report-page.scss'
 import {useLocation, useParams} from 'react-router-dom'
 import {PDFGenerator} from '@awesome-cordova-plugins/pdf-generator'

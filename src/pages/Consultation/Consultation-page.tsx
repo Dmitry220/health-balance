@@ -7,7 +7,7 @@ import InputMask from "react-input-mask";
 import { ModalSuccess } from '../../Components/Modals/Modal-success';
 import { ACTIVITY_ROUTE, PROFILE_ROUTE } from '../../provider/constants-route';
 import { IConsultation } from '../../models/IConsultation';
-import { useConsultationMutation } from '../../services/ConsultationService';
+import { useConsultationMutation } from '../../services/consultation.api';
 import { showToast } from '../../utils/common-functions';
 
 
