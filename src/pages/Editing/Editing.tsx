@@ -17,6 +17,7 @@ import {useDeleteCustomerAccountMutation} from '../../services/AuthService'
 import {useLoadImage} from '../../hooks/useLoadImage'
 import {typeImage} from '../../utils/enums'
 import {errorHandler} from "../../utils/errorsHandler";
+import {useLogout} from "../../Components/Logout/Logout";
 
 registerLocale('ru', ru)
 
@@ -38,7 +39,7 @@ export const Editing = () => {
     } = useForm<FormData>()
 
     const [deleteAccount, {isLoading: isLoadingDeleteAccount}] = useDeleteCustomerAccountMutation()
-
+    const [logout] = useLogout(true)
     const isLoading = useAppSelector(isLoadingSelector)
     const dataUser = useAppSelector(dataUserSelector)
     const [isLogoutModal, setLogoutModal] = useState<boolean>(false)
@@ -76,7 +77,7 @@ export const Editing = () => {
                         .unwrap()
                         .then(async (response) => {
                             if (response.success) {
-                                dispatch(logout())
+                                await logout()
                                 await showToast('Ваш аккаунт успешно удален!')
                             }
                         })

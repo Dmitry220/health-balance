@@ -3,43 +3,28 @@ import './profile.scss'
 import Header from '../../Components/Header/Header'
 import icon_reward from '../../assets/image/icon_reward.svg'
 import {Link, useNavigate} from 'react-router-dom'
-import {
-    ACTIVITY_ROUTE,
-    CONSULTATION_ROUTE,
-    EDITING_ROUTE,
-    LOGIN_ROUTE,
-    SETTINGS_ROUTE,
-    SHOP_ROUTE
-} from '../../provider/constants-route'
+import {CONSULTATION_ROUTE, EDITING_ROUTE, SETTINGS_ROUTE, SHOP_ROUTE} from '../../provider/constants-route'
 import {ProfileSteps} from '../../Components/Profile/Profile-steps'
 import {ProfileChallenge} from '../../Components/Profile/Profile-challenge'
 import {useAppDispatch, useAppSelector} from '../../hooks/redux-hooks'
 import {dataUserSelector, setUserData} from '../../Redux/slice/profileSlice'
-import {clearResults, logout} from '../../Redux/slice/authSlice'
 import {IMAGE_URL} from '../../http'
 import settingsIcon from '../../assets/image/icon_option.svg'
 import {balanceSelector} from '../../Redux/slice/appSlice'
 import avatar from '../../assets/image/avatar.jpeg'
 import {ModalExit} from '../../Components/Modals/Modal-exit'
-import Pedometer from '../../plugins/pedometer'
-import {Capacitor} from '@capacitor/core'
-import {persistor} from '../..'
-import {useDeleteTrackerMutation} from '../../services/tracker.api'
-import {isGoogleFitSelector} from '../../Redux/slice/settingsSlice'
 import {Platform} from '../../Components/Platform/Platform'
 import {Footer} from '../../Components/Footer/Footer'
-import {GoogleAuth} from '@codetrix-studio/capacitor-google-auth'
-import {showToast} from "../../utils/common-functions";
+import {useLogout} from "../../Components/Logout/Logout";
 
 export const Profile = () => {
     const dataUser = useAppSelector(dataUserSelector)
-    const isGoogleFit = useAppSelector(isGoogleFitSelector)
     const ballance = useAppSelector(balanceSelector)
     const navigation = useNavigate()
+    const [logout] = useLogout()
     const dispatch = useAppDispatch()
     const [isLogoutModal, setLogoutModal] = useState<boolean>(false)
     const idUser = Number(localStorage.getItem('id'))
-    const [deleteTrackers, {isLoading}] = useDeleteTrackerMutation()
     const additionalHeaderComponent = <img src={settingsIcon} alt={'icon'}/>
 
     const additionalHeaderComponentClick = () => {
@@ -50,27 +35,6 @@ export const Profile = () => {
         dispatch(setUserData(idUser))
     }, [])
 
-    const logout = async () => {
-        try {
-            if (Capacitor.getPlatform() === 'android') await GoogleAuth.signOut()
-
-            if (Capacitor.getPlatform() === 'android' && isGoogleFit === 1) {
-                await Pedometer.reset()
-                await Pedometer.stop()
-            }
-            const response = await deleteTrackers(null).unwrap()
-            if (response?.success) {
-                localStorage.removeItem('token')
-                localStorage.removeItem('id')
-                await dispatch(clearResults())
-                await persistor.purge()
-                await window.location.replace(LOGIN_ROUTE)
-            }
-        } catch (error) {
-            debugger
-            await showToast('Произошла ошибка удаления тркера')
-        }
-    }
 
     if (isLogoutModal) {
         return (

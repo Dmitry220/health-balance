@@ -1,4 +1,4 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit'
+import { combineReducers, configureStore, isRejectedWithValue, Middleware, MiddlewareAPI } from '@reduxjs/toolkit'
 import { appSlice } from './slice/appSlice'
 import { challengeSlice } from './slice/challengeSlice'
 import { healthIndexSlice } from './slice/healthIndexSlice'
@@ -35,6 +35,7 @@ const persistConfig = {
   storage: storage,
   whitelist: ['shop', 'settings', 'visitedPages']
 }
+
 
 const reducer = combineReducers({
   [api.reducerPath]:api.reducer,
