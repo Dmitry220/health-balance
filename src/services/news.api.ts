@@ -1,60 +1,66 @@
-import { AxiosResponse } from 'axios'
-import { $api } from '../http'
-import { IComment, ICreatingComment, ICreatingNews, INews } from '../models/INews'
+import {IComment, ICreatingComment, ICreatingNews, INews} from '../models/INews'
+import {api, ISuccessResponse} from "./api";
 
-export default class NewsService {
-  static async creatingNews(data:ICreatingNews) {
-    return $api.post(
-      `news/?token=${localStorage.getItem('token')}`,
-      data,
-      {
-        headers: {
-          accept: 'application/json',
-          'Content-Type': `multipart/form-data`,
-          'Access-Control-Allow-Origin' : '*'
-        }
-      }
-    )
-  }
 
-  static async getNews(): Promise<AxiosResponse<{ data: INews[] }>> {
-    return $api.get(`news/?token=${localStorage.getItem('token')}`)
-  }
+export const newsApi = api.injectEndpoints({
+    endpoints: build => ({
+        createNews: build.mutation<{ news_id: number }, ICreatingNews>({
+            query: (data) => ({
+                url: `news/?token=${localStorage.getItem('token')}`,
+                method: 'POST',
+                body: data
+            }),
+        }),
 
-  static async getNewsById(
-    id: number
-  ): Promise<AxiosResponse<{ data: INews }>> {
-    return $api.get(`news/${id}?token=${localStorage.getItem('token')}`)
-  }
+        addCommentsNews: build.mutation<{ comment_id: number }, ICreatingComment>({
+            query: (data) => ({
+                url: `news-comments/?token=${localStorage.getItem('token')}`,
+                method: 'POST',
+                body: data
+            }),
+            invalidatesTags: [{type: 'addComments'}]
+        }),
 
-  static async getNewsByCategory (idRubric: number): Promise<AxiosResponse<{ data: INews[] }>> {
-    return $api.get(`news?token=${localStorage.getItem('token')}&category=${idRubric}`)
-  }
+        getNews: build.query<INews[], null>({
+            query: () => `news/?token=${localStorage.getItem('token')}`,
+            transformResponse: (response: { data: INews[] }): INews[] => response.data,
+        }),
 
-  static async addCommentsNews(data: ICreatingComment) {
-    return $api.post(
-      `news-comments/?token=${localStorage.getItem('token')}`,
-      data,
-      {
-        headers: {
-          accept: 'application/json',
-          'Content-Type': `multipart/form-data`
-        }
-      }
-    )
-  }
+        getNewsById: build.query<INews, number>({
+            query: (id) => `news/${id}?token=${localStorage.getItem('token')}`,
+            transformResponse: (response: { data: INews }): INews => response.data,
+            providesTags: () => [{type: 'likeNews'},{type: 'addComments'}],
+        }),
 
-  static async listComments(id:number): Promise<AxiosResponse<{data:IComment[]}>> {
-    return $api.get(`news-comments/?token=${localStorage.getItem('token')}&news=${id}`)
-  }
+        getNewsByCategory: build.query<INews[], number>({
+            query: (idRubric) => `news?token=${localStorage.getItem('token')}&category=${idRubric}`,
+            transformResponse: (response: { data: INews[] }): INews[] => response.data,
+        }),
 
-  static async likeNews(id: number) {
-    return $api.patch(
-      `news/${id}/like/?token=${localStorage.getItem('token')}`
-    )
-  }
+        getListComments: build.query<IComment[], number>({
+            query: (id) => `news-comments/?token=${localStorage.getItem('token')}&news=${id}`,
+            transformResponse: (response: { data: IComment[] }): IComment[] => response.data,
+            providesTags: () => [{type: 'addComments'}],
+        }),
 
-  static async deleteNews(id: number) {
-    return $api.delete(`news/${id}/?token=${localStorage.getItem('token')}`)
-  }
-}
+        likeNews: build.mutation<ISuccessResponse, number>({
+            query: (id) => ({
+                url: `news/${id}/like/?token=${localStorage.getItem('token')}`,
+                method: "PATCH",
+            }),
+            invalidatesTags: [{type: 'likeNews'}],
+        }),
+
+    })
+
+})
+
+export const {
+    useLikeNewsMutation,
+    useGetNewsByCategoryQuery,
+    useGetNewsQuery,
+    useGetNewsByIdQuery,
+    useGetListCommentsQuery,
+    useAddCommentsNewsMutation,
+    useCreateNewsMutation
+} = newsApi

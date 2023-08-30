@@ -3,19 +3,21 @@ import Header from '../../Components/Header/Header'
 import {PostInteresting} from '../../Components/Interesting/Post-interesting'
 import {CommentForm} from '../../Components/Comment/Comment-form'
 import {ListComments} from '../../Components/Comment/List-comments'
-import {getComments, getNewsById, newsByIdSelector} from '../../Redux/slice/newsSlice'
-import {useAppDispatch, useAppSelector} from '../../hooks/redux-hooks'
-import {useEffect, useRef} from 'react'
+import {useRef} from 'react'
 import {useParams} from 'react-router-dom'
 import {usePullToRefresh} from "../../hooks/usePulltoRefresh";
+import {useGetListCommentsQuery, useGetNewsByIdQuery} from "../../services/news.api";
+import {Preloader} from "../../Components/Preloader/Preloader";
 
 export const MotivationPage = () => {
+
     const pullToRefresh = useRef(null)
 
-
-    const news = useAppSelector(newsByIdSelector)
-    const dispatch = useAppDispatch()
     const params = useParams()
+
+    const {data: news, isLoading,refetch:refetchNewsById} = useGetNewsByIdQuery(Number(params.id))
+    const {refetch} = useGetListCommentsQuery(Number(params.id))
+
     const conversionCategory = (category: number) => {
         switch (category) {
             case 1:
@@ -32,24 +34,22 @@ export const MotivationPage = () => {
     }
 
     const handleRefresh = async () => {
-        await dispatch(getNewsById(Number(params.id)))
-        await dispatch(getComments(Number(params.id)))
+        await refetchNewsById()
+        await refetch()
     }
 
     usePullToRefresh(pullToRefresh, handleRefresh)
 
-    useEffect(() => {
-        dispatch(getNewsById(Number(params.id)))
-    }, [])
 
     return (
         <div className={'motivation-page'}>
             <Header title={conversionCategory(news?.category || 0)}/>
             <div style={{position: "relative"}}>
-
                 <div ref={pullToRefresh}>
-                    {news ? (
-                        <>
+                    {isLoading ? (
+                        <Preloader height={'auto'} />
+                    ) : news ? (
+                        <div>
                             <div className='motivation-page__card'>
                                 <PostInteresting/>
                             </div>
@@ -60,7 +60,7 @@ export const MotivationPage = () => {
                                 <br/>
                                 <ListComments/>
                             </div>
-                        </>
+                        </div>
                     ) : (
                         <h1>Новость была удалена или ее не существует!</h1>
                     )}

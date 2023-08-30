@@ -117,5 +117,25 @@ export const monthsABBR = [
 	'ноя',
 	'дек'
 ]
+
+export const RUBRICS = [
+	{
+		id: 1,
+		title: 'Психология'
+	},
+	{
+		id: 2,
+		title: 'Инструкция'
+	},
+	{
+		id: 3,
+		title: 'Мотивация'
+	},
+	{
+		id: 4,
+		title: 'Новость'
+	}
+]
+
  export const WEB_CLIENT_ID = '892578456296-nmrjb7m8pn1f109psnaoff2q2es6s19f.apps.googleusercontent.com'
  export const ANDROID_CLIENT_ID = '892578456296-f9gqaa4k7sror2c3iitvi511oh7el0kj.apps.googleusercontent.com'

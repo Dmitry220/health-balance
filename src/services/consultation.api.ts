@@ -6,7 +6,7 @@ export const consultationApi = api.injectEndpoints({
     endpoints: (builder) => ({
         consultation: builder.mutation<ISuccessResponse, IConsultation>({
             query: (initialPost) => ({
-                url: `consultation`,
+                url: `consultation/?token=${localStorage.getItem('token')}`,
                 method: "POST",
                 body: initialPost,
             }),

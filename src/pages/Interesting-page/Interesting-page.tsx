@@ -7,29 +7,26 @@ import {useAppDispatch, useAppSelector} from '../../hooks/redux-hooks'
 import {HeaderTwo} from '../../Components/Header-two/Header-two'
 import {CREATING_INTERESTING_ROUTE} from '../../provider/constants-route'
 import {NavLink} from 'react-router-dom'
-import {getNews, getNewsByCategory,} from '../../Redux/slice/newsSlice'
 import {dataUserSelector} from '../../Redux/slice/profileSlice'
 import {CATEGORY_NEWS} from '../../utils/globalConstants'
 import {usePullToRefresh} from "../../hooks/usePulltoRefresh";
+import {useGetNewsByCategoryQuery} from "../../services/news.api";
 
 
 export const InterestingPage = () => {
 
-    const dispatch = useAppDispatch()
     const dataUser = useAppSelector(dataUserSelector)
     const [value, setValue] = React.useState<number>(0)
+    const idCategory = CATEGORY_NEWS[value].id
+
+    const {refetch} = useGetNewsByCategoryQuery(idCategory)
 
     const pullToRefresh = useRef(null)
 
     usePullToRefresh(pullToRefresh, handleRefresh)
 
     async function handleRefresh() {
-        const idCategory = CATEGORY_NEWS[value].id
-        if (idCategory === 0) {
-            dispatch(getNews())
-            return
-        }
-        dispatch(getNewsByCategory(idCategory))
+        refetch()
     }
 
     return (

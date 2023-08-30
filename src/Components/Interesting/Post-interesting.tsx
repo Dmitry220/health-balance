@@ -1,34 +1,19 @@
-import {useState} from 'react'
 import './interesting.scss'
 import iconClock from '../../assets/image/Interesting/clock.svg'
 import plug from '../../assets/image/plug.png'
 import iconComments from '../../assets/image/icon-comments-fill.svg'
 import {useParams} from 'react-router-dom'
-import {useAppSelector} from '../../hooks/redux-hooks'
-import {isLoadingSelector, newsByIdSelector} from '../../Redux/slice/newsSlice'
 import {IMAGE_URL} from '../../http'
-import NewsService from '../../services/NewsService'
-import {showToast} from '../../utils/common-functions'
-import {Preloader} from '../Preloader/Preloader'
+import {useGetNewsByIdQuery, useLikeNewsMutation} from '../../services/news.api'
+import {errorHandler} from "../../utils/errorsHandler";
 
 export const PostInteresting = () => {
   const params = useParams()
-  const news = useAppSelector(newsByIdSelector)
-  const isLoading = useAppSelector(isLoadingSelector)
-  const [isLike, setLike] = useState<boolean>(false)
+  const {data: news} = useGetNewsByIdQuery(Number(params.id))
 
-  const like = async () => {
-    try {
-      await NewsService.likeNews(Number(params.id))
-      setLike(true)
-    } catch (error) {
-      await showToast('Вы уже ставили лайк!')
-    }
-  }
+  const [putLike] = useLikeNewsMutation()
 
-  if (isLoading) {
-    return <Preloader />
-  }
+  const like = async () => await putLike(Number(params.id)).unwrap().catch((e)=> errorHandler(e))
 
   return (
     <>
@@ -56,7 +41,7 @@ export const PostInteresting = () => {
             </div>
             <div className='post-interesting__feed-back feed-back'>
               <div className='feed-back__favourite' onClick={like}>
-                {news.likes + (isLike ? 1 : 0)}{' '}
+                {news.likes}
                 <span style={{ color: 'white', fontSize: 18 }}>❤</span>
               </div>
               <div className='feed-back__comments'>
@@ -64,7 +49,7 @@ export const PostInteresting = () => {
                 {news.comments}
               </div>
             </div>
-            <div className='post-interesting__content' dangerouslySetInnerHTML={{ __html: news.content }}></div>
+            <div className='post-interesting__content' dangerouslySetInnerHTML={{ __html: news.content }}/>
           </div>
         </div>
       )}

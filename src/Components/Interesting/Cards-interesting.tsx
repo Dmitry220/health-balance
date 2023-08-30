@@ -1,43 +1,32 @@
-import { FC, useEffect } from 'react'
+import {FC} from 'react'
 import './interesting.scss'
-import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
-import { getNews, getNewsByCategory, isLoadingSelector, newsSelector } from '../../Redux/slice/newsSlice'
-import { CardInteresting } from './Card-interesting'
-import { Preloader } from '../Preloader/Preloader'
+import {CardInteresting} from './Card-interesting'
+import {Preloader} from '../Preloader/Preloader'
+import {useGetNewsByCategoryQuery} from '../../services/news.api'
 
 
 interface ICardsInteresting {
-  idCategory: number
+    idCategory: number
 }
 
-export const CardsInteresting: FC<ICardsInteresting> = ({ idCategory }) => {
+export const CardsInteresting: FC<ICardsInteresting> = ({idCategory}) => {
 
-  const dispatch = useAppDispatch()
-  const news = useAppSelector(newsSelector)
-  const isLoading = useAppSelector(isLoadingSelector)
+    const {data: news, isLoading, error, isError} = useGetNewsByCategoryQuery(idCategory)
 
-  useEffect(() => {
-    if (idCategory === 0) {
-      dispatch(getNews())
-    }else{
-      dispatch(getNewsByCategory(idCategory))
-    }
-   
-  }, [])
-
-  if (isLoading) {
-    return <Preloader height='auto' />
-  }
-
-  return (
-    <>
-      {/* {
-      isLoading && <Preloader height='auto'/>
-    } */}
-      {news?.length ? news?.map((item) => (
-        <CardInteresting dataNews={item} key={item.id} />
-      )) : <div className='active-plug'>Новостей нет</div>}
-    </>
-  )
+    return (
+        <>
+          {isError ? (
+              <>{'data' in error && error.data}</>
+          ) : isLoading ? (
+              <Preloader height='auto'/>
+          ) : news?.length ? (
+              <>
+                {news?.map((item) => <CardInteresting dataNews={item} key={item.id}/>)}
+              </>
+          ) : (
+              <div className='active-plug'>Новостей нет</div>
+          )}
+        </>
+    )
 }
 

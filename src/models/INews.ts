@@ -3,7 +3,6 @@ export interface ICreatingNews {
   annotation: string
   content: string
   image: string
-  team?: number
   category: number
   push: 0 | 1
 }

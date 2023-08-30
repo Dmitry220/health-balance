@@ -5,12 +5,12 @@
   font-size: 15px;
   line-height: 110%;
   margin-bottom: 5px;
+  word-break: break-word;
 
 }
 .small-text-comment{
   font-size: 10px;
   line-height: 130%;
-
   color: #919191;
 }
 .author-text{
@@ -20,7 +20,6 @@
   margin-bottom: 5px;
   color: #FBFBFB;
 }
-
 
 .comment-form{
 
@@ -81,11 +80,10 @@
   }
 }
 
-
 .item-comment{
 
   &:not(:last-child){
-    margin: 0 0 10px 0;
+    margin-bottom: 10px;
   }
 
   &__body{
@@ -94,16 +92,27 @@
   }
 
   &__data{
+    display: flex;
+    align-items: center;
+    gap: 16px;
     span{
-      margin-left: 15px;
       text-transform: uppercase;
     }
   }
 
+  &__author{
+    display: flex;
+    align-items: center;
+    gap: 11px;
+  }
 
   &__avatar{
     flex: 0 0 40px;
     height: 40px;
+    &_reply{
+      flex: 0 0 26px;
+      height: 26px;
+    }
     img{
       width: 100%;
       height: 100%;
@@ -113,40 +122,15 @@
   }
 
   &__answer{
-    //display: flex;
-    //flex-direction: column;
+    margin: 10px 0 0 48px;
   }
 }
-
-.item-comment-answer{
-  display: flex;
-  gap: 9px;
-  margin: 10px 0 0 48px;
-  // &:not(:last-child){
-  //   margin: 0 0 10px 0;
-  // }
-  &__avatar{
-    flex: 0 0 26px;
-    height: 26px;
-    img{
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 50%;
-    }
-  }
-
-  &__author{
-    display: flex;
-    align-items: center;
-    gap: 11px;
-  }
-  &__data{
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    span{
-      text-transform: uppercase;
-    }
+.item-comment-reply{
+  &:not(:last-child){
+    margin-bottom: 10px;
   }
 }
+.item-comment-reply > .item-comment > .item-comment__answer{
+ margin: 10px 0 0 0;
+}
+
