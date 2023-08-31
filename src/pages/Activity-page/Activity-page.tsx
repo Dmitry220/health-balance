@@ -32,11 +32,11 @@ import {
 import { isGoogleFitSelector } from '../../Redux/slice/settingsSlice'
 import { Charts } from '../../Components/Charts/Charts'
 import AppService from '../../services/AppService'
-import { leaderboard } from '../../Redux/slice/leaderBoardSlice'
 import { periodMonth, periodWeek } from '../../Components/Charts/Chart-options'
 import { ImportantBlock } from '../../Components/Important-block/Important-block'
 import { Banner } from '../../Components/Banner/Banner'
 import {usePullToRefresh} from "../../hooks/usePulltoRefresh";
+import {leaderboardApi} from "../../services/LeaderboardService";
 
 
 export const ActivityPage: FC = () => {
@@ -174,11 +174,11 @@ export const ActivityPage: FC = () => {
     dispatch(setMonths())
     dispatch(setWeeks())
   }
-
+  const [ trigger] = leaderboardApi.endpoints.leaderboard.useLazyQuery()
   const handleRefresh = async () => {
     await dispatch(getPersonalPurpose())
     await dispatch(getBalance())
-    await dispatch(leaderboard())
+    await trigger(null)
     await getDataCharts()
   }
 

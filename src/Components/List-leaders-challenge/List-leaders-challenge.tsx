@@ -1,15 +1,8 @@
-import { FC, useEffect } from 'react'
+import {FC} from 'react'
 import './list-leaders-challenge.scss'
-import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
-import {
-  getLeaderboardChallenge,
-  getLeaderboardTeamsChallenge,
-  isLoadingSelector,
-  leaderboardChallengeSelector,
-  leaderboardTeamsChallengeSelector
-} from '../../Redux/slice/leaderBoardSlice'
-import { Preloader } from '../Preloader/Preloader'
-import { LeaderboardItem } from './Leaderboard-item'
+import {Preloader} from '../Preloader/Preloader'
+import {LeaderboardItem} from './Leaderboard-item'
+import {useLeaderboardChallengeQuery, useLeaderboardTeamsQuery} from "../../services/LeaderboardService";
 
 interface IListLeadersChallenge {
   type: number
@@ -20,20 +13,16 @@ export const ListLeadersChallenge: FC<IListLeadersChallenge> = ({
   type,
   idChallenge
 }) => {
-  const dispatch = useAppDispatch()
-  const leaderboardChallenge = useAppSelector(leaderboardChallengeSelector)
-  const leaderboardTeamsChallenge = useAppSelector(leaderboardTeamsChallengeSelector)
-  const isLoading = useAppSelector(isLoadingSelector)
 
-  useEffect(() => {
-    if (type === 2) {
-      dispatch(getLeaderboardTeamsChallenge(idChallenge))
-    } else {
-      dispatch(getLeaderboardChallenge(idChallenge))
-    }
-  }, [idChallenge])
 
-  if (isLoading) {
+  const {data: leaderboardChallenge, isLoading:isLoadingChallenge} = useLeaderboardChallengeQuery(idChallenge,{
+    skip: type === 2
+  })
+  const {data: leaderboardTeamsChallenge, isLoading:isLoadingTeams} = useLeaderboardTeamsQuery(idChallenge,{
+    skip: type != 2
+  })
+
+  if (isLoadingChallenge || isLoadingTeams) {
     return <Preloader />
   }
 
@@ -47,7 +36,7 @@ export const ListLeadersChallenge: FC<IListLeadersChallenge> = ({
       </div>
       <div className='leader-challenge__items'>
         {(type === 1 || type === 3) &&
-          leaderboardChallenge.map((item, i) => (
+          leaderboardChallenge?.map((item, i) => (
             <LeaderboardItem
               item={item}
               place={i + 1}
@@ -56,7 +45,7 @@ export const ListLeadersChallenge: FC<IListLeadersChallenge> = ({
             />
           ))}
         {type === 2 &&
-          leaderboardTeamsChallenge.map((item, i) => (
+          leaderboardTeamsChallenge?.map((item, i) => (
             <LeaderboardItem
               item={item}
               place={i + 1}

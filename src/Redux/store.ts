@@ -23,11 +23,7 @@ import { lessonsSlice } from './slice/lessonsSlice'
 import { purposesSlice } from './slice/purposeSlice'
 import { newsSlice } from './slice/newsSlice'
 import { slice } from './Tracker/slice'
-import { leaderboardSlice } from './slice/leaderBoardSlice'
 import { settingsSlice } from './slice/settingsSlice'
-import { platformApi } from '../services/platform.api'
-import { authApi } from '../services/auth.api'
-import { consultationApi } from '../services/consultation.api'
 import {api} from "../services/api";
 
 const persistConfig = {
@@ -52,7 +48,6 @@ const reducer = combineReducers({
   news: newsSlice.reducer,
   tracker: slice.reducer,
   healthIndex: healthIndexSlice.reducer,
-  leaderboard: leaderboardSlice.reducer,
   settings: settingsSlice.reducer
 })
 
