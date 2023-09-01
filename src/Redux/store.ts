@@ -5,7 +5,6 @@ import { healthIndexSlice } from './slice/healthIndexSlice'
 import { authSlice } from './slice/authSlice'
 import { accessRecoverySlice } from './slice/accessRecoverySlice'
 import { profileSlice } from './slice/profileSlice'
-import { userSlice } from './slice/userSlice'
 import { shopSlice } from './slice/shopSlice'
 import {
   persistStore,
@@ -40,7 +39,6 @@ const reducer = combineReducers({
   challenges: challengeSlice.reducer,
   recovery: accessRecoverySlice.reducer,
   profile: profileSlice.reducer,
-  user: userSlice.reducer,
   shop: shopSlice.reducer,
   visitedPages: visitedPagesSlice.reducer,
   lessons: lessonsSlice.reducer,

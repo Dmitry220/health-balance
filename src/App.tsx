@@ -9,15 +9,16 @@ import {showToast} from './utils/common-functions'
 import {useNavigate} from 'react-router-dom'
 import {POST_INTERESTING_ROUTE, TRACKER_ROUTE} from './provider/constants-route'
 import {IUpdateUser} from './models/IUsers'
-import UserService from './services/UserServices'
 import {useStatusBar} from './hooks/useStatusBar'
 import {NoNetworkConnection} from './pages/NoNetworkConnection/NoNetworkConnection'
+import { useEditingProfileMutation } from './services/user.api'
 
 function App() {
   const navigate = useNavigate()
   const statusBar = useStatusBar()
   const [connect, setConnect] = useState<boolean>(true)
   const [complete, {isLoading: isUpdating}] = useCompleteTrackMutation()
+  const [editingProfile] = useEditingProfileMutation()
 
 
   const handlerPush = () => {
@@ -48,7 +49,7 @@ function App() {
     if (localStorage.getItem('token')) {
       const timezone = -new Date().getTimezoneOffset() / 60
       const data: IUpdateUser = {timezone}
-      await UserService.editingProfile(data)
+      await editingProfile(data)
     }
   }
 

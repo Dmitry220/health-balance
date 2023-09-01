@@ -22,8 +22,6 @@ export const TopRating = () => {
       refetch()
     }, [currentStepsCount])
 
-    console.log(leaderBoard)
-
     return (
         <div className={'top-rating'}>
             {

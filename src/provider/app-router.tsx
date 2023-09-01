@@ -1,16 +1,14 @@
-import { useEffect } from 'react'
-import { privateRoutes, publicRoutes } from './routes'
-import { Routes, Route } from 'react-router-dom'
-import { AuthPage } from '../pages/Authorization/Auth-page'
-import { useAppDispatch, useAppSelector } from '../hooks/redux-hooks'
-import {
-  checkAuth,
-  isAuthSelector,
-  isLoadingSelector
-} from '../Redux/slice/authSlice'
-import { setUserData } from '../Redux/slice/profileSlice'
-import { Preloader } from '../Components/Preloader/Preloader'
-import { StartPage } from '../pages/Start-pages/StartPage'
+import {useEffect} from 'react'
+import {privateRoutes, publicRoutes} from './routes'
+import {Route, Routes} from 'react-router-dom'
+import {AuthPage} from '../pages/Authorization/Auth-page'
+import {useAppDispatch, useAppSelector} from '../hooks/redux-hooks'
+import {checkAuth, isAuthSelector, isLoadingSelector} from '../Redux/slice/authSlice'
+import {Preloader} from '../Components/Preloader/Preloader'
+import {StartPage} from '../pages/Start-pages/StartPage'
+import {userApi} from "../services/user.api";
+import {ID_USER} from "../utils/globalConstants";
+
 
 const AppRouter = () => {
   const user = localStorage.getItem('token')
@@ -18,11 +16,11 @@ const AppRouter = () => {
   const isLoading = useAppSelector(isLoadingSelector)
   const dispatch = useAppDispatch()
 
-  const idUser = Number(localStorage.getItem('id'))
+  const [getProfile] = userApi.endpoints.getUserDataOnId.useLazyQuery()
 
   useEffect(() => {
     if (isAuth) {
-      dispatch(setUserData(idUser))
+      getProfile(ID_USER)
     } 
     else {      
       dispatch(checkAuth())

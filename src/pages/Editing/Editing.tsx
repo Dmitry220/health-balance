@@ -1,23 +1,23 @@
 import React, {forwardRef, useState} from 'react'
 import Header from '../../Components/Header/Header'
 import './editing.scss'
-import {useAppDispatch, useAppSelector} from '../../hooks/redux-hooks'
-import {dataUserSelector, isLoadingSelector, updateProfile} from '../../Redux/slice/profileSlice'
+import {useAppSelector} from '../../hooks/redux-hooks'
+import {dataUserSelector} from '../../Redux/slice/profileSlice'
 import InputMask from 'react-input-mask'
 import {Controller, useForm} from 'react-hook-form'
-import {Toast} from '@capacitor/toast'
 import 'react-datepicker/dist/react-datepicker.css'
 import ReactDatePicker, {registerLocale} from 'react-datepicker'
 import ru from 'date-fns/locale/ru'
 import photo from '../../assets/image/icon-camera-add.svg'
 import {IMAGE_URL} from '../../http'
 import {ModalExit} from '../../Components/Modals/Modal-exit'
-import {logout} from '../../Redux/slice/authSlice'
 import {useDeleteCustomerAccountMutation} from '../../services/auth.api'
 import {useLoadImage} from '../../hooks/useLoadImage'
 import {typeImage} from '../../utils/enums'
 import {errorHandler} from "../../utils/errorsHandler";
 import {useLogout} from "../../hooks/useLogout";
+import {useEditingProfileMutation} from '../../services/user.api'
+import {showToast} from '../../utils/common-functions'
 
 registerLocale('ru', ru)
 
@@ -40,33 +40,27 @@ export const Editing = () => {
 
     const [deleteAccount, {isLoading: isLoadingDeleteAccount}] = useDeleteCustomerAccountMutation()
     const [logout] = useLogout(true)
-    const isLoading = useAppSelector(isLoadingSelector)
     const dataUser = useAppSelector(dataUserSelector)
     const [isLogoutModal, setLogoutModal] = useState<boolean>(false)
     const id = Number(localStorage.getItem('id'))
     const [avatar, photoPath, isLoadingAvatar, clearImages, uploadImage] =
         useLoadImage()
-    const dispatch = useAppDispatch()
 
-    const showToast = async (text: string) => {
-        await Toast.show({
-            text: text,
-            position: 'center'
-        })
-    }
+    const [updateProfile, {isLoading}] = useEditingProfileMutation()
+
 
     const onSubmit = handleSubmit(
         ({email, birthdayParameter, gender, name, phone, surname}) => {
             const birthday = birthdayParameter.getTime() / 1000
             const data = {id, name, surname, gender, birthday, phone, email, avatar}
-            dispatch(updateProfile(data))
+            updateProfile(data)
+                .unwrap()
+                .then(async (response) => response.success && await showToast('Данные успешно сохранены!'))
+                .catch(e => errorHandler(e))
         }
     )
 
-    const downloadPicture = async () => {
-        await uploadImage(typeImage.avatars)
-    }
-
+    const downloadPicture = async () => await uploadImage(typeImage.avatars)
 
 
     if (isLogoutModal) {
@@ -82,7 +76,7 @@ export const Editing = () => {
                             }
                         })
                         .catch((error) => {
-                          errorHandler(error)
+                            errorHandler(error)
                         })
 
                 }}

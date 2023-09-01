@@ -44,7 +44,7 @@ export const baseQueryWithReauth: BaseQueryFn<
 
 export const api = createApi({
     reducerPath: "api",
-    tagTypes: ['tracks', 'newTracker', 'deleteTracker', 'updateTracker', 'interruptPoll', 'likeNews','addComments'],
+    tagTypes: ['tracks', 'newTracker', 'deleteTracker', 'updateTracker', 'interruptPoll', 'likeNews','addComments','editProfile'],
    // baseQuery: baseQuery,
     baseQuery: baseQueryWithReauth,
     endpoints: (builder) => ({
