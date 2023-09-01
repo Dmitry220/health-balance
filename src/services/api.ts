@@ -6,6 +6,10 @@ import {
     FetchBaseQueryError
 } from "@reduxjs/toolkit/dist/query/react";
 import {API_URL} from "../http";
+import {Capacitor} from "@capacitor/core";
+import {GoogleAuth} from "@codetrix-studio/capacitor-google-auth";
+import Pedometer from "../plugins/pedometer";
+import { LOGIN_ROUTE } from "../provider/constants-route";
 
 export interface ISuccessResponse {
     success: boolean
@@ -17,8 +21,18 @@ export const baseQueryWithReauth: BaseQueryFn<
     unknown,
     FetchBaseQueryError
     > = async (args, api, extraOptions = {}) => {
-    const result = await baseQuery(args, api, extraOptions);
-    console.log(result)
+    const result:any = await baseQuery(args, api, extraOptions);
+    if(result.error && result?.error?.data?.errors === 'Invalid token'){
+        if (Capacitor.getPlatform() === 'android') {
+            await GoogleAuth.signOut()
+            await Pedometer.reset()
+            await Pedometer.stop()
+        }
+        console.log('logout')
+        localStorage.clear();
+        window.location.replace(LOGIN_ROUTE)
+    }
+
     // if (result?.error?.status === RESPONSE_CODE.NO_AUTH) { // 401
     //   //  logout(); // Optionally you can trigger some code directly here
     //     // or dispatch an action to be handled in reducer or your middleware
@@ -31,7 +45,8 @@ export const baseQueryWithReauth: BaseQueryFn<
 export const api = createApi({
     reducerPath: "api",
     tagTypes: ['tracks', 'newTracker', 'deleteTracker', 'updateTracker', 'interruptPoll', 'likeNews','addComments'],
-    baseQuery: baseQuery,
+   // baseQuery: baseQuery,
+    baseQuery: baseQueryWithReauth,
     endpoints: (builder) => ({
         checkToken: builder.query<ISuccessResponse, null>({
             query: () => `customers/check-token/?token=${localStorage.getItem("token")}`,

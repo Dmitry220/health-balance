@@ -12,26 +12,13 @@ import {IUpdateUser} from './models/IUsers'
 import UserService from './services/UserServices'
 import {useStatusBar} from './hooks/useStatusBar'
 import {NoNetworkConnection} from './pages/NoNetworkConnection/NoNetworkConnection'
-import {api} from './services/api'
-import {useAppDispatch} from "./hooks/redux-hooks";
-import {useLogout} from './hooks/useLogout'
 
 function App() {
   const navigate = useNavigate()
   const statusBar = useStatusBar()
-  const [logout] = useLogout(true)
   const [connect, setConnect] = useState<boolean>(true)
   const [complete, {isLoading: isUpdating}] = useCompleteTrackMutation()
-  const dispatch = useAppDispatch()
 
-
-  const checkToken = async () => {
-    if(!localStorage.getItem("token")) return
-    dispatch(api.endpoints.checkToken.initiate(null)).unwrap().then((response)=>{
-      if(!response.success) logout()
-    })
-
-  }
 
   const handlerPush = () => {
     if (Capacitor.getPlatform() !== 'web') {
@@ -66,8 +53,6 @@ function App() {
   }
 
   useEffect(() => {
-    //проверка токена
-    checkToken()
     //Изменение timezone при входе в приложение
     changeTimezone()
     //Обработка пушей
