@@ -1,8 +1,11 @@
-import {FC} from 'react'
+import { FC } from 'react'
 import './list-leaders-challenge.scss'
-import {Preloader} from '../Preloader/Preloader'
-import {LeaderboardItem} from './Leaderboard-item'
-import {useLeaderboardChallengeQuery, useLeaderboardTeamsQuery} from "../../services/LeaderboardService";
+import { Preloader } from '../Preloader/Preloader'
+import { LeaderboardItem } from './Leaderboard-item'
+import {
+  useLeaderboardChallengeQuery,
+  useLeaderboardTeamsQuery
+} from '../../services/LeaderboardService'
 
 interface IListLeadersChallenge {
   type: number
@@ -13,14 +16,14 @@ export const ListLeadersChallenge: FC<IListLeadersChallenge> = ({
   type,
   idChallenge
 }) => {
-
-
-  const {data: leaderboardChallenge, isLoading:isLoadingChallenge} = useLeaderboardChallengeQuery(idChallenge,{
-    skip: type === 2
-  })
-  const {data: leaderboardTeamsChallenge, isLoading:isLoadingTeams} = useLeaderboardTeamsQuery(idChallenge,{
-    skip: type != 2
-  })
+  const { data: leaderboardChallenge, isLoading: isLoadingChallenge } =
+    useLeaderboardChallengeQuery(idChallenge, {
+      skip: type === 2
+    })
+  const { data: leaderboardTeamsChallenge, isLoading: isLoadingTeams } =
+    useLeaderboardTeamsQuery(idChallenge, {
+      skip: type !== 2
+    })
 
   if (isLoadingChallenge || isLoadingTeams) {
     return <Preloader />
@@ -30,7 +33,7 @@ export const ListLeadersChallenge: FC<IListLeadersChallenge> = ({
     <div className={'leader-challenge'}>
       <div className='leader-challenge__header'>
         <div className='leader-challenge__title'>
-          {(type === 1 || type === 3) ? 'Участники' : 'Команды'}
+          {type === 1 || type === 3 ? 'Участники' : 'Команды'}
         </div>
         <div className='leader-challenge__title'>Прогресс</div>
       </div>
@@ -57,4 +60,3 @@ export const ListLeadersChallenge: FC<IListLeadersChallenge> = ({
     </div>
   )
 }
-

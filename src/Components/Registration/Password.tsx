@@ -16,7 +16,9 @@ export const Password = () => {
   const [disable, setDisabled] = useState<boolean>(true)
 
   useEffect(() => {
-    (password.length >= 8 && password != email) ? setDisabled(false) : setDisabled(true)
+    password.length >= 8 && password !== email
+      ? setDisabled(false)
+      : setDisabled(true)
   }, [password])
 
   const validatePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,23 +27,25 @@ export const Password = () => {
   }
   return (
     <>
-    <div style={{ position: 'relative' }}>
-      <input
-        type='password'
-        className='registration__field _field'
-        value={password}
-        onChange={validatePassword}
-      />
-      <span className={'registration__sub-text-input'}>
-        Минимум 8 символов.
-      </span>
-    </div>
-    <Button
+      <div style={{ position: 'relative' }}>
+        <input
+          type='password'
+          className='registration__field _field'
+          value={password}
+          onChange={validatePassword}
+        />
+        <span className={'registration__sub-text-input'}>
+          Минимум 8 символов.
+        </span>
+      </div>
+      <Button
         disabled={disable}
         customClass='registration__button'
         view={typesButton.white}
         onClick={() => dispatch(setStage(stageRegistration.phone))}
-      >Далее</Button>
+      >
+        Далее
+      </Button>
     </>
   )
 }

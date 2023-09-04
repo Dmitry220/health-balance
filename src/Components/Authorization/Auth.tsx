@@ -22,7 +22,6 @@ import googleIcon from '../../assets/image/auth/googleIcon.svg'
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth'
 import { Preloader } from '../Preloader/Preloader'
 
-
 export const Auth = () => {
   const dispatch = useAppDispatch()
   const [email, setEmail] = useState<string>('')
@@ -64,8 +63,8 @@ export const Auth = () => {
         if (err.data?.errors?.email && err?.data?.errors?.password) {
           await showToast(
             err?.data?.errors?.email.join('. ') +
-            '. ' +
-            err.data?.errors?.password.join('. ')
+              '. ' +
+              err.data?.errors?.password.join('. ')
           )
           return
         }
@@ -99,11 +98,7 @@ export const Auth = () => {
       const timezone = -new Date().getTimezoneOffset() / 60
       const uuid = await Device.getId()
       const device_token = uuid.uuid
-
       const response = await GoogleAuth.signIn()
-      console.log('googleTokenn ', JSON.stringify(response));
-
-
 
       await signInWithGoogle({
         timezone: timezone,
@@ -132,9 +127,8 @@ export const Auth = () => {
           navigate(AUTH_GOOFLE_ROUTE)
         })
     } catch (error) {
-      console.log(error);      
+      console.log(error)
     }
-
   }
 
   useEffect(() => {
@@ -184,7 +178,7 @@ export const Auth = () => {
                 'Войти'
               )}
             </button>
-            {Capacitor.getPlatform() != 'ios' && (
+            {Capacitor.getPlatform() !== 'ios' && (
               <button
                 type='button'
                 className='google-sign-in-button'
@@ -194,7 +188,7 @@ export const Auth = () => {
               </button>
             )}
             <br />
-            {Capacitor.getPlatform() != 'ios' && (
+            {Capacitor.getPlatform() !== 'ios' && (
               <Link
                 to={AUTH_GOOFLE_ROUTE}
                 className='form-auth__button transparent'
