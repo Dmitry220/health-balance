@@ -1,4 +1,3 @@
-import { WEB_CLIENT_ID } from "./src/utils/globalConstants";
 import { CapacitorConfig } from "@capacitor/cli";
 
 const config: CapacitorConfig = {
@@ -13,7 +12,7 @@ const config: CapacitorConfig = {
     GoogleAuth: {
       scopes: ["profile", "email"],
       forceCodeForRefreshToken: true,
-      serverClientId: WEB_CLIENT_ID,
+      serverClientId: '892578456296-nmrjb7m8pn1f109psnaoff2q2es6s19f.apps.googleusercontent.com',
     },
   },
 };
