@@ -26,7 +26,10 @@ import { Navigate } from 'react-router-dom'
 import AppService from '../../services/AppService'
 import { Target } from '../../Components/Target/Target'
 import { heightStatusBarSelector } from '../../Redux/slice/appSlice'
-import { activityVisitSelector, setVisitedActivityPage } from '../../Redux/slice/visitedPageSlice'
+import {
+  activityVisitSelector,
+  setVisitedActivityPage
+} from '../../Redux/slice/visitedPageSlice'
 
 interface ISwiperNextButton {
   customClass: string
@@ -204,10 +207,12 @@ export const SlideNextButton: FC<ISwiperNextButton> = ({
   }
 
   return (
-    <button className={customClass} onClick={next} 
-    // style={{
-    //   bottom:  Capacitor.getPlatform() === 'ios' ? 80 : 50
-    // }}
+    <button
+      className={customClass}
+      onClick={next}
+      // style={{
+      //   bottom:  Capacitor.getPlatform() === 'ios' ? 80 : 50
+      // }}
     >
       Далее
     </button>
