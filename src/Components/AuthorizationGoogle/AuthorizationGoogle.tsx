@@ -66,7 +66,7 @@ export const AuthorizationGoogle = () => {
       .then(async (response) => {
         await showToast(`Регистрация прошла успешно`)
         localStorage.setItem('token', response.data.token)
-        localStorage.setItem('id', response.data.id + '')
+        localStorage.setItem('id', response.data.id.toString())
         dispatch(setAuth())
         dispatch(resetFieldRegistration())
         OneSignalInit()

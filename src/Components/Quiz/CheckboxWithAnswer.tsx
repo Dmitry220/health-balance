@@ -17,32 +17,28 @@ export const CheckboxWithAnswer: FC<ICheckboxWithAnswer> = ({
   answers,
   id
 }) => {
-
-  const [value, setValue] = useState<number | null>(null);
+  const [value, setValue] = useState<number | null>(null)
   const [input, setInput] = useState<string>('')
 
   const handleClick = () => {
-    answerHandler({ [id]: { variant: value, custom: input } });
-    setValue(null);
-    setInput('');
+    answerHandler({ [id]: { variant: value, custom: input } })
+    setValue(null)
+    setInput('')
   }
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue(+e.target.value);
-    if(+e.target.value===3){
-      setInput('');
-    }
+    setValue(+e.target.value)
+    if (+e.target.value === 3) setInput('')
   }
 
-let sortAnswers = [...answers].sort((a,b)=>a.position-b.position)
+  let sortAnswers = [...answers].sort((a, b) => a.position - b.position)
 
   return (
     <div className={'quiz'}>
       <div className='quiz__title'>{question}</div>
       <div className='custom-checkbox' style={{ marginBottom: '10px' }}>
         {answers &&
-        sortAnswers
-          .map((item, i) => {
+          sortAnswers.map((item, i) => {
             if (i < answers.length - 1) {
               return (
                 <div key={item.position}>
@@ -52,12 +48,14 @@ let sortAnswers = [...answers].sort((a,b)=>a.position-b.position)
                     checked={item.position + 1 === value}
                     value={item.position + 1}
                     type='radio'
-                    name={"radio" + id}
+                    name={'radio' + id}
                     className={'custom-checkbox__checkbox'}
-                    id={item.position + id + ''}
+                    id={(item.position + id).toString()}
                     onChange={handleChange}
                   />
-                  <label htmlFor={item.position + id + ''}>{item.value}</label>
+                  <label htmlFor={(item.position + id).toString()}>
+                    {item.value}
+                  </label>
                 </div>
               )
             }
@@ -75,9 +73,10 @@ let sortAnswers = [...answers].sort((a,b)=>a.position-b.position)
       </div>
       <button
         disabled={!value}
-        className={!value
-          ? "questionnaire-page__button _button-white disabled"
-          : "questionnaire-page__button _button-white"
+        className={
+          value
+            ? 'questionnaire-page__button _button-white'
+            : 'questionnaire-page__button _button-white disabled'
         }
         onClick={handleClick}
       >

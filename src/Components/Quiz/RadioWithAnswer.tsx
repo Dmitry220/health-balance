@@ -1,5 +1,6 @@
 import { ChangeEvent, FC, useState } from 'react'
 import './quiz.scss'
+
 interface IRadioWithAnswer {
   question: string
   answerHandler: Function
@@ -42,10 +43,12 @@ export const RadioWithAnswer: FC<IRadioWithAnswer> = ({
                     type='radio'
                     name={'radio' + id}
                     className={'custom-checkbox__checkbox'}
-                    id={item.position + id + ''}
+                    id={(item.position + id).toString()}
                     onChange={handleChange}
                   />
-                  <label htmlFor={item.position + id + ''}>{item.value}</label>
+                  <label htmlFor={(item.position + id).toString()}>
+                    {item.value}
+                  </label>
                 </div>
               )
             }

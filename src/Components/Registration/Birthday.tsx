@@ -66,7 +66,7 @@ export const Birthday: FC<IBirthday> = ({ googleAuth = false }) => {
             {itemMonths.map((item, i) => (
               <Picker.Item
                 className='my-picker-view-item'
-                value={i + 1 >= 10 ? i + 1 + '' : '0' + (i + 1)}
+                value={i + 1 >= 10 ? (i + 1).toString() : '0' + (i + 1)}
                 key={i}
               >
                 {item}

@@ -36,8 +36,8 @@ export const TrackerPage = () => {
 
   const itemsHour = getItemsHour()
   const itemsMinutes = getItemsMinutes()
-  const [hour, setHour] = useState<string>(12 + '')
-  const [minutes, setMinutes] = useState<string>(30 + '')
+  const [hour, setHour] = useState<string>('12')
+  const [minutes, setMinutes] = useState<string>('30')
 
   const statusBar = useAppSelector(heightStatusBarSelector)
 

@@ -18,7 +18,7 @@ export const definitionColor = (type: number, className: string) => {
 export function getItemsDays() {
   const items: any[] = []
   for (let i = 1; i <= 31; i++) {
-    items.push(i >= 10 ? i + '' : `0${i}`)
+    items.push(i >= 10 ? i.toString() : `0${i}`)
   }
   return items
 }
@@ -44,7 +44,7 @@ export function getItemsMonth() {
 export function getItemsYear(start: number, end: number) {
   const items = []
   for (let i = start; i <= end; i++) {
-    items.push(i >= 10 ? i + '' : `0${i}`)
+    items.push(i >= 10 ? i.toString() : `0${i}`)
   }
   return items
 }
@@ -54,7 +54,7 @@ export function getItemsStep(start: number, end: number) {
   if (end - start > 500) {
     for (let i = start; i < end; i += 500) {
       items.push(
-        <Picker.Item value={i + ''} key={i}>
+        <Picker.Item value={i.toString()} key={i}>
           {i}
         </Picker.Item>
       )
@@ -69,7 +69,7 @@ export function getItemsWeight(start: number, end: number, prefix: string) {
 
   for (let i = start; i < end; i += 1) {
     items.push(
-      <Picker.Item value={i + ''} key={i}>
+      <Picker.Item value={i.toString()} key={i}>
         {i + ' ' + prefix}
       </Picker.Item>
     )
@@ -82,7 +82,7 @@ export function getItemsHour() {
 
   for (let i = 0; i < 24; i += 1) {
     items.push(
-      <Picker.Item value={i + ''} key={i}>
+      <Picker.Item value={i.toString()} key={i}>
         {i >= 10 ? i : `0${i}`}
       </Picker.Item>
     )
@@ -94,7 +94,7 @@ export function getItemsMinutes() {
 
   for (let i = 0; i < 60; i += 1) {
     items.push(
-      <Picker.Item value={i + ''} key={i}>
+      <Picker.Item value={i.toString()} key={i}>
         {i >= 10 ? i : `0${i}`}
       </Picker.Item>
     )
@@ -137,7 +137,6 @@ export const showToast = async (text: string, duration?: 'short' | 'long') => {
 
 export function getWeek(d: any) {
   d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()))
-
   d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7))
   let yearStart: any = new Date(Date.UTC(d.getUTCFullYear(), 0, 1))
   var weekNo = Math.ceil(((d - yearStart) / 86400000 + 1) / 7)
@@ -191,15 +190,14 @@ export const range = function (start: number, stop: number, step: number) {
   return range
 }
 
-
 export function extractContent(s: string) {
-  var span = document.createElement('span');
-  span.innerHTML = s;
-  return span.textContent || span.innerText;
-};
+  var span = document.createElement('span')
+  span.innerHTML = s
+  return span.textContent || span.innerText
+}
 
 export const timeConverterUnix = (date: string) => {
-  let pattern = /(\d{2})\.(\d{2})\.(\d{4})/;
-  let dateFormatChanged: any = new Date(date.replace(pattern, '$3-$2-$1'));
+  let pattern = /(\d{2})\.(\d{2})\.(\d{4})/
+  let dateFormatChanged: any = new Date(date.replace(pattern, '$3-$2-$1'))
   return Math.floor(Date.parse(dateFormatChanged) / 1000)
 }

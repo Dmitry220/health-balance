@@ -42,19 +42,21 @@ const CheckboxQuiz: FC<ITextQuiz> = ({
                 type='checkbox'
                 name={'radio' + id}
                 className={'custom-checkbox__checkbox'}
-                id={item.position + id + ''}
+                id={(item.position + id).toString()}
                 onChange={(e) => handleChange(+e.target.value)}
               />
-              <label htmlFor={item.position + id + ''}>{item.value}</label>
+              <label htmlFor={(item.position + id).toString()}>
+                {item.value}
+              </label>
             </div>
           ))}
       </div>
       <button
-        disabled={value.length === 0}
+        disabled={!value.length}
         className={
-          value.length === 0
-            ? 'questionnaire-page__button _button-white disabled'
-            : 'questionnaire-page__button _button-white'
+          value.length
+            ? 'questionnaire-page__button _button-white'
+            : 'questionnaire-page__button _button-white disabled'
         }
         onClick={handleClick}
       >
