@@ -1,4 +1,4 @@
-import { useEffect,ChangeEvent } from 'react'
+import { useEffect, ChangeEvent } from 'react'
 import {
   platformCreatingChallengeSelector,
   setDisabledButton,
@@ -27,13 +27,9 @@ export const SelectPlatform = () => {
     dispatch(setDisabledButton(true))
   }, [])
 
-  if (isError) {
-    return <h1>Ошибка!</h1>
-  }
-  if (isLoading) {
-    return <Preloader height='auto'/>
-  }
-  
+  if (isError) return <h1>Ошибка!</h1>
+
+  if (isLoading) return <Preloader height='auto' />
 
   return (
     <div className={'select-platform'}>

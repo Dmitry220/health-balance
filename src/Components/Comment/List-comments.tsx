@@ -1,16 +1,20 @@
-import './commnet.scss'
-import {useState} from 'react'
-import {CommentForm} from './Comment-form'
-import {useParams} from 'react-router-dom'
-import {sklonenie} from '../../utils/common-functions'
-import {useGetListCommentsQuery, useGetNewsByIdQuery} from "../../services/news.api";
-import {ItemComment} from './ItemComment'
+import { useState } from 'react'
+import { CommentForm } from './Comment-form'
+import { useParams } from 'react-router-dom'
+import { sklonenie } from '../../utils/common-functions'
+import {
+  useGetListCommentsQuery,
+  useGetNewsByIdQuery
+} from '../../services/news.api'
+import { ItemComment } from './ItemComment'
+
+import './comment.scss'
 
 export const ListComments = () => {
   const params = useParams()
 
-  const {data: newsById} = useGetNewsByIdQuery(Number(params.id))
-  const {data:comments} = useGetListCommentsQuery(Number(params.id))
+  const { data: newsById } = useGetNewsByIdQuery(Number(params.id))
+  const { data: comments } = useGetListCommentsQuery(Number(params.id))
 
   const [parentId, setParentId] = useState<number>(0)
   const [showForm, setShowForm] = useState<boolean>(false)
@@ -49,4 +53,3 @@ export const ListComments = () => {
     </div>
   )
 }
-

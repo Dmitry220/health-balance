@@ -20,9 +20,8 @@ export const SyncingPage = () => {
   const [activeModal, setActiveModal] = useState<boolean>(false)
 
   const toggleGoogleFit = async () => {
-    if (isGoogleFit === 1) {
-      setActiveModal(true)
-    } else {
+    if (isGoogleFit === 1) setActiveModal(true)
+    else {
       dispatch(setGoogleFit(1))
       await Pedometer.setData({
         numberOfSteps: steps || 0,

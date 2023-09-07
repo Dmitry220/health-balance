@@ -30,7 +30,7 @@ export const CardChallenge: FC<ICardChallenge> = ({ challenge }) => {
       ((challenge.purpose?.quantity - challenge.remains_to_pass) * 100) /
       challenge.purpose?.quantity
     ).toFixed(1)
-  const [succesChallenge, setSuccesChallenge] = useState<boolean>(false)
+  const [successChallenge, setSuccessChallenge] = useState<boolean>(false)
 
   useEffect(() => {
     async function asyncQuery() {
@@ -40,15 +40,13 @@ export const CardChallenge: FC<ICardChallenge> = ({ challenge }) => {
         challenge.homeworks === challenge.total_lessons
       ) {
         const response = await ChallengeService.completeChallenge(challenge.id)
-        if (response.data.success) {
-          setSuccesChallenge(true)
-        }
+        if (response.data.success) setSuccessChallenge(true)
       }
     }
     asyncQuery()
   }, [challenge.remains_to_pass])
 
-  if (succesChallenge) {
+  if (successChallenge) {
     return (
       <ModalStatus
         route={ACTIVITY_ROUTE}
@@ -109,10 +107,20 @@ export const CardChallenge: FC<ICardChallenge> = ({ challenge }) => {
         </div>
         <div className='card-challenge__data'>
           <div className='card-challenge__days'>
-            {Math.ceil(Math.abs(challenge.end_date*1000 - challenge.start_date*1000) / (1000 * 3600 * 24))}
+            {Math.ceil(
+              Math.abs(
+                challenge.end_date * 1000 - challenge.start_date * 1000
+              ) /
+                (1000 * 3600 * 24)
+            )}
             <span>
               {sklonenie(
-                Math.ceil(Math.abs(challenge.end_date*1000 - challenge.start_date*1000) / (1000 * 3600 * 24)),
+                Math.ceil(
+                  Math.abs(
+                    challenge.end_date * 1000 - challenge.start_date * 1000
+                  ) /
+                    (1000 * 3600 * 24)
+                ),
                 ['день', 'дня', 'дней']
               )}
             </span>

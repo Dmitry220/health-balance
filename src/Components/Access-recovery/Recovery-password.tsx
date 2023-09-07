@@ -1,29 +1,35 @@
 import { ChangeEvent, useEffect, useState } from 'react'
-import { passwordRecoverySelector, setCode, setDisabledButton, setRecoveryPassword } from '../../Redux/slice/accessRecoverySlice'
+import {
+  passwordRecoverySelector,
+  setCode,
+  setDisabledButton,
+  setRecoveryPassword
+} from '../../Redux/slice/accessRecoverySlice'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import './access-recovery.scss'
 
 export const RecoveryPassword = () => {
-
   const password = useAppSelector(passwordRecoverySelector)
   const dispatch = useAppDispatch()
 
-  const [repeatPassword, setRepeatPassword] = useState<string | number>('')  
+  const [repeatPassword, setRepeatPassword] = useState<string | number>('')
 
-  const handlerCode = (e: ChangeEvent<HTMLInputElement>) => dispatch(setCode(+e.target.value.replace(/\D/, '')))  
+  const handlerCode = (e: ChangeEvent<HTMLInputElement>) =>
+    dispatch(setCode(+e.target.value.replace(/\D/, '')))
 
-  const handlerPassword = (e: React.ChangeEvent<HTMLInputElement>) => dispatch(setRecoveryPassword(e.target.value))    
-  
-  const handlerRepeatPassword = (e: React.ChangeEvent<HTMLInputElement>) => setRepeatPassword(e.target.value)
+  const handlerPassword = (e: React.ChangeEvent<HTMLInputElement>) =>
+    dispatch(setRecoveryPassword(e.target.value))
+
+  const handlerRepeatPassword = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setRepeatPassword(e.target.value)
 
   useEffect(() => {
-    if ((repeatPassword === password) && password.length >= 8) {
+    if (repeatPassword === password && password.length >= 8) {
       dispatch(setDisabledButton(false))
     } else {
       dispatch(setDisabledButton(true))
     }
   }, [repeatPassword, password])
-
 
   return (
     <div className={'recovery-password'}>

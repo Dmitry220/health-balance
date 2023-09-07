@@ -32,7 +32,11 @@ export const Platform: FC<IPlatform> = ({ googleAuth = false }) => {
 
   const handlerPlatforms = (e: React.ChangeEvent<HTMLSelectElement>) => {
     dispatch(setPlatform(+e.target.value))
-    dispatch(setTypePlatform(Number(e.target.options[e.target.selectedIndex].dataset.type) || 1));
+    dispatch(
+      setTypePlatform(
+        Number(e.target.options[e.target.selectedIndex].dataset.type) || 1
+      )
+    )
     setDisabled(+e.target.value === null ? true : !agree)
   }
 
@@ -56,7 +60,9 @@ export const Platform: FC<IPlatform> = ({ googleAuth = false }) => {
             defaultValue={platform === 0 ? 'DEFAULT' : platform}
             onChange={handlerPlatforms}
           >
-            <option value={'DEFAULT'} disabled>Ваша платформа</option>
+            <option value={'DEFAULT'} disabled>
+              Ваша платформа
+            </option>
             {listPLatforms &&
               listPLatforms.data.map((p) => (
                 <option value={p.id} key={p.id} data-type={p.type}>
@@ -65,7 +71,7 @@ export const Platform: FC<IPlatform> = ({ googleAuth = false }) => {
               ))}
           </select>
         </div>
-        {!googleAuth &&
+        {!googleAuth && (
           <>
             <hr className={'registration__line'} />
             <div className='registration__necessarily'>Обязательно</div>
@@ -77,7 +83,10 @@ export const Platform: FC<IPlatform> = ({ googleAuth = false }) => {
                   className={'custom-radio__checkbox'}
                   onChange={handlerAgree}
                 />
-                <label htmlFor={'agree'} className='confidentiality-block__text'>
+                <label
+                  htmlFor={'agree'}
+                  className='confidentiality-block__text'
+                >
                   Я принимаю Условия использования и Политику <br />
                   конфиденциальности HealthBalance
                 </label>
@@ -100,15 +109,18 @@ export const Platform: FC<IPlatform> = ({ googleAuth = false }) => {
               </a>
             </div>
           </>
-        }
-
+        )}
       </div>
-      {!googleAuth && <Button
-        disabled={disable}
-        customClass='registration__button'
-        view={typesButton.white}
-        onClick={nextStage}
-      >{typePlatfotm === 2 ? 'Далее' : 'Завершить регистрацию'}</Button>}
+      {!googleAuth && (
+        <Button
+          disabled={disable}
+          customClass='registration__button'
+          view={typesButton.white}
+          onClick={nextStage}
+        >
+          {typePlatfotm === 2 ? 'Далее' : 'Завершить регистрацию'}
+        </Button>
+      )}
     </>
   )
 }

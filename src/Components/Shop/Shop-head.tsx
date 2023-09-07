@@ -18,6 +18,7 @@ interface IShopHead {
 export const ShopHead: FC<IShopHead> = ({ marginBottom }) => {
   const balance = useAppSelector(balanceSelector)
   const basket = useAppSelector(basketSelector)
+
   return (
     <div className='shop-head' style={{ marginBottom: marginBottom }}>
       <div className='shop-head__title title-17'>
@@ -33,10 +34,8 @@ export const ShopHead: FC<IShopHead> = ({ marginBottom }) => {
         </Link>
         <Link to={BASKET_ROUTE} className='shop-head__link'>
           <img src={basketImg} alt='basket' />
-          {basket.length ? (
+          {basket.length > 0 && (
             <span className={'shop-head__img-before active'} />
-          ) : (
-            ''
           )}
         </Link>
       </div>

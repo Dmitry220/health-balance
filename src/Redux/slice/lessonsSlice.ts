@@ -7,7 +7,7 @@ export interface ILessonState {
   lesson: ILesson | null
   lessons: ILesson[] | []
   isLoading: boolean
-  isLoadingSucces: boolean
+  isLoadingSuccess: boolean
   success: boolean
 }
 
@@ -15,7 +15,7 @@ const initialState: ILessonState = {
   lesson: null,
   lessons: [],
   isLoading: false,
-  isLoadingSucces: false,
+  isLoadingSuccess: false,
   success: false
 }
 
@@ -68,12 +68,12 @@ export const lessonsSlice = createSlice({
     })
 
     builder.addCase(checkTask.pending, (state) => {
-      state.isLoadingSucces = true
+      state.isLoadingSuccess = true
     })
     builder.addCase(
       checkTask.fulfilled,
       (state, action: PayloadAction<boolean>) => {
-        state.isLoadingSucces = false
+        state.isLoadingSuccess = false
         state.success = action.payload
       }
     )
@@ -87,7 +87,7 @@ export const lessonSelector = (state: RootState) => state.lessons.lesson
 
 export const isLoadingSelector = (state: RootState) => state.lessons.isLoading
 export const isLoadingSuccessSelector = (state: RootState) =>
-  state.lessons.isLoadingSucces
+  state.lessons.isLoadingSuccess
 export const successSelector = (state: RootState) => state.lessons.success
 
 export default lessonsSlice.reducer

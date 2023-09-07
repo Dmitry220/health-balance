@@ -1,5 +1,4 @@
 import { ChangeEvent, useEffect, useState } from 'react'
-import { LECTURES_ROUTE } from '../../provider/constants-route'
 import { challengeSelector } from '../../Redux/slice/challengeSlice'
 import {
   checkTask,
@@ -11,18 +10,15 @@ import LessonService from '../../services/LessonsService'
 import { showToast } from '../../utils/common-functions'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import { ModalSuccess } from '../Modals/Modal-success'
-import { Preloader } from '../Preloader/Preloader'
 import '../Lecture/lecture.scss'
 
 export const AnswerOptions = () => {
-  const dispacth = useAppDispatch()
+  const dispatch = useAppDispatch()
 
   const lesson = useAppSelector(lessonSelector)
   const answers = lesson?.answers
   const [value, setValue] = useState<string>('')
-  const challengeId = useAppSelector(challengeSelector)
   const success = useAppSelector(successSelector)
-  const isLoading = useAppSelector(isLoadingSuccessSelector)
   const [title, setTitle] = useState('Задание выполнено')
   const [showReward, setShowReward] = useState(true)
   const [showModal, setShowModal] = useState<boolean>(false)
@@ -61,12 +57,8 @@ export const AnswerOptions = () => {
   }
 
   useEffect(() => {
-    lesson?.id && dispacth(checkTask(lesson.id))
+    lesson?.id && dispatch(checkTask(lesson.id))
   }, [showModal])
-
-  // if (isLoading) {
-  //   return <Preloader height='auto' />
-  // }
 
   if (showModal) {
     return (
@@ -94,7 +86,7 @@ export const AnswerOptions = () => {
           <div key={i}>
             <input
               type={'radio'}
-              id={i + ''}
+              id={i.toString()}
               className={'custom-checkbox__radio'}
               name={'radio'}
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
@@ -102,7 +94,7 @@ export const AnswerOptions = () => {
               }
               value={i}
             />
-            <label htmlFor={i + ''}>{answer}</label>
+            <label htmlFor={i.toString()}>{answer}</label>
           </div>
         ))}
       </div>
