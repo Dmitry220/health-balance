@@ -52,8 +52,7 @@ export const FurtherRecoveryButton: FC<IFurtherButton> = ({
           }
           dispatch(setError(error.data))
         })
-    }
-    if (order === 1) {
+    } else if (order === 1) {
       await updatePassword({ email, code, password })
         .unwrap()
         .then(async () => {

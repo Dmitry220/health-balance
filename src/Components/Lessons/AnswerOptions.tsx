@@ -1,8 +1,6 @@
 import { ChangeEvent, useEffect, useState } from 'react'
-import { challengeSelector } from '../../Redux/slice/challengeSlice'
 import {
   checkTask,
-  isLoadingSuccessSelector,
   lessonSelector,
   successSelector
 } from '../../Redux/slice/lessonsSlice'
@@ -49,11 +47,8 @@ export const AnswerOptions = () => {
   }
 
   const complete = async () => {
-    if (value) {
-      await sendAnswer(lesson?.id!)
-    } else {
-      await showToast('Вы не ответили на вопрос')
-    }
+    if (value) await sendAnswer(lesson?.id!)
+    else await showToast('Вы не ответили на вопрос')
   }
 
   useEffect(() => {
@@ -74,9 +69,8 @@ export const AnswerOptions = () => {
     )
   }
 
-  if (success) {
+  if (success)
     return <h1 style={{ textAlign: 'center', color: 'red' }}>Выполнено</h1>
-  }
 
   return (
     <>

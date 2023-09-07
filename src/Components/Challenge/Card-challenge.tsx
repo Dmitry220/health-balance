@@ -50,12 +50,8 @@ export const CardChallenge: FC<ICardChallenge> = ({ challenge }) => {
     return (
       <ModalStatus
         route={ACTIVITY_ROUTE}
-        subTitle={
-          'Вы успешно завершили \n' +
-          challenge.title +
-          '\nПолучена награда: ' +
-          challenge.purpose.reward
-        }
+        subTitle={`Вы успешно завершили\n${challenge.title}\n
+        Получена награда: ${challenge.purpose.reward}`}
         textButton='Ок'
       />
     )
