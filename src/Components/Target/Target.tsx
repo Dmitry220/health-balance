@@ -12,15 +12,13 @@ import { IStepsPerDay } from '../../models/IApp'
 import { stepsPerDaySelector } from '../../Redux/slice/appSlice'
 import { CircleDays } from './Circle-days'
 
-
 interface ITarget {
-  purpose?: IPurpose | null,
-  currentSteps?: number,
+  purpose?: IPurpose | null
+  currentSteps?: number
   steps?: IStepsPerDay[]
 }
 
 export const Target: FC<ITarget> = () => {
-
   const dispatch = useAppDispatch()
   const purpose = useAppSelector(purposeSelector)
   const steps = useAppSelector(stepsPerDaySelector)
@@ -41,18 +39,20 @@ export const Target: FC<ITarget> = () => {
           </Link>
         </div>
         <div className='target__body'>
-          {
-            purpose && Object.values(steps.statistic).map(
-              (item, i) =>
-                <CircleDays key={i}
-                   item={item}                 
-                  percent={(item.quantity * 100 / purpose.quantity) >= 100 ? 100 : item.quantity * 100 / purpose.quantity}
-                />)
-          }
+          {purpose &&
+            Object.values(steps.statistic).map((item, i) => (
+              <CircleDays
+                key={i}
+                item={item}
+                percent={
+                  (item.quantity * 100) / purpose.quantity >= 100
+                    ? 100
+                    : (item.quantity * 100) / purpose.quantity
+                }
+              />
+            ))}
         </div>
       </div>
     </div>
   )
 }
-
-

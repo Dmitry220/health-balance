@@ -39,7 +39,7 @@ export const Editing = () => {
   } = useForm<FormData>()
 
   const [deleteAccount] = useDeleteCustomerAccountMutation()
-  const [logout] = useLogout(true)
+  const [logout] = useLogout()
   const dataUser = useAppSelector(dataUserSelector)
   const [isLogoutModal, setLogoutModal] = useState<boolean>(false)
   const id = Number(localStorage.getItem('id'))
