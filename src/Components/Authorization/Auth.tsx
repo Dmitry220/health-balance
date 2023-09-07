@@ -26,8 +26,8 @@ export const Auth = () => {
   const dispatch = useAppDispatch()
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
-  const [submitLogin, { isLoading, error }] = useLoginMutation()
-  const [signInWithGoogle, { isLoading: isLoadingGoogle, error: errorGoogle }] =
+  const [submitLogin, { isLoading }] = useLoginMutation()
+  const [signInWithGoogle, { isLoading: isLoadingGoogle }] =
     useSignInWithGoogleMutation()
 
   let navigate = useNavigate()
@@ -60,22 +60,11 @@ export const Auth = () => {
         navigate(START_ROUTE)
       })
       .catch(async (err) => {
-        if (err.data?.errors?.email && err?.data?.errors?.password) {
-          await showToast(
-            err?.data?.errors?.email.join('. ') +
-              '. ' +
-              err.data?.errors?.password.join('. ')
-          )
-          return
-        }
-        if (err.data?.errors?.email) {
-          await showToast(err?.data?.errors?.email.join('. '))
-          return
-        }
-        if (err?.data?.errors?.password) {
-          await showToast(err.data?.errors?.password.join('. '))
-          return
-        }
+        let { email, password } = err.data?.errors
+        if (email && password)
+          return showToast(email.join('. ') + '. ' + password.join('. '))
+        if (email) return showToast(email.join('. '))
+        if (password) return showToast(password.join('. '))
       })
   }
 
@@ -118,12 +107,9 @@ export const Auth = () => {
           await showToast(`Вы успешно авторизированы`)
         })
         .catch(async (err) => {
-          if (err.data?.errors['google.reg']) {
-            await showToast(err.data?.errors['google.reg'])
-          }
-          if (err.data?.errors['google.auth']) {
-            await showToast(err.data?.errors['google.auth'])
-          }
+          let { reg, auth } = err.data?.errors.google
+          if (reg) await showToast(reg)
+          else if (auth) await showToast(auth)
           navigate(AUTH_GOOFLE_ROUTE)
         })
     } catch (error) {
@@ -135,9 +121,7 @@ export const Auth = () => {
     GoogleAuth.initialize()
   }, [])
 
-  if (isLoadingGoogle) {
-    return <Preloader />
-  }
+  if (isLoadingGoogle) return <Preloader />
 
   return (
     <form className={'auth'} onSubmit={submit}>

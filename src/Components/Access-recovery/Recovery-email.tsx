@@ -18,15 +18,12 @@ export const RecoveryEmail = () => {
 
   const handlerEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setError(''))
-    const value = e.target.value
     dispatch(setRecoveryEmail(e.target.value))
-    value.match(validRegex)
-      ? dispatch(setDisabledButton(false))
-      : dispatch(setDisabledButton(true))
+    dispatch(setDisabledButton(!e.target.value.match(validRegex)))
   }
 
-  useEffect(() => {    
-    email.match(validRegex) ? dispatch(setDisabledButton(false)) : dispatch(setDisabledButton(true))
+  useEffect(() => {
+    dispatch(setDisabledButton(!email.match(validRegex)))
   }, [])
 
   return (
@@ -42,11 +39,7 @@ export const RecoveryEmail = () => {
         value={email}
         onChange={handlerEmail}
       />
-      {error && (
-        <div className='recovery-email__error'>
-          {error}
-        </div>
-      )}
+      {error && <div className='recovery-email__error'>{error}</div>}
     </div>
   )
 }
