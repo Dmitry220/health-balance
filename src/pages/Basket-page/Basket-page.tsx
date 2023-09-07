@@ -12,13 +12,13 @@ import { showToast } from '../../utils/common-functions'
 export const BasketPage = () => {
   const navigate = useNavigate()
   const basket = useAppSelector(basketSelector)
-  const ballance = useAppSelector(balanceSelector)
+  const balance = useAppSelector(balanceSelector)
   const sum = basket
     .filter((item) => item)
     .reduce((sum, current) => sum + current.price, 0)
 
   const exchange = async () => {
-    if (ballance >= sum) {
+    if (balance >= sum) {
       navigate(MAKING_ORDER_ROUTE)
     } else {
       await showToast('На вашем счете недостаточно монет')
@@ -42,7 +42,7 @@ export const BasketPage = () => {
         {basket.length === 0 && <h1>Корзина пуста</h1>}
       </div>
       <div className='basket-page__button'>
-        {ballance < sum && (
+        {balance < sum && (
           <div className='basket-page__text-danger'>
             На вашем счете недостаточно монет
           </div>

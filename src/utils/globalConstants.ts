@@ -5,7 +5,6 @@ export const toolbarOptions = [
   [{ list: 'ordered' }, { list: 'bullet' }],
   ['clean']
 ]
-export const ID_USER = Number(localStorage.getItem('id'))
 
 export const CATEGORY_NEWS = [
   {

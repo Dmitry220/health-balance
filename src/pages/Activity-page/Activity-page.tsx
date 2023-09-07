@@ -18,7 +18,10 @@ import HeaderActive from '../../Components/Header-active/Header-active'
 import { Target } from '../../Components/Target/Target'
 import { TopRating } from '../../Components/Top-rating/Top-rating'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
-import { getPersonalPurpose, purposeSelector } from '../../Redux/slice/purposeSlice'
+import {
+  getPersonalPurpose,
+  purposeSelector
+} from '../../Redux/slice/purposeSlice'
 import {
   currentStepsCountSelector,
   getBalance,
@@ -33,11 +36,8 @@ import { isGoogleFitSelector } from '../../Redux/slice/settingsSlice'
 import { Charts } from '../../Components/Charts/Charts'
 import AppService from '../../services/AppService'
 import { periodMonth, periodWeek } from '../../Components/Charts/Chart-options'
-import { ImportantBlock } from '../../Components/Important-block/Important-block'
-import { Banner } from '../../Components/Banner/Banner'
-import {usePullToRefresh} from "../../hooks/usePulltoRefresh";
-import {leaderboardApi} from "../../services/LeaderboardService";
-
+import { usePullToRefresh } from '../../hooks/usePulltoRefresh'
+import { leaderboardApi } from '../../services/LeaderboardService'
 
 export const ActivityPage: FC = () => {
   const dispatch = useAppDispatch()
@@ -72,11 +72,8 @@ export const ActivityPage: FC = () => {
 
   const startPluginFromPlatform = () => {
     if (Capacitor.getPlatform() === 'android') {
-      if (isGoogleFit === 2) {
-        authGoogleFit()
-      } else {
-        startPlugin()
-      }
+      if (isGoogleFit === 2) authGoogleFit()
+      else startPlugin()
     } else if (Capacitor.getPlatform() === 'ios') {
       startHealthKit()
     }
@@ -146,8 +143,6 @@ export const ActivityPage: FC = () => {
       })
         .then((res: any) => {
           let steps = res.map((item: any) => {
-            console.log("item google fit: ", JSON.stringify(item));
-            
             return {
               date: item.startDate.toLocaleDateString(),
               steps: item.value.toFixed()
@@ -174,7 +169,7 @@ export const ActivityPage: FC = () => {
     dispatch(setMonths())
     dispatch(setWeeks())
   }
-  const [ trigger] = leaderboardApi.endpoints.leaderboard.useLazyQuery()
+  const [trigger] = leaderboardApi.endpoints.leaderboard.useLazyQuery()
   const handleRefresh = async () => {
     await dispatch(getPersonalPurpose())
     await dispatch(getBalance())
@@ -182,11 +177,10 @@ export const ActivityPage: FC = () => {
     await getDataCharts()
   }
 
-  usePullToRefresh(pullToRefresh, handleRefresh,50)
+  usePullToRefresh(pullToRefresh, handleRefresh, 50)
 
   return (
     <div className='activity-page'>
-
       <HeaderActive transparent={transparentHeader} />
       <Navigation />
       <div className={'activity-page__pull-to-refresh'}>
@@ -218,7 +212,7 @@ export const ActivityPage: FC = () => {
             <TopRating />
           </div>
         </div>
-     </div>
+      </div>
       <div className='circle-gradient circle-gradient_top' />
     </div>
   )

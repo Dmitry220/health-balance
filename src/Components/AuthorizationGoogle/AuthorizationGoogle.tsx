@@ -6,14 +6,13 @@ import './AuthorizationGoogle.scss'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import {
   dataRegistrationSelector,
-  platformSelector,
   resetFieldRegistration,
   setAuth,
   typePlatformSelector
 } from '../../Redux/slice/authSlice'
 import { useSignInWithGoogleMutation } from '../../services/auth.api'
 import { showToast } from '../../utils/common-functions'
-import { LOGIN_ROUTE, START_ROUTE } from '../../provider/constants-route'
+import { START_ROUTE } from '../../provider/constants-route'
 import { useNavigate } from 'react-router-dom'
 import { Privateplatform } from '../Registration/Private-platform/Private-platform'
 import Header from '../Header/Header'

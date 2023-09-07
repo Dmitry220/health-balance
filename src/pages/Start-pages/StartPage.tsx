@@ -13,7 +13,6 @@ import './start-page.scss'
 
 import { Steps } from '../../Components/Steps/Steps'
 import { StepsData } from '../../Components/Steps-data/Steps-data'
-import iconChat from '../../assets/image/icon_chat.svg'
 import { ScrollPicker } from '../../Components/Scroll-picker/Scroll-picker'
 import { ACTIVITY_ROUTE } from '../../provider/constants-route'
 import { getItemsStep } from '../../utils/common-functions'
