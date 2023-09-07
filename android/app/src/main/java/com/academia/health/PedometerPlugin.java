@@ -80,7 +80,7 @@ public class PedometerPlugin extends Plugin {
         requestPermissionLauncher =
                 getActivity().registerForActivityResult(new ActivityResultContracts
                         .RequestPermission(), isGranted -> {
-                    if (isGranted) {
+                    if (isGranted && sharedPrefManager.isLoggedIn()) {
                         startExecution();
                     } else {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -144,6 +144,9 @@ public class PedometerPlugin extends Plugin {
 
     @PluginMethod
     public void setData(PluginCall call) {
+        if (!sharedPrefManager.isLoggedIn()) {
+            return;
+        }
         int stepsFromIonic = call.getInt(INTENT_KEY, 0);
 
         sharedPrefManager.save(String.valueOf(PedometerPluginImpl.getStepsJSON(stepsFromIonic)));
@@ -206,6 +209,9 @@ public class PedometerPlugin extends Plugin {
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void askPermission() {
+        if (!sharedPrefManager.isLoggedIn()) {
+            return;
+        }
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
             startExecution();
             return;
