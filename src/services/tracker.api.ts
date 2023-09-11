@@ -10,7 +10,7 @@ import { api, ISuccessResponse } from './api'
 export const trackerApi = api.injectEndpoints({
   endpoints: (build) => ({
     getTracker: build.query<IGetTracker, void>({
-      query: () => `tracker/?token=${localStorage.getItem('token')}`,
+      query: () => `tracker?token=${localStorage.getItem('token')}`,
       transformResponse: (response: { data: IGetTracker }): IGetTracker =>
         response.data,
       providesTags: () => [
@@ -22,7 +22,7 @@ export const trackerApi = api.injectEndpoints({
 
     getTracks: build.query<ITracks, string>({
       query: (date) =>
-        `tracks/?date=${date}&token=${localStorage.getItem('token')}`,
+        `tracks?date=${date}&token=${localStorage.getItem('token')}`,
       transformResponse: (response: { data: ITrack[] }): ITracks => {
         return {
           fruitTrack: response.data.filter((item) => item.type === 3),
@@ -45,7 +45,7 @@ export const trackerApi = api.injectEndpoints({
 
     creatingTracker: build.mutation<{ tracker_id: number }, ICreatingTracker>({
       query: (data) => ({
-        url: `tracker/?token=${localStorage.getItem('token')}`,
+        url: `tracker?token=${localStorage.getItem('token')}`,
         method: 'POST',
         body: data
       }),

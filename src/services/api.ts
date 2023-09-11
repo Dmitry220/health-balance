@@ -57,7 +57,7 @@ export const api = createApi({
   endpoints: (builder) => ({
     checkToken: builder.query<ISuccessResponse, null>({
       query: () =>
-        `customers/check-token/?token=${localStorage.getItem('token')}`
+        `customers/check-token?token=${localStorage.getItem('token')}`
     })
   })
 })

@@ -8,7 +8,7 @@ export default class ChatService {
     customers_id: number[]
   ): Promise<AxiosResponse<{ data: INewChannels[] }>> {
     return $api.post(
-      `channels/?token=${localStorage.getItem('token')}`,
+      `channels?token=${localStorage.getItem('token')}`,
       { title, customers_id },
       {
         headers: {
@@ -20,7 +20,7 @@ export default class ChatService {
   }
 
   static async getChannels() {
-    return $api.get(`channels/?token=${localStorage.getItem('token')}`)
+    return $api.get(`channels?token=${localStorage.getItem('token')}`)
   }
   static async getChannelsById(channel_id: number) {
     return $api.get(
@@ -53,7 +53,7 @@ export default class ChatService {
 
   static async sendMessage(content: string, channel_id: number) {
     return $api.post(
-      `messages/?token=${localStorage.getItem('token')}`,
+      `messages?token=${localStorage.getItem('token')}`,
       { content, channel_id },
       {
         headers: {

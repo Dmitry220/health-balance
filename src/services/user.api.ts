@@ -13,7 +13,7 @@ export const userApi = api.injectEndpoints({
 
     editingProfile: build.mutation<ISuccessResponse, IUpdateUser>({
       query: (data) => ({
-        url: `customers/?token=${localStorage.getItem('token')}`,
+        url: `customers?token=${localStorage.getItem('token')}`,
         method: 'PATCH',
         body: data
       }),

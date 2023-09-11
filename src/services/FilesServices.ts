@@ -9,7 +9,7 @@ export default class FileService {
     type: typeImage
   ): Promise<AxiosResponse<IFileAvatar>> {
     return $api.post(
-      `images/?type=${type}&token=${localStorage.getItem('token')}`,
+      `images?type=${type}&token=${localStorage.getItem('token')}`,
       { image: image },
       {
         headers: {

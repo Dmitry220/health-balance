@@ -17,7 +17,7 @@ import {
 
 export default class LeaderboardService {
   static async leaderboard(): Promise<AxiosResponse<ILeaderBoardResponse>> {
-    return $api.get(`leaderboard/?token=${localStorage.getItem('token')}`)
+    return $api.get(`leaderboard?token=${localStorage.getItem('token')}`)
   }
 
   static async leaderboardChallenge(
@@ -43,7 +43,7 @@ export default class LeaderboardService {
 export const leaderboardApi = api.injectEndpoints({
   endpoints: (build) => ({
     leaderboard: build.query<ILeaderBoardResponse, null>({
-      query: () => `leaderboard/?token=${localStorage.getItem('token')}`,
+      query: () => `leaderboard?token=${localStorage.getItem('token')}`,
       transformResponse: (response: {
         data: ILeaderBoardResponse
       }): ILeaderBoardResponse => response.data

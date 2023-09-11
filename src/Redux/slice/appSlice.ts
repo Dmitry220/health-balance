@@ -1,28 +1,28 @@
-import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "../store";
-import AppService from "../../services/AppService";
-import { IBalance, IStepsPerDay, IStepsPerMonth } from "../../models/IApp";
-import { getWeek } from "../../utils/common-functions";
+import { createAsyncThunk, createSlice, current } from '@reduxjs/toolkit'
+import type { PayloadAction } from '@reduxjs/toolkit'
+import { RootState } from '../store'
+import AppService from '../../services/AppService'
+import { IBalance, IStepsPerDay, IStepsPerMonth } from '../../models/IApp'
+import { getWeek } from '../../utils/common-functions'
 
 interface AppState {
-  balance: number;
-  currentStepsCount: number;
-  steps: {statistic:IStepsPerDay[],difference:number};
+  balance: number
+  currentStepsCount: number
+  steps: { statistic: IStepsPerDay[]; difference: number }
   months: {
-    id: number;
-    title: string;
-    count: number;
-  }[];
+    id: number
+    title: string
+    count: number
+  }[]
   weeks: {
-    id: number;
-    date: string;
-    count: number;
-    numberWeek: number;
-    year: number | null;
-  }[];
-  monthData: {};
-  weekData: {};
+    id: number
+    date: string
+    count: number
+    numberWeek: number
+    year: number | null
+  }[]
+  monthData: {}
+  weekData: {}
   heightStatusBar: number
 }
 
@@ -30,68 +30,68 @@ const initialState: AppState = {
   balance: 0,
   heightStatusBar: 0,
   currentStepsCount: 0,
-  steps: {difference:0,statistic:[]},
+  steps: { difference: 0, statistic: [] },
   months: [
     {
       id: 1,
-      title: "Янв",
-      count: 0,
+      title: 'Янв',
+      count: 0
     },
     {
       id: 2,
-      title: "Фев",
-      count: 0,
+      title: 'Фев',
+      count: 0
     },
     {
       id: 3,
-      title: "Мар",
-      count: 0,
+      title: 'Мар',
+      count: 0
     },
     {
       id: 4,
-      title: "Апр",
-      count: 0,
+      title: 'Апр',
+      count: 0
     },
     {
       id: 5,
-      title: "Май",
-      count: 0,
+      title: 'Май',
+      count: 0
     },
     {
       id: 6,
-      title: "Июн",
-      count: 0,
+      title: 'Июн',
+      count: 0
     },
     {
       id: 7,
-      title: "Июл",
-      count: 0,
+      title: 'Июл',
+      count: 0
     },
     {
       id: 8,
-      title: "Авг",
-      count: 0,
+      title: 'Авг',
+      count: 0
     },
     {
       id: 9,
-      title: "Сен",
-      count: 0,
+      title: 'Сен',
+      count: 0
     },
     {
       id: 10,
-      title: "Окт",
-      count: 0,
+      title: 'Окт',
+      count: 0
     },
     {
       id: 11,
-      title: "Ноя",
-      count: 0,
+      title: 'Ноя',
+      count: 0
     },
     {
       id: 12,
-      title: "Дек",
-      count: 0,
-    },
+      title: 'Дек',
+      count: 0
+    }
   ],
   weeks: [
     {
@@ -99,130 +99,126 @@ const initialState: AppState = {
       count: 0,
       numberWeek: 0,
       year: null,
-      date: "",
+      date: ''
     },
     {
       id: 2,
       count: 0,
       numberWeek: 0,
       year: null,
-      date: "",
+      date: ''
     },
     {
       id: 3,
       count: 0,
       numberWeek: 0,
       year: null,
-      date: "",
+      date: ''
     },
     {
       id: 4,
       count: 0,
       numberWeek: 0,
       year: null,
-      date: "",
+      date: ''
     },
     {
       id: 5,
       count: 0,
       numberWeek: 0,
       year: null,
-      date: "",
+      date: ''
     },
     {
       id: 6,
       count: 0,
       numberWeek: 0,
       year: null,
-      date: "",
+      date: ''
     },
     {
       id: 7,
       count: 0,
       numberWeek: 0,
       year: null,
-      date: "",
-    },
+      date: ''
+    }
   ],
   monthData: {},
 
-  weekData: {},
-};
+  weekData: {}
+}
 
-export const getBalance = createAsyncThunk("balance", async () => {
-  const response = await AppService.getBalance();
-  return response.data.data.balance;
-});
+export const getBalance = createAsyncThunk('balance', async () => {
+  const response = await AppService.getBalance()
+  return response.data.data.balance
+})
 
-export const getStepsPerDay = createAsyncThunk(
-  "getStepsPerDay",
-  async () => {
-    const response = await AppService.getStepsPerDay();
-    return response.data.data;
-  }
-);
+export const getStepsPerDay = createAsyncThunk('getStepsPerDay', async () => {
+  const response = await AppService.getStepsPerDay()
+  return response.data.data
+})
 
 export const getStepsPerWeek = createAsyncThunk(
-  "getStepsPerWeek",
+  'getStepsPerWeek',
   async (data: any) => {
-    const { start_date, end_date, type } = data;
+    const { start_date, end_date, type } = data
     const response = await AppService.getStepsPerWeekAndMonth(
       start_date,
       end_date,
       type
-    );
-    return response.data.data;
+    )
+    return response.data.data
   }
-);
+)
 export const getStepsPerMonth = createAsyncThunk(
-  "getStepsPerMonth",
+  'getStepsPerMonth',
   async (data: any) => {
-    const { start_date, end_date, type } = data;
+    const { start_date, end_date, type } = data
     const response = await AppService.getStepsPerWeekAndMonth(
       start_date,
       end_date,
       type
-    );
-    return response.data.data;
+    )
+    return response.data.data
   }
-);
+)
 
 export const appSlice = createSlice({
-  name: "app",
+  name: 'app',
   initialState,
   reducers: {
     setCurrentStepsCount(state, action) {
-      state.currentStepsCount = action.payload;
+      state.currentStepsCount = action.payload
     },
-    
+
     setMonths: (state) => {
-      let array = state.monthData
-        ? Object.values(current(state.monthData))
-        : [];
-      const year: any = array[array?.length - 1];
+      let array = state.monthData ? Object.values(current(state.monthData)) : []
+      const year: any = array[array?.length - 1]
+      console.log(year, array)
       array &&
         Object.keys(year).map((month: any, index: number) => {
           state.months = state.months.map((label) =>
             label.id === +month
               ? { ...label, count: Number(Object.values(year)[index]) }
               : label
-          );
-        });
+          )
+        })
     },
     setWeeks: (state) => {
-      let weekNow = getWeek(new Date());
-      let array = state.weekData ? Object.values(state.weekData) : null;
+      let weekNow = getWeek(new Date())
+      let array = state.weekData ? Object.values(state.weekData) : null
       array &&
         array.length &&
         array.forEach((year: any, i) => {
           Object.keys(year).map((week: any, index: number) => {
             state.weeks = state.weeks.map((item, indexWeek) => {
-              let dateWeekNow = new Date(state.steps.statistic[0].date*1000);
+              let dateWeekNow = new Date(state.steps.statistic[0].date * 1000)
               let numberWeek =
                 weekNow[1] - indexWeek <= 0
                   ? 52 - (indexWeek - weekNow[1])
-                  : weekNow[1] - indexWeek;             
-                  
+                  : weekNow[1] - indexWeek
+
               return {
                 ...item,
                 date: new Date(
@@ -234,53 +230,53 @@ export const appSlice = createSlice({
                 count:
                   numberWeek === +Object.keys(year)[index]
                     ? Number(Object.values(year)[index])
-                    : item.count,
-              };              
-            });
-          });
-        });
+                    : item.count
+              }
+            })
+          })
+        })
     },
-    setHeightStatusBar:(state, action:PayloadAction<number>)=>{
+    setHeightStatusBar: (state, action: PayloadAction<number>) => {
       state.heightStatusBar = action.payload
     }
   },
 
   extraReducers: (builder) => {
     builder.addCase(getBalance.fulfilled, (state, action) => {
-      state.balance = action.payload;
-    });
+      state.balance = action.payload
+    })
     builder.addCase(
       getStepsPerDay.fulfilled,
-      (state, action: PayloadAction<{statistic:IStepsPerDay[],difference:number}>) => {
+      (
+        state,
+        action: PayloadAction<{ statistic: IStepsPerDay[]; difference: number }>
+      ) => {
         state.steps.statistic = Object.values(action.payload.statistic)
         state.steps.difference = action.payload.difference
       }
-    );
+    )
     builder.addCase(getStepsPerDay.rejected, (state, action) => {
-      state.steps = {difference:0,statistic:[]};
-    });
+      state.steps = { difference: 0, statistic: [] }
+    })
     builder.addCase(getStepsPerMonth.fulfilled, (state, action) => {
-      state.monthData = action.payload;
-    });
+      state.monthData = action.payload
+    })
     builder.addCase(getStepsPerWeek.fulfilled, (state, action) => {
-      state.weekData = action.payload;
-    });
-  },
-});
+      state.weekData = action.payload
+    })
+  }
+})
 
-export const {
-  setMonths,
-  setWeeks,
-  setCurrentStepsCount,
-  setHeightStatusBar
-} = appSlice.actions;
+export const { setMonths, setWeeks, setCurrentStepsCount, setHeightStatusBar } =
+  appSlice.actions
 
-export const balanceSelector = (state: RootState) => state.app.balance;
-export const stepsPerDaySelector = (state: RootState) => state.app.steps;
-export const monthsSelector = (state: RootState) => state.app.months;
-export const weeksSelector = (state: RootState) => state.app.weeks;
-export const heightStatusBarSelector = (state: RootState) => state.app.heightStatusBar;
+export const balanceSelector = (state: RootState) => state.app.balance
+export const stepsPerDaySelector = (state: RootState) => state.app.steps
+export const monthsSelector = (state: RootState) => state.app.months
+export const weeksSelector = (state: RootState) => state.app.weeks
+export const heightStatusBarSelector = (state: RootState) =>
+  state.app.heightStatusBar
 export const currentStepsCountSelector = (state: RootState) =>
-  state.app.currentStepsCount;
+  state.app.currentStepsCount
 
-export default appSlice.reducer;
+export default appSlice.reducer

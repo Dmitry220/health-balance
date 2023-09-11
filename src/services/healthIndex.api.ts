@@ -24,7 +24,7 @@ export const healthIndexApi = api.injectEndpoints({
 
     getProgressAndIdPolls: build.mutation<IGetProgressAndIDPolls, null>({
       query: (id) => ({
-        url: `polls/?token=${localStorage.getItem('token')}`,
+        url: `polls?token=${localStorage.getItem('token')}`,
         method: 'POST'
       }),
       transformResponse: (response: {
@@ -53,7 +53,7 @@ export const healthIndexApi = api.injectEndpoints({
     }),
 
     getQuestionnaire: build.query<IQuestionnaire[], number>({
-      query: () => `questions/?token=${localStorage.getItem('token')}`,
+      query: () => `questions?token=${localStorage.getItem('token')}`,
       transformResponse: (
         response: { data: IQuestionnaire[] },
         meta,
@@ -61,12 +61,11 @@ export const healthIndexApi = api.injectEndpoints({
       ): IQuestionnaire[] => {
         return response.data?.map((item) => {
           item.questions = item?.questions?.filter((q) => {
-            if (gender === 1) {
+            if (gender === 1)
               return q?.tag !== 'waist_w' && q?.tag !== 'mammography'
-            }
-            if (gender === 2) {
+            else if (gender === 2)
               return q?.tag !== 'waist_m' && q?.tag !== 'prostate_cancer_test'
-            }
+            else return false
           })
           return item
         })
@@ -74,13 +73,13 @@ export const healthIndexApi = api.injectEndpoints({
     }),
 
     getDynamics: build.query<IDynamics[], null>({
-      query: () => `dynamics/?token=${localStorage.getItem('token')}`,
+      query: () => `dynamics?token=${localStorage.getItem('token')}`,
       transformResponse: (response: { data: IDynamics[] }): IDynamics[] =>
         response.data.slice(Math.max(response.data.length - 12, 0))
     }),
 
     getListReports: build.query<IListReport[], null>({
-      query: () => `indexes/?token=${localStorage.getItem('token')}`,
+      query: () => `indexes?token=${localStorage.getItem('token')}`,
       transformResponse: (response: { data: IListReport[] }): IListReport[] =>
         response.data
     }),
