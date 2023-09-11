@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, current } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../store'
 import AppService from '../../services/AppService'
-import { IBalance, IStepsPerDay, IStepsPerMonth } from '../../models/IApp'
+import { IStepsPerDay } from '../../models/IApp'
 import { getWeek } from '../../utils/common-functions'
 
 interface AppState {
@@ -195,7 +195,6 @@ export const appSlice = createSlice({
     setMonths: (state) => {
       let array = state.monthData ? Object.values(current(state.monthData)) : []
       const year: any = array[array?.length - 1]
-      console.log(year, array)
       array &&
         Object.keys(year).map((month: any, index: number) => {
           state.months = state.months.map((label) =>
