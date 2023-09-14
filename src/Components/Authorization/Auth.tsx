@@ -1,35 +1,24 @@
-import { ChangeEvent, useEffect, useState } from 'react'
+import {ChangeEvent, useEffect, useState} from 'react'
 import './auth.scss'
-import { Link, useNavigate } from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 import logo from '../../assets/image/Logo.svg'
-import {
-  ACCESS_RECOVERY__ROUTE,
-  AUTH_GOOFLE_ROUTE,
-  REGISTRATION_ROUTE,
-  START_ROUTE
-} from '../../provider/constants-route'
-import { useAppDispatch } from '../../hooks/redux-hooks'
-import { resetFieldRegistration, setAuth } from '../../Redux/slice/authSlice'
-import { Device } from '@capacitor/device'
-import { Capacitor } from '@capacitor/core'
-import OneSignal from 'onesignal-cordova-plugin'
-import {
-  useLoginMutation,
-  useSignInWithGoogleMutation
-} from '../../services/auth.api'
-import { showToast } from '../../utils/common-functions'
+import {ACCESS_RECOVERY__ROUTE, AUTH_GOOFLE_ROUTE, REGISTRATION_ROUTE} from '../../provider/constants-route'
+import {Device} from '@capacitor/device'
+import {Capacitor} from '@capacitor/core'
+import {useLoginMutation, useSignInWithGoogleMutation} from '../../services/auth.api'
+import {showToast} from '../../utils/common-functions'
 import googleIcon from '../../assets/image/auth/googleIcon.svg'
-import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth'
-import { Preloader } from '../Preloader/Preloader'
+import {GoogleAuth} from '@codetrix-studio/capacitor-google-auth'
+import {Preloader} from '../Preloader/Preloader'
+import {useSetDataAuth} from '../../hooks/useSetDataAuth'
 
 export const Auth = () => {
-  const dispatch = useAppDispatch()
+
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [submitLogin, { isLoading }] = useLoginMutation()
-  const [signInWithGoogle, { isLoading: isLoadingGoogle }] =
-    useSignInWithGoogleMutation()
-
+  const [signInWithGoogle, { isLoading: isLoadingGoogle }] = useSignInWithGoogleMutation()
+  const {setDataAuth} = useSetDataAuth()
   let navigate = useNavigate()
 
   const handlerLogin = (e: ChangeEvent<HTMLInputElement>) =>
@@ -51,14 +40,7 @@ export const Auth = () => {
       timezone
     })
       .unwrap()
-      .then((response) => {
-        localStorage.setItem('token', response.data.token)
-        localStorage.setItem('id', response.data.id.toString())
-        dispatch(setAuth())
-        dispatch(resetFieldRegistration())
-        OneSignalInit()
-        navigate(START_ROUTE)
-      })
+      .then((response) => setDataAuth(response))
       .catch(async (err) => {
         let { email, password } = err.data?.errors
         if (email && password)
@@ -68,19 +50,6 @@ export const Auth = () => {
       })
   }
 
-  async function OneSignalInit() {
-    if (Capacitor.getPlatform() !== 'web') {
-      let externalUserId = localStorage.getItem('id')
-
-      OneSignal.setExternalUserId(externalUserId, (results: any) => {
-        // The results will contain push and email success statuses
-        console.log('External user id ', JSON.stringify(results))
-        if (results.push && results.push.success) {
-          console.log('Results external user id: ', results.push.success)
-        }
-      })
-    }
-  }
 
   const googleAuth = async () => {
     try {
@@ -97,17 +66,10 @@ export const Auth = () => {
         device_token: device_token
       })
         .unwrap()
-        .then(async (response) => {
-          localStorage.setItem('token', response.data.token)
-          localStorage.setItem('id', response.data.id.toString())
-          dispatch(setAuth())
-          dispatch(resetFieldRegistration())
-          OneSignalInit()
-          navigate(START_ROUTE)
-          await showToast(`Вы успешно авторизированы`)
-        })
+        .then(async (response) => setDataAuth(response))
         .catch(async (err) => {
-          let { reg, auth } = err.data?.errors.google
+          const reg = err.data?.errors['google.reg']
+          const auth = err.data?.errors['google.auth']
           if (reg) await showToast(reg)
           else if (auth) await showToast(auth)
           navigate(AUTH_GOOFLE_ROUTE)

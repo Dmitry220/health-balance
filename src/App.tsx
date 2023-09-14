@@ -1,83 +1,84 @@
-import { Capacitor } from '@capacitor/core'
-import OneSignal from 'onesignal-cordova-plugin'
-import { useEffect, useState } from 'react'
+import {Capacitor} from '@capacitor/core'
+import React, {useEffect, useState} from 'react'
 import './assets/style/global.scss'
 import AppRouter from './provider/app-router'
-import { App as CapacitorApp } from '@capacitor/app'
-import { useCompleteTrackMutation } from './services/tracker.api'
-import { showToast } from './utils/common-functions'
-import { useNavigate } from 'react-router-dom'
-import {
-  POST_INTERESTING_ROUTE,
-  TRACKER_ROUTE
-} from './provider/constants-route'
-import { IUpdateUser } from './models/IUsers'
-import { useStatusBar } from './hooks/useStatusBar'
-import { NoNetworkConnection } from './pages/NoNetworkConnection/NoNetworkConnection'
-import { useEditingProfileMutation } from './services/user.api'
+import {App as CapacitorApp, BackButtonListenerEvent} from '@capacitor/app'
+import {useCompleteTrackMutation} from './services/tracker.api'
+import {showToast} from './utils/common-functions'
+import {useNavigate} from 'react-router-dom'
+import {POST_INTERESTING_ROUTE, TRACKER_ROUTE} from './provider/constants-route'
+import {IUpdateUser} from './models/IUsers'
+import {useStatusBar} from './hooks/useStatusBar'
+import {NoNetworkConnection} from './pages/NoNetworkConnection/NoNetworkConnection'
+import {useEditingProfileMutation} from './services/user.api'
+import {useOneSignal} from "./hooks/useOneSignal";
+
 
 function App() {
+
+  const [connect, setConnect] = useState<boolean>(true)
   const navigate = useNavigate()
   const statusBar = useStatusBar()
-  const [connect, setConnect] = useState<boolean>(true)
+  const {handlerClickPush} = useOneSignal()
   const [complete] = useCompleteTrackMutation()
   const [editingProfile] = useEditingProfileMutation()
 
+
   const handlerPush = () => {
-    if (Capacitor.getPlatform() !== 'web') {
-      OneSignal.setAppId('6c585b11-b33a-44f5-8c7b-3ffac2059d19')
-      OneSignal.setNotificationOpenedHandler(async (openedEvent) => {
-        const { notification }: any = openedEvent
-        if (notification.additionalData?.type === 'news') {
-          navigate(
+    handlerClickPush(async (openedEvent) => {
+      const { notification }: any = openedEvent
+      if (notification?.additionalData?.type === 'news') {
+        navigate(
             POST_INTERESTING_ROUTE + '/' + notification.additionalData?.id
-          )
-        }
-        if (notification.additionalData?.track_id) {
-          const response = await complete(
+        )
+      }
+      if (notification.additionalData?.track_id) {
+        const response = await complete(
             notification.additionalData.track_id
-          ).unwrap()
-          if (response?.success) {
-            await showToast('Цель ' + notification.body + ' выполнена')
-            navigate(TRACKER_ROUTE)
-          }
+        ).unwrap()
+        if (response?.success) {
+          await showToast('Цель ' + notification.body + ' выполнена')
+          navigate(TRACKER_ROUTE)
         }
-      })
-      OneSignal.promptForPushNotificationsWithUserResponse(function (accepted) {
-        console.log('User accepted notifications: ' + accepted)
-      })
-    }
+      }
+    })
   }
 
-  const changeTimezone = async () => {
+  const changeTimezone = () => {
     if (localStorage.getItem('token')) {
       const timezone = -new Date().getTimezoneOffset() / 60
       const data: IUpdateUser = { timezone }
-      await editingProfile(data)
+      editingProfile(data)
     }
   }
 
+
   useEffect(() => {
+
     changeTimezone()
     handlerPush()
-    CapacitorApp.addListener('appStateChange', ({ isActive }) => {
-      changeTimezone()
-      handlerPush()
-    })
 
-    CapacitorApp.addListener('backButton', ({ canGoBack }: any) => {
-      if (!canGoBack) {
-        CapacitorApp.exitApp()
-      } else {
-        window.history.back()
+    //обработчик приложения при выгрузке/оставления в памяти
+    CapacitorApp.addListener('appStateChange', async ({ isActive }) => {
+      if(isActive) {
+        await changeTimezone()
+        handlerPush()
       }
     })
+
+    //обработка кнопки назад
+    CapacitorApp.addListener('backButton', async ({ canGoBack }: BackButtonListenerEvent) => {
+      if (!canGoBack) await CapacitorApp.exitApp()
+      else window.history.back()
+    })
+
     //Обработчик подключения к интернету
     window.addEventListener('offline', () => {
       setConnect(false)
     })
     window.addEventListener('online', () => setConnect(true))
     setConnect(window.navigator.onLine)
+
   }, [])
 
   return (

@@ -1,48 +1,26 @@
-import React, { useEffect } from 'react'
-import { Birthday } from '../Registration/Birthday'
-import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth'
-import { Platform } from '../Registration/Platform'
+import React, {useEffect} from 'react'
+import {Birthday} from '../Registration/Birthday'
+import {GoogleAuth} from '@codetrix-studio/capacitor-google-auth'
+import {Platform} from '../Registration/Platform'
 import './AuthorizationGoogle.scss'
-import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
-import {
-  dataRegistrationSelector,
-  resetFieldRegistration,
-  setAuth,
-  typePlatformSelector
-} from '../../Redux/slice/authSlice'
-import { useSignInWithGoogleMutation } from '../../services/auth.api'
-import { showToast } from '../../utils/common-functions'
-import { START_ROUTE } from '../../provider/constants-route'
-import { useNavigate } from 'react-router-dom'
-import { Privateplatform } from '../Registration/Private-platform/Private-platform'
+import {useAppSelector} from '../../hooks/redux-hooks'
+import {dataRegistrationSelector, typePlatformSelector} from '../../Redux/slice/authSlice'
+import {useSignInWithGoogleMutation} from '../../services/auth.api'
+import {showToast} from '../../utils/common-functions'
+import {Privateplatform} from '../Registration/Private-platform/Private-platform'
 import Header from '../Header/Header'
-import { Capacitor } from '@capacitor/core'
-import OneSignal from 'onesignal-cordova-plugin'
-import { Device } from '@capacitor/device'
-import { Telephone } from '../Registration/Telephone'
-import { Preloader } from '../Preloader/Preloader'
-import { WEB_CLIENT_ID } from '../../utils/globalConstants'
+import {Device} from '@capacitor/device'
+import {Telephone} from '../Registration/Telephone'
+import {Preloader} from '../Preloader/Preloader'
+import {WEB_CLIENT_ID} from '../../utils/globalConstants'
+import {useSetDataAuth} from "../../hooks/useSetDataAuth";
 
 export const AuthorizationGoogle = () => {
-  const navigate = useNavigate()
-  const dispatch = useAppDispatch()
+
   const dataRegistration = useAppSelector(dataRegistrationSelector)
-  const typePlatfotm = useAppSelector(typePlatformSelector)
+  const typePlatform = useAppSelector(typePlatformSelector)
   const [submit, { isLoading, error }] = useSignInWithGoogleMutation()
-
-  async function OneSignalInit() {
-    if (Capacitor.getPlatform() !== 'web') {
-      let externalUserId = localStorage.getItem('id')
-
-      OneSignal.setExternalUserId(externalUserId, (results: any) => {
-        // The results will contain push and email success statuses
-        console.log('External user id ', JSON.stringify(results))
-        if (results.push && results.push.success) {
-          console.log('Results external user id: ', results.push.success)
-        }
-      })
-    }
-  }
+  const {setDataAuth} = useSetDataAuth()
 
   const googleAuth = async () => {
     const response = await GoogleAuth.signIn()
@@ -63,20 +41,10 @@ export const AuthorizationGoogle = () => {
       phone: dataRegistration.phone
     })
       .unwrap()
-      .then(async (response) => {
-        await showToast(`Регистрация прошла успешно`)
-        localStorage.setItem('token', response.data.token)
-        localStorage.setItem('id', response.data.id.toString())
-        dispatch(setAuth())
-        dispatch(resetFieldRegistration())
-        OneSignalInit()
-        navigate(START_ROUTE)
-      })
+      .then(async (response) => setDataAuth(response))
       .catch(async (err) => {
-        console.log(err)
-        if (err.data?.errors['google.reg']) {
-          await showToast(err.data?.errors['google.reg'])
-        }
+        const reg = err.data?.errors['google.reg']
+        if (reg) await showToast(err.data?.errors['google.reg'])
       })
   }
 
@@ -99,7 +67,7 @@ export const AuthorizationGoogle = () => {
         <Telephone googleAuth={true} />
         <h2 className='auth-google__title main-title'>Выберите платформу</h2>
         <Platform googleAuth={true} />
-        {typePlatfotm === 2 && (
+        {typePlatform === 2 && (
           <>
             <h2 className='auth-google__title main-title'>
               Укажите код платформы
