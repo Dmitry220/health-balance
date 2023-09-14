@@ -76,9 +76,7 @@ export const Editing = () => {
                 await showToast('Ваш аккаунт успешно удален!')
               }
             })
-            .catch((error) => {
-              errorHandler(error)
-            })
+            .catch((error) => errorHandler(error))
         }}
         closeCallback={setLogoutModal}
         text={'Вы действительно хотите удалить аккаунт?'}
@@ -102,7 +100,6 @@ export const Editing = () => {
       <div className='editing__row'>
         <div className='editing__wrapper-header'>
           <div className='editing__avatar'>
-            {/* <input type={'file'} onChange={dowloadPicture} id='file' /> */}
             {!isLoadingAvatar ? (
               <div className='editing__label' onClick={downloadPicture}>
                 {!dataUser.avatar && !photoPath && (
@@ -242,12 +239,11 @@ export const Editing = () => {
         <Controller
           control={control}
           name='birthdayParameter'
-          // rules={{ required: true }}
           defaultValue={new Date(dataUser.birthday * 1000)}
           render={({ field: { value, ...fieldProps } }) => (
             <ReactDatePicker
               {...fieldProps}
-              customInput={<ExampleCustomInput />}
+              customInput={<CustomInputPicker />}
               selected={value}
               peekNextMonth
               showMonthDropdown
@@ -268,7 +264,7 @@ export const Editing = () => {
   )
 }
 
-const ExampleCustomInput = forwardRef(({ value, onClick }: any, ref: any) => {
+const CustomInputPicker = forwardRef(({ value, onClick }:any, ref: any) => {
   return (
     <button
       type='button'

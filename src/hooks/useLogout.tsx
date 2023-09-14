@@ -15,11 +15,11 @@ export const useLogout = () => {
   const [deleteTrackers] = useDeleteTrackerMutation()
 
   const clearData = async () => {
+    await deleteTrackers(null)
     localStorage.removeItem('token')
     localStorage.removeItem('id')
     await dispatch(clearResults())
     await persistor.purge()
-    await deleteTrackers(null)
   }
 
   const logout = async () => {
@@ -31,7 +31,7 @@ export const useLogout = () => {
           await Pedometer.stop()
         }
       }
-      clearData()
+      await clearData()
       await window.location.replace(LOGIN_ROUTE)
     } catch (error) {
       await showToast('Произошла ошибка удаления тркера')
