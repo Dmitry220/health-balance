@@ -37,7 +37,7 @@ import { Charts } from '../../Components/Charts/Charts'
 import AppService from '../../services/AppService'
 import { periodMonth, periodWeek } from '../../Components/Charts/Chart-options'
 import { usePullToRefresh } from '../../hooks/usePulltoRefresh'
-import { leaderboardApi } from '../../services/LeaderboardService'
+import { leaderboardApi } from '../../services/leaderboard.api'
 
 export const ActivityPage: FC = () => {
   const dispatch = useAppDispatch()

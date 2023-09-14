@@ -5,7 +5,7 @@ import { LeaderboardItem } from './Leaderboard-item'
 import {
   useLeaderboardChallengeQuery,
   useLeaderboardTeamsQuery
-} from '../../services/LeaderboardService'
+} from '../../services/leaderboard.api'
 
 interface IListLeadersChallenge {
   type: number

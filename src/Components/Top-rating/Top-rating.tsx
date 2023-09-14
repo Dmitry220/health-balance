@@ -8,7 +8,7 @@ import './top-rating.scss'
 import avatar from '../../assets/image/avatar.jpeg'
 import {sklonenie} from '../../utils/common-functions'
 import {currentStepsCountSelector} from '../../Redux/slice/appSlice'
-import {useLeaderboardQuery} from '../../services/LeaderboardService'
+import {useLeaderboardQuery} from '../../services/leaderboard.api'
 import {Preloader} from "../Preloader/Preloader";
 
 export const TopRating = () => {
