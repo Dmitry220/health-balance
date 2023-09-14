@@ -1,4 +1,4 @@
-import { Camera, CameraResultType,CameraPermissionType} from '@capacitor/camera'
+import { Camera, CameraResultType} from '@capacitor/camera'
 import { useState } from 'react'
 import FileService from '../services/FilesServices'
 import { showToast } from '../utils/common-functions'
@@ -50,5 +50,5 @@ export const useLoadImage = () => {
     }
   }
 
-  return [image, photoPath, isLoadingAvatar, clearImages, uploadImage] as const
+  return {image, photoPath, isLoadingAvatar, clearImages, uploadImage} as const
 }

@@ -73,10 +73,10 @@ export const CardChallenge: FC<ICardChallenge> = ({ challenge }) => {
             {challenge.image && (
               <img
                 src={IMAGE_URL + 'challenges/' + challenge.image}
-                alt='challenge-image'
+                alt={challenge.image}
               />
             )}
-            {!challenge.image && <img src={plug} alt='challenge-image' />}
+            {!challenge.image && <img src={plug} alt={challenge.image} />}
           </div>
           <div className='card-challenge__head-body'>
             <div

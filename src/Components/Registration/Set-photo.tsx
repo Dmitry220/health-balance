@@ -20,11 +20,11 @@ import { useNavigate } from 'react-router-dom'
 export const SetPhoto = () => {
   const dispatch = useAppDispatch()
   const dataRegistration = useAppSelector(dataRegistrationSelector)
-  const [image, photoPath, isLoadingAvatar, clearImages, uploadImage] =
+  const {image, photoPath, isLoadingAvatar, uploadImage} =
     useLoadImage()
   const [disable, setDisabled] = useState<boolean>(false)
   const navigate = useNavigate()
-  const [submitRegistration, { isLoading, error }] = useRegistrationMutation()
+  const [submitRegistration, { isLoading }] = useRegistrationMutation()
 
   const dowloadPicture = async () => {
     await uploadImage(typeImage.avatars)
@@ -79,6 +79,8 @@ export const SetPhoto = () => {
       setDisabled(true)
     }
   }, [image])
+
+  console.log('456')
 
   return (
     <>

@@ -26,7 +26,7 @@ export const CreatingInteresting = () => {
     const dataNews = useAppSelector(creatingNewsSelector)
     const previewImage = useAppSelector(previewImageSelector)
     const [creatingNews, {isLoading}] = useCreateNewsMutation()
-    const [image, photoPath, isLoadingAvatar, clearImages, uploadImage] =
+    const {image, photoPath, isLoadingAvatar, clearImages, uploadImage} =
         useLoadImage()
 
     const takePicture = async () => await uploadImage(typeImage.news)

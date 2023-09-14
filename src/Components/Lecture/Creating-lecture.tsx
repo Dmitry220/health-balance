@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useRef, useState } from 'react'
+import { forwardRef, useEffect, useState } from 'react'
 import DatePicker, { registerLocale } from 'react-datepicker'
 import ru from 'date-fns/locale/ru'
 import '../Creating-challenge/creating-challenge.scss'
@@ -63,7 +63,7 @@ export const CreatingLecture = () => {
   const [startDate, setStartDate] = useState<Date>(new Date())
   const [endDate, setEndDate] = useState<Date>(END_DATE)
   const [correctAnswer, setCorrectAnswer] = useState<number>(0)
-  const [image, photoPath, isLoadingAvatar, clearImages, uploadImage] =
+  const {image, photoPath, isLoadingAvatar, clearImages, uploadImage} =
     useLoadImage()
   const [isLoadingCreateNews, setIsLoadingCreateNews] = useState<boolean>(false)
 

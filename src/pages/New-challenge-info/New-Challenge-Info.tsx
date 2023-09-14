@@ -46,9 +46,6 @@ export const NewChallengeInfo = () => {
     if (response.data.success) navigate(CHALLENGE_ROUTE)
   }
 
-  const handleRefresh = async () => {
-    await dispatch(getChallengeById(Number(params.id)))
-  }
 
   useEffect(() => {
     dispatch(getChallengeById(Number(params.id)))

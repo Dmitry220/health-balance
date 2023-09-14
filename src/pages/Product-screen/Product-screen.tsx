@@ -1,15 +1,22 @@
-import { useParams } from 'react-router-dom'
+import {useParams} from 'react-router-dom'
 import './product-screen.scss'
 import Header from '../../Components/Header/Header'
-import { ShopHead } from '../../Components/Shop/Shop-head'
-import { ShopButton } from '../../Components/Shop/Shop-button'
-import { useEffect, useState } from 'react'
-import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
-import { basketSelector, deleteBasket, getProductById, isLoadingSelector, productByIdSelector, setBasket } from '../../Redux/slice/shopSlice'
+import {ShopHead} from '../../Components/Shop/Shop-head'
+import {ShopButton} from '../../Components/Shop/Shop-button'
+import {useEffect} from 'react'
+import {useAppDispatch, useAppSelector} from '../../hooks/redux-hooks'
+import {
+    basketSelector,
+    deleteBasket,
+    getProductById,
+    isLoadingSelector,
+    productByIdSelector,
+    setBasket
+} from '../../Redux/slice/shopSlice'
 import plug from '../../assets/image/plug.png'
-import { IMAGE_URL } from '../../http'
-import { showToast } from '../../utils/common-functions'
-import { Preloader } from '../../Components/Preloader/Preloader'
+import {IMAGE_URL} from '../../http'
+import {showToast} from '../../utils/common-functions'
+import {Preloader} from '../../Components/Preloader/Preloader'
 
 export const ProductScreen = () => {
   const params = useParams()
@@ -18,7 +25,7 @@ export const ProductScreen = () => {
   const isLoading = useAppSelector(isLoadingSelector)
   const basket = useAppSelector(basketSelector)
 
-  const addBasket = (
+  const addBasket = async (
     id: number,
     image: string,
     price: number,
@@ -27,10 +34,10 @@ export const ProductScreen = () => {
     const isExistProduct = basket.find((item) => item.id === id)
     if (isExistProduct) {
       dispatch(deleteBasket({ id, image, price, title }))
-      showToast('Товар удален из корзины!')
+      await showToast('Товар удален из корзины!')
     } else {
       dispatch(setBasket({ id, image, price, title }))
-      showToast('Товар добавлен в корзину!')
+      await showToast('Товар добавлен в корзину!')
     }
   }
 

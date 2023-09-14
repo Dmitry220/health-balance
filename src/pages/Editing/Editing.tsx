@@ -43,7 +43,7 @@ export const Editing = () => {
   const dataUser = useAppSelector(dataUserSelector)
   const [isLogoutModal, setLogoutModal] = useState<boolean>(false)
   const id = Number(localStorage.getItem('id'))
-  const [avatar, photoPath, isLoadingAvatar, clearImages, uploadImage] =
+  const {image:avatar, photoPath, isLoadingAvatar, uploadImage} =
     useLoadImage()
 
   const [updateProfile, { isLoading }] = useEditingProfileMutation()
@@ -219,7 +219,7 @@ export const Editing = () => {
         <Controller
           control={control}
           name='phone'
-          rules={{ required: true, pattern: /^([+]?[0-9\s-\(\)]{3,25})*$/i }}
+          rules={{ required: true, pattern: /^([+]?[0-9\s-()]{3,25})*$/i }}
           defaultValue={dataUser.phone}
           render={({ field }) => (
             <InputMask

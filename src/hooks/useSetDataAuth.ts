@@ -4,7 +4,6 @@ import {useNavigate} from "react-router-dom";
 import {useAppDispatch} from "./redux-hooks";
 import {useOneSignal} from "./useOneSignal";
 import {IAuthResponse} from "../models/IAuth";
-import {showToast} from "../utils/common-functions";
 
 
 export const useSetDataAuth = () => {

@@ -17,7 +17,7 @@ import {
 import icon_edit from '../../assets/image/icon-edit.svg'
 import icon_camera from '../../assets/image/icon-camera-add.svg'
 import icon_clock from '../../assets/image/Interesting/clock.svg'
-import { definitionColor, extractContent, showToast } from '../../utils/common-functions'
+import { definitionColor, extractContent } from '../../utils/common-functions'
 import { RewardCount } from '../Reward/Reward-count'
 import ReactDatePicker, { registerLocale } from 'react-datepicker'
 import ru from 'date-fns/locale/ru'
@@ -42,7 +42,7 @@ export const FinalVariant = () => {
   const [isEditReward, setIsEditReward] = useState<boolean>(false)
   const [isEditTitle, setIsEditTitle] = useState<boolean>(false)
   const [isEditDescription, setIsEditDescription] = useState<boolean>(false)
-  const [image, photoPath, isLoadingAvatar, clearImages, uploadImage] = useLoadImage()
+  const {image, photoPath, isLoadingAvatar, uploadImage} = useLoadImage()
   const dispatch = useAppDispatch()
 
   const addCover = async () => {

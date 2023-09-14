@@ -1,5 +1,4 @@
 import { FC } from 'react'
-import logo from '../../assets/image/Logo-dark.svg'
 import { definitionColor, typeConversion } from '../../utils/common-functions'
 import { Link } from 'react-router-dom'
 import { NEW_CHALLENGE_INFO_ROUTE } from '../../provider/constants-route'

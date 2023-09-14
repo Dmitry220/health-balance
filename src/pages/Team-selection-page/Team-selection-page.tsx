@@ -1,8 +1,6 @@
 import './team-selection-page.scss'
-import { TeamSelection } from '../../Components/Team-selection/Team-selection'
+import {TeamSelection} from '../../Components/Team-selection/Team-selection'
 import Header from '../../Components/Header/Header'
-import { Link } from 'react-router-dom'
-import { CHALLENGE_ROUTE } from '../../provider/constants-route'
 
 export const TeamSelectionPage = () => {
   return (

@@ -19,7 +19,7 @@ export const AuthorizationGoogle = () => {
 
   const dataRegistration = useAppSelector(dataRegistrationSelector)
   const typePlatform = useAppSelector(typePlatformSelector)
-  const [submit, { isLoading, error }] = useSignInWithGoogleMutation()
+  const [submit, { isLoading }] = useSignInWithGoogleMutation()
   const {setDataAuth} = useSetDataAuth()
 
   const googleAuth = async () => {

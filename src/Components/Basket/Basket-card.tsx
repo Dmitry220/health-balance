@@ -1,5 +1,4 @@
 import './basket.scss'
-import icon_reward from '../../assets/image/icon_reward.svg'
 import { RewardCount } from '../Reward/Reward-count'
 import plug from '../../assets/image/plug.png'
 import { IMAGE_URL } from '../../http'
