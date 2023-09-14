@@ -6,6 +6,7 @@
   margin: 0 auto;
   position: relative;
 }
+
 .line {
   position: absolute;
   bottom: 9px;
@@ -17,6 +18,7 @@
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   border-radius: 10px;
 }
+
 .band-black {
   height: 63px;
   background: $backgroundMain;
@@ -41,9 +43,9 @@
 
   &.disabled {
     background: linear-gradient(
-      91.14deg,
-      rgba(255, 255, 255, 0.53) -13.28%,
-      rgba(0, 0, 0, 0.2597) 138.38%
+                    91.14deg,
+                    rgba(255, 255, 255, 0.53) -13.28%,
+                    rgba(0, 0, 0, 0.2597) 138.38%
     );
     color: #252525;
   }
@@ -99,6 +101,7 @@
   font-size: 15px;
   line-height: 100%;
   outline: none;
+
   &::placeholder {
     color: #bfbfbf;
   }
@@ -107,6 +110,7 @@
 /*Этот класс присваивается div элементу (то есть родиетлю select)*/
 ._custom-select {
   position: relative;
+
   &:after,
   &:before {
     content: '';
@@ -117,16 +121,19 @@
     display: block;
     pointer-events: none;
   }
+
   &:before {
     right: 18px;
     top: 50%;
     transform: translateY(-50%) rotate(-45deg);
   }
+
   &:after {
     right: 14px;
     top: 50%;
     transform: translateY(-50%) rotate(45deg);
   }
+
   select {
     border-radius: 3px;
     width: 100%;
@@ -153,6 +160,7 @@
     display: none;
     top: 1px;
   }
+
   &__checkbox {
     padding: 0;
     height: initial;
@@ -160,6 +168,7 @@
     margin-bottom: 0;
     display: none;
   }
+
   label {
     color: var(--colorMain);
     font-size: 15px;
@@ -168,13 +177,14 @@
     position: relative;
     display: flex;
     align-items: center;
+
     &:before {
       content: '';
       -webkit-appearance: none;
       background-color: transparent;
       border: 2px solid $colorMain;
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05),
-        inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
+      inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
       padding: 7.5px;
       display: inline-block;
       position: relative;
@@ -182,12 +192,15 @@
       margin-right: 13px;
     }
   }
+
   input[type='radio'] + label:before {
     border-radius: 50%;
   }
+
   input[type='radio']:checked + label:after {
     border-radius: 50%;
   }
+
   input:checked + label:after {
     content: '';
     display: block;
@@ -198,17 +211,20 @@
     background: #f39f18;
   }
 }
+
 /***********************************************/
 
 /*******  Styles Swiper Slide *****************/
 .swiper-pagination-clickable
-  .swiper-pagination-bullet.swiper-pagination-bullet-active {
+.swiper-pagination-bullet.swiper-pagination-bullet-active {
   background: $yellowColor;
 }
+
 .swiper-pagination-clickable .swiper-pagination-bullet {
   background: $colorMain;
   opacity: 1;
 }
+
 .swiper-pagination-fraction,
 .swiper-pagination-custom,
 .swiper-horizontal > .swiper-pagination-bullets,
@@ -230,6 +246,7 @@
   bottom: -164px;
   background: $blueColor;
   filter: blur(85px);
+
   &_top {
     top: -22%;
     width: 74%;
@@ -254,9 +271,11 @@
 
   padding: 10px 20px;
   z-index: 3;
+
   &_command {
     color: $blueColor;
   }
+
   &_personal {
     color: $greenColor;
   }
@@ -280,6 +299,7 @@
     margin: 0 15px 0 0;
     border-radius: 50px;
   }
+
   input:checked + label {
     border: 2px solid $yellowColor;
   }
@@ -469,6 +489,11 @@
 //   background: $yellowColor;
 //   color: #000;
 // }
+.react-datepicker__day--keyboard-selected, .react-datepicker__month-text--keyboard-selected, .react-datepicker__quarter-text--keyboard-selected, .react-datepicker__year-text--keyboard-selected {
+  border-radius: 0.3rem;
+  color: #000 !important;
+  background: #fff !important;
+}
 
 /***************************Texts****************************************/
 .text-blue {
@@ -477,32 +502,39 @@
 
   color: $blueColor;
 }
+
 .text-yellow {
   font-weight: 400;
   font-size: 13px;
 
   color: $yellowColor;
 }
+
 .main-title {
   font-weight: 700;
   font-size: 25px;
 }
+
 .block-title {
   font-weight: 700;
   font-size: 20px;
 }
+
 .title-17 {
   font-weight: 500;
   font-size: 17px;
 }
+
 .title-35 {
   font-weight: 700;
   font-size: 35px;
 }
+
 .small-text {
   font-weight: 500;
   font-size: 13px;
 }
+
 /****************************************************************/
 .digits {
   font-weight: 400;
@@ -518,33 +550,39 @@
     justify-content: center;
   }
 }
+
 /****************************Scroll tabs***************************************/
 .scroll-tabs {
   display: flex;
   overflow: scroll;
   margin: 0 0 20px 0;
+
   &::-webkit-scrollbar {
     height: 0;
     -webkit-appearance: none;
     width: 0;
   }
+
   scrollbar-width: none;
 
   &-labels {
     &:not(:last-child) {
       margin: 0 20px 0 0;
     }
+
     padding: 9px 20px;
     text-align: center;
     border-radius: 5px;
     background: $backgroundBlock;
     font-size: 15px;
     letter-spacing: 0.02em;
+
     &.active {
       color: $yellowColor;
     }
   }
 }
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   /* display: none; <- Crashes Chrome on hover */
@@ -554,32 +592,37 @@ input::-webkit-inner-spin-button {
 
 
 /********wysiwyg***********/
-.quill{
+.quill {
   display: flex;
   flex-direction: column-reverse;
 }
-.ql-editor{
+
+.ql-editor {
   background: #5c5c5c;
-    border-radius: 3px;
-    height: 44.32px;
-    color: #fff;
-    font-family: inherit;
-    width: 100%;
-    padding: 14px 7px !important;
-    font-size: 15px;
-    line-height: 100%;
-    outline: none;
-    border: none;    
+  border-radius: 3px;
+  height: 44.32px;
+  color: #fff;
+  font-family: inherit;
+  width: 100%;
+  padding: 14px 7px !important;
+  font-size: 15px;
+  line-height: 100%;
+  outline: none;
+  border: none;
 }
-.ql-toolbar{
-  background: #D9D9D9; 
+
+.ql-toolbar {
+  background: #D9D9D9;
 }
+
 .ql-toolbar.ql-snow {
   border: none;
 }
+
 .ql-container {
   border: none !important;
 }
+
 .ql-editor.ql-blank::before {
   font-style: normal !important;
   color: #bfbfbf !important;

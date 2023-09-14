@@ -73,6 +73,7 @@ export const AuthorizationGoogle = () => {
         navigate(START_ROUTE)
       })
       .catch(async (err) => {
+        console.log(err)
         if (err.data?.errors['google.reg']) {
           await showToast(err.data?.errors['google.reg'])
         }

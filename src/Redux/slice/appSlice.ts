@@ -195,7 +195,7 @@ export const appSlice = createSlice({
     setMonths: (state) => {
       let array = state.monthData ? Object.values(current(state.monthData)) : []
       const year: any = array[array?.length - 1]
-      array &&
+      array.length &&
         Object.keys(year).map((month: any, index: number) => {
           state.months = state.months.map((label) =>
             label.id === +month
