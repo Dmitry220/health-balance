@@ -1,5 +1,5 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { RootState } from '../store'
+import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
+import {RootState} from '../store'
 import {
   IChallengeCard,
   ICommandList,
@@ -7,26 +7,13 @@ import {
   IListCustomersPersonalChallenge,
   IMembersCommandList
 } from '../../models/IChallenge'
-import ChallengeService from '../../services/ChallengeService'
-import { showToast } from '../../utils/common-functions'
-import { ICreatingPurpose } from '../../models/IPurpose'
+import ChallengeService, {challengesApi} from '../../services/ChallengeService'
 
 const END_DATE = new Date()
 END_DATE.setDate(END_DATE.getDate() + 3)
 
 export interface IChallenge {
-  creatingChallenge: {
-    platform: number
-    title: string
-    description: string
-    type: 1 | 2 | 3
-    image: string
-    startDate: Date
-    endDate: Date
-    team_amount: number
-    max_peoples: number
-    customers: number[]
-  }
+  creatingChallenge: ICreatingChallenge
   disabledButton?: boolean
   activeChallenges: IChallengeCard[] | []
   newChalenges: IChallengeCard[] | []
@@ -46,10 +33,10 @@ const initialState: IChallenge = {
     description: '',
     type: 3,
     image: '',
-    startDate: new Date(),
-    endDate: END_DATE,
-    team_amount: 0,
-    max_peoples: 0,
+    start_date: new Date(),
+    end_date: END_DATE,
+    team_amount: '',
+    max_peoples: '',
     customers: []
   },
   disabledButton: true,
@@ -64,54 +51,6 @@ const initialState: IChallenge = {
   error: false
 }
 
-export const creatingChallenge = createAsyncThunk<unknown>(
-  'creatingChallenge',
-  async (arg, { getState }) => {
-    const state: any = getState()
-    const dataChallenge: ICreatingChallenge = {
-      description: state.challenges.creatingChallenge.description,
-      platform: state.challenges.creatingChallenge.platform,
-      title: state.challenges.creatingChallenge.title,
-      type: state.challenges.creatingChallenge.type,
-      team_amount: state.challenges.creatingChallenge.team_amount,
-      max_peoples: state.challenges.creatingChallenge.max_peoples,
-      image: state.challenges.creatingChallenge.image,
-      start_date:
-        state.challenges.creatingChallenge.startDate.toLocaleDateString(),
-      end_date: state.challenges.creatingChallenge.endDate.toLocaleDateString()
-    }
-    if (state.challenges.creatingChallenge.type === 3) {
-      dataChallenge.customers = JSON.stringify(
-        state.challenges.creatingChallenge.customers
-      )
-    }
-
-    try {
-      const response = await ChallengeService.creatingChallenge(dataChallenge)
-      if (response.data.challenge_id) {
-        const dataPurposeChallenge: ICreatingPurpose = {
-          challenge: response.data.challenge_id,
-          reward: state.purposes.creatingPurpose.reward,
-          type: state.purposes.creatingPurpose.type,
-          quantity: state.purposes.creatingPurpose.quantity
-        }
-        const purposeChallengeResponse = await ChallengeService.creatingPurpose(
-          dataPurposeChallenge
-        )
-        if (purposeChallengeResponse.data.purpose_id) {
-          return await response.data.challenge_id
-        } else {
-          await showToast('Ошибка создания цели')
-        }
-      } else {
-        await showToast('Ошибка создания')
-      }
-    } catch (e) {
-      console.log(e)
-      await showToast('Ошибка создания')
-    }
-  }
-)
 
 export const getListChallenges = createAsyncThunk('challenges', async () => {
   const response = await ChallengeService.getChallenges()
@@ -154,33 +93,8 @@ export const challengeSlice = createSlice({
   name: 'challengeSlice',
   initialState,
   reducers: {
-    setPlatformChallenge: (state, action) => {
-      state.creatingChallenge.platform = action.payload
-    },
-    setTypeChallenge: (state, action) => {
-      state.creatingChallenge.type = action.payload
-    },
-    setStartDateChallenge: (state, action) => {
-      state.creatingChallenge.startDate = action.payload
-    },
-    setEndDateChallenge: (state, action) => {
-      state.creatingChallenge.endDate = action.payload
-    },
-    setTitleChallenge: (state, action) => {
-      if (action.payload.length <= 65)
-        state.creatingChallenge.title = action.payload
-    },
-    setDescriptionChallenge: (state, action) => {
-      state.creatingChallenge.description = action.payload
-    },
-    setMaxPeoplesChallenge: (state, action) => {
-      state.creatingChallenge.max_peoples = action.payload
-    },
-    setTeamAmountChallenge: (state, action) => {
-      state.creatingChallenge.team_amount = action.payload
-    },
-    setImageChallenge: (state, action) => {
-      state.creatingChallenge.image = action.payload
+    setDataChallenge:(state ,action:PayloadAction<any>) => {
+      state.creatingChallenge = {...state.creatingChallenge, [action.payload.name]:action.payload.value}
     },
     setDisabledButton: (state, action) => {
       state.disabledButton = action.payload
@@ -189,14 +103,14 @@ export const challengeSlice = createSlice({
       if (action.payload === 0) {
         state.creatingChallenge.customers = []
       } else {
-        if (state.creatingChallenge.customers.includes(action.payload)) {
+        if ((state.creatingChallenge.customers as number[])?.includes(action.payload)) {
           state.creatingChallenge.customers =
-            state.creatingChallenge.customers.filter(
+              (state.creatingChallenge.customers as number[]).filter(
               (item) => item !== action.payload
             )
         } else {
           state.creatingChallenge.customers = [
-            ...state.creatingChallenge.customers,
+            ...state.creatingChallenge.customers as number[],
             action.payload
           ]
         }
@@ -227,37 +141,8 @@ export const challengeSlice = createSlice({
       state.isLoading = false
       state.activeChallenges = []
     })
-    //Включение прелоадера в создании челленджа
-    builder.addCase(creatingChallenge.pending, (state) => {
-      state.isLoading = true
-    })
-    //Обнуление полей после успешного создания челенджа
-    builder.addCase(
-      creatingChallenge.fulfilled,
-      (state, action: PayloadAction<any>) => {
-        const END_DATE = new Date()
-        END_DATE.setDate(END_DATE.getDate() + 3)
-        state.challenge_id = action.payload
-        state.isLoading = false
-        state.creatingChallenge = {
-          platform: 0,
-          title: '',
-          description: '',
-          type: 3,
-          image: '',
-          startDate: new Date(),
-          endDate: END_DATE,
-          team_amount: 0,
-          max_peoples: 0,
-          customers: []
-        }
-      }
-    )
-    //Обработка ошибок в создании челленджа
-    builder.addCase(creatingChallenge.rejected, (state) => {
-      state.error = true
-      state.isLoading = false
-    })
+
+
     //Включение прелоадера в получении челленджа по id
     builder.addCase(getChallengeById.pending, (state) => {
       state.isLoading = true
@@ -300,43 +185,28 @@ export const challengeSlice = createSlice({
         state.isLoading = false
       }
     )
+
+    //id созданного челленджа
+    builder.addMatcher(challengesApi.endpoints.creatingChallenge.matchFulfilled,
+        (state, action) => {
+          state.challenge_id = action.payload.challenge_id
+          state.creatingChallenge = initialState.creatingChallenge
+        }
+    );
   }
 })
 
 export const {
-  setDescriptionChallenge,
   setDisabledButton,
-  setEndDateChallenge,
-  setMaxPeoplesChallenge,
-  setPlatformChallenge,
-  setStartDateChallenge,
-  setTeamAmountChallenge,
-  setTitleChallenge,
-  setTypeChallenge,
-  setImageChallenge,
-  setCustomersPersonalChallenge
+  setCustomersPersonalChallenge,
+  setDataChallenge
 } = challengeSlice.actions
 
-export const platformCreatingChallengeSelector = (state: RootState) =>
-  state.challenges.creatingChallenge.platform
+
+export const creatingChallengeSelector = (state: RootState) =>
+    state.challenges.creatingChallenge
 export const disableButtonChallengeSelector = (state: RootState) =>
   state.challenges.disabledButton
-export const typeCreatingChallengeSelector = (state: RootState) =>
-  state.challenges.creatingChallenge.type
-export const titleCreatingChallengeSelector = (state: RootState) =>
-  state.challenges.creatingChallenge.title
-export const descriptionCreatingChallengeSelector = (state: RootState) =>
-  state.challenges.creatingChallenge.description
-export const imageCreatingChallengeSelector = (state: RootState) =>
-  state.challenges.creatingChallenge.image
-export const startDateCreatingChallengeSelector = (state: RootState) =>
-  state.challenges.creatingChallenge.startDate
-export const endDateCreatingChallengeSelector = (state: RootState) =>
-  state.challenges.creatingChallenge.endDate
-export const maxPeoplesCreatingChallengeSelector = (state: RootState) =>
-  state.challenges.creatingChallenge.max_peoples
-export const teamAmountCreatingChallengeSelector = (state: RootState) =>
-  state.challenges.creatingChallenge.team_amount
 
 export const newChallengesSelector = (state: RootState) =>
   state.challenges.newChalenges
@@ -357,8 +227,7 @@ export const membersCommandListSelector = (state: RootState) =>
   state.challenges.membersCommandList
 export const customersPersonalChallengeSelector = (state: RootState) =>
   state.challenges.customers
-export const customersCreatingChellengeSelector = (state: RootState) =>
-  state.challenges.creatingChallenge.customers
-export const errorCreatingChallengeSelector = (state: RootState) =>
-  state.challenges.error
+
+
+
 export default challengeSlice.reducer

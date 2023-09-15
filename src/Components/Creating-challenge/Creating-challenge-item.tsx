@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import React, { FC } from 'react'
 import { stageCreatingChallenge } from '../../utils/enums'
 import { SelectPlatform } from './Select-platform'
 import { TypeChallenge } from './Type-challenge'
@@ -43,5 +43,5 @@ export const CreatingChallengeItem: FC<ICreatingChallengeItem> = ({
     }
   }
 
-  return <div className={'creating-challenge-item'}>{renderField()}</div>
+  return <form className={'creating-challenge-item'}>{renderField()}</form>
 }

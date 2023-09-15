@@ -1,36 +1,38 @@
-import React, { ChangeEvent, useEffect, useCallback } from 'react'
+import React, {ChangeEvent, useEffect} from 'react'
 import {
-  customersCreatingChellengeSelector,
-  customersPersonalChallengeSelector,
-  getCustomersPersonalChallenge,
-  isLoadingSelector,
-  setCustomersPersonalChallenge,
-  setDisabledButton
+    creatingChallengeSelector,
+    customersPersonalChallengeSelector,
+    getCustomersPersonalChallenge,
+    isLoadingSelector,
+    setDataChallenge,
+    setDisabledButton
 } from '../../Redux/slice/challengeSlice'
-import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
+import {useAppDispatch, useAppSelector} from '../../hooks/redux-hooks'
 import avatar from '../../assets/image/avatar.jpeg'
 import './creating-challenge.scss'
-import { IMAGE_URL } from '../../http'
-import { Preloader } from '../Preloader/Preloader'
+import {IMAGE_URL} from '../../http'
+import {Preloader} from '../Preloader/Preloader'
 
 export const CustomersList = () => {
-  const dispatch = useAppDispatch()
 
+  const dispatch = useAppDispatch()
   const isLoading = useAppSelector(isLoadingSelector)
   const customers = useAppSelector(customersPersonalChallengeSelector)
-  const checkedCustomers = useAppSelector(customersCreatingChellengeSelector)
+  const {customers : checkedCustomers} = useAppSelector(creatingChallengeSelector)
 
   useEffect(() => {
     dispatch(getCustomersPersonalChallenge())
   }, [])
 
   useEffect(() => {
-    if (!checkedCustomers.length) dispatch(setDisabledButton(true))
-    else dispatch(setDisabledButton(false))
+    dispatch(setDisabledButton(!checkedCustomers?.length))
   }, [checkedCustomers])
 
   const handlerChange = (e: ChangeEvent<HTMLInputElement>) =>
-    dispatch(setCustomersPersonalChallenge(+e.target.value))
+      dispatch(setDataChallenge({
+        name: e.target.name,
+        value: +e.target.value
+      }))
 
   if (isLoading) return <Preloader height='auto' />
 
@@ -42,14 +44,14 @@ export const CustomersList = () => {
         Выберите участников личного челленджа
       </div>
       <div className='customers-list__checkbox custom-checkbox'>
-        {customers?.map((customer, i) => (
+        {(customers)?.map((customer, i) => (
           <div key={customer.id.toString()}>
             <input
               type={'checkbox'}
               id={customer.id.toString()}
               className={'custom-checkbox__radio'}
               onChange={handlerChange}
-              defaultChecked={checkedCustomers.includes(customer.id)}
+              defaultChecked={(checkedCustomers as number[])?.includes(customer.id)}
               value={customer.id}
             />
             <label
@@ -64,7 +66,7 @@ export const CustomersList = () => {
                         ? IMAGE_URL + 'avatars/' + customer.avatar
                         : avatar
                     }
-                    alt=''
+                    alt={customer.avatar}
                   />
                 </div>
                 <div className='customers-list__text'>{customer.name}</div>

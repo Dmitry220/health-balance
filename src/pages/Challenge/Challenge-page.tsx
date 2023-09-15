@@ -76,7 +76,7 @@ export const ChallengePage = () => {
                     <div className='challenge-page__platform'>
                         <Platform/>
                     </div>
-                    {(dataUser.role === 1 || dataUser.role === 2) && (
+                    {(
                         <Link
                             to={CREATING_CHALLENGE_ROUTE}
                             className='challenge-page__link _button-yellow'

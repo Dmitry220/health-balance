@@ -1,58 +1,55 @@
-import React, { useEffect, useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import './creating-challenge.scss'
-import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
-import {
-  setCustomersPersonalChallenge,
-  setTypeChallenge,
-  typeCreatingChallengeSelector
-} from '../../Redux/slice/challengeSlice'
-import { setQuantityPurpose, setRewardPurpose } from '../../Redux/slice/purposeSlice'
+import {useAppDispatch, useAppSelector} from '../../hooks/redux-hooks'
+import {creatingChallengeSelector, setDataChallenge} from '../../Redux/slice/challengeSlice'
+import {resetPurposeChallenge} from '../../Redux/slice/purposeSlice'
+import {KeysCreatingChallenge} from "../../models/IChallenge";
+import {typesChallenge} from "../../utils/enums";
 
 export const TypeChallenge = () => {
-  const dispatch = useAppDispatch()
-  const [resetTarget, setResetTarget] = useState<boolean>(false)
-  const type = useAppSelector(typeCreatingChallengeSelector)
-  const handlerType = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setTypeChallenge(+e.target.value))
-    setResetTarget(true)
-  }
+    const dispatch = useAppDispatch()
+    const [isChangeType, setChangeType] = useState<boolean>(false)
+    const {type} = useAppSelector(creatingChallengeSelector)
 
-  useEffect(() => {
-    if (resetTarget) {
-      dispatch(setRewardPurpose(0))
-      dispatch(setQuantityPurpose(0))
-      dispatch(setCustomersPersonalChallenge(0))
+    const handlerType = (e: React.ChangeEvent<HTMLInputElement>) => {
+        dispatch(setDataChallenge({
+            name: e.target.name,
+            value: +e.target.value
+        }))
+        setChangeType(true)
     }
 
-  }, [type])
+    useEffect(() => {
+        if (isChangeType) dispatch(resetPurposeChallenge())
+    }, [type])
 
-  return (
-    <div className={'type-challenge'}>
-      <div className='type-challenge__title main-title'>Тип челленджа</div>
-      <div className='type-challenge__body' onChange={handlerType}>
-        <input
-          type='radio'
-          name={'type-challenge'}
-          value={3}
-          id={'personal'}
-          defaultChecked={type === 3}
-          className='type-challenge__input'
-        />
-        <label htmlFor='personal' className='type-challenge__label'>
-          Личный
-        </label>
-        <input
-          type='radio'
-          name={'type-challenge'}
-          value={2}
-          className='type-challenge__input'
-          id={'command'}
-          defaultChecked={type === 2}
-        />
-        <label htmlFor='command' className='type-challenge__label command'>
-          Командный
-        </label>
-      </div>
-    </div>
-  )
+    return (
+        <div className={'type-challenge'}>
+            <div className='type-challenge__title main-title'>Тип челленджа</div>
+            <div className='type-challenge__body' onChange={handlerType}>
+                <input
+                    type='radio'
+                    name={'type' as KeysCreatingChallenge}
+                    value={typesChallenge.personal}
+                    id={'personal'}
+                    defaultChecked={type === typesChallenge.personal}
+                    className='type-challenge__input'
+                />
+                <label htmlFor='personal' className='type-challenge__label'>
+                    Личный
+                </label>
+                <input
+                    type='radio'
+                    name={'type' as KeysCreatingChallenge}
+                    value={typesChallenge.command}
+                    className='type-challenge__input'
+                    id={'command'}
+                    defaultChecked={type === typesChallenge.command}
+                />
+                <label htmlFor='command' className='type-challenge__label command'>
+                    Командный
+                </label>
+            </div>
+        </div>
+    )
 }
