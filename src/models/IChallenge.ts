@@ -1,6 +1,6 @@
 import {ICreatingPurpose} from "./IPurpose";
 
-export interface IChallengeCard {
+export interface IChallenge {
     id: number;
     title: string;
     description: string;
@@ -27,6 +27,18 @@ export interface IChallengeCard {
     };
     homeworks: number;
     remains_to_pass: number
+}
+
+export interface ITypeChallenges {
+    personal: IChallenge[],
+    common: IChallenge[],
+    command: IChallenge[],
+    all: IChallenge[]
+}
+
+export interface IAllChallenge {
+    newChallenges: ITypeChallenges,
+    activeChallenges:ITypeChallenges
 }
 
 export interface ICommandList {

@@ -12,14 +12,14 @@ import {
   ACTIVE_CHALLENGE_ROUTE,
   ACTIVITY_ROUTE
 } from '../../provider/constants-route'
-import { IChallengeCard } from '../../models/IChallenge'
+import { IChallenge } from '../../models/IChallenge'
 import { IMAGE_URL } from '../../http'
 import ChallengeService from '../../services/ChallengeService'
 import plug from '../../assets/image/plug.png'
 import { ModalStatus } from '../Modals/Modal-status'
 
 interface ICardChallenge {
-  challenge: IChallengeCard
+  challenge: IChallenge
   percent: number
 }
 

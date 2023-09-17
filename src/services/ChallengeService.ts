@@ -1,14 +1,19 @@
 import {AxiosResponse} from 'axios'
 import {$api} from '../http'
 import {
+    IAllChallenge,
+    IChallenge,
     ICommandList,
-    ICreatingChallenge, ICreatingChallengeResponse,
+    ICreatingChallenge,
+    ICreatingChallengeResponse,
     IListCustomersPersonalChallenge,
-    IMembersCommandList
+    IMembersCommandList, ITypeChallenges
 } from '../models/IChallenge'
 import {ICreatingPurpose, IPurposeResponse} from '../models/IPurpose'
-import {api, ISuccessResponse} from "./api";
-import {IComment, ICreatingComment, ICreatingNews, INews} from "../models/INews";
+import {api} from "./api";
+import {ITrack, ITracks} from "../models/ITracker";
+import {typesChallenge} from "../utils/enums";
+
 
 export default class ChallengeService {
 
@@ -84,15 +89,37 @@ export const challengesApi = api.injectEndpoints({
             })
         }),
 
-        // getNews: build.query<INews[], null>({
-        //     query: () => `news?token=${localStorage.getItem('token')}`,
-        //     transformResponse: (response: { data: INews[] }): INews[] => response.data
-        // }),
+        getChallenges: build.query<IAllChallenge, null>({
+            query: () => `challenges?token=${localStorage.getItem('token')}`,
+            transformResponse: (response: { data: IChallenge[] }): IAllChallenge => {
+                const newChallenges: ITypeChallenges = {personal:[],command:[],common:[],all:[]}
+                const activeChallenges: ITypeChallenges = {personal:[],command:[],common:[],all:[]}
+                response.data.forEach(challenge => {
+                    if (!challenge.active) {
+                        if (challenge.type === typesChallenge.personal) newChallenges.personal?.push(challenge)
+                        else if (challenge.type === typesChallenge.command) newChallenges.command?.push(challenge)
+                        else if (challenge.type === typesChallenge.common) newChallenges.common?.push(challenge)
+                        newChallenges.all.push(challenge)
+                    } else {
+                        if (challenge.type === typesChallenge.personal) activeChallenges.personal?.push(challenge)
+                        else if (challenge.type === typesChallenge.command) activeChallenges.command?.push(challenge)
+                        else if (challenge.type === typesChallenge.common) activeChallenges.common?.push(challenge)
+                        newChallenges.all.push(challenge)
+                    }
+                })
+                return {
+                    newChallenges,
+                    activeChallenges
+                }
+            }
+        }),
+
 
     })
 })
 
 export const {
     useCreatingChallengeMutation,
-    useCreatingPurposeMutation
+    useCreatingPurposeMutation,
+    useGetChallengesQuery
 } = challengesApi

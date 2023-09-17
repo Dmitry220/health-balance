@@ -1,7 +1,7 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {RootState} from '../store'
 import {
-  IChallengeCard,
+  IChallenge,
   ICommandList,
   ICreatingChallenge,
   IListCustomersPersonalChallenge,
@@ -12,21 +12,20 @@ import ChallengeService, {challengesApi} from '../../services/ChallengeService'
 const END_DATE = new Date()
 END_DATE.setDate(END_DATE.getDate() + 3)
 
-export interface IChallenge {
+export interface IChallenges {
   creatingChallenge: ICreatingChallenge
   disabledButton?: boolean
-  activeChallenges: IChallengeCard[] | []
-  newChalenges: IChallengeCard[] | []
   isLoading: boolean
   challenge_id: number
-  challenge: IChallengeCard | null
+  challenge: IChallenge | null
   commandList: ICommandList[]
   membersCommandList: IMembersCommandList
   customers: IListCustomersPersonalChallenge[]
-  error: boolean
+  error: boolean,
+
 }
 
-const initialState: IChallenge = {
+const initialState: IChallenges = {
   creatingChallenge: {
     platform: 0,
     title: '',
@@ -40,8 +39,6 @@ const initialState: IChallenge = {
     customers: []
   },
   disabledButton: true,
-  activeChallenges: [],
-  newChalenges: [],
   isLoading: false,
   challenge_id: 0,
   challenge: null,
@@ -51,11 +48,6 @@ const initialState: IChallenge = {
   error: false
 }
 
-
-export const getListChallenges = createAsyncThunk('challenges', async () => {
-  const response = await ChallengeService.getChallenges()
-  return await response.data.data
-})
 
 export const getChallengeById = createAsyncThunk(
   'getChallengeById',
@@ -118,30 +110,6 @@ export const challengeSlice = createSlice({
     }
   },
   extraReducers: (builder) => {
-    //Получение списка всех челелнджей
-    builder.addCase(
-      getListChallenges.fulfilled,
-      (state, action: PayloadAction<IChallengeCard[]>) => {
-        const allChallenges = action.payload
-        state.activeChallenges = allChallenges.filter(
-          (challenge) => challenge.active === 1
-        )
-        state.newChalenges = allChallenges.filter(
-          (challenge) => challenge.active === 0
-        )
-        state.isLoading = false
-      }
-    )
-    //Включение прелоадера в получении челленджей
-    builder.addCase(getListChallenges.pending, (state) => {
-      state.isLoading = true
-    })
-    //Обработка ошибок в получение списка всех челленджей
-    builder.addCase(getListChallenges.rejected, (state) => {
-      state.isLoading = false
-      state.activeChallenges = []
-    })
-
 
     //Включение прелоадера в получении челленджа по id
     builder.addCase(getChallengeById.pending, (state) => {
@@ -149,7 +117,7 @@ export const challengeSlice = createSlice({
     })
     builder.addCase(
       getChallengeById.fulfilled,
-      (state, action: PayloadAction<IChallengeCard>) => {
+      (state, action: PayloadAction<IChallenge>) => {
         state.challenge = action.payload
         state.isLoading = false
       }
@@ -207,11 +175,6 @@ export const creatingChallengeSelector = (state: RootState) =>
     state.challenges.creatingChallenge
 export const disableButtonChallengeSelector = (state: RootState) =>
   state.challenges.disabledButton
-
-export const newChallengesSelector = (state: RootState) =>
-  state.challenges.newChalenges
-export const activeChallengesSelector = (state: RootState) =>
-  state.challenges.activeChallenges
 
 export const isLoadingSelector = (state: RootState) =>
   state.challenges.isLoading
