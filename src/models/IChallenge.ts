@@ -41,14 +41,19 @@ export interface IAllChallenge {
     activeChallenges:ITypeChallenges
 }
 
-export interface ICommandList {
+export interface ITeam {
     id: number;
     challenge_id: number;
     title: string;
     size: number;
 }
 
-export interface IMembersCommandList {
+export interface ITeamJoinResponse {
+    success:boolean,
+    errors: string
+}
+
+export interface ICustomersTeam{
     customers: {
         id: number;
         name: string;
@@ -57,7 +62,7 @@ export interface IMembersCommandList {
     title: string
 }
 
-export interface IListCustomersPersonalChallenge {
+export interface ICustomersPersonalChallenge {
     id: number;
     name: string;
     avatar: string;

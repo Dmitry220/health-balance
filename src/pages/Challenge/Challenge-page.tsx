@@ -45,7 +45,7 @@ export const ChallengePage = () => {
             activeChallenges: allChallenges?.activeChallenges.personal,
         },
     ]
-    console.log(contentTabs)
+
 
     return (
         <div className={'challenge-page'}>
