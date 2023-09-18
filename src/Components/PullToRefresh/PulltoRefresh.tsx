@@ -9,7 +9,7 @@ interface IPullToRefresh {
 }
 
 export const PullToRefresh: FC<IPullToRefresh> = ({onTrigger, top}) => {
-    const TRIGGER_THRESHOLD = 0
+    const TRIGGER_THRESHOLD = 100
 
     useEffect(() => {
         const pullToRefresh = document.querySelector('.pull-to-refresh') as HTMLElement;
