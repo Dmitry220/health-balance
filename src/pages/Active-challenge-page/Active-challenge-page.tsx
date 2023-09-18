@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import Header from '../../Components/Header/Header'
 import {HeaderChallenge} from '../../Components/Challenge/Header-challenge'
 import {ListLeadersChallenge} from '../../Components/List-leaders-challenge/List-leaders-challenge'
@@ -12,12 +12,17 @@ import icon_clock from '../../assets/image/Interesting/clock.svg'
 import {definitionColor, nFormatter} from '../../utils/common-functions'
 import {useGetChallengeByIdQuery} from "../../services/ChallengeService";
 import {Preloader} from "../../Components/Preloader/Preloader";
+import {PullToRefresh} from "../../Components/PullToRefresh/PulltoRefresh";
+import {leaderboardApi} from "../../services/leaderboard.api";
 
 
 export const ActiveChallengePage = () => {
     const params = useParams()
-    const {data: challenge, isLoading: getChallengeLoading} = useGetChallengeByIdQuery(Number(params.id))
+    const {data: challenge, isLoading: getChallengeLoading, refetch} = useGetChallengeByIdQuery(Number(params.id))
+    const [leaderboard] = leaderboardApi.endpoints.leaderboardChallenge.useLazyQuery()
+    const [leaderboardTeams] = leaderboardApi.endpoints.leaderboardTeams.useLazyQuery()
     const [transparentHeader, setTransparentHeader] = useState<boolean>(true)
+    const idChallenge: any = useRef(null)
 
     let percent =
         challenge?.purpose &&
@@ -47,10 +52,22 @@ export const ActiveChallengePage = () => {
             if (scroll >= 230) setTransparentHeader(false)
             else setTransparentHeader(true)
         })
-    }, [])
+        idChallenge.current = challenge?.id
+    }, [challenge])
+
+
+    async function handleRefresh() {
+        if (idChallenge.current) {
+            await leaderboard(idChallenge.current)
+            await leaderboardTeams(idChallenge.current)
+            await refetch()
+        }
+
+    }
 
     return (
         <div className={'active-challenge-page'}>
+            <PullToRefresh onTrigger={handleRefresh}/>
             <Header
                 title={'Челлендж'}
                 customClass={transparentHeader ? 'active-challenge-page__header' : ''}

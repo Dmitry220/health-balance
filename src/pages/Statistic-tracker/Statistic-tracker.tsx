@@ -1,5 +1,5 @@
 import {TabContent, Tabs} from '../../Components/Tabs/Tabs'
-import React, {useRef, useState} from 'react'
+import React, {useState} from 'react'
 import Header from '../../Components/Header/Header'
 import './statistic-tracker.scss'
 import {WaterTarget} from '../../Components/Tracker/Water-target'
@@ -9,29 +9,27 @@ import ReactDatePicker from 'react-datepicker'
 import ru from 'date-fns/locale/ru'
 import {HealthySleep} from "../../Components/Tracker/Healthy-sleep";
 import {useGetTracksQuery} from "../../services/tracker.api";
-import {usePullToRefresh} from "../../hooks/usePulltoRefresh";
+import {PullToRefresh} from "../../Components/PullToRefresh/PulltoRefresh";
 
 
 export const StatisticTracker = () => {
 
-    const pullToRefresh = useRef(null)
     const namesTabsDynamics = ['Сон', 'Вода', 'Фрукты']
     const [currentValueTab, setCurrentValueTab] = useState<number>(0)
     const [startDate, setStartDate] = useState<Date>(new Date())
 
-    const {refetch}=useGetTracksQuery(startDate.toLocaleDateString())
+    const {refetch} = useGetTracksQuery(startDate.toLocaleDateString())
 
     const handleRefresh = async () => {
         refetch()
     }
 
-    usePullToRefresh(pullToRefresh, handleRefresh)
-
     return (
         <div className='statistic-tracker'>
+            <PullToRefresh onTrigger={handleRefresh}/>
             <Header title='Статистика трекера'/>
             <div style={{position: "relative"}}>
-                <div ref={pullToRefresh}>
+                <>
                     <div className='statistic-tracker__calendar'>
                         <ReactDatePicker
                             selected={startDate}
@@ -59,8 +57,8 @@ export const StatisticTracker = () => {
                     <TabContent index={2} value={currentValueTab}>
                         <FruitTarget date={startDate.toLocaleDateString()}/>
                     </TabContent>
-                    </div>
+                </>
             </div>
         </div>
-)
+    )
 }

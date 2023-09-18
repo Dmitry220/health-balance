@@ -3,19 +3,17 @@ import Header from '../../Components/Header/Header'
 import {PostInteresting} from '../../Components/Interesting/Post-interesting'
 import {CommentForm} from '../../Components/Comment/Comment-form'
 import {ListComments} from '../../Components/Comment/List-comments'
-import {useRef} from 'react'
+import React from 'react'
 import {useParams} from 'react-router-dom'
-import {usePullToRefresh} from "../../hooks/usePulltoRefresh";
+import {PullToRefresh} from "../../Components/PullToRefresh/PulltoRefresh";
 import {useGetListCommentsQuery, useGetNewsByIdQuery} from "../../services/news.api";
 import {Preloader} from "../../Components/Preloader/Preloader";
 
 export const MotivationPage = () => {
 
-    const pullToRefresh = useRef(null)
-
     const params = useParams()
 
-    const {data: news, isLoading,refetch:refetchNewsById} = useGetNewsByIdQuery(Number(params.id))
+    const {data: news, isLoading, refetch: refetchNewsById} = useGetNewsByIdQuery(Number(params.id))
     const {refetch} = useGetListCommentsQuery(Number(params.id))
 
     const conversionCategory = (category: number) => {
@@ -38,16 +36,15 @@ export const MotivationPage = () => {
         await refetch()
     }
 
-    usePullToRefresh(pullToRefresh, handleRefresh)
-
 
     return (
         <div className={'motivation-page'}>
+            <PullToRefresh onTrigger={handleRefresh}/>
             <Header title={conversionCategory(news?.category || 0)}/>
             <div style={{position: "relative"}}>
-                <div ref={pullToRefresh}>
+                <div>
                     {isLoading ? (
-                        <Preloader height={'auto'} />
+                        <Preloader height={'auto'}/>
                     ) : news ? (
                         <div>
                             <div className='motivation-page__card'>

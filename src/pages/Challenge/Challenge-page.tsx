@@ -1,4 +1,4 @@
-import React, {useRef} from 'react'
+import React from 'react'
 import {Navigation} from '../../Components/Navigation/Navigation'
 import {CardChallenge} from '../../Components/Challenge/Card-challenge'
 import {NewChallengeCard} from '../../Components/Challenge/New-challenge-card'
@@ -11,12 +11,11 @@ import {CREATING_CHALLENGE_ROUTE} from '../../provider/constants-route'
 import {dataUserSelector} from '../../Redux/slice/profileSlice'
 import {Preloader} from '../../Components/Preloader/Preloader'
 import {Platform} from '../../Components/Platform/Platform'
-import {usePullToRefresh} from "../../hooks/usePulltoRefresh";
+import {PullToRefresh} from "../../Components/PullToRefresh/PulltoRefresh";
 import {useGetChallengesQuery} from '../../services/ChallengeService'
 
 
 export const ChallengePage = () => {
-    const pullToRefresh = useRef(null)
     const [valueTab, setValueTab] = React.useState<number>(0)
     const labelsTabChallenge = ['Все', 'Общие', 'Командные', 'Личные']
     const dataUser = useAppSelector(dataUserSelector)
@@ -25,9 +24,7 @@ export const ChallengePage = () => {
 
     const handleRefresh = async () => await refetch()
 
-    usePullToRefresh(pullToRefresh, handleRefresh)
-
-    const contentTabs= [
+    const contentTabs = [
         {
             newChallenges: allChallenges?.newChallenges.all,
             activeChallenges: allChallenges?.activeChallenges.all,
@@ -46,14 +43,14 @@ export const ChallengePage = () => {
         },
     ]
 
-
     return (
         <div className={'challenge-page'}>
+            <PullToRefresh onTrigger={handleRefresh}/>
             <HeaderTwo title={'Челленджи'} marginBottom={40}/>
             {
                 isLoading ? <Preloader height={'auto'}/> :
                     <div style={{position: "relative"}}>
-                        <div ref={pullToRefresh}>
+                        <div>
                             <div className='challenge-page__platform'>
                                 <Platform/>
                             </div>

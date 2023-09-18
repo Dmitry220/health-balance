@@ -48,7 +48,7 @@ export const challengesApi = api.injectEndpoints({
                         if (challenge.type === typesChallenge.personal) activeChallenges.personal?.push(challenge)
                         else if (challenge.type === typesChallenge.command) activeChallenges.command?.push(challenge)
                         else if (challenge.type === typesChallenge.common) activeChallenges.common?.push(challenge)
-                        newChallenges.all.push(challenge)
+                        activeChallenges.all.push(challenge)
                     }
                 })
                 return {

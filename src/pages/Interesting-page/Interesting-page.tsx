@@ -1,4 +1,4 @@
-import React, {useRef} from 'react'
+import React from 'react'
 import {Navigation} from '../../Components/Navigation/Navigation'
 import {TabContent, Tabs} from '../../Components/Tabs/Tabs'
 import {CardsInteresting} from '../../Components/Interesting/Cards-interesting'
@@ -9,7 +9,7 @@ import {CREATING_INTERESTING_ROUTE} from '../../provider/constants-route'
 import {NavLink} from 'react-router-dom'
 import {dataUserSelector} from '../../Redux/slice/profileSlice'
 import {CATEGORY_NEWS} from '../../utils/globalConstants'
-import {usePullToRefresh} from "../../hooks/usePulltoRefresh";
+import {PullToRefresh} from "../../Components/PullToRefresh/PulltoRefresh";
 import {useGetNewsByCategoryQuery} from "../../services/news.api";
 
 
@@ -21,19 +21,16 @@ export const InterestingPage = () => {
 
     const {refetch} = useGetNewsByCategoryQuery(idCategory)
 
-    const pullToRefresh = useRef(null)
-
-    usePullToRefresh(pullToRefresh, handleRefresh)
-
     async function handleRefresh() {
         refetch()
     }
 
     return (
         <div className={'interesting-page'}>
+            <PullToRefresh onTrigger={handleRefresh}/>
             <HeaderTwo title={'Интересное'} marginBottom={20}/>
             <div style={{position: "relative"}}>
-                <div ref={pullToRefresh}>
+                <>
                     {(dataUser.role === 1 || dataUser.role === 2) && (
                         <div style={{marginTop: '20px', marginBottom: '20px'}}>
                             <NavLink to={CREATING_INTERESTING_ROUTE} className='_button-yellow'>
@@ -57,7 +54,7 @@ export const InterestingPage = () => {
                             ))
                         }
                     </div>
-                </div>
+                </>
             </div>
             <Navigation/>
 

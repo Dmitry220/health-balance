@@ -12,13 +12,14 @@ import {useChallengeJoinMutation, useGetChallengeByIdQuery} from '../../services
 import {Preloader} from '../../Components/Preloader/Preloader'
 import {ActiveChallengePage} from '../Active-challenge-page/Active-challenge-page'
 import {typesChallenge} from "../../utils/enums";
+import {PullToRefresh} from "../../Components/PullToRefresh/PulltoRefresh";
 
 export const NewChallengeInfo = () => {
 
     const params = useParams()
     const navigate = useNavigate()
     const [challengeJoin, {isLoading}] = useChallengeJoinMutation()
-    const {data:challenge,isLoading:getChallengeLoading} = useGetChallengeByIdQuery(Number(params.id))
+    const {data: challenge, isLoading: getChallengeLoading, refetch} = useGetChallengeByIdQuery(Number(params.id))
 
     const itemsTask = [
         {
@@ -40,10 +41,13 @@ export const NewChallengeInfo = () => {
         if (response.success) navigate(CHALLENGE_ROUTE)
     }
 
+    const handleRefresh = async () => await refetch()
+
     if (challenge?.active) return <ActiveChallengePage/>
 
     return (
         <div className={'new-challenge-info'}>
+            <PullToRefresh onTrigger={handleRefresh}/>
             <>
                 {getChallengeLoading ? (
                     <Preloader/>

@@ -1,5 +1,5 @@
 import React, {FC, useEffect} from "react";
-import spinner from './../assets/image/redo-solid.svg'
+import spinner from '../../assets/image/redo-solid.svg'
 
 
 
