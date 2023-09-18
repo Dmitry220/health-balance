@@ -18,7 +18,7 @@ export const RecoveryPassword = () => {
     dispatch(setCode(+e.target.value.replace(/\D/, '')))
 
   const handlerPassword = (e: React.ChangeEvent<HTMLInputElement>) =>
-    dispatch(setRecoveryPassword(e.target.value))
+    dispatch(setRecoveryPassword(e.target.value.trim()))
 
   const handlerRepeatPassword = (e: React.ChangeEvent<HTMLInputElement>) =>
     setRepeatPassword(e.target.value)

@@ -18,7 +18,7 @@ export const RecoveryEmail = () => {
 
   const handlerEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setError(''))
-    dispatch(setRecoveryEmail(e.target.value))
+    dispatch(setRecoveryEmail(e.target.value.trim()))
     dispatch(setDisabledButton(!e.target.value.match(validRegex)))
   }
 

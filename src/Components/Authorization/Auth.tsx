@@ -22,10 +22,10 @@ export const Auth = () => {
   let navigate = useNavigate()
 
   const handlerLogin = (e: ChangeEvent<HTMLInputElement>) =>
-    setEmail(e.target.value)
+    setEmail(e.target.value.trim())
 
   const handlerPassword = (e: ChangeEvent<HTMLInputElement>) =>
-    setPassword(e.target.value)
+    setPassword(e.target.value.trim())
 
   const submit = async (e: any) => {
     e.preventDefault()
@@ -94,7 +94,7 @@ export const Auth = () => {
         <div className='auth__form form-auth'>
           <div className='form-auth__fields'>
             <input
-              type='email'
+              type='text'
               spellCheck={false}
               className='form-auth__field'
               placeholder={'Email'}
