@@ -57,7 +57,7 @@ export const Questionnaire = () => {
   }
 
   const saveCurrentResult = async () => {
-    const answersJSON = JSON.stringify(Object.assign({}, answers))
+    const answersJSON = JSON.stringify(Object.assign({}, ...answers))
     const data: ISaveCurrentResult = {
       id: idPoll,
       answers: answersJSON
