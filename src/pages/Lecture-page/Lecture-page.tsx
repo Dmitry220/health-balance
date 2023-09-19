@@ -1,29 +1,16 @@
-import { useEffect } from 'react'
 import './lecture-pages.scss'
 import Header from '../../Components/Header/Header'
-import { LectureTask } from '../../Components/Lecture/Lecture-task'
-import { Video } from '../../Components/Lessons/Video'
-import { LectureHead } from '../../Components/Lecture/Lecture-head'
-import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
-import {
-  getLessonById,
-  isLoadingSelector,
-  lessonSelector
-} from '../../Redux/slice/lessonsSlice'
-import { useParams } from 'react-router-dom'
-import { Preloader } from '../../Components/Preloader/Preloader'
+import {LectureTask} from '../../Components/Lecture/Lecture-task'
+import {Video} from '../../Components/Lessons/Video'
+import {LectureHead} from '../../Components/Lecture/Lecture-head'
+import {useParams} from 'react-router-dom'
+import {Preloader} from '../../Components/Preloader/Preloader'
+import {useGetLessonByIdQuery} from "../../services/lessons.api";
 
 export const LecturePage = () => {
   const params = useParams()
 
-  const dispatch = useAppDispatch()
-
-  const lesson = useAppSelector(lessonSelector)
-  const isLoading = useAppSelector(isLoadingSelector)
-
-  useEffect(() => {
-    dispatch(getLessonById(Number(params.id)))
-  }, [])
+  const {data:lesson, isLoading,refetch}  = useGetLessonByIdQuery(Number(params.id))
 
   if (isLoading) {
     return <Preloader />

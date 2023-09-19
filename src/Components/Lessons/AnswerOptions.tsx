@@ -1,48 +1,43 @@
-import { ChangeEvent, useEffect, useState } from 'react'
-import {
-  checkTask,
-  lessonSelector,
-  successSelector
-} from '../../Redux/slice/lessonsSlice'
-import LessonService from '../../services/LessonsService'
-import { showToast } from '../../utils/common-functions'
-import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
-import { ModalSuccess } from '../Modals/Modal-success'
+import React, {ChangeEvent, useState} from 'react'
+import {useCheckTaskQuery, useCompleteLessonMutation, useGetLessonByIdQuery} from '../../services/lessons.api'
+import {showToast} from '../../utils/common-functions'
+import {ModalSuccess} from '../Modals/Modal-success'
 import '../Lecture/lecture.scss'
+import {useParams} from "react-router-dom";
+import {errorHandler} from "../../utils/errorsHandler";
 
 export const AnswerOptions = () => {
-  const dispatch = useAppDispatch()
 
-  const lesson = useAppSelector(lessonSelector)
+  const params = useParams()
+
+  const {data:lesson}  = useGetLessonByIdQuery(Number(params.id))
+  const {data:checkTask} = useCheckTaskQuery(Number(params.id))
+  const [completeLesson,{isLoading,isSuccess}] = useCompleteLessonMutation()
   const answers = lesson?.answers
   const [value, setValue] = useState<string>('')
-  const success = useAppSelector(successSelector)
   const [title, setTitle] = useState('Задание выполнено')
   const [showReward, setShowReward] = useState(true)
   const [showModal, setShowModal] = useState<boolean>(false)
-  const [isLoadingComplete, setIsLoadingComplete] = useState(false)
+
 
   const sendAnswer = async (lessonId: number) => {
     try {
-      setIsLoadingComplete(true)
       const dataTaskToCompleted = {
         answer: value
       }
-      const response = await LessonService.complete(
+      await completeLesson({
         dataTaskToCompleted,
-        lessonId
-      )
-      if (response.status === 203) {
-        setShowReward(false)
-        setTitle('К сожалению, вы не правильно ответили на вопрос')
-      }
+        id:lessonId
+      }).unwrap()
+      // if (response.status === 203) {
+      //   setShowReward(false)
+      //   setTitle('К сожалению, вы не правильно ответили на вопрос')
+      // }
     } catch (error) {
       console.log(error)
       setShowReward(false)
       setTitle('К сожалению, вы не правильно ответили на вопрос')
-    } finally {
-      setShowModal(true)
-      setIsLoadingComplete(false)
+      await errorHandler(error)
     }
   }
 
@@ -51,14 +46,10 @@ export const AnswerOptions = () => {
     else await showToast('Вы не ответили на вопрос')
   }
 
-  useEffect(() => {
-    lesson?.id && dispatch(checkTask(lesson.id))
-  }, [showModal])
 
-  if (showModal) {
+  if (isSuccess) {
     return (
       <ModalSuccess
-        //route={LECTURES_ROUTE + '/' + challengeId?.id}
         showReward={showReward}
         setShowModal={setShowModal}
         showModal={showModal}
@@ -69,7 +60,7 @@ export const AnswerOptions = () => {
     )
   }
 
-  if (success)
+  if (checkTask?.exist)
     return <h1 style={{ textAlign: 'center', color: 'red' }}>Выполнено</h1>
 
   return (
@@ -94,10 +85,10 @@ export const AnswerOptions = () => {
       </div>
       <button
         className='task-lecture__button-execute _button-white'
-        disabled={isLoadingComplete}
+        disabled={isLoading}
         onClick={complete}
       >
-        {isLoadingComplete ? (
+        {isLoading ? (
           <span className='spinner'>
             <i className='fa fa-spinner fa-spin'></i> Загрузка
           </span>

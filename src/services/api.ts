@@ -52,7 +52,9 @@ export const api = createApi({
         'editProfile',
         'creatingChallenge',
         'completeChallenge',
-        'joinChallenge'
+        'joinChallenge',
+        'completeLesson',
+        'createLesson'
     ],
     // baseQuery: baseQuery,
     baseQuery: baseQueryWithReauth,

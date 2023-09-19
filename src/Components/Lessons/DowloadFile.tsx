@@ -1,25 +1,20 @@
-import { useEffect, useState } from 'react'
-import {
-  checkTask,
-  isLoadingSuccessSelector,
-  lessonSelector,
-  successSelector
-} from '../../Redux/slice/lessonsSlice'
-import LessonService from '../../services/LessonsService'
-import { showToast } from '../../utils/common-functions'
-import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
-import { ModalSuccess } from '../Modals/Modal-success'
-import { Preloader } from '../Preloader/Preloader'
+import {useState} from 'react'
+import {useCheckTaskQuery, useCompleteLessonMutation, useGetLessonByIdQuery} from '../../services/lessons.api'
+import {showToast} from '../../utils/common-functions'
+import {ModalSuccess} from '../Modals/Modal-success'
+import {Preloader} from '../Preloader/Preloader'
 
 import '../Lecture/lecture.scss'
+import {useParams} from "react-router-dom";
+import {errorHandler} from "../../utils/errorsHandler";
 
 export const DownloadFile = () => {
-  const lesson = useAppSelector(lessonSelector)
-  const dispatch = useAppDispatch()
+  const params = useParams()
+
+  const {data: lesson} = useGetLessonByIdQuery(Number(params.id))
+  const {data: checkTask} = useCheckTaskQuery(Number(params.id))
+  const [completeLesson, {isLoading, isSuccess}] = useCompleteLessonMutation()
   const [showModal, setShowModal] = useState<boolean>(false)
-  const [isLoadingComplete, setIsLoadingComplete] = useState(false)
-  const success = useAppSelector(successSelector)
-  const isLoading = useAppSelector(isLoadingSuccessSelector)
   const [downloadFile, setDownloadFile] = useState<Blob | null>(null)
   const [selectedName, setSelectedName] = useState<string>('')
   const [imagePreview, setImagePreview] = useState<any>(null)
@@ -43,32 +38,27 @@ export const DownloadFile = () => {
   const complete = async () => {
     if (downloadFile && lesson) {
       try {
-        setIsLoadingComplete(true)
         const dataTaskToCompleted = {
           file: downloadFile
         }
-        const response = await LessonService.complete(
-          dataTaskToCompleted,
-          lesson.id
-        )
-        if (response.data.success) setShowModal(true)
+        const response = await completeLesson({
+              dataTaskToCompleted,
+              id: lesson.id
+            }
+        ).unwrap()
+        if (response.success) setShowModal(true)
       } catch (error) {
-        await showToast('Произошла ошибка!')
-      } finally {
-        setIsLoadingComplete(false)
+        await errorHandler(error)
       }
     } else {
       await showToast('Вы неправильно выполнили задание')
     }
   }
 
-  useEffect(() => {
-    lesson?.id && dispatch(checkTask(lesson.id))
-  }, [showModal])
 
   if (isLoading) return <Preloader height='auto' />
 
-  if (showModal) {
+  if (isSuccess) {
     return (
       <ModalSuccess
         // route={LECTURES_ROUTE + '/' + challengeId?.id}
@@ -80,7 +70,7 @@ export const DownloadFile = () => {
     )
   }
 
-  if (success)
+  if (checkTask?.exist)
     return <h1 style={{ textAlign: 'center', color: 'red' }}>Выполнено</h1>
 
   return (
@@ -114,10 +104,10 @@ export const DownloadFile = () => {
             ? 'task-lecture__button-execute _button-white'
             : 'task-lecture__button-execute _button-white disabled'
         }
-        disabled={isLoadingComplete || !downloadFile}
+        disabled={isLoading || !downloadFile}
         onClick={complete}
       >
-        {isLoadingComplete ? (
+        {isLoading ? (
           <span className='spinner'>
             <i className='fa fa-spinner fa-spin'></i> Загрузка
           </span>

@@ -1,48 +1,43 @@
-import { useState, useEffect, ChangeEvent } from 'react'
-import {
-  checkTask,
-  lessonSelector,
-  successSelector
-} from '../../Redux/slice/lessonsSlice'
-import LessonService from '../../services/LessonsService'
-import { showToast } from '../../utils/common-functions'
-import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
-import { ModalSuccess } from '../Modals/Modal-success'
+import React, {ChangeEvent, useState} from 'react'
+import {useCheckTaskQuery, useCompleteLessonMutation, useGetLessonByIdQuery} from '../../services/lessons.api'
+import {showToast} from '../../utils/common-functions'
+import {ModalSuccess} from '../Modals/Modal-success'
 import '../Lecture/lecture.scss'
+import {useParams} from "react-router-dom";
+import {errorHandler} from "../../utils/errorsHandler";
 
 export const AnswerToQuestion = () => {
-  const lesson = useAppSelector(lessonSelector)
-  const dispatch = useAppDispatch()
+  const params = useParams()
+
+  const {data:lesson}  = useGetLessonByIdQuery(Number(params.id))
+  const {data:checkTask} = useCheckTaskQuery(Number(params.id))
+  const [completeLesson,{isLoading,isSuccess}] = useCompleteLessonMutation()
   const [value, setValue] = useState<string>('')
   const [showModal, setShowModal] = useState<boolean>(false)
-  const [isLoadingComplete, setIsLoadingComplete] = useState(false)
-  const success = useAppSelector(successSelector)
+
 
   const complete = async () => {
     if (value && lesson?.id) {
       try {
-        setIsLoadingComplete(true)
         const dataTaskToCompleted = {
           answer: value
         }
-        await LessonService.complete(dataTaskToCompleted, lesson.id)
-        setShowModal(true)
-      } finally {
-        setIsLoadingComplete(false)
+        await completeLesson({
+          dataTaskToCompleted,
+          id:lesson.id
+        }).unwrap()
+      } catch (e) {
+        await errorHandler(e)
       }
     } else {
       await showToast('Произошла ошибка')
     }
   }
 
-  useEffect(() => {
-    lesson?.id && dispatch(checkTask(lesson.id))
-  }, [showModal])
 
-  if (showModal) {
+  if (isSuccess) {
     return (
       <ModalSuccess
-        // route={LECTURES_ROUTE + '/' + challengeId?.id}
         setShowModal={setShowModal}
         showModal={showModal}
         updateActive={true}
@@ -51,7 +46,7 @@ export const AnswerToQuestion = () => {
     )
   }
 
-  if (success)
+  if (checkTask?.exist)
     return <h1 style={{ textAlign: 'center', color: 'red' }}>Выполнено</h1>
 
   return (
@@ -66,10 +61,10 @@ export const AnswerToQuestion = () => {
       />
       <button
         className='task-lecture__button-execute _button-white'
-        disabled={isLoadingComplete}
+        disabled={isLoading}
         onClick={complete}
       >
-        {isLoadingComplete ? (
+        {isLoading ? (
           <span className='spinner'>
             <i className='fa fa-spinner fa-spin'></i> Загрузка
           </span>

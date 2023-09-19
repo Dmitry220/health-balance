@@ -1,9 +1,8 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import './lecures-page.scss'
 import CardLecture from '../../Components/Lecture/Card-lecture'
 import Header from '../../Components/Header/Header'
-import {useAppDispatch, useAppSelector} from '../../hooks/redux-hooks'
-import {getLessons, isLoadingSelector, lessonsSelector} from '../../Redux/slice/lessonsSlice'
+import {useAppSelector} from '../../hooks/redux-hooks'
 import {IMAGE_URL} from '../../http'
 import {Link, useParams} from 'react-router-dom'
 import {CREATING_LECTURE_ROUTE} from '../../provider/constants-route'
@@ -11,27 +10,16 @@ import plug from '../../assets/image/plug.png'
 import {dataUserSelector} from '../../Redux/slice/profileSlice'
 import {Preloader} from '../../Components/Preloader/Preloader'
 import {PullToRefresh} from '../../Components/PullToRefresh/PulltoRefresh'
+import {useGetLessonsQuery} from '../../services/lessons.api'
 
 export const LecturesPages = () => {
 
-    const dispatch = useAppDispatch()
     const params = useParams()
     const dataUser = useAppSelector(dataUserSelector)
-    const lessons = useAppSelector(lessonsSelector)
-    const isLoading = useAppSelector(isLoadingSelector)
 
-    useEffect(() => {
-        async function fetch() {
-            await dispatch(getLessons(Number(params.id)))
-        }
+    const {data:lessons, isLoading,refetch}  = useGetLessonsQuery(Number(params.id))
 
-        fetch()
-    }, [])
-
-    const handleRefresh = async () => {
-        await dispatch(getLessons(Number(params.id)))
-    }
-
+    const handleRefresh = async () => await refetch()
 
     return (
         <div className={'lectures-pages'}>
@@ -43,7 +31,7 @@ export const LecturesPages = () => {
                 <div style={{position: 'relative'}}>
                     <div>
                         <div className='lectures-pages__title main-title'>Лекции</div>
-                        {lessons.map((lesson) => (
+                        {lessons?.map((lesson) => (
                             <CardLecture
                                 id={lesson.id}
                                 img={
@@ -56,7 +44,7 @@ export const LecturesPages = () => {
                                 completed={lesson.completed}
                             />
                         ))}
-                        {!lessons.length && (
+                        {!lessons?.length && (
                             <h1 style={{marginBottom: 20}}>Лекций нет</h1>
                         )}
                         {(dataUser.role === 1 || dataUser.role === 2) && (

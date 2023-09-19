@@ -30,3 +30,8 @@ export interface ICreatingLecture{
   image?: string,
   video?:string
 }
+
+export interface ITaskToCompleted {
+  dataTaskToCompleted: { answer?: any; file?: Blob },
+  id: number
+}
