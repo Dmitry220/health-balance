@@ -1,5 +1,9 @@
 import React, {ChangeEvent, useEffect} from 'react'
-import {creatingChallengeSelector, setDataChallenge, setDisabledButton} from '../../Redux/slice/challengeSlice'
+import {
+    creatingChallengeSelector,
+    setCustomersPersonalChallenge,
+    setDisabledButton
+} from '../../Redux/slice/challengeSlice'
 import {useAppDispatch, useAppSelector} from '../../hooks/redux-hooks'
 import avatar from '../../assets/image/avatar.jpeg'
 import './creating-challenge.scss'
@@ -11,17 +15,14 @@ export const CustomersList = () => {
 
     const dispatch = useAppDispatch()
     const {customers: checkedCustomers} = useAppSelector(creatingChallengeSelector)
-    const {data:customers,isLoading} = useCustomersPersonalChallengeQuery(null)
+    const {data: customers, isLoading} = useCustomersPersonalChallengeQuery(null)
 
     useEffect(() => {
         dispatch(setDisabledButton(!checkedCustomers?.length))
     }, [checkedCustomers])
 
-    const handlerChange = (e: ChangeEvent<HTMLInputElement>) =>
-        dispatch(setDataChallenge({
-            name: e.target.name,
-            value: +e.target.value
-        }))
+    const handlerChange = (e: ChangeEvent<HTMLInputElement>) => dispatch(setCustomersPersonalChallenge(+e.target.value))
+
 
     if (isLoading) return <Preloader height='auto'/>
 

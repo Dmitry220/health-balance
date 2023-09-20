@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import React, {useState} from 'react'
 import {useCheckTaskQuery, useCompleteLessonMutation, useGetLessonByIdQuery} from '../../services/lessons.api'
 import {showToast} from '../../utils/common-functions'
 import {ModalSuccess} from '../Modals/Modal-success'
@@ -12,8 +12,8 @@ export const DownloadFile = () => {
   const params = useParams()
 
   const {data: lesson} = useGetLessonByIdQuery(Number(params.id))
-  const {data: checkTask} = useCheckTaskQuery(Number(params.id))
-  const [completeLesson, {isLoading, isSuccess}] = useCompleteLessonMutation()
+  const {data: checkTask, isLoading: isLoadingCheckTask} = useCheckTaskQuery(Number(params.id))
+  const [completeLesson, {isLoading}] = useCompleteLessonMutation()
   const [showModal, setShowModal] = useState<boolean>(false)
   const [downloadFile, setDownloadFile] = useState<Blob | null>(null)
   const [selectedName, setSelectedName] = useState<string>('')
@@ -56,9 +56,9 @@ export const DownloadFile = () => {
   }
 
 
-  if (isLoading) return <Preloader height='auto' />
+  if (isLoadingCheckTask) return <Preloader height='auto' />
 
-  if (isSuccess) {
+  if (showModal) {
     return (
       <ModalSuccess
         // route={LECTURES_ROUTE + '/' + challengeId?.id}

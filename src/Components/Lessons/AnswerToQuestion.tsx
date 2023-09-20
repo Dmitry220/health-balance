@@ -5,27 +5,29 @@ import {ModalSuccess} from '../Modals/Modal-success'
 import '../Lecture/lecture.scss'
 import {useParams} from "react-router-dom";
 import {errorHandler} from "../../utils/errorsHandler";
+import {Preloader} from "../Preloader/Preloader";
 
 export const AnswerToQuestion = () => {
   const params = useParams()
 
   const {data:lesson}  = useGetLessonByIdQuery(Number(params.id))
-  const {data:checkTask} = useCheckTaskQuery(Number(params.id))
-  const [completeLesson,{isLoading,isSuccess}] = useCompleteLessonMutation()
+  const {data:checkTask, isLoading: isLoadingCheckTask} = useCheckTaskQuery(Number(params.id))
+  const [completeLesson,{isLoading}] = useCompleteLessonMutation()
   const [value, setValue] = useState<string>('')
   const [showModal, setShowModal] = useState<boolean>(false)
 
 
   const complete = async () => {
-    if (value && lesson?.id) {
+    if (value.trim() && lesson?.id) {
       try {
         const dataTaskToCompleted = {
-          answer: value
+          answer: value.trim()
         }
         await completeLesson({
           dataTaskToCompleted,
           id:lesson.id
         }).unwrap()
+        setShowModal(true)
       } catch (e) {
         await errorHandler(e)
       }
@@ -35,7 +37,7 @@ export const AnswerToQuestion = () => {
   }
 
 
-  if (isSuccess) {
+  if (showModal) {
     return (
       <ModalSuccess
         setShowModal={setShowModal}
@@ -48,6 +50,8 @@ export const AnswerToQuestion = () => {
 
   if (checkTask?.exist)
     return <h1 style={{ textAlign: 'center', color: 'red' }}>Выполнено</h1>
+
+  if(isLoadingCheckTask) return <Preloader height={'auto'}/>
 
   return (
     <>

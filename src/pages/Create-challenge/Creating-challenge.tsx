@@ -28,11 +28,8 @@ export const CreatingChallengePage = () => {
         try {
             //формирование объекта на создание челленджа
             const copyDataChallenge = {...dataChallenge}
-            if (dataChallenge.type != typesChallenge.command) {
-                delete copyDataChallenge.max_peoples
-                delete copyDataChallenge.team_amount
-
-            }
+            copyDataChallenge.max_peoples = 0
+            copyDataChallenge.team_amount = 0
             if (dataChallenge.type === typesChallenge.personal)
                 copyDataChallenge.customers = JSON.stringify(copyDataChallenge.customers)
             else delete copyDataChallenge.customers
@@ -57,8 +54,6 @@ export const CreatingChallengePage = () => {
     }
 
     const renderCreatingChallengeItems = () => {
-
-        console.log(Object.keys(stageCreatingChallenge))
 
         switch (order) {
             case 0:

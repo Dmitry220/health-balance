@@ -20,7 +20,7 @@ import { ModalExit } from '../../Components/Modals/Modal-exit'
 import { Platform } from '../../Components/Platform/Platform'
 import { Footer } from '../../Components/Footer/Footer'
 import { useLogout } from '../../hooks/useLogout'
-import { useGetUserDataOnIdQuery } from '../../services/user.api'
+import { useGetProfileQuery } from '../../services/user.api'
 import { Preloader } from '../../Components/Preloader/Preloader'
 
 export const Profile = () => {
@@ -31,7 +31,7 @@ export const Profile = () => {
 
   const additionalHeaderComponent = <img src={settingsIcon} alt={'icon'} />
 
-  const { data: dataUser, isLoading } = useGetUserDataOnIdQuery(
+  const { data: dataUser, isLoading } = useGetProfileQuery(
     localStorage.getItem('id') as string
   )
 

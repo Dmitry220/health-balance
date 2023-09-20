@@ -17,7 +17,7 @@ const AppRouter = () => {
   const isLoading = useAppSelector(isLoadingSelector)
   const dispatch = useAppDispatch()
 
-  const [getProfile] = userApi.endpoints.getUserDataOnId.useLazyQuery()
+  const [getProfile] = userApi.endpoints.getProfile.useLazyQuery()
 
   useEffect(() => {
     if (isAuth) getProfile(localStorage.getItem('id') as string)

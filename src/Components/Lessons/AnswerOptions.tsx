@@ -5,14 +5,15 @@ import {ModalSuccess} from '../Modals/Modal-success'
 import '../Lecture/lecture.scss'
 import {useParams} from "react-router-dom";
 import {errorHandler} from "../../utils/errorsHandler";
+import {Preloader} from "../Preloader/Preloader";
 
 export const AnswerOptions = () => {
 
   const params = useParams()
 
   const {data:lesson}  = useGetLessonByIdQuery(Number(params.id))
-  const {data:checkTask} = useCheckTaskQuery(Number(params.id))
-  const [completeLesson,{isLoading,isSuccess}] = useCompleteLessonMutation()
+  const {data:checkTask, isLoading: isLoadingCheckTask} = useCheckTaskQuery(Number(params.id))
+  const [completeLesson,{isLoading}] = useCompleteLessonMutation()
   const answers = lesson?.answers
   const [value, setValue] = useState<string>('')
   const [title, setTitle] = useState('Задание выполнено')
@@ -25,19 +26,22 @@ export const AnswerOptions = () => {
       const dataTaskToCompleted = {
         answer: value
       }
-      await completeLesson({
+      const response = await completeLesson({
         dataTaskToCompleted,
         id:lessonId
       }).unwrap()
-      // if (response.status === 203) {
-      //   setShowReward(false)
-      //   setTitle('К сожалению, вы не правильно ответили на вопрос')
-      // }
+
+      if (!response?.success) {
+        setShowReward(false)
+        setTitle('К сожалению, вы не правильно ответили на вопрос')
+      }
     } catch (error) {
       console.log(error)
       setShowReward(false)
       setTitle('К сожалению, вы не правильно ответили на вопрос')
       await errorHandler(error)
+    }finally {
+      setShowModal(true)
     }
   }
 
@@ -47,7 +51,7 @@ export const AnswerOptions = () => {
   }
 
 
-  if (isSuccess) {
+  if (showModal) {
     return (
       <ModalSuccess
         showReward={showReward}
@@ -62,6 +66,8 @@ export const AnswerOptions = () => {
 
   if (checkTask?.exist)
     return <h1 style={{ textAlign: 'center', color: 'red' }}>Выполнено</h1>
+
+  if(isLoadingCheckTask) return <Preloader height={'auto'}/>
 
   return (
     <>

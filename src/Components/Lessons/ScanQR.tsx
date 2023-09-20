@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {QrReader} from 'react-qr-reader'
 import '../Lecture/lecture.scss'
 import {ModalSuccess} from '../Modals/Modal-success'
@@ -6,14 +6,15 @@ import {showToast} from '../../utils/common-functions'
 import {useCheckTaskQuery, useCompleteLessonMutation, useGetLessonByIdQuery} from '../../services/lessons.api'
 import {useParams} from "react-router-dom";
 import {errorHandler} from "../../utils/errorsHandler";
+import {Preloader} from "../Preloader/Preloader";
 
 
 export const ScanQR = () => {
     const params = useParams()
 
     const {data: lesson} = useGetLessonByIdQuery(Number(params.id))
-    const {data: checkTask} = useCheckTaskQuery(Number(params.id))
-    const [completeLesson, {isLoading, isSuccess}] = useCompleteLessonMutation()
+    const {data: checkTask, isLoading: isLoadingCheckTask} = useCheckTaskQuery(Number(params.id))
+    const [completeLesson, {isLoading}] = useCompleteLessonMutation()
     const [showModal, setShowModal] = useState<boolean>(false)
     const [startScan, setStartScan] = useState<boolean>(false)
     const [data, setData] = useState<string>('')
@@ -44,7 +45,7 @@ export const ScanQR = () => {
     }
 
 
-    if (isSuccess) {
+    if (showModal) {
         return (
             <ModalSuccess
                 setShowModal={setShowModal}
@@ -71,7 +72,7 @@ export const ScanQR = () => {
             />
         )
     }
-
+    if(isLoadingCheckTask) return <Preloader height={'auto'}/>
     return (
         <>
             <button

@@ -5,6 +5,10 @@ export const userApi = api.injectEndpoints({
   endpoints: (build) => ({
     getUserDataOnId: build.query<IUser, string>({
       query: (id) => `customers/${id}?token=${localStorage.getItem('token')}`,
+      transformResponse: (response: { data: IUser }): IUser => response.data
+    }),
+    getProfile: build.query<IUser, string>({
+      query: (id) => `customers/${id}?token=${localStorage.getItem('token')}`,
       transformResponse: (response: { data: IUser }): IUser => response.data,
       providesTags: (result, error, arg) => {
         return [{ type: 'editProfile', id: result?.email }]
@@ -24,4 +28,4 @@ export const userApi = api.injectEndpoints({
   })
 })
 
-export const { useGetUserDataOnIdQuery, useEditingProfileMutation } = userApi
+export const { useGetUserDataOnIdQuery, useEditingProfileMutation,useGetProfileQuery } = userApi

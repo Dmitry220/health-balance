@@ -59,7 +59,7 @@ interface ILeaderboardItem {
 			</div>
 			<div
 			  className={
-				 item.id === idProfile
+				 (item.id === idProfile || item?.active === 1)
 					? 'item-leader__title item-leader__title_yourCommand'
 					: 'item-leader__title'
 			  }

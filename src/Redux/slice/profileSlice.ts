@@ -29,7 +29,7 @@ export const profileSlice = createSlice({
   initialState: initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addMatcher(userApi.endpoints.getUserDataOnId.matchFulfilled,
+    builder.addMatcher(userApi.endpoints.getProfile.matchFulfilled,
         (state, action) => {
           state.dataUser = action.payload;
         }
