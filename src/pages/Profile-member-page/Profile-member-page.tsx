@@ -8,6 +8,7 @@ import { useParams } from 'react-router-dom'
 import { useGetUserDataOnIdQuery } from '../../services/user.api'
 import { useAppSelector } from '../../hooks/redux-hooks'
 import { dataUserSelector } from '../../Redux/slice/profileSlice'
+import {Preloader} from "../../Components/Preloader/Preloader";
 
 export const ProfileMemberPage = () => {
   const params = useParams()
@@ -23,7 +24,7 @@ export const ProfileMemberPage = () => {
       {
         <>
           {isLoading ? (
-            <>Loading...</>
+            <Preloader height={'auto'}/>
           ) : profileMember ? (
             <>
               <div className='profile-member-page__block'>

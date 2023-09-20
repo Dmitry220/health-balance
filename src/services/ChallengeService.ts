@@ -30,14 +30,14 @@ export const challengesApi = api.injectEndpoints({
                 method: 'POST',
                 body: data
             }),
-            invalidatesTags: [{ type: 'creatingChallenge' }]
+            invalidatesTags: [{type: 'creatingChallenge'}]
         }),
 
         getChallenges: build.query<IAllChallenge, null>({
             query: () => `challenges?token=${localStorage.getItem('token')}`,
             transformResponse: (response: { data: IChallenge[] }): IAllChallenge => {
-                const newChallenges: ITypeChallenges = {personal:[],command:[],common:[],all:[]}
-                const activeChallenges: ITypeChallenges = {personal:[],command:[],common:[],all:[]}
+                const newChallenges: ITypeChallenges = {personal: [], command: [], common: [], all: []}
+                const activeChallenges: ITypeChallenges = {personal: [], command: [], common: [], all: []}
                 response.data.forEach(challenge => {
                     if (!challenge.active) {
                         if (challenge.type === typesChallenge.personal) newChallenges.personal?.push(challenge)
@@ -57,9 +57,10 @@ export const challengesApi = api.injectEndpoints({
                 }
             },
             providesTags: () => [
-                { type: 'creatingChallenge' },
-                { type: 'joinChallenge' },
-                { type: 'completeChallenge' }
+                {type: 'creatingChallenge'},
+                {type: 'joinChallenge'},
+                {type: 'completeLesson'},
+                {type: 'completeChallenge'}
             ]
         }),
 
@@ -68,7 +69,7 @@ export const challengesApi = api.injectEndpoints({
                 url: `challenges/${id}/join?token=${localStorage.getItem('token')}`,
                 method: 'POST'
             }),
-            invalidatesTags: [{ type: 'joinChallenge' }]
+            invalidatesTags: [{type: 'joinChallenge'}]
         }),
 
         teamJoin: build.mutation<ITeamJoinResponse, number>({
@@ -83,12 +84,13 @@ export const challengesApi = api.injectEndpoints({
                 url: `challenges/${id}/complete?token=${localStorage.getItem('token')}`,
                 method: 'POST'
             }),
-            invalidatesTags: [{ type: 'completeChallenge' }]
+            invalidatesTags: [{type: 'completeChallenge'}]
         }),
 
         getChallengeById: build.query<IChallenge, number>({
             query: (id) => `challenges/${id}?token=${localStorage.getItem('token')}`,
-            transformResponse: (response: { data: IChallenge }): IChallenge => response.data
+            transformResponse: (response: { data: IChallenge }): IChallenge => response.data,
+            providesTags: () => [{type: 'completeLesson'}]
         }),
 
         getChallengesTeam: build.query<ITeam[], number>({
@@ -100,11 +102,9 @@ export const challengesApi = api.injectEndpoints({
             transformResponse: (response: { data: ICustomersTeam }): ICustomersTeam => response.data
         }),
         customersPersonalChallenge: build.query<ICustomersPersonalChallenge[], null>({
-            query: () =>`customers?token=${localStorage.getItem('token')}&curator_teams=1`,
+            query: () => `customers?token=${localStorage.getItem('token')}&curator_teams=1`,
             transformResponse: (response: { data: ICustomersPersonalChallenge[] }): ICustomersPersonalChallenge[] => response.data
         }),
-
-
 
 
     })
