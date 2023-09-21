@@ -4,6 +4,8 @@ import { RootState } from '../store'
 import AppService from '../../services/AppService'
 import { IStepsPerDay } from '../../models/IApp'
 import { getWeek } from '../../utils/common-functions'
+import {healthIndexApi} from "../../services/healthIndex.api";
+import {api} from "../../services/api";
 
 interface AppState {
   balance: number
@@ -23,11 +25,13 @@ interface AppState {
   }[]
   monthData: {}
   weekData: {}
-  heightStatusBar: number
+  heightStatusBar: number,
+  timeUserTimestamp: number
 }
 
 const initialState: AppState = {
   balance: 0,
+  timeUserTimestamp: new Date().getTime(),
   heightStatusBar: 0,
   currentStepsCount: 0,
   steps: { difference: 0, statistic: [] },
@@ -149,6 +153,7 @@ const initialState: AppState = {
   weekData: {}
 }
 
+
 export const getBalance = createAsyncThunk('balance', async () => {
   const response = await AppService.getBalance()
   return response.data.data.balance
@@ -263,6 +268,12 @@ export const appSlice = createSlice({
     builder.addCase(getStepsPerWeek.fulfilled, (state, action) => {
       state.weekData = action.payload
     })
+
+    builder.addMatcher(api.endpoints.getUserTime.matchFulfilled,
+        (state, action) => {
+          state.timeUserTimestamp = action.payload
+        }
+    );
   }
 })
 
@@ -277,5 +288,7 @@ export const heightStatusBarSelector = (state: RootState) =>
   state.app.heightStatusBar
 export const currentStepsCountSelector = (state: RootState) =>
   state.app.currentStepsCount
+export const timeUserTimestampSelector = (state: RootState) =>
+    state.app.timeUserTimestamp
 
 export default appSlice.reducer

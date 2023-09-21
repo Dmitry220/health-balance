@@ -18,10 +18,11 @@ import {confirmAlert} from 'react-confirm-alert'
 import {HealthySleep} from '../../Components/Tracker/Healthy-sleep'
 import React from 'react'
 import {PullToRefresh} from '../../Components/PullToRefresh/PulltoRefresh'
+import {api} from "../../services/api";
 
 export const TrackerHabitsPage = () => {
     const {data: tracker} = useGetTrackerQuery()
-
+    const [getUserTime] = api.endpoints.getUserTime.useLazyQuery()
     const {refetch} = useGetTracksQuery(new Date().toLocaleDateString(), {
         refetchOnMountOrArgChange: true
     })
@@ -60,6 +61,7 @@ export const TrackerHabitsPage = () => {
 
     const handleRefresh = async () => {
         refetch()
+        getUserTime(null)
     }
 
     return (

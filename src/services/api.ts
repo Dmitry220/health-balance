@@ -1,10 +1,4 @@
-import {
-    BaseQueryFn,
-    createApi,
-    FetchArgs,
-    fetchBaseQuery,
-    FetchBaseQueryError
-} from '@reduxjs/toolkit/dist/query/react'
+import {BaseQueryFn, createApi, FetchArgs, fetchBaseQuery, FetchBaseQueryError} from '@reduxjs/toolkit/dist/query/react'
 import {API_URL} from '../http'
 import {Capacitor} from '@capacitor/core'
 import {GoogleAuth} from '@codetrix-studio/capacitor-google-auth'
@@ -62,6 +56,11 @@ export const api = createApi({
         checkToken: builder.query<ISuccessResponse, null>({
             query: () =>
                 `customers/check-token?token=${localStorage.getItem('token')}`
+        }),
+        getUserTime: builder.query<number, null>({
+            query: () =>
+                `http://worldtimeapi.org/api/timezone/Europe/London`,
+            transformResponse: (response: { datetime: string }): number => new Date(response.datetime).getTime(),
         })
     })
 })

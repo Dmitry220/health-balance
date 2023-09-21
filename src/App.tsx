@@ -12,6 +12,7 @@ import {useStatusBar} from './hooks/useStatusBar'
 import {NoNetworkConnection} from './pages/NoNetworkConnection/NoNetworkConnection'
 import {useEditingProfileMutation} from './services/user.api'
 import {useOneSignal} from "./hooks/useOneSignal";
+import {api} from './services/api'
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
   const {handlerClickPush} = useOneSignal()
   const [complete] = useCompleteTrackMutation()
   const [editingProfile] = useEditingProfileMutation()
+  const [getUserTime] = api.endpoints.getUserTime.useLazyQuery()
 
 
   const handlerPush = () => {
@@ -49,6 +51,7 @@ function App() {
       const timezone = -new Date().getTimezoneOffset() / 60
       const data: IUpdateUser = { timezone }
       editingProfile(data)
+      getUserTime(null)
     }
   }
 

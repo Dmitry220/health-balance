@@ -6,6 +6,8 @@ import { ITrack, ITrackAdditional } from '../../models/ITracker'
 import { useCompleteTrackMutation } from '../../services/tracker.api'
 import { showToast } from '../../utils/common-functions'
 import { confirmAlert } from 'react-confirm-alert'
+import {useAppSelector} from "../../hooks/redux-hooks";
+import {timeUserTimestampSelector} from "../../Redux/slice/appSlice";
 
 interface IWaterTargetItem {
   track: ITrack
@@ -20,7 +22,7 @@ const HabitsTargetItem = memo<IWaterTargetItem>(({ track }) => {
     .toString()
     .padStart(2, '0')}`
   let additional = isJsonString(track.additional)
-
+  const timeUser = useAppSelector(timeUserTimestampSelector)
   const [complete] = useCompleteTrackMutation()
 
   const definitionTargetTrack = (type: number) => {
@@ -73,7 +75,7 @@ const HabitsTargetItem = memo<IWaterTargetItem>(({ track }) => {
 
   return (
     <div className='habits-tracker-item'>
-      {track.notification_send ? (
+      {(timeUser >= track?.send_time * 1000) ? (
         <>
           <img
             src={track.completed ? successfully : missed}
