@@ -1,4 +1,5 @@
 import { Toast } from '@capacitor/toast'
+import { ChangeEvent } from 'react'
 import Picker from 'rmc-picker'
 import { typesChallenge } from './enums'
 
@@ -200,4 +201,26 @@ export const timeConverterUnix = (date: string) => {
   let pattern = /(\d{2})\.(\d{2})\.(\d{4})/
   let dateFormatChanged: any = new Date(date.replace(pattern, '$3-$2-$1'))
   return Math.floor(Date.parse(dateFormatChanged) / 1000)
+}
+
+export const regexInput = (e: ChangeEvent<HTMLInputElement>) => {
+  let [_, sign, integer, decimals]: any = e.target.value
+      .replace(/[^\d\.\-]/g, '')
+      .replace(/(\..*?)\./g, '$1')
+      .replace(/(.+)-/g, '$1')
+      .match(/^(-?)(.*?)((?:\.\d*)?)$/)
+
+  let pos: number = Number(e.target.selectionStart) - 1
+  if (!integer && decimals) pos += 2
+
+  if (integer || decimals) {
+    integer = +integer
+  }
+
+  const formatted = sign + integer + decimals
+
+  if (formatted !== e.target.value) {
+    e.target.value = formatted
+    e.target.setSelectionRange(pos, pos)
+  }
 }

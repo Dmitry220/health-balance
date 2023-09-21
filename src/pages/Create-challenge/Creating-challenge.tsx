@@ -28,10 +28,12 @@ export const CreatingChallengePage = () => {
         try {
             //формирование объекта на создание челленджа
             const copyDataChallenge = {...dataChallenge}
-            copyDataChallenge.max_peoples = 0
-            copyDataChallenge.team_amount = 0
-            if (dataChallenge.type === typesChallenge.personal)
+
+            if (dataChallenge.type === typesChallenge.personal) {
                 copyDataChallenge.customers = JSON.stringify(copyDataChallenge.customers)
+                copyDataChallenge.max_peoples = 0
+                copyDataChallenge.team_amount = 0
+            }
             else delete copyDataChallenge.customers
 
             //отправка запроса на создание челленджа

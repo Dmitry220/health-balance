@@ -5,7 +5,7 @@ import {creatingChallengeSelector, setDataChallenge} from '../../Redux/slice/cha
 import icon_edit from '../../assets/image/icon-edit.svg'
 import icon_camera from '../../assets/image/icon-camera-add.svg'
 import icon_clock from '../../assets/image/Interesting/clock.svg'
-import {definitionColor, extractContent} from '../../utils/common-functions'
+import {definitionColor, extractContent, regexInput} from '../../utils/common-functions'
 import {RewardCount} from '../Reward/Reward-count'
 import ReactDatePicker, {registerLocale} from 'react-datepicker'
 import ru from 'date-fns/locale/ru'
@@ -165,14 +165,16 @@ export const FinalVariant = () => {
                     {!isEditReward && <RewardCount count={creatingPurpose.reward}/>}
                     {isEditReward && (
                         <input
-                            type={'number'}
+                            type={'text'}
                             name={'reward'}
                             value={creatingPurpose.reward}
-                            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                                regexInput(e)
                                 dispatch(setPurposeChallenge({
                                     name: e.target.name,
                                     value: +e.target.value
                                 }))
+                            }
                             }
                             onBlur={() => setIsEditReward((prev) => !prev)}
                         />

@@ -11,7 +11,7 @@ export const userApi = api.injectEndpoints({
       query: (id) => `customers/${id}?token=${localStorage.getItem('token')}`,
       transformResponse: (response: { data: IUser }): IUser => response.data,
       providesTags: (result, error, arg) => {
-        return [{ type: 'editProfile', id: result?.email }]
+        return [{ type: 'editProfile', id: 'updateProfile' }]
       }
     }),
 
@@ -22,7 +22,7 @@ export const userApi = api.injectEndpoints({
         body: data
       }),
       invalidatesTags: (result, error, arg) => {
-        return [{ type: 'editProfile', id: arg.email || 0 }]
+        return [{ type: 'editProfile', id: arg.timezone ? 'noUpdateProfile' : 'updateProfile' }]
       }
     })
   })
