@@ -7,6 +7,7 @@ import {
   IShopProduct,
 } from "../../models/IShop";
 import ShopService from "../../services/ShopService";
+import {showToast} from "../../utils/common-functions";
 
 export interface IShop {
   categories: IShopCategory[] | [];
@@ -59,13 +60,18 @@ export const shopSlice = createSlice({
   name: "shop",
   initialState,
   reducers: {
-    setBasket(state, action: PayloadAction<IBasket>) {
-      state.basket = [...state.basket, action.payload];
-    },
-    deleteBasket(state, action: PayloadAction<IBasket>) {
-      state.basket = state.basket.filter(
-        (item) => item.id !== action.payload.id
-      );
+    addBasket(state, action: PayloadAction<IShopProduct>) {
+      const {id} = action.payload
+      const isExistProduct = state.basket.find((item) => item.id === id)
+      if (isExistProduct) {
+        state.basket = state.basket.filter(
+            (item) => item.id !== action.payload.id
+        );
+        showToast('Товар удален из корзины!')
+      } else {
+        state.basket = [...state.basket, action.payload];
+        showToast('Товар добавлен в корзину!')
+      }
     },
     clearBasket(state) {
       state.basket = []
@@ -121,7 +127,7 @@ export const shopSlice = createSlice({
   },
 });
 
-export const { setBasket, deleteBasket,clearBasket } = shopSlice.actions;
+export const { addBasket,clearBasket } = shopSlice.actions;
 
 export const shopCategoriesSelector = (state: RootState) =>
   state.shop.categories;
