@@ -17,87 +17,97 @@ import {api} from './services/api'
 
 function App() {
 
-  const [connect, setConnect] = useState<boolean>(true)
-  const navigate = useNavigate()
-  const statusBar = useStatusBar()
-  const {handlerClickPush} = useOneSignal()
-  const [complete] = useCompleteTrackMutation()
-  const [editingProfile] = useEditingProfileMutation()
-  const [getUserTime] = api.endpoints.getUserTime.useLazyQuery()
+    const [connect, setConnect] = useState<boolean>(true)
+    const navigate = useNavigate()
+    const statusBar = useStatusBar()
+    const {handlerClickPush} = useOneSignal()
+    const [complete] = useCompleteTrackMutation()
+    const [editingProfile] = useEditingProfileMutation()
+    const [getUserTime] = api.endpoints.getUserTime.useLazyQuery()
 
 
-  const handlerPush = () => {
-    handlerClickPush(async (openedEvent) => {
-      const { notification }: any = openedEvent
-      if (notification?.additionalData?.type === 'news') {
-        navigate(
-            POST_INTERESTING_ROUTE + '/' + notification.additionalData?.id
-        )
-      }
-      if (notification.additionalData?.track_id) {
-        const response = await complete(
-            notification.additionalData.track_id
-        ).unwrap()
-        if (response?.success) {
-          await showToast('Цель ' + notification.body + ' выполнена')
-          navigate(TRACKER_ROUTE)
-        }
-      }
-    })
-  }
-
-  const changeTimezone = () => {
-    if (localStorage.getItem('token')) {
-      const timezone = -new Date().getTimezoneOffset() / 60
-      const data: IUpdateUser = { timezone }
-      editingProfile(data)
-      getUserTime(null)
+    const handlerPush = () => {
+        handlerClickPush(async (openedEvent) => {
+            const {notification}: any = openedEvent
+            if (notification?.additionalData?.type === 'news') {
+                navigate(
+                    POST_INTERESTING_ROUTE + '/' + notification.additionalData?.id
+                )
+            }
+            if (notification.additionalData?.track_id) {
+                const response = await complete(
+                    notification.additionalData.track_id
+                ).unwrap()
+                if (response?.success) {
+                    await showToast('Цель ' + notification.body + ' выполнена')
+                    navigate(TRACKER_ROUTE)
+                }
+            }
+        })
     }
-  }
+
+    const changeTimezone = async () => {
+        if (localStorage.getItem('token')) {
+            const timezone = -new Date().getTimezoneOffset() / 60
+            const data: IUpdateUser = {timezone}
+            await editingProfile(data)
+            await getUserTime(null)
+        }
+    }
+
+    const online = () => setConnect(true)
+    const offline = () => setConnect(false)
+    const changeAppStates = async (isActive: boolean) => {
+        if (isActive) {
+            await changeTimezone()
+            handlerPush()
+        }
+    }
+    const goBack = async (canGoBack: boolean) => {
+        if (!canGoBack) await CapacitorApp.exitApp()
+        else window.history.back()
+    }
 
 
-  useEffect(() => {
+    useEffect(() => {
 
-    changeTimezone()
-    handlerPush()
-
-    //обработчик приложения при выгрузке/оставления в памяти
-    CapacitorApp.addListener('appStateChange', async ({ isActive }) => {
-      if(isActive) {
-        await changeTimezone()
+        changeTimezone()
         handlerPush()
-      }
-    })
 
-    //обработка кнопки назад
-    CapacitorApp.addListener('backButton', async ({ canGoBack }: BackButtonListenerEvent) => {
-      if (!canGoBack) await CapacitorApp.exitApp()
-      else window.history.back()
-    })
+        //обработчик приложения при выгрузке/оставления в памяти
+        CapacitorApp.addListener('appStateChange', async ({isActive}) => changeAppStates(isActive))
 
-    //Обработчик подключения к интернету
-    window.addEventListener('offline', () => {
-      setConnect(false)
-    })
-    window.addEventListener('online', () => setConnect(true))
-    setConnect(window.navigator.onLine)
+        //обработка кнопки назад
+        CapacitorApp.addListener('backButton', async ({canGoBack}: BackButtonListenerEvent) => goBack(canGoBack))
 
-  }, [])
+        //Обработчик подключения к интернету
+        window.addEventListener('offline', offline)
+        window.addEventListener('online', online)
+        setConnect(window.navigator.onLine)
 
-  return (
-    <div
-      className={'_container'}
-      style={{
-        paddingTop: Capacitor.getPlatform() === 'ios' ? +statusBar : 16
-      }}
-    >
-      {!connect ? (
-        <NoNetworkConnection setConnect={setConnect} />
-      ) : (
-        <AppRouter />
-      )}
-    </div>
-  )
+        //удаление слушателей событий
+        return () => {
+            window.removeEventListener('offline', offline)
+            window.removeEventListener('online', online)
+            CapacitorApp.removeAllListeners()
+        }
+
+    }, [])
+
+    return (
+        <div
+            className={'_container'}
+            style={{
+                paddingTop: Capacitor.getPlatform() === 'ios' ? +statusBar : 16
+            }}
+        >
+            {!connect ? (
+                <NoNetworkConnection setConnect={setConnect}/>
+            ) : (
+                <AppRouter/>
+            )}
+        </div>
+    )
 }
 
 export default App
