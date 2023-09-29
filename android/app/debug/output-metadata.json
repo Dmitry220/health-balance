@@ -4,15 +4,15 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.academia.health",
+  "applicationId": "health.balance.kz",
   "variantName": "debug",
   "elements": [
     {
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 3,
-      "versionName": "1.0.2",
+      "versionCode": 9,
+      "versionName": "1.0.8",
       "outputFile": "app-debug.apk"
     }
   ],

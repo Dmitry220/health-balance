@@ -35,6 +35,7 @@ import AppService from '../../services/AppService'
 import {periodMonth, periodWeek} from '../../Components/Charts/Chart-options'
 import {PullToRefresh} from '../../Components/PullToRefresh/PulltoRefresh'
 import {leaderboardApi} from '../../services/leaderboard.api'
+import moment from "moment";
 
 export const ActivityPage: FC = () => {
     const dispatch = useAppDispatch()
@@ -106,6 +107,7 @@ export const ActivityPage: FC = () => {
     }
 
     const updateStepsPeriod = async (data: any) => {
+        console.log("pedometer: ", JSON.stringify(data))
         const params = new FormData()
 
         params.append('data', JSON.stringify(data))
@@ -113,7 +115,6 @@ export const ActivityPage: FC = () => {
         await AppService.updateSteps(params)
         dispatch(setCurrentStepsCount(parseInt(data[data.length - 1].steps)))
     }
-
     const startHealthKit = async () => {
         // запрос на авторизацию в Apple Health для отправки шагов
         Health.isAvailable()
@@ -137,10 +138,11 @@ export const ActivityPage: FC = () => {
                 dataType: 'steps',
                 bucket: 'day'
             })
-                .then((res: any) => {
+                .then((res) => {
                     let steps = res.map((item: any) => {
+                        console.log("item.startDate: ", JSON.stringify(moment(item.startDate).format('DD.MM.YYYY')))
                         return {
-                            date: item.startDate.toLocaleDateString(),
+                            date: moment(item.startDate).format('DD.MM.YYYY'),
                             steps: item.value.toFixed()
                         }
                     })
@@ -173,7 +175,6 @@ export const ActivityPage: FC = () => {
         await getDataCharts()
     }
 
-
     return (
         <div className='activity-page'>
             <PullToRefresh onTrigger={handleRefresh}/>
@@ -188,7 +189,7 @@ export const ActivityPage: FC = () => {
                     >
                         <Steps
                             maxStepsCount={purpose?.quantity || 0}
-                            userStepsCount={currentStepsCount}
+                            userStepsCount={Math.abs(currentStepsCount)}
                         />
                     </div>
                     <div className='activity-page__steps-data'>

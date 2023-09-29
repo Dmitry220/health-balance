@@ -6,8 +6,6 @@ import {ITrack, ITrackAdditional} from '../../models/ITracker'
 import {useCompleteTrackMutation} from '../../services/tracker.api'
 import {showToast} from '../../utils/common-functions'
 import {confirmAlert} from 'react-confirm-alert'
-import {useAppSelector} from "../../hooks/redux-hooks";
-import {timeUserTimestampSelector} from "../../Redux/slice/appSlice";
 import disabled from '../../assets/image/tracker/disabled.svg'
 
 interface IWaterTargetItem {
@@ -15,15 +13,8 @@ interface IWaterTargetItem {
 }
 
 const HabitsTargetItem = memo<IWaterTargetItem>(({track}) => {
-    const time = `${new Date(track.send_time * 1000)
-        .getHours()
-        .toString()
-        .padStart(2, '0')}:${new Date(track.send_time * 1000)
-        .getMinutes()
-        .toString()
-        .padStart(2, '0')}`
+
     let additional = isJsonString(track.additional)
-    const timeUser = useAppSelector(timeUserTimestampSelector)
     const [complete] = useCompleteTrackMutation()
 
     const definitionTargetTrack = (type: number) => {
@@ -37,14 +28,18 @@ const HabitsTargetItem = memo<IWaterTargetItem>(({track}) => {
         }
     }
 
-    function isJsonString(str: string): string {
+    function isJsonString(str: string) {
         try {
             const jsonParse: ITrackAdditional = JSON.parse(str)
-            if (track.type === 3) return jsonParse?.unit
-            if (track.type === 2) return jsonParse.amount + ' ' + jsonParse?.unit
-            return str
+            return {
+                time: jsonParse?.time,
+                text: track.type === 3 ? jsonParse?.unit : jsonParse.amount + ' ' + jsonParse?.unit
+            }
         } catch (e) {
-            return str
+            return {
+                time: '00:00',
+                text: str
+            }
         }
     }
 
@@ -55,7 +50,7 @@ const HabitsTargetItem = memo<IWaterTargetItem>(({track}) => {
             confirmAlert({
                 title: `Выполнить цель "${definitionTargetTrack(
                     track.type
-                )}" в ${time}?`,
+                )}" в ${additional?.time}?`,
                 buttons: [
                     {
                         label: 'Да',
@@ -74,7 +69,7 @@ const HabitsTargetItem = memo<IWaterTargetItem>(({track}) => {
 
     return (
         <div className='habits-tracker-item'>
-            {(timeUser >= track?.send_time * 1000) ? (
+            {track?.notification_send ? (
                 <>
                     <img
                         src={track.id ? (track.completed ? successfully : missed) : disabled}
@@ -92,24 +87,16 @@ const HabitsTargetItem = memo<IWaterTargetItem>(({track}) => {
                                 : 'habits-tracker-item__value_gray'
                         }`}
                     >
-                        {additional}
+                        {additional?.text}
                     </div>
                 </>
             ) : (
                 <>
                     <div className='habits-tracker-item__data'>
-                        {new Date(track.send_time * 1000)
-                                .getHours()
-                                .toString()
-                                .padStart(2, '0') +
-                            ':' +
-                            new Date(track.send_time * 1000)
-                                .getMinutes()
-                                .toString()
-                                .padStart(2, '0')}
+                        {additional?.time}
                     </div>
                     {!track.completed && (
-                        <div className={'habits-tracker-item__value'}>{additional}</div>
+                        <div className={'habits-tracker-item__value'}>{additional?.text}</div>
                     )}
                 </>
             )}

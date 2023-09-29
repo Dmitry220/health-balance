@@ -22,6 +22,8 @@ import {
     useGetTrackerQuery,
     useGetTracksQuery
 } from '../../services/tracker.api'
+import moment from "moment";
+import {errorHandler} from "../../utils/errorsHandler";
 
 interface IHealthySleep {
     editProhibition?: boolean
@@ -74,14 +76,12 @@ export const HealthySleep: FC<IHealthySleep> = ({
     }
 
     const completeTracks = async (id: number, prevId: number) => {
-        try {
-            await complete(prevId)
-                .unwrap()
-                .then(r => complete(id).unwrap().then(r => showToast('Цель выполнена'))
-            )
-        } catch (error) {
-            await showToast('Ошибка')
-        }
+        const promisePrevTrack  = complete(prevId)
+        const promiseTrack  = complete(id)
+        Promise.all([promisePrevTrack, promiseTrack]).then(function(values) {
+            showToast('Цель выполнена')
+        }).catch(e => errorHandler(e));
+
     }
 
     const completeTrackSleep = async (index: number) => {
@@ -100,11 +100,10 @@ export const HealthySleep: FC<IHealthySleep> = ({
                     label: `Да`,
                     onClick: async () => {
                         if (index === 0) {
-                            let date = new Date()
-                            date.setDate(date.getDate() - 1)
+                            const lastSunday = new Date((itemTrackSleep.send_time - 24 * 60 * 60) * 1000)
                             const prevTracksSleep = dispatch(
                                 trackerApi.endpoints.getTracks.initiate(
-                                    date.toLocaleDateString()
+                                    moment(lastSunday).format('DD.MM.YYYY')
                                 )
                             )
                             prevTracksSleep.unwrap().then(async (e) => {
@@ -181,11 +180,11 @@ export const HealthySleep: FC<IHealthySleep> = ({
                 </div>
                 <div className='healthy-sleep__days'>
                     {tracks?.sleepTrack.length ? (
-                        dataSleepTracks.map((item, index,array) => {
+                        dataSleepTracks.map((item, index, array) => {
                             if (item.type === 1) {
                                 return (
                                     <HealthySleepItem
-                                        isTrackExist={!(array[index]?.id < 0 || array[index-1]?.id < 0)}
+                                        isTrackExist={!(array[index]?.id < 0 || array[index - 1]?.id < 0)}
                                         completeTrackSleep={completeTrackSleep}
                                         index={index}
                                         item={item}
