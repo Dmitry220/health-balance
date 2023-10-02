@@ -1,4 +1,4 @@
-import { combineReducers, configureStore, isRejectedWithValue, Middleware, MiddlewareAPI } from '@reduxjs/toolkit'
+import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { appSlice } from './slice/appSlice'
 import { challengeSlice } from './slice/challengeSlice'
 import { healthIndexSlice } from './slice/healthIndexSlice'
@@ -6,15 +6,7 @@ import { authSlice } from './slice/authSlice'
 import { accessRecoverySlice } from './slice/accessRecoverySlice'
 import { profileSlice } from './slice/profileSlice'
 import { shopSlice } from './slice/shopSlice'
-import {
-  persistStore,
-  FLUSH,
-  REHYDRATE,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER
-} from 'redux-persist'
+import { persistStore } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import persistReducer from 'redux-persist/es/persistReducer'
 import { visitedPagesSlice } from './slice/visitedPageSlice'
@@ -23,7 +15,7 @@ import { purposesSlice } from './slice/purposeSlice'
 import { newsSlice } from './slice/newsSlice'
 import { slice } from './Tracker/slice'
 import { settingsSlice } from './slice/settingsSlice'
-import {api} from "../services/api";
+import { api } from '../services/api'
 
 const persistConfig = {
   key: 'root',
@@ -31,9 +23,8 @@ const persistConfig = {
   whitelist: ['shop', 'settings', 'visitedPages']
 }
 
-
 const reducer = combineReducers({
-  [api.reducerPath]:api.reducer,
+  [api.reducerPath]: api.reducer,
   app: appSlice.reducer,
   auth: authSlice.reducer,
   challenges: challengeSlice.reducer,

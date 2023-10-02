@@ -20,8 +20,7 @@ import { useNavigate } from 'react-router-dom'
 export const SetPhoto = () => {
   const dispatch = useAppDispatch()
   const dataRegistration = useAppSelector(dataRegistrationSelector)
-  const {image, photoPath, isLoadingAvatar, uploadImage} =
-    useLoadImage()
+  const { image, photoPath, isLoadingAvatar, uploadImage } = useLoadImage()
   const [disable, setDisabled] = useState<boolean>(false)
   const navigate = useNavigate()
   const [submitRegistration, { isLoading }] = useRegistrationMutation()
@@ -59,15 +58,10 @@ export const SetPhoto = () => {
       })
       .catch(async (err) => {
         dispatch(setStage(stageRegistration.email))
-        if (err.data?.errors?.email) {
-          await showToast(err.data?.errors?.email[0])
-          return
-        }
-        if (err.data?.errors?.platform_code) {
+        if (err.data?.errors?.email) await showToast(err.data?.errors?.email[0])
+        else if (err.data?.errors?.platform_code)
           await showToast(err.data?.errors?.platform_code[0])
-          return
-        }
-        await showToast('Произошла непредвиденная ошибка')
+        else await showToast('Произошла непредвиденная ошибка')
       })
   }
 
@@ -75,12 +69,8 @@ export const SetPhoto = () => {
     if (photoPath) {
       dispatch(setAvatarRegistartion(image))
       setDisabled(false)
-    } else {
-      setDisabled(true)
-    }
+    } else setDisabled(true)
   }, [image])
-
-  console.log('456')
 
   return (
     <>
