@@ -6,19 +6,19 @@ import icon_fruit from '../../assets/image/tracker/icon-fruit.svg'
 import icon_water from '../../assets/image/tracker/icon-water.svg'
 import {NavLink, useNavigate} from 'react-router-dom'
 import {
-  ACTIVITY_ROUTE,
-  GOAL_FRUITS__ROUTE,
-  GOAL_WATER__ROUTE,
-  STATISTICS_TRACKER__ROUTE
+    ACTIVITY_ROUTE,
+    GOAL_FRUITS__ROUTE,
+    GOAL_WATER__ROUTE,
+    STATISTICS_TRACKER__ROUTE
 } from '../../provider/constants-route'
 import {HeaderTwo} from '../../Components/Header-two/Header-two'
 import {showToast, sklonenie} from '../../utils/common-functions'
 import {useDeleteTrackerMutation, useGetTrackerQuery, useGetTracksQuery} from '../../services/tracker.api'
-import {confirmAlert} from 'react-confirm-alert'
 import {HealthySleep} from '../../Components/Tracker/Healthy-sleep'
 import React from 'react'
 import {PullToRefresh} from '../../Components/PullToRefresh/PulltoRefresh'
 import {api} from "../../services/api";
+import swal from "sweetalert";
 
 export const TrackerHabitsPage = () => {
     const {data: tracker} = useGetTrackerQuery()
@@ -44,18 +44,12 @@ export const TrackerHabitsPage = () => {
     }
 
     const redirectToChangeTrack = (path: string) => {
-        confirmAlert({
+        swal({
             title:
                 'Вы уверены что хотите изменить цель?  Будет создан новый трекер и старые выполненные цели будут аннулированы!',
-            buttons: [
-                {
-                    label: 'Да',
-                    onClick: () => navigate(path)
-                },
-                {
-                    label: 'Нет'
-                }
-            ]
+            buttons: ["Нет", "Да"],
+        }).then(value => {
+            if (value) navigate(path)
         })
     }
 
@@ -107,10 +101,10 @@ export const TrackerHabitsPage = () => {
                             <img src={icon_fruit} alt=''/>
                             Съесть <span>{tracker?.fruits}</span>{' '}
                             {tracker &&
-                            sklonenie(tracker?.fruits, ['фрукт', 'фрукта', 'фруктов'])}{' '}
+                                sklonenie(tracker?.fruits, ['фрукт', 'фрукта', 'фруктов'])}{' '}
                             /{' '}
                             {tracker &&
-                            sklonenie(tracker?.fruits, ['овощ', 'овоща', 'овощей'])}
+                                sklonenie(tracker?.fruits, ['овощ', 'овоща', 'овощей'])}
                         </div>
                         <div className='tracker-habits-page__task-column'>
                             <div

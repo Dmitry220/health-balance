@@ -4,26 +4,15 @@ import moon from '../../assets/image/tracker/akar-icons_moon-fill.png'
 import sun from '../../assets/image/tracker/akar-icons_sun-fill.png'
 import {useNavigate} from 'react-router-dom'
 import {GOAL_SLEEP__ROUTE} from '../../provider/constants-route'
-import {
-    currentDaySelector,
-    dataSleepSelector,
-    setCurrentDay,
-    updateDataSleepTrack
-} from '../../Redux/Tracker/slice'
+import {currentDaySelector, dataSleepSelector, setCurrentDay, updateDataSleepTrack} from '../../Redux/Tracker/slice'
 import {useAppDispatch, useAppSelector} from '../../hooks/redux-hooks'
 import {Preloader} from '../Preloader/Preloader'
 import {showToast, sklonenie} from '../../utils/common-functions'
-import {confirmAlert} from 'react-confirm-alert'
-import 'react-confirm-alert/src/react-confirm-alert.css'
 import {HealthySleepItem} from './Healthy-sleep-item'
-import {
-    trackerApi,
-    useCompleteTrackMutation,
-    useGetTrackerQuery,
-    useGetTracksQuery
-} from '../../services/tracker.api'
+import {trackerApi, useCompleteTrackMutation, useGetTrackerQuery, useGetTracksQuery} from '../../services/tracker.api'
 import moment from "moment";
 import {errorHandler} from "../../utils/errorsHandler";
+import swal from "sweetalert";
 
 interface IHealthySleep {
     editProhibition?: boolean
@@ -60,25 +49,20 @@ export const HealthySleep: FC<IHealthySleep> = ({
             : 'менее 8 часов'
 
     const redirectToChangeTrack = () => {
-        confirmAlert({
+        swal({
             title:
                 'Вы уверены что хотите изменить цель?  Будет создан новый трекер и старые выполненные цели будут аннулированы!',
-            buttons: [
-                {
-                    label: 'Да',
-                    onClick: () => navigate(GOAL_SLEEP__ROUTE)
-                },
-                {
-                    label: 'Нет'
-                }
-            ]
+            buttons: ["Нет", "Да"],
         })
+            .then(value => {
+                if (value) navigate(GOAL_SLEEP__ROUTE)
+            })
     }
 
     const completeTracks = async (id: number, prevId: number) => {
-        const promisePrevTrack  = complete(prevId)
-        const promiseTrack  = complete(id)
-        Promise.all([promisePrevTrack, promiseTrack]).then(function(values) {
+        const promisePrevTrack = complete(prevId)
+        const promiseTrack = complete(id)
+        Promise.all([promisePrevTrack, promiseTrack]).then(function (values) {
             showToast('Цель выполнена')
         }).catch(e => errorHandler(e));
 
@@ -93,41 +77,35 @@ export const HealthySleep: FC<IHealthySleep> = ({
 
         if (prevItemTrackSleep?.id < 0 || itemTrackSleep?.id < 0) return
 
-        confirmAlert({
+        swal({
             title: `Выполнить цель "здоровый сон"?`,
-            buttons: [
-                {
-                    label: `Да`,
-                    onClick: async () => {
-                        if (index === 0) {
-                            const lastSunday = new Date((itemTrackSleep.send_time - 24 * 60 * 60) * 1000)
-                            const prevTracksSleep = dispatch(
-                                trackerApi.endpoints.getTracks.initiate(
-                                    moment(lastSunday).format('DD.MM.YYYY')
-                                )
-                            )
-                            prevTracksSleep.unwrap().then(async (e) => {
-                                const dataEveningSunday = e.sleepTrack.find(
-                                    (item) => item.type === 4 && item.additional === 'вс'
-                                )
-                                if (dataEveningSunday && dataEveningSunday?.id !== 0)
-                                    await completeTracks(itemTrackSleep.id, dataEveningSunday?.id)
-                            })
-                            prevTracksSleep.unsubscribe()
-                            return
-                        }
+            buttons: ["Нет", "Да"],
+        }).then(async (value) => {
+            if (!value) return
+            if (index === 0) {
+                const lastSunday = new Date((itemTrackSleep.send_time - 24 * 60 * 60) * 1000)
+                const prevTracksSleep = dispatch(
+                    trackerApi.endpoints.getTracks.initiate(
+                        moment(lastSunday).format('DD.MM.YYYY')
+                    )
+                )
+                prevTracksSleep.unwrap().then(async (e) => {
+                    const dataEveningSunday = e.sleepTrack.find(
+                        (item) => item.type === 4 && item.additional === 'вс'
+                    )
+                    if (dataEveningSunday && dataEveningSunday?.id !== 0)
+                        await completeTracks(itemTrackSleep.id, dataEveningSunday?.id)
+                })
+                prevTracksSleep.unsubscribe()
+                return
+            }
 
-                        try {
-                            await completeTracks(itemTrackSleep?.id, prevItemTrackSleep.id)
-                        } catch (error) {
-                            await showToast('Ошибка')
-                        }
-                    }
-                },
-                {
-                    label: 'Нет'
-                }
-            ]
+            try {
+                await completeTracks(itemTrackSleep?.id, prevItemTrackSleep.id)
+            } catch (error) {
+                await showToast('Ошибка')
+            }
+
         })
     }
 
