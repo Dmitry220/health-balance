@@ -5,7 +5,7 @@ import { NEW_TARGET_ROUTE } from '../../provider/constants-route'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import {
   getPersonalPurpose,
-  purposeSelector
+  purposeSelector, setPurposeSteps
 } from '../../Redux/slice/purposeSlice'
 import { IPurpose } from '../../models/IPurpose'
 import { IStepsPerDay } from '../../models/IApp'
@@ -24,7 +24,11 @@ export const Target: FC<ITarget> = () => {
   const steps = useAppSelector(stepsPerDaySelector)
 
   useEffect(() => {
-    dispatch(getPersonalPurpose())
+    dispatch(getPersonalPurpose()).unwrap().then(e=>{
+      if(!e.quantity){
+        dispatch(setPurposeSteps({ quantity:'10000', type: 1 }))
+      }
+    })
   }, [])
 
   return (

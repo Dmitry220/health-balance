@@ -5,8 +5,8 @@ import missed from '../../assets/image/tracker/missed.svg'
 import {ITrack, ITrackAdditional} from '../../models/ITracker'
 import {useCompleteTrackMutation} from '../../services/tracker.api'
 import {showToast} from '../../utils/common-functions'
-import {confirmAlert} from 'react-confirm-alert'
 import disabled from '../../assets/image/tracker/disabled.svg'
+import swal from "sweetalert";
 
 interface IWaterTargetItem {
     track: ITrack
@@ -47,22 +47,18 @@ const HabitsTargetItem = memo<IWaterTargetItem>(({track}) => {
         if (track.id === 0) return
 
         if (!track.completed) {
-            confirmAlert({
+            swal({
                 title: `Выполнить цель "${definitionTargetTrack(
                     track.type
                 )}" в ${additional?.time}?`,
-                buttons: [
-                    {
-                        label: 'Да',
-                        onClick: async () =>
-                            complete(track.id)
-                                .unwrap()
-                                .then(() => showToast('Цель выполнена'))
-                    },
-                    {
-                        label: 'Нет'
-                    }
-                ]
+                buttons: ["Нет", "Да"],
+            }).then(async (value) => {
+                if (value) {
+                    complete(track.id)
+                        .unwrap()
+                        .then(() => showToast('Цель выполнена'))
+                }
+
             })
         }
     }

@@ -109,50 +109,6 @@ export const StartPage = () => {
             </div>
           </div>
         </SwiperSlide>
-        <SwiperSlide>
-          <div className='preview__body'>
-            <div className='preview__title'>Вместе!</div>
-            <div className='preview__text'>
-              Учавствуйте во всероссийских челленджах. Объединяйтесь с
-              коллегами, занимайте почетные места!
-            </div>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className='preview__body'>
-            <div className='preview__title preview__title_above-75'>
-              Следите
-            </div>
-            <div className='preview__sub-title'>За текущими шагами</div>
-            <div className='preview__steps'>
-              <Steps maxStepsCount={10000} userStepsCount={0} />
-            </div>
-            <div className='preview__steps-data'>
-              <StepsData />
-            </div>
-            <div className='preview__sub-title'>Выполнением цели</div>
-            <div className='preview__target'>
-              <Target />
-            </div>
-          </div>
-        </SwiperSlide>
-        {/* <SwiperSlide>
-          <div className='preview__body'>
-            <div className='preview__title'>Вопросы?</div>
-            <div className='preview__text' style={{ marginBottom: 11 }}>
-              По любым вопросам пишите нам в чат
-            </div>
-            <div className='preview__text'>
-              Это чат <img src={iconChat} alt='' />
-            </div>
-            <div
-              className={'preview__button _button-dark'}
-              onClick={jumpToMain}
-            >
-              Дальше
-            </div>           
-          </div>
-        </SwiperSlide> */}
         <div className={'circle-gradient'} />
         <SlideNextButton
           customClass={'preview__button _button-dark'}
@@ -171,22 +127,24 @@ export const SlideNextButton: FC<ISwiperNextButton> = ({
   const type = 1
   const dispatch = useAppDispatch()
 
-  async function syncSteps() {
-    if (Capacitor.getPlatform() === 'android') {
-      // Установка значения с которого будет работать шагомер
-      const indexWeek = new Date().getDay() === 0 ? 7 : new Date().getDay()
-      const response = await AppService.getStepsPerDay()
-      if (response.data.data.statistic) {
-        await Pedometer.setData({
-          numberOfSteps: response.data.data.statistic[indexWeek].quantity,
-          token: localStorage.getItem('token')
-        })
-      }
-    }
-  }
+ const syncSteps = async ()=>{
+   console.log('fdg')
+   if (Capacitor.getPlatform() === 'android') {
+     // Установка значения с которого будет работать шагомер
+     const indexWeek = new Date().getDay() === 0 ? 7 : new Date().getDay()
+     const response = await AppService.getStepsPerDay()
+     if (response.data.data.statistic) {
+       await Pedometer.setData({
+         numberOfSteps: response.data.data.statistic[indexWeek].quantity,
+         token: localStorage.getItem('token')
+       })
+     }
+   }
+ }
+
 
   const slideChange = useCallback(async () => {
-    if (swiper.activeIndex === 3) {
+    if (swiper?.activeIndex === 1) {
       await syncSteps()
     }
   }, [swiper.activeIndex])
@@ -194,7 +152,7 @@ export const SlideNextButton: FC<ISwiperNextButton> = ({
   swiper.on('slideChange', slideChange)
 
   const next = async () => {
-    if (swiper.activeIndex === 3) {
+    if (swiper.activeIndex === 1) {
       const isCompletedPurposeResponse =
         await PurposeService.isCompletedPurpose()
       if (!isCompletedPurposeResponse.data.data.length) {

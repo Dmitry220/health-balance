@@ -32,6 +32,7 @@ export const newsSlice = createSlice({
         },
         resetDataNews: (state) => {
             state.creatingNews = initialState.creatingNews
+            state.previewImage = ''
         }
     },
     extraReducers: (builder) => {
