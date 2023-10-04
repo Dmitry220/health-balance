@@ -23,7 +23,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>Для съемки фото и видео</string>
+	<string>Для возможности сделать фотографию на аватар</string>
 	<key>NSHealthShareUsageDescription</key>
 	<string>Чтобы подсчитать количество шагов</string>
 	<key>NSHealthUpdateUsageDescription</key>
@@ -37,11 +37,11 @@
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Для записи видео со звуком</string>
 	<key>NSMotionUsageDescription</key>
-	<string>Мы используем датчик движения, чтобы отслеживать количество ваших шагов</string>
+	<string>Мы используем датчик движения, чтобы подсчитывать количество ваших шагов</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Для сохранения фотографий с камеры в библиотеку</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Чтобы выбрать фотографии из библиотеки</string>
+	<string>Чтобы вы могли установить аватар</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
