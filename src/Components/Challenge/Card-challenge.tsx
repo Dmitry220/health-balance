@@ -1,4 +1,4 @@
-import React, {FC, useEffect} from 'react'
+import React, {FC, useEffect, useState} from 'react'
 import './challenge.scss'
 import {definitionColor, nFormatter, sklonenie, typeConversion} from '../../utils/common-functions'
 import {ProgressBar} from '../Progress-bar/Progress-bar'
@@ -26,8 +26,8 @@ export const CardChallenge: FC<ICardChallenge> = ({challenge}) => {
             challenge.purpose?.quantity
         ).toFixed(1)
 
-    const [completeChallenge, {isSuccess}] = useCompleteChallengeMutation()
-
+    const [completeChallenge] = useCompleteChallengeMutation()
+    const [successChallenge, setSuccessChallenge] = useState<boolean>(false)
     const remainingDays = Math.ceil(
         Math.abs(
             challenge.end_date * 1000 - challenge.start_date * 1000
@@ -41,7 +41,9 @@ export const CardChallenge: FC<ICardChallenge> = ({challenge}) => {
             challenge.purpose?.quantity &&
             challenge.homeworks === challenge.total_lessons
         ) {
-            await completeChallenge(challenge.id).unwrap().catch(e => errorHandler(e))
+            await completeChallenge(challenge.id).unwrap().then(e=>{
+                if(e.success) setSuccessChallenge(true)
+            }).catch(e => errorHandler(e))
         }
     }
 
@@ -49,7 +51,7 @@ export const CardChallenge: FC<ICardChallenge> = ({challenge}) => {
         toCompleteChallenge()
     }, [challenge.remains_to_pass])
 
-    if (isSuccess) {
+    if (successChallenge) {
         return (
             <ModalStatus
                 route={ACTIVITY_ROUTE}

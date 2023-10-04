@@ -14,6 +14,7 @@ import {CREATING_LECTURE_ROUTE} from '../../provider/constants-route'
 import {creatingPurposeSelector, resetPurposeChallenge} from '../../Redux/slice/purposeSlice'
 import {useCreatingChallengeMutation, useCreatingPurposeMutation} from '../../services/ChallengeService'
 import {errorHandler} from "../../utils/errorsHandler";
+import moment from "moment";
 
 export const CreatingChallengePage = () => {
     const [order, setOrder] = useState<number>(0)
@@ -35,6 +36,8 @@ export const CreatingChallengePage = () => {
                 copyDataChallenge.team_amount = 0
             }
             else delete copyDataChallenge.customers
+            copyDataChallenge.start_date = moment(copyDataChallenge.start_date).format('DD.MM.YYYY')
+            copyDataChallenge.end_date = moment(copyDataChallenge.end_date).format('DD.MM.YYYY')
 
             //отправка запроса на создание челленджа
             const responseCreatingChallenge = await creatingChallenge(copyDataChallenge).unwrap()
