@@ -1,6 +1,7 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {RootState} from '../store'
 import {ICreatingNews} from '../../models/INews'
+import moment from "moment";
 
 export interface INewsSlice {
     creatingNews: ICreatingNews,
@@ -14,6 +15,7 @@ const initialState: INewsSlice = {
         image: '',
         title: '',
         category: 0,
+        created_at: moment().unix(),
         push: 0
     },
     previewImage: ''
@@ -34,8 +36,6 @@ export const newsSlice = createSlice({
             state.creatingNews = initialState.creatingNews
             state.previewImage = ''
         }
-    },
-    extraReducers: (builder) => {
     }
 })
 

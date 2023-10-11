@@ -4,7 +4,8 @@ export interface ICreatingNews {
   content: string
   image: string
   category: number
-  push: 0 | 1
+  push: 0 | 1,
+  created_at: number
 }
 
 export interface INews {

@@ -18,6 +18,9 @@ import {useCreateNewsMutation} from '../../services/news.api'
 import {useLoadImage} from '../../hooks/useLoadImage'
 import {typeImage} from '../../utils/enums'
 import {errorHandler} from "../../utils/errorsHandler";
+import ru from "date-fns/locale/ru";
+import DatePicker from "react-datepicker";
+import moment from "moment";
 
 export const CreatingInteresting = () => {
 
@@ -43,6 +46,10 @@ export const CreatingInteresting = () => {
     const handlerPush = (e: ChangeEvent<HTMLInputElement>) =>
         dispatch(handlerNews({...dataNews, push: +e.target.checked as 0 | 1}))
 
+    const handlerDate = (date: Date) => {
+        const created_at = moment(date).unix()
+        dispatch(handlerNews({...dataNews, created_at}))
+    }
 
     const publish = async () => {
         if (
@@ -75,9 +82,7 @@ export const CreatingInteresting = () => {
         }
     }, [image])
 
-    if (showModal) {
-        return <ModalStatus route={INTERESTING_ROUTE}/>
-    }
+    if (showModal) return <ModalStatus route={INTERESTING_ROUTE}/>
 
     return (
         <div className={'creating-interesting'}>
@@ -138,6 +143,18 @@ export const CreatingInteresting = () => {
                         />
                     </div>
                 )}
+                <div className={'creating-interesting__calendar'}>
+                    <DatePicker
+                        onChange={handlerDate}
+                        inline
+                        startDate={new Date()}
+                        selected={moment(dataNews.created_at * 1000).toDate()}
+                        showTimeInput
+                        timeInputLabel={'Время'}
+                        dateFormat='dd.MM.yyyy'
+                        locale={ru}
+                    />
+                </div>
                 <div className='creating-interesting__push'>
                     <div className='custom-checkbox'>
                         <input
