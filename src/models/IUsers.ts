@@ -11,6 +11,7 @@ export interface IUser {
   challenges: number;
   completed_challenges: number;
   role: number;
+  version?: number
 }
 
 export interface IUpdateUser {
@@ -21,5 +22,6 @@ export interface IUpdateUser {
   phone?: string;
   email?: string;
   avatar?: string;
-  timezone?: number
+  timezone?: number;
+  version?: number
 }

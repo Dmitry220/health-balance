@@ -4,6 +4,7 @@ import {Capacitor} from '@capacitor/core'
 import {GoogleAuth} from '@codetrix-studio/capacitor-google-auth'
 import Pedometer from '../plugins/pedometer'
 import {LOGIN_ROUTE} from '../provider/constants-route'
+import {IVersion} from "../models/IApp";
 
 export interface ISuccessResponse {
     success: boolean
@@ -61,8 +62,15 @@ export const api = createApi({
             query: () =>
                 `http://worldtimeapi.org/api/timezone/Europe/London`,
             transformResponse: (response: { datetime: string }): number => new Date(response.datetime).getTime(),
-        })
+        }),
+        actualVersion: builder.query<IVersion, null>({
+            query: () => `version?token=${localStorage.getItem('token')}`,
+            transformResponse: (response: { data: IVersion }): IVersion => response.data,
+        }),
     })
 })
 
-export const {useCheckTokenQuery} = api
+export const {
+    useCheckTokenQuery,
+    useActualVersionQuery
+} = api

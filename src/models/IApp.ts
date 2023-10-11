@@ -21,3 +21,7 @@ export interface IStepsPerMonth {
     [key: number]: number;
   };
 }
+
+export interface IVersion {
+  version: number
+}

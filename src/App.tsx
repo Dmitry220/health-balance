@@ -1,20 +1,18 @@
-import { Capacitor } from '@capacitor/core'
-import React, { useEffect, useState } from 'react'
+import {Capacitor} from '@capacitor/core'
+import React, {useEffect, useState} from 'react'
 import './assets/style/global.scss'
 import AppRouter from './provider/app-router'
-import { App as CapacitorApp, BackButtonListenerEvent } from '@capacitor/app'
-import { useCompleteTrackMutation } from './services/tracker.api'
-import { showToast } from './utils/common-functions'
-import { useNavigate } from 'react-router-dom'
-import {
-  POST_INTERESTING_ROUTE,
-  TRACKER_ROUTE
-} from './provider/constants-route'
-import { IUpdateUser } from './models/IUsers'
-import { useStatusBar } from './hooks/useStatusBar'
-import { NoNetworkConnection } from './pages/NoNetworkConnection/NoNetworkConnection'
-import { useEditingProfileMutation } from './services/user.api'
-import { useOneSignal } from './hooks/useOneSignal'
+import {App as CapacitorApp, BackButtonListenerEvent} from '@capacitor/app'
+import {useCompleteTrackMutation} from './services/tracker.api'
+import {showToast} from './utils/common-functions'
+import {useNavigate} from 'react-router-dom'
+import {POST_INTERESTING_ROUTE, TRACKER_ROUTE} from './provider/constants-route'
+import {IUpdateUser} from './models/IUsers'
+import {useStatusBar} from './hooks/useStatusBar'
+import {NoNetworkConnection} from './pages/NoNetworkConnection/NoNetworkConnection'
+import {useEditingProfileMutation} from './services/user.api'
+import {useOneSignal} from './hooks/useOneSignal'
+import {VERSION_NAME} from "./utils/globalConstants";
 
 function App() {
   const [connect, setConnect] = useState<boolean>(true)
@@ -44,8 +42,10 @@ function App() {
 
   const changeTimezone = async () => {
     if (localStorage.getItem('token')) {
+      console.log('2')
       const timezone = -new Date().getTimezoneOffset() / 60
-      const data: IUpdateUser = { timezone }
+      const version = VERSION_NAME
+      const data: IUpdateUser = { timezone,version }
       await editingProfile(data)
     }
   }

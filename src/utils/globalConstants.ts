@@ -140,3 +140,5 @@ export const WEB_CLIENT_ID =
   '892578456296-nmrjb7m8pn1f109psnaoff2q2es6s19f.apps.googleusercontent.com'
 export const ANDROID_CLIENT_ID =
   '892578456296-f9gqaa4k7sror2c3iitvi511oh7el0kj.apps.googleusercontent.com'
+
+export const VERSION_NAME:number = 1001001 //означает "1.1.1" - вторую и третью цифру дополняем нулями до трехзначного числа
