@@ -15,11 +15,10 @@ import { Navigation } from '../../Components/Navigation/Navigation'
 import './activity-page.scss'
 import { StepsData } from '../../Components/Steps-data/Steps-data'
 import HeaderActive from '../../Components/Header-active/Header-active'
-import { Target } from '../../Components/Target/Target'
+import Target from '../../Components/Target/Target'
 import { TopRating } from '../../Components/Top-rating/Top-rating'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import {
-  getPersonalPurpose,
   purposeSelector
 } from '../../Redux/slice/purposeSlice'
 import {
@@ -167,11 +166,10 @@ export const ActivityPage: FC = () => {
     dispatch(setMonths())
     dispatch(setWeeks())
   }
-  const [trigger] = leaderboardApi.endpoints.leaderboard.useLazyQuery()
+  const [updateLeaderboard] = leaderboardApi.endpoints.leaderboard.useLazyQuery()
   const handleRefresh = async () => {
-    await dispatch(getPersonalPurpose())
     await dispatch(getBalance())
-    await trigger(null)
+    await updateLeaderboard(null)
     await getDataCharts()
   }
 

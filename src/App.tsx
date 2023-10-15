@@ -42,7 +42,6 @@ function App() {
 
   const changeTimezone = async () => {
     if (localStorage.getItem('token')) {
-      console.log('2')
       const timezone = -new Date().getTimezoneOffset() / 60
       const version = VERSION_NAME
       const data: IUpdateUser = { timezone,version }
@@ -64,7 +63,7 @@ function App() {
   }
 
   useEffect(() => {
-    changeTimezone()
+    // changeTimezone()
     handlerPush()
 
     //обработчик приложения при выгрузке/оставления в памяти

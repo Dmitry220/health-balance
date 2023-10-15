@@ -7,13 +7,16 @@ import {dataUserSelector} from "../../Redux/slice/profileSlice";
 
 const ActualVersion = () => {
 
-    const {data} = useActualVersionQuery(null)
-    const [active, setActive] = useState(false)
     const profile = useAppSelector(dataUserSelector)
+    const {data} = useActualVersionQuery(null)
+    const [active, setActive] = useState<boolean>(false)
 
     useEffect(() => {
-        setActive(data?.version != profile?.version)
-    }, [data]);
+        if (profile?.version && data?.version) {
+            setActive(data?.version != profile?.version)
+        }
+    }, [data, profile.version]);
+
 
     return (
         <div className={active ? 'actual-version active' : 'actual-version'} onClick={() => setActive(false)}>

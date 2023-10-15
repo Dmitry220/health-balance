@@ -16,7 +16,6 @@ import {
   LOGIN_ROUTE,
   MAKING_ORDER_ROUTE,
   POST_INTERESTING_ROUTE,
-  NEW_TARGET_ROUTE,
   ACCESS_RECOVERY__ROUTE,
   PROFILE_ROUTE,
   QUESTIONNAIRE_ROUTE,
@@ -73,7 +72,6 @@ import { DynamicsPage } from '../pages/Dynamics-page/Dynamics-page'
 import { IndividualReportPage } from '../pages/Individual-report-page/Individual-report-page'
 import { ReportPage } from '../pages/Report-page/Report-page'
 import { MotivationPage } from '../pages/Motivation-page/Motivation-page'
-import { NewTargetPage } from '../pages/New-target-page/New-target-page'
 import { AccessRecoveryPage } from '../pages/Access-recovery-page/Access-recovery-page'
 import { GoalWater } from '../pages/Goal-water/Goal-water'
 import { GoalFruits } from '../pages/Goal-fruits/Goal-fruits'
@@ -216,10 +214,6 @@ export const privateRoutes = [
   {
     path: POST_INTERESTING_ROUTE + '/:id',
     Component: MotivationPage
-  },
-  {
-    path: NEW_TARGET_ROUTE,
-    Component: NewTargetPage
   },
   {
     path: GOAL_SLEEP__ROUTE,
