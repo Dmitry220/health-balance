@@ -1,44 +1,37 @@
 import './exchange-history.scss'
 import Header from '../../Components/Header/Header'
-import { BasketCard } from '../../Components/Basket/Basket-card'
-import { useEffect } from 'react'
-import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
-import { getOrders, isLoadingSelector, ordersSelector } from '../../Redux/slice/shopSlice'
-import { Preloader } from '../../Components/Preloader/Preloader'
+import {BasketCard} from '../../Components/Basket/Basket-card'
+import {Preloader} from '../../Components/Preloader/Preloader'
+import {useGetOrdersQuery} from "../../services/shop.api";
+import moment from "moment";
 
 export const ExchangeHistory = () => {
 
-  const orders = useAppSelector(ordersSelector)
-  const isLoading = useAppSelector(isLoadingSelector)
-  const dispatch = useAppDispatch()
+    const {data: orders, isLoading} = useGetOrdersQuery(null)
 
-  useEffect(() => {
-    dispatch(getOrders())
-  }, [])
-
-  if (isLoading) {
-    return <Preloader />
-  }
-
-
-  return (
-    <div className={'exchange-history'}>
-      <Header title={'История обмена'} />
-      {
-        orders.map(order => (
-          <div className='exchange-history__item' key={order.id}>
-            <div className='exchange-history__data'>{new Date(order.created_at * 1000).toLocaleDateString()}</div>
+    return (
+        <div className={'exchange-history'}>
+            <Header title={'История обмена'}/>
             {
-              order.products.map(product => (
-                <BasketCard id={product.id} image={product.image} price={product.price} title={product.title} key={product.id} />
-              ))
+                isLoading ? <Preloader height={'auto'}/> :
+                    orders?.length ?
+                        orders.map(order => (
+                            <div className='exchange-history__item' key={order.id}>
+                                <div className='exchange-history__data'>
+                                    {moment(order.created_at).format('DD.MM.YYYY')}
+                                </div>
+                                {
+                                    order.products.map(product => (
+                                        <BasketCard id={product.id} image={product.image}
+                                                    price={product.price} title={product.title}
+                                                    key={product.id}/>
+                                    ))
+                                }
+                            </div>
+                        ))
+                        :
+                        <div>Покупок нет!</div>
             }
-          </div>
-        ))
-      }
-      {
-        orders.length === 0 && <h1>Покупок нет!</h1>
-      }
-    </div>
-  )
+        </div>
+    )
 }

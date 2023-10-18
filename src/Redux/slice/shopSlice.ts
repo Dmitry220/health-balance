@@ -1,139 +1,44 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "../store";
-import {
-  IBasket,
-  IOrders,
-  IShopCategory,
-  IShopProduct,
-} from "../../models/IShop";
-import ShopService from "../../services/ShopService";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {RootState} from "../store";
+import {IBasket, IShopProduct,} from "../../models/IShop";
 import {showToast} from "../../utils/common-functions";
 
 export interface IShop {
-  categories: IShopCategory[] | [];
-  products: IShopProduct[] | [];
-  orders: IOrders[] | [];
-  isLoading: boolean;
-  basket: IBasket[] | [];
-  productById: IShopProduct | null;
+    basket: IBasket[];
 }
 
 const initialState: IShop = {
-  categories: [],
-  products: [],
-  orders: [],
-  isLoading: false,
-  basket: [],
-  productById: null,
+    basket: [],
 };
 
-export const getShopCategories = createAsyncThunk(
-  "shopCategories",
-  async () => {
-    const response = await ShopService.getCategory();
-    return response.data.data;
-  }
-);
-
-export const getProductsCategory = createAsyncThunk(
-  "productsCategoty",
-  async (id: number) => {
-    const response = await ShopService.getProducts(id);
-    return response.data.data;
-  }
-);
-
-export const getProductById = createAsyncThunk(
-  "getProductById",
-  async (id: number) => {
-    const response = await ShopService.getProductById(id);
-    return response.data.data;
-  }
-);
-
-export const getOrders = createAsyncThunk("getOrders", async () => {
-  const response = await ShopService.getOrders();
-  return response.data.data;
-});
-
 export const shopSlice = createSlice({
-  name: "shop",
-  initialState,
-  reducers: {
-    addBasket(state, action: PayloadAction<IShopProduct>) {
-      const {id} = action.payload
-      const isExistProduct = state.basket.find((item) => item.id === id)
-      if (isExistProduct) {
-        state.basket = state.basket.filter(
-            (item) => item.id !== action.payload.id
-        );
-        showToast('Товар удален из корзины!')
-      } else {
-        state.basket = [...state.basket, action.payload];
-        showToast('Товар добавлен в корзину!')
-      }
+    name: "shop",
+    initialState,
+    reducers: {
+        addBasket(state, action: PayloadAction<IShopProduct>) {
+            const {id} = action.payload
+            const isExistProduct = state.basket.find((item) => item.id === id)
+            if (isExistProduct) {
+                state.basket = state.basket.filter(
+                    (item) => item.id !== action.payload.id
+                );
+                showToast('Товар удален из корзины!')
+            } else {
+                state.basket = [...state.basket, action.payload];
+                showToast('Товар добавлен в корзину!')
+            }
+        },
+        clearBasket(state) {
+            state.basket = []
+        },
     },
-    clearBasket(state) {
-      state.basket = []
-    },
-  },
-  extraReducers: (builder) => {
-    builder.addCase(
-      getShopCategories.fulfilled,
-      (state, action: PayloadAction<IShopCategory[]>) => {
-        state.categories = action.payload;
-        state.isLoading = false;
-      }
-    );
-
-    builder.addCase(getShopCategories.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(
-      getProductsCategory.fulfilled,
-      (state, action: PayloadAction<IShopProduct[]>) => {
-        state.products = action.payload;
-        state.isLoading = false;
-      }
-    );
-
-    builder.addCase(getProductsCategory.pending, (state) => {
-      state.isLoading = true;
-    });
-
-    builder.addCase(
-      getOrders.fulfilled,
-      (state, action: PayloadAction<IOrders[]>) => {
-        state.orders = action.payload;
-        state.isLoading = false;
-      }
-    );
-
-    builder.addCase(getOrders.pending, (state) => {
-      state.isLoading = true;
-    });
-
-    builder.addCase(
-      getProductById.fulfilled,
-      (state, action: PayloadAction<IShopProduct>) => {
-        state.productById = action.payload;
-        state.isLoading = false;
-      }
-    );
-
-    builder.addCase(getProductById.pending, (state) => {
-      state.isLoading = true;
-    });
-  },
 });
 
-export const { addBasket,clearBasket } = shopSlice.actions;
+export const {
+    addBasket,
+    clearBasket,
+} = shopSlice.actions;
 
-export const shopCategoriesSelector = (state: RootState) =>
-  state.shop.categories;
-export const shopProductsSelector = (state: RootState) => state.shop.products;
-export const ordersSelector = (state: RootState) => state.shop.orders;
 export const basketSelector = (state: RootState) => state.shop.basket;
-export const isLoadingSelector = (state: RootState) => state.shop.isLoading;
-export const productByIdSelector = (state: RootState) => state.shop.productById;
+
 export default shopSlice.reducer;
