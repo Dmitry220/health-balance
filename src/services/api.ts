@@ -42,6 +42,7 @@ export const api = createApi({
         'deleteTracker',
         'updateTracker',
         'interruptPoll',
+        'createNews',
         'likeNews',
         'addComments',
         'editProfile',

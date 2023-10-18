@@ -1,6 +1,7 @@
 import {
     IAllChallenge,
     IChallenge,
+    IChallengesShorts, IChallengeTeamsShorts,
     ICreatingChallenge,
     ICreatingChallengeResponse,
     ICustomersPersonalChallenge,
@@ -105,6 +106,12 @@ export const challengesApi = api.injectEndpoints({
             query: () => `customers?token=${localStorage.getItem('token')}&curator_teams=1`,
             transformResponse: (response: { data: ICustomersPersonalChallenge[] }): ICustomersPersonalChallenge[] => response.data
         }),
+        challengesShorts: build.query<IChallengesShorts[], number>({
+            query: (id) => `challenges/shorts?token=${localStorage.getItem('token')}&platform=${id}`,
+        }),
+        challengeTeamsShorts: build.query<IChallengeTeamsShorts[], number>({
+            query: (id) => `challenge-teams/shorts?token=${localStorage.getItem('token')}&challenge=${id}`,
+        }),
 
 
     })
@@ -120,5 +127,7 @@ export const {
     useGetChallengeByIdQuery,
     useGetChallengesTeamQuery,
     useGetCustomersTeamQuery,
-    useCustomersPersonalChallengeQuery
+    useCustomersPersonalChallengeQuery,
+    useChallengesShortsQuery,
+    useChallengeTeamsShortsQuery
 } = challengesApi

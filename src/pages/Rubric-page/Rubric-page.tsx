@@ -1,7 +1,6 @@
 import {ChangeEvent} from 'react'
 import {useNavigate} from 'react-router-dom'
 import Header from '../../Components/Header/Header'
-import {CREATING_INTERESTING_ROUTE} from '../../provider/constants-route'
 import {creatingNewsSelector, handlerNews} from '../../Redux/slice/newsSlice'
 import {useAppDispatch, useAppSelector} from '../../hooks/redux-hooks'
 import './rubric-page.scss'
@@ -12,35 +11,33 @@ export const RubricPage = () => {
 
   const navigate = useNavigate()
 
-  const dataNews = useAppSelector(creatingNewsSelector)
+  const {category} = useAppSelector(creatingNewsSelector)
 
   const saveRubric = () => {
-    if (dataNews.category !== 0) {
-      navigate(CREATING_INTERESTING_ROUTE)
-    }
+    if (category !== 0) navigate(-1)
   }
 
   const dispatch = useAppDispatch()
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
-      dispatch(handlerNews({...dataNews,category: +e.target.value}))
+      dispatch(handlerNews({name:'category', value: +e.target.value}))
 
   return (
     <div className={'rubric-page'}>
       <Header title={'Рубрики'} />
       <div className='custom-checkbox'>
-        {RUBRICS.map((item: any, i: number) => (
+        {RUBRICS.map((item) => (
           <div key={item.id}>
             <input
               value={item.id}
               type='radio'
               name={'radio'}
-              defaultChecked={item.id === dataNews.category}
+              defaultChecked={item.id === category}
               className={'custom-checkbox__checkbox'}
-              id={i + item.id}
+              id={item.id.toString()}
               onChange={handleChange}
             />
-            <label htmlFor={i + item.id}>{item.title}</label>
+            <label htmlFor={item.id.toString()}>{item.title}</label>
           </div>
         ))}
       </div>

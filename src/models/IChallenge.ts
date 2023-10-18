@@ -87,3 +87,13 @@ export interface ICreatingChallengeResponse {
 }
 
 export type KeysCreatingChallenge = keyof ICreatingChallenge;
+
+export interface IChallengesShorts {
+    id: number;
+    title: string;
+    type: number;
+}
+export interface IChallengeTeamsShorts {
+    id: number;
+    title: string;
+}

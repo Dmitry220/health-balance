@@ -13,7 +13,8 @@ export const newsApi = api.injectEndpoints({
         url: `news?token=${localStorage.getItem('token')}`,
         method: 'POST',
         body: data
-      })
+      }),
+      invalidatesTags: [{ type: 'createNews' }]
     }),
 
     addCommentsNews: build.mutation<{ comment_id: number }, ICreatingComment>({
@@ -27,7 +28,8 @@ export const newsApi = api.injectEndpoints({
 
     getNews: build.query<INews[], null>({
       query: () => `news?token=${localStorage.getItem('token')}`,
-      transformResponse: (response: { data: INews[] }): INews[] => response.data
+      transformResponse: (response: { data: INews[] }): INews[] => response.data,
+      providesTags: () => [{ type: 'createNews' }]
     }),
 
     getNewsById: build.query<INews, number>({

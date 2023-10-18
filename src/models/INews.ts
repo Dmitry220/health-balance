@@ -5,8 +5,11 @@ export interface ICreatingNews {
   image: string
   category: number
   push: 0 | 1,
-  created_at: number
+  created_at: number,
+  challenge?: number,
+  team?: number
 }
+export type KeysCreatingNews = keyof ICreatingNews;
 
 export interface INews {
   id: number
