@@ -7,12 +7,14 @@ import {TaskChallenge} from '../../Components/Challenge/Task-challenge'
 import {RewardCount} from '../../Components/Reward/Reward-count'
 import {Link, useNavigate, useParams} from 'react-router-dom'
 import {CHALLENGE_ROUTE, TEAM_SELECTION_ROUTE} from '../../provider/constants-route'
-import {definitionColor, nFormatter} from '../../utils/common-functions'
+import {definitionColor} from '../../utils/common-functions'
 import {useChallengeJoinMutation, useGetChallengeByIdQuery} from '../../services/ChallengeService'
 import {Preloader} from '../../Components/Preloader/Preloader'
 import {ActiveChallengePage} from '../Active-challenge-page/Active-challenge-page'
 import {typesChallenge} from "../../utils/enums";
 import {PullToRefresh} from "../../Components/PullToRefresh/PulltoRefresh";
+import moment from "moment";
+import {itemsChallengeTask} from "../../Redux/slice/challengeSlice";
 
 export const NewChallengeInfo = () => {
 
@@ -21,27 +23,14 @@ export const NewChallengeInfo = () => {
     const [challengeJoin, {isLoading}] = useChallengeJoinMutation()
     const {data: challenge, isLoading: getChallengeLoading, refetch} = useGetChallengeByIdQuery(Number(params.id))
 
-    const itemsTask = [
-        {
-            title: 'Шагов для завершения',
-            value: 0,
-            text: nFormatter(challenge?.purpose?.quantity || 0, 1),
-            id: 1
-        },
-        {
-            title: 'Обучающий материал',
-            value: challenge?.homeworks || 0,
-            text: challenge?.total_lessons + ' лекций',
-            id: 2
-        }
-    ]
+    const itemsTask = challenge ? itemsChallengeTask(challenge) : []
 
     const enterIntoChallenge = async () => {
         const response = await challengeJoin(Number(params.id)).unwrap()
         if (response.success) navigate(CHALLENGE_ROUTE)
     }
 
-    const handleRefresh = async () => await refetch()
+    const handleRefresh = async () => refetch()
 
     if (challenge?.active) return <ActiveChallengePage/>
 
@@ -80,14 +69,14 @@ export const NewChallengeInfo = () => {
                                     src={icon_clock}
                                     alt='icon_clock'
                                 />
-                                {new Date(challenge.start_date * 1000).toLocaleDateString() +
+                                {moment(challenge.start_date * 1000).format("DD.MM.YYYY") +
                                 ' - ' +
-                                new Date(challenge?.end_date * 1000).toLocaleDateString()}
+                                moment(challenge?.end_date * 1000).format("DD.MM.YYYY")}
                             </div>
-                            <div className='new-challenge-info__reward'>
+                            {challenge.purpose?.reward && <div className='new-challenge-info__reward'>
                                 <div className='new-challenge-info__reward-text'>Награда:</div>
-                                <RewardCount count={challenge.purpose?.reward || 0}/>
-                            </div>
+                                <RewardCount count={challenge.purpose?.reward}/>
+                            </div>}
                         </div>
                         <div className='new-challenge-info__title-block block-title'>
                             Задания

@@ -98,9 +98,9 @@
 
   &__data {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    width: 80%;
+    width: 100%;
+    gap: 25%;
   }
 
   &__days {

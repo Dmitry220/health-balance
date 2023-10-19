@@ -9,11 +9,12 @@ import {RewardCount} from '../../Components/Reward/Reward-count'
 import {Link, useParams} from 'react-router-dom'
 import {LECTURES_ROUTE} from '../../provider/constants-route'
 import icon_clock from '../../assets/image/Interesting/clock.svg'
-import {definitionColor, nFormatter} from '../../utils/common-functions'
+import {definitionColor} from '../../utils/common-functions'
 import {useGetChallengeByIdQuery} from "../../services/ChallengeService";
 import {Preloader} from "../../Components/Preloader/Preloader";
 import {PullToRefresh} from "../../Components/PullToRefresh/PulltoRefresh";
 import {leaderboardApi} from "../../services/leaderboard.api";
+import {calculatingPercentage, itemsChallengeTask} from "../../Redux/slice/challengeSlice";
 
 
 export const ActiveChallengePage = () => {
@@ -24,27 +25,9 @@ export const ActiveChallengePage = () => {
     const [transparentHeader, setTransparentHeader] = useState<boolean>(true)
     const idChallenge: any = useRef(null)
 
-    let percent =
-        challenge?.purpose &&
-        ((challenge.purpose?.quantity - challenge.remains_to_pass) * 100) /
-        challenge.purpose?.quantity
+    const percent = challenge ? calculatingPercentage(challenge) : 0
 
-    const itemsTask = [
-        {
-            title: 'Шагов для завершения',
-            value: challenge?.purpose
-                ? nFormatter(challenge.purpose.quantity - challenge.remains_to_pass, 1)
-                : 0,
-            text: nFormatter(challenge?.purpose?.quantity || 0, 1),
-            id: 1
-        },
-        {
-            title: 'Обучающий материал',
-            value: challenge?.homeworks || 0,
-            text: challenge?.total_lessons + ' лекций',
-            id: 2
-        }
-    ]
+    const itemsTask = challenge ? itemsChallengeTask(challenge) : []
 
     useEffect(() => {
         window.addEventListener('scroll', function () {
@@ -60,9 +43,8 @@ export const ActiveChallengePage = () => {
         if (idChallenge.current) {
             await leaderboard(idChallenge.current)
             await leaderboardTeams(idChallenge.current)
-            await refetch()
+            refetch()
         }
-
     }
 
     return (
@@ -83,7 +65,7 @@ export const ActiveChallengePage = () => {
                             newChallengeCategory
                         />
                     </div>
-                    <div className='active-challenge-page__progress'>
+                    {challenge?.purpose && <div className='active-challenge-page__progress'>
                         <div
                             className={
                                 definitionColor(
@@ -95,7 +77,7 @@ export const ActiveChallengePage = () => {
                             Общий прогресс <span>{percent?.toFixed(1) || 100}%</span> / 100%
                         </div>
                         <ProgressBar percent={percent || 0} type={challenge?.type || 1}/>
-                    </div>
+                    </div>}
                     <div className='active-challenge-page__tasks tasks-active-challenge'>
                         <div className='tasks-active-challenge__head'>
                             <div className='tasks-active-challenge__title-17 title-17'>
@@ -104,14 +86,14 @@ export const ActiveChallengePage = () => {
                             <div className='tasks-active-challenge__data'>
                                 <img src={icon_clock} alt=''/>
                                 {challenge?.end_date &&
-                                new Date(challenge?.end_date * 1000).toLocaleDateString()}
+                                    new Date(challenge?.end_date * 1000).toLocaleDateString()}
                             </div>
                         </div>
                         <TaskChallenge type={challenge?.type || 1} tasks={itemsTask}/>
                     </div>
-                    <div className='active-challenge-page__reward'>
-                        Награда: <RewardCount count={challenge?.purpose?.reward || 0}/>
-                    </div>
+                    {challenge?.purpose?.reward && <div className='active-challenge-page__reward'>
+                        Coin: <RewardCount count={challenge?.purpose?.reward}/>
+                    </div>}
                     <Link
                         to={LECTURES_ROUTE + '/' + params.id}
                         className='active-challenge-page__button _button-yellow'

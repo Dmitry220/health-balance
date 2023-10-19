@@ -22,7 +22,7 @@ export const ChallengePage = () => {
 
     const {data: allChallenges, isLoading, refetch} = useGetChallengesQuery(null)
 
-    const handleRefresh = async () => await refetch()
+    const handleRefresh = async () => refetch()
 
     const contentTabs = [
         {

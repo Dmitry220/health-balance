@@ -1,7 +1,8 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {RootState} from '../store'
-import {ICreatingChallenge,} from '../../models/IChallenge'
+import {IChallenge, ICreatingChallenge,} from '../../models/IChallenge'
 import {challengesApi} from '../../services/ChallengeService'
+import {nFormatter} from "../../utils/common-functions";
 
 const END_DATE = new Date()
 END_DATE.setDate(END_DATE.getDate() + 3)
@@ -26,9 +27,32 @@ const initialState: IChallenges = {
         customers: []
     },
     disabledButton: true,
-    challenge_id: 0,
+    challenge_id: 0
 }
 
+export const calculatingPercentage = (challenge :IChallenge)  => {
+    const {purpose,remains_to_pass} = challenge
+    return purpose && +((purpose?.quantity - remains_to_pass) * 100
+        / purpose?.quantity).toFixed(1)
+}
+
+export const itemsChallengeTask = (challenge:IChallenge) => {
+    const items = [{
+        title: 'Обучающий материал',
+        value: challenge?.homeworks || '0',
+        text: challenge?.total_lessons + ' лекций',
+        id: 2
+    }]
+    if (challenge?.purpose) {
+        items.unshift({
+            title: 'Шагов для завершения',
+            value: nFormatter(challenge.purpose.quantity - challenge.remains_to_pass, 1),
+            text: nFormatter(challenge?.purpose?.quantity || 0, 1),
+            id: 1
+        },)
+    }
+    return items
+}
 
 export const challengeSlice = createSlice({
     name: 'challengeSlice',
@@ -73,7 +97,7 @@ export const challengeSlice = createSlice({
 export const {
     setDisabledButton,
     setCustomersPersonalChallenge,
-    setDataChallenge
+    setDataChallenge,
 } = challengeSlice.actions
 
 

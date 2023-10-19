@@ -11,6 +11,8 @@ import plug from '../../assets/image/plug.png'
 import {ModalStatus} from '../Modals/Modal-status'
 import {typesChallenge} from "../../utils/enums";
 import {errorHandler} from "../../utils/errorsHandler";
+import moment from "moment";
+import {calculatingPercentage} from "../../Redux/slice/challengeSlice";
 
 interface ICardChallenge {
     challenge: IChallenge
@@ -19,21 +21,10 @@ interface ICardChallenge {
 
 export const CardChallenge: FC<ICardChallenge> = ({challenge}) => {
 
-    let percent =
-        challenge.purpose &&
-        +(
-            ((challenge.purpose?.quantity - challenge.remains_to_pass) * 100) /
-            challenge.purpose?.quantity
-        ).toFixed(1)
-
+    const percent = calculatingPercentage(challenge)
     const [completeChallenge] = useCompleteChallengeMutation()
     const [successChallenge, setSuccessChallenge] = useState<boolean>(false)
-    const remainingDays = Math.ceil(
-        Math.abs(
-            challenge.end_date * 1000 - challenge.start_date * 1000
-        ) /
-        (1000 * 3600 * 24)
-    )
+    const remainingDays = moment(challenge.end_date * 1000).diff(moment(challenge.start_date * 1000), 'days')
 
     const toCompleteChallenge = async () => {
         if (
@@ -41,8 +32,8 @@ export const CardChallenge: FC<ICardChallenge> = ({challenge}) => {
             challenge.purpose?.quantity &&
             challenge.homeworks === challenge.total_lessons
         ) {
-            await completeChallenge(challenge.id).unwrap().then(e=>{
-                if(e.success) setSuccessChallenge(true)
+            await completeChallenge(challenge.id).unwrap().then(e => {
+                if (e.success) setSuccessChallenge(true)
             }).catch(e => errorHandler(e))
         }
     }
@@ -97,19 +88,19 @@ export const CardChallenge: FC<ICardChallenge> = ({challenge}) => {
                         </div>
                     </div>
                 </div>
-                <div className='card-challenge__progress-bar'>
+                {challenge.purpose?.quantity && <div className='card-challenge__progress-bar'>
                     <ProgressBar percent={percent || 0} type={challenge.type}/>
                     <div className={'progress-bar__value'}>{percent}%</div>
-                </div>
+                </div>}
                 <div className='card-challenge__data'>
                     <div className='card-challenge__days'>
                         {remainingDays}
                         <span>{sklonenie(remainingDays, ['день', 'дня', 'дней'])}</span>
                     </div>
-                    <div className='card-challenge__days'>
+                    {challenge.purpose?.quantity && <div className='card-challenge__days'>
                         {nFormatter(challenge.purpose?.quantity, 1)}
                         <span>{sklonenie(challenge.purpose?.quantity, ['шаг', 'шага', 'шагов'])}</span>
-                    </div>
+                    </div>}
                     <div className='card-challenge__days'>
                         {challenge.homeworks}/{challenge.total_lessons} <span>Лекций</span>
                     </div>
