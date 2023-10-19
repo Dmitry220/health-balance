@@ -21,11 +21,15 @@ export const lessonsApi = api.injectEndpoints({
             providesTags: () => [{type: 'completeLesson'}]
         }),
         completeLesson: build.mutation<ISuccessResponse, ITaskToCompleted>({
-            query: ({id, dataTaskToCompleted}) => ({
-                url: `lessons/${id}/complete?token=${localStorage.getItem('token')}`,
-                method: 'POST',
-                body: dataTaskToCompleted
-            }),
+            query: ({id, dataTaskToCompleted}) => {
+                const formData = new FormData()
+                formData.append("file", dataTaskToCompleted.file as Blob)
+                return {
+                    url: `lessons/${id}/complete?token=${localStorage.getItem('token')}`,
+                    method: 'POST',
+                    body: formData,
+                }
+            },
             invalidatesTags: [{type: 'completeLesson'}]
         }),
         createLesson: build.mutation<ISuccessResponse, ICreatingLecture>({
