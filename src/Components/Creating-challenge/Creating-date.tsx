@@ -14,11 +14,11 @@ export const CreatingDate = () => {
 
     const {start_date, end_date} = useAppSelector(creatingChallengeSelector)
 
-    const durationChallenge = `${start_date && (start_date as Date).toLocaleDateString()}} - 
-    ${end_date && (end_date as Date).toLocaleDateString()}`
+    const durationChallenge = `${start_date && (start_date as Date).toLocaleDateString()} - 
+    ${end_date ? (end_date as Date).toLocaleDateString() : ''}`
 
 
-    const changePeriod = (dates: any) => {
+    const changePeriod = (dates: [(Date | null), (Date | null)]) => {
         const [start, end] = dates
         dispatch(setDataChallenge({
             name: "start_date" as KeysCreatingChallenge,
