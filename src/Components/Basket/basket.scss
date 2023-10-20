@@ -2,7 +2,6 @@
 .basket-card{
   font-size: 15px;
 
-
   &__image{
     flex: 0 0 107px;
     height: 103px;
@@ -29,6 +28,7 @@
   &__title{
     line-height: 120%;
     margin: 0 0 11px 0;
+    color: #fff;
   }
 
 }

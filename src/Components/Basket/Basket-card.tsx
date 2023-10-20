@@ -6,8 +6,6 @@ import { FC } from 'react'
 import { IBasket } from '../../models/IShop'
 
 
-
-
 export const BasketCard:FC<IBasket> = ({image,price,title}) => {
   return (
     <div className={'basket-card'}>

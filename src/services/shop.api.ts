@@ -4,10 +4,10 @@ import {api} from "./api";
 export const shopApi = api.injectEndpoints({
     endpoints: (build) => ({
         sendOrder: build.mutation<{ success: 1 | 0 }, number[]>({
-            query: (data) => ({
+            query: (products    ) => ({
                 url: `orders?token=${localStorage.getItem('token')}`,
                 method: 'POST',
-                body: data
+                body: {products:JSON.stringify(products)}
             })
         }),
         getProducts: build.query<IShopProduct[], number>({

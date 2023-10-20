@@ -11,7 +11,12 @@ export interface IShopProduct {
   price: number
   quantity: number
   position: number
-  status: boolean
+  status: boolean,
+  promocode:{
+      id: number,
+      annotation:string,
+      code:string
+  } | null
 }
 
 export interface IOrders {

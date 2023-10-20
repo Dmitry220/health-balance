@@ -39,7 +39,15 @@ export const ProductScreen = () => {
                                 />
                             </div>
                             <div className='product-screen__title block-title'>{product?.title}</div>
-                            <div className='product-screen__description'>{product?.description}</div>
+                            <div className={'product-screen__detailed-information'}>
+                                <div className='product-screen__description'>{product?.description}</div>
+                                {product?.promocode && <>
+                                    <div
+                                        className='product-screen__promo-title title-17'>Промокод: {product.promocode.code}</div>
+                                    <div
+                                        className='product-screen__promo-annotation'>{product.promocode.annotation}</div>
+                                </>}
+                            </div>
                             <div className='product-screen__button'>
                                 <ShopButton
                                     title={titleButton(product.id)}
