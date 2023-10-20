@@ -23,11 +23,11 @@ export const lessonsApi = api.injectEndpoints({
         completeLesson: build.mutation<ISuccessResponse, ITaskToCompleted>({
             query: ({id, dataTaskToCompleted}) => {
                 const formData = new FormData()
-                formData.append("file", dataTaskToCompleted.file as Blob)
+                dataTaskToCompleted.file&&formData.append("file", dataTaskToCompleted.file as Blob)
                 return {
                     url: `lessons/${id}/complete?token=${localStorage.getItem('token')}`,
                     method: 'POST',
-                    body: formData,
+                    body: dataTaskToCompleted.file ? formData : dataTaskToCompleted,
                 }
             },
             invalidatesTags: [{type: 'completeLesson'}]
